@@ -50,7 +50,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             var payload = {
-                amne: arende.chosenTopic.value,
+                amne: arende.chosenTopic,
                 meddelande: arende.frageText
             };
 

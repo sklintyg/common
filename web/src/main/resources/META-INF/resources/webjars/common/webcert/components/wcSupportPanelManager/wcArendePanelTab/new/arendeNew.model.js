@@ -32,35 +32,35 @@ angular.module('common').factory('common.ArendeNewModel',
             // Topics are defined under RE-13
             this.topics = [
                 {
-                    label: 'Välj ämne',
-                    value: null
+                    label: 'Välj typ av fråga',
+                    id: null
                 }
             ];
 
             if (data === 'fk7263') {
                 this.topics.push({
                     label: 'Arbetstidsförläggning',
-                    value: 'ARBETSTIDSFORLAGGNING'
+                    id: 'ARBETSTIDSFORLAGGNING'
                 });
             }
 
             this.topics.push(
                 {
                     label: 'Avstämningsmöte',
-                    value: 'AVSTMN'
+                    id: 'AVSTMN'
                 },
                 {
                     label: 'Kontakt',
-                    value: 'KONTKT'
+                    id: 'KONTKT'
                 },
                 {
                     label: 'Övrigt',
-                    value: 'OVRIGT'
+                    id: 'OVRIGT'
                 }
             );
             var model = this;
             this.reset = function() {
-                model.chosenTopic = this.topics[0]; // 'Välj ämne' is default
+                model.chosenTopic = this.topics[0].id; // 'Välj ämne' is default
                 model.frageText = '';
             };
             this.reset();

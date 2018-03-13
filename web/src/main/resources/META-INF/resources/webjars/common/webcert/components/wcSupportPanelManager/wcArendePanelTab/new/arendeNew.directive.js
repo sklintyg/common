@@ -24,16 +24,15 @@
  * arendeNew directive. Common directive for new arende form.
  */
 angular.module('common').directive('arendeNew',
-    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', 'common.User', 'common.statService', 'common.ObjectHelper',
+    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User', 'common.statService', 'common.ObjectHelper',
         'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
         'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService',
-        function($window, $log, $timeout, $state, $stateParams, $rootScope, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
+        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
             ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy, DialogService) {
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/new/arendeNew.directive.html',
                 scope: {
                     arendeList: '=',
@@ -49,7 +48,7 @@ angular.module('common').directive('arendeNew',
                     // Create model
                     var arendeNewModel = ArendeNewModel.build($scope.parentViewState.intygProperties.type);
                     $scope.arendeNewModel = arendeNewModel;
-                    $scope.draftLoaded = false;
+                    var intygLoaded = false;
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
 
@@ -57,13 +56,11 @@ angular.module('common').directive('arendeNew',
                             ArendeDraftProxy.getDraft(intyg.id, function(data) {
                                 if (data.text !== undefined) {
                                     $scope.arendeNewModel.frageText = data.text;
-                                    ArendeNewViewState.arendeNewOpen = true;
                                 }
                                 if (data.amne !== undefined) {
                                     angular.forEach($scope.arendeNewModel.topics, function(topic) {
                                         if (topic.value === data.amne) {
-                                            $scope.arendeNewModel.chosenTopic = topic;
-                                            ArendeNewViewState.arendeNewOpen = true;
+                                            $scope.arendeNewModel.chosenTopic = topic.id;
                                             return;
                                         }
                                     });
@@ -71,74 +68,28 @@ angular.module('common').directive('arendeNew',
                             }, function(data) {
                             });
                         }
-                        $scope.draftLoaded = true;
+                        intygLoaded = true;
                     });
                     $scope.$on('$destroy', unbindFastEvent);
 
-                    /**
-                     * Exposed interactions
-                     */
-                    function isDifferentVardenhet() {
-                        var user = User.getUser();
-                        if(user.parameters !== undefined && user.parameters.sjf !== undefined && user.parameters.sjf) {
-                            var enhetsId = ObjectHelper.deepGet(ArendeNewViewState.parentViewState.intyg, 'grundData.skapadAv.vardenhet.enhetsid');
-                            return !(enhetsId !== undefined && (user.valdVardenhet.id === enhetsId ||
-                                user.valdVardenhet.mottagningar.some(function(element) {
-                                    return element.id === enhetsId;
-                                })));
-                        } else {
-                            return false;
-                        }
-                    }
-
-                    function isNew() {
-                        var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
-                        var newArendeFormClosed = !ArendeNewViewState.arendeNewOpen;
-                        var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
-                                                            ArendeNewViewState.parentViewState.intygProperties.isSent ||
-                                                            $scope.arendeList.length > 0);
-
-                        return notRevoked && newArendeFormClosed && intygSentOrArendenAvailable;
-                    }
-
                     function isNotSent() {
                         var notSent = $scope.parentViewState.common.isIntygOnSendQueue === false &&
-                                        ArendeNewViewState.parentViewState.intygProperties.isSent === false;
+                            ArendeNewViewState.parentViewState.intygProperties.isSent === false;
 
                         return notSent && ($scope.arendeList.length < 1);
                     }
 
-                    function isNoArenden() {
-                        return ArendeNewViewState.parentViewState.intygProperties.isSent === undefined &&
-                            ($scope.arendeList.length < 1);
-                    }
+                    /**
+                     * Exposed interactions
+                     */
 
-                    $scope.getNewArendeState = function() {
-                        var newArendeState = 'none';
-                        if(isDifferentVardenhet()) {
-                            newArendeState = 'sjf';
-                        } else if(isNew()) {
-                            newArendeState = 'new';
-                        } else if(isNotSent()) {
-                            newArendeState = 'not-sent';
-                        } else if(isNoArenden()) {
-                            newArendeState = 'no-arenden';
-                        }
-                        return newArendeState;
-                    };
+                    $scope.showCreateArende = function() {
+                        var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
+                        var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
+                                                            ArendeNewViewState.parentViewState.intygProperties.isSent ||
+                                                            $scope.arendeList.length > 0);
 
-                    $scope.toggleArendeForm = function() {
-                        ArendeNewViewState.arendeNewOpen = !ArendeNewViewState.arendeNewOpen;
-
-                        if (ArendeNewViewState.arendeNewOpen) {
-                            ArendeNewViewState.focusQuestion = true;
-                        } else {
-                            arendeNewModel.reset();
-                            ArendeDraftProxy.deleteQuestionDraft(ArendeNewViewState.parentViewState.intyg.id, function() { }, function(data) {
-                                $log.warn('Could not delete the question draft');
-                            });
-                        }
-                        ArendeNewViewState.showSentMessage = false;
+                        return intygLoaded && notRevoked && intygSentOrArendenAvailable;
                     };
 
                     $scope.cancelQuestion = function() {
@@ -148,8 +99,14 @@ angular.module('common').directive('arendeNew',
                             templateUrl: '/app/partials/arende-draft-dialog.html',
                             model: {},
                             button1click: function (modalInstance) {
-                                $scope.toggleArendeForm();
-                                modalInstance.close();
+                                var onSuccess = function() {
+                                    arendeNewModel.reset();
+                                    modalInstance.close();
+                                };
+                                var onError = function() {
+                                    modalInstance.close();
+                                };
+                                ArendeDraftProxy.deleteQuestionDraft(ArendeNewViewState.parentViewState.intyg.id, onSuccess, onError);
                             },
                             button2click: function(modalInstance){
                                 modalInstance.close();
@@ -161,15 +118,32 @@ angular.module('common').directive('arendeNew',
                         });
                     };
 
-                    $scope.dismissSentMessage = function() {
-                        ArendeNewViewState.showSentMessage = false;
+                    $scope.sendNewArende = function() {
+                        if (arendeNewModel.frageText) {
+                            _sendNewArende();
+                        }
+                        else {
+                            var modalInstance = $uibModal.open({
+                                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/new/arendeNewModal.template.html',
+                                size: 'md',
+                                controller: function($scope, $uibModalInstance) {
+                                    $scope.confirm = function() {
+                                        _sendNewArende();
+                                        $uibModalInstance.close();
+                                    };
+                                    $scope.abort = function() {
+                                        $uibModalInstance.close();
+                                    };
+                                }
+                            });
+                            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                            modalInstance.result.catch(function () {}); //jshint ignore:line
+                        }
                     };
 
-                    $scope.sendNewArende = function() {
-
+                    function _sendNewArende() {
                         $log.debug('sendQuestion:' + arendeNewModel);
                         ArendeNewViewState.updateInProgress = true; // trigger local spinner
-                        ArendeNewViewState.showSentMessage = false; // reset sent message info box
 
                         ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.parentViewState.intygProperties.type, arendeNewModel,
                             function(arendeModel) {
@@ -183,32 +157,23 @@ angular.module('common').directive('arendeNew',
                                     // add new arende to open list
                                     $scope.arendeList.push(ArendeHelper.createArendeListItem(arendeModel));
 
-                                    // close form
-                                    $scope.toggleArendeForm();
-
-                                    // show message that arende is sent to server
-                                    ArendeNewViewState.showSentMessage = true;
+                                    arendeNewModel.reset();
 
                                     // update stats (and bubbles on menu)
                                     statService.refreshStat();
+                                    $rootScope.$broadcast('arenden.updated');
                                 }
                             }, function(errorData) {
                                 // show error view
                                 ArendeNewViewState.updateInProgress = false;
                                 ArendeNewViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                             });
-                    };
+                    }
 
                     $scope.isArendeValidForSubmit = function() {
-                        var validToSend = arendeNewModel.chosenTopic.value &&
-                            !ObjectHelper.isEmpty(arendeNewModel.frageText) &&
+                        var validToSend = (arendeNewModel.chosenTopic ||
+                            !ObjectHelper.isEmpty(arendeNewModel.frageText)) &&
                             !ArendeNewViewState.updateInProgress;
-
-                        ArendeNewViewState.sendButtonToolTip = 'Skicka frågan';
-                        if (!validToSend) {
-                            ArendeNewViewState.sendButtonToolTip =
-                                'Du måste välja ett ämne och skriva en frågetext innan du kan skicka frågan';
-                        }
                         return validToSend;
                     };
                 }

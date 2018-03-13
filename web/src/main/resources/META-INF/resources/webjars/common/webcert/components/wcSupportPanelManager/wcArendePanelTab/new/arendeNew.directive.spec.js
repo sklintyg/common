@@ -70,13 +70,14 @@ describe('arendeNew', function() {
             $scope.arendeList = [_ArendeListItemModel_.build(arende)];
             $scope.parentViewState = _ArendeListViewStateService_.reset();
             $scope.parentViewState.setIntygType('intygstyp');
-            element = $compile('<div arende-new arende-list="arendeList" parent-view-state="parentViewState"></div>')($scope);
+            element = $compile('<arende-new arende-list="arendeList" parent-view-state="parentViewState"></arende-new>')($scope);
             $scope.$digest();
             $scope = element.isolateScope();
         }]));
 
     it('Should send new Ärende', function() {
         expect($scope.arendeList.length).toBe(1);
+        $scope.arendeNewModel.frageText = 'Fråga';
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(200, arende);
@@ -89,6 +90,7 @@ describe('arendeNew', function() {
 
     it('Should send new Ärende', function() {
         expect($scope.arendeList.length).toBe(1);
+        $scope.arendeNewModel.frageText = 'Fråga';
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(500);

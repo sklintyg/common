@@ -245,8 +245,9 @@ angular.module('common').constant('common.messages', {
 
         'common.arende.draft.normal': '',
         'common.arende.draft.dirty': '',
-        'common.arende.draft.saved': 'Sparat <span class="glyphicon glyphicon glyphicon-ok-sign"></span>',
-        'common.arende.draft.failed': 'Kunde inte spara, på grund av ett tekniskt fel. Försök igen senare. <span class="glyphicon glyphicon glyphicon-exclamation-sign"></span>',
+        'common.arende.draft.saving': '<i class="icon-wc-ikon-02 animate-spin"></i> Utkast sparas',
+        'common.arende.draft.saved': '<i class="material-icons">check</i> Utkast sparat',
+        'common.arende.draft.failed': 'Utkastet kunde inte sparas på grund av ett tekniskt fel.',
         'common.arende.draft.delete.answer.title': 'Radera påbörjat svar',
         'common.arende.draft.delete.answer.body': 'Är du säker på att du vill radera ditt påbörjade svar?',
         'common.arende.draft.delete.question.title': 'Radera påbörjad fråga',

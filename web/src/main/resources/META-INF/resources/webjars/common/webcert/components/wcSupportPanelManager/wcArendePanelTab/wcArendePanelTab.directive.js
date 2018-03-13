@@ -164,10 +164,6 @@ angular.module('common').directive('wcArendePanelTab', [
 
             // Scope interactions
 
-            $scope.dismissSentMessage = function() {
-                $scope.viewState.sentMessage = false;
-            };
-
             $scope.openArendenFilter = function(arendeListItem) {
                 return arendeListItem.isOpen();
             };

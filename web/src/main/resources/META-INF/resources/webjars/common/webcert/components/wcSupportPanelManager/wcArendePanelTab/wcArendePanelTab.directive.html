@@ -28,18 +28,13 @@
 
       <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
-      <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
-           show-content="viewState.doneLoading">
+      <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
 
-        <div class="webcert-bottom-padding-section" ng-show="viewState.intygProperties.isLoaded">
-
-          <!-- error message -->
-          <wc-alert-message id="arende-list-load-error"
-                            ng-show="viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
-            <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
-          </wc-alert-message>
-
-        </div>
+        <!-- error message -->
+        <wc-alert-message id="arende-list-load-error"
+                          ng-show="viewState.intygProperties.isLoaded && viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
+          <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
+        </wc-alert-message>
 
         <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="isFilterKomplettering">
           <!-- list of komplettering arenden -->
@@ -53,8 +48,8 @@
         <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="!isFilterKomplettering">
 
           <!-- new arende form -->
-          <div ng-show="!config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null" arende-new
-               arende-list="arendeList" parent-view-state="viewState"></div>
+          <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
+               arende-list="arendeList" parent-view-state="viewState"></arende-new>
 
           <!-- list of administrativ fraga arenden -->
           <div

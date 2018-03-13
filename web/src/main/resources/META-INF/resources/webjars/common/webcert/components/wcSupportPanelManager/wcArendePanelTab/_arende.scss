@@ -48,11 +48,6 @@ arende list item animation
   }
 }
 
-.arende-column {
-  max-width: 600px;
-  padding-right: 20px;
-}
-
 .panel-container {
   /* IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead */
   padding-bottom: 20px;
@@ -128,10 +123,6 @@ arende list item animation
 .arende-panel__vidarebefordra-placement {
   margin-top: -62px;
   text-align: right;
-}
-
-.arende-list-section {
-  padding-top: 15px;
 }
 
 .arende-meddelande, .arende-komplettera {

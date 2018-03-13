@@ -43,6 +43,7 @@ angular.module('common').directive('arendeDraftAutoSave',
                     var save = function() {
                         var trimmedQuestionId = ($scope.questionId !== '') ? $scope.questionId : undefined;
                         var trimmedAmne = ($scope.amne !== null) ? $scope.amne : undefined;
+                        $scope.saveState = 'saving';
                         ArendeDraftProxy.saveDraft($scope.intygId, trimmedQuestionId, $scope.text, trimmedAmne,
                             function() {
                                 $scope.saveState = 'saved';
