@@ -65,9 +65,6 @@ angular.module('common').factory('common.IntygMakulera',
             }
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
-                // Only show tooltip for FK-intyg
-                var isFkIntyg = moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient === 'FKASSA' ? true : false;
-
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
                         (
@@ -89,7 +86,6 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 var dialogMakuleraModel = {
-                    isFkIntyg: isFkIntyg,
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
@@ -113,18 +109,16 @@ angular.module('common').factory('common.IntygMakulera',
                     };
                 }
 
-                if(CommonViewState.intygProperties.type !== 'doi' && CommonViewState.intygProperties.type !== 'db') {
-                    // Fill dialogMakuleraModel.choices array with choices based on labels
-                    angular.forEach(dialogMakuleraModel.labels, function(label, key) {
+                // Fill dialogMakuleraModel.choices array with choices based on labels
+                angular.forEach(dialogMakuleraModel.labels, function(label, key) {
 
-                        this.push({
-                            label: label,
-                            value: key,
-                            placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
-                        });
-                    }, dialogMakuleraModel.choices);
-                }
-
+                    this.push({
+                        label: label,
+                        value: key,
+                        placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
+                    });
+                }, dialogMakuleraModel.choices);
+                
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',
                     titleId: 'label.makulera',
