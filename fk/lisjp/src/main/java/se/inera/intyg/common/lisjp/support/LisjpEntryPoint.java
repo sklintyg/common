@@ -31,6 +31,7 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
     public static final String SCHEMATRON_FILE = "lisjp.sch";
+    private static final boolean DEPRECATED = false;
 
     @Autowired
     private LisjpModuleApi moduleApi;
@@ -94,6 +95,11 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
         default:
             return null;
         }
+    }
+
+    @Override
+    public boolean isDeprecated() {
+        return DEPRECATED;
     }
 
 }

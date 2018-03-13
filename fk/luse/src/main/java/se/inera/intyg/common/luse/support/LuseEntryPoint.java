@@ -31,6 +31,7 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_NAME = "Läkarutlåtande för sjukersättning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
     public static final String SCHEMATRON_FILE = "luse.sch";
+    private static final boolean DEPRECATED = false;
 
     @Autowired
     private LuseModuleApi moduleApi;
@@ -94,5 +95,10 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
         default:
             return null;
         }
+    }
+
+    @Override
+    public boolean isDeprecated() {
+        return DEPRECATED;
     }
 }

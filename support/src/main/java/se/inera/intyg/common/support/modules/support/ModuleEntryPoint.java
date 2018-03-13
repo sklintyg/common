@@ -104,4 +104,11 @@ public interface ModuleEntryPoint {
      * @return the path to the module dependency definition for the calling application
      */
     String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
+
+    /**
+     * Flag indicating this inyyg is marked for removal in the near future.
+     *
+     * @return
+     */
+    boolean isDeprecated();
 }

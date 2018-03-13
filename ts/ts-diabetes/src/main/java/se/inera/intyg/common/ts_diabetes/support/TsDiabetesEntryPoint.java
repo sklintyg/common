@@ -34,6 +34,8 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <LINK:transportstyrelsen>.";
+    private static final boolean DEPRECATED = false;
+
     @Autowired
     private TsDiabetesModuleApi moduleApi;
 
@@ -97,6 +99,10 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
             return null;
         }
     }
+
+    @Override
+    public boolean isDeprecated() {
+        return DEPRECATED;    }
 
     @Override
     public String getDefaultRecipient() {
