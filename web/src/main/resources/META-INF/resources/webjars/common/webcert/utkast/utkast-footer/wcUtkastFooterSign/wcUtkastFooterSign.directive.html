@@ -18,10 +18,7 @@
     loading="getCurrentSignStatus() === 'pending'"
     disabled="certForm.$dirty || disableSign()"
     tooltip="{{::signBtnTooltip}}"
->
-  -wc-ikon-30-
-  {{::signBtnText}}
-</wc-button>
+><i class="icon-wc-ikon-30 icon-wc-24"></i>{{::signBtnText}}</wc-button>
 
 <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
 <p ng-if="user.authenticationMethod === 'BANK_ID'">
