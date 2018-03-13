@@ -81,7 +81,7 @@ describe('IntygSendService', function() {
                 };
             });
 
-            IntygSend.send({}, 'intygsId', 'intygsTyp', 'recipientId', 'titleId', 'bodyTextId', function() {});
+            IntygSend.send({}, 'intygsId', 'intygsTyp', 'recipientId', 'titleId', 'bodyTextId', 'bodyText', function() {});
 
             $timeout.flush();
 

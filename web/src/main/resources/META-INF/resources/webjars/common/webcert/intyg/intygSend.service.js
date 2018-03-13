@@ -58,7 +58,11 @@ angular.module('common').factory('common.IntygSend',
                return false;
             }
 
-             // Is an observandum if it is of type LIJSP, duration shorter or equal to 7 days and has the occupation arbetssökande or studier AND nuvarande arbete.
+            /**
+             * Is an observandum if it is of type LIJSP, duration shorter or equal to 7 days
+             * and has the occupation arbetssökande or studier AND nuvarande arbete.
+             */
+
             function isObservandum(intygModel) {
 
                 var duration;
@@ -78,8 +82,8 @@ angular.module('common').factory('common.IntygSend',
                 return false;
             }
             
-            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, onSuccess) {
-
+            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, bodyText, onSuccess) {
+             
                 var dialogSendModel ={
                     acceptprogressdone: true,
                     focus: false,
@@ -93,6 +97,7 @@ angular.module('common').factory('common.IntygSend',
                     dialogId: 'send-dialog',
                     titleId: titleId,
                     bodyTextId: bodyTextId,
+                    bodyText: bodyText,
                     templateUrl: '/web/webjars/common/webcert/intyg/intygSend.dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
