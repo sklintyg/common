@@ -23,6 +23,8 @@
 
 <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
+  <wc-arende-komplettera-utkast-warning ng-if="config.intygContext.isSigned"></wc-arende-komplettera-utkast-warning>
+
   <div class="row">
     <div class="col-md-12 arende-column">
 
@@ -71,4 +73,4 @@
 
 </wc-support-panel-scrollable-body>
 
-
+<wc-arende-footer ng-if="config.intygContext.isSigned" config="config"></wc-arende-footer>

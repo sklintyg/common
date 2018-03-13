@@ -1,29 +1,29 @@
 <div class="komplettering-modal-dialog">
   <div id="{{dialogId}}" class="modal-header">
     <button type="button" class="close" ng-click="$dismiss()">×</button>
-    <h3 class="dialog-header" ng-focus="model.arendeSvar.focus" tabindex="-1">
+    <h3 class="dialog-header" ng-focus="model.kompletteringConfig.focus" tabindex="-1">
       <span dynamic-label key="{{titleId}}"></span>
     </h3>
   </div>
   <div class="modal-body">
     <div>
-      <div class="row" ng-if="model.arendeSvar.showOvrigaUpplysningar">
+      <div class="row" ng-if="model.kompletteringConfig.showOvrigaUpplysningar">
         <div class="col-md-6 dialog-column-divider-right">
-          <div class="dialog-choice-box" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled">
+          <div class="dialog-choice-box" ng-if="!model.kompletteringConfig.svaraMedNyttIntygDisabled">
             <div class="dialog-choice-box__text-section">
               <h4>Ingen ytterligare medicinsk information kan anges</h4>
               <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "övriga upplysningar" *</p>
               <div class="dialog-choice-box__button-section">
-                <button type="button" class="btn btn-primary" ng-if="!model.arendeSvar.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
+                <button type="button" class="btn btn-primary" ng-if="!model.kompletteringConfig.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
                         ng-click="button1click()"  wc-check-vardenhet
-                        vardenhet="{{arendeSvar.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
-                  <img src="/img/loader-small-green.gif" ng-show="model.arendeSvar.updateInProgress"> Lämna övriga upplysningar
+                        vardenhet="{{kompletteringConfig.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
+                  <img src="/img/loader-small-green.gif" ng-show="model.kompletteringConfig.updateInProgress"> Lämna övriga upplysningar
                 </button>
               </div>
               <p class="dialog_choice-box__notice-text">*En kopia av det intyg du redan har skickat in kommer att skapas.</p>
             </div>
           </div>
-          <div class="dialog-choice-box" ng-if="model.arendeSvar.svaraMedNyttIntygDisabled">
+          <div class="dialog-choice-box" ng-if="model.kompletteringConfig.svaraMedNyttIntygDisabled">
             <div class="dialog-choice-box__text-section">
               <h4>Besvara kompletteringsbegäran med nytt intyg</h4>
               <p>Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.</p>
@@ -47,7 +47,7 @@
         </div>
       </div>
 
-      <div class="row" ng-if="!model.arendeSvar.showOvrigaUpplysningar">
+      <div class="row" ng-if="!model.kompletteringConfig.showOvrigaUpplysningar">
         <div class="col-md-12">
           <div class="dialog-choice-box">
             <div class="dialog-choice-box__text-section">
@@ -64,9 +64,9 @@
         </div>
       </div>
       <!-- error message occuring when interacting with server for komplettering-->
-      <wc-alert-message id="komplettering-dialog-error-{{model.arendeSvar.fragaInternReferens}}" ng-if="model.arendeSvar.activeKompletteringErrorMessageKey"
+      <wc-alert-message id="komplettering-dialog-error" ng-if="model.activeKompletteringErrorMessageKey"
            alert-severity="danger" class="alert-bottom">
-        <span dynamic-label key="common.arende.error.{{model.arendeSvar.activeKompletteringErrorMessageKey}}"></span>
+        <span dynamic-label key="common.arende.error.{{model.activeKompletteringErrorMessageKey}}"></span>
       </wc-alert-message>
     </div>
   </div>

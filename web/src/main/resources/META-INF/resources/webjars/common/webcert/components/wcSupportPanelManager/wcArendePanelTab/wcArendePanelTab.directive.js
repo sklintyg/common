@@ -18,13 +18,10 @@
  */
 
 angular.module('common').directive('wcArendePanelTab', [
-    '$log', '$rootScope', '$state', '$stateParams', '$timeout', '$filter',
-    'common.dialogService', 'common.ObjectHelper', 'common.ErrorHelper',
+    '$log', '$rootScope', '$state', '$stateParams', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
     'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
-    'common.dynamicLabelService',
-    function($log, $rootScope, $state, $stateParams, $timeout, $filter,
-        dialogService, ObjectHelper, ErrorHelper,
-        ArendeProxy, ArendeListViewState, ArendeHelper, statService, dynamicLabelService) {
+    function($log, $rootScope, $state, $stateParams, ObjectHelper, ErrorHelper, UserModel,
+        ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
     'use strict';
 
     return {

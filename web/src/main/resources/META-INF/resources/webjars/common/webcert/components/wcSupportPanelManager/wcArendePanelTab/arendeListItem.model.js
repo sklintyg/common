@@ -21,8 +21,8 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewStateService',
-        function($log, UserModel, ObjectHelper, messageService, ArendeListViewStateService) {
+    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewState',
+        function($log, UserModel, ObjectHelper, messageService, ArendeListViewState) {
         'use strict';
 
         /**
@@ -48,12 +48,12 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.updateArendeListItem();
         }
 
-        function _isKomplettering(amne) {
-            return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
-        }
-
         function _isPaminnelse(amne) {
             return amne === 'PAMINNELSE' || amne === 'PAMINN';
+        }
+
+        function _isKomplettering(amne) {
+            return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
         }
 
         ArendeListItemModel.build = function(arendeModel, extraKompletteringarArende) {
@@ -84,7 +84,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
             } else if (this.arende.fraga.status !== 'CLOSED' &&
                 _isKomplettering(this.arende.fraga.amne) &&
-                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, ArendeListViewStateService.intygProperties.type)) {
+                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, ArendeListViewState.intygProperties.type)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
                 this.answerDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.onlydoctor');
@@ -93,12 +93,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined;
             }
 
-            if (_isKomplettering(this.arende.fraga.amne) &&
-                !UserModel.hasPrivilege(UserModel.privileges.SVARA_MED_NYTT_INTYG, ArendeListViewStateService.intygProperties.type)) {
-                this.svaraMedNyttIntygDisabled = true;
-            } else {
-                this.svaraMedNyttIntygDisabled = false;
-            }
+            this.svaraMedNyttIntygDisabled = ArendeListViewState.isSvaraMedNyttIntygDisabled(this.arende.fraga.amne);
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {

@@ -2,11 +2,6 @@
   <wc-alert-message alert-severity="info" ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason"
                     alert-id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}">{{::arendeSvar.answerDisabledReason}}</wc-alert-message>
 
-  <!-- Svara med nytt intyg button - only on komplettering -->
-  <div class="buttonbar" ng-if="showKompletteringControls()">
-    <div arende-panel-svar-kompletteringsatgard parent-view-state="parentViewState" arende-list-item="arendeListItem"  on-answer-with-message="answerWithMessage()"></div>
-  </div>
-
   <!-- Svarsdelen -->
   <div ng-if="showAnswerPanel()" class="fold-animation" arende-draft-auto-save intyg-id="parentViewState.intyg.id" text="arendeSvar.meddelande" save-state="arendeSvar.draftState" question-id="arendeSvar.fragaInternReferens">
     <div class="panel-container">

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.ArendeListViewStateService',
-    ['common.IntygViewStateService', 'common.dynamicLabelService',
-        function(IntygViewStateService, dynamicLabelService) {
+    ['common.IntygViewStateService', 'common.dynamicLabelService', 'common.UserModel',
+        function(IntygViewStateService, dynamicLabelService, UserModel) {
             'use strict';
 
             this.reset = function() {
@@ -158,6 +158,13 @@ angular.module('common').service('common.ArendeListViewStateService',
                 });
                 return timestamps;
             };
+
+            this.isSvaraMedNyttIntygDisabled = function (){
+                if (this.getUnhandledKompletteringCount() > 0 && !UserModel.hasPrivilege(UserModel.privileges.SVARA_MED_NYTT_INTYG, this.intygProperties.type)) {
+                    return true;
+                }
+                return false;
+            }
 
            this.reset();
         }

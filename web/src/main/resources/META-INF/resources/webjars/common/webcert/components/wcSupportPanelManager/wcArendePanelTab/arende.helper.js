@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.ArendeHelper',
-    ['$log', '$timeout', '$window', 'common.statService', 'common.ArendeListItemModel',
-        function ($log, $timeout, $window, statService, ArendeListItemModel) {
+    ['$log', '$timeout', '$window', 'common.statService', 'common.ArendeListItemModel', 'common.ArendeListViewStateService', 'common.UserModel',
+        function ($log, $timeout, $window, statService, ArendeListItemModel, ArendeListViewState, UserModel) {
             'use strict';
 
             this.createListItemsFromArenden = function(arendeModelList) {

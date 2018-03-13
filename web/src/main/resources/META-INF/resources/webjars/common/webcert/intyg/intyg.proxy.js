@@ -131,11 +131,11 @@ angular.module('common').factory('common.IntygProxy',
         /*
          * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
          */
-        function _answerWithIntyg(arende, intygsTyp, intygCopyRequest, onSuccess, onError) {
-            $log.debug('_answerWithIntyg: arendeId:' + arende.fraga.internReferens + ' intygsTyp: ' + intygsTyp);
+        function _answerWithIntyg(internReferens, intygsTyp, intygCopyRequest, onSuccess, onError) {
+            $log.debug('_answerWithIntyg: arendeId:' + internReferens + ' intygsTyp: ' + intygsTyp);
 
             var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
-                arende.fraga.internReferens + '/komplettera';
+                internReferens + '/komplettera';
             var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
             $http.post(restPath, payload).then(function(response) {

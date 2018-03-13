@@ -1,0 +1,21 @@
+<div>
+  <div class="tab-footer">
+
+    <wc-button
+        ng-if="showKompletteringButton()"
+        btn-id="komplettera-intyg"
+        btn-class="btn-success"
+        btn-click="kompletteraIntyg()"
+        loading="updateInProgress"
+        disabled="updateInProgress"
+    >
+      <i class="icon-wc-ikon-komplettera"></i> Komplettera intyg</button>
+    </wc-button>
+
+    <button class="btn btn-primary"
+            ng-if="showKompletteringButton()"
+            id="kan-inte-komplettera"
+            ng-click="openKompletteringDialog()">
+      <i class="icon-wc-ikon-comment"></i> Kan inte komplettera</button>
+  </div>
+</div>
