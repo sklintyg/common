@@ -24,7 +24,7 @@
 angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned) {
+    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
@@ -35,7 +35,7 @@ angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.f
             }
         };
 
-        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && isSigned) {
+        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
                 title: 'Frågor & Svar',

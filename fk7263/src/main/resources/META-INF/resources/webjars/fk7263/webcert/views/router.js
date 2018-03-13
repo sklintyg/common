@@ -26,6 +26,27 @@ angular.module('fk7263').config(function($stateProvider) {
     var intygsTypPath = '/web/webjars/fk7263/webcert/';
 
     $stateProvider.
+    state('fk7263-edit', {
+        data: { defaultActive : 'index', intygType: 'fk7263'},
+        url : '/fk7263/edit/:certificateId/:focusOn',
+        views : {
+            'header@': {
+                templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+            },
+            'content@': {
+                templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                controller: 'fk7263.EditCertCtrl'
+            },
+
+            'header@fk7263-edit': {
+                templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                controller: 'common.UtkastHeader',
+                resolve: {
+                    ViewState: 'fk7263.EditCertCtrl.ViewStateService'
+                }
+            }
+        }
+    }).
         state('webcert.intyg.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
             url:'/intyg/fk7263/:certificateId/:focusOn',

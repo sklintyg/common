@@ -31,6 +31,8 @@ angular.module('common').service('common.UtkastViewStateService',
                 isComplete : false,
                 type : undefined
             };
+            //some drafts will be presented using uv-framwork, and need the "raw" utlatande-json as input.
+            this.__utlatandeJson = null;
 
             // should go into intyg above
             this.showComplete = false;
@@ -55,6 +57,7 @@ angular.module('common').service('common.UtkastViewStateService',
         this.update = function(draftModel, data) {
             if(draftModel){
                 draftModel.update(data);
+                this.__utlatandeJson = data;
                 this.error.activeErrorMessageKey = null;
                 this.error.saveErrorMessage = null;
                 this.error.saveErrorCode = null;

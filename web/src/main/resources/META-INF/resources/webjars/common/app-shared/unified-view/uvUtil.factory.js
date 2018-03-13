@@ -77,7 +77,7 @@ angular.module('common').factory('uvUtil', [
             return viewConfig;
         }
 
-        function _convertToWebcert(viewConfig, skipPatient) {
+        function _convertToWebcert(viewConfig, skipPatient, isSigned) {
             viewConfig.pop();
 
             if (!skipPatient) {
@@ -90,12 +90,14 @@ angular.module('common').factory('uvUtil', [
                     }]
                 });
             }
-
-            viewConfig.push({
-                type: 'uv-signed-by',
-                modelProp: 'grundData'
-            });
-
+            // As of WC 6.0, we show also drafts using uv-framework, and since drafts cant possibly be signed,
+            // skip this component in that case.
+            if(isSigned) {
+                viewConfig.push({
+                    type: 'uv-signed-by',
+                    modelProp: 'grundData'
+                });
+            }
             viewConfig = _replaceType(viewConfig, 'uv-fraga', 'uv-wc-fraga');
 
             var propertiesToUpdate = {contentUrl: null};
