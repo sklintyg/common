@@ -132,7 +132,6 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', 
                             },
                             button1text: 'common.modal.label.print.sekretessmarkerad.yes',
                             button2text: 'common.cancel',
-                            bodyText: 'common.alert.sekretessmarkering.print',
                             autoClose: false
                         });
                     }
