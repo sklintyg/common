@@ -52,7 +52,9 @@
   <!-- signerat mode (taken from META-INF/resources/webjars/common/webcert/fk/arenden/arendeList.html)-->
 
   <div class="row" ng-if="config.intygContext.isSigned">
+
     <div class="col-md-12 arende-column">
+      <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
       <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading"
            show-content="viewState.doneLoading">

@@ -35,6 +35,8 @@
       </div>
     </div>
 
+    <wc-deprecated-intygstype-message message-suffix="utkastheader" intygs-type="{{::utkastViewState.common.intyg.type}}"></wc-deprecated-intygstype-message>
+
     <!-- Total fail error messages -->
     <div id="error-panel" class="intyg-error-panel"
          ng-show="utkastViewState.common.doneLoading && utkastViewState.common.error.activeErrorMessageKey && !utkastViewState.common.deleted">

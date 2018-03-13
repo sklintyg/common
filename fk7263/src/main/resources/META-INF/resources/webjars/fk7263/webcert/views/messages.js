@@ -194,7 +194,11 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.validation.nedsattning.overlapping-date-interval': 'Sjukskrivningsperioder med överlappande datum har angetts. (Fält 8b)',
         'fk7263.validation.diagnos.missing': 'ICD-10 kod saknas på huvuddiagnosen. (Fält 2)',
         'fk7263.validation.diagnos.invalid': 'Diagnoskoden är ogiltig',
-        'fk7263.validation.rekommendationer.ovriga': 'Fritextfältet som hör till alternativet Övrigt måste fyllas i. (Fält 6a)'
+        'fk7263.validation.rekommendationer.ovriga': 'Fritextfältet som hör till alternativet Övrigt måste fyllas i. (Fält 6a)',
+
+        'fk7263.deprecated-message.utkastheader': 'Intygstypen har ersatts. Ska du utfärda ett sjukpenningintyg, vänligen skapa ett nytt intyg av typen läkarintyg för sjukpenning FK 7804.',
+        'fk7263.deprecated-message.intygheader': 'Intygstypen har ersatts av läkarintyg för sjukpenning FK 7804. Funktionaliteten för detta intyg är därför begränsad.<br>Ska intyget ersättas, kompletteras eller förnyas, så ombeds du skapa ett nytt intyg av typ FK 7804 läkarintyg för sjukpenning.<br> Du kan fortfarande ställa eller besvara en fråga från Försäkringskassan.',
+        'fk7263.deprecated-message.arendeheader': 'Intygstypen har ersatts av läkarintyg för sjukpenning FK 7804. Har det inkommit en begäran om komplettering från Försäkringskassan så måste du utfärda ett nytt intyg, av typ läkarintyg för sjukpenning FK 7804. Du kan fortfarande skicka en ny fråga och besvara övriga frågor från Försäkringskassan.'
     },
     'en': {
         'fk7263.label.pagetitle': 'Show Certificate'
