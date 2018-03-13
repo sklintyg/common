@@ -23,7 +23,8 @@ angular.module('common').directive('wcExpandableContent', [ '$timeout', 'common.
         restrict: 'E',
         scope: {
             content: '=',
-            thresholdPixelHeight: '@'
+            thresholdPixelHeight: '@',
+            linkDomId: '@'
         },
         templateUrl: '/web/webjars/common/webcert/components/wcExpandableContent/wcExpandableContent.directive.html',
         link: function($scope, element) {

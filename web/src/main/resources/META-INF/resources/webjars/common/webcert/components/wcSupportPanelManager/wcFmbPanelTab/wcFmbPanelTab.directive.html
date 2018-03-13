@@ -34,7 +34,7 @@
         </h4>
 
         <section ng-attr-id="fmb_text_{{::section.heading}}" ng-if="section.data.text">
-          <wc-expandable-content content="section.data.text" threshold-pixel-height="80px">
+          <wc-expandable-content content="section.data.text" threshold-pixel-height="80px" link-dom-id="fmb-text-expandable-content-link-{{::section.heading}}">
 
           </wc-expandable-content>
         </section>
