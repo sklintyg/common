@@ -35,7 +35,7 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DETAILED_DESCRIPTION = "Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.";
     // CHECKSTYLE:ON LineLength
-    private static final boolean DEPRECATED = false;
+    private static final boolean DEPRECATED = true;
 
     @Autowired
     private Fk7263ModuleApi moduleApi;
