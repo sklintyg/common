@@ -52,6 +52,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', 
                 draftDeleteDialog = dialogService.showDialog({
                     dialogId: 'confirm-draft-delete',
                     titleId: 'common.modal.label.discard_draft',
+                    templateUrl: '/app/partials/discard-dialog.html',
                     bodyText: bodyText,
                     button1id: 'confirm-draft-delete-button',
                     model: dialogModel,
