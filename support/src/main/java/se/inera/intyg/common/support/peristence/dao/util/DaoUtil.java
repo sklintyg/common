@@ -20,6 +20,8 @@ package se.inera.intyg.common.support.peristence.dao.util;
 
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.util.Optional;
+
 public final class DaoUtil {
     private DaoUtil() { }
     /**
@@ -31,7 +33,8 @@ public final class DaoUtil {
      * @return pnr as a String with format yyyyMMdd-xxxx, or the original pnr if formatting was unsuccessful.
      */
     public static String formatPnrForPersistence(Personnummer personnummer) {
-        if (!personnummer.isValid()) {
+        Optional<Personnummer> optional = Optional.ofNullable(personnummer);
+        if (!optional.isPresent()) {
             return personnummer.getOriginalPnr();
         }
 
