@@ -16,8 +16,8 @@
     btn-class="btn-success"
     btn-click="sign()"
     loading="getCurrentSignStatus() === 'pending'"
-    disabled="certForm.$dirty || disableSign()"
-    tooltip="{{::signBtnTooltip}}"
+    btn-disabled="certForm.$dirty || disableSign()"
+    btn-tooltip="{{::signBtnTooltip}}"
 ><i class="icon-wc-ikon-30 icon-wc-24"></i>{{::signBtnText}}</wc-button>
 
 <!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->

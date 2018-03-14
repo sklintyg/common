@@ -28,14 +28,11 @@ angular.module('common').directive('wcButton',
                 transclude: true,
                 scope: {
                     'btnId': '@',
-                    'tooltip' : '@',
+                    'btnTooltip' : '@',
                     'btnClass' : '@',
                     'loading': '<',
-                    'disabled': '<',
+                    'btnDisabled': '<',
                     'btnClick': '&'
-                },
-                controller: function($scope) {
-
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcButton/wcButton.directive.html'
             };

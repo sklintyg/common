@@ -2,12 +2,12 @@
     type="button"
     id="{{::btnId}}"
     class="btn {{::btnClass}}"
-    data-ng-disabled="disabled || loading"
+    data-ng-disabled="btnDisabled || loading"
     data-ng-click="btnClick()"
 
-    uib-tooltip="{{::tooltip}}"
+    uib-tooltip="{{::btnTooltip}}"
     tooltip-placement="auto top"
-    tooltip-enable="!(disabled || loading)"
+    tooltip-enable="!(btnDisabled || loading)"
     tooltip-append-to-body="true"
     >
   <div ng-if="loading" class="loading">
