@@ -131,7 +131,7 @@ angular.module('common').run(function(formlyConfig) {
                             var overWriteFollwingValuesInModel = {
                                 avstangningSmittskydd: false,
                                 sysselsattning: {'NUVARANDE_ARBETE': true},
-                                funktionsnedsattning: 'Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden.',
+                                funktionsnedsattning: 'Smärta, svullnad, inskränkt rörlighet och nedsatt kraft i skulderleden. Smärta, nattlig värk samt stelhet i skuldra.',
                                 aktivitetsbegransning: 'Har på grund av smärtor svårt att använda axeln/armen. Har ingen kraft, kan inte lyfta eller belasta. Kan inte utföra manuellt arbete med armen, som kan vara obrukbar under läkningsprocessen. Särskilt svårt är arbete med armen ovan axelhöjd.',
                                 pagaendeBehandling: 'Operation utförd idag.',
                                 planeradBehandling: 'Avlastning, sjukgymnastik.',
@@ -155,7 +155,7 @@ angular.module('common').run(function(formlyConfig) {
                                 avstangningSmittskydd: false,
                                 sysselsattning: {NUVARANDE_ARBETE: true},
                                 funktionsnedsattning: 'Problem med koncentration och minnesfunktioner.  Ökad uttröttbarhet ffa kognitivt. Bristande initiativförmåga, motivation, humörstabilitet och uthållighet. Sömnsvårigheter, nedsatt aptit, livsleda och skuldkänslor. Svår nedstämdhet med nedsatt förmåga känna glädje eller lust. Ibland ångest.',
-                                aktieitetsbegransning: 'Svårigheter att fatta beslut och oförmåga att planera. Svårt att hantera vardagliga ärenden. Social rädsla, skam- och skuldkänslor försvårar socialt samspel med andra.\n' +
+                                aktivitetsbegransning: 'Svårigheter att fatta beslut och oförmåga att planera. Svårt att hantera vardagliga ärenden. Social rädsla, skam- och skuldkänslor försvårar socialt samspel med andra.\n' +
                                     'Svårigheter att tänka och fokusera, svårt komma igång med aktiviteter och svårigheter att hantera stress. Begränsad uthållighet fysiskt, mentalt.',
                                 pagaendeBehandling: 'Fysisk aktivering. Samtal med terapeutisk hållning. Medicin.',
                                 planeradBehandling: 'Fortsatt fysisk aktivering. Samtal med terapeutisk hållning. Medicinuppföljning. Gradvis återgång till arbete.',
