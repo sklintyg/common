@@ -17,9 +17,49 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('common.UtkastFooter',
-    [
-        function() {
+    ['$scope', '$rootScope', '$timeout',
+        function($scope, $rootScope, $timeout) {
             'use strict';
+
+            /**
+             * Handle the problem of jumping /scolling of content in regard to clicking sign/visa fel.
+             * We need to store the buttons position asap (mousedown) because validation triggered onblur will
+             * change the DOM before the ng-click (mouse-down+ some time + mouseup = click) event happens.
+             */
+            var savedElementTop  = 0;
+            var scrollToElement = document.getElementById('utkast-footer');
+            var containerElement = $('#certificate-content-container');
+            var buttonClicked = false;
+
+            $scope.initValidationSequence = function() {
+                var offset = scrollToElement.offsetTop;
+                var scrollTop = containerElement.scrollTop();
+
+                savedElementTop = offset - scrollTop;
+                buttonClicked = true;
+            };
+
+
+            /**
+             * Whenever a validation round is completed, either directly by clicking a button or by bluring a validated field -
+             * scroll (back) to where we were before 'content-changed-above' scrolling occurred.
+             */
+            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function () {
+                if(buttonClicked) {
+                    //Need a timeout here so that the focused button has appeared in it's new position
+                    $timeout(function() {
+                        if (savedElementTop > 0) {
+                            //restore scroll position
+                            var top = scrollToElement.offsetTop;
+                            containerElement.scrollTop(top - savedElementTop);
+                        }
+                    });
+
+                    buttonClicked = false;
+                }
+            });
+
+            $scope.$on('$destroy', unbindFastEvent);
         }
     ]
 );
