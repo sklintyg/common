@@ -39,6 +39,10 @@ angular.module('common').directive('wcArendePanelTab', [
             $scope.unhandledKompletteringCount = 0;
             $scope.unhandledAdministrativaFragorCount = 0;
 
+            $scope.setFilterKomplettering = function(value) {
+                $scope.isFilterKomplettering = value;
+            };
+
             $scope.$on('$destroy', function() {
                 //Since ArendeListViewState is a service that's used elsewhere we need to clean up
                 //loaded state related to this instance

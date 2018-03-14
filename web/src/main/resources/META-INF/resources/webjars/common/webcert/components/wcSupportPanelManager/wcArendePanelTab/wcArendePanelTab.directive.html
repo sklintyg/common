@@ -2,7 +2,7 @@
 
   <ul class="nav navbar-nav" ng-if="viewState.intygProperties.isSent">
     <li ng-class="{active: isFilterKomplettering}">
-      <a ng-click="isFilterKomplettering=true" id="arende-filter-kompletteringsbegaran">
+      <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
         Kompletteringsbegäran
         <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-show="unhandledKompletteringCount > 0">
           {{unhandledKompletteringCount}}
@@ -10,7 +10,7 @@
       </a>
     </li>
     <li ng-class="{active: !isFilterKomplettering}">
-      <a ng-click="isFilterKomplettering=false" id="arende-filter-administrativafragor">
+      <a ng-click="setFilterKomplettering(false)" id="arende-filter-administrativafragor">
         Administrativa frågor
         <span id="arende-administrativafragor-count" class="badge badge__stat" ng-show="unhandledAdministrativaFragorCount > 0">
           {{unhandledAdministrativaFragorCount}}
@@ -38,7 +38,7 @@
 
         <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
 
-        <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="isFilterKomplettering">
+        <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
 
           <wc-arende-komplettera-utkast-warning ng-if="config.intygContext.isSigned"></wc-arende-komplettera-utkast-warning>
 
@@ -48,9 +48,12 @@
             <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
                  parent-view-state="viewState"></arende-panel>
           </div>
+
+          <wc-arende-no-kompletteringar-message ng-if="kompletteringarList.length === 0"></wc-arende-no-kompletteringar-message>
+
         </div>
 
-        <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="!isFilterKomplettering">
+        <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && !isFilterKomplettering">
 
           <!-- new arende form -->
           <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
@@ -63,6 +66,8 @@
             <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
                  parent-view-state="viewState"></arende-panel>
           </div>
+
+          <wc-arende-no-administrativa-fragor-message ng-if="administrativaFragorList.length === 0"></wc-arende-no-administrativa-fragor-message>
 
         </div>
 
