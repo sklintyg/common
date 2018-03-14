@@ -17,19 +17,6 @@ angular.module('common').constant('common.icf', {
                 beskrivning: 'Allmänna psykiska funktioner av fysiologiska och psykologiska mekanismer som gör att personen envist strävar efter att tillfredsställa specifika behov och allmänna mål',
                 innefattar: 'funktioner av energinivå, motivation, aptit; begär efter substanser, inklusive sådana som kan missbrukas; impulskontroll'
             },{
-                namn: 'Motivation',
-                vald: undefined,
-                begransning: 'Välj gradering',
-                beskrivning: 'Psykiska funktioner som skapar handlingsberedskap, medveten eller omedveten drivkraft att handla',
-                innefattar: ''
-            },{
-                namn: 'Aptit',
-                vald: undefined,
-                freeText: undefined,
-                begransning: 'Välj gradering',
-                beskrivning: 'Psykiska funktioner som ger en naturlig längtan eller önskan om att tillgodose särskilt det naturliga och återkommande behovet av mat och dryck',
-                innefattar: ''
-            },{
                 namn: 'Sömn',
                 vald: undefined,
                 freeText: undefined,
@@ -267,13 +254,13 @@ angular.module('common').constant('common.icf', {
                 beskrivning: 'Allmänna psykiska funktioner av periodisk, reversibel och selektiv fysisk och psykisk avkoppling från sin egen omedelbara omgivning med samtidiga karakteristiska fysiologiska förändringar',
                 innefattar: 'funktioner av sömnmängd, insomning, sömnunderhåll, sömnkvalitet, funktioner som rör sömncykeln såsom sömnlöshet, hypersömn, narkolepsi'
             },{
-                namn: 'Uppmrärksamhet',
+                namn: 'Uppmärksamhet',
                 vald: undefined,
                 begransning: 'Välj gradering',
                 beskrivning: 'Särskilda psykiska funktioner att under en erforderlig tidsperiod rikta in sig mot ett yttre stimulus eller inre erfarenhet',
                 innefattar: 'funktioner att vidmakthålla uppmärksamhet, att skifta uppmärksamhet, att fördela uppmärksamhet, dela gemensam uppmärksamhet; koncentration; distraherbarhet'
             },{
-                namn: 'Smärta i övre extremitet',
+                namn: 'Smärta',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
@@ -287,7 +274,7 @@ angular.module('common').constant('common.icf', {
                 beskrivning: 'Funktioner för rörelseomfång och smidighet vad avser rörelse i en led',
                 innefattar: 'funktioner att röra en enstaka eller flera leder, ryggrad, skuldra, armbåge, handled, höft, knä, fotled, småleder i hand och fot; allmän ledrörlighet; funktionsnedsättningar såsom överrörlighet i leder, stela leder, frusen skuldra, artrit'
             },{
-                namn: 'Kraft i en extremitet',
+                namn: 'Muskelkraft',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
@@ -330,13 +317,6 @@ angular.module('common').constant('common.icf', {
                 beskrivning: 'Att genomföra koordinerade handlingar som krävs för att flytta föremål eller hantera dem genom att använda händer och armar såsom att vrida på dörrhandtag eller kasta eller fånga ett föremål',
                 innefattar: 'att dra eller knuffa föremål, att räcka fram, vända eller vrida händer eller armar, att kasta, att fånga'
             },{
-                namn: 'Att använda arm och hand över axelhöjd',
-                vald: undefined,
-                freeText: undefined,
-                begransning: 'Välj gradering',
-                beskrivning: 'Att genomföra koordinerade handlingar som krävs för att flytta föremål eller hantera dem genom att använda händer och armar såsom att vrida på dörrhandtag eller kasta eller fånga ett föremål - över axelhöjd',
-                innefattar: ''
-            },{
                 namn: 'Att tvätta sig',
                 vald: undefined,
                 freeText: undefined,
@@ -344,7 +324,7 @@ angular.module('common').constant('common.icf', {
                 beskrivning: 'Att tvätta och torka hela kroppen eller delar av den genom att använda vatten och lämpliga material och metoder för att bli ren och torr såsom att bada, duscha, tvätta händer och fötter, ansikte och hår och att torka sig med handduk',
                 innefattar: 'att tvätta delar av kroppen, hela kroppen och att torka sig'
             },{
-                namn: 'Att sköta toalettbesök',
+                namn: 'Att sköta toalettbehov',
                 vald: undefined,
                 freeText: undefined,
                 begransning: 'Välj gradering',
