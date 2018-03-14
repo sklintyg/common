@@ -24,8 +24,8 @@
  * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
 angular.module('common').directive('arendePanel',
-    [
-        function() {
+    [ 'common.ObjectHelper',
+        function(ObjectHelper) {
             'use strict';
 
             return {
@@ -37,7 +37,18 @@ angular.module('common').directive('arendePanel',
                     arendeList: '=',
                     parentViewState: '='
                 },
-                controller: function() {
+                controller: function($scope) {
+
+                    $scope.showAnswer = function() {
+                        var ArendeSvar = $scope.arendeListItem.arende.svar;
+                        // If closed and has a meddelande it is answered by message
+                        // If closed and has answeredWithIntyg object it was answered with intyg
+                        return (ArendeSvar.status === 'CLOSED' &&
+                            (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false ||
+                                ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
+                            (ArendeSvar.status === 'ANSWERED');
+                    };
+
                     var arendePanelSvarController;
                     this.registerArendePanelSvar = function(controller) {
                         arendePanelSvarController = controller;

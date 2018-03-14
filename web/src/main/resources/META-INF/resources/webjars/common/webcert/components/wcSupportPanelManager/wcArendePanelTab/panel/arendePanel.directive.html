@@ -5,18 +5,16 @@
                        panel-id="{{panelId}}" parent-view-state="parentViewState">
     </arende-panel-svar>
 
-    <!-- list of paminnelser -->
-    <div ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'+senasteHandelse'">
-      <arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse-panel>
-    </div>
-
-    <arende-panel-header arende-list="arendeList" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+    <arende-panel-header header-type="fraga" show-hantera="!showAnswer()" arende-list-item="arendeListItem" parent-view-state="parentViewState">
     </arende-panel-header>
 
     <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
 
-    <arende-panel-fraga arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-panel-fraga>
+    <!-- list of paminnelser -->
+    <div ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'+senasteHandelse'">
+        <arende-paminnelse paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse>
+    </div>
 
-  </div>
+    <arende-panel-fraga arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-panel-fraga>
 
 </div>

@@ -37,9 +37,11 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     };
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
-                        $scope.intygType = ArendeListViewState.intygProperties.type;
-                        $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
-                        $scope.kompletteringConfig.redirectToExistingUtkast = !!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast;
+                        if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
+                            $scope.intygType = ArendeListViewState.intygProperties.type;
+                            $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
+                            $scope.kompletteringConfig.redirectToExistingUtkast = true;
+                        }
                     });
                     $scope.$on('$destroy', unbindFastEvent);
 

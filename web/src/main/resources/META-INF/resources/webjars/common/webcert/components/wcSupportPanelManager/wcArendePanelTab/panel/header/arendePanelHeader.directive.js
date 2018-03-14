@@ -31,9 +31,18 @@ angular.module('common').directive('arendePanelHeader',
                 restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.html',
                 scope: {
-                    arendeList: '=',
+                    headerType: '@',
+                    showHantera: '=',
                     arendeListItem: '=',
                     parentViewState: '='
+                },
+                link: function($scope) {
+                    if ($scope.headerType === 'fraga') {
+                        $scope.headerData = $scope.arendeListItem.arende.fraga;
+                    }
+                    else if ($scope.headerType === 'svar') {
+                        $scope.headerData = $scope.arendeListItem.arende.svar;
+                    }
                 }
             };
         }]);

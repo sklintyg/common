@@ -20,19 +20,15 @@
  * Created by BESA on 2015-03-05.
  */
 
-/**
- * arendePanel directive. Common directive for both unhandled and handled questions/answers
- */
-angular.module('common').directive('arendePaminnelsePanel',
+angular.module('common').directive('arendePaminnelse',
     [
         function() {
             'use strict';
 
             return {
                 restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelsePanel.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.html',
                 scope: {
-                    panelId: '@',
                     paminnelse: '=',
                     parentViewState: '='
                 },

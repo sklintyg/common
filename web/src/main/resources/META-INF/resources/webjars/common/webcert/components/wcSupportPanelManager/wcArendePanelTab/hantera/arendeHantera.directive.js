@@ -32,7 +32,6 @@ angular.module('common').directive('arendeHantera',
                 restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.html',
                 scope: {
-                    arendeList: '=',
                     arendeListItem: '=',
                     parentViewState: '='
                 },

@@ -1,20 +1,31 @@
-<div class="row">
-  <div class="col-xs-9">
-    <div class="fraga-status-header">
+<div>
 
-      <arende-panel-header-amne arende-list-item="arendeListItem"></arende-panel-header-amne>
-
-      <div ng-if="arendeListItem.arende.fraga.status != 'CLOSED'">
-        <h3>
-          Åtgärd: <strong><span dynamic-label
-                                key="common.arende.atgard.{{arendeListItem.atgardMessageId}}"></span></strong>
-        </h3>
-        <h3 ng-show="arendeListItem.arende.fraga.sistaDatumForSvar">
-          Svara senast: <strong>{{arendeListItem.arende.fraga.sistaDatumForSvar}}</strong></h3>
-      </div>
-
-      <arende-hantera arende-list="arendeList" arende-list-item="arendeListItem" parent-view-state="parentViewState"></arende-hantera>
-
-    </div>
+  <div ng-switch="headerType">
+    <i ng-switch-when="fraga" class="arende-header-icon icon-wc-ikon-fraga icon-wc-24"></i>
+    <i ng-switch-when="svar" class="arende-header-icon icon-wc-ikon-39 icon-wc-24"></i>
   </div>
+
+  <div class="arende-header-middle">
+    <div ng-switch="headerData.frageStallare | lowercase">
+      <span class="arende-sender" ng-switch-when="wc"
+            id="question-fraga-vard-aktor-namn-{{headerData.internReferens}}">{{headerData.vardaktorNamn}}</span>
+      <span ng-switch-default dynamic-label
+            key="common.arende.fragestallare.{{headerData.frageStallare | lowercase}}"></span>
+      <div id="fkKontakter-{{headerData.internReferens}}"
+           ng-repeat="kontakt in headerData.externaKontakter">
+        {{kontakt}}<br />
+      </div>
+    </div>
+
+    <arende-panel-header-amne arende-list-item="arendeListItem"></arende-panel-header-amne>
+  </div>
+
+  <div class="arende-header-right">
+    <arende-hantera ng-if="showHantera" arende-list-item="arendeListItem" parent-view-state="parentViewState"></arende-hantera>
+
+    <span class="arende-header-date" id="arende-skickaddatum-{{headerData.internReferens}}">
+      {{headerData.timestamp | date:'short'}}
+    </span>
+  </div>
+
 </div>

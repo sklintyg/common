@@ -72,10 +72,14 @@
   @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
   @import 'components/wcSpinner/wcSpinner.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/_arende.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/new/arendeNew.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/svar/arendePanelSvar.directive.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraUtkastWarning/wcArendeKompletteraUtkastWarning.scss';
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';

@@ -3,7 +3,7 @@
   <wc-alert-message alert-severity="info" ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason"
                     alert-id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}">{{::arendeSvar.answerDisabledReason}}</wc-alert-message>
 
-  <div ng-if="canAnswer()">
+  <div ng-if="canAnswer()" class="arende-svar">
     <!-- Öppna svarapanelen -->
     <button type="button" class="btn btn-success" ng-click="openAnswerPanel()" ng-show="!answerPanelOpen"
             id="arende-answer-button">
@@ -51,28 +51,14 @@
   </div>
 
   <!-- Svarsdelen -->
-  <div class="panel-container">
-    <div ng-if="showAnswer()" class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
+  <div ng-if="showAnswer()" class="arende-svar">
+    <div class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
              'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
 
-      <!-- UNHANDLEDTYPE: frågan är redan BESVARAD -->
-      <!-- HANDLEDTYPE: frågan har en svarstext -->
-      <div class="arende-block-head clearfix">
-        <div class="pull-left" ng-switch="arendeSvar.frageStallare | lowercase">
-          <!--  Frågaställaren var Vårdenheten - svaret måste kommit från FK -->
-          Från: <span ng-switch-when="wc"><span class="arende-sender" dynamic-label
-                                                key="common.arende.fragestallare.fk"></span></span>
-          <!--  Frågaställaren var inte Vårdenheten - svaret måste alltså kommit från Vårdenheten -->
-          <span ng-switch-default id="{{panelId}}-answer-svar-vard-aktor-namn-{{arendeSvar.internReferens}}"
-                class="arende-sender">{{arendeSvar.vardaktorNamn}}</span>
-        </div>
-        <div class="pull-right" ng-switch="arendeSvar.frageStallare | lowercase">
-          <!-- motsatt villkor mot frågan -->
-          <span ng-switch-when="wc">Mottaget: </span> <span ng-switch-default>Skickat: </span> <span
-            class="arende-date">{{arendeSvar.svarSkickadDatum | date:'short'}}</span>
-        </div>
-      </div>
+      <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+      </arende-panel-header>
+
       <div id="{{panelId}}-{{arendeSvar.internReferens}}-meddelande" class="arende-block-body">
         {{arendeSvar.meddelande}}
         <div ng-if="arendeSvar.answeredWithIntyg">

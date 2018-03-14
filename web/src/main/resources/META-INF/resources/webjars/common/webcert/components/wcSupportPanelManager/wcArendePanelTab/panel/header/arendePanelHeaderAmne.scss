@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,23 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Created by BESA on 2015-03-05.
- */
 
-/**
- * arendePanelHeader directive. Component for header of a arende panel.
- */
-angular.module('common').directive('arendePaminnelsePanelHeader',
-    [function() {
-            'use strict';
-
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelsePanelHeader.directive.html',
-                scope: {
-                    arendeListItem: '=',
-                    parentViewState: '='
-                }
-            };
-        }]);
+arende-panel-header-amne {
+  @extend %wc-typo-06;
+}

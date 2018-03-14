@@ -18,15 +18,6 @@
  */
 
 /**
-Table styles pertaining to Arenden.
- */
-$arende-panel-background-color: $wc-color-20;
-$arende-block-border-color: $wc-color-13;
-$arende-block-background-color: $wc-color-00;
-$arende-block-handled-background-color: $wc-color-20;
-$arende-block-head-color: $wc-color-07;
-
-/**
 arende list item animation
  */
 %fadein {
@@ -46,89 +37,4 @@ arende list item animation
     @extend %fadein;
     animation: fadeOut 1s;
   }
-}
-/*
-.panel-container {
-  // IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead
-  padding-bottom: 20px;
-}
-
-.arende-panel {
-  background-color: $arende-panel-background-color;
-  border-radius: 8px 8px 8px 8px;
-  padding: 20px;
-  max-width: 600px;
-  p {
-    margin-bottom: 5px;
-    font-size: 13px;
-  }
-  label {
-    margin-bottom: 5px;
-    font-size: 13px;
-  }
-
-  h3 {
-    font-size: 13px;
-    margin: 0;
-    padding: 0 0 5px 0;
-    font-weight: normal;
-  }
-}
-*/
-.arende-block {
-  background-color: $arende-block-background-color;
-  border: 1px solid $arende-block-border-color;
-  border-radius: 8px 8px 8px 8px;
-}
-
-.arende-block-fk {
-  margin-left: 20px;
-}
-
-.arende-block-wc {
-  margin-right: 20px;
-}
-
-.arende-block-handled {
-  background-color: $arende-block-handled-background-color;
-}
-
-.arende-block-head {
-  margin: 0;
-  color: $arende-block-head-color;
-  font-size: 13px;
-  display: block;
-  padding: 10px 20px;
-  border-bottom: 1px solid $arende-block-border-color;
-  border-radius: 8px 8px 0 0;
-  h3 {
-    font-size: 13px;
-    margin: 0;
-    font-weight: normal;
-  }
-}
-.arende-block-body {
-  display: block;
-  padding: 10px 20px 20px 20px;
-}
-
-.arende-sender {
-  font-weight: bold;
-}
-
-.arende-date {
-  font-weight: bold;
-}
-
-.arende-panel__vidarebefordra-placement {
-  margin-top: -62px;
-  text-align: right;
-}
-
-.arende-meddelande, .arende-komplettera {
-  padding-top: 10px;
-}
-
-.arende-hantera-toggle {
-  color: $arende-block-head-color;
 }

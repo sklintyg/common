@@ -6,7 +6,7 @@
 
       <!-- list of paminnelser -->
       <div ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'senasteHandelse':true">
-        <arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse-panel>
+        <arende-paminnelse paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse>
       </div>
 
       <arende-panel-header-utkast arende-list="arendeList" arende-list-item="arendeListItem" parent-view-state="parentViewState"></arende-panel-header-utkast>

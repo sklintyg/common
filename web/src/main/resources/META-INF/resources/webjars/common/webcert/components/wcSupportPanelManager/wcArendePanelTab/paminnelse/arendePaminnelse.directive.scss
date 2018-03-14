@@ -17,32 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-arende-panel-svar {
+arende-paminnelse {
   display: block;
 
-  .arende-svar {
-    margin-bottom: 18px;
-  }
+  wc-alert-message {
+    display: block;
 
-  textarea.form-control {
-    height: 96px;
-  }
+    .alert {
+      display: block;
+      margin-bottom: 10px;
 
-  button.btn-success {
-    margin-right: 10px;
-  }
+      .arende-paminnelse-header {
+        display: flex;
+        .arende-paminnelse-heading {
+          @extend %wc-typo-06;
+          flex-grow: 1;
+        }
+        .arende-paminnelse-datum {
+        }
+      }
 
-  .arende-draft-status {
-    @extend %wc-typo-07;
-    color: $wc-color-07;
-
-    > span > i {
-      font-size: 14px;
-      color: $wc-color-10;
-    }
-
-    wc-alert-message .alert {
-      @extend %wc-typo-09;
     }
   }
 }
