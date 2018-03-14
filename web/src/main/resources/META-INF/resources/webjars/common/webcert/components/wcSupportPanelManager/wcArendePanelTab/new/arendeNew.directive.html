@@ -1,6 +1,6 @@
-<div class="card">
-
-  <div ng-show="showCreateArende()"
+<div>
+  <div class="card"
+       ng-if="showCreateArende()"
        wc-check-vardenhet
        wc-authority feature="SKAPA_NY_FRAGA" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
        vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}">

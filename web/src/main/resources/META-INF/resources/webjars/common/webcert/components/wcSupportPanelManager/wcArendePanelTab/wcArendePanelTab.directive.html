@@ -1,6 +1,6 @@
 <div class="tab-content-title-row">
 
-  <ul class="nav navbar-nav">
+  <ul class="nav navbar-nav" ng-if="viewState.intygProperties.isSent">
     <li ng-class="{active: isFilterKomplettering}">
       <a ng-click="isFilterKomplettering=true" id="arende-filter-kompletteringsbegaran">
         Kompletteringsbegäran
@@ -35,6 +35,8 @@
                           ng-show="viewState.intygProperties.isLoaded && viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
           <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
         </wc-alert-message>
+
+        <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
 
         <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="isFilterKomplettering">
 
