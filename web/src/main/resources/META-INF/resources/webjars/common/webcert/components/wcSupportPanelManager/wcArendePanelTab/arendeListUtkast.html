@@ -27,7 +27,7 @@
         <!-- list of open arenden -->
         <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | filter:openArendenFilter | orderBy:'senasteHandelse':true"
              class="arende-item">
-          <div arende-panel-utkast panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></div>
+          <arende-panel-utkast panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></arende-panel-utkast>
         </div>
 
       </div>

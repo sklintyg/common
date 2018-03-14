@@ -53,7 +53,7 @@ angular.module('common').directive('wcArendeFooter',
 
                     $scope.showKompletteringButton = function() {
                         return !$scope.kompletteringConfig.redirectToExistingUtkast && !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
-                    }
+                    };
 
                     $scope.kompletteraIntyg = function(modalInstance) {
                         if (!ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {

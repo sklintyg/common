@@ -7,15 +7,15 @@
 
     <!-- list of paminnelser -->
     <div ng-repeat="paminnelse in arendeListItem.arende.paminnelser | orderBy:'+senasteHandelse'">
-      <div arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></div>
+      <arende-paminnelse-panel panel-id="panelId" paminnelse="paminnelse" parent-view-state="parentViewState"></arende-paminnelse-panel>
     </div>
 
     <arende-panel-header arende-list="arendeList" arende-list-item="arendeListItem" parent-view-state="parentViewState">
     </arende-panel-header>
 
-    <div arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></div>
+    <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
 
-    <div arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></div>
+    <arende-panel-fraga arende-panel-fraga arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-panel-fraga>
 
   </div>
 

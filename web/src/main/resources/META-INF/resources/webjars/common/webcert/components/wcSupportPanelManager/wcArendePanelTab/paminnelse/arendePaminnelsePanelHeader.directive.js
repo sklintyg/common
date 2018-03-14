@@ -28,8 +28,7 @@ angular.module('common').directive('arendePaminnelsePanelHeader',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelsePanelHeader.directive.html',
                 scope: {
                     arendeListItem: '=',

@@ -33,7 +33,7 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     $scope.kompletteringConfig = {
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
-                        svaraMedNyttIntygDisabled: ArendeHelper.isSvaraMedNyttIntygDisabled(),
+                        svaraMedNyttIntygDisabled: ArendeHelper.isSvaraMedNyttIntygDisabled()
                     };
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
@@ -45,7 +45,7 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
 
                     $scope.showFortsattUtkastWarning = function() {
                         return $scope.kompletteringConfig.redirectToExistingUtkast && !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
-                    }
+                    };
                 }
             };
         }]);

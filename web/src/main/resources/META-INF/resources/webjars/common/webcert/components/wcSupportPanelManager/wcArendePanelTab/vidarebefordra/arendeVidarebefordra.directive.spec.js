@@ -80,7 +80,7 @@ describe('arendeVidarebefordra', function() {
             };
 
             var tpl = angular.element(
-                '<div arende-vidarebefordra arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>'
+                '<arende-vidarebefordra arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></arende-vidarebefordra>'
             );
             var element = $compile(tpl)($scope);
             $scope.$digest();

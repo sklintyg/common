@@ -29,9 +29,7 @@ angular.module('common').directive('arendePanelUtkast',
             'use strict';
 
             return {
-                restrict: 'A',
-                transclude: true,
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanelUtkast.directive.html',
                 scope: {
                     panelId: '@',

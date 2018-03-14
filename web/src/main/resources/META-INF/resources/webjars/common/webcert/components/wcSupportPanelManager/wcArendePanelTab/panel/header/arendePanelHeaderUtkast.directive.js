@@ -28,8 +28,7 @@ angular.module('common').directive('arendePanelHeaderUtkast',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderUtkast.directive.html',
                 scope: {
                     arendeList: '=',

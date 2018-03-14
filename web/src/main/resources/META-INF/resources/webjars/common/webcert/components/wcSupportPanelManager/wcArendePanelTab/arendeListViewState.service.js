@@ -125,14 +125,7 @@ angular.module('common').service('common.ArendeListViewStateService',
                 var result = [];
 
                 angular.forEach(this.arendeList, function(arendeModel) {
-                        addMatchingFrageKomplettering(result, frageId, arendeModel);
-
-                        //As multiple kompletteringar are aggregated as extraKompletteringarArenden on the first kompletterings-arende,
-                        //so we check them too
-                        angular.forEach(arendeModel.extraKompletteringarArenden, function(aggregatedModel) {
-                            addMatchingFrageKomplettering(result, frageId, aggregatedModel);
-                        });
-
+                    addMatchingFrageKomplettering(result, frageId, arendeModel);
                 });
 
                 return result;

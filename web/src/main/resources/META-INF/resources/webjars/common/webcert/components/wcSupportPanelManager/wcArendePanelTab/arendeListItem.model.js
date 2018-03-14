@@ -36,15 +36,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.atgardMessageId = '';
             this.arende = arendeModel; // ArendeModel from backend
             this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
-            this.extraKompletteringarArenden = [];
-            if (extraKompletteringarArende) {
-                this.extraKompletteringarArenden = extraKompletteringarArende.map(function(extraKompletteringarArende) {
-                    var newItem = ArendeListItemModel.build(extraKompletteringarArende);
-                    newItem.parentListItem = this;
-                    newItem.updateArendeListItem();
-                    return newItem;
-                }, this);
-            }
+
             this.updateArendeListItem();
         }
 

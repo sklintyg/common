@@ -30,8 +30,7 @@ angular.module('common').directive('arendeVidarebefordra',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/vidarebefordra/arendeVidarebefordra.directive.html',
                 scope: {
                     panelId: '@',

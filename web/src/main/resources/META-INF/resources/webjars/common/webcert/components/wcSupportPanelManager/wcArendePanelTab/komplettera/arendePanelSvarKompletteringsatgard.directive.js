@@ -36,8 +36,7 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/komplettera/arendePanelSvarKompletteringsatgard.directive.html',
                 scope: {
                     arendeListItem: '=',
@@ -48,10 +47,6 @@ angular.module('common').directive('arendePanelSvarKompletteringsatgard',
 
                     // For readability, keep a local struct with the values used from parent scope
                     var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
-                    // extraKompletteringarArenden changes if a kompletteringsarende changes hanterad status
-                    $scope.$watchCollection('arendeListItem.extraKompletteringarArenden', function() {
-                        ArendeSvar.updateExtraKompletteringar($scope.arendeListItem);
-                    });
 
                     $scope.arendeSvar = ArendeSvar;
 
