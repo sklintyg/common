@@ -390,11 +390,11 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
     ];
 
     return {
-        getViewConfig: function(webcert, isSigned) {
+        getViewConfig: function(webcert, isDraft) {
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config, true, isSigned);
+                config = uvUtil.convertToWebcert(config, true, isDraft);
             }
 
             return config;

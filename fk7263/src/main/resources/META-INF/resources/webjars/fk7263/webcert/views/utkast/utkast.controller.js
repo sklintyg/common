@@ -46,7 +46,7 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
                 //Expose pdf download link
                 viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
-                $scope.uvConfig = viewConfigFactory.getViewConfig(true, false);
+                $scope.uvConfig = viewConfigFactory.getViewConfig(true, true);
                 $scope.cert = viewState.common.__utlatandeJson.content;
                 //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
                 $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, false, viewState.common.intyg.isKomplettering);
