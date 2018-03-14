@@ -49,7 +49,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
@@ -58,6 +57,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         validateExplosivtImplantat(utlatande, validationMessages);
         validateUndersokning(utlatande, validationMessages);
         validatePolisanmalan(utlatande, validationMessages);
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }

@@ -62,7 +62,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
@@ -74,6 +73,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         validateOperation(utlatande, validationMessages);
         validateForgiftning(utlatande, validationMessages);
         validateGrunder(utlatande, validationMessages);
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
