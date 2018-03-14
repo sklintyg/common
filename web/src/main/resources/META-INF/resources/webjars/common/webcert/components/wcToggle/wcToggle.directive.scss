@@ -63,6 +63,13 @@ wc-toggle {
     }
   }
 
+  input:focus {
+    + .slider {
+      outline: thin dotted;
+      outline-offset: 0;
+    }
+  }
+
   input:checked {
     + .slider {
       background-color: $wc-color-10;
