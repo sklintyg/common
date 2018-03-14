@@ -57,13 +57,23 @@ describe('arendeHantera', function() {
             ArendeNewViewState = _ArendeNewViewState_;
             $scope = $rootScope.$new();
 
+            var arendePanelController = {
+                getArendePanelSvar: function() {
+                    return {
+                        hasSvaraDraft: function() { return false; }
+                    };
+                }
+            };
+
             $scope.arendeListItem = _ArendeListItemModel_.build(angular.copy(arende));
             $scope.parentViewState = _ArendeListViewStateService_.reset();
             $scope.parentViewState.setIntygType('intygstyp');
-            element = $compile('<div arende-hantera arende-list-item="arendeListItem" parent-view-state="parentViewState"></div>')($scope);
+            element = angular.element('<div><arende-hantera arende-list-item="arendeListItem" parent-view-state="parentViewState"></arende-hantera></div>');
+            element.data('$arendePanelController', arendePanelController);
+            $compile(element)($scope);
 
             $scope.$digest();
-            $scope = element.isolateScope();
+            $scope = element.find('arende-hantera').isolateScope();
         }]));
 
     it('Should be possible to change to unhandled status if sent from FK and has no response', function() {

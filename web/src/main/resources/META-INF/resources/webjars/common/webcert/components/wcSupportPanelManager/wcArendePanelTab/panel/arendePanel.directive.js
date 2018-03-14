@@ -29,15 +29,22 @@ angular.module('common').directive('arendePanel',
             'use strict';
 
             return {
-                restrict: 'A',
-                transclude: true,
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.html',
                 scope: {
                     panelId: '@',
                     arendeListItem: '=',
                     arendeList: '=',
                     parentViewState: '='
+                },
+                controller: function() {
+                    var arendePanelSvarController;
+                    this.registerArendePanelSvar = function(controller) {
+                        arendePanelSvarController = controller;
+                    };
+                    this.getArendePanelSvar = function() {
+                        return arendePanelSvarController;
+                    };
                 }
             };
         }]);

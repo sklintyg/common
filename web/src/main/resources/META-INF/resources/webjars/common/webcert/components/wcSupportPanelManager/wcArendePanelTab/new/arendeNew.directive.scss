@@ -31,18 +31,11 @@ arende-new {
   }
 
   textarea.form-control {
-    width: 100%;
     height: 96px;
-    border: 1px solid $wc-color-15;
-    border-radius: 4px;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    overflow-y: hidden;
-    resize: none;
   }
-  textarea.form-control:focus {
-    outline: none !important;
-    border: 1px solid $wc-color-21;
-    box-shadow: 2px 2px 4px 0 $black_12;
+
+  button.btn-success {
+    margin-right: 10px;
   }
 
   .arende-draft-status {

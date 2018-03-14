@@ -56,7 +56,7 @@ describe('arendePanelSvar', function() {
                 intyg: { grundData:{skapadAv:{vardenhet:{}}}},
                 setArende: function(arende) {}
             };
-            element = $compile('<div arende-panel-svar arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></div>')($scope);
+            element = $compile('<arende-panel-svar arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></arende-panel-svar>')($scope);
             $scope.$digest();
             $scope = element.isolateScope();
         }]));

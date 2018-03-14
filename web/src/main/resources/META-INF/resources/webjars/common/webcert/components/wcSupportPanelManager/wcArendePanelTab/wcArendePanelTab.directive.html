@@ -41,10 +41,10 @@
           <wc-arende-komplettera-utkast-warning ng-if="config.intygContext.isSigned"></wc-arende-komplettera-utkast-warning>
 
           <!-- list of komplettering arenden -->
-          <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'senasteHandelse':true as kompletteringarList"
+          <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'+senasteHandelse' as kompletteringarList"
                class="arende-item">
-            <div arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
-                 parent-view-state="viewState"></div>
+            <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
+                 parent-view-state="viewState"></arende-panel>
           </div>
         </div>
 
@@ -56,10 +56,10 @@
 
           <!-- list of administrativ fraga arenden -->
           <div
-              ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'senasteHandelse':true as administrativaFragorList"
+              ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'+senasteHandelse' as administrativaFragorList"
               class="arende-item">
-            <div arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
-                 parent-view-state="viewState"></div>
+            <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
+                 parent-view-state="viewState"></arende-panel>
           </div>
 
         </div>

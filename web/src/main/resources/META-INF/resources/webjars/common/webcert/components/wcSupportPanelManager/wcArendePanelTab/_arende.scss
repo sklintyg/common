@@ -47,9 +47,9 @@ arende list item animation
     animation: fadeOut 1s;
   }
 }
-
+/*
 .panel-container {
-  /* IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead */
+  // IE8 doesn't understand margin-bottom on elements added by scripting so place this around and use padding instead
   padding-bottom: 20px;
 }
 
@@ -74,7 +74,7 @@ arende list item animation
     font-weight: normal;
   }
 }
-
+*/
 .arende-block {
   background-color: $arende-block-background-color;
   border: 1px solid $arende-block-border-color;

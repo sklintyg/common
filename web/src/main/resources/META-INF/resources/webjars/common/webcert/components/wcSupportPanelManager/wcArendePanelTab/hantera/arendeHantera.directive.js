@@ -24,20 +24,20 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$log', '$rootScope', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
-        function($log, $rootScope, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
+    [ '$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
+        function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.html',
                 scope: {
                     arendeList: '=',
                     arendeListItem: '=',
                     parentViewState: '='
                 },
-                controller: function($scope, $element, $attrs) {
+                require: '^^arendePanel',
+                link: function($scope, $element, $attrs, ArendePanelController) {
 
                     $scope.showHandleToggle = function() {
                         var arendeModel = $scope.arendeListItem;
@@ -77,8 +77,34 @@ angular.module('common').directive('arendeHantera',
                         }
                     };
 
-                    $scope.updateAsHandled = function(arendeListItem, deferred) {
+                    $scope.updateAsHandled = function(arendeListItem) {
                         $log.debug('updateAsHandled:' + arendeListItem.arende);
+
+                        if (ArendePanelController.getArendePanelSvar() &&
+                            ArendePanelController.getArendePanelSvar().hasSvaraDraft()) {
+                            var modalInstance = $uibModal.open({
+                                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHanteraModal.template.html',
+                                size: 'md',
+                                controller: function($scope, $uibModalInstance) {
+                                    $scope.confirm = function() {
+                                        ArendePanelController.getArendePanelSvar().deleteSvaraDraft();
+                                        _updateAsHandled(arendeListItem);
+                                        $uibModalInstance.close();
+                                    };
+                                    $scope.abort = function() {
+                                        $uibModalInstance.close();
+                                    };
+                                }
+                            });
+                            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                            modalInstance.result.catch(function () {}); //jshint ignore:line
+                        }
+                        else {
+                            _updateAsHandled(arendeListItem);
+                        }
+                    };
+
+                    function _updateAsHandled(arendeListItem) {
                         arendeListItem.updateHandledStateInProgress = true;
 
                         ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens, $scope.parentViewState.intygProperties.type, function(result) {
@@ -92,18 +118,12 @@ angular.module('common').directive('arendeHantera',
 
                                 statService.refreshStat();
                             }
-                            if(deferred) {
-                                deferred.resolve();
-                            }
                         }, function(errorData) {
                             // show error view
                             arendeListItem.updateHandledStateInProgress = false;
                             arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                            if(deferred) {
-                                deferred.resolve();
-                            }
                         });
-                    };
+                    }
 
                     $scope.updateAsUnhandled = function(arendeListItem) {
                         $log.debug('updateAsUnHandled:' + arendeListItem);

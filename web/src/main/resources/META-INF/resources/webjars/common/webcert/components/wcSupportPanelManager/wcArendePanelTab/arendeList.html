@@ -21,7 +21,7 @@
         <!-- list of open arenden -->
         <div ng-repeat="arendeListItem in arendeList | filter:openArendenFilter | orderBy:'senasteHandelse':true"
              class="arende-item">
-          <div arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></div>
+          <arende-panel panel-id="unhandled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></arende-panel>
         </div>
 
         <!-- list of closed arenden -->
@@ -32,7 +32,7 @@
         <div
             ng-repeat="arendeListItem in arendeListFiltered = (arendeList | filter:closedArendenFilter | orderBy:'senasteHandelse':true)"
             class="arende-item">
-          <div arende-panel panel-id="handled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></div>
+          <arende-panel panel-id="handled" arende-list-item="arendeListItem" arende-list="arendeList" parent-view-state="viewState"></arende-panel>
         </div>
 
       </div>

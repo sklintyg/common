@@ -33,8 +33,7 @@ angular.module('common').directive('arendePanelSvar',
             'use strict';
 
             return {
-                restrict: 'A',
-                replace: true,
+                restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/svar/arendePanelSvar.directive.html',
                 scope: {
                     panelId: '@',
@@ -42,43 +41,40 @@ angular.module('common').directive('arendePanelSvar',
                     arendeListItem: '=',
                     parentViewState: '='
                 },
-                controller: function($scope, $element, $attrs) {
+                require: '?^^arendePanel',
+                link: function($scope, $element, $attrs, ArendePanelController) {
 
                     // For readability, keep a local struct with the values used from parent scope
-                    var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
-                    $scope.arendeSvar = ArendeSvar;
+                    function _buildArendeSvarModel() {
+                        var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
+                        $scope.arendeSvar = ArendeSvar;
+                        return ArendeSvar;
+                    }
 
-                    $scope.showAnswerPanel = function() {
-                        if (ArendeSvar.amne === 'KOMPLT' && ArendeSvar.answerKompletteringWithText === false && ArendeSvar.status === 'PENDING_INTERNAL_ACTION') {
-                            return false;
-                        }
+                    var ArendeSvar = _buildArendeSvarModel();
+                    $rootScope.$on('arenden.updated', function() {
+                        ArendeSvar = _buildArendeSvarModel();
+                    });
 
-                        var hasMeddelandeIsClosed = ObjectHelper.isEmpty(ArendeSvar.meddelande) === false && ArendeSvar.status === 'CLOSED';
-                        var cannotKomplettera = ArendeSvar.answerKompletteringWithText || hasMeddelandeIsClosed;
-                        return (ArendeSvar.amne !== 'KOMPLT') ||
-                            (ArendeSvar.amne === 'KOMPLT' && (cannotKomplettera || ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg)));
+                    $scope.canAnswer = function() {
+                        return ArendeSvar.status === 'PENDING_INTERNAL_ACTION' && !ArendeSvar.answerDisabled &&
+                            !ArendeSvar.intygProperties.isRevoked;
                     };
 
                     $scope.showAnswer = function() {
                         // If closed and has a meddelande it is answered by message
                         // If closed and has answeredWithIntyg object it was answered with intyg
                         return (ArendeSvar.status === 'CLOSED' &&
-                            (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false || ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
+                            (ObjectHelper.isEmpty(ArendeSvar.meddelande) === false ||
+                                ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
                             (ArendeSvar.status === 'ANSWERED');
                     };
 
-                    $scope.showKompletteringControls = function() {
-                        return $scope.isAnswerAllowed() &&
-                            ArendeSvar.amne === 'KOMPLT' && !ArendeSvar.answerKompletteringWithText;
-                    };
+                    // Check if we have a draft meddelande saved
+                    $scope.answerPanelOpen = !!ArendeSvar.meddelande && $scope.canAnswer();
 
-                    $scope.showButtonBar = function() {
-                        // VÄNTAR på svar från Vårdenheten
-                        return ArendeSvar.status === 'PENDING_INTERNAL_ACTION';
-                    };
-
-                    $scope.isAnswerAllowed = function() {
-                        return !ArendeSvar.answerDisabled && !ArendeSvar.intygProperties.isRevoked;
+                    $scope.openAnswerPanel = function() {
+                        $scope.answerPanelOpen = true;
                     };
 
                     /**
@@ -100,6 +96,7 @@ angular.module('common').directive('arendePanelSvar',
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);
                                 statService.refreshStat();
+                                $scope.answerPanelOpen = false;
                             }
                         }, function(errorData) {
                             // show error view
@@ -108,29 +105,23 @@ angular.module('common').directive('arendePanelSvar',
                         });
                     };
 
-                    $scope.answerWithMessage = function() {
-                        ArendeSvar.answerKompletteringWithText = true;
-                        focusElement('answerText-' + ArendeSvar.fragaInternReferens);
-                    };
-
-                    $scope.abortTextAnswer = function() {
-                        //Should we empty the svarstext input field?
-                        ArendeSvar.answerKompletteringWithText = false;
-                    };
-
                     $scope.deleteArendeDraft = function() {
                         DialogService.showDialog({
                             dialogId: 'delete-arende-draft-dialog',
                             titleId: 'common.arende.draft.delete.answer.title',
                             templateUrl: '/app/partials/arende-draft-dialog.html',
                             model: {},
-                            button1click: function (modalInstance) {
+                            button1click: function(modalInstance) {
                                 ArendeSvar.meddelande = '';
                                 ArendeSvar.draftState = 'normal';
-                                ArendeDraftProxy.deleteDraft($scope.parentViewState.intyg.id, ArendeSvar.fragaInternReferens, function() {}, function() {});
+                                ArendeDraftProxy.deleteDraft($scope.parentViewState.intyg.id,
+                                    ArendeSvar.fragaInternReferens, function() {
+                                    }, function() {
+                                    });
                                 modalInstance.close();
+                                $scope.answerPanelOpen = false;
                             },
-                            button2click: function(modalInstance){
+                            button2click: function(modalInstance) {
                                 modalInstance.close();
                             },
                             button1text: 'common.arende.draft.delete.yes',
@@ -141,8 +132,26 @@ angular.module('common').directive('arendePanelSvar',
                     };
 
                     $scope.goToIntyg = function() {
-                        $state.go('webcert.intyg.' + ArendeSvar.intygProperties.type, {certificateId: ArendeSvar.answeredWithIntyg.intygsId});
+                        $state.go('webcert.intyg.' + ArendeSvar.intygProperties.type,
+                            {certificateId: ArendeSvar.answeredWithIntyg.intygsId});
                     };
+
+                    if (ArendePanelController) {
+                        ArendePanelController.registerArendePanelSvar({
+                            hasSvaraDraft: function() {
+                                return $scope.answerPanelOpen;
+                            },
+                            deleteSvaraDraft: function() {
+                                ArendeSvar.meddelande = '';
+                                ArendeSvar.draftState = 'normal';
+                                ArendeDraftProxy.deleteDraft($scope.parentViewState.intyg.id,
+                                    ArendeSvar.fragaInternReferens, function() {
+                                    }, function() {
+                                    });
+                                $scope.answerPanelOpen = false;
+                            }
+                        });
+                    }
                 }
             };
         }]);
