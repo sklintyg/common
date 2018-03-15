@@ -130,7 +130,7 @@ angular.module('common').factory('common.IntygMakulera',
                     },
                     button1text: 'common.makulera',
                     button1id: 'button1makulera-dialog',
-                    button3text: 'common.canceldontrevoke',
+                    button3text: 'common.cancel',
                     button3id: 'button3makulera-dialog',
                     autoClose: false
                 });
