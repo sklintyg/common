@@ -21,6 +21,8 @@ angular
     .module('common')
     .directive('wcIgnoreDirty',
     [function() {
+        'use strict';
+
         return {
             restrict: 'A',
             require: 'ngModel',
@@ -29,5 +31,5 @@ angular
               ctrl.$setPristine = function() {};
               ctrl.$setDirty = angular.noop;
             }
-        }
+        };
 }]);
