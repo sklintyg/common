@@ -16,31 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * FocusMe directive. Used to set focus to an element via model value
- */
-angular.module('common').directive('wcFocusOn', ['common.anchorScrollService',
-    function(anchorScrollService) {
-        'use strict';
-        return function(scope, elem, attr) {
-            return scope.$on('wcFocusOn', function(e, name) {
-                if (name === attr.wcFocusOn) {
-                    elem[0].select();
-                    if (name !== 'focusFirstInput') {
-                        anchorScrollService.scrollIntygContainerTo(elem[0].id);
-                    }
-                }
-            });
-        };
-    }]);
-
-angular.module('common').factory('common.wcFocus', [
-    '$rootScope', '$timeout', function($rootScope, $timeout) {
+angular
+    .module('common')
+    .factory('common.wcFocusOn', [
+    '$timeout', '$browser', 'common.anchorScrollService',
+    function($timeout, $browser, anchorScrollService) {
         'use strict';
         return function(name) {
             return $timeout(function() {
-                    return $rootScope.$broadcast('wcFocusOn', name);
-                });
+                var element = angular.element('#' + name);
+
+                if (element.length > 0) {
+                    element.focus();
+                    $browser.notifyWhenNoOutstandingRequests(function() {
+                        element.focus();
+
+                        anchorScrollService.scrollIntygContainerTo(name, 50);
+                    });
+                }
+            });
         };
     }
 ]);

@@ -22,10 +22,10 @@
 angular.module('common').factory('common.UtkastService',
     ['$browser', '$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocusOn', 'common.dynamicLabelService',
         'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService', 'common.srsService',
         function($browser, $rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
-            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocusOn, dynamicLabelService, ObjectHelper,
             IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService, srsService) {
             'use strict';
 
@@ -42,7 +42,7 @@ angular.module('common').factory('common.UtkastService',
 
                 $timeout(function() {
                     var focusTarget = $stateParams.focusOn || 'focusFirstInput';
-                    wcFocus(focusTarget);
+                    wcFocusOn(focusTarget);
                     $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                     $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                     CommonViewState.doneLoading = true;
