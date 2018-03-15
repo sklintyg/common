@@ -58,7 +58,7 @@ angular.module('common').directive('arendePanelSvar',
 
                     $scope.canAnswer = function() {
                         return ArendeSvar.status === 'PENDING_INTERNAL_ACTION' && !ArendeSvar.answerDisabled &&
-                            !ArendeSvar.intygProperties.isRevoked;
+                            !ArendeSvar.intygProperties.isRevoked && !$scope.arendeListItem.isKomplettering();
                     };
 
                     $scope.showAnswer = function() {

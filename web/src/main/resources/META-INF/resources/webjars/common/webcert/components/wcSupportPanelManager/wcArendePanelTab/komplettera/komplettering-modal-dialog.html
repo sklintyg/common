@@ -1,73 +1,92 @@
 <div class="komplettering-modal-dialog">
+
   <div id="{{dialogId}}" class="modal-header">
     <button type="button" class="close" ng-click="$dismiss()">×</button>
     <h3 class="dialog-header" ng-focus="model.kompletteringConfig.focus" tabindex="-1">
       <span dynamic-label key="{{titleId}}"></span>
     </h3>
   </div>
+
   <div class="modal-body">
-    <div>
-      <div class="row" ng-if="model.kompletteringConfig.showOvrigaUpplysningar">
-        <div class="col-md-6 dialog-column-divider-right">
-          <div class="dialog-choice-box" ng-if="!model.kompletteringConfig.svaraMedNyttIntygDisabled">
-            <div class="dialog-choice-box__text-section">
-              <h4>Ingen ytterligare medicinsk information kan anges</h4>
-              <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "övriga upplysningar" *</p>
-              <div class="dialog-choice-box__button-section">
-                <button type="button" class="btn btn-primary" ng-if="!model.kompletteringConfig.svaraMedNyttIntygDisabled && !model.komplUtkastFinns"
-                        ng-click="button1click()"  wc-check-vardenhet
-                        vardenhet="{{kompletteringConfig.enhetsid}}" id="komplettering-modal-dialog-answerWithNyttIntyg-button">
-                  <img src="/img/loader-small-green.gif" ng-show="model.kompletteringConfig.updateInProgress"> Lämna övriga upplysningar
-                </button>
-              </div>
-              <p class="dialog_choice-box__notice-text">*En kopia av det intyg du redan har skickat in kommer att skapas.</p>
-            </div>
-          </div>
-          <div class="dialog-choice-box" ng-if="model.kompletteringConfig.svaraMedNyttIntygDisabled">
-            <div class="dialog-choice-box__text-section">
-              <h4>Besvara kompletteringsbegäran med nytt intyg</h4>
-              <p>Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.</p>
-              <p>Kan ingen ytterligare medicinsk information ges så ska det anges och motiveras under "Övriga upplysningar".</p>
-            </div>
-          </div>
+
+    <div ng-if="model.kompletteringConfig.showAnswerWithIntyg">
+      <h4>
+        Ange varför du inte kan komplettera med ett nytt intyg:
+      </h4>
+
+      <wc-radio-wrapper>
+        <input id="komplettering-modal-dialog-anledning-1"
+               name="komplettering-modal-dialog-anledning"
+               type="radio"
+               ng-value="true"
+               ng-model="model.answerWithIntyg"
+               ng-change="updateValidation()" />
+        <label ng-attr-for="komplettering-modal-dialog-anledning-1">
+          Ingen ytterligare medicinsk information kan anges.
+        </label>
+      </wc-radio-wrapper>
+
+      <div class="form-group radio-indent" ng-if="model.answerWithIntyg === true">
+        <div class="form-group">
+          Kommentera varför du inte kan ange ytterligare medicinsk information.
+          När du skickar svaret skapas en kopia av intyget med din kommentar i fältet "Övriga upplysningar".
+          Signera och skicka intyget när du är klar.
         </div>
-        <div class="col-md-6">
-          <div class="dialog-choice-box">
-            <div class="dialog-choice-box__text-section">
-              <h4>Ingen medicinskt ansvarig finns tillgänglig</h4>
-              <p>Intygsutfärdaren finns inte längre tillgänglig och ingen annan på vårdenheten kan ansvara för innehållet i ursprungsintyget.*</p>
-              <div class="dialog-choice-box__button-section">
-                <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-default" ng-click="button2click()">
-                  Svara med meddelande
-                </button>
-              </div>
-              <p class="dialog_choice-box__warning-text">*OBS! Ingen medicinsk information ska anges.</p>
-            </div>
-          </div>
+        <div class="form-group">
+          <textarea id="komplettering-modal-dialog-ovriga-upplysningar"
+                    class="form-control"
+                    ng-model="model.ovrigaUpplysningar">
+          </textarea>
         </div>
       </div>
 
-      <div class="row" ng-if="!model.kompletteringConfig.showOvrigaUpplysningar">
-        <div class="col-md-12">
-          <div class="dialog-choice-box">
-            <div class="dialog-choice-box__text-section">
-              <h4>Ingen kan ta det medicinska ansvaret för intyget</h4>
-              <p>Om intygsutfärdaren inte längre finns tillgänglig och ingen annan kan ta det medicinska ansvaret för intyget på vårdenheten så kan du delge Försäkringskassan det genom att svara med meddelande.*</p>
-              <div class="dialog-choice-box__button-section">
-                <button type="button" id="komplettering-modal-dialog-answerWithMessage-button" class="btn btn-default" ng-click="button2click()">
-                  Svara med meddelande
-                </button>
-              </div>
-              <p class="dialog_choice-box__warning-text">*Obs! Ingen medicinsk information ska anges.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- error message occuring when interacting with server for komplettering-->
-      <wc-alert-message id="komplettering-dialog-error" ng-if="model.activeKompletteringErrorMessageKey"
-           alert-severity="danger" class="alert-bottom">
-        <span dynamic-label key="common.arende.error.{{model.activeKompletteringErrorMessageKey}}"></span>
-      </wc-alert-message>
+      <wc-radio-wrapper>
+        <input id="komplettering-modal-dialog-anledning-2"
+               name="komplettering-modal-dialog-anledning"
+               type="radio"
+               ng-value="false"
+               ng-model="model.answerWithIntyg"
+               ng-change="updateValidation()" />
+        <label ng-attr-for="komplettering-modal-dialog-anledning-2">
+          Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.
+        </label>
+      </wc-radio-wrapper>
     </div>
+
+    <div class="form-group" ng-if="model.answerWithIntyg === false" ng-class="{ 'radio-indent' : model.kompletteringConfig.showAnswerWithIntyg }">
+      <wc-alert-message alert-severity="info">
+        Ingen medicinsk information får anges.
+      </wc-alert-message>
+      <div class="form-group">
+        Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
+        så ska du delge Försäkringskassan det genom att svara med ett meddelande.
+      </div>
+      <div class="form-group">
+        <textarea id="komplettering-modal-dialog-meddelandetext"
+                  class="form-control"
+                  ng-model="model.meddelandeText">
+        </textarea>
+      </div>
+    </div>
+
+    <!-- error message occuring when interacting with server for komplettering-->
+    <wc-alert-message id="komplettering-dialog-error" ng-if="model.activeKompletteringErrorMessageKey"
+                      alert-severity="danger" class="alert-bottom">
+      <span dynamic-label key="common.arende.error.{{model.activeKompletteringErrorMessageKey}}"></span>
+    </wc-alert-message>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success"
+            ng-disabled="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"
+            ng-click="button1click()" wc-check-vardenhet
+            vardenhet="{{kompletteringConfig.enhetsid}}" id="komplettering-modal-dialog-send-answer-button">
+      <img src="/img/loader-small-green.gif" ng-show="model.kompletteringConfig.updateInProgress"> Skicka svar
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="button2click()" id="komplettering-modal-dialog-abort-button">
+      Avbryt
+    </button>
   </div>
 </div>

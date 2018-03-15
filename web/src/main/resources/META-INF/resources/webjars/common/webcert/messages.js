@@ -214,8 +214,7 @@ angular.module('common').constant('common.messages', {
         // Ärendehantering
         'common.loading.existing.arenden': 'Laddar ärenden...',
         'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
-        'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Besvara kompletteringsbegäran',
-        'common.arende.komplettering.kompletteringsatgard.dialogtitlevardadmin': 'Kompletteringsbegäran kan inte genomföras',
+        'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Kan ej komplettera',
 
         'common.arende.fragestallare.wc': 'Vårdenheten',
         'common.arende.fragestallare.fk': 'Försäkringskassan',

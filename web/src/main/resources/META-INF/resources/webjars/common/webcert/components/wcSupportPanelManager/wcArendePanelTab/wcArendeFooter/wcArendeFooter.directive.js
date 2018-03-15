@@ -28,17 +28,18 @@
 angular.module('common').directive('wcArendeFooter',
     [ '$rootScope', '$q', '$state', 'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService',
         'common.statService', 'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel', 'common.ArendeHelper',
+        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper',
         function($rootScope, $q, $state, UserModel, ObjectHelper, ArendeListViewState, statService,
-            dialogService, IntygProxy, IntygCopyRequestModel, ArendeHelper) {
+            dialogService, IntygProxy, IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper) {
             'use strict';
 
             return {
                 restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeFooter/wcArendeFooter.directive.html',
                 scope: {
+                    arendeList: '='
                 },
                 controller: function($scope, $element, $attrs) {
-
                     $scope.kompletteringConfig = {
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
@@ -52,33 +53,12 @@ angular.module('common').directive('wcArendeFooter',
                     $scope.$on('$destroy', unbindFastEvent);
 
                     $scope.showKompletteringButton = function() {
-                        return !$scope.kompletteringConfig.redirectToExistingUtkast && !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
+                        return ArendeListViewState.getUnhandledKompletteringCount() > 0 &&
+                            !$scope.kompletteringConfig.redirectToExistingUtkast &&
+                            !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
                     };
 
-                    $scope.kompletteraIntyg = function(modalInstance) {
-                        if (!ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
-                            $scope.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
-                            return;
-                        }
-
-                        // The actual process of answering with a new intyg is rather complex, so defer that
-                        // to calling code, and act on outcome of it here (keep dialog or close it)
-                        $scope.onAnswerWithIntyg().then(function(result) {
-
-                            statService.refreshStat();
-
-                            function goToDraft(type, intygId) {
-                                $state.go(type + '-edit', {
-                                    certificateId: intygId
-                                });
-                            }
-
-                            goToDraft(ArendeListViewState.intygProperties.type, result.intygsUtkastId);
-
-                        });
-                    };
-
-                    $scope.onAnswerWithIntyg = function() {
+                    var _answerWithIntyg = function() {
 
                         var deferred = $q.defer();
 
@@ -105,22 +85,46 @@ angular.module('common').directive('wcArendeFooter',
                         return deferred.promise;
                     };
 
+
+                    $scope.kompletteraIntyg = function(modalInstance) {
+                        if (!ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
+                            $scope.activeKompletteringErrorMessageKey = 'komplettera-no-intyg';
+                            return;
+                        }
+
+                        // The actual process of answering with a new intyg is rather complex, so defer that
+                        // to calling code, and act on outcome of it here (keep dialog or close it)
+                        _answerWithIntyg().then(function(result) {
+
+                            statService.refreshStat();
+
+                            function goToDraft(type, intygId) {
+                                $state.go(type + '-edit', {
+                                    certificateId: intygId
+                                });
+                            }
+
+                            goToDraft(ArendeListViewState.intygProperties.type, result.intygsUtkastId);
+
+                        });
+                    };
+
                     var kompletteringDialog;
 
                     $scope.openKompletteringDialog = function() {
-
                         var dialogModel = {
                             enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                             updateInProgress: false,
-                            kompletteringConfig: $scope.kompletteringConfig,
-                            komplUtkastFinns: (!!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast)
+                            kompletteringConfig: $scope.kompletteringConfig
                         };
+
+                        if (!$scope.kompletteringConfig.showAnswerWithIntyg) {
+                            dialogModel.answerWithIntyg = false;
+                        }
 
                         kompletteringDialog = dialogService.showDialog({
                             dialogId: 'komplettering-modal-dialog',
-                            titleId: $scope.kompletteringConfig.showOvrigaUpplysningar ?
-                                'common.arende.komplettering.kompletteringsatgard.dialogtitle' :
-                                'common.arende.komplettering.kompletteringsatgard.dialogtitlevardadmin',
+                            titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
                             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.html',
                             windowClass: 'dialog-placement',
                             model: dialogModel,
@@ -130,43 +134,75 @@ angular.module('common').directive('wcArendeFooter',
                                     return;
                                 }
 
-                                // The actual process of answering with a new intyg is rather complex, so defer that
-                                // to calling code, and act on outcome of it here (keep dialog or close it)
-                                $scope.onAnswerWithIntyg().then(function(result) {
-                                    //If successful, wer'e done here
-                                    modalInstance.close();
+                                dialogModel.updateInProgress = true;
+                                dialogModel.activeKompletteringErrorMessageKey = null;
 
-                                    statService.refreshStat();
+                                if (dialogModel.answerWithIntyg) {
+                                    // The actual process of answering with a new intyg is rather complex, so defer that
+                                    // to calling code, and act on outcome of it here (keep dialog or close it)
+                                    _answerWithIntyg().then(function(result) {
+                                        //If successful, wer'e done here
+                                        modalInstance.close();
 
-                                    function goToDraftThenScrollToOvrigt(type, intygId) {
+                                        statService.refreshStat();
+
                                         var stateParams = {
-                                            certificateId: intygId
+                                            certificateId: result.intygsUtkastId
                                         };
-                                        stateParams.focusOn = 'focusOvrigt';
-                                        $state.go(type + '-edit', stateParams);
-                                    }
+                                        $state.go(ArendeListViewState.intygProperties.type + '-edit', stateParams);
+                                    }, function(errorResult) {
+                                        //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.
+                                        dialogModel.updateInProgress = false;
+                                        dialogModel.activeKompletteringErrorMessageKey = ErrorHelper.safeGetError(errorResult);
+                                    });
+                                }
+                                else {
+                                    var kompletteringar = $scope.arendeList.filter(function(arendeListItem) {
+                                       return arendeListItem.isKomplettering();
+                                    }).sort(function(a, b){
+                                        if (a.arende.fraga.timestamp > b.arende.fraga.timestamp) {
+                                            return -1;
+                                        }
+                                        else if (a.arende.fraga.timestamp < b.arende.fraga.timestamp) {
+                                            return 1;
+                                        }
+                                        return 0;
+                                    });
+                                    var arendeListItem = kompletteringar[0];
+                                    var arendeSvar = ArendeSvarModel.build(ArendeListViewState, arendeListItem);
+                                    arendeSvar.meddelande = dialogModel.meddelandeText;
 
-                                    goToDraftThenScrollToOvrigt(ArendeListViewState.intygProperties.type, result.intygsUtkastId);
+                                    ArendeProxy.saveAnswer(arendeSvar, ArendeListViewState.intygProperties.type, function(result) {
+                                        modalInstance.close();
 
-                                }, function(errorResult) {
-                                    //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.
-                                });
+                                        if (result !== null) {
+                                            // update real item
+                                            angular.copy(result, arendeListItem.arende);
+                                            arendeListItem.updateArendeListItem(result);
+
+                                            // All kompletteringar should be closed now
+                                            kompletteringar.forEach(function(arendeListItem) {
+                                                arendeListItem.arende.fraga.status = 'CLOSED';
+                                                arendeListItem.updateArendeListItem();
+                                            });
+
+                                            $rootScope.$broadcast('arenden.updated');
+
+                                            statService.refreshStat();
+                                        }
+                                    }, function(errorData) {
+                                        // show error view
+                                        dialogModel.updateInProgress = false;
+                                        dialogModel.activeKompletteringErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                                    });
+                                }
+
                             },
-                            button1id: 'button1answerintyg-dialog',
                             button2click: function(modalInstance) {
-                                // Answer with text message is not handled here, so just close the
-                                // dialog and notify calling code that this is the choice of the user.
                                 modalInstance.close();
-                                $scope.onAnswerWithMessage();
                             },
-                            button2id: 'button2answermessage-dialog',
-                            button3click: function(modalInstance) {
-                                modalInstance.close();
-                                $scope.openKompletteringsUtkast();
-                            },
-                            button3id: 'button3gotoutkast-dialog',
                             autoClose: false,
-                            size: 'lg'
+                            size: 'md'
                         }).result.then(function() {
                             kompletteringDialog = null; // Dialog closed
                         }, function() {

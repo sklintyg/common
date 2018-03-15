@@ -20,57 +20,26 @@
 
 .komplettering-modal-dialog {
 
-  $dialog-header-color: $wc-color-16;
-  $dialog-divider-color: $wc-color-13;
-  $warning-text-red: $wc-color-11;
-  $notice-text-gray: $wc-color-22;
-
   .dialog-placement {
     &, .model-dialog {
       top: 22%;
     }
   }
 
-  .dialog-choice-box {
-    position: relative;
-    height: 290px;
+  h4 {
+    @extend %wc-typo-06;
   }
 
-  .dialog-column-divider-right {
-    border-right: 1px solid $dialog-divider-color;
+  wc-radio-wrapper {
+    margin-bottom: 10px;
   }
 
-  .dialog-header {
-    font-size: 20px;
-    color: $dialog-header-color;
-    text-align: left;
+  .radio-indent {
+    margin-left: 28px;
   }
 
-  .dialog-choice-box__text-section {
-    padding: 20px;
-    padding-top: 30px;
-    text-align: center;
-    font-size: 13px;
+  wc-alert-message, .alert {
+    display: block;
   }
 
-  .dialog_choice-box__warning-text {
-    color: $warning-text-red;
-    font-size: 90%;
-  }
-
-  .dialog_choice-box__notice-text {
-    color: $notice-text-gray;
-    font-size: 90%;
-  }
-
-  .dialog-choice-box__button-section {
-    text-align: center;
-    width: 100%;
-    padding-top: 25px;
-    padding-bottom: 17px;
-  }
-
-  .komplettera-row {
-    padding-top: 10px;
-  }
 }
