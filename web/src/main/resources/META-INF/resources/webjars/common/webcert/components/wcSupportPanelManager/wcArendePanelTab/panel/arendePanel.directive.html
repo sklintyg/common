@@ -4,7 +4,7 @@
                        panel-id="{{panelId}}" parent-view-state="parentViewState">
     </arende-panel-svar>
 
-    <arende-panel-header header-type="fraga" show-hantera="!showAnswer()" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+    <arende-panel-header header-type="fraga" show-hantera="parentViewState.intygProperties.isSigned && !showAnswer()" arende-list-item="arendeListItem" parent-view-state="parentViewState">
     </arende-panel-header>
 
     <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
