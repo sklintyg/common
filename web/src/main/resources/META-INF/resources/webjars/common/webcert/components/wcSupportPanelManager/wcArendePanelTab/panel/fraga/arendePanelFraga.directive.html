@@ -22,19 +22,19 @@
         </span>
 
         <!-- nya ärendehanteringen -->
-        <div class="arende-visa-komplettering-button" ng-if="komplettering.frgId" ng-click="scrollToFraga(komplettering)">
+        <button class="arende-visa-komplettering-button" ng-if="komplettering.frgId" ng-click="scrollToFraga(komplettering)">
           <i class="material-icons">navigate_before</i>
           <div class="arende-visa-komplettering-text">
             Visa kompletteringsbegäran för:
             <div dynamic-label key="{{komplettering.frgId}}"></div>
           </div>
-        </div>
+        </button>
 
       </div>
 
     </div>
 
-    <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.sistaDatumForSvar">
+    <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.sistaDatumForSvar">
       <i class="material-icons">date_range</i> Svara senast: {{arendeListItem.arende.fraga.sistaDatumForSvar}}
     </div>
 

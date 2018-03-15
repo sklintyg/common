@@ -19,6 +19,13 @@
     background-color: $wc-color-00;
     border: 1px solid $wc-color-05;
     border-radius: 4px;
+
+    align-items: center;
+    flex-direction: row;
+    flex: 1;
+    text-align: left;
+    width: 100%;
+
     color: $wc-color-09;
     .material-icons {
       color: $wc-color-05;
