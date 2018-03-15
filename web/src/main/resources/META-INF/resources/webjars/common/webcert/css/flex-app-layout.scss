@@ -44,11 +44,6 @@ body {
     display: none;
   }
 
-  .intyg-header-container {
-    //Needed to make box-shadows in intyg-headers appear above contents in workarea e.g utkast etc.
-    z-index: 1;
-  }
-
   .centered-constrained-content {
     //Actual workarea content should be centered and max 1440 wide (equal whitespace on sides)
     max-width: $wc-max-content-width;
