@@ -16,7 +16,7 @@
       label="{{::checkMissingLabel}}"></wc-toggle>
 
   <wc-checkbox-wrapper>
-    <input id="mark-as-vidarebefordrad" type="checkbox" ng-disabled="viewState.common.vidarebefordraInProgress"
+    <input id="mark-as-vidarebefordrad" type="checkbox" wc-ignore-dirty ng-disabled="viewState.common.vidarebefordraInProgress"
            ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
     <label for="mark-as-vidarebefordrad">Vidarebefordrad</label>
   </wc-checkbox-wrapper>
