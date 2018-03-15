@@ -13,6 +13,7 @@
 .fold-animation {
   &.ng-enter-prepare {
     height: 0px;
+    overflow: hidden;
   }
 }
 
