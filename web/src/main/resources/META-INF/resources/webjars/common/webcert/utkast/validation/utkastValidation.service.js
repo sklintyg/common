@@ -95,7 +95,7 @@ angular.module('common').factory('common.UtkastValidationService',
                     }
                     ValidationViewState.messagesByField[field].push(message);
                 });
-                $rootScope.$emit('validation.messages-updated');
+                $rootScope.$emit('validation.content-updated');
             }
 
             return {

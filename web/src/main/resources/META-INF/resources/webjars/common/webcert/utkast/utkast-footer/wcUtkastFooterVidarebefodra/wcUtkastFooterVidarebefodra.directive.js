@@ -20,8 +20,8 @@
 angular
     .module('common')
     .directive('wcUtkastFooterVidarebefodra',
-        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService',
-            function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService) {
+        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService', '$rootScope', '$timeout',
+            function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService, $rootScope, $timeout) {
                 'use strict';
 
                 return {
@@ -53,6 +53,11 @@ angular
 
                         $scope.showMissing = function(value) {
                             UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
+
+                            $timeout(function() {
+                                $rootScope.$emit('validation.content-updated');
+                            }, 200);
+
                         };
                     }
                 };

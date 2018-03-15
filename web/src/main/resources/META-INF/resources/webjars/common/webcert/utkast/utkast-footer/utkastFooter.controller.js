@@ -29,14 +29,12 @@ angular.module('common').controller('common.UtkastFooter',
             var savedElementTop  = 0;
             var scrollToElement = document.getElementById('utkast-footer');
             var containerElement = $('#certificate-content-container');
-            var buttonClicked = false;
 
             $scope.initValidationSequence = function() {
                 var offset = scrollToElement.offsetTop;
                 var scrollTop = containerElement.scrollTop();
 
                 savedElementTop = offset - scrollTop;
-                buttonClicked = true;
             };
 
 
@@ -44,8 +42,10 @@ angular.module('common').controller('common.UtkastFooter',
              * Whenever a validation round is completed, either directly by clicking a button or by bluring a validated field -
              * scroll (back) to where we were before 'content-changed-above' scrolling occurred.
              */
-            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function () {
-                if(buttonClicked) {
+            var unbindFastEvent = $rootScope.$on('validation.content-updated', function () {
+                var focusedElement = $(':focus');
+
+                if(focusedElement.length > 0 && $.contains(scrollToElement, focusedElement[0])) {
                     //Need a timeout here so that the focused button has appeared in it's new position
                     $timeout(function() {
                         if (savedElementTop > 0) {
@@ -54,8 +54,6 @@ angular.module('common').controller('common.UtkastFooter',
                             containerElement.scrollTop(top - savedElementTop);
                         }
                     });
-
-                    buttonClicked = false;
                 }
             });
 
