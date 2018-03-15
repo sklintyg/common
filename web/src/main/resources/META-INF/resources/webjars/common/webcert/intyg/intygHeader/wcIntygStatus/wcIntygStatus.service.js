@@ -40,7 +40,13 @@ angular.module('common').service('common.IntygStatusService',
             };
 
             this.intygStatusHasModal = function(intygStatus) {
-                return Boolean(messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus) !== '');
+                if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus) === '') {
+                    return false;
+                }
+                if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus)) {
+                    return true;
+                }
+                return Boolean(messageService.propertyExists('common.modalbody.intygstatus.' + intygStatus));
             };
 
             this.sortByStatusAndTimestamp = function(array) {
