@@ -216,6 +216,10 @@ angular.module('common').constant('common.messages', {
         'common.arende.komplettering.disabled.onlydoctor': 'Kompletteringar kan endast besvaras av läkare.',
         'common.arende.komplettering.kompletteringsatgard.dialogtitle': 'Kan ej komplettera',
 
+        'common.arende.komplettering.uthopp.link': 'Hur kompletterar jag ett intyg?',
+        'common.arende.komplettering.uthopp.modal.header': 'Hur kompletterar jag ett intyg?',
+        'common.arende.komplettering.uthopp.modal.body': '<p>Kopiera/förnya det befintliga intyget i journalsystemet och komplettera med den nya informationen.</p><p>Kan ingen ytterligare information anges så ska det motiveras i fältet "Övriga upplysningar"</p>',
+
         'common.arende.fragestallare.wc': 'Vårdenheten',
         'common.arende.fragestallare.fk': 'Försäkringskassan',
 

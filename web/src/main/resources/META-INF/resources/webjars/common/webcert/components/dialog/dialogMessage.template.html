@@ -1,9 +1,8 @@
 <div class="modal-header">
   <h3><span dynamic-label key="{{titleId}}"></span></h3>
 </div>
-<div class="modal-body">
-  {{bodyText}}
+<div class="modal-body" ng-bind-html="bodyText">
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" id="confirmationOkButton" ng-click="$close()">OK</button>
+  <button type="button" class="btn btn-primary" id="confirmationOkButton" ng-click="$close()">Stäng</button>
 </div>

@@ -28,9 +28,9 @@
 angular.module('common').directive('wcArendeFooter',
     [ '$rootScope', '$q', '$state', 'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService',
         'common.statService', 'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel', 'common.ArendeHelper',
-        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper',
-        function($rootScope, $q, $state, UserModel, ObjectHelper, ArendeListViewState, statService,
-            dialogService, IntygProxy, IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper) {
+        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.authorityService', 'common.messageService',
+        function($rootScope, $q, $state, UserModel, ObjectHelper, ArendeListViewState, statService, dialogService, IntygProxy,
+            IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, authorityService, messageService) {
             'use strict';
 
             return {
@@ -44,7 +44,7 @@ angular.module('common').directive('wcArendeFooter',
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
                         svaraMedNyttIntygDisabled: ArendeListViewState.isSvaraMedNyttIntygDisabled(),
-                        showOvrigaUpplysningar: !UserModel.hasRole('VARDADMINISTRATOR')
+                        showAnswerWithIntyg: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'})
                     };
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
@@ -209,6 +209,11 @@ angular.module('common').directive('wcArendeFooter',
                             kompletteringDialog = null; // Dialog dismissed
                         });
 
+                    };
+
+                    $scope.openUthoppInfoModal = function() {
+                        dialogService.showMessageDialog('common.arende.komplettering.uthopp.modal.header',
+                            messageService.getProperty('common.arende.komplettering.uthopp.modal.body'));
                     };
                 }
             };
