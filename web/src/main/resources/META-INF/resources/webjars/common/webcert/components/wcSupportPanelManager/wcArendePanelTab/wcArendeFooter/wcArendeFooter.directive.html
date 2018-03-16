@@ -1,10 +1,10 @@
 <div>
-  <div class="tab-footer" ng-if="showKompletteringButton()">
-
+  <div class="tab-footer">
+    <div class="footer__komplettera">
     <wc-button
         wc-authority="SVARA_MED_NYTT_INTYG"
         btn-id="komplettera-intyg"
-        btn-class="btn-success"
+        btn-class="btn-success margin-right"
         btn-click="kompletteraIntyg()"
         loading="updateInProgress"
         disabled="updateInProgress">
@@ -20,5 +20,14 @@
       <span dynamic-label key="common.arende.komplettering.uthopp.link"></span>
     </a>
 
+    </div>
+
+    <button type="button" id="vidarebefordraEjHanterad"
+            wc-authority="VIDAREBEFORDRA_FRAGASVAR"
+            ng-show="!parentViewState.intygProperties.isRevoked"
+            class="btn btn-primary stick-right" title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
+            ng-click="openMailDialog()" ng-show="!parentViewState.intygProperties.isRevoked">
+      <i class="icon-wc-ikon-reply"></i> Vidarebefordra</span>
+    </button>
   </div>
 </div>

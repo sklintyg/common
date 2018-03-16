@@ -34,10 +34,12 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
 
                 var recipient = '';
                 var subject = 'Ett arende ska besvaras i Webcert';
-                if (arendeMailModel.enhetsnamn !== undefined) {
-                    subject += ' pa enhet ' + arendeMailModel.enhetsnamn;
-                    if (arendeMailModel.vardgivarnamn !== undefined) {
-                        subject += ' for vardgivare ' + arendeMailModel.vardgivarnamn;
+                var vardenhet = UserModel.user.valdVardenhet;
+                var vardgivare = UserModel.user.valdVardgivare;
+                if (vardenhet.namn !== undefined) {
+                    subject += ' pa enhet ' + vardenhet.namn;
+                    if (vardgivare.namn !== undefined) {
+                        subject += ' for vardgivare ' + vardgivare.namn;
                     }
                 }
 

@@ -26,11 +26,11 @@
  * get's a callback through 'onAnswerWithMessage' and must handle it there
  */
 angular.module('common').directive('wcArendeFooter',
-    [ '$rootScope', '$q', '$state', 'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService',
+    [ '$log', '$rootScope', '$q', '$state', '$timeout', '$window', 'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService',
         'common.statService', 'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel', 'common.ArendeHelper',
-        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.authorityService', 'common.messageService',
-        function($rootScope, $q, $state, UserModel, ObjectHelper, ArendeListViewState, statService, dialogService, IntygProxy,
-            IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, authorityService, messageService) {
+        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper',
+        function($log, $rootScope, $q, $state, $timeout, $window, UserModel, ObjectHelper, ArendeListViewState, statService,
+            DialogService, IntygProxy, IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper) {
             'use strict';
 
             return {
@@ -122,7 +122,7 @@ angular.module('common').directive('wcArendeFooter',
                             dialogModel.answerWithIntyg = false;
                         }
 
-                        kompletteringDialog = dialogService.showDialog({
+                        kompletteringDialog = DialogService.showDialog({
                             dialogId: 'komplettering-modal-dialog',
                             titleId: 'common.arende.komplettering.kompletteringsatgard.dialogtitle',
                             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.html',
@@ -215,6 +215,36 @@ angular.module('common').directive('wcArendeFooter',
                         dialogService.showMessageDialog('common.arende.komplettering.uthopp.modal.header',
                             messageService.getProperty('common.arende.komplettering.uthopp.modal.body'));
                     };
+
+                    $scope.openMailDialog = function() {
+                        // Handle vidarebefordra dialog
+                        // use timeout so that external mail client has a chance to start before showing dialog
+                        $timeout(function() {
+                            ArendeVidarebefordraHelper.handleVidareBefodradToggle($scope.onVidarebefordradChange);
+                        }, 1000);
+
+                        // Launch mail client
+                        var arendeMailModel = {
+                            intygId: ArendeListViewState.intyg.id,
+                            intygType: ArendeListViewState.intygProperties.type,
+                        };
+                        $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
+                    };
+
+                    $scope.onVidarebefordradChange = function() {
+                        $scope.forwardInProgress = true;
+                        ArendeProxy.setVidarebefordradState(
+                            ArendeListViewState.intygProperties.type,
+                            function(result) {
+                                $scope.forwardInProgress = false;
+                                if (!result) {
+                                    DialogService.showErrorMessageDialog(
+                                        'Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
+                                        'Försök gärna igen för att se om felet är tillfälligt. Annars kan du kontakta supporten');
+                                }
+                            });
+                    };
+
                 }
             };
         }]);

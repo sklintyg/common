@@ -23,65 +23,57 @@
 
 <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
-  <div class="row">
-    <div class="col-md-12 arende-column">
+  <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
-      <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
+  <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
 
-      <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
+    <!-- error message -->
+    <wc-alert-message id="arende-list-load-error"
+                      ng-show="viewState.intygProperties.isLoaded && viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
+      <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
+    </wc-alert-message>
 
-        <!-- error message -->
-        <wc-alert-message id="arende-list-load-error"
-                          ng-show="viewState.intygProperties.isLoaded && viewState.doneLoading && viewState.activeErrorMessageKey" alert-severity="danger">
-          <span dynamic-label key="common.error.{{viewState.activeErrorMessageKey}}"></span>
-        </wc-alert-message>
+    <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
 
-        <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
+    <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
 
-        <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
-
-          <div ng-if="config.intygContext.isSigned">
-            <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
-            <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
-            <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
-          </div>
-
-          <!-- list of komplettering arenden -->
-          <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'+senasteHandelse' as kompletteringarList"
-               class="arende-item">
-            <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
-                 parent-view-state="viewState"></arende-panel>
-          </div>
-
-          <wc-arende-no-kompletteringar-message ng-if="kompletteringarList.length === 0"></wc-arende-no-kompletteringar-message>
-
-        </div>
-
-        <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && !isFilterKomplettering">
-
-          <!-- new arende form -->
-          <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
-               arende-list="arendeList" parent-view-state="viewState"></arende-new>
-
-          <!-- list of administrativ fraga arenden -->
-          <div
-              ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'+senasteHandelse' as administrativaFragorList"
-              class="arende-item">
-            <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
-                 parent-view-state="viewState"></arende-panel>
-          </div>
-
-          <wc-arende-no-administrativa-fragor-message ng-if="administrativaFragorList.length === 0"></wc-arende-no-administrativa-fragor-message>
-
-        </div>
-
+      <div ng-if="config.intygContext.isSigned">
+        <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
+        <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
+        <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
       </div>
-      <!--  end spinner -->
+
+      <!-- list of komplettering arenden -->
+      <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'+senasteHandelse' as kompletteringarList"
+           class="arende-item">
+        <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
+             parent-view-state="viewState"></arende-panel>
+      </div>
+
+      <wc-arende-no-kompletteringar-message ng-if="kompletteringarList.length === 0"></wc-arende-no-kompletteringar-message>
+
+    </div>
+
+    <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && !isFilterKomplettering">
+
+      <!-- new arende form -->
+      <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
+           arende-list="arendeList" parent-view-state="viewState"></arende-new>
+
+      <!-- list of administrativ fraga arenden -->
+      <div
+          ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'+senasteHandelse' as administrativaFragorList"
+          class="arende-item">
+        <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
+             parent-view-state="viewState"></arende-panel>
+      </div>
+
+      <wc-arende-no-administrativa-fragor-message ng-if="administrativaFragorList.length === 0"></wc-arende-no-administrativa-fragor-message>
 
     </div>
 
   </div>
-
+  <!--  end spinner -->
 
 </wc-support-panel-scrollable-body>
 
