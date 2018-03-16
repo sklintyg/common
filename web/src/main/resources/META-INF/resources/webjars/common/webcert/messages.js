@@ -106,7 +106,7 @@ angular.module('common').constant('common.messages', {
 
         'common.modal.label.print.sekretessmarkerad.title': 'Skriv ut intyg',
         'common.modal.label.print.sekretessmarkerad.yes':  'Skriv ut',
-        'common.modal.label.employee.title': 'Skriv ut',
+        'common.modal.label.employee.title': 'Skriv ut minimalt intyg',
         'common.modal.label.employee.yes': 'Skriv ut',
         'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Detta kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>.',
 
