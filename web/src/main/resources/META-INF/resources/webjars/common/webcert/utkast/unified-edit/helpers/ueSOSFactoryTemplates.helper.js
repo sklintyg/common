@@ -17,14 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
-    '$log', 'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PersonIdValidatorService', 'common.ueFactoryTemplatesHelper',
-    function($log, ObjectHelper, UserModel, dateUtils, PersonIdValidator, ueFactoryTemplates) {
+    '$log', 'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PersonIdValidatorService',
+    'common.ueFactoryTemplatesHelper', 'common.PrefilledUserDataService',
+    function($log, ObjectHelper, UserModel, dateUtils, PersonIdValidator, ueFactoryTemplates,
+        prefilledUserDataService) {
         'use strict';
 
         var kategori = ueFactoryTemplates.kategori;
         var fraga = ueFactoryTemplates.fraga;
 
+        function _shouldDisableAddressInputWhen(model) {
+            return prefilledUserDataService.searchForPrefilledPatientData(model.grundData.patient).completeAddress;
+        }
+
         return {
+
+            patient: ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, false),
+
             identitet: function(categoryName, useFraga14){
 
                 var fragor = [

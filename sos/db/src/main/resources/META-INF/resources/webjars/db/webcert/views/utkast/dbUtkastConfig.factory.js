@@ -35,10 +35,11 @@ angular.module('db').factory('db.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var patient = ueSOSFactoryTemplates.patient;
 
             var config = [
 
-                ueFactoryTemplates.patient,
+                patient,
 
                 ueSOSFactoryTemplates.identitet(categoryIds[1], false),
                 ueSOSFactoryTemplates.dodsDatum(categoryIds[2]),

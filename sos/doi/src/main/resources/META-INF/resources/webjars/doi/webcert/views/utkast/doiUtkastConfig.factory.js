@@ -36,10 +36,11 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var patient = ueSOSFactoryTemplates.patient();
 
             var config = [
 
-                ueFactoryTemplates.patient,
+                patient,
 
                 ueSOSFactoryTemplates.identitet(categoryIds[1], true),
                 ueSOSFactoryTemplates.dodsDatum(categoryIds[2]),

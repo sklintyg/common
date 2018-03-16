@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
-    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper',
-        function($log, $timeout, ueFactoryTemplates) {
+    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
+        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             var categoryIds = {
@@ -46,6 +46,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var patient = ueTSFactoryTemplates.patient;
 
             function korkortHogreBehorighet(scope) {
                 if (!scope.model.intygAvser || !scope.model.intygAvser.korkortstyp) {
@@ -94,7 +95,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
             var config = [
 
-                ueFactoryTemplates.patient,
+                patient,
 
                 // Intyget avser
                 kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [

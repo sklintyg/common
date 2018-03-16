@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
-    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper',
-        function($log, $timeout, ueFactoryTemplates) {
+    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
+        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             var categoryIds = {
@@ -33,6 +33,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var patient = ueTSFactoryTemplates.patient;
 
             var tomorrowDate = moment().format('YYYY-MM-DD');
             var minDate = moment().subtract(1, 'y').format('YYYY-MM-DD');
@@ -55,7 +56,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
             var config = [
 
-                ueFactoryTemplates.patient,
+                patient,
 
                 // Intyget avser
                 kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [

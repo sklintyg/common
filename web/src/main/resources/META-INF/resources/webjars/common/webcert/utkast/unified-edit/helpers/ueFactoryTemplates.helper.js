@@ -63,10 +63,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
             return fraga;
         }
 
-        function _shouldDisableAddressInput(model) {
-            return prefilledUserDataService.searchForPrefilledPatientData(model.grundData.patient).completeAddress &&
-                UserModel.isDjupintegration();
-        }
+
 
         return {
 
@@ -74,52 +71,59 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
 
             fraga: _fraga,
 
-            patient: _kategori('patient', 'common.intyg.patientadress', '', {}, [
-                _fraga(null, '', '', {}, [{
-                    type: 'ue-textfield',
-                    modelProp: 'grundData.patient.postadress',
-                    label: {
-                        key: 'common.postadress',
-                        required: true,
-                        modelProp: 'grundData.patient.postadress'
-                    },
-                    htmlMaxlength: 50,
-                    size: 'full',
-                    labelColSize: labelColSize,
-                    formType: 'horizontal',
-                    disabled: _shouldDisableAddressInput
-                },{
-                    type: 'ue-textfield',
-                    modelProp: 'grundData.patient.postnummer',
-                    label: {
-                        key: 'common.postnummer',
-                        required: true,
-                        modelProp: 'grundData.patient.postnummer'
-                    },
-                    htmlMaxlength: 6,
-                    numbersOnly: true,
-                    size: '5',
-                    labelColSize: labelColSize,
-                    formType: 'horizontal',
-                    disabled: _shouldDisableAddressInput
-                },{
-                    type: 'ue-textfield',
-                    modelProp: 'grundData.patient.postort',
-                    label: {
-                        key: 'common.postort',
-                        required: true,
-                        modelProp: 'grundData.patient.postort'
-                    },
-                    htmlMaxlength: 25,
-                    labelColSize: labelColSize,
-                    formType: 'horizontal',
-                    disabled: _shouldDisableAddressInput
-                },{
-                    type: 'ue-patient-address-updater',
-                    formType: 'horizontal',
-                    labelColSize: labelColSize
-                }])
-            ]),
+            patient: function(shouldDisableAddressInputWhen, allowUpdaterButton) {
+                var patient = _kategori('patient', 'common.intyg.patientadress', '', {}, [
+                    _fraga(null, '', '', {}, [{
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postadress',
+                        label: {
+                            key: 'common.postadress',
+                            required: true,
+                            modelProp: 'grundData.patient.postadress'
+                        },
+                        htmlMaxlength: 50,
+                        size: 'full',
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }, {
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postnummer',
+                        label: {
+                            key: 'common.postnummer',
+                            required: true,
+                            modelProp: 'grundData.patient.postnummer'
+                        },
+                        htmlMaxlength: 6,
+                        numbersOnly: true,
+                        size: '5',
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }, {
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postort',
+                        label: {
+                            key: 'common.postort',
+                            required: true,
+                            modelProp: 'grundData.patient.postort'
+                        },
+                        htmlMaxlength: 25,
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }])
+                ]);
+                if (allowUpdaterButton === true ||
+                    (angular.isFunction(allowUpdaterButton) && allowUpdaterButton() === true)) {
+                    patient.components.push({
+                        type: 'ue-patient-address-updater',
+                        formType: 'horizontal',
+                        labelColSize: labelColSize
+                    });
+                }
+                return patient;
+            },
 
             vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [ _fraga('', '', '', {}, [{
                 type: 'ue-labelvardenhet'
