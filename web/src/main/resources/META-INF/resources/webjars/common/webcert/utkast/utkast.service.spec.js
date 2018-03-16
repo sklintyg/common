@@ -168,11 +168,10 @@ describe('UtkastService', function() {
             expect(viewState.common.doneLoading).toBeTruthy();
             expect(commonViewState.intyg.isKomplettering).toBeFalsy();
             expect(resultData.braIntygsData).toBe('bra');
-            expect($rootScope.$broadcast.calls.count()).toBe(6);
+            expect($rootScope.$broadcast.calls.count()).toBe(5);
             expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
-            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
         it ('successful completion utkast load', function () {
@@ -216,11 +215,10 @@ describe('UtkastService', function() {
             $httpBackend.flush();
             expect(viewState.common.doneLoading).toBeTruthy();
             expect(commonViewState.intyg.isKomplettering).toBeTruthy();
-            expect($rootScope.$broadcast.calls.count()).toBe(6);
+            expect($rootScope.$broadcast.calls.count()).toBe(5);
             expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
-            expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['wcFocusOn', 'focusFirstInput']);
         });
 
         it ('unsuccessful utkast load', function () {
