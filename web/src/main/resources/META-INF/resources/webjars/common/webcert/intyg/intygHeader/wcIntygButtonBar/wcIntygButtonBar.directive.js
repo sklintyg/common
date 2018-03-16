@@ -35,7 +35,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
         },
         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.html',
         link: function($scope) {
-
             $scope.IntygHeaderService = IntygHeaderService;
             $scope.CommonIntygViewState = CommonIntygViewState;
 
@@ -44,9 +43,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
-
-            // Förnya feature
-            $scope.fornya = authorityService.isAuthorityActive({ authority: featureService.features.FORNYA_INTYG, intygstyp: intygType });
 
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
@@ -74,18 +70,36 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             };
 
             $scope.showFornyaButton = function() {
-                return $scope.fornya &&
+                // FORNYA_INTYG basic constraints fulfilled?
+                var fornyaAuthority = authorityService.isAuthorityActive({
+                    authority: UserModel.privileges.FORNYA_INTYG,
+                    feature: featureService.features.FORNYA_INTYG,
+                    intygstyp: $scope.intygType });
+
+                return fornyaAuthority &&
                     !CommonIntygViewState.isRevoked() &&
                     !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
                     (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
-            };
+             };
 
             $scope.showErsattButton = function() {
-                return !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
+                var hasbasicErsattAuth = authorityService.isAuthorityActive({
+                    authority: UserModel.privileges.ERSATTA_INTYG,
+                    intygstyp: $scope.intygType });
+
+                return hasbasicErsattAuth && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
                     !CommonIntygViewState.isComplementedByIntyg() &&
-                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
+                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: $scope.intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
+            };
+
+            $scope.showMakuleraButton = function() {
+                return !CommonIntygViewState.isRevoked() &&
+                    authorityService.isAuthorityActive({
+                        authority: UserModel.privileges.MAKULERA_INTYG,
+                        feature: featureService.features.MAKULERA_INTYG,
+                        intygstyp: $scope.intygType });
             };
 
             $scope.send = function() {

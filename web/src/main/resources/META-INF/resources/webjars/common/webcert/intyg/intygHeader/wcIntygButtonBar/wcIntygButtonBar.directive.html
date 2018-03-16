@@ -80,9 +80,6 @@
 
   <!-- Gamla KOPIERA-knappen. Har bytt namn till Förnya -->
   <button type="button"
-          wc-authority="FORNYA_INTYG"
-          request-origin="!UTHOPP"
-          intygstyp="{{intygType}}"
           id="fornyaBtn"
           class="btn btn-primary"
           ng-if="showFornyaButton()"
@@ -96,9 +93,6 @@
   </button>
 
   <button type="button"
-          wc-authority="ERSATTA_INTYG"
-          request-origin="!UTHOPP"
-          intygstyp="{{intygType}}"
           id="ersattBtn"
           class="btn btn-primary"
           ng-if="showErsattButton()"
@@ -114,12 +108,9 @@
   </button>
 
   <button type="button"
-          wc-authority="MAKULERA_INTYG"
-          request-origin="!UTHOPP"
-          intygstyp="{{intygType}}"
           id="makuleraBtn"
           class="btn btn-secondary"
-          ng-if="!CommonIntygViewState.isRevoked()"
+          ng-if="showMakuleraButton()"
           ng-click="makulera(viewState.intygModel)"
           wc-check-vardenhet
           vardenhet="{{viewState.enhetsId}}"

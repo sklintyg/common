@@ -1,7 +1,6 @@
 <div>
   <wc-alert-message alert-severity="info" ng-show="arendeSvar.answerDisabled == true && arendeSvar.answerDisabledReason"
-                    alert-id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}"
-                    alert-message-id="arendeSvar.answerDisabledReason"></wc-alert-message>
+                    alert-id="answerDisabledReasonPanel-{{arendeSvar.fragaInternReferens}}">{{::arendeSvar.answerDisabledReason}}</wc-alert-message>
 
   <!-- Svara med nytt intyg button - only on komplettering -->
   <div class="buttonbar" ng-if="showKompletteringControls()">

@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('wcUtkastButtonBar', function() {
+xdescribe('wcUtkastButtonBar', function() {
     'use strict';
-
+/* Denna fil verkar bara vara kopierad från wcIntygButtonBar och testar alltså fel direktiv!? */
     var $rootScope;
     var $scope;
     var $controller;

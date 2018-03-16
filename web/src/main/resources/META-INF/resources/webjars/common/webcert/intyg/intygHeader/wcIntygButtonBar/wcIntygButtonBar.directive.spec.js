@@ -28,6 +28,58 @@ describe('wcIntygButtonBar', function() {
     var UserModel;
     var element;
     var CommonIntygViewState;
+    var userTemplate = {
+
+        'features': {
+
+            'FORNYA_INTYG': {
+                'global': true,
+                'intygstyper': ['luse', 'lisjp', 'luae_na', 'luae_fs']
+            },
+            'UTSKRIFT': {
+                'global': true,
+                'intygstyper': [ 'fk7263', 'ts-bas', 'ts-diabetes', 'luse', 'lisjp', 'luae_na', 'luae_fs', 'db', 'doi' ]
+            },
+            'MAKULERA_INTYG': {
+                'global': true,
+                'intygstyper': [ 'fk7263', 'ts-bas', 'ts-diabetes', 'luse', 'lisjp', 'luae_na', 'luae_fs', 'db', 'doi' ]
+            },
+            'HANTERA_INTYGSUTKAST_AVLIDEN': {
+                'global': true,
+                'intygstyper': [ 'lisjp' ]
+            }
+
+        },
+
+        'authorities': {
+
+            'FORNYA_INTYG': {
+                'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs'],
+                'requestOrigins': [{
+                    'name': 'NORMAL',
+                    'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs']
+                }, {
+                    'name': 'DJUPINTEGRATION',
+                    'intygstyper': []
+                }]
+            },
+            'MAKULERA_INTYG': {
+                'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs'],
+                'requestOrigins': [{
+                    'name': 'NORMAL',
+                    'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs']
+                }]
+            },
+            'ERSATTA_INTYG': {
+                'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs'],
+                'requestOrigins': [{
+                    'name': 'NORMAL',
+                    'intygstyper': ['lisjp', 'luse', 'luae_na', 'luae_fs']
+                }]
+            }
+        },
+        'origin': 'NORMAL'
+    };
 
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
@@ -45,7 +97,7 @@ describe('wcIntygButtonBar', function() {
         CommonIntygViewState = _IntygViewStateService_;
         $compile = _$compile_;
 
-        UserModel.setUser({parameters:{}});
+        UserModel.setUser(userTemplate);
 
         // Instantiate directive.
         // gotcha: Controller and link functions will execute.
@@ -67,7 +119,6 @@ describe('wcIntygButtonBar', function() {
             $state.current.data = { intygType: 'lisjp'};
             $scope.utskrift = false;
             $scope.arbetsgivarUtskrift = false;
-            UserModel.setUser({parameters:{}});
         });
 
         describe('skicka button', function() {
@@ -138,61 +189,136 @@ describe('wcIntygButtonBar', function() {
         });
 
         describe('fornya button', function() {
-            it('should be shown if intyg type is fk7263 and copying is allowed', function() {
+            it('should be shown if allowed by auth', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 CommonIntygViewState.intygProperties.isPatientDeceased = false;
-                UserModel.user = {};
 
-                $scope.intygstyp = 'fk7263';
-                expect($scope.showFornyaButton()).toBeTruthy();
-
-                $scope.intygstyp = 'lisjp';
-                expect($scope.showFornyaButton()).toBeTruthy();
-
-                $scope.intygstyp = 'luse';
-                expect($scope.showFornyaButton()).toBeTruthy();
-
-                $scope.intygstyp = 'luae_fs';
-                expect($scope.showFornyaButton()).toBeTruthy();
-
-                $scope.intygstyp = 'luae_na';
-                expect($scope.showFornyaButton()).toBeTruthy();
-            });
-
-            it('should not be shown if intyg type is ts', function() {
-                CommonIntygViewState.isIntygOnRevokeQueue = false;
-                CommonIntygViewState.intygProperties.isRevoked = false;
-                CommonIntygViewState.intygProperties.isPatientDeceased = false;
-                UserModel.user = {};
-
-                $scope.intygstyp = 'ts-bas';
-                $scope.fornya = false;
+                $scope.intygType = 'fk7263';
                 expect($scope.showFornyaButton()).toBe(false);
 
-                $scope.intygstyp = 'ts-diabetes';
-                $scope.fornya = false;
+                $scope.intygType = 'lisjp';
+                expect($scope.showFornyaButton()).toBe(true);
+
+                $scope.intygType = 'luse';
+                expect($scope.showFornyaButton()).toBe(true);
+
+                $scope.intygType = 'luae_fs';
+                expect($scope.showFornyaButton()).toBe(true);
+
+                $scope.intygType = 'luae_na';
+                expect($scope.showFornyaButton()).toBe(true);
+
+                $scope.intygType = 'ts-bas';
+                expect($scope.showFornyaButton()).toBe(false);
+
+                $scope.intygType = 'ts-diabetes';
                 expect($scope.showFornyaButton()).toBe(false);
             });
+
 
             it('should not be shown if makulerat or patient deceased', function() {
+                $scope.intygType = 'lisjp';
                 CommonIntygViewState.intygProperties.isRevoked = true;
-                expect($scope.showFornyaButton()).toBeFalsy();
+                expect($scope.showFornyaButton()).toBe(false);
 
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 CommonIntygViewState.intygProperties.isPatientDeceased = true;
-                expect($scope.showFornyaButton()).toBeFalsy();
+                expect($scope.showFornyaButton()).toBe(false);
+
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = false;
+                expect($scope.showFornyaButton()).toBe(true);
 
             });
             it('should not be shown if unit is inactive', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 CommonIntygViewState.intygProperties.isPatientDeceased = false;
-                UserModel.user = {parameters: {inactiveUnit: true}};
+                UserModel.user.parameters = {inactiveUnit : true };
 
-                $scope.intygstyp = 'fk7263';
-                expect($scope.showFornyaButton()).toBeFalsy();
+                $scope.intygType = 'lisjp';
+                expect($scope.showFornyaButton()).toBe(false);
             });
+
+        });
+
+        describe('ersatt button', function() {
+            it('should be shown for living patients', function() {
+                CommonIntygViewState.isIntygOnRevokeQueue = false;
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = false;
+                UserModel.user.parameters = {inactiveUnit : false };
+
+                $scope.intygType = 'fk7263';
+                expect($scope.showErsattButton()).toBe(false);
+
+                $scope.intygType = 'lisjp';
+                expect($scope.showErsattButton()).toBe(true);
+
+
+            });
+
+            it('should be shown for dead patients ONLY if allowed for intygstype feature ', function() {
+                CommonIntygViewState.isIntygOnRevokeQueue = false;
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = true;
+                UserModel.user.parameters = {inactiveUnit : false };
+
+                $scope.intygType = 'fk7263';
+                expect($scope.showErsattButton()).toBe(false);
+
+                $scope.intygType = 'lisjp';
+                expect($scope.showErsattButton()).toBe(true);
+
+
+            });
+
+            it('should not be shown if unit is inactive ', function() {
+                CommonIntygViewState.isIntygOnRevokeQueue = false;
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = true;
+                UserModel.user.parameters = {inactiveUnit : true };
+
+                $scope.intygType = 'fk7263';
+                expect($scope.showErsattButton()).toBe(false);
+
+                $scope.intygType = 'lisjp';
+                expect($scope.showErsattButton()).toBe(false);
+
+
+            });
+
+        });
+
+        describe('makulera button', function() {
+            it('should be shown if allowed by auth', function() {
+                CommonIntygViewState.isIntygOnRevokeQueue = false;
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = false;
+
+                $scope.intygType = 'fk7263';
+                expect($scope.showMakuleraButton()).toBe(false);
+
+                $scope.intygType = 'lisjp';
+                expect($scope.showMakuleraButton()).toBe(true);
+
+            });
+
+            it('should not be shown if already revoked', function() {
+                CommonIntygViewState.isIntygOnRevokeQueue = false;
+                CommonIntygViewState.intygProperties.isRevoked = false;
+                CommonIntygViewState.intygProperties.isPatientDeceased = false;
+
+                $scope.intygType = 'lisjp';
+                expect($scope.showMakuleraButton()).toBe(true);
+
+                CommonIntygViewState.intygProperties.isRevoked = true;
+                expect($scope.showMakuleraButton()).toBe(false);
+
+            });
+
+
 
         });
 

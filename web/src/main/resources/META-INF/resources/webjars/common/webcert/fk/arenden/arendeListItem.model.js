@@ -21,8 +21,8 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService',
-        function($log, UserModel, ObjectHelper, messageService) {
+    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewStateService',
+        function($log, UserModel, ObjectHelper, messageService, ArendeListViewStateService) {
         'use strict';
 
         /**
@@ -84,7 +84,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
             } else if (this.arende.fraga.status !== 'CLOSED' &&
                 _isKomplettering(this.arende.fraga.amne) &&
-                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA)) {
+                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, ArendeListViewStateService.intygProperties.type)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
                 this.answerDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.onlydoctor');
@@ -94,7 +94,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             }
 
             if (_isKomplettering(this.arende.fraga.amne) &&
-                UserModel.hasRequestOrigin(UserModel.requestOrigins.UTHOPP)) {
+                !UserModel.hasPrivilege(UserModel.privileges.SVARA_MED_NYTT_INTYG, ArendeListViewStateService.intygProperties.type)) {
                 this.svaraMedNyttIntygDisabled = true;
             } else {
                 this.svaraMedNyttIntygDisabled = false;
