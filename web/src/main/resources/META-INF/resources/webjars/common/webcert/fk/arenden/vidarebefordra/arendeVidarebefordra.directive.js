@@ -25,8 +25,8 @@
  */
 angular.module('common').directive('arendeVidarebefordra',
     ['$window', '$log', '$timeout', 'common.ArendeVidarebefordraHelper', 'common.ArendeProxy', 'common.dialogService',
-        'common.ObjectHelper',
-        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService, ObjectHelper) {
+        'common.ObjectHelper', 'common.authorityService', 'common.UserModel',
+        function($window, $log, $timeout, ArendeVidarebefordraHelper, ArendeProxy, DialogService, ObjectHelper, authorityService, UserModel) {
             'use strict';
 
             return {
@@ -42,7 +42,10 @@ angular.module('common').directive('arendeVidarebefordra',
                     $scope.forwardInProgress = false;
 
                     $scope.showVidarebefordra = function() {
-                        return $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
+                        var hasAuthPermission = authorityService.isAuthorityActive({
+                            authority: UserModel.privileges.VIDAREBEFORDRA_FRAGASVAR,
+                            intygstyp: $scope.parentViewState.intygProperties.type });
+                        return hasAuthPermission && $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
                     };
 
                     $scope.openMailDialog = function(arende) {
