@@ -141,7 +141,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         modelProp: 'kannedomOmPatient'
 
                     }]),
-                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true}, [{
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true, modelProp: 'underlagFinns'}, [{
                         type: 'ue-radio',
                         modelProp: 'underlagFinns',
                         paddingBottom: true

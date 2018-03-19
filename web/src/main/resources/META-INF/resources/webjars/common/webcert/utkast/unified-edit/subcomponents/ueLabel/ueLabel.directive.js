@@ -25,7 +25,8 @@ angular.module('common').directive('ueLabel',
             return {
                 restrict: 'EA',
                 scope: {
-                    'config': '='
+                    'config': '=',
+                    'model': '='
                 },
                 replace: true,
                 link: function(scope, element) {
@@ -40,7 +41,8 @@ angular.module('common').directive('ueLabel',
 
                         var template = '<' + scope.config.labelType + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
-                            template += '<span class="required">*</span>\n';
+                            template += '<span class="required"' + (scope.config.modelProp ? ' ng-if="model.' + scope.config.modelProp + ' === undefined || model.' +
+                            scope.config.modelProp + ' === \'\'"': '') + '>*</span>\n';
                         }
                         if (scope.config.key) {
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';

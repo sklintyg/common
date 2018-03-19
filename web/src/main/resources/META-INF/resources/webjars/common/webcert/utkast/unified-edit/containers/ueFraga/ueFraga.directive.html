@@ -1,7 +1,7 @@
 <wc-fraga-komplettering frage-id="::config.frageId">
   <div class="ue-fraga" ng-class="{'no-label-padding': !config.label.key}">
     <a ng-attr-id="komplettering_{{::config.frageId|ueDomIdFilter}}"></a>
-    <ue-label config="::config.label"></ue-label>
+    <ue-label config="::config.label" model="model"></ue-label>
     <ue-validation-wrapper validations="validation.messagesByField[config.validationContext.key.toLowerCase()]">
       <ue-render-components form="::form" config="::config.components" model="::model" />
     </ue-validation-wrapper>

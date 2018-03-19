@@ -140,20 +140,24 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', { required: true}, [{
+                    fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {}, [{
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattning',
                         label: {
                             key: 'DFR_35.1.RBK',
-                            helpKey: 'DFR_35.1.HLP'
+                            helpKey: 'DFR_35.1.HLP',
+                            required: true,
+                            modelProp: 'funktionsnedsattning'
                         }
                     }]),
-                    fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', { required: true }, [{
+                    fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{
                         type: 'ue-textarea',
                         modelProp: 'aktivitetsbegransning',
                         label: {
                             key: 'DFR_17.1.RBK',
-                            helpKey: 'DFR_17.1.HLP'
+                            helpKey: 'DFR_17.1.HLP',
+                            required: true,
+                            modelProp: 'aktivitetsbegransning'
                         }
                     }])
                 ]),

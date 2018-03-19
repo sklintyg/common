@@ -35,7 +35,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: labelKey,
                     helpKey: helpKey,
-                    required: options.required
+                    required: options.required,
+                    modelProp: options.modelProp
                 },
                 components: components,
                 hideExpression: options.hideExpression
@@ -55,7 +56,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     key: labelKey,
                     helpKey: helpKey,
                     required: options.required,
-                    labelType: 'h4'
+                    labelType: 'h4',
+                    modelProp: options.modelProp
                 };
             }
             return fraga;
@@ -78,7 +80,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     modelProp: 'grundData.patient.postadress',
                     label: {
                         key: 'common.postadress',
-                        required: true
+                        required: true,
+                        modelProp: 'grundData.patient.postadress'
                     },
                     htmlMaxlength: 50,
                     size: 'full',
@@ -90,7 +93,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     modelProp: 'grundData.patient.postnummer',
                     label: {
                         key: 'common.postnummer',
-                        required: true
+                        required: true,
+                        modelProp: 'grundData.patient.postnummer'
                     },
                     htmlMaxlength: 6,
                     numbersOnly: true,
@@ -103,7 +107,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     modelProp: 'grundData.patient.postort',
                     label: {
                         key: 'common.postort',
-                        required: true
+                        required: true,
+                        modelProp: 'grundData.patient.postort'
                     },
                     htmlMaxlength: 25,
                     labelColSize: labelColSize,
@@ -124,6 +129,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postadress',
                     required: true,
+                    modelProp: 'grundData.skapadAv.vardenhet.postadress',
                     whitespaceBreak: false
                 },
                 size: 'full',
@@ -136,6 +142,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postnummer',
                     required: true,
+                    modelProp: 'grundData.skapadAv.vardenhet.postnummer',
                     whitespaceBreak: false
                 },
                 size: '5',
@@ -149,6 +156,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postort',
                     required: true,
+                    modelProp: 'grundData.skapadAv.vardenhet.postort',
                     whitespaceBreak: false
                 },
                 size: 'full',
@@ -161,6 +169,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.telefonnummer',
                     required: true,
+                    modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
                     whitespaceBreak: false
                 },
                 size: '20',
