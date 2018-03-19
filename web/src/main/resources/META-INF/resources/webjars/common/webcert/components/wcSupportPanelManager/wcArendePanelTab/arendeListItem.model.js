@@ -21,7 +21,7 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewState',
+    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewStateService',
         function($log, UserModel, ObjectHelper, messageService, ArendeListViewState) {
         'use strict';
 
@@ -85,7 +85,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined;
             }
 
-            this.svaraMedNyttIntygDisabled = ArendeListViewState.isSvaraMedNyttIntygDisabled(this.arende.fraga.amne);
+            this.svaraMedNyttIntygDisabled = ArendeListViewState.isSvaraMedNyttIntygDisabled();
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {

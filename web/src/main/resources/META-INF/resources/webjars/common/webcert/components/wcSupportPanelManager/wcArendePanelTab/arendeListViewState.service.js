@@ -158,9 +158,9 @@ angular.module('common').service('common.ArendeListViewStateService',
                     return true;
                 }
                 return false;
-            }
+            };
 
-           this.reset();
+            this.reset();
         }
     ]
 );

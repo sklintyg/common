@@ -26,11 +26,14 @@
  * get's a callback through 'onAnswerWithMessage' and must handle it there
  */
 angular.module('common').directive('wcArendeFooter',
-    [ '$log', '$rootScope', '$q', '$state', '$timeout', '$window', 'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService',
-        'common.statService', 'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel', 'common.ArendeHelper',
-        'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper',
-        function($log, $rootScope, $q, $state, $timeout, $window, UserModel, ObjectHelper, ArendeListViewState, statService,
-            DialogService, IntygProxy, IntygCopyRequestModel, ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper) {
+    [ '$log', '$rootScope', '$q', '$state', '$timeout', '$window',
+        'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService', 'common.statService', 'common.messageService',
+        'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel',
+        'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper', 'common.authorityService',
+        function($log, $rootScope, $q, $state, $timeout, $window,
+            UserModel, ObjectHelper, ArendeListViewState, statService, messageService,
+            DialogService, IntygProxy, IntygCopyRequestModel,
+            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService) {
             'use strict';
 
             return {
@@ -212,7 +215,7 @@ angular.module('common').directive('wcArendeFooter',
                     };
 
                     $scope.openUthoppInfoModal = function() {
-                        dialogService.showMessageDialog('common.arende.komplettering.uthopp.modal.header',
+                        DialogService.showMessageDialog('common.arende.komplettering.uthopp.modal.header',
                             messageService.getProperty('common.arende.komplettering.uthopp.modal.body'));
                     };
 
@@ -226,7 +229,7 @@ angular.module('common').directive('wcArendeFooter',
                         // Launch mail client
                         var arendeMailModel = {
                             intygId: ArendeListViewState.intyg.id,
-                            intygType: ArendeListViewState.intygProperties.type,
+                            intygType: ArendeListViewState.intygProperties.type
                         };
                         $window.location = ArendeVidarebefordraHelper.buildMailToLink(arendeMailModel);
                     };

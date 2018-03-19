@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,50 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('arendeVidarebefordra', function() {
+describe('wArendeFooter', function() {
     'use strict';
 
     var $scope;
     var $rootScope;
-    var ArendeProxy;
-    var authorityService;
-    var DialogService;
     var $window;
+    var authorityService;
+    var ArendeListViewState;
+    var UserModel;
+    var ArendeProxy;
+    var DialogService;
 
     // Load the webcert module and mock away everything that is not necessary.
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.dialogService', jasmine.createSpyObj('common.dialogService',
             [ 'showErrorMessageDialog']));
-        $provide.value('common.IntygHelper', { isSentToTarget: function() {} });
-        $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
-        $provide.value('common.statService', {});
-        $provide.value('common.IntygCopyRequestModel', jasmine.createSpyObj('common.IntygCopyRequestModel',
-            [ 'build']));
 
         $provide.value('common.ArendeProxy', jasmine.createSpyObj('common.ArendeProxy', ['setVidarebefordradState']));
-        $provide.value('common.authorityService', jasmine.createSpyObj('common.authorityService', ['isAuthorityActive']));
         $provide.value('$window', {location:{
             protocol:'protocol',
             hostname:'hostname',
             port:'port'
         }});
+        $provide.value('common.authorityService', jasmine.createSpyObj('common.authorityService', ['isAuthorityActive']));
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));
 
     beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope', '$window',
-        'common.authorityService', 'common.ArendeProxy', 'common.dialogService',
-        function($controller, $compile, _$rootScope_, _$window_, _authorityService_, _ArendeProxy_,
-            _DialogService_) {
+        'common.authorityService', 'common.ArendeListViewStateService', 'common.UserModel',
+        'common.ArendeProxy', 'common.dialogService',
+        function($controller, $compile, _$rootScope_, _$window_,
+            _authorityService_, _ArendeListViewState_, _UserModel_, _ArendeProxy_, _DialogService_) {
             $rootScope = _$rootScope_;
+            $window = _$window_;
+            ArendeListViewState = _ArendeListViewState_;
+            ArendeProxy = _ArendeProxy_;
             authorityService = _authorityService_;
             authorityService.isAuthorityActive.and.returnValue(true);
-            ArendeProxy = _ArendeProxy_;
+            UserModel = _UserModel_;
             DialogService = _DialogService_;
-            $window = _$window_;
 
             $scope = $rootScope.$new();
-            $scope.arendeListItem = {
+            $scope.arendeList = [{
                 arende:{
                     fraga:{
                         internReferens: 'ID111',
@@ -70,17 +70,18 @@ describe('arendeVidarebefordra', function() {
                     },
                     svar:{}
                 }
-            };
-            $scope.parentViewState = {
-                intygProperties: {
-                    isRevoked:false,
-                    type:'testIntyg'
-                },
-                intyg: { grundData:{skapadAv:{vardenhet:{}}}}
+            }];
+
+            UserModel.user = {
+                valdVardenhet:{ namn: 'VE' },
+                valdVardgivare:{ namn: 'VG' }
             };
 
+            ArendeListViewState.intyg.id = 'testIntygId';
+            ArendeListViewState.intygProperties.type = 'lisjp';
+
             var tpl = angular.element(
-                '<arende-vidarebefordra arende-list-item="arendeListItem" panel-id="handled" parent-view-state="parentViewState"></arende-vidarebefordra>'
+                '<wc-arende-footer arende-list="arendeList"></wc-arende-footer>'
             );
             var element = $compile(tpl)($scope);
             $scope.$digest();
@@ -89,19 +90,19 @@ describe('arendeVidarebefordra', function() {
 
 
     it('should open mail dialog', function() {
-        $scope.openMailDialog($scope.arendeListItem.arende);
+        $scope.openMailDialog();
 
         expect($window.location).toEqual(
-            'mailto:?subject=Ett%20arende%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20enhet1%20for%20vardgivare%20vardgivare1'+
+            'mailto:?subject=Ett%20arende%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20VE%20for%20vardgivare%20VG'+
             '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20arende%3A%0Aprotocol%2F%2Fhostname%3Aport%2Fwebcert%2Fweb'+
-            '%2Fuser%2Fbasic-certificate%2FtestIntyg%2FID112%2Fquestions%0A%0AOBS!%20Satt%20i%20ditt%20SITHS-kort%20innan%20du'+
+            '%2Fuser%2Fbasic-certificate%2Flisjp%2FtestIntygId%2Fquestions%0A%0AOBS!%20Satt%20i%20ditt%20SITHS-kort%20innan%20du'+
             '%20klickar%20pa%20lanken.');
     });
 
     describe('#vidarebefordra', function() {
         it('should setVidarebefordradState when forward state is changed with onVidarebefordrad', function() {
 
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,c,fn) {
+            ArendeProxy.setVidarebefordradState.and.callFake(function(a,fn) {
                 fn({
                     fraga: {
                         vidarebefordrad: true
@@ -112,12 +113,11 @@ describe('arendeVidarebefordra', function() {
             $scope.onVidarebefordradChange();
 
             expect(ArendeProxy.setVidarebefordradState).toHaveBeenCalled();
-            expect($scope.arendeListItem.arende.fraga.vidarebefordrad).toBeTruthy();
         });
 
         it('should show error message if request fails', function() {
 
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,c,fn) {
+            ArendeProxy.setVidarebefordradState.and.callFake(function(a,fn) {
                 fn('');
             });
 

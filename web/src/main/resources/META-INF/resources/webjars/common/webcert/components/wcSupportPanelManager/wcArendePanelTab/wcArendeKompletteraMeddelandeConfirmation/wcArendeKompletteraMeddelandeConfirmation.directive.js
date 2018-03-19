@@ -24,7 +24,7 @@ angular.module('common').directive('wcArendeKompletteraMeddelandeConfirmation',
 
             return {
                 restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.directive.html', // jshint ignore:line
                 scope: {
                     arendeList: '='
                 },

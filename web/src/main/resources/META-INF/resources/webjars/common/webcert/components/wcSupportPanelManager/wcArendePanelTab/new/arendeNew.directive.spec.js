@@ -51,6 +51,7 @@ describe('arendeNew', function() {
                 };
             }
         });
+
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('$stateParams', { certificateId: 'intygsid' });
         $provide.value('common.ArendeDraftProxy', { deleteQuestionDraft: function() {}});
