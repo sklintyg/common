@@ -1,5 +1,11 @@
 .wc-intyg-read-only {
   padding: 20px 30px;
+  overflow-y: auto;
+
+  .intyg-body {
+    padding: 15px;
+    background-color: $wc-color-27;
+  }
 
   .srs-border {
     border-right:1px $wc-color-20 solid;
