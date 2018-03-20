@@ -86,7 +86,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
-                    }, {
+                    }]),
+                    _fraga(null, '', '', {}, [{
                         type: 'ue-textfield',
                         modelProp: 'grundData.patient.postnummer',
                         label: {
@@ -100,7 +101,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                         labelColSize: labelColSize,
                         formType: 'horizontal',
                         disabled: shouldDisableAddressInputWhen
-                    }, {
+                    }]),
+                    _fraga(null, '', '', {}, [{
                         type: 'ue-textfield',
                         modelProp: 'grundData.patient.postort',
                         label: {
@@ -140,7 +142,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265
-            }, {
+            }]),
+            _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postnummer',
                 label: {
@@ -154,7 +157,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 formType: 'horizontal',
                 htmlMaxlength: 6,
                 numbersOnly: true
-            }, {
+            }]),
+            _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.postort',
                 label: {
@@ -167,7 +171,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 265
-            }, {
+            }]),
+            _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
                 modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
                 label: {

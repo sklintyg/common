@@ -461,31 +461,30 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     fraga(30, 'FRG_30.RBK', 'FRG_30.HLP', { required:true }, [{
                         type: 'ue-radio',
                         modelProp: 'sjukhusvard.sjukhusEllerLakarkontakt'
-                    }, {
-                        type: 'ue-group',
-                        hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt',
-                        components: [{
-                            type: 'ue-textfield',
-                            modelProp: 'sjukhusvard.tidpunkt',
-                            htmlMaxlength: 40,
-                            label: {
-                                key: 'DFR_30.2.RBK'
-                            }
-                        }, {
-                            type: 'ue-textfield',
-                            modelProp: 'sjukhusvard.vardinrattning',
-                            htmlMaxlength: 40,
-                            label: {
-                                key: 'DFR_30.3.RBK'
-                            }
-                        }, {
-                            type: 'ue-textfield',
-                            modelProp: 'sjukhusvard.anledning',
-                            htmlMaxlength: 50,
-                            label: {
-                                key: 'DFR_30.4.RBK'
-                            }
-                        }]
+                    }]),
+                    fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
+                        type: 'ue-textfield',
+                        modelProp: 'sjukhusvard.tidpunkt',
+                        htmlMaxlength: 40,
+                        label: {
+                            key: 'DFR_30.2.RBK'
+                        }
+                    }]),
+                    fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
+                        type: 'ue-textfield',
+                        modelProp: 'sjukhusvard.vardinrattning',
+                        htmlMaxlength: 40,
+                        label: {
+                            key: 'DFR_30.3.RBK'
+                        }
+                    }]),
+                    fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
+                        type: 'ue-textfield',
+                        modelProp: 'sjukhusvard.anledning',
+                        htmlMaxlength: 50,
+                        label: {
+                            key: 'DFR_30.4.RBK'
+                        }
                     }])
                 ]),
 
@@ -521,7 +520,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         type: 'ue-korkort-bedomning',
                         modelProp: 'bedomning',
                         labelTemplate:'KORKORT_{0}.RBK'
-                    },{
+                    }]),
+                    fraga(33, '', '', { }, [{
                         type: 'ue-text',
                         label: {
                             key: 'ts-bas.helptext.bedomning.info'

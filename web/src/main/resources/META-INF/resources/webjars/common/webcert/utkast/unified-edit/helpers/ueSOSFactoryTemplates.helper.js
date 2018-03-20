@@ -112,7 +112,9 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                                 required: true,
                                 requiredProp: 'dodsplatsKommun'
                             }
-                        },
+                        }
+                    ]),
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [
                         {
                             modelProp: 'dodsplatsBoende',
                             type: 'ue-radiogroup',
