@@ -36,7 +36,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
-            var patient = ueSOSFactoryTemplates.patient();
+            var patient = ueSOSFactoryTemplates.patient;
 
             var config = [
 
