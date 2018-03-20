@@ -65,7 +65,7 @@ angular.module('common').constant('common.messages', {
         'common.button.save.as.pdf.minimal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare.',
 
         'common.alert.newpersonid': 'Patientens personummer har ändrats',
-        'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>. Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.',
+        'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>.',
         'common.alert.sekretessmarkering.print': 'Patienten har en sekretessmarkering. Hantera utskriften varsamt.',
         'common.alert.textversionupdated': 'Observera att frågetexterna har uppdaterats',
         'common.warning.patientdataupdate.failed': '<b>Observera!</b> Misslyckades att slå upp patienten i personuppgiftstjänsten',
@@ -150,7 +150,12 @@ angular.module('common').constant('common.messages', {
         'intyg.status.patient.name.pu-integration.changed.modalheader': 'Patientens namn skiljer sig',
         'intyg.status.patient.name.pu-integration.changed.modalbody': '<p>Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i journalsystemet.</p>',
 
-        'intyg.status.patient.address.integration.missing' : 'Observera att en slagning i nationella personuppgiftstjänsten har genomförts eftersom inga adressuppgifter angavs av journalsystemet.',
+        'intyg.status.patient.ps-007.modalheader': 'Patientens samordningsnummer',
+        'intyg.status.patient.ps-007.modalbody': 'Om ett intyg skapas utifrån detta intyg kommer det nya intyget skrivas på samordningsnumret.',
+
+        'intyg.status.patient.ps-008' : 'Adress från nationella personuppgiftstjänsten',
+        'intyg.status.patient.ps-008.modalheader': 'Ingen adress angavs av journalsystemet',
+        'intyg.status.patient.ps-008.modalbody': 'Journalsystemet angav inga adressuppgifter för patienten, därför har en slagning i den nationella personuppgiftstjänsten genomförts. Det är adressen som finns registrerad där som nu visas i intyget.',
 
         'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
 

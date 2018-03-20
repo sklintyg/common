@@ -118,7 +118,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patientens personummer har ändrats');
+                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
@@ -127,7 +127,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patientens personummer har ändrats');
+                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
         });
     });
 
@@ -208,7 +208,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patientens personummer har ändrats');
+                'Patienten har samordningsnummer kopplat till reservnummer: 555555-5555.');
         });
 
         it('should display new samordningsnummer text for new reservnr for existing personnr', function() {
@@ -217,7 +217,7 @@ describe('wcNewPersonIdMessageDirective', function() {
             $scope.$digest();
 
             expect($(element).find('span').text()).toContain(
-                'Patientens personummer har ändrats');
+                'Patienten har samordningsnummer kopplat till reservnummer: A123456FFFF.');
         });
 
     });

@@ -21,8 +21,8 @@
  * Watches viewState.intygModel.grundData.patient.personId event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcNewPersonIdMessage', [
-    '$stateParams', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel', 'common.ObjectHelper',
-    function($stateParams, personIdValidator, messageService, UserModel, ObjectHelper) {
+    '$stateParams', 'common.dialogService', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel', 'common.ObjectHelper',
+    function($stateParams, dialogService, personIdValidator, messageService, UserModel, ObjectHelper) {
         'use strict';
 
         return {
@@ -37,16 +37,20 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 $scope.message = ''; // Text to be shown
 
                 function showPersonnummerMessage(number) {
+                    // PS-003
                     $scope.show = true;
+                    $scope.showAlert = false;
                     var messageId = 'common.alert.newpersonid';
                     $scope.message = messageService.getProperty(messageId, {person: number}, messageId);
                 }
-/* Kommenterat i väntan på beslut av krav. Blir ändringsjira på detta.
+
                 function showReservnummerMessage(number) {
+                    // PS-007 with modal MO-020
                     $scope.show = true;
+                    $scope.showAlert = true;
                     var messageId = 'common.alert.newreserveid';
                     $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
-                }*/
+                }
 
                 function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
 
@@ -57,14 +61,12 @@ angular.module('common').directive('wcNewPersonIdMessage', [
 
                         showPersonnummerMessage(alternatePatientSSn);
 
-/* Kommenterat i väntan på beslut av krav. Blir ändringsjira på detta.
-
                         //.. and it's passes as a personnummer/samordningsnummer valid for future use (e.g in copy/renew)
                         if (personIdValidator.validResult(validatedAlternateSSn)) {
                             showPersonnummerMessage(alternatePatientSSn);
                         } else {
                             showReservnummerMessage(alternatePatientSSn);
-                        }*/
+                        }
                     }
                 }
 
@@ -90,6 +92,11 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                         decideMessageToShow(intygPersonnummer, alternatePatientSSn);
                     }
                 }
+
+                $scope.openModal = function() {
+                    dialogService.showMessageDialog('intyg.status.patient.ps-007.modalheader', messageService.getProperty('intyg.status.patient.ps-007.modalbody'));
+                };
+
             },
             templateUrl: '/web/webjars/common/webcert/components/wcNewPersonIdMessage/wcNewPersonIdMessage.directive.html'
         };
