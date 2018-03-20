@@ -41,8 +41,8 @@ angular.module('common').directive('ueLabel',
 
                         var template = '<' + scope.config.labelType + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
-                            template += '<span class="required"' + (scope.config.requiredProp ? ' ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
-                            scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "': '') + '>*</span>\n';
+                            template += '<span class="required icon-wc-ikon-38"' + (scope.config.requiredProp ? ' ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
+                            scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "': '') + '></span>\n';
                         }
                         if (scope.config.key) {
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';
