@@ -76,7 +76,9 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             type: 'ue-radio',
                             yesLabel: 'SVAR_SAKERT.RBK',
                             noLabel: 'SVAR_EJ_SAKERT.RBK'
-                        },
+                        }
+                        ]),
+                    fraga(2, '', '', { required: true }, [
                         {
                             modelProp: 'dodsdatum',
                             type: 'ue-date',
@@ -88,14 +90,16 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             type: 'ue-vague-date',
                             hideExpression: 'model.dodsdatumSakert !== false',
                             label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true}
-                        },
+                        }
+                    ]),
+                    fraga(2, '', '', { required: true }, [
                         {
                             modelProp: 'antraffatDodDatum',
                             type: 'ue-date',
                             hideExpression: 'model.dodsdatumSakert !== false',
                             label: {key: 'DFR_2.3.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'antraffatDodDatum'}
                         }
-                    ]),
+                        ]),
                     fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [
                         {
                             modelProp: 'dodsplatsKommun',

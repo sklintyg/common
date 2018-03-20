@@ -1,4 +1,4 @@
-<div class="ue-del-fraga">
+<div ng-class="{'ue-del-fraga' : classList.length < 1}">
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <ue-label config="::config.label" model="::model"></ue-label>
     <div class="row form-horizontal">

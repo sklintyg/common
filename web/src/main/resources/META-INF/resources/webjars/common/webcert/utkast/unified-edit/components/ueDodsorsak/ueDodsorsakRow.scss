@@ -21,6 +21,11 @@ ue-dodsorsak-row {
 
   display: block;
 
+  .label-padding {
+    display: inline-block;
+    padding: 10px 0;
+  }
+
   input.form-control {
     height: 38px;
     border: 1px solid $wc-color-15;

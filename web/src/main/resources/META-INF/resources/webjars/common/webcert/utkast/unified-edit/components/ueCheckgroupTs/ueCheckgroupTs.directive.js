@@ -29,6 +29,8 @@ angular.module('common').directive('ueCheckgroupTs', [ '$parse',  'ueUtil',
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.html',
         link: function($scope) {
+            console.log($scope.config.htmlClass);
+
             ueUtil.standardSetup($scope);
         }
     };

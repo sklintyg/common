@@ -63,6 +63,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
+                        htmlClass: 'no-padding-top',
                         labelTemplate:'KORKORT_{0}.RBK'
                     }])
                 ]),

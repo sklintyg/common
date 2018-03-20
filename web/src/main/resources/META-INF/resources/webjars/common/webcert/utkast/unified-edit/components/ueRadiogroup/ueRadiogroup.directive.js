@@ -29,8 +29,13 @@ angular.module('common').directive('ueRadiogroup', [ 'ueUtil', function(ueUtil) 
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.html',
         link: function($scope) {
+
             if (!$scope.config.htmlClass) {
                 $scope.config.htmlClass = 'col-lg-12';
+            } else {
+                var str = $scope.config.htmlClass;
+                $scope.classList = str.split(' ');
+                $scope.config.htmlClass = $scope.classList[0];
             }
             ueUtil.standardSetup($scope);
         }

@@ -1,4 +1,5 @@
-<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
+<div ng-class="{'ue-del-fraga' : config.htmlClass != 'no-padding-top'}">
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
   <div class="row form-horizontal">
     <ue-label class="col-sm-12" config="::config.label"></ue-label>
     <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter()">
@@ -14,4 +15,4 @@
     </div>
   </div>
 </ue-validation-wrapper>
-
+</div>

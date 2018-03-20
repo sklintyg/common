@@ -230,6 +230,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                     fraga(33, '', '', { }, [{
                         type: 'ue-radio',
                         modelProp: 'arbetstidsforlaggning',
+                        htmlClass: 'more-padding',
                         label: {
                             key: 'FRG_33.RBK',
                             helpKey: 'FRG_33.HLP',

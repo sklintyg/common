@@ -19,8 +19,14 @@
 
 .dodsorsak-multi {
 
+  .label-padding {
+    display: inline-block;
+    padding: 10px 0;
+  }
+  table {
+    width: 100%;
+  }
   th {
-    font-size: 12px;
     font-weight: normal;
     vertical-align: bottom;
   }
@@ -29,6 +35,11 @@
     padding-right: 4px;
     padding-bottom: 10px;
   }
+
+  .description-width {
+    width: 60%;
+  }
+
   .btn.red {
     color: $wc-color-11;
   }

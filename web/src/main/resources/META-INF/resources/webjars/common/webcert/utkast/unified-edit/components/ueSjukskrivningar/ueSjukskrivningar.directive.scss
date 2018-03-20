@@ -14,10 +14,6 @@ ue-sjukskrivningar {
     width: 50px !important;
   }
 
-  .sjukskrivningar-section {
-    margin: 0 0 10px 0;
-  }
-
   label {
     font-weight: normal;
     width: auto;
@@ -28,23 +24,23 @@ ue-sjukskrivningar {
     }
   }
 
-  .sjukskrivningar_period {
-  label {
+  .sjukskrivningar_period label {
     margin-right: 9px;
   }
-    span {
-      margin-bottom: 3px;
-    }
-
+  .fold-slide-animation {
+    padding-top: 10px;
   }
-
   .flex-wrapper {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin-left: 6px;
+    margin: 0 0 0 6px;
     flex-wrap: wrap;
+  }
+
+  .extra-margin-bottom {
+    padding-bottom: 12px;
   }
 
   .checkbox-width {

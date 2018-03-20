@@ -114,7 +114,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
-                        htmlClass: 'col-md-6',
+                        htmlClass: 'col-md-6 no-padding',
                         paddingBottom: true,
                         choices: [
                             {label: 'ts-bas.label.identitet.id_kort', id: 'ID_KORT'},

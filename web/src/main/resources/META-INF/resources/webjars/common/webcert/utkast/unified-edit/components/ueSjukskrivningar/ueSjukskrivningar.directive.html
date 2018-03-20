@@ -21,7 +21,7 @@
 
     <div class="form-horizontal sjukskrivningar-section clearfix" data-ng-repeat="field in ::config.fields">
       <div class="row">
-        <div class="clearfix flex-wrapper">
+        <div class="clearfix flex-wrapper" ng-class="{'extra-margin-bottom' : $index < 3 }">
           <div class="col-vlg-auto col-lg-12 col-md-4 col-sm-12 checkbox-width">
             <wc-checkbox-wrapper class="padding-bottom">
               <input type="checkbox" ng-model="viewstate.periods[field].checked"
