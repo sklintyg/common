@@ -80,9 +80,9 @@ angular.module('common').directive('wcIntygStatus', [
                     });
                 }
 
-                $scope.$on('intyg.loaded', updateIntygStatus);
-                $scope.$on('arenden.loaded', updateIntygStatus);
-                $scope.$on('intygstatus.updated', updateIntygStatus);
+                $scope.$on('intyg.loaded', function() { updateIntygStatus(); });
+                $scope.$on('arenden.updated', function() { updateIntygStatus(); });
+                $scope.$on('intygstatus.updated', function() { updateIntygStatus(); });
                 updateIntygStatus();
 
                 function updateIntygStatus() {

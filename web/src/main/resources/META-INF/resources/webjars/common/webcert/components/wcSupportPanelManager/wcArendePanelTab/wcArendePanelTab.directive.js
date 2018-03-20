@@ -35,7 +35,6 @@ angular.module('common').directive('wcArendePanelTab', [
             ArendeListViewState.reset();
             ArendeListViewState.setIntygType($state.current.data.intygType);
             $scope.viewState = ArendeListViewState;
-            $scope.arendeList = [];
             $scope.unhandledKompletteringCount = 0;
             $scope.unhandledAdministrativaFragorCount = 0;
 
@@ -52,7 +51,7 @@ angular.module('common').directive('wcArendePanelTab', [
             function updateCounts() {
                 $scope.unhandledKompletteringCount = 0;
                 $scope.unhandledAdministrativaFragorCount = 0;
-                angular.forEach($scope.arendeList, function(arendeListItem) {
+                angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
                     if (arendeListItem.isOpen()) {
                         if (arendeListItem.isKomplettering()) {
                             $scope.unhandledKompletteringCount++;
@@ -65,7 +64,6 @@ angular.module('common').directive('wcArendePanelTab', [
             }
 
             $scope.$on('arenden.updated', function(){
-                ArendeListViewState.updateKompletteringar();
                 updateCounts();
             });
 
@@ -76,17 +74,11 @@ angular.module('common').directive('wcArendePanelTab', [
                     ArendeListViewState.doneLoading = true;
                     ArendeListViewState.activeErrorMessageKey = null;
 
-                    $scope.arendeList = ArendeHelper.createListItemsFromArenden(result);
-
-                    ArendeListViewState.setArendeList($scope.arendeList);
-
-                    updateCounts();
+                    ArendeListViewState.setArendeList(result);
 
                     // Select default state for isFilterKomplettering
                     $scope.isFilterKomplettering =
                         !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount > 0);
-
-                    $rootScope.$broadcast('arenden.loaded');
 
                 }, function(errorData) {
                     // show error view
@@ -133,7 +125,7 @@ angular.module('common').directive('wcArendePanelTab', [
             $scope.$on('$destroy', unbindmarkAnsweredAsHandledEvent);
 
             var unbindHasUnhandledQasEvent = $scope.$on('hasUnhandledQasEvent', function($event, deferred) {
-                deferred.resolve(ArendeHelper.getUnhandledArenden($scope.arendeList));
+                deferred.resolve(ArendeHelper.getUnhandledArenden(ArendeListViewState.arendeList));
             });
             $scope.$on('$destroy', unbindHasUnhandledQasEvent);
 
@@ -145,10 +137,10 @@ angular.module('common').directive('wcArendePanelTab', [
                         function(arendes) {
                             if (arendes) {
                                 angular.forEach(arendes, function(arende) {
-                                    angular.forEach($scope.arendeList, function(arendeListItem) {
+                                    angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
                                         if (arende.fraga.internReferens === arendeListItem.arende.fraga.internReferens) {
                                             angular.copy(arende, arendeListItem.arende);
-                                            arendeListItem.updateArendeListItem();
+                                            arendeListItem.updateArendeListItem(ArendeListViewState.common.intygProperties.type);
                                         }
                                     });
                                 });

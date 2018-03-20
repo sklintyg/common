@@ -51,19 +51,18 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                 return link;
             };
 
-            this.handleVidareBefodradToggle = function (arende, onYesCallback) {
+            this.handleVidareBefodradToggle = function (onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!arende.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
+                if (!_isSkipVidareBefodradCookieSet()) {
                     this.showVidarebefordradPreferenceDialog(
                         'markforward',
                         'Det verkar som att du har informerat den som ska hantera ärendet. Vill du markera ärendet som vidarebefordrat?',
                         function() { // yes
                             $log.debug('yes');
-                            arende.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
-                                onYesCallback(arende);
+                                onYesCallback();
                             }
                         },
                         function() { // no

@@ -43,6 +43,8 @@ angular.module('common').directive('wcArendeFooter',
                     arendeList: '='
                 },
                 controller: function($scope, $element, $attrs) {
+
+                    $scope.intygProperties = {};
                     $scope.kompletteringConfig = {
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
@@ -52,10 +54,11 @@ angular.module('common').directive('wcArendeFooter',
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
                         $scope.kompletteringConfig.redirectToExistingUtkast = !!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast;
+                        $scope.intygProperties = ArendeListViewState.intygProperties;
                     });
                     $scope.$on('$destroy', unbindFastEvent);
 
-                    $scope.showKompletteringButton = function() {
+                    $scope.showKompletteringButtons = function() {
                         return ArendeListViewState.getUnhandledKompletteringCount() > 0 &&
                             !$scope.kompletteringConfig.redirectToExistingUtkast &&
                             !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
@@ -181,12 +184,12 @@ angular.module('common').directive('wcArendeFooter',
                                         if (result !== null) {
                                             // update real item
                                             angular.copy(result, arendeListItem.arende);
-                                            arendeListItem.updateArendeListItem(result);
+                                            arendeListItem.updateArendeListItem(ArendeListViewState.intygProperties.type);
 
                                             // All kompletteringar should be closed now
                                             kompletteringar.forEach(function(arendeListItem) {
                                                 arendeListItem.arende.fraga.status = 'CLOSED';
-                                                arendeListItem.updateArendeListItem();
+                                                arendeListItem.updateArendeListItem(ArendeListViewState.intygProperties.type);
                                             });
 
                                             $rootScope.$broadcast('arenden.updated');
@@ -237,10 +240,13 @@ angular.module('common').directive('wcArendeFooter',
                     $scope.onVidarebefordradChange = function() {
                         $scope.forwardInProgress = true;
                         ArendeProxy.setVidarebefordradState(
+                            ArendeListViewState.intyg.id,
                             ArendeListViewState.intygProperties.type,
                             function(result) {
                                 $scope.forwardInProgress = false;
-                                if (!result) {
+                                if (result) {
+                                    ArendeListViewState.setArendeList(result);
+                                } else {
                                     DialogService.showErrorMessageDialog(
                                         'Kunde inte markera/avmarkera frågan som vidarebefordrad. ' +
                                         'Försök gärna igen för att se om felet är tillfälligt. Annars kan du kontakta supporten');

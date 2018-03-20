@@ -14,6 +14,10 @@ wc-arende-panel-tab {
     }
   }
 
+  .bottom-fadeout-gradient {
+    padding: 0;
+  }
+
   .navbar-nav {
     > li > a {
       @extend %wc-typo-06;

@@ -21,14 +21,14 @@
  */
 
 angular.module('common').factory('common.ArendeListItemModel',
-    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService', 'common.ArendeListViewStateService',
-        function($log, UserModel, ObjectHelper, messageService, ArendeListViewState) {
+    ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService',
+        function($log, UserModel, ObjectHelper, messageService) {
         'use strict';
 
         /**
          * Constructor
          */
-        function ArendeListItemModel(arendeModel, extraKompletteringarArende) {
+        function ArendeListItemModel(arendeModel, intygType) {
             this.answerDisabled = false;
             this.answerDisabledReason = '';
             this.svaraMedNyttIntygDisabled = false;
@@ -37,7 +37,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             this.arende = arendeModel; // ArendeModel from backend
             this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
 
-            this.updateArendeListItem();
+            this.updateArendeListItem(intygType);
         }
 
         function _isPaminnelse(amne) {
@@ -48,11 +48,11 @@ angular.module('common').factory('common.ArendeListItemModel',
             return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
         }
 
-        ArendeListItemModel.build = function(arendeModel, extraKompletteringarArende) {
-            return new ArendeListItemModel(arendeModel, extraKompletteringarArende);
+        ArendeListItemModel.build = function(arendeModel, intygType) {
+            return new ArendeListItemModel(arendeModel, intygType);
         };
 
-        ArendeListItemModel.prototype.updateArendeListItem = function () {
+        ArendeListItemModel.prototype.updateArendeListItem = function (intygType) {
 
             if (!ObjectHelper.isDefined(this.arende.svar)) {
                 this.arende.svar = {
@@ -60,12 +60,18 @@ angular.module('common').factory('common.ArendeListItemModel',
                 };
             }
 
-            this._updateListItemState();
+            this._updateListItemState(intygType);
             this._updateAtgardMessage();
             this._updateKompletteringar();
         };
 
-        ArendeListItemModel.prototype._updateListItemState = function() {
+        ArendeListItemModel.prototype._updateListItemState = function(intygType) {
+
+            if(!intygType){
+                $log.error('ArendeListItemModel._updateListItemState - required parameter intygType not specified.');
+                return;
+            }
+
             if (this.arende.fraga.status === 'CLOSED') {
                 this.answerDisabled = true;
                 this.answerDisabledReason = undefined; // En avslutat konversation kan inte besvaras
@@ -76,7 +82,7 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
             } else if (this.arende.fraga.status !== 'CLOSED' &&
                 _isKomplettering(this.arende.fraga.amne) &&
-                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, ArendeListViewState.intygProperties.type)) {
+                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, intygType)) {
                 // RE-005, RE-006
                 this.answerDisabled = true;
                 this.answerDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.onlydoctor');
@@ -84,8 +90,6 @@ angular.module('common').factory('common.ArendeListItemModel',
                 this.answerDisabled = false;
                 this.answerDisabledReason = undefined;
             }
-
-            this.svaraMedNyttIntygDisabled = ArendeListViewState.isSvaraMedNyttIntygDisabled();
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {

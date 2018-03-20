@@ -94,7 +94,7 @@ angular.module('common').directive('arendePanelSvar',
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
 
-                                $scope.arendeListItem.updateArendeListItem(result);
+                                $scope.arendeListItem.updateArendeListItem(ArendeSvar.intygProperties.type);
                                 $rootScope.$broadcast('arenden.updated');
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);

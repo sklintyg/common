@@ -40,13 +40,13 @@
       <div ng-if="config.intygContext.isSigned">
         <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
         <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
-        <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
+        <wc-arende-komplettera-meddelande-confirmation arende-list="viewState.arendeList"></wc-arende-komplettera-meddelande-confirmation>
       </div>
 
       <!-- list of komplettering arenden -->
-      <div ng-repeat="arendeListItem in arendeList | filter:kompletteringarFilter | orderBy:'+senasteHandelse' as kompletteringarList"
+      <div ng-repeat="arendeListItem in viewState.arendeList | filter:kompletteringarFilter | orderBy:['-arende.senasteHandelse'] as kompletteringarList"
            class="arende-item">
-        <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="arendeList"
+        <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
              parent-view-state="viewState"></arende-panel>
       </div>
 
@@ -58,13 +58,13 @@
 
       <!-- new arende form -->
       <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
-           arende-list="arendeList" parent-view-state="viewState"></arende-new>
+           arende-list="viewState.arendeList" parent-view-state="viewState"></arende-new>
 
       <!-- list of administrativ fraga arenden -->
       <div
-          ng-repeat="arendeListItem in arendeList | filter:administrativaFragorFilter | orderBy:'+senasteHandelse' as administrativaFragorList"
+          ng-repeat="arendeListItem in viewState.arendeList | filter:administrativaFragorFilter | orderBy:['-arende.senasteHandelse'] as administrativaFragorList"
           class="arende-item">
-        <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="arendeList"
+        <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
              parent-view-state="viewState"></arende-panel>
       </div>
 
@@ -77,4 +77,4 @@
 
 </wc-support-panel-scrollable-body>
 
-<wc-arende-footer ng-if="config.intygContext.isSigned" arende-list="arendeList"></wc-arende-footer>
+<wc-arende-footer ng-if="config.intygContext.isSigned" arende-list="viewState.arendeList"></wc-arende-footer>

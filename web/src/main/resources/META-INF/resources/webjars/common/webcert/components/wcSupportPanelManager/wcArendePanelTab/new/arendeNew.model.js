@@ -58,10 +58,14 @@ angular.module('common').factory('common.ArendeNewModel',
                     id: 'OVRIGT'
                 }
             );
+
+            this.saveState = 'normal';
+
             var model = this;
             this.reset = function() {
                 model.chosenTopic = this.topics[0].id; // 'Välj ämne' is default
                 model.frageText = '';
+                model.saveState = 'normal';
             };
             this.reset();
         }

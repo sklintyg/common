@@ -152,14 +152,14 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         /*
          * Toggle vidarebefordrad state of a arende entity with given id
          */
-        function _setVidarebefordradState(arendeReferens, intygsTyp, isVidareBefordrad, callback) {
+        function _setVidarebefordradState(intygId, intygsTyp, callback) {
             $log.debug('_setVidareBefordradState');
             if (intygsTyp === 'fk7263') {
                 return ArendeLegacyProxy.setVidarebefordradState.apply(null, arguments);
             }
 
-            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeReferens + '/vidarebefordrad';
-            $http.put(restPath, isVidareBefordrad).then(function(response) {
+            var restPath = '/moduleapi/arende/' + intygId + '/vidarebefordrad';
+            $http.post(restPath).then(function(response) {
                 $log.debug('_setVidareBefordradState data:' + response.data);
                 callback(response.data);
             }, function(response) {

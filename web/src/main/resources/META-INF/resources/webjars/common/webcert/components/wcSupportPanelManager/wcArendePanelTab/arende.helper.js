@@ -21,21 +21,6 @@ angular.module('common').service('common.ArendeHelper',
         function ($log, $timeout, $window, statService, ArendeListItemModel, ArendeListViewState, UserModel) {
             'use strict';
 
-            this.createListItemsFromArenden = function(arendeModelList) {
-                var arendeListItemList = [];
-
-                angular.forEach(arendeModelList, function (arendeModel) {
-                    arendeListItemList.push(this.createArendeListItem(arendeModel));
-                }, this);
-
-                return arendeListItemList;
-            };
-
-            this.createArendeListItem = function(arendeModel) {
-                var arendeListItem = ArendeListItemModel.build(arendeModel);
-                return arendeListItem;
-            };
-
             this.getUnhandledArenden = function(arendeList) {
                 if(!arendeList || arendeList.length === 0){
                     return false;

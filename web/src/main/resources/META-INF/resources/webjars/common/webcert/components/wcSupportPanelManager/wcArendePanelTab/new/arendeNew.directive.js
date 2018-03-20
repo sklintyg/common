@@ -35,7 +35,6 @@ angular.module('common').directive('arendeNew',
                 restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/new/arendeNew.directive.html',
                 scope: {
-                    arendeList: '=',
                     parentViewState: '='
                 },
                 controller: function($scope, $element, $attrs) {
@@ -76,7 +75,7 @@ angular.module('common').directive('arendeNew',
                         var notSent = $scope.parentViewState.common.isIntygOnSendQueue === false &&
                             ArendeNewViewState.parentViewState.intygProperties.isSent === false;
 
-                        return notSent && ($scope.arendeList.length < 1);
+                        return notSent && (ArendeNewViewState.parentViewState.arendeList.length < 1);
                     }
 
                     /**
@@ -87,7 +86,7 @@ angular.module('common').directive('arendeNew',
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
                                                             ArendeNewViewState.parentViewState.intygProperties.isSent ||
-                                                            $scope.arendeList.length > 0);
+                                                            ArendeNewViewState.parentViewState.arendeList.length > 0);
 
                         return intygLoaded && notRevoked && intygSentOrArendenAvailable;
                     };
@@ -155,7 +154,7 @@ angular.module('common').directive('arendeNew',
                                 if (arendeModel !== null) {
 
                                     // add new arende to open list
-                                    $scope.arendeList.push(ArendeHelper.createArendeListItem(arendeModel));
+                                    ArendeNewViewState.parentViewState.arendeList.push(ArendeNewViewState.parentViewState.createArendeListItem(arendeModel, ArendeNewViewState.parentViewState.intygProperties.type));
 
                                     arendeNewModel.reset();
 

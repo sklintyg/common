@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.ArendeListViewStateService',
-    ['common.IntygViewStateService', 'common.dynamicLabelService', 'common.UserModel',
-        function(IntygViewStateService, dynamicLabelService, UserModel) {
+    ['$rootScope', 'common.IntygViewStateService', 'common.dynamicLabelService', 'common.UserModel', 'common.ArendeListItemModel',
+        function($rootScope, IntygViewStateService, dynamicLabelService, UserModel, ArendeListItemModel) {
             'use strict';
 
             this.reset = function() {
@@ -52,9 +52,25 @@ angular.module('common').service('common.ArendeListViewStateService',
                 this.intygProperties.type = type;
             };
 
-            this.setArendeList = function(list) {
-                this.arendeList = list;
+            this.setArendeList = function(arendeList) {
+                this.arendeList = this.createListItemsFromArenden(arendeList);
                 this.updateKompletteringar();
+                $rootScope.$broadcast('arenden.updated');
+            };
+
+            this.createListItemsFromArenden = function(arendeModelList) {
+                var arendeListItemList = [];
+
+                angular.forEach(arendeModelList, function (arendeModel) {
+                    arendeListItemList.push(this.createArendeListItem(arendeModel));
+                }, this);
+
+                return arendeListItemList;
+            };
+
+            this.createArendeListItem = function(arendeModel) {
+                var arendeListItem = ArendeListItemModel.build(arendeModel, this.intygProperties.type);
+                return arendeListItem;
             };
 
             this.hasUnhandledItems = function() {
