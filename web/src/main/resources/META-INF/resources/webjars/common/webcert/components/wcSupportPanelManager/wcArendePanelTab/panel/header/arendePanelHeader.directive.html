@@ -1,8 +1,13 @@
 <div>
 
-  <div ng-switch="headerType">
-    <i ng-switch-when="fraga" class="arende-header-icon icon-wc-ikon-fraga icon-wc-24"></i>
-    <i ng-switch-when="svar" class="arende-header-icon icon-wc-ikon-39 icon-wc-24"></i>
+  <div class="arende-header-icon" ng-switch="arendeListItem.isKomplettering()">
+    <div ng-switch-when="true">
+      <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/FK.png">
+    </div>
+    <div ng-switch-when="false" ng-switch="headerType">
+      <i ng-switch-when="fraga" class="icon-wc-ikon-fraga icon-wc-24"></i>
+      <i ng-switch-when="svar" class="icon-wc-ikon-39 icon-wc-24"></i>
+    </div>
   </div>
 
   <div class="arende-header-middle">
