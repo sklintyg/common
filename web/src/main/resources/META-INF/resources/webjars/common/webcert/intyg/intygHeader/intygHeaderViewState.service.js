@@ -52,7 +52,18 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
                 if(this.currentCreateFromTemplateConfig){
                     this.currentCreateFromTemplateConfig.buttonText = messageService.getProperty('common.createfromtemplate', {intygName: this.currentCreateFromTemplateConfig.name});
-                    this.currentCreateFromTemplateConfig.tooltip = messageService.getProperty('common.createfromtemplate.tooltip', {intygName: this.currentCreateFromTemplateConfig.name});
+                    var intygSpecificTooltipKey = intygType + '.createfromtemplate.' + this.currentCreateFromTemplateConfig.moduleId + '.tooltip';
+                    if (messageService.propertyExists(intygSpecificTooltipKey)) {
+                        this.currentCreateFromTemplateConfig.tooltip = messageService.getProperty(intygSpecificTooltipKey);
+                    }
+                    else {
+                        this.currentCreateFromTemplateConfig.tooltip =
+                            messageService.getProperty('common.createfromtemplate.tooltip',
+                                {
+                                    newIntygName: this.currentCreateFromTemplateConfig.name,
+                                    currentIntygName: moduleService.getModuleName(intygType)
+                                });
+                    }
                 }
 
                 this.recipientId = moduleService.getModule(intygType).defaultRecipient;

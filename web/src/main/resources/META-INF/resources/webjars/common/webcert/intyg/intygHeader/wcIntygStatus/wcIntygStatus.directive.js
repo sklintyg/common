@@ -43,7 +43,7 @@ angular.module('common').directive('wcIntygStatus', [
                 var parentIntygStatuses;
                 function checkParentIntyg() {
                     parentIntygStatuses = undefined;
-                    if (CommonIntygViewState.isRevoked() && CommonIntygViewState.isReplacing()) {
+                    if (CommonIntygViewState.isRevoked()) {
                         IntygProxy.getIntyg(CommonIntygViewState.intygProperties.parent.intygsId,
                             IntygHeaderViewState.intygType,
                             // onSuccess
@@ -59,6 +59,7 @@ angular.module('common').directive('wcIntygStatus', [
                 }
 
                 $scope.$on('intyg.loaded', checkParentIntyg);
+                $scope.$on('intygstatus.updated', checkParentIntyg);
                 checkParentIntyg();
 
                 function addIntygStatus1(intygStatus, timestamp, vars) {
@@ -79,9 +80,9 @@ angular.module('common').directive('wcIntygStatus', [
                     });
                 }
 
-                $scope.$on('intyg.loaded', function() { updateIntygStatus(); });
-                $scope.$on('arenden.loaded', function() { updateIntygStatus(); });
-                $scope.$on('intygstatus.updated', function() { updateIntygStatus(); });
+                $scope.$on('intyg.loaded', updateIntygStatus);
+                $scope.$on('arenden.loaded', updateIntygStatus);
+                $scope.$on('intygstatus.updated', updateIntygStatus);
                 updateIntygStatus();
 
                 function updateIntygStatus() {
@@ -91,6 +92,15 @@ angular.module('common').directive('wcIntygStatus', [
 
                 function updateIntygStatus1() {
                     $scope.intygstatus1 = [];
+
+                    if (CommonIntygViewState.isComplementedByUtkast()) {
+                        addIntygStatus1('is-012',
+                            CommonIntygViewState.intygProperties.latestChildRelations.complementedByUtkast.skapad,
+                            {
+                                intygstyp: IntygHeaderViewState.intygType,
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId
+                            });
+                    }
 
                     if (CommonIntygViewState.isReplacedByUtkast()) {
                         addIntygStatus1('is-009',
@@ -145,14 +155,31 @@ angular.module('common').directive('wcIntygStatus', [
                 function updateIntygStatus2() {
                     $scope.intygstatus2 = [];
 
-                    if (CommonIntygViewState.isRevoked() && CommonIntygViewState.isReplacing() &&
-                        parentIntygStatuses && parentIntygStatuses[0].type !== 'CANCELLED') {
-                        addIntygStatus2('is-007',
-                            CommonIntygViewState.intygProperties.revokedTimestamp,
-                            {
-                                intygstyp: IntygHeaderViewState.intygType,
-                                intygsid: CommonIntygViewState.intygProperties.parent.intygsId
-                            });
+                    if (CommonIntygViewState.isRevoked() && parentIntygStatuses && parentIntygStatuses[0].type !== 'CANCELLED') {
+                        if (CommonIntygViewState.isReplacing()) {
+                            addIntygStatus2('is-007',
+                                CommonIntygViewState.intygProperties.revokedTimestamp,
+                                {
+                                    intygstyp: IntygHeaderViewState.intygType,
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                });
+                        }
+                        else if (CommonIntygViewState.isRenewing()) {
+                            addIntygStatus2('is-010',
+                                CommonIntygViewState.intygProperties.revokedTimestamp,
+                                {
+                                    intygstyp: IntygHeaderViewState.intygType,
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                });
+                        }
+                        else if (CommonIntygViewState.isComplementing()) {
+                            addIntygStatus2('is-011',
+                                CommonIntygViewState.intygProperties.revokedTimestamp,
+                                {
+                                    intygstyp: IntygHeaderViewState.intygType,
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                });
+                        }
                     }
 
                     if(!CommonIntygViewState.isRevoked() && IntygHeaderViewState.intygType !== 'db' && IntygHeaderViewState.intygType !== 'doi') {

@@ -84,6 +84,9 @@ describe('wcIntygButtonBar', function() {
     beforeEach(angular.mock.module('htmlTemplates'));
     beforeEach(angular.mock.module('common'));
     beforeEach(angular.mock.module(function($provide) {
+        $provide.value('common.moduleService', {getModule: function(){return {
+            defaultRecipient: 'FKASSA'
+        };}, getModuleName: function() { return 'Intygsnamn'; }});
     }));
 
     beforeEach(angular.mock.inject([

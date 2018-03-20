@@ -21,11 +21,12 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
     'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
     'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
     'common.IntygCopyActions', 'common.IntygFornyaRequestModel', 'common.IntygCopyRequestModel', 'common.IntygErsattRequestModel',
+    'common.ArendeListViewStateService',
     function($rootScope,
         authorityService, featureService, messageService, moduleService,
         CommonIntygViewState, IntygHeaderService, IntygHeaderViewState,
         UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera,
-        IntygCopyActions, IntygFornyaRequestModel, IntygCopyRequestModel, IntygErsattRequestModel) {
+        IntygCopyActions, IntygFornyaRequestModel, IntygCopyRequestModel, IntygErsattRequestModel, ArendeListViewStateService) {
     'use strict';
 
     return {
@@ -51,6 +52,18 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             $scope.normalPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
             $scope.selectPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.select.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.minimal.title');
+            $scope.normalPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
+            $scope.sendBtnTooltipText = messageService.getProperty('common.send.tooltip', {
+                'recipient': messageService.getProperty('common.recipient.' + moduleService.getModule(intygType).defaultRecipient.toLowerCase())
+            });
+
+            $scope.ersattButtonDisabled = false;
+            $scope.$on('arenden.loaded', function() {
+                if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
+                    $scope.ersattButtonDisabled = true;
+                    $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.unhandledkomplettering.tooltip');
+                }
+            });
 
             $scope.intygType = intygType;
 

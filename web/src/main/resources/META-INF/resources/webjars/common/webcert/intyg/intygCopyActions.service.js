@@ -41,6 +41,8 @@ angular.module('common').factory('common.IntygCopyActions',
             var ersattDialogModel = angular.copy(baseDialogModel);
             ersattDialogModel.errormessageid = 'error.failedtoersattintyg';
 
+            var createFromTemplateDialogModel = angular.copy(baseDialogModel);
+            ersattDialogModel.errormessageid = 'error.failedtocreateintyg';
 
             function resetViewStateErrorKeys (viewState) {
                 //The copy actions service is used both in an viewIntyg context as well as in patient list view.
@@ -60,6 +62,10 @@ angular.module('common').factory('common.IntygCopyActions',
 
             function hideErsattDialogError () {
                 ersattDialogModel.showerror = null;
+            }
+
+            function hideCreateFromTemplateDialogError () {
+                createFromTemplateDialogModel.showerror = null;
             }
 
             function dialogButton1Click (options) {
@@ -247,12 +253,45 @@ angular.module('common').factory('common.IntygCopyActions',
             }
 
             function _createFromTemplate(viewState, intygCreateFromTemplateRequest, isOtherCareUnit) {
-                IntygProxy.create(intygCreateFromTemplateRequest, function(data) {
-                    $log.debug('Successfully requested create draft of new intyg type');
-                    IntygHelper.goToDraft(data.intygsTyp, data.intygsUtkastId);
-                }, function(error) {
-                    $log.debug('Create draft of new intyg type failed: ' + error.message);
+
+                var createDialog = dialogService.showDialog({
+                    dialogId: 'ersatt-dialog',
+                    titleId: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + intygCreateFromTemplateRequest.newIntygType + '.modal.header',
+                    templateUrl: '/app/partials/createfromtemplate-dialog.html',
+                    model: createFromTemplateDialogModel,
+                    button1click: function () {
+                        dialogButton1Click({
+                            requestType: 'fornya',
+                            requestData: intygCreateFromTemplateRequest,
+                            requestFn: _createFromTemplateDraft,
+                            viewState: viewState,
+                            dialogModel: createFromTemplateDialogModel,
+                            closeDialog: function (result) {
+                                createDialog.close(result);
+                            }
+                        });
+                    },
+                    button2click: function (modalInstance) {
+                        modalInstance.close();
+                    },
+                    button1text: 'common.createfromtemplate.continue',
+                    button2text: 'common.createfromtemplate.cancel',
+                    bodyText: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + intygCreateFromTemplateRequest.newIntygType + '.modal.text',
+                    autoClose: false
                 });
+
+                createDialog.opened.then(function() {
+                    createDialog.isOpen = true;
+                }, function() {
+                    createDialog.isOpen = false;
+                });
+
+                createDialog.result.then(
+                    hideCreateFromTemplateDialogError,
+                    hideCreateFromTemplateDialogError
+                );
+
+                return createDialog;
             }
 
             function _createFornyaDraft(intygFornyaRequest, onSuccess, onError) {
@@ -277,6 +316,20 @@ angular.module('common').factory('common.IntygCopyActions',
                     }
                 }, function(error) {
                     $log.debug('Create ersatt copy failed: ' + error.message);
+                    if (onError) {
+                        onError(error.errorCode);
+                    }
+                });
+            }
+
+            function _createFromTemplateDraft(intygCreateFromTemplateRequest, onSuccess, onError) {
+                IntygProxy.create(intygCreateFromTemplateRequest, function(data) {
+                    $log.debug('Successfully requested create draft of new intyg type');
+                    if(onSuccess) {
+                        onSuccess(data);
+                    }
+                }, function(error) {
+                    $log.debug('Create draft of new intyg type failed: ' + error.message);
                     if (onError) {
                         onError(error.errorCode);
                     }

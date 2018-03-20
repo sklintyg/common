@@ -73,6 +73,14 @@ angular.module('common').service('common.IntygViewStateService',
                 return angular.isObject(this.intygProperties.parent) &&
                     this.intygProperties.parent.relationKod === 'ERSATT';
             };
+            this.isComplementing = function() {
+                return angular.isObject(this.intygProperties.parent) &&
+                    this.intygProperties.parent.relationKod === 'KOMPLT';
+            };
+            this.isRenewing = function() {
+                return angular.isObject(this.intygProperties.parent) &&
+                    this.intygProperties.parent.relationKod === 'FRLANG';
+            };
 
             this.isPatientDeceased = function() {
                 return this.intygProperties.isPatientDeceased;

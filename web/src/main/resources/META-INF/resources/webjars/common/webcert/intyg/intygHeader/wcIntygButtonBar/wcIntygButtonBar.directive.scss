@@ -35,4 +35,14 @@ wc-intyg-button-bar {
       color: $wc-color-00;
     }
   }
+
+  .btn[disabled] {
+    pointer-events: none;
+  }
+  .button-tooltip {
+    display: inline-block;
+    .disabled {
+      cursor: not-allowed;
+    }
+  }
 }

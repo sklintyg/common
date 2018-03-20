@@ -39,16 +39,16 @@ angular.module('common').directive('wcUtkastStatus', [
                         return setIntygStatus($scope.intygstatus1, 'is-001');
                     }
                     else if (CommonViewState.intyg.isComplete) {
-                        return setIntygStatus($scope.intygstatus1, 'is-013');
+                        return setIntygStatus($scope.intygstatus1, 'is-016');
                     }
-                    return setIntygStatus($scope.intygstatus1, 'is-012');
+                    return setIntygStatus($scope.intygstatus1, 'is-015');
                 };
 
                 $scope.getIntygStatus2 = function() {
                     if (CommonViewState.saving) {
-                        return setIntygStatus($scope.intygstatus2, 'is-010');
+                        return setIntygStatus($scope.intygstatus2, 'is-013');
                     }
-                    return setIntygStatus($scope.intygstatus2, 'is-011');
+                    return setIntygStatus($scope.intygstatus2, 'is-014');
                 };
 
                 function setIntygStatus(scopeObj, intygStatus, vars) {

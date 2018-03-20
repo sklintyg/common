@@ -46,6 +46,10 @@ angular.module('db').constant('db.messages', {
         'db.warn.previousdraft.differentvg': 'Utkast på dödsbevis finns för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
 
         'db.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
-        'db.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.'
+        'db.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
+
+        'db.createfromtemplate.doi.tooltip': 'Skapar ett dödsorsaksintyg utifrån dödsbeviset.',
+        'db.createfromtemplate.doi.modal.header': 'Skapa dödsorsaksintyg utifrån dödsbevis',
+        'db.createfromtemplate.doi.modal.text': 'Skapa ett dödsorsaksintyg utifrån ett dödsbevis innebär att informationsmängder som är gemensama för båda intyg, automatiskt förifylls.'
     }
 });

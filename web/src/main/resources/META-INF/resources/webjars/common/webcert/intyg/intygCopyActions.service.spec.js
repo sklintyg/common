@@ -200,10 +200,24 @@ describe('IntygCopyService', function() {
         });
 
         it('should request a utkast', function() {
+
+            var dialogOptions;
+            spyOn(dialogService, 'showDialog').and.callFake(function(options) {
+                dialogOptions = options;
+                return {
+                    opened: { then: function() {} },
+                    result: { then: function() {} },
+                    close: function(result) {
+                        result.direct();
+                    }
+                };
+            });
+
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/' + intyg.newIntygType + '/create/').respond(
                 {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
             );
             IntygCopyActions.createFromTemplate($scope.viewState, intyg);
+            dialogOptions.button1click();
             $httpBackend.flush();
             expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
         });
