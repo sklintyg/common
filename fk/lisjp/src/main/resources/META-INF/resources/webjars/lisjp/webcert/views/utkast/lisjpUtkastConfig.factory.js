@@ -147,7 +147,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             key: 'DFR_35.1.RBK',
                             helpKey: 'DFR_35.1.HLP',
                             required: true,
-                            modelProp: 'funktionsnedsattning'
+                            requiredProp: 'funktionsnedsattning'
                         }
                     }]),
                     fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{
@@ -157,7 +157,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             key: 'DFR_17.1.RBK',
                             helpKey: 'DFR_17.1.HLP',
                             required: true,
-                            modelProp: 'aktivitetsbegransning'
+                            requiredProp: 'aktivitetsbegransning'
                         }
                     }])
                 ]),

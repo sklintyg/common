@@ -70,7 +70,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
             },
             dodsDatum: function(categoryName){
                 return kategori(categoryName, 'KAT_2.RBK', 'KAT_2.HLP', {}, [
-                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', { required: true }, [
+                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', { required: true, requiredProp: 'dodsdatumSakert' }, [
                         {
                             modelProp: 'dodsdatumSakert',
                             type: 'ue-radio',
@@ -81,7 +81,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             modelProp: 'dodsdatum',
                             type: 'ue-date',
                             hideExpression: 'model.dodsdatumSakert !== true',
-                            label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true}
+                            label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'dodsdatum'}
                         },
                         {
                             modelProp: 'dodsdatum',
@@ -93,7 +93,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             modelProp: 'antraffatDodDatum',
                             type: 'ue-date',
                             hideExpression: 'model.dodsdatumSakert !== false',
-                            label: {key: 'DFR_2.3.RBK', helpKey: 'DFR_2.2.HLP', required: true}
+                            label: {key: 'DFR_2.3.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'antraffatDodDatum'}
                         }
                     ]),
                     fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [
@@ -105,7 +105,8 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             label: {
                                 key: 'DFR_3.1.RBK',
                                 helpKey: 'DFR_3.1.HLP',
-                                required: true
+                                required: true,
+                                requiredProp: 'dodsplatsKommun'
                             }
                         },
                         {

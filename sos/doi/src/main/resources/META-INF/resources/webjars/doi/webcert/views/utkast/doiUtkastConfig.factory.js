@@ -118,7 +118,8 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-radiogroup', // R12
                             label: {
                                 key: 'DFR_11.1.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'operation'
                             },
                             choices: [
                                 {label: 'DFR_11.1.JA.RBK', id: 'JA'},
@@ -130,13 +131,13 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         {
                             modelProp: 'operationDatum',
                             type: 'ue-date',
-                            label: {key: 'DFR_11.2.RBK', required: true}
+                            label: {key: 'DFR_11.2.RBK', required: true, requiredProp: 'operationDatum'}
                         }]),
                     fraga(11, '', '', { hideExpression: 'model.operation !== "JA"' /* R13 */ }, [
                         {
                             modelProp: 'operationAnledning',
                             type: 'ue-textfield',
-                            label: {key: 'DFR_11.3.RBK', required: true}, htmlMaxlength: 100
+                            label: {key: 'DFR_11.3.RBK', required: true, requiredProp: 'operationAnledning'}, htmlMaxlength: 100
                         }
                     ])
                 ]),

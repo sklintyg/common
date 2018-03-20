@@ -36,7 +36,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     key: labelKey,
                     helpKey: helpKey,
                     required: options.required,
-                    modelProp: options.modelProp
+                    requiredProp: options.requiredProp
                 },
                 components: components,
                 hideExpression: options.hideExpression
@@ -57,7 +57,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     helpKey: helpKey,
                     required: options.required,
                     labelType: 'h4',
-                    modelProp: options.modelProp
+                    requiredProp: options.requiredProp
                 };
             }
             return fraga;
@@ -79,7 +79,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                         label: {
                             key: 'common.postadress',
                             required: true,
-                            modelProp: 'grundData.patient.postadress'
+                            requiredProp: 'grundData.patient.postadress'
                         },
                         htmlMaxlength: 50,
                         size: 'full',
@@ -92,7 +92,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                         label: {
                             key: 'common.postnummer',
                             required: true,
-                            modelProp: 'grundData.patient.postnummer'
+                            requiredProp: 'grundData.patient.postnummer'
                         },
                         htmlMaxlength: 6,
                         numbersOnly: true,
@@ -106,7 +106,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                         label: {
                             key: 'common.postort',
                             required: true,
-                            modelProp: 'grundData.patient.postort'
+                            requiredProp: 'grundData.patient.postort'
                         },
                         htmlMaxlength: 25,
                         labelColSize: labelColSize,
@@ -133,7 +133,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postadress',
                     required: true,
-                    modelProp: 'grundData.skapadAv.vardenhet.postadress',
+                    requiredProp: 'grundData.skapadAv.vardenhet.postadress',
                     whitespaceBreak: false
                 },
                 size: 'full',
@@ -146,7 +146,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postnummer',
                     required: true,
-                    modelProp: 'grundData.skapadAv.vardenhet.postnummer',
+                    requiredProp: 'grundData.skapadAv.vardenhet.postnummer',
                     whitespaceBreak: false
                 },
                 size: '5',
@@ -160,7 +160,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.postort',
                     required: true,
-                    modelProp: 'grundData.skapadAv.vardenhet.postort',
+                    requiredProp: 'grundData.skapadAv.vardenhet.postort',
                     whitespaceBreak: false
                 },
                 size: 'full',
@@ -173,7 +173,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 label: {
                     key: 'common.telefonnummer',
                     required: true,
-                    modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
+                    requiredProp: 'grundData.skapadAv.vardenhet.telefonnummer',
                     whitespaceBreak: false
                 },
                 size: '20',

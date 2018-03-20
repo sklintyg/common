@@ -2,7 +2,7 @@
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
       <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
-        <ue-label config="::config.label"></ue-label>
+        <ue-label config="::config.label" model="::model"></ue-label>
       </div>
       <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"

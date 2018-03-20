@@ -102,7 +102,8 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         label: {
                             key: 'DFR_7.1.RBK',
                             helpKey: 'DFR_7.1.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'polisanmalan'
                         },
                         disabledExpression: 'model.undersokningYttre === "UNDERSOKNING_SKA_GORAS"',
                         watcher: {

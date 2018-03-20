@@ -38,6 +38,9 @@ ue-dodsorsak-row {
   .dodsorsak-row__controls {
     padding-left: 30px;
     position: relative;
+    .required {
+      left: 18px;
+    }
   }
 
   .dodsorsak-row__letter {
