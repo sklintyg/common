@@ -1,6 +1,6 @@
 <div ng-class="::{'form-inline': !config.vertical, 'form-horizontal': config.vertical}" class="ue-del-fraga">
     <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-        <ue-label config="::config.label" model="::model"></ue-label>
+        <ue-label config="::config.label" model="::model" class="{{config.htmlClass}}"></ue-label>
         <wc-radio-wrapper>
             <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}Yes"
                    name="{{::config.modelProp}}"

@@ -6,7 +6,7 @@
   <span wc-help-chevron-text help-text-key="{{config.label.helpKey}}"></span>
   <div class="dodsorsak-row__controls">
     <div>{{config.requireDescription}}
-      <span dynamic-label key="{{config.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.beskrivningLabel}}.HLP"></span> <span ng-if="requireDescription && !modelValue.beskrivning" class="required">*</span>
+      <span dynamic-label key="{{config.beskrivningLabel}}.RBK" class="label-padding"></span> <span wc-help-chevron help-text-key="{{config.beskrivningLabel}}.HLP"></span> <span ng-if="requireDescription && !modelValue.beskrivning" class="required">*</span>
       <span wc-help-chevron-text help-text-key="{{config.beskrivningLabel}}.HLP"></span>
       <input id="orsak-{{rowIndex}}-beskrivning"
              type="text"
