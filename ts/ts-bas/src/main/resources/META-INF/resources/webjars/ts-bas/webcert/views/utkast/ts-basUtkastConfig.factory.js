@@ -324,7 +324,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         ]
                     }]),
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {
-                        validationContext: {key: 'diabetes.behandlingsTyp', type: 'checkgroup'},
+                        validationContext: {key: 'diabetes.behandlingsTyp', type: 'ue-checkgroup'},
                         required:true,
                         hideExpression:'model.diabetes.diabetesTyp != "DIABETES_TYP_2"' },
                         [{
