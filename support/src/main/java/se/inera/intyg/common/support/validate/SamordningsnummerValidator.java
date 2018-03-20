@@ -77,7 +77,7 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
             pnr = pnr + "-0000";
         }
 
-        if (!isSamordningsNummer(Personnummer.createValidatedPersonnummer(pnr))) {
+        if (!isSamordningsNummer(Personnummer.createPersonnummer(pnr))) {
             throw new IllegalArgumentException("Personnummer " + pnr + " is not a valid 'samordningsnummer");
         }
 

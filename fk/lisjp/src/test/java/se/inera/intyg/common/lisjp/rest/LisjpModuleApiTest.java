@@ -505,7 +505,7 @@ public class LisjpModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {

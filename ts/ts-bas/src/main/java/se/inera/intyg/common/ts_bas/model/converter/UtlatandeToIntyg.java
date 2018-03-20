@@ -78,7 +78,7 @@ public final class UtlatandeToIntyg {
     private static void formatPersonId(Intyg intyg) {
         String personId = intyg.getPatient().getPersonId().getExtension();
 
-        Optional<Personnummer> personnummer = Personnummer.createValidatedPersonnummer(personId);
+        Optional<Personnummer> personnummer = Personnummer.createPersonnummer(personId);
         if (personnummer.isPresent()) {
             intyg.getPatient().getPersonId().setExtension(personnummer.get().getPersonnummerWithDash());
         }

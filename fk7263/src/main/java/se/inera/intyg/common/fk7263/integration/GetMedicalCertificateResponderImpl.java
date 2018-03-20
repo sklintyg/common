@@ -57,7 +57,7 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
 
         String certificateId = request.getCertificateId();
         Personnummer nationalIdentityNumber = request.getNationalIdentityNumber() != null
-                ? Personnummer.createValidatedPersonnummer(request.getNationalIdentityNumber()).get()
+                ? Personnummer.createPersonnummer(request.getNationalIdentityNumber()).get()
                 : null;
 
         CertificateHolder certificate = null;

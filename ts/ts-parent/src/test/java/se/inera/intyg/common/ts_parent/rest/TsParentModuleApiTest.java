@@ -252,7 +252,7 @@ public class TsParentModuleApiTest {
         patient.setMellannamn("updated middle-name");
         patient.setFornamn("updated firstName");
         patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         patient.setPostadress("updated postal address");
         patient.setPostnummer("1111111");
         patient.setPostort("updated post city");

@@ -460,7 +460,7 @@ public class LuaefsModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private HoSPersonal createHosPersonal() {

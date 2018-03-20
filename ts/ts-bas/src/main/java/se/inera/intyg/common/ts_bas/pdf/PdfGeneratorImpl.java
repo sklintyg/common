@@ -69,6 +69,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD_LAKARE_EJ_LEG_AT;
@@ -191,7 +192,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     @Override
     public String generatePdfFilename(TsBasUtlatande utlatande) {
         Personnummer personnummer = utlatande.getGrundData().getPatient().getPersonId();
-        String personnummerString = personnummer.isValid() ? personnummer.getPersonnummerWithDash() : "NoPnr";
+        String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 

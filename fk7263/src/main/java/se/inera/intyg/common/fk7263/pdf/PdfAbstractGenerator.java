@@ -46,6 +46,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author andreaskaltenbach
@@ -219,7 +220,7 @@ public abstract class PdfAbstractGenerator {
 
     public String generatePdfFilename(boolean isCustomized) {
         Personnummer personnummer = intyg.getGrundData().getPatient().getPersonId();
-        String personnummerString = personnummer.isValid() ? personnummer.getPersonnummerWithDash() : "NoPnr";
+        String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         String prefix = isCustomized ? "anpassat_" : "";
         String intygstyp = "fk7263";
         return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, personnummerString);

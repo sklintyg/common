@@ -319,7 +319,7 @@ public final class InternalConverterUtil {
             boolean extendedPatientInfo) {
 
         String pnr = sourcePatient.getPersonId().getPersonnummer();
-        Personnummer personnummer = Personnummer.createValidatedPersonnummer(pnr).get();
+        Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
 
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
         patient.setPersonId(getPersonId(personnummer));

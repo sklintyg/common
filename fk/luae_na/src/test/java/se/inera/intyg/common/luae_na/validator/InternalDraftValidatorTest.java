@@ -622,7 +622,7 @@ public class InternalDraftValidatorTest {
         skapadAv.setFullstandigtNamn(SKAPADAV_PERSON_NAMN);
 
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createValidatedPersonnummer(PATIENT_PERSON_ID).get());
+        patient.setPersonId(Personnummer.createPersonnummer(PATIENT_PERSON_ID).get());
         patient.setPostadress("postadress");
         patient.setPostnummer("12345");
         patient.setPostort("postort");

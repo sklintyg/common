@@ -323,7 +323,7 @@ public final class TransportToInternal {
      */
     private static Patient convertPatient(PatientType source) {
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createValidatedPersonnummer(source.getPersonId().getExtension()).get());
+        patient.setPersonId(Personnummer.createPersonnummer(source.getPersonId().getExtension()).get());
         return patient;
     }
 

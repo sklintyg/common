@@ -103,7 +103,7 @@ public final class TransportToInternalUtil {
         patient.setEfternamn(source.getEfternamn());
         patient.setFornamn(source.getFornamn());
         patient.setFullstandigtNamn(source.getFullstandigtNamn());
-        patient.setPersonId(Personnummer.createValidatedPersonnummer(source.getPersonId().getExtension()).get());
+        patient.setPersonId(Personnummer.createPersonnummer(source.getPersonId().getExtension()).get());
         patient.setPostadress(source.getPostadress());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostort(source.getPostort());

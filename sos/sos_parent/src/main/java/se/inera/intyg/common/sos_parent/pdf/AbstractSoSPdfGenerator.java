@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by marced on 2017-10-16.
@@ -257,7 +258,7 @@ public abstract class AbstractSoSPdfGenerator {
     }
 
     private boolean isValidPersonnummer(Personnummer personnummer) {
-        return personnummer != null && personnummer.isValid();
+        return Optional.ofNullable(personnummer).isPresent();
     }
 
 }

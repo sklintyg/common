@@ -98,7 +98,7 @@ public class WebcertModelFactoryTest {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         return patient;
     }
 

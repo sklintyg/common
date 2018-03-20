@@ -63,7 +63,7 @@ public final class IntygTestDataBuilder {
     }
 
     private static Patient getPatient() {
-        Personnummer personnummer = Personnummer.createValidatedPersonnummer("19270310-4321").get();
+        Personnummer personnummer = Personnummer.createPersonnummer("19270310-4321").get();
         Patient patient = new Patient();
         patient.setPersonId(personnummer);
         return patient;

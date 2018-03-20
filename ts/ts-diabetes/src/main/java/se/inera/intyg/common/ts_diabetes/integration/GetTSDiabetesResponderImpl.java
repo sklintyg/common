@@ -120,7 +120,7 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
 
     private Personnummer getPersonnummer(GetTSDiabetesType request) {
         if (request.getPersonId() != null) {
-            Optional<Personnummer> optional = Personnummer.createValidatedPersonnummer(request.getPersonId().getExtension());
+            Optional<Personnummer> optional = Personnummer.createPersonnummer(request.getPersonId().getExtension());
             if (optional.isPresent()) {
                 return optional.get();
             }

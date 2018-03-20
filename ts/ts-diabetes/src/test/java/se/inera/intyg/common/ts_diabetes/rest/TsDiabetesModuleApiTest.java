@@ -402,7 +402,7 @@ public class TsDiabetesModuleApiTest {
         Patient patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         return new CreateNewDraftHolder("Id1", hosPersonal, patient);
     }
 

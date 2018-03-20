@@ -257,7 +257,7 @@ public class GetTSDiabetesResponderImplTest {
     }
 
     private Personnummer createPnr(String pnr) {
-        return Personnummer.createValidatedPersonnummer(pnr).get();
+        return Personnummer.createPersonnummer(pnr).get();
     }
 
     private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {

@@ -29,6 +29,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Optional;
 
 /**
  * Generic PDF renderer that delegates (almost) all rendering logic to a given model.
@@ -77,7 +78,7 @@ public final class PdfGenerator {
     }
 
     public static String generatePdfFilename(Personnummer personnummer, String fileNamePrefix) {
-        final String personnummerString = personnummer.isValid() ? personnummer.getPersonnummerWithDash() : "NoPnr";
+        final String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
     }
 }

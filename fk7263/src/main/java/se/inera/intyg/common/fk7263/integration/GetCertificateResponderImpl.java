@@ -83,7 +83,7 @@ public class GetCertificateResponderImpl implements
             response.setResult(ResultOfCallUtil.failResult("Validation error: missing nationalIdentityNumber"));
             return response;
         }
-        Personnummer personnummer = Personnummer.createValidatedPersonnummer(nationalIdentityNumber).get();
+        Personnummer personnummer = Personnummer.createPersonnummer(nationalIdentityNumber).get();
 
         CertificateHolder certificate = null;
 

@@ -345,14 +345,14 @@ public class InternalConverterUtilTest {
 
     @Test
     public void testPersonnummerRoot() {
-        final Personnummer pnr = Personnummer.createValidatedPersonnummer("19121212-1212").get();
+        final Personnummer pnr = Personnummer.createPersonnummer("19121212-1212").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
         assertEquals("1.2.752.129.2.1.3.1", res.getRoot());
     }
     @Test
     public void testSamordningsRoot() {
-        final Personnummer pnr = Personnummer.createValidatedPersonnummer("19800191-0002").get();
+        final Personnummer pnr = Personnummer.createPersonnummer("19800191-0002").get();
         PersonId res = InternalConverterUtil.getPersonId(pnr);
         assertEquals(pnr.getPersonnummer(), res.getExtension());
         assertEquals("1.2.752.129.2.1.3.3", res.getRoot());
@@ -423,7 +423,7 @@ public class InternalConverterUtilTest {
         skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
         Patient patient = new Patient();
-        Personnummer personId = Personnummer.createValidatedPersonnummer(patientPersonId).get();
+        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);

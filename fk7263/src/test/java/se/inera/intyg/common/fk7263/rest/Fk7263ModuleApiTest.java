@@ -493,7 +493,7 @@ public class Fk7263ModuleApiTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private String marshall(String jsonString) throws Exception {

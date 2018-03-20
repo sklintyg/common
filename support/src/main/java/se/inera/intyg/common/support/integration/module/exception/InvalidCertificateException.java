@@ -20,6 +20,8 @@ package se.inera.intyg.common.support.integration.module.exception;
 
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.util.Optional;
+
 /**
  * Exception thrown whenever a certificate with unknown certificate ID is tried to access, or the civic registration
  * number doesn't match the one in the certificate.
@@ -37,6 +39,6 @@ public class InvalidCertificateException extends Exception {
     }
 
     private static boolean isValidPersonnummer(Personnummer personnummer) {
-        return personnummer != null && personnummer.isValid();
+        return Optional.ofNullable(personnummer).isPresent();
     }
 }

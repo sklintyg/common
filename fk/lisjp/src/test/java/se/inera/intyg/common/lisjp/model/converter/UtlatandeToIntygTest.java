@@ -203,7 +203,7 @@ public class UtlatandeToIntygTest {
         skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
 
-        Personnummer personId = Personnummer.createValidatedPersonnummer(patientPersonId).get();
+        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
 
         Patient patient = new Patient();
         patient.setPersonId(personId);

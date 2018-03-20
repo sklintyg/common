@@ -411,7 +411,7 @@ public class DoiModuleApiTest {
         if (StringUtils.isNotEmpty(efternamn)) {
             patient.setEfternamn(efternamn);
         }
-        patient.setPersonId(Personnummer.createValidatedPersonnummer(pnr).get());
+        patient.setPersonId(Personnummer.createPersonnummer(pnr).get());
         return patient;
     }
 

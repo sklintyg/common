@@ -47,20 +47,20 @@ public class PersonnummerCommonTest {
 
     @Test
     public void testIsSamordningsNummer() throws Exception {
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("000000-0000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("999999-9999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("0000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("9999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("000000000000")));
-        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("199999999999")));
-        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPersonnummer("99999999999912345")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000-0000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("999999-9999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("0000000000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("9999999999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("000000000000")));
+        assertTrue(SamordningsnummerValidator.isSamordningsNummer(createPnr("199999999999")));
+        assertFalse(SamordningsnummerValidator.isSamordningsNummer(createPnr("99999999999912345")));
     }
 
     @Test
     public void testSerializeDeserializePersonnummerAsPartOfComplexType() throws Exception {
         //Given
         final ObjectMapper objectMapper = new ObjectMapper();
-        final Personnummer originalPnr = createPersonnummer("191212121212").get();
+        final Personnummer originalPnr = createPnr("191212121212").get();
         final CertificateHolder complexType = new CertificateHolder();
         complexType.setCivicRegistrationNumber(originalPnr);
         complexType.setAdditionalInfo("test text");
@@ -78,8 +78,8 @@ public class PersonnummerCommonTest {
         assertEquals(originalPnr.getPersonnummer(), patient.getCivicRegistrationNumber().getPersonnummer());
     }
 
-    private Optional<Personnummer> createPersonnummer(String pnr) {
-        return Personnummer.createValidatedPersonnummer(pnr);
+    private Optional<Personnummer> createPnr(String pnr) {
+        return Personnummer.createPersonnummer(pnr);
     }
 
 }

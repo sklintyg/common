@@ -269,7 +269,7 @@ public class InternalToTransportConverterTest {
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {
-        return Personnummer.createValidatedPersonnummer(civicRegistrationNumber).get();
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {

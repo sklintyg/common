@@ -57,6 +57,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatande> {
@@ -167,7 +168,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     @Override
     public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        String personnummerString = personId.isValid() ? personId.getPersonnummerWithDash() : "NoPnr";
+        String personnummerString = Optional.ofNullable(personId).isPresent() ? personId.getPersonnummerWithDash() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 

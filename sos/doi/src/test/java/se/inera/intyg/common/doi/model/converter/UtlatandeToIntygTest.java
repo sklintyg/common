@@ -429,7 +429,7 @@ public class UtlatandeToIntygTest {
         skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
         Patient patient = new Patient();
-        Personnummer personId = Personnummer.createValidatedPersonnummer(patientPersonId).get();
+        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);

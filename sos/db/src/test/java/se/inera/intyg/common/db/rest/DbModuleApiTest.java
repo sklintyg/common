@@ -339,7 +339,7 @@ public class DbModuleApiTest {
 
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(Personnummer.createValidatedPersonnummer("191212121212").get());
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -375,7 +375,7 @@ public class DbModuleApiTest {
     private Utlatande createUtlatande() {
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(Personnummer.createValidatedPersonnummer("191212121212").get());
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
         return DbUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
@@ -397,7 +397,7 @@ public class DbModuleApiTest {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         return new CreateNewDraftHolder("certificateId", createHosPersonal(), patient);
     }
 

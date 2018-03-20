@@ -259,7 +259,7 @@ public class ModelConverterTest {
     private Utlatande buildUtlatande(final String certificateId, final LocalDateTime signedDate, final String personId,
             final String fullstandigtNamn) {
 
-        Personnummer personnummer = Personnummer.createValidatedPersonnummer(personId).get();
+        Personnummer personnummer = Personnummer.createPersonnummer(personId).get();
 
         Patient patient = new Patient();
         patient.setPersonId(personnummer);

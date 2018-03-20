@@ -274,7 +274,7 @@ public class GetTSBasResponderImplTest {
     }
 
     private Personnummer createPnr(String pnr) {
-        return Personnummer.createValidatedPersonnummer(pnr).get();
+        return Personnummer.createPersonnummer(pnr).get();
     }
 
     private String xmlToString(RegisterTSBasType registerTsBas) throws JAXBException {

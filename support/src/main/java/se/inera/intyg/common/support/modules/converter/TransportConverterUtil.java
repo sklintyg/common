@@ -324,7 +324,7 @@ public final class TransportConverterUtil {
      */
     public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {
         String pnr = source.getPersonId().getExtension();
-        Personnummer personnummer = Personnummer.createValidatedPersonnummer(pnr).get();
+        Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
 
         Patient patient = new Patient();
         patient.setPersonId(personnummer);

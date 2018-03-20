@@ -140,7 +140,7 @@ public class WebcertModelFactoryTest {
         patient.setMellannamn("Jobs");
         patient.setEfternamn("Appleseed");
         patient.setFullstandigtNamn("Johnny Jobs Appleseed");
-        patient.setPersonId(Personnummer.createValidatedPersonnummer("19121212-1212").get());
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         patient.setPostadress("Testvägen 12");
         patient.setPostnummer("13337");
         patient.setPostort("Huddinge");
