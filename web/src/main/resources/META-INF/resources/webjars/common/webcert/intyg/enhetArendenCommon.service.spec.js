@@ -213,7 +213,7 @@ describe('fragaSvarCommonService', function() {
         it('toggle', function() {
             var fraga = {};
             var onVidarebefordradChange = function() {};
-            enhetArendenCommonService.handleVidareBefodradToggle(fraga, onVidarebefordradChange);
+            enhetArendenCommonService.handleVidareBefodradToggle(onVidarebefordradChange);
         });
     });
 

@@ -31,10 +31,10 @@ angular.module('common').factory('common.enhetArendenCommonService',
             /*
              * Toggle vidarebefordrad state of a fragasvar entity with given id
              */
-            function _setVidareBefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
+            function _setVidareBefordradState(intygId, intygsTyp, isVidareBefordrad, callback) {
                 $log.debug('_setVidareBefordradState');
-                var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-                $http.put(restPath, {'dispatched' : isVidareBefordrad}).then(function(response) {
+                var restPath = '/moduleapi/arende/' + intygId + '/vidarebefordrad';
+                $http.post(restPath).then(function(response) {
                     $log.debug('_setVidareBefordradState data:' + response.data);
                     callback(response.data);
                 }, function(response) {
