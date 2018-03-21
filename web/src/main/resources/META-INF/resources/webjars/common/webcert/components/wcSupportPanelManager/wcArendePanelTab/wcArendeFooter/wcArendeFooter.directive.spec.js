@@ -102,12 +102,13 @@ describe('wArendeFooter', function() {
     describe('#vidarebefordra', function() {
         it('should setVidarebefordradState when forward state is changed with onVidarebefordrad', function() {
 
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,fn) {
-                fn({
+            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,fn) {
+                fn([{
                     fraga: {
-                        vidarebefordrad: true
+                        vidarebefordrad: true,
+                        status: 'CLOSED'
                     }
-                });
+                }]);
             });
 
             $scope.onVidarebefordradChange();
@@ -117,7 +118,7 @@ describe('wArendeFooter', function() {
 
         it('should show error message if request fails', function() {
 
-            ArendeProxy.setVidarebefordradState.and.callFake(function(a,fn) {
+            ArendeProxy.setVidarebefordradState.and.callFake(function(a,b,fn) {
                 fn('');
             });
 

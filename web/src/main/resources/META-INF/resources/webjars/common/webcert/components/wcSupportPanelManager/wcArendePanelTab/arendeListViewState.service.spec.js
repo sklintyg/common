@@ -23,18 +23,14 @@ describe('ArendeListViewState', function() {
     var ArendeListViewStateService;
 
     var closed = {
-        arende: {
-            fraga: {
-                status: 'CLOSED'
-            }
+        fraga: {
+            status: 'CLOSED'
         }
     };
 
     var open = {
-        arende: {
-            fraga: {
-                status: 'PENDING_INTERNAL_ACTION'
-            }
+        fraga: {
+            status: 'PENDING_INTERNAL_ACTION'
         }
     };
 

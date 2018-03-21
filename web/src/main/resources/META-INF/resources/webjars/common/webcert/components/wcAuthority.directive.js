@@ -17,23 +17,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcAuthority',
-    ['common.authorityService',
-        function(authorityService) {
+    [ '$timeout', 'common.authorityService',
+        function($timeout, authorityService) {
             'use strict';
             return {
                 restrict: 'A',
                 link: function($scope, $element, $attr) {
-                    var options = {
-                        authority: $attr.wcAuthority,
-                        feature: $attr.feature,
-                        role: $attr.role,
-                        intygstyp: $attr.intygstyp,
-                        requestOrigin: $attr.requestOrigin
-                    };
+                    $timeout(function(){
 
-                    if (!authorityService.isAuthorityActive(options)) {
-                        $element.remove();
-                    }
+                        var options = {
+                            authority: $attr.wcAuthority,
+                            feature: $attr.feature,
+                            role: $attr.role,
+                            intygstyp: $attr.intygstyp,
+                            requestOrigin: $attr.requestOrigin
+                        };
+                        if (!authorityService.isAuthorityActive(options)) {
+                            $element.remove();
+                        }
+                    });
                 }
             };
         }]);

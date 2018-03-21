@@ -18,9 +18,9 @@
  */
 
 angular.module('common').directive('wcArendePanelTab', [
-    '$log', '$rootScope', '$state', '$stateParams', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
+    '$log', '$rootScope', '$state', '$stateParams', '$timeout', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
     'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
-    function($log, $rootScope, $state, $stateParams, ObjectHelper, ErrorHelper, UserModel,
+    function($log, $rootScope, $state, $stateParams, $timeout, ObjectHelper, ErrorHelper, UserModel,
         ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
     'use strict';
 
@@ -71,7 +71,6 @@ angular.module('common').directive('wcArendePanelTab', [
 
                 ArendeProxy.getArenden(intygId, intygProperties.type, function(result) {
                     $log.debug('getArendeForCertificate:success data:' + result);
-                    ArendeListViewState.doneLoading = true;
                     ArendeListViewState.activeErrorMessageKey = null;
 
                     ArendeListViewState.setArendeList(result);
@@ -79,6 +78,10 @@ angular.module('common').directive('wcArendePanelTab', [
                     // Select default state for isFilterKomplettering
                     $scope.isFilterKomplettering =
                         !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount > 0);
+
+                    $timeout(function(){
+                        ArendeListViewState.doneLoading = true;
+                    });
 
                 }, function(errorData) {
                     // show error view

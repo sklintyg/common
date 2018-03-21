@@ -154,7 +154,9 @@ angular.module('common').directive('arendeNew',
                                 if (arendeModel !== null) {
 
                                     // add new arende to open list
-                                    ArendeNewViewState.parentViewState.arendeList.push(ArendeNewViewState.parentViewState.createArendeListItem(arendeModel, ArendeNewViewState.parentViewState.intygProperties.type));
+                                    var ArendeListViewState = ArendeNewViewState.parentViewState;
+                                    ArendeListViewState.arendeList.push(ArendeListViewState.createArendeListItem(arendeModel,
+                                            ArendeListViewState.intygProperties.type));
 
                                     arendeNewModel.reset();
 

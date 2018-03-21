@@ -25,6 +25,7 @@ describe('arendeNew', function() {
     var $scope;
     var element;
     var ArendeNewViewState;
+    var ArendeListViewState;
 
     var arende = {
         fraga:{'kompletteringar':[],'internReferens':'ref-1','status':'CLOSED','amne':'OVRIGT','meddelandeRubrik':'Övrigt',
@@ -67,9 +68,10 @@ describe('arendeNew', function() {
             $httpBackend = _$httpBackend_;
             ArendeNewViewState = _ArendeNewViewState_;
             $scope = $rootScope.$new();
+            ArendeListViewState = _ArendeListViewStateService_;
 
-            $scope.arendeList = [_ArendeListItemModel_.build(arende)];
-            $scope.parentViewState = _ArendeListViewStateService_.reset();
+            $scope.parentViewState = ArendeListViewState.reset();
+            ArendeListViewState.setArendeList([arende]);
             $scope.parentViewState.setIntygType('intygstyp');
             element = $compile('<arende-new arende-list="arendeList" parent-view-state="parentViewState"></arende-new>')($scope);
             $scope.$digest();
@@ -77,28 +79,28 @@ describe('arendeNew', function() {
         }]));
 
     it('Should send new Ärende', function() {
-        expect($scope.arendeList.length).toBe(1);
+        expect(ArendeListViewState.arendeList.length).toBe(1);
         $scope.arendeNewModel.frageText = 'Fråga';
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(200, arende);
         $httpBackend.flush();
 
-        expect($scope.arendeList.length).toBe(2);
-        expect($scope.arendeList[0].arende).toEqual(arende);
-        expect($scope.arendeList[1].arende).toEqual(arende);
+        expect(ArendeListViewState.arendeList.length).toBe(2);
+        expect(ArendeListViewState.arendeList[0].arende).toEqual(arende);
+        expect(ArendeListViewState.arendeList[1].arende).toEqual(arende);
     });
 
     it('Should send new Ärende', function() {
-        expect($scope.arendeList.length).toBe(1);
+        expect(ArendeListViewState.arendeList.length).toBe(1);
         $scope.arendeNewModel.frageText = 'Fråga';
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(500);
         $httpBackend.flush();
 
-        expect($scope.arendeList.length).toBe(1);
-        expect($scope.arendeList[0].arende).toEqual(arende);
+        expect(ArendeListViewState.arendeList.length).toBe(1);
+        expect(ArendeListViewState.arendeList[0].arende).toEqual(arende);
         expect(ArendeNewViewState.activeErrorMessageKey).toBe('unknown');
     });
 });

@@ -5,6 +5,14 @@ wc-arende-panel-tab {
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
   background-color: $wc-color-28;
 
+  /* Forcing spinner to use flex just in this tab */
+  wc-spinner, wc-spinner > div, wc-spinner > div > div:not(.wc-spinner), wc-spinner > div > div > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+  }
+
   wc-support-panel-scrollable-body .tab-content-scrollable-body {
     padding: 0;
     .card {

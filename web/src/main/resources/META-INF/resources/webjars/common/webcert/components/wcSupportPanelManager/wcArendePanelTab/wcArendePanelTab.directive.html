@@ -1,3 +1,5 @@
+<wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
+
 <div class="tab-content-title-row">
 
   <ul class="nav navbar-nav" ng-if="viewState.intygProperties.isSent">
@@ -24,8 +26,6 @@
 <wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
   <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
-
-  <div wc-spinner label="common.loading.existing.arenden" show-spinner="!viewState.doneLoading">
 
     <!-- error message -->
     <wc-alert-message id="arende-list-load-error"
@@ -72,9 +72,9 @@
 
     </div>
 
-  </div>
-  <!--  end spinner -->
-
 </wc-support-panel-scrollable-body>
 
 <wc-arende-footer ng-if="config.intygContext.isSigned" arende-list="viewState.arendeList"></wc-arende-footer>
+
+</wc-spinner>
+<!--  end spinner -->

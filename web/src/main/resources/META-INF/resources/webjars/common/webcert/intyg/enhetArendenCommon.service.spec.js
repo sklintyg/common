@@ -196,7 +196,7 @@ describe('fragaSvarCommonService', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
             enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
-            $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(200,{fragasvar:'aaa'});
+            $httpBackend.expectPUT('/moduleapi/arende/111/vidarebefordrad').respond(200,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith({fragasvar:'aaa'});
         });
@@ -205,13 +205,12 @@ describe('fragaSvarCommonService', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
             enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
-            $httpBackend.expectPUT('/moduleapi/fragasvar/testIntygTyp/111/hanterad').respond(500,{fragasvar:'aaa'});
+            $httpBackend.expectPUT('/moduleapi/arende/111/vidarebefordrad').respond(500,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith(null);
         });
 
         it('toggle', function() {
-            var fraga = {};
             var onVidarebefordradChange = function() {};
             enhetArendenCommonService.handleVidareBefodradToggle(onVidarebefordradChange);
         });
