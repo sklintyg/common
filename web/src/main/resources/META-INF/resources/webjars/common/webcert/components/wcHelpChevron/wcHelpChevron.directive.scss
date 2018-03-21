@@ -33,3 +33,9 @@
     outline: none;
   }
 }
+
+// För att pilen på hjälprutan ska peka rätt förväntas 10px padding. h4 har 0 padding.
+// Kan vi baka ihop HelpChevronText med HelpChevron nu när de ändå är beroende av varandra för att kunna peka med pilen?
+h4 .wc-help-chevron.wc-help-chevron-open {
+  margin-bottom: 10px;
+}
