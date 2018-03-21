@@ -92,9 +92,15 @@ wc-app-header {
     a {
       color: $wc-color-20;
       text-decoration: underline;
+      &:hover {
+        color: $wc-color-03;
+      }
     }
     .btn.btn-link {
       color: $wc-color-20;
+      &:hover {
+        color: $wc-color-03;
+      }
     }
 
   }
@@ -127,7 +133,7 @@ wc-app-header {
       text-decoration: underline;
       &:focus, &:hover {
         background-color: $wc-color-17;
-        color: $wc-color-20;
+        color: $wc-color-03;
         text-decoration: underline;
       }
     }
