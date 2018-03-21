@@ -93,7 +93,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                         .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
                                 ValidationMessageType.INCORRECT_COMBINATION,
                                 "db.validation.undersokningDatum.after.dodsdatum");
-            } else if (!utlatande.getDodsdatumSakert() && utlatande.getAntraffatDodDatum().isValidDate()
+            } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
+                    && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
