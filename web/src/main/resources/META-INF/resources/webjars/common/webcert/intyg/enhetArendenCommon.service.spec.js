@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('fragaSvarCommonService', function() {
+describe('enhetArendenCommonService', function() {
     'use strict';
 
     describe('#isUnhandled', function() {
@@ -196,7 +196,7 @@ describe('fragaSvarCommonService', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
             enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
-            $httpBackend.expectPUT('/moduleapi/arende/111/vidarebefordrad').respond(200,{fragasvar:'aaa'});
+            $httpBackend.expectPOST('/moduleapi/arende/111/vidarebefordrad').respond(200,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith({fragasvar:'aaa'});
         });
@@ -205,7 +205,7 @@ describe('fragaSvarCommonService', function() {
             var callback = {done:function(){}};
             spyOn(callback,'done');
             enhetArendenCommonService.setVidareBefordradState('111', 'testIntygTyp', true, callback.done);
-            $httpBackend.expectPUT('/moduleapi/arende/111/vidarebefordrad').respond(500,{fragasvar:'aaa'});
+            $httpBackend.expectPOST('/moduleapi/arende/111/vidarebefordrad').respond(500,{fragasvar:'aaa'});
             $httpBackend.flush();
             expect(callback.done).toHaveBeenCalledWith(null);
         });
