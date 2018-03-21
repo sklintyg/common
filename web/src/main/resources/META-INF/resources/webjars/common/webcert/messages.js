@@ -564,12 +564,12 @@ angular.module('common').constant('common.messages', {
         'common.validation.ue-date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD.',
         'common.validation.ue-prognos.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-checkgroup-ts.empty': 'Du måste välja ett alternativ.',
-        'common.validation.ue-synskarpa.empty': 'Du måste välja ett alternativ.',
+        'common.validation.ue-synskarpa.empty': 'Fältet får inte vara tomt.',
         'common.validation.ue-syn.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-korkort-bedomning.empty': 'Du måste välja ett alternativ.',
         'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.ue-vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00.',
-        'common.validation.ue-dodsorsak-foljd.empty': 'Dödsorsak måste anges.',
+        'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
 
         // Specifika valideringsmeddelande från backend
 
