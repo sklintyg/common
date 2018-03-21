@@ -63,7 +63,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
-                        htmlClass: 'no-padding-top',
+                        htmlClass: 'no-padding',
                         labelTemplate:'KORKORT_{0}.RBK'
                     }])
                 ]),
@@ -73,7 +73,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
-                        htmlClass: 'col-md-6',
+                        htmlClass: 'col-md-6 no-padding',
                         paddingBottom: true,
                         choices: [
                             {label: 'ts-diabetes.label.identitet.id_kort', id: 'ID_KORT'},

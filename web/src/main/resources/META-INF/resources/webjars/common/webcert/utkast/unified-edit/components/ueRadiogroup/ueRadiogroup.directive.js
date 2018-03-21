@@ -35,7 +35,13 @@ angular.module('common').directive('ueRadiogroup', [ 'ueUtil', function(ueUtil) 
             } else {
                 var str = $scope.config.htmlClass;
                 $scope.classList = str.split(' ');
-                $scope.config.htmlClass = $scope.classList[0];
+                for (var i = 0; i < $scope.classList.length; i++) {
+                    if ($scope.classList[i] === 'no-padding') {
+                        $scope.noPaddingClass = true;
+                    } else {
+                        $scope.config.htmlClass = $scope.classList[i];
+                    }
+                }
             }
             ueUtil.standardSetup($scope);
         }
