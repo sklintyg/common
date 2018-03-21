@@ -45,7 +45,15 @@ uv-kategori {
       font-family: $font-0, $font-3;
       padding: $intyg-signed-card-h3-padding;
       color: $wc-color-08;
+      span {
+        padding-top: 5px;
+        display: inline-block;
+        &:empty {
+          display: none;
+        }
+      }
     }
+
   }
 
   h4 {
@@ -83,7 +91,7 @@ uv-table uv-no-value {
 }
 
 uv-patient-grund {
-  margin-top: 28px;
+  margin-top: 14px;
 }
 
 fk-uv-table,
