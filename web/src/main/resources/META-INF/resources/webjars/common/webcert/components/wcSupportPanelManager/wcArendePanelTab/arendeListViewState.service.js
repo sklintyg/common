@@ -69,7 +69,7 @@ angular.module('common').service('common.ArendeListViewStateService',
             };
 
             this.createArendeListItem = function(arendeModel) {
-                var arendeListItem = ArendeListItemModel.build(arendeModel, this.intygProperties.type);
+                var arendeListItem = ArendeListItemModel.build(arendeModel);
                 return arendeListItem;
             };
 

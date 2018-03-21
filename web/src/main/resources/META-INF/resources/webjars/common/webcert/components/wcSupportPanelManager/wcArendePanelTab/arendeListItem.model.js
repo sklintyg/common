@@ -28,7 +28,7 @@ angular.module('common').factory('common.ArendeListItemModel',
         /**
          * Constructor
          */
-        function ArendeListItemModel(arendeModel, intygType) {
+        function ArendeListItemModel(arendeModel) {
             this.atgardMessageId = '';
             this.arende = arendeModel; // ArendeModel from backend
             this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
@@ -44,8 +44,8 @@ angular.module('common').factory('common.ArendeListItemModel',
             return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
         }
 
-        ArendeListItemModel.build = function(arendeModel, intygType) {
-            return new ArendeListItemModel(arendeModel, intygType);
+        ArendeListItemModel.build = function(arendeModel) {
+            return new ArendeListItemModel(arendeModel);
         };
 
         ArendeListItemModel.prototype.updateArendeListItem = function () {
