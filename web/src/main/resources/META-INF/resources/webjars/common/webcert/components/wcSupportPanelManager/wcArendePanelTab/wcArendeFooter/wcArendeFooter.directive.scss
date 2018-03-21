@@ -29,6 +29,10 @@ wc-arende-footer {
       display: flex;
       flex: 1;
 
+      div {
+        display: flex;
+      }
+
       .margin-right {
         margin-right: 5px;
       }

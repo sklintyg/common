@@ -1,9 +1,8 @@
 <div>
   <div class="card"
        ng-if="showCreateArende()"
-       wc-check-vardenhet
-       wc-authority feature="SKAPA_NY_FRAGA" intygstyp="{{localViewState.parentViewState.intygProperties.type}}"
-       vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}">
+       wc-check-vardenhet vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}"
+       wc-authority feature="SKAPA_NY_FRAGA" intygstyp="{{localViewState.parentViewState.intygProperties.type}}">
 
     <!-- New question form -->
     <div arende-draft-auto-save intyg-id="localViewState.parentViewState.intyg.id" amne="arendeNewModel.chosenTopic" text="arendeNewModel.frageText" save-state="arendeNewModel.saveState">

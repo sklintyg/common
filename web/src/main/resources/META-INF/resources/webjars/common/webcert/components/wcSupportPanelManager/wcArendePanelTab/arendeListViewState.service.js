@@ -169,13 +169,6 @@ angular.module('common').service('common.ArendeListViewStateService',
                 return timestamps;
             };
 
-            this.isSvaraMedNyttIntygDisabled = function (){
-                if (this.getUnhandledKompletteringCount() > 0 && !UserModel.hasPrivilege(UserModel.privileges.SVARA_MED_NYTT_INTYG, this.intygProperties.type)) {
-                    return true;
-                }
-                return false;
-            };
-
             this.reset();
         }
     ]

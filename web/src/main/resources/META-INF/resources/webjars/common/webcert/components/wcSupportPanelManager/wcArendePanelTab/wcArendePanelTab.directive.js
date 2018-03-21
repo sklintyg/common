@@ -140,7 +140,7 @@ angular.module('common').directive('wcArendePanelTab', [
                                     angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
                                         if (arende.fraga.internReferens === arendeListItem.arende.fraga.internReferens) {
                                             angular.copy(arende, arendeListItem.arende);
-                                            arendeListItem.updateArendeListItem(ArendeListViewState.common.intygProperties.type);
+                                            arendeListItem.updateArendeListItem();
                                         }
                                     });
                                 });

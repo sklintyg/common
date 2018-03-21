@@ -32,8 +32,7 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     // Continue draft warning message on intyg
                     $scope.kompletteringConfig = {
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
-                        redirectToExistingUtkast: false,
-                        svaraMedNyttIntygDisabled: ArendeListViewState.isSvaraMedNyttIntygDisabled()
+                        redirectToExistingUtkast: false
                     };
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
@@ -46,7 +45,7 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     $scope.$on('$destroy', unbindFastEvent);
 
                     $scope.showFortsattUtkastWarning = function() {
-                        return $scope.kompletteringConfig.redirectToExistingUtkast && !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
+                        return $scope.kompletteringConfig.redirectToExistingUtkast;
                     };
                 }
             };

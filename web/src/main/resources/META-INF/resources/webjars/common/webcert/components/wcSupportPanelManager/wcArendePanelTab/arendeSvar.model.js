@@ -67,10 +67,6 @@ angular.module('common').factory('common.ArendeSvarModel',
                 }
 
                 // From ArendeListItem
-                this.answerDisabled = arendeListItem.answerDisabled;
-                this.answerDisabledReason = arendeListItem.answerDisabledReason;
-                this.svaraMedNyttIntygDisabled = arendeListItem.svaraMedNyttIntygDisabled;
-                this.svaraMedNyttIntygDisabledReason = arendeListItem.svaraMedNyttIntygDisabledReason;
                 this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
             };
 

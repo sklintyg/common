@@ -59,7 +59,6 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.canAnswer = function() {
                         return $scope.parentViewState.intygProperties.isSigned &&
                             ArendeSvar.status === 'PENDING_INTERNAL_ACTION' &&
-                            !ArendeSvar.answerDisabled &&
                             !ArendeSvar.intygProperties.isRevoked &&
                             !$scope.arendeListItem.isKomplettering();
                     };
@@ -94,7 +93,7 @@ angular.module('common').directive('arendePanelSvar',
                                 // update real item
                                 angular.copy(result, $scope.arendeListItem.arende);
 
-                                $scope.arendeListItem.updateArendeListItem(ArendeSvar.intygProperties.type);
+                                $scope.arendeListItem.updateArendeListItem();
                                 $rootScope.$broadcast('arenden.updated');
 
                                 ArendeSvar.update($scope.parentViewState, $scope.arendeListItem);

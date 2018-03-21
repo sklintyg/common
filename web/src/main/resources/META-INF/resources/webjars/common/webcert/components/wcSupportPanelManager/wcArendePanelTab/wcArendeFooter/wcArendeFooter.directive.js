@@ -48,7 +48,6 @@ angular.module('common').directive('wcArendeFooter',
                     $scope.kompletteringConfig = {
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
-                        svaraMedNyttIntygDisabled: ArendeListViewState.isSvaraMedNyttIntygDisabled(),
                         showAnswerWithIntyg: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'})
                     };
 
@@ -60,8 +59,7 @@ angular.module('common').directive('wcArendeFooter',
 
                     $scope.showKompletteringButtons = function() {
                         return ArendeListViewState.getUnhandledKompletteringCount() > 0 &&
-                            !$scope.kompletteringConfig.redirectToExistingUtkast &&
-                            !$scope.kompletteringConfig.svaraMedNyttIntygDisabled;
+                            !$scope.kompletteringConfig.redirectToExistingUtkast;
                     };
 
                     var _answerWithIntyg = function() {
@@ -184,12 +182,12 @@ angular.module('common').directive('wcArendeFooter',
                                         if (result !== null) {
                                             // update real item
                                             angular.copy(result, arendeListItem.arende);
-                                            arendeListItem.updateArendeListItem(ArendeListViewState.intygProperties.type);
+                                            arendeListItem.updateArendeListItem();
 
                                             // All kompletteringar should be closed now
                                             kompletteringar.forEach(function(arendeListItem) {
                                                 arendeListItem.arende.fraga.status = 'CLOSED';
-                                                arendeListItem.updateArendeListItem(ArendeListViewState.intygProperties.type);
+                                                arendeListItem.updateArendeListItem();
                                             });
 
                                             $rootScope.$broadcast('arenden.updated');

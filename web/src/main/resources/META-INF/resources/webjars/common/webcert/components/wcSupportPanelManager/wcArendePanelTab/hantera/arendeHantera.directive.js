@@ -111,7 +111,7 @@ angular.module('common').directive('arendeHantera',
                             arendeListItem.updateHandledStateInProgress = false;
                             if (result !== null) {
                                 angular.copy(result, arendeListItem.arende);
-                                arendeListItem.updateArendeListItem($scope.parentViewState.intygProperties.type);
+                                arendeListItem.updateArendeListItem();
 
                                 $rootScope.$broadcast('arenden.updated');
 
@@ -135,7 +135,7 @@ angular.module('common').directive('arendeHantera',
 
                             if (result !== null) {
                                 angular.copy(result, arendeListItem.arende);
-                                arendeListItem.updateArendeListItem($scope.parentViewState.intygProperties.type);
+                                arendeListItem.updateArendeListItem();
 
                                 $rootScope.$broadcast('arenden.updated');
 

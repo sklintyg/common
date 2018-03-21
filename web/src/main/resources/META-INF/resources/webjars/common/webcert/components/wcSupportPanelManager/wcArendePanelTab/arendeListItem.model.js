@@ -29,15 +29,11 @@ angular.module('common').factory('common.ArendeListItemModel',
          * Constructor
          */
         function ArendeListItemModel(arendeModel, intygType) {
-            this.answerDisabled = false;
-            this.answerDisabledReason = '';
-            this.svaraMedNyttIntygDisabled = false;
-            this.svaraMedNyttIntygDisabledReason = '';
             this.atgardMessageId = '';
             this.arende = arendeModel; // ArendeModel from backend
             this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
 
-            this.updateArendeListItem(intygType);
+            this.updateArendeListItem();
         }
 
         function _isPaminnelse(amne) {
@@ -52,7 +48,7 @@ angular.module('common').factory('common.ArendeListItemModel',
             return new ArendeListItemModel(arendeModel, intygType);
         };
 
-        ArendeListItemModel.prototype.updateArendeListItem = function (intygType) {
+        ArendeListItemModel.prototype.updateArendeListItem = function () {
 
             if (!ObjectHelper.isDefined(this.arende.svar)) {
                 this.arende.svar = {
@@ -60,36 +56,8 @@ angular.module('common').factory('common.ArendeListItemModel',
                 };
             }
 
-            this._updateListItemState(intygType);
             this._updateAtgardMessage();
             this._updateKompletteringar();
-        };
-
-        ArendeListItemModel.prototype._updateListItemState = function(intygType) {
-
-            if(!intygType){
-                $log.error('ArendeListItemModel._updateListItemState - required parameter intygType not specified.');
-                return;
-            }
-
-            if (this.arende.fraga.status === 'CLOSED') {
-                this.answerDisabled = true;
-                this.answerDisabledReason = undefined; // En avslutat konversation kan inte besvaras
-            } else if (_isPaminnelse(this.arende.fraga.amne)) {
-                // RE-020 Påminnelser is never
-                // answerable
-                this.answerDisabled = true;
-                this.answerDisabledReason = undefined; // Påminnelser kan inte besvaras men det behöver vi inte säga
-            } else if (this.arende.fraga.status !== 'CLOSED' &&
-                _isKomplettering(this.arende.fraga.amne) &&
-                !UserModel.hasPrivilege(UserModel.privileges.BESVARA_KOMPLETTERINGSFRAGA, intygType)) {
-                // RE-005, RE-006
-                this.answerDisabled = true;
-                this.answerDisabledReason = messageService.getProperty('common.arende.komplettering.disabled.onlydoctor');
-            } else {
-                this.answerDisabled = false;
-                this.answerDisabledReason = undefined;
-            }
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {
