@@ -32,26 +32,26 @@ angular.module('common').directive('ueKategori', ['$parse',
                 if ($scope.config.label.required) {
                     $scope.hasUnfilledRequirements = function() {
                         var reqProp = $scope.config.label.requiredProp;
-                            if (reqProp) {
-                                if (angular.isArray(reqProp)) {
-                                    for (var i = 0; i < reqProp.length; i++) {
-                                        var req = $parse(reqProp[i])($scope.model);
-                                        if(req === null || req === undefined || req === '') {
-                                            continue;
-                                        }
-                                        return false;
-                                    }
-                                    return true;
-                                } else {
-                                    var req = $parse(reqProp[i])($scope.model);
+                        if (reqProp) {
+                            var req;
+                            if (angular.isArray(reqProp)) {
+                                for (var i = 0; i < reqProp.length; i++) {
+                                    req = $parse(reqProp[i])($scope.model);
                                     if(req === null || req === undefined || req === '') {
-                                        return true;
+                                        continue;
                                     }
+                                    return false;
                                 }
-                            } else {
                                 return true;
+                            } else {
+                                req = $parse(reqProp)($scope.model);
+                                if(req === null || req === undefined || req === '') {
+                                    return true;
+                                }
                             }
-
+                        } else {
+                            return true;
+                        }
                     };
                 }
             }
