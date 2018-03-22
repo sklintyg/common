@@ -100,7 +100,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                         model.syn.synfaltsdefekter;
                                 },
                                 labelKey: 'FRG_3-5.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     },
                     {
@@ -176,7 +176,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 return model.syn.korrektionsglasensStyrka === true;
                             },
                             labelKey: 'FRG_9.INF',
-                            alertLevel: 'info'
+                            alertLevel: 'warning'
                         }]
                     }]
             },
@@ -340,7 +340,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                     return model.diabetes.insulin || model.diabetes.tabletter;
                                 },
                                 labelKey: 'DFR_19.3.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     }]
             },
@@ -483,7 +483,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                     return model.narkotikaLakemedel.provtagningBehovs;
                                 },
                                 labelKey: 'DFR_25.3.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     },
                     {

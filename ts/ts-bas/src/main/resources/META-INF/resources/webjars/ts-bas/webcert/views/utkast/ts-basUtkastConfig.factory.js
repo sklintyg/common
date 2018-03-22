@@ -156,7 +156,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     }]),
                     fraga(null, '', '', {hideExpression: '!(model.syn.progressivOgonsjukdom || model.syn.nattblindhet || model.syn.synfaltsdefekter)'}, [{
                         type: 'ue-alert',
-                        alertType: 'info',
+                        alertType: 'warning',
                         key: 'FRG_3-5.INF'
                     }]),
                     fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required:true }, [{
@@ -347,7 +347,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             }
                         },{
                             type: 'ue-alert',
-                            alertType: 'info',
+                            alertType: 'warning',
                             key: 'DFR_19.3.INF',
                             hideExpression: '!(model.diabetes.tabletter || model.diabetes.insulin)'
                     }])
@@ -417,7 +417,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         paddingBottom: true
                     },{
                         type: 'ue-alert',
-                        alertType: 'info',
+                        alertType: 'warning',
                         key: 'DFR_25.3.INF',
                         hideExpression: '!model.narkotikaLakemedel.provtagningBehovs'
                     }]),

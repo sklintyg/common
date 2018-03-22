@@ -255,6 +255,11 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             modelProp: 'syn.synfaltsprovningUtanAnmarkning'
                         }]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required: true}, [{
+                                type: 'ue-alert',
+                                alertType: 'info',
+                                key: 'ts-diabetes.helptext.synfunktioner.synskarpa'
+                            },
+                            {
                             type: 'ue-grid',
                             components: [
                                 // Row 1
