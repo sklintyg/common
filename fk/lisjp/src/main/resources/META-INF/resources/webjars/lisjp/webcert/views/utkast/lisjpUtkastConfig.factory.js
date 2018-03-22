@@ -38,6 +38,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var today = moment().format('YYYY-MM-DD');
 
             var config = [
 
@@ -60,6 +61,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'undersokningAvPatienten',
+                        maxDate: today,
                         paddingBottom: true
                     }, {
                         label: {
@@ -68,6 +70,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'telefonkontaktMedPatienten',
+                        maxDate: today,
                         paddingBottom: true
                     }, {
                         label: {
@@ -76,6 +79,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'journaluppgifter',
+                        maxDate: today,
                         paddingBottom: true
                     }, {
                         label: {
@@ -83,7 +87,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             helpKey: 'KV_FKMU_0001.ANNAT.HLP'
                         },
                         type: 'ue-checkbox-date',
-                        modelProp: 'annatGrundForMU'
+                        modelProp: 'annatGrundForMU',
+                        maxDate: today
                     }, {
                         label: {
                             key: 'DFR_1.3.RBK',

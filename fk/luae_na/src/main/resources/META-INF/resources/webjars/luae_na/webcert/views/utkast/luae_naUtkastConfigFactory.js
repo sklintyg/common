@@ -75,6 +75,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
+            var today = moment().format('YYYY-MM-DD');
 
             var config = [
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
@@ -85,6 +86,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'undersokningAvPatienten',
+                        maxDate: today,
                         paddingBottom: true
                     }, {
                         label: {
@@ -93,6 +95,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'journaluppgifter',
+                        maxDate: today,
                         paddingBottom: true
                     }, {
                         label: {
@@ -101,6 +104,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                         },
                         type: 'ue-checkbox-date',
                         modelProp: 'anhorigsBeskrivningAvPatienten',
+                        maxDate: today,
                         paddingBottom: true
 
                     }, {
@@ -110,7 +114,8 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             paddingBottom: true
                         },
                         type: 'ue-checkbox-date',
-                        modelProp: 'annatGrundForMU'
+                        modelProp: 'annatGrundForMU',
+                        maxDate: today
                     }, {
                         label: {
                             key: 'DFR_1.3.RBK',
