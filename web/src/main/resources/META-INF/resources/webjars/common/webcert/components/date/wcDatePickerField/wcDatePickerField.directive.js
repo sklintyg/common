@@ -48,7 +48,7 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 function getActiveDate() {
                     return activeDate;
                 }
-                
+
                 $scope.dateOptions = {
                         minDate: undefined,
                         maxDate: undefined,
@@ -65,7 +65,7 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 if ($scope.minDate !== undefined) {
                     $scope.dateOptions.minDate = new Date($scope.minDate);
                 }
-                
+
                 if ($scope.maxDate !== undefined) {
                     $scope.dateOptions.maxDate = new Date($scope.maxDate);
                 }
@@ -107,14 +107,14 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 };
             },
             link: function(scope, element, attrs, ctrl) {
-                var waitForTargetModel = scope.$watch('targetModel', function(newVal) {
-                    if (newVal) {
+                scope.$watch('targetModel', function(newVal, oldVal) {
+                    if (newVal || newVal !== oldVal) {
                         if(dateUtils.isDate(newVal)) {
                             scope.dateOptions.initDate = new Date(newVal);
                         } else {
                             scope.dateOptions.initDate = new Date();
                         }
-                        waitForTargetModel();
+                        scope.dateOptions.setActiveDate(scope.dateOptions.initDate);
                     }
                 });
             }

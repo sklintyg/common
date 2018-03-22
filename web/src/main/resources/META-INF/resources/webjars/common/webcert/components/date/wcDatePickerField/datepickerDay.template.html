@@ -1,9 +1,9 @@
 <table role="grid" aria-labelledby="{{::uniqueId}}-title" aria-activedescendant="{{activeDateId}}" ng-keydown="keydown($event);datepickerOptions.setActiveDate(activeDt.date)">
   <thead>
     <tr>
-      <th><div class="pull-left uib-left" ng-click="move(-1)"><i class="material-icons md-36">chevron_left</i><span class="sr-only">previous</span></div></th>
+      <th><div class="pull-left uib-left" ng-click="move(-1);datepickerOptions.setActiveDate(activeDt.date)"><i class="material-icons md-36">chevron_left</i><span class="sr-only">previous</span></div></th>
       <th class="text-center month-title" colspan="{{::5 + showWeeks}}"><strong>{{title}}</strong></th>
-      <th><div class="pull-right uib-right" ng-click="move(1)"><i class="material-icons md-36">chevron_right</i><span class="sr-only">next</span></div></th>
+      <th><div class="pull-right uib-right" ng-click="move(1);datepickerOptions.setActiveDate(activeDt.date)"><i class="material-icons md-36">chevron_right</i><span class="sr-only">next</span></div></th>
     </tr>
     <tr>
       <th ng-if="showWeeks" class="text-center"></th>
