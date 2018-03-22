@@ -113,6 +113,13 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
     }
 
     @Override
+    protected LuaefsUtlatande decorateUtkastWithComment(LuaefsUtlatande utlatande, String comment) {
+        return utlatande.toBuilder()
+                .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+                .build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();

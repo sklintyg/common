@@ -129,6 +129,12 @@ public interface ModuleApi {
      */
     String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
 
+
+    default String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment) throws ModuleException {
+        throw new UnsupportedOperationException();
+    }
+
+
     /**
      * Register certificate in Intygstjänsten.
      *

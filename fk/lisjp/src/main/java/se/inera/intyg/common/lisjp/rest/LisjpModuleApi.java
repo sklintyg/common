@@ -117,6 +117,14 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     @Override
+    protected LisjpUtlatande decorateUtkastWithComment(LisjpUtlatande utlatande, String comment) {
+
+        return utlatande.toBuilder()
+                .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+                .build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             return transportToInternal(intyg).getSjukskrivningar().stream()

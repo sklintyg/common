@@ -154,6 +154,22 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+            throws ModuleException {
+
+        T utkast;
+
+        try {
+            utkast = webcertModelFactory.createCopy(draftCopyHolder, template);
+        } catch (ConverterException e) {
+            LOG.error("Could not create a new internal Webcert model", e);
+            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
+        }
+
+        return toInternalModelResponse(decorateUtkastWithComment(utkast, comment));
+    }
+
+    @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
             throws ModuleException {
         return createNewInternalFromTemplate(draftCertificateHolder, template);
@@ -318,6 +334,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     protected abstract T decorateDiagnoserWithDescriptions(T utlatande);
 
+    protected abstract T decorateUtkastWithComment(T utlatande, String comment);
+
     protected T getInternal(String internalModel) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
@@ -411,4 +429,17 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
+    protected String concatOvrigtFalt(String oldOvrigt, String comment) {
+
+        String concatString;
+        if (Strings.isNullOrEmpty(comment)) {
+            concatString = oldOvrigt;
+        } else if (Strings.isNullOrEmpty(oldOvrigt)) {
+            concatString = comment;
+        } else {
+            concatString = oldOvrigt + "\n " + comment; //TODO: Whatsup with this?
+        }
+
+        return concatString;
+    }
 }

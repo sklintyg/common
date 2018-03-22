@@ -112,6 +112,13 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
     }
 
     @Override
+    protected LuseUtlatande decorateUtkastWithComment(LuseUtlatande utlatande, String comment) {
+        return utlatande.toBuilder()
+                .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+                .build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();
