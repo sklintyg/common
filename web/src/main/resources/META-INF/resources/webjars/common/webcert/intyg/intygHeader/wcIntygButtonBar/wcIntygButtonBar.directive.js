@@ -121,8 +121,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                     IntygSend.send($scope.viewState.intygModel, $scope.viewState.intygModel.id, intygType, recipient,
                         intygType+'.label.send', intygType+'.label.send.body', intygType+ '.label.send.bodyText', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
-                            // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
-                            CommonIntygViewState.isIntygOnSendQueue = true;
+                            CommonIntygViewState.intygProperties.isSent = true;
                             angular.forEach($scope.viewState.relations, function(relation) {
                                 if(relation.intygsId === $scope.viewState.intygModel.id) {
                                     relation.status = 'sent';

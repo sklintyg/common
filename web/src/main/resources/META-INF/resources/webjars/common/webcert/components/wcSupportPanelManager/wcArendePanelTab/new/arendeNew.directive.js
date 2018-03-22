@@ -72,8 +72,7 @@ angular.module('common').directive('arendeNew',
                     $scope.$on('$destroy', unbindFastEvent);
 
                     function isNotSent() {
-                        var notSent = $scope.parentViewState.common.isIntygOnSendQueue === false &&
-                            ArendeNewViewState.parentViewState.intygProperties.isSent === false;
+                        var notSent = ArendeNewViewState.parentViewState.intygProperties.isSent === false;
 
                         return notSent && (ArendeNewViewState.parentViewState.arendeList.length < 1);
                     }
@@ -84,11 +83,7 @@ angular.module('common').directive('arendeNew',
 
                     $scope.showCreateArende = function() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
-                        var intygSentOrArendenAvailable = ($scope.parentViewState.common.isIntygOnSendQueue ||
-                                                            ArendeNewViewState.parentViewState.intygProperties.isSent ||
-                                                            ArendeNewViewState.parentViewState.arendeList.length > 0);
-
-                        return intygLoaded && notRevoked && intygSentOrArendenAvailable;
+                        return intygLoaded && notRevoked;
                     };
 
                     $scope.cancelQuestion = function() {

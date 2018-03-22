@@ -126,7 +126,6 @@ describe('wcIntygButtonBar', function() {
 
         describe('skicka button', function() {
             it('should show skicka button if intyg is not sent, revoked and patient is alive', function() {
-                CommonIntygViewState.isIntygOnSendQueue = false;
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 CommonIntygViewState.intygProperties.isSent = false;
@@ -134,19 +133,10 @@ describe('wcIntygButtonBar', function() {
                 expect($scope.showSkickaButton()).toBeTruthy();
             });
             it('should not show skicka button if intyg is sent, not revoked and patient is alive', function() {
-                CommonIntygViewState.isIntygOnSendQueue = true;
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 CommonIntygViewState.intygProperties.isSent = true;
                 CommonIntygViewState.intygProperties.isPatientDeceased = false;
-                expect($scope.showSkickaButton()).toBeFalsy();
-
-                CommonIntygViewState.isIntygOnSendQueue = true;
-                CommonIntygViewState.intygProperties.isSent = false;
-                expect($scope.showSkickaButton()).toBeFalsy();
-
-                CommonIntygViewState.isIntygOnSendQueue = false;
-                CommonIntygViewState.intygProperties.isSent = true;
                 expect($scope.showSkickaButton()).toBeFalsy();
             });
         });

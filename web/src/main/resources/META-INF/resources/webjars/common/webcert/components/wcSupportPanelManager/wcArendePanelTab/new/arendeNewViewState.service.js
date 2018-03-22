@@ -21,7 +21,6 @@ angular.module('common').service('common.ArendeNewViewStateService',
         'use strict';
 
         this.reset = function() {
-            this.isIntygOnSendQueue = false;
             this.intygProperties = {
                 isLoaded: false,
                 isSent: false,

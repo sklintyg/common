@@ -27,6 +27,7 @@ angular.module('common').directive('wcDropdown',
                 restrict: 'E',
                 transclude: false,
                 scope: {
+                    id: '@',
                     items: '=',
                     onSelect: '&?',
                     useDynamicLabel: '=',

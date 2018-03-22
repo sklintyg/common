@@ -31,7 +31,6 @@ angular.module('common').service('common.IntygViewStateService',
                 this.activeErrorMessageKey = null;
                 this.inlineErrorMessageKey = null;
                 this.showTemplate = true;
-                this.isIntygOnSendQueue = false;
                 this.isIntygOnRevokeQueue = false;
                 this.deleted = false;
 
@@ -87,7 +86,7 @@ angular.module('common').service('common.IntygViewStateService',
             };
 
             this.isSentIntyg = function(){
-                return this.intygProperties.isSent || this.isIntygOnSendQueue;
+                return this.intygProperties.isSent;
             };
 
             this.updateIntygProperties = function(result, intygId) {

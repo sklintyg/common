@@ -28,6 +28,7 @@ angular.module('common').directive('wcArendeIntygNotSentMessage',
                 scope: {
                 },
                 link: function($scope, $element, $attrs) {
+                    $element.attr('id', 'intyg-is-not-sent-to-fk-message-text');
                 }
             };
         }]);
