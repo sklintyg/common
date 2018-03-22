@@ -86,6 +86,27 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         }
 
         /*
+         * save new administrativ fråga answer to a komplettering question
+         */
+        function _saveKompletteringAnswer(ArendeSvar, intygsTyp, intygsId, onSuccess, onError) {
+            $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsId: ' + intygsId);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
+            }
+
+            var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
+            $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
+
+
+        /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
          */
         function _closeAsHandled(arendeId, intygsTyp, onSuccess, onError) {
@@ -174,6 +195,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             getArenden: _getArenden,
             sendNewArende: _sendNewArende,
             saveAnswer: _saveAnswer,
+            saveKompletteringAnswer: _saveKompletteringAnswer,
             closeAsHandled: _closeAsHandled,
             openAsUnhandled: _openAsUnhandled,
             closeAllAsHandled: _closeAllAsHandled,

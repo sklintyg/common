@@ -176,22 +176,11 @@ angular.module('common').directive('wcArendeFooter',
                                     var arendeSvar = ArendeSvarModel.build(ArendeListViewState, arendeListItem);
                                     arendeSvar.meddelande = dialogModel.meddelandeText;
 
-                                    ArendeProxy.saveAnswer(arendeSvar, ArendeListViewState.intygProperties.type, function(result) {
+                                    ArendeProxy.saveKompletteringAnswer(arendeSvar, ArendeListViewState.intygProperties.type, ArendeListViewState.intyg.id, function(result) {
                                         modalInstance.close();
 
                                         if (result !== null) {
-                                            // update real item
-                                            angular.copy(result, arendeListItem.arende);
-                                            arendeListItem.updateArendeListItem();
-
-                                            // All kompletteringar should be closed now
-                                            kompletteringar.forEach(function(arendeListItem) {
-                                                arendeListItem.arende.fraga.status = 'CLOSED';
-                                                arendeListItem.updateArendeListItem();
-                                            });
-
-                                            $rootScope.$broadcast('arenden.updated');
-
+                                            ArendeListViewState.setArendeList(result);
                                             statService.refreshStat();
                                         }
                                     }, function(errorData) {
