@@ -82,7 +82,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private static final Logger LOG = LoggerFactory.getLogger(FkParentModuleApi.class);
 
-    private static final String PREFIX = "\n\n";
+    public static final String PREFIX = "Motivering till varför ingen ytterligare medicinsk information kunde anges vid komplettering: ";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -438,9 +438,9 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         if (Strings.isNullOrEmpty(comment)) {
             concatString = oldOvrigt;
         } else if (Strings.isNullOrEmpty(oldOvrigt)) {
-            concatString = comment;
+            concatString = PREFIX + comment;
         } else {
-            concatString = oldOvrigt + PREFIX + comment;
+            concatString = oldOvrigt + "\n\n" + PREFIX + comment;
         }
 
         return concatString;

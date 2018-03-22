@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -31,11 +36,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -129,11 +129,10 @@ public interface ModuleApi {
      */
     String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
 
-
-    default String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment) throws ModuleException {
+    default String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+            throws ModuleException {
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * Register certificate in Intygstjänsten.

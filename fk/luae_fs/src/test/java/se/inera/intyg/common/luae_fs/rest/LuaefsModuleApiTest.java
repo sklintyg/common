@@ -100,6 +100,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
 /**
  * Created by marced on 26/04/16.
@@ -420,6 +421,84 @@ public class LuaefsModuleApiTest {
         assertEquals("Klämskada skuldra", additionalInfo);
     }
 
+    @Test
+    public void testCreateNewInternalFromTemplateWithComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "kommentarText";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplateWithNoComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplateWithNoOvrigt() throws Exception {
+
+        final String ovrigt = "";
+        final String kommentar = "kommentarText";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
             throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
@@ -494,5 +573,10 @@ public class LuaefsModuleApiTest {
     private LuaefsUtlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper()
                 .readValue(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile(), LuaefsUtlatande.class);
+    }
+
+    private CreateDraftCopyHolder createCopyHolder() {
+        return new CreateDraftCopyHolder("certificateId",
+                createHosPersonal());
     }
 }

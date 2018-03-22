@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.luse.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.apache.commons.lang.StringUtils;
@@ -51,6 +50,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
@@ -81,6 +81,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.same;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -93,6 +94,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LuseModuleApiTest {
@@ -113,8 +115,8 @@ public class LuseModuleApiTest {
     @Mock
     private InternalDraftValidatorImpl internalDraftValidator;
 
-    @Mock
-    private ObjectMapper objectMapper;
+    @Spy
+    private CustomObjectMapper objectMapper;
 
     @Mock
     private GetCertificateResponderInterface getCertificateResponder;
@@ -175,7 +177,11 @@ public class LuseModuleApiTest {
 
     @Test
     public void testValidateShouldUseValidator() throws Exception {
-        when(objectMapper.readValue(eq("internal model"), eq(LuseUtlatande.class))).thenReturn(null);
+
+        doReturn(null)
+                .when(objectMapper)
+                .readValue("internal model", LuseUtlatande.class);
+
         moduleApi.validateDraft("internal model");
         verify(internalDraftValidator, times(1)).validateDraft(any());
     }
@@ -243,7 +249,10 @@ public class LuseModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
 
-        when(objectMapper.readValue(internalModel, LuseUtlatande.class)).thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -260,8 +269,10 @@ public class LuseModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
-        when(objectMapper.readValue(internalModel, LuseUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -280,8 +291,10 @@ public class LuseModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
-        when(objectMapper.readValue(internalModel, LuseUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -300,7 +313,10 @@ public class LuseModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
-        when(objectMapper.readValue(internalModel, LuseUtlatande.class)).thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -310,7 +326,10 @@ public class LuseModuleApiTest {
     public void testRegisterCertificateShouldThrowExceptionOnBadCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
         final String internalModel = "internal model";
-        when(objectMapper.readValue(internalModel, LuseUtlatande.class)).thenReturn(null);
+
+        doReturn(null)
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
     }
@@ -318,8 +337,12 @@ public class LuseModuleApiTest {
     @Test
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
-        when(objectMapper.readValue(eq(utlatandeJson), eq(LuseUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+
+
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(utlatandeJson, LuseUtlatande.class);
+
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -327,9 +350,15 @@ public class LuseModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(LuseUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
-        when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
+
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
+        doReturn(internalModel)
+                .when(objectMapper)
+                .writeValueAsString(any());
+
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
@@ -338,9 +367,15 @@ public class LuseModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(LuseUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
-        when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
+
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuseUtlatande.class);
+
+        doReturn(internalModel)
+                .when(objectMapper)
+                .writeValueAsString(any());
+
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
@@ -385,6 +420,80 @@ public class LuseModuleApiTest {
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
         assertNotEquals("", res);
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplateWithComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "kommentarText";
+
+        LuseUtlatande utlatande = LuseUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuseUtlatande utlatandeFromJson = (LuseUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplateWithNoComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "";
+
+
+        LuseUtlatande utlatande = LuseUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuseUtlatande utlatandeFromJson = (LuseUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateNewInternalFromTemplateWithNoOvrigt() throws Exception {
+
+        final String ovrigt = "";
+        final String kommentar = "kommentarText";
+
+
+        LuseUtlatande utlatande = LuseUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuseUtlatande utlatandeFromJson = (LuseUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test
