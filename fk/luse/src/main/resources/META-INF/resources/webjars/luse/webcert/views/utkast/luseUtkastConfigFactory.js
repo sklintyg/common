@@ -77,7 +77,9 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
 
             var config = [
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
+                                                         required: true, requiredProp: ['undersokningAvPatienten', 'journaluppgifter',
+                                                                                        'anhorigsBeskrivningAvPatienten', 'annatGrundForMU'] }, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -131,7 +133,8 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                             bold: 'bold',
                             key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                             required: true,
-                            type: 'label'
+                            type: 'label',
+                            requiredProp: 'motiveringTillInteBaseratPaUndersokning'
                         }
                     }, {
                         type: 'ue-text',
@@ -141,7 +144,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                             variableLabelKey: 'FRG_25.RBK'
                         }
                     }]),
-                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true}, [{
+                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'kannedomOmPatient'}, [{
                         type: 'ue-date',
                         modelProp: 'kannedomOmPatient'
 
@@ -161,16 +164,19 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'FRG_4.RBK',
-                                    helpKey: 'FRG_4.RBK.HLP'
+                                    helpKey: 'FRG_4.RBK.HLP',
+                                    requiredProp: ['underlag[0].typ', 'underlag[1].typ', 'underlag[2].typ']
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
-                                    key: 'common.label.date'
+                                    key: 'common.label.date',
+                                    requiredProp: ['underlag[0].datum', 'underlag[1].datum', 'underlag[2].datum']
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'DFR_4.3.RBK',
-                                    helpKey: 'DFR_4.3.HLP'
+                                    helpKey: 'DFR_4.3.HLP',
+                                    requiredProp: ['underlag[0].hamtasFran', 'underlag[1].hamtasFran', 'underlag[2].hamtasFran']
                                 }],
                                 // Row 2-4
                                 buildUnderlagConfigRow(0),
@@ -183,7 +189,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -191,11 +197,11 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         diagnosKodLabel: 'DFR_6.2.RBK',
                         diagnosKodHelp: 'DFR_6.2.HLP'
                     }]),
-                    fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', { required: true}, [{
+                    fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', { required: true, requiredProp: 'diagnosgrund'}, [{
                         type: 'ue-textarea',
                         modelProp: 'diagnosgrund'
                     }]),
-                    fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', { required: true }, [{
+                    fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', { required: true, requiredProp: 'nyBedomningDiagnosgrund'}, [{
                         type: 'ue-radio',
                         modelProp: 'nyBedomningDiagnosgrund'
                     },{
@@ -204,19 +210,22 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         hideExpression: '!model.nyBedomningDiagnosgrund',
                         label: {
                             key: 'DFR_45.2.RBK',
-                            required: true
+                            required: true,
+                            requiredProp: 'diagnosForNyBedomning'
                         }
                     } ])
                 ]),
 
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                    fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required: true}, [{
+                    fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required: true, requiredProp: 'sjukdomsforlopp'}, [{
                         type: 'ue-textarea',
                         modelProp: 'sjukdomsforlopp'
                     }])
                 ]),
 
-                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { required: true }, [
+                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { required: true , requiredProp: ['funktionsnedsattningIntellektuell','funktionsnedsattningKommunikation',
+                                                                    'funktionsnedsattningKoncentration', 'funktionsnedsattningPsykisk', 'funktionsnedsattningSynHorselTal',
+                                                                    'funktionsnedsattningBalansKoordination', 'funktionsnedsattningAnnan']}, [
                     fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'ue-checkgroup'}, required: true }, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
@@ -377,7 +386,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
 
 
                 kategori(categoryIds[8], 'KAT_8.RBK', 'KAT_8.HLP', { }, [
-                    fraga(22, 'FRG_22.RBK', 'FRG_22.HLP', { required: true}, [{
+                    fraga(22, 'FRG_22.RBK', 'FRG_22.HLP', { required: true, requiredProp: 'medicinskaForutsattningarForArbete'}, [{
                         type: 'ue-textarea',
                         modelProp: 'medicinskaForutsattningarForArbete'
                     }]),

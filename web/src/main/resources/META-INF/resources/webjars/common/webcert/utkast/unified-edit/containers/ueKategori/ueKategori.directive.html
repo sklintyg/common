@@ -3,7 +3,7 @@
   <div class="ue-kategori__heading" ng-if="::config.label.key">
     <h3>
       <span dynamic-label key="{{::config.label.key}}"></span>
-      <span class="required">{{::config.label.required ? '*' : ''}}</span>
+      <span class="required icon-wc-ikon-38" ng-if="hasUnfilledRequirements()"></span>
       <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>
     </h3>
     <span wc-help-chevron-text help-text-key="{{::config.label.helpKey}}"></span>

@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('ueLabel',
-    [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService', 'ueDomIdFilterFilter',
-        function($log, $compile, $rootScope, dynamicLabelService, ueDomIdFilter) {
+    [ '$log', '$compile', '$rootScope', 'common.dynamicLabelService', 'ueDomIdFilterFilter', '$parse',
+        function($log, $compile, $rootScope, dynamicLabelService, ueDomIdFilter, $parse) {
             'use strict';
 
             return {
@@ -41,8 +41,26 @@ angular.module('common').directive('ueLabel',
 
                         var template = '<' + scope.config.labelType + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
-                            template += '<span class="required icon-wc-ikon-38"' + (scope.config.requiredProp ? ' ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
-                            scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "': '') + '></span>\n';
+                            if (scope.config.requiredProp) {
+                                if (angular.isArray(scope.config.requiredProp)) {
+                                    scope.allRequiredUndefined = function() {
+                                        for (var i = 0; i < scope.config.requiredProp.length; i++) {
+                                            var req = $parse(scope.config.requiredProp[i])(scope.model);
+                                            if(req === null || req === undefined || req === '') {
+                                                continue;
+                                            }
+                                            return false;
+                                        }
+                                        return true;
+                                    };
+                                    template += '<span class="required icon-wc-ikon-38" ng-if="allRequiredUndefined()"></span>\n';
+                                } else {
+                                    template += '<span class="required icon-wc-ikon-38" ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
+                                    scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "></span>\n';
+                                }
+                            } else {
+                                template += '<span class="required icon-wc-ikon-38"></span>\n';
+                            }
                         }
                         if (scope.config.key) {
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';
