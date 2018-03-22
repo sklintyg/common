@@ -82,6 +82,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private static final Logger LOG = LoggerFactory.getLogger(FkParentModuleApi.class);
 
+    private static final String PREFIX = "\n\n";
+
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
 
@@ -431,13 +433,14 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     protected String concatOvrigtFalt(String oldOvrigt, String comment) {
 
-        String concatString;
+        final String concatString;
+
         if (Strings.isNullOrEmpty(comment)) {
             concatString = oldOvrigt;
         } else if (Strings.isNullOrEmpty(oldOvrigt)) {
             concatString = comment;
         } else {
-            concatString = oldOvrigt + "\n " + comment; //TODO: Whatsup with this?
+            concatString = oldOvrigt + PREFIX + comment;
         }
 
         return concatString;
