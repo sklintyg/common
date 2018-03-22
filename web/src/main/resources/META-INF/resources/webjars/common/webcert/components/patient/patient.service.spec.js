@@ -99,8 +99,8 @@ describe('PatientService', function() {
             //////////////////////////////////////////////////////////////////////
             // FRISTÅENDE
             //////////////////////////////////////////////////////////////////////
-            spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
-                return false;
+            spyOn(UserModel, 'isNormalOrigin').and.callFake(function(){
+                return true;
             });
 
             // INTYG

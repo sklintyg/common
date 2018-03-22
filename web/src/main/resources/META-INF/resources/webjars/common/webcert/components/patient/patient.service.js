@@ -28,34 +28,44 @@ angular.module('common').service('common.PatientService',
                 this.getPatientDataChanges = function(isIntyg, intyg, intygProperties) {
 
                     var patient = {
-                        changedNamePuIntegration: false,
-                        changedNamePu: false,
-                        changedAddressPu: false
+                        changedNamePuIntegration: false, // PS-004
+                        changedNamePu: false,            // PS-005
+                        changedAddressPu: false          // PS-006
                     };
 
-                    if(!intyg || !intygProperties){
+                    // Do we have enough info to determine messages?
+                    // Must have at least intygsdata, and if it's not a draft - we also need to have intygProperties
+                    if(!intyg || (isIntyg && !intygProperties)){
                         return;
                     }
     
-                    // INTYG views for TS intyg should not show name changes
-                    var fkIntyg = !(intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
-                    var tsIntyg = !fkIntyg;
-                    if(!(tsIntyg && isIntyg)){
-                        patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);
+                    // TODO: We should not have knowledge about intygstyper in the common codebase...
+                    // Maybe we should implement a concept of "family" or "issuer" or delegate this logic to a
+                    // intygstyp-specific component?
+                    var tsIntyg = (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
+                    var fkIntyg = !tsIntyg && !(intyg.typ === 'db' || intyg.typ === 'doi');
+
+                    // PS-004 -----------------------------------------------------------------------------
+                    // 1. Should only displayed for djupintegrerade
+                    if (UserModel.isDjupintegration()) {
+                        //Show for ts-utkast and all fk
+                        if ((tsIntyg && !isIntyg) || fkIntyg) {
+                            patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);
+                        }
                     }
-    
-                    if(isIntyg){
 
-                        // INTYG views for integrated FK intyg should not show name changes
-                        if(!(fkIntyg && UserModel.isDjupintegration())){
-                            patient.changedNamePu = intygProperties.patientNameChangedInPU;
-                        }
 
-                        // INTYG views for fristående TS intyg should show address changes
-                        if(tsIntyg){
-                            patient.changedAddressPu = intygProperties.patientAddressChangedInPU;
-                        }
+                    //PS-005 -----------------------------------------------------------------------------
+                    // INTYG + TS - > Potentially show PS-005
+                    if(tsIntyg && isIntyg){
+                        patient.changedNamePu = intygProperties.patientNameChangedInPU;
+                    }
 
+
+                    // PS-006 -----------------------------------------------------------------------------
+                    // Should only be displayed for TS / INTYG / Fristående
+                    if(tsIntyg && isIntyg && UserModel.isNormalOrigin()){
+                        patient.changedAddressPu = intygProperties.patientAddressChangedInPU;
                     }
 
                     return patient;
