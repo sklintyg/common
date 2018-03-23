@@ -90,12 +90,13 @@
           id="fornyaBtn"
           class="btn btn-primary"
           ng-if="showFornyaButton()"
-          ng-click="fornya(viewState.intygModel)"
+          ng-click="fornya(viewState.intygModel);fornyaBtnPopOver=false"
           uib-popover="{{fornyaBtnTooltipText}}"
           popover-trigger="mouseenter"
           popover-popup-delay="300"
           popover-append-to-body="true"
-          popover-placement="auto top">
+          popover-placement="auto top"
+          popover-is-open="fornyaBtnPopOver">
     <i class="material-icons">autorenew</i> Förnya
   </button>
 
