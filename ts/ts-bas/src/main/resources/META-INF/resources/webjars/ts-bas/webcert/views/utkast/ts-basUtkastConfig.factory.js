@@ -64,6 +64,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 return true;
             }
 
+            function requiredKorkortProperties() {
+                var antalKorkort = 10;
+                var korkortsarray = [];
+                for (var i = 0; i < antalKorkort; i++) {
+                    korkortsarray.push('intygAvser.korkortstyp[' + i + '].selected');
+                }
+                return korkortsarray;
+            }
+
             var noKravYtterligareUnderlagFieldsFilledExpression = '!(' +
                 'model.syn.synfaltsdefekter === true || '+
                 'model.syn.nattblindhet === true || '+
@@ -98,8 +107,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 patient,
 
                 // Intyget avser
-                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {}, [{
+                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', {}, [
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties()}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
                         labelTemplate:'KORKORT_{0}.RBK',
@@ -110,7 +119,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 ]),
 
                 // Identitet styrkt genom
-                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
+                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true, requiredProp: 'vardkontakt.idkontroll' }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
@@ -142,15 +151,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 1. Synfunktioner
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true }, [{
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'syn.synfaltsdefekter' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.synfaltsdefekter'
                     }]),
-                    fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required:true }, [{
+                    fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required:true, requiredProp: 'syn.nattblindhet' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.nattblindhet'
                     }]),
-                    fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required:true }, [{
+                    fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required:true, requiredProp: 'syn.progressivOgonsjukdom' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.progressivOgonsjukdom'
                     }]),
@@ -159,15 +168,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         alertType: 'warning',
                         key: 'FRG_3-5.INF'
                     }]),
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required:true }, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required:true, requiredProp: 'syn.diplopi' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.diplopi'
                     }]),
-                    fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', { required:true }, [{
+                    fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', { required:true, requiredProp: 'syn.nystagmus' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.nystagmus'
                     }]),
-                    fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required:true }, [{
+                    fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required:true, requiredProp: 'syn.hogerOga.utanKorrektion' }, [{
                         type: 'ue-alert',
                         alertType: 'info',
                         key: 'FRG_8.INF'
@@ -180,7 +189,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 type: 'ue-form-label',
                                 key: 'ts-bas.label.syn.utankorrektion',
                                 helpKey: 'ts-bas.helptext.synfunktioner.utan-korrektion',
-                                required: true
+                                required: true,
+                                requiredProp: 'syn.hogerOga.utanKorrektion'
                             },{
                                 type: 'ue-form-label',
                                 key: 'ts-bas.label.syn.medkorrektion',
@@ -255,11 +265,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 2. Hörsel och balanssinne
                 kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', { }, [
-                    fraga(10, 'FRG_10.RBK', 'FRG_10.HLP', { required:true }, [{
+                    fraga(10, 'FRG_10.RBK', 'FRG_10.HLP', { required:true, requiredProp: 'horselBalans.balansrubbningar' }, [{
                         type: 'ue-radio',
                         modelProp: 'horselBalans.balansrubbningar'
                     }]),
-                    fraga(11, 'FRG_11.RBK', 'FRG_11.HLP', { required:true, hideExpression: korkortHogreBehorighet }, [{
+                    fraga(11, 'FRG_11.RBK', 'FRG_11.HLP', { required:true, hideExpression: korkortHogreBehorighet, requiredProp: 'horselBalans.svartUppfattaSamtal4Meter' }, [{
                         type: 'ue-radio',
                         modelProp: 'horselBalans.svartUppfattaSamtal4Meter'
                     }])
@@ -267,7 +277,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 3. Rörelseorganens funktioner
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', { }, [
-                    fraga(12, 'FRG_12.RBK', 'FRG_12.HLP', { required:true }, [{
+                    fraga(12, 'FRG_12.RBK', 'FRG_12.HLP', { required:true, requiredProp: 'funktionsnedsattning.funktionsnedsattning' }, [{
                         type: 'ue-radio',
                         modelProp: 'funktionsnedsattning.funktionsnedsattning'
                     },{
@@ -276,10 +286,13 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         hideExpression: '!model.funktionsnedsattning.funktionsnedsattning',
                         htmlMaxlength: 180,
                         label: {
-                            key: 'DFR_12.2.RBK'
+                            key: 'DFR_12.2.RBK',
+                            required: true,
+                            requiredProp: 'funktionsnedsattning.beskrivning'
                         }
                     }]),
-                    fraga(13, 'FRG_13.RBK', 'FRG_13.HLP', { required:true, hideExpression: korkortHogreBehorighet }, [{
+                    fraga(13, 'FRG_13.RBK', 'FRG_13.HLP', { required:true, hideExpression: korkortHogreBehorighet,
+                                                            requiredProp: 'funktionsnedsattning.otillrackligRorelseformaga' }, [{
                         type: 'ue-radio',
                         modelProp: 'funktionsnedsattning.otillrackligRorelseformaga'
                     }])
@@ -287,15 +300,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 4. Hjärt- och kärlsjukdomar
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { }, [
-                    fraga(14, 'FRG_14.RBK', 'FRG_14.HLP', { required:true }, [{
+                    fraga(14, 'FRG_14.RBK', 'FRG_14.HLP', { required:true, requiredProp: 'hjartKarl.hjartKarlSjukdom' }, [{
                         type: 'ue-radio',
                         modelProp: 'hjartKarl.hjartKarlSjukdom'
                     }]),
-                    fraga(15, 'FRG_15.RBK', 'FRG_15.HLP', { required:true }, [{
+                    fraga(15, 'FRG_15.RBK', 'FRG_15.HLP', { required:true, requiredProp: 'hjartKarl.hjarnskadaEfterTrauma'}, [{
                         type: 'ue-radio',
                         modelProp: 'hjartKarl.hjarnskadaEfterTrauma'
                     }]),
-                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required:true }, [{
+                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required:true, requiredProp: 'hjartKarl.riskfaktorerStroke' }, [{
                         type: 'ue-radio',
                         modelProp: 'hjartKarl.riskfaktorerStroke'
                     },{
@@ -304,18 +317,20 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         hideExpression: '!model.hjartKarl.riskfaktorerStroke',
                         htmlMaxlength: 180,
                         label: {
-                            key: 'DFR_16.2.RBK'
+                            key: 'DFR_16.2.RBK',
+                            required: true,
+                            requiredProp: 'hjartKarl.beskrivningRiskfaktorer'
                         }
                     }])
                 ]),
 
                 // 5. Diabetes
                 kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { }, [
-                    fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', { required:true }, [{
+                    fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', { required:true, requiredProp: 'diabetes.harDiabetes' }, [{
                         type: 'ue-radio',
                         modelProp: 'diabetes.harDiabetes'
                     }]),
-                    fraga(18, 'FRG_18.RBK', 'FRG_18.HLP', { required:true, hideExpression:'!model.diabetes.harDiabetes' }, [{
+                    fraga(18, 'FRG_18.RBK', 'FRG_18.HLP', { required:true, hideExpression:'!model.diabetes.harDiabetes', requiredProp: 'diabetes.diabetesTyp' }, [{
                         type: 'ue-radiogroup',
                         modelProp: 'diabetes.diabetesTyp',
                         choices: [
@@ -325,7 +340,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     }]),
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {
                         validationContext: {key: 'diabetes.behandlingsTyp', type: 'ue-checkgroup'},
-                        required:true,
+                        required: true,
+                        requiredProp: ['diabetes.kost', 'diabetes.tabletter', 'diabetes.insulin'],
                         hideExpression:'model.diabetes.diabetesTyp != "DIABETES_TYP_2"' },
                         [{
                             type: 'ue-checkbox',
@@ -355,7 +371,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 6. Neurologiska sjukdomar
                 kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
-                    fraga(20, 'FRG_20.RBK', 'FRG_20.HLP', { required:true }, [{
+                    fraga(20, 'FRG_20.RBK', 'FRG_20.HLP', { required:true, requiredProp: 'neurologi.neurologiskSjukdom' }, [{
                         type: 'ue-radio',
                         modelProp: 'neurologi.neurologiskSjukdom'
                     }])
@@ -363,7 +379,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 7. Epilepsi, epileptiskt anfall och annan medvetandestörning
                 kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', { }, [
-                    fraga(21, 'FRG_21.RBK', 'FRG_21.HLP', { required:true }, [{
+                    fraga(21, 'FRG_21.RBK', 'FRG_21.HLP', { required:true, requiredProp: 'medvetandestorning.medvetandestorning' }, [{
                         type: 'ue-radio',
                         modelProp: 'medvetandestorning.medvetandestorning'
                     },{
@@ -379,7 +395,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 8. Njursjukdomar
                 kategori(categoryIds[8], 'KAT_8.RBK', 'KAT_8.HLP', { }, [
-                    fraga(22, 'FRG_22.RBK', 'FRG_22.HLP', { required:true }, [{
+                    fraga(22, 'FRG_22.RBK', 'FRG_22.HLP', { required:true, requiredProp: 'njurar.nedsattNjurfunktion'}, [{
                         type: 'ue-radio',
                         modelProp: 'njurar.nedsattNjurfunktion'
                     }])
@@ -387,7 +403,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 9. Demens och andra kognitiva störningar
                 kategori(categoryIds[9], 'KAT_9.RBK', 'KAT_9.HLP', { }, [
-                    fraga(23, 'FRG_23.RBK', 'FRG_23.HLP', { required:true }, [{
+                    fraga(23, 'FRG_23.RBK', 'FRG_23.HLP', { required:true, requiredProp: 'kognitivt.sviktandeKognitivFunktion'}, [{
                         type: 'ue-radio',
                         modelProp: 'kognitivt.sviktandeKognitivFunktion'
                     }])
@@ -395,7 +411,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 10. Sömn- och vakenhetsstörningar
                 kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', { }, [
-                    fraga(24, 'FRG_24.RBK', 'FRG_24.HLP', { required:true }, [{
+                    fraga(24, 'FRG_24.RBK', 'FRG_24.HLP', { required:true, requiredProp: 'somnVakenhet.teckenSomnstorningar' }, [{
                         type: 'ue-radio',
                         modelProp: 'somnVakenhet.teckenSomnstorningar'
                     }])
@@ -403,15 +419,16 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 11. Alkohol, narkotika och läkemedel
                 kategori(categoryIds[11], 'KAT_11.RBK', 'KAT_11.HLP', { }, [
-                    fraga(25, 'DFR_25.1.RBK', '', { required:true }, [{
+                    fraga(25, 'DFR_25.1.RBK', '', { required:true, requiredProp: 'narkotikaLakemedel.teckenMissbruk' }, [{
                         type: 'ue-radio',
                         modelProp: 'narkotikaLakemedel.teckenMissbruk'
                     }]),
-                    fraga(25, 'DFR_25.2.RBK', '', { required:true }, [{
+                    fraga(25, 'DFR_25.2.RBK', '', { required:true, requiredProp: 'narkotikaLakemedel.foremalForVardinsats' }, [{
                         type: 'ue-radio',
                         modelProp: 'narkotikaLakemedel.foremalForVardinsats'
                     }]),
-                    fraga(25, 'DFR_25.3.RBK', '', { required:true, hideExpression: '!(model.narkotikaLakemedel.teckenMissbruk || model.narkotikaLakemedel.foremalForVardinsats)' }, [{
+                    fraga(25, 'DFR_25.3.RBK', '', { required:true, hideExpression: '!(model.narkotikaLakemedel.teckenMissbruk || model.narkotikaLakemedel.foremalForVardinsats)',
+                                                    requiredProp: 'narkotikaLakemedel.provtagningBehovs'}, [{
                         type: 'ue-radio',
                         modelProp: 'narkotikaLakemedel.provtagningBehovs',
                         paddingBottom: true
@@ -421,7 +438,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         key: 'DFR_25.3.INF',
                         hideExpression: '!model.narkotikaLakemedel.provtagningBehovs'
                     }]),
-                    fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { required:true }, [{
+                    fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { required:true, requiredProp: 'narkotikaLakemedel.lakarordineratLakemedelsbruk' }, [{
                         type: 'ue-radio',
                         modelProp: 'narkotikaLakemedel.lakarordineratLakemedelsbruk',
                         paddingBottom: true
@@ -431,14 +448,16 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         hideExpression: '!model.narkotikaLakemedel.lakarordineratLakemedelsbruk',
                         htmlMaxlength: 180,
                         label: {
-                            key: 'DFR_26.1.RBK'
+                            key: 'DFR_26.1.RBK',
+                            required: true,
+                            requiredProp: 'narkotikaLakemedel.lakemedelOchDos'
                         }
                     }])
                 ]),
 
                 // 12. Psykiska sjukdomar och störningar
                 kategori(categoryIds[12], 'KAT_12.RBK', 'KAT_12.HLP', { }, [
-                    fraga(27, 'FRG_27.RBK', 'FRG_27.HLP', { required:true }, [{
+                    fraga(27, 'FRG_27.RBK', 'FRG_27.HLP', { required:true, requiredProp: 'psykiskt.psykiskSjukdom' }, [{
                         type: 'ue-radio',
                         modelProp: 'psykiskt.psykiskSjukdom'
                     }])
@@ -446,11 +465,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 13. ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning
                 kategori(categoryIds[13], 'KAT_13.RBK', 'KAT_13.HLP', { }, [
-                    fraga(28, 'FRG_28.RBK', 'FRG_28.HLP', { required:true }, [{
+                    fraga(28, 'FRG_28.RBK', 'FRG_28.HLP', { required:true, requiredProp: 'utvecklingsstorning.psykiskUtvecklingsstorning' }, [{
                         type: 'ue-radio',
                         modelProp: 'utvecklingsstorning.psykiskUtvecklingsstorning'
                     }]),
-                    fraga(29, 'FRG_29.RBK', 'FRG_29.HLP', { required:true }, [{
+                    fraga(29, 'FRG_29.RBK', 'FRG_29.HLP', { required:true, requiredProp: 'utvecklingsstorning.harSyndrom' }, [{
                         type: 'ue-radio',
                         modelProp: 'utvecklingsstorning.harSyndrom'
                     }])
@@ -458,7 +477,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // 14. Sjukhusvård
                 kategori(categoryIds[14], 'KAT_14.RBK', 'KAT_14.HLP', { }, [
-                    fraga(30, 'FRG_30.RBK', 'FRG_30.HLP', { required:true }, [{
+                    fraga(30, 'FRG_30.RBK', 'FRG_30.HLP', { required:true, requiredProp: 'sjukhusvard.sjukhusEllerLakarkontakt' }, [{
                         type: 'ue-radio',
                         modelProp: 'sjukhusvard.sjukhusEllerLakarkontakt'
                     }]),
@@ -467,7 +486,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         modelProp: 'sjukhusvard.tidpunkt',
                         htmlMaxlength: 40,
                         label: {
-                            key: 'DFR_30.2.RBK'
+                            key: 'DFR_30.2.RBK',
+                            required: true,
+                            requiredProp: 'sjukhusvard.tidpunkt'
                         }
                     }]),
                     fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
@@ -475,7 +496,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         modelProp: 'sjukhusvard.vardinrattning',
                         htmlMaxlength: 40,
                         label: {
-                            key: 'DFR_30.3.RBK'
+                            key: 'DFR_30.3.RBK',
+                            required: true,
+                            requiredProp: 'sjukhusvard.vardinrattning'
                         }
                     }]),
                     fraga(30, '', '', { hideExpression: '!model.sjukhusvard.sjukhusEllerLakarkontakt' }, [{
@@ -483,14 +506,16 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         modelProp: 'sjukhusvard.anledning',
                         htmlMaxlength: 50,
                         label: {
-                            key: 'DFR_30.4.RBK'
+                            key: 'DFR_30.4.RBK',
+                            required: true,
+                            requiredProp: 'sjukhusvard.anledning'
                         }
                     }])
                 ]),
 
                 // 15. Övrig medicinering
                 kategori(categoryIds[15], 'KAT_15.RBK', 'KAT_15.HLP', { }, [
-                    fraga(31, 'FRG_31.RBK', 'FRG_31.HLP', { required:true }, [{
+                    fraga(31, 'FRG_31.RBK', 'FRG_31.HLP', { required:true, requiredProp: 'medicinering.stadigvarandeMedicinering' }, [{
                         type: 'ue-radio',
                         modelProp: 'medicinering.stadigvarandeMedicinering'
                     },{
@@ -500,7 +525,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         htmlMaxlength: 180,
                         label: {
                             key: 'DFR_31.2.RBK',
-                            required: true
+                            required: true,
+                            requiredProp: 'medicinering.beskrivning'
                         }
                     }])
                 ]),
