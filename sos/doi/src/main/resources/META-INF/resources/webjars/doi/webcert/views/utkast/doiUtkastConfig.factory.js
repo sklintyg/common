@@ -51,14 +51,9 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         labelType: 'h4',
                         key: 'KAT_7.1.RBK'
                     }]),
-                    fraga(null, '', '', {}, [{
+                    fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                         modelProp: 'terminalDodsorsak',
                         type: 'ue-dodsorsak-foljd', // R9
-                        label: {
-                            modelProp: 'FRG_8.RBK',
-                            helpmodelProp: 'FRG_8.HLP',
-                            required: false
-                        },
                         orsaksTyper: [
                             'PLOTSLIG',
                             'KRONISK',
@@ -72,9 +67,8 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         foljd: {
                             modelProp: 'foljd',
                             label: {
-                                modelProp: 'FRG_9.RBK',
-                                helpmodelProp: 'FRG_9.RBK',
-                                required: false
+                                key: 'FRG_9.RBK',
+                                helpKey: 'FRG_9.HLP'
                             },
                             htmlMaxlength: 140,
                             letter: ['B', 'C', 'D'],
