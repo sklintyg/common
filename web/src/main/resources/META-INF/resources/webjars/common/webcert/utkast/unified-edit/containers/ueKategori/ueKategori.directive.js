@@ -37,7 +37,7 @@ angular.module('common').directive('ueKategori', ['$parse',
                             if (angular.isArray(reqProp)) {
                                 for (var i = 0; i < reqProp.length; i++) {
                                     req = $parse(reqProp[i])($scope.model);
-                                    if(req === null || req === undefined || req === '') {
+                                    if(req === null || req === undefined) {
                                         continue;
                                     }
                                     return false;
@@ -45,7 +45,7 @@ angular.module('common').directive('ueKategori', ['$parse',
                                 return true;
                             } else {
                                 req = $parse(reqProp)($scope.model);
-                                if(req === null || req === undefined || req === '') {
+                                if(req === null || req === undefined) {
                                     return true;
                                 }
                             }
