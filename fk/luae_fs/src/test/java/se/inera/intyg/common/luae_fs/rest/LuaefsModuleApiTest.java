@@ -422,7 +422,7 @@ public class LuaefsModuleApiTest {
     }
 
     @Test
-    public void testCreateNewInternalFromTemplateWithComment() throws Exception {
+    public void testCreateCompletionFromTemplateWithComment() throws Exception {
 
         final String ovrigt = "övrigtText";
         final String kommentar = "kommentarText";
@@ -439,7 +439,7 @@ public class LuaefsModuleApiTest {
                 .when(webcertModelFactory)
                 .createCopy(any(), any());
 
-        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
@@ -448,7 +448,7 @@ public class LuaefsModuleApiTest {
     }
 
     @Test
-    public void testCreateNewInternalFromTemplateWithNoComment() throws Exception {
+    public void testCreateCompletionFromTemplateWithNoComment() throws Exception {
 
         final String ovrigt = "övrigtText";
         final String kommentar = "";
@@ -465,7 +465,7 @@ public class LuaefsModuleApiTest {
                 .when(webcertModelFactory)
                 .createCopy(any(), any());
 
-        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
@@ -474,7 +474,7 @@ public class LuaefsModuleApiTest {
     }
 
     @Test
-    public void testCreateNewInternalFromTemplateWithNoOvrigt() throws Exception {
+    public void testCreateCompletionFromTemplateWithNoOvrigt() throws Exception {
 
         final String ovrigt = "";
         final String kommentar = "kommentarText";
@@ -491,7 +491,7 @@ public class LuaefsModuleApiTest {
                 .when(webcertModelFactory)
                 .createCopy(any(), any());
 
-        String result = moduleApi.createNewInternalFromTemplate(createCopyHolder(), utlatande, kommentar);
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
 
         assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());

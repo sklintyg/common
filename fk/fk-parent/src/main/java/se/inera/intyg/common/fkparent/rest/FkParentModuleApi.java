@@ -156,7 +156,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+    public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
             throws ModuleException {
 
         T utkast;
