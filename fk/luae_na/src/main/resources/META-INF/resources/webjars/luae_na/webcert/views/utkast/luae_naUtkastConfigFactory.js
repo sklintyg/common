@@ -214,7 +214,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                             label: {
                                 key: 'DFR_45.2.RBK',
                                 required: true,
-                                requiredProp: 'diagnosForNyBedomning',
+                                requiredProp: 'diagnosForNyBedomning'
                             }
                         } ])
                 ]),
