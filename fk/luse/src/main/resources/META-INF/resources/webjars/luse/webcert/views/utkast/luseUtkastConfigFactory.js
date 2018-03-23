@@ -120,7 +120,8 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         label: {
                             key: 'DFR_1.3.RBK',
                             helpKey: 'DFR_1.3.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'annatGrundForMUBeskrivning'
                         },
                         type: 'ue-textfield',
                         hideExpression: '!model.annatGrundForMU',

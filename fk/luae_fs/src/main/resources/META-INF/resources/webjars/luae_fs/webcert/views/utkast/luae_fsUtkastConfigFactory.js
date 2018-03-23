@@ -74,7 +74,9 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
 
             var config = [
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
+                                                        required: true, requiredProp: ['undersokningAvPatienten', 'journaluppgifter',
+                                                                        'anhorigsBeskrivningAvPatienten', 'annatGrundForMU'] }, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -115,7 +117,8 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                         label: {
                             key: 'DFR_1.3.RBK',
                             helpKey: 'DFR_1.3.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'annatGrundForMUBeskrivning'
                         },
                         type: 'ue-textfield',
                         hideExpression: '!model.annatGrundForMU',
@@ -128,7 +131,8 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                             bold: 'bold',
                             key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                             required: true,
-                            type: 'label'
+                            type: 'label',
+                            requiredProp: 'motiveringTillInteBaseratPaUndersokning'
                         }
                     }, {
                         type: 'ue-text',
@@ -138,12 +142,12 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                             variableLabelKey: 'FRG_25.RBK'
                         }
                     }]),
-                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true}, [{
+                    fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'kannedomOmPatient'}, [{
                         type: 'ue-date',
                         modelProp: 'kannedomOmPatient'
 
                     }]),
-                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true}, [{
+                    fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true, requiredProp: 'underlagFinns'}, [{
                         type: 'ue-radio',
                         modelProp: 'underlagFinns',
                         paddingBottom: true
@@ -158,16 +162,19 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'FRG_4.RBK',
-                                    helpKey: 'FRG_4.RBK.HLP'
+                                    helpKey: 'FRG_4.RBK.HLP',
+                                    requiredProp: ['underlag[0].typ', 'underlag[1].typ', 'underlag[2].typ']
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
-                                    key: 'common.label.date'
+                                    key: 'common.label.date',
+                                    requiredProp: ['underlag[0].datum', 'underlag[1].datum', 'underlag[2].datum']
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'DFR_4.3.RBK',
-                                    helpKey: 'DFR_4.3.HLP'
+                                    helpKey: 'DFR_4.3.HLP',
+                                    requiredProp: ['underlag[0].hamtasFran', 'underlag[1].hamtasFran', 'underlag[2].hamtasFran']
                                 }],
                                 // Row 2-4
                                 buildUnderlagConfigRow(0),
@@ -180,7 +187,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -191,11 +198,11 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
-                    fraga(15, 'FRG_15.RBK', 'FRG_15.HLP', { required: true}, [{
+                    fraga(15, 'FRG_15.RBK', 'FRG_15.HLP', { required: true, requiredProp: 'funktionsnedsattningDebut'}, [{
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattningDebut'
                     }]),
-                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required: true }, [{
+                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required: true, modelProp: 'funktionsnedsattningPaverkan'}, [{
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattningPaverkan'
                     }])
