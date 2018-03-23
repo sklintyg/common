@@ -46,7 +46,7 @@ angular.module('common').directive('ueLabel',
                                     scope.allRequiredUndefined = function() {
                                         for (var i = 0; i < scope.config.requiredProp.length; i++) {
                                             var req = $parse(scope.config.requiredProp[i])(scope.model);
-                                            if(req === null || req === undefined || req === '') {
+                                            if(req === null || req === undefined || req === '' || req === false) {
                                                 continue;
                                             }
                                             return false;

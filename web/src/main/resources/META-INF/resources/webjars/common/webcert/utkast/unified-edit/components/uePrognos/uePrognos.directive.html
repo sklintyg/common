@@ -22,6 +22,7 @@
             <div ng-if="choice.showDropDown" class="prognos-dropdown">
                 <ue-validation-wrapper field-type="select"
                                        validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
+                                       <span class="required icon-wc-ikon-38" ng-if="model[config.modelProp].typ === choice.id && !model[config.modelProp].dagarTillArbete"></span>
                     <wc-dropdown data-items="prognosOptions"
                                  ng-model="model[config.modelProp].dagarTillArbete"
                                  ng-disabled="model[config.modelProp].typ !== choice.id"

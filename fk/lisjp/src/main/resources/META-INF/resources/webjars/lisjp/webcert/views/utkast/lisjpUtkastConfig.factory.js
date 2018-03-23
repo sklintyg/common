@@ -54,7 +54,9 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'}, required: true }, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
+                                                        required: true, requiredProp: ['undersokningAvPatienten', 'telefonkontaktMedPatienten',
+                                                                        'journaluppgifter', 'annatGrundForMU']}, [{
                         label: {
                             key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
                             helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
@@ -93,7 +95,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         label: {
                             key: 'DFR_1.3.RBK',
                             helpKey: 'DFR_1.3.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'annatGrundForMUBeskrivning'
                         },
                         type: 'ue-textfield',
                         hideExpression: '!model.annatGrundForMU',
@@ -104,7 +107,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             bold: 'bold',
                             key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                             required: true,
-                            type: 'label'
+                            type: 'label',
+                            requiredProp: 'motiveringTillInteBaseratPaUndersokning'
                         },
                         modelProp: 'motiveringTillInteBaseratPaUndersokning'
                     }, {
@@ -118,7 +122,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(28, 'FRG_28.RBK', 'FRG_28.HLP', { required:true }, [{
+                    fraga(28, 'FRG_28.RBK', 'FRG_28.HLP', { required: true, requiredProp: ['sysselsattning["NUVARANDE_ARBETE"]',
+                                                            'sysselsattning["ARBETSSOKANDE"]', 'sysselsattning["FORALDRALEDIG"]','sysselsattning["STUDIER"]']}, [{
                         type: 'ue-checkgroup',
                         modelProp: 'sysselsattning',
                         code: 'KV_FKMU_0002',
@@ -134,7 +139,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -187,7 +192,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
-                    fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { required: true }, [{
+                    fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { required: true, requiredProp: ['sjukskrivningar["EN_FJARDEDEL"].period.from', 'sjukskrivningar["HALFTEN"].period.from',
+                                                            'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'] }, [{
                         type: 'ue-sjukskrivningar',
                         modelProp: 'sjukskrivningar',
                         code: 'KV_FKMU_0003',
@@ -217,7 +223,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                             helpKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
                             required: true,
-                            type: 'label'
+                            type: 'label',
+                            requiredProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                         },
                         modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                     }, {
@@ -268,7 +275,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             key: 'DFR_33.2.RBK',
                             helpKey: 'DFR_33.2.HLP',
                             labelType: 'h4',
-                            required: true
+                            required: true,
+                            requiredProp: 'arbetstidsforlaggningMotivering'
                         },
                         hideExpression: function(scope) {
                             if (scope.model.avstangningSmittskydd) {
@@ -285,7 +293,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             helpKey: 'FRG_34.HLP'
                         }
                     }]),
-                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true, hideExpression: 'model.avstangningSmittskydd' }, [{
+                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true, requiredProp: 'prognos', hideExpression: 'model.avstangningSmittskydd' }, [{
                         type: 'ue-prognos',
                         modelProp: 'prognos',
                         code: 'KV_FKMU_0006',
@@ -305,7 +313,10 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                    fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required: true }, [{
+                    fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required: true, requiredProp: ['arbetslivsinriktadeAtgarder["EJ_AKTUELLT"]', 'arbetslivsinriktadeAtgarder["ARBETSTRANING"]',
+                                'arbetslivsinriktadeAtgarder["ARBETSANPASSNING"]', 'arbetslivsinriktadeAtgarder["SOKA_NYTT_ARBETE"]', 'arbetslivsinriktadeAtgarder["BESOK_ARBETSPLATS"]',
+                                'arbetslivsinriktadeAtgarder["ERGONOMISK"]', 'arbetslivsinriktadeAtgarder["HJALPMEDEL"]', 'arbetslivsinriktadeAtgarder["KONFLIKTHANTERING"]',
+                                'arbetslivsinriktadeAtgarder["KONTAKT_FHV"]', 'arbetslivsinriktadeAtgarder["OMFORDELNING"]', 'arbetslivsinriktadeAtgarder["OVRIGA_ATGARDER"]']}, [{
                         type: 'ue-checkgroup',
                         modelProp: 'arbetslivsinriktadeAtgarder',
                         code: 'KV_FKMU_0004',
