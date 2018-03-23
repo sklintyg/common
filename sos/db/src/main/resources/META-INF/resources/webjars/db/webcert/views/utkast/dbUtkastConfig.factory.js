@@ -98,7 +98,6 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         modelProp: 'polisanmalan',
                         yesLabel: 'DFR_7.1.SVA_1.RBK',
                         noLabel: 'DFR_7.1.SVA_2.RBK',
-                        vertical: true,
                         label: {
                             key: 'DFR_7.1.RBK',
                             helpKey: 'DFR_7.1.HLP',
@@ -125,7 +124,7 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         type: 'ue-alert',
                         alertType: 'warning',
                         hideExpression: 'model.polisanmalan !== true',
-                        key: 'db.info.polisanmalan'
+                        key: 'DFR_7.1.OBS'
                     }])
                 ]),
 

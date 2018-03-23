@@ -140,6 +140,13 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
             components: [ {
                 type: 'uv-boolean-value',
                 modelProp: 'polisanmalan'
+            },{
+                type: 'uv-alert-value',
+                showExpression: function(model) {
+                    return model.polisanmalan === true;
+                },
+                labelKey: 'DFR_7.1.OBS',
+                alertLevel: 'warning'
             } ]
         } ]
     }, {

@@ -10,7 +10,7 @@
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}Yes" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}Yes" ng-class="::{'disabled': config.disabled}">
                 <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
             </label>
         </wc-radio-wrapper>
@@ -23,7 +23,7 @@
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}No" ng-class="::{'radio': config.vertical, 'radio-inline': !config.vertical, 'disabled': config.disabled}">
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}No" ng-class="::{'disabled': config.disabled}">
                 <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
             </label>
         </wc-radio-wrapper>

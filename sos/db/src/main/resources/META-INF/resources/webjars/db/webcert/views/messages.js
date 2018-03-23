@@ -32,8 +32,6 @@ angular.module('db').constant('db.messages', {
         '<p>Ett dödsbevis kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att dödsbeviset utfärdades. När ett dödsbevis ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga dödsbeviset. Uppgifterna i det nya utkastet går att ändra innan det signeras. Ett ersatt dödsbevis är endast tillgängligt att läsa och skriva ut. På det ersatta dödsbeviset kommer en länk finnas till det nya dödsbeviset.</p>' +
         '<p><b>Notera</b>: Om dödsbeviset innehåller ett allvarligt fel, till exempel om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.</p>',
 
-        'db.info.polisanmalan': 'Skriv även ut dödsbeviset och skicka det till polisen per post/fax.',
-
         'db.label.signandsend': 'Om du går vidare kommer dödsbeviset signeras och skickas direkt till Skatteverkets system.',
 
         'db.label.status.recieved': '<p>Dödsbeviset är signerat och har nu skickats till Skatteverket.</p>'+
