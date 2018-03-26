@@ -63,7 +63,7 @@ angular.module('db').factory('db.UtkastConfigFactory',
                             key: 'DFR_5.2.RBK',
                             helpKey: 'DFR_5.2.HLP',
                             required: true,
-                            requiredProp: 'explosivAvlagsnat',
+                            requiredProp: 'explosivAvlagsnat'
                         }
                     }])
                 ]),
