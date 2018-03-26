@@ -64,12 +64,13 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 return true;
             }
 
-            function requiredKorkortProperties() {
+            function requiredKorkortProperties(field, extraproperty) {
                 var antalKorkort = 10;
                 var korkortsarray = [];
                 for (var i = 0; i < antalKorkort; i++) {
-                    korkortsarray.push('intygAvser.korkortstyp[' + i + '].selected');
+                    korkortsarray.push( field + '.korkortstyp[' + i + '].selected');
                 }
+                korkortsarray.push(extraproperty);
                 return korkortsarray;
             }
 
@@ -108,7 +109,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // Intyget avser
                 kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', {}, [
-                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties()}, [{
+                    fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
                         labelTemplate:'KORKORT_{0}.RBK',
@@ -176,7 +177,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         type: 'ue-radio',
                         modelProp: 'syn.nystagmus'
                     }]),
-                    fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required:true, requiredProp: 'syn.hogerOga.utanKorrektion' }, [{
+                    fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                         type: 'ue-alert',
                         alertType: 'info',
                         key: 'FRG_8.INF'
@@ -542,7 +543,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 // Bedömning
                 kategori(categoryIds[101], 'KAT_101.RBK', 'KAT_101.HLP', { }, [
-                    fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { }, [{
+                    fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required: true,
+                            requiredProp: requiredKorkortProperties('bedomning', 'bedomning.kanInteTaStallning')}, [{
                         type: 'ue-korkort-bedomning',
                         modelProp: 'bedomning',
                         labelTemplate:'KORKORT_{0}.RBK'

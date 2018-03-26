@@ -54,12 +54,21 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                 return true;
             }
 
+            function requiredKorkortProperties(field, antalKorkort, extraproperty) {
+                var korkortsarray = [];
+                for (var i = 0; i < antalKorkort; i++) {
+                    korkortsarray.push( field + '.korkortstyp[' + i + '].selected');
+                }
+                korkortsarray.push(extraproperty);
+                return korkortsarray;
+            }
+
             var config = [
 
                 patient,
 
                 // Intyget avser
-                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true }, [
+                kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', { required: true, requiredProp: requiredKorkortProperties('intygAvser', 16) }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-checkgroup-ts',
                         modelProp: 'intygAvser.korkortstyp',
@@ -69,7 +78,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                 ]),
 
                 // Identitet styrkt genom
-                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true }, [
+                kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true, requiredProp: 'vardkontakt.idkontroll' }, [
                     fraga(null, '', '', {}, [{
                         type: 'ue-radiogroup',
                         modelProp: 'vardkontakt.idkontroll',
@@ -93,11 +102,11 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
                 // 1. Allmänt
                 kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
-                    fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', { required:true }, [{
+                    fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', { required:true, requiredProp: 'diabetes.observationsperiod' }, [{
                         type: 'ue-year',
                         modelProp: 'diabetes.observationsperiod'
                     }]),
-                    fraga(18, 'FRG_18.RBK', 'FRG_18.HLP', { required:true }, [{
+                    fraga(18, 'FRG_18.RBK', 'FRG_18.HLP', { required:true, requiredProp: 'diabetes.diabetestyp' }, [{
                         type: 'ue-radiogroup',
                         modelProp: 'diabetes.diabetestyp',
                         choices: [
@@ -107,7 +116,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     }]),
                     fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', {
                         validationContext: {key: 'diabetes.behandlingsTyp', type: 'checkgroup'},
-                        required:true }, [{
+                        required:true, requiredProp: ['diabetes.endastKost', 'diabetes.tabletter', 'diabetes.insulin', 'diabetes.annanBehandlingBeskrivning'] }, [{
                             type: 'ue-checkbox',
                             modelProp: 'diabetes.endastKost',
                             label: {
@@ -134,7 +143,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             hideExpression: '!model.diabetes.insulin',
                             label: {
                                 key: 'DFR_19.4.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'diabetes.insulinBehandlingsperiod'
                             },
                             paddingBottom: true
                         },{
@@ -148,19 +158,21 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
                 // 2. Hypoglykemier
                 kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', { }, [
-                    fraga(36, 'FRG_36.RBK', 'FRG_36.HLP', { required:true }, [{
+                    fraga(36, 'FRG_36.RBK', 'FRG_36.HLP', { required:true, requiredProp: 'hypoglykemier.kunskapOmAtgarder'}, [{
                         type: 'ue-radio',
                         modelProp: 'hypoglykemier.kunskapOmAtgarder'
                     }]),
-                    fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { required:true }, [{
+                    fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { required:true, requiredProp: 'hypoglykemier.teckenNedsattHjarnfunktion'}, [{
                         type: 'ue-radio',
                         modelProp: 'hypoglykemier.teckenNedsattHjarnfunktion'
                     }]),
-                    fraga(38, 'FRG_38.RBK', 'FRG_38.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion' }, [{
+                    fraga(38, 'FRG_38.RBK', 'FRG_38.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion',
+                                                            requiredProp: 'hypoglykemier.saknarFormagaKannaVarningstecken'}, [{
                         type: 'ue-radio',
                         modelProp: 'hypoglykemier.saknarFormagaKannaVarningstecken'
                     }]),
-                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion' }, [{
+                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion',
+                                                            requiredProp: 'hypoglykemier.allvarligForekomst' }, [{
                         type: 'ue-radio',
                         modelProp: 'hypoglykemier.allvarligForekomst'
                     },{
@@ -169,10 +181,12 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         hideExpression:'!model.hypoglykemier.allvarligForekomst',
                         label: {
                             key: 'DFR_39.2.RBK',
-                            required: true
+                            required: true,
+                            requiredProp: 'hypoglykemier.allvarligForekomstBeskrivning'
                         }
                     }]),
-                    fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion' }, [{
+                    fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required:true, hideExpression:'!model.hypoglykemier.teckenNedsattHjarnfunktion',
+                                                            requiredProp: 'hypoglykemier.allvarligForekomstTrafiken'}, [{
                         type: 'ue-radio',
                         modelProp: 'hypoglykemier.allvarligForekomstTrafiken'
                     },{
@@ -181,18 +195,19 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         hideExpression:'!model.hypoglykemier.allvarligForekomstTrafiken',
                         label: {
                             key: 'DFR_40.2.RBK',
-                            required: true
+                            required: true,
+                            requiredProp: 'hypoglykemier.allvarligForekomstTrafikBeskrivning'
                         }
                     }]), {
                         type: 'ue-group',
                         hideExpression: korkortHogreBehorighet,
                         components: [
-                        fraga(null, 'ts-diabetes.helptext.hypoglykemier.korkortd', '', {required: true}, []),
-                        fraga(41, 'FRG_41.RBK', 'FRG_41.HLP', {required: true}, [{
+                        fraga(null, 'ts-diabetes.helptext.hypoglykemier.korkortd', '', {}, []),
+                        fraga(41, 'FRG_41.RBK', 'FRG_41.HLP', {required: true, requiredProp: 'hypoglykemier.egenkontrollBlodsocker'}, [{
                             type: 'ue-radio',
                             modelProp: 'hypoglykemier.egenkontrollBlodsocker'
                         }]),
-                        fraga(42, 'FRG_42.RBK', 'FRG_42.HLP', {required: true}, [{
+                        fraga(42, 'FRG_42.RBK', 'FRG_42.HLP', {required: true, requiredProp: 'hypoglykemier.allvarligForekomstVakenTid'}, [{
                             type: 'ue-radio',
                             modelProp: 'hypoglykemier.allvarligForekomstVakenTid'
                         }, {
@@ -203,7 +218,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             maxDate: tomorrowDate,
                             label: {
                                 key: 'DFR_42.2.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'hypoglykemier.allvarligForekomstVakenTidObservationstid'
                             }
                         }, {
                             type: 'ue-text',
@@ -230,7 +246,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                             key: 'ts-diabetes.helptext.syn.alt1.text'
                         }
                     }]),
-                    fraga(43, 'FRG_43.RBK', 'FRG_43.HLP', { required:true }, [{
+                    fraga(43, 'FRG_43.RBK', 'FRG_43.HLP', { required:true, requiredProp: 'syn.separatOgonlakarintyg' }, [{
                         type: 'ue-radio',
                         modelProp: 'syn.separatOgonlakarintyg'
                     }]), {
@@ -250,11 +266,11 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                 key: 'ts-diabetes.helptext.syn.alt2.text'
                             }
                         }]),
-                        fraga(44, 'FRG_44.RBK', 'FRG_44.HLP', {required: true}, [{
+                        fraga(44, 'FRG_44.RBK', 'FRG_44.HLP', {required: true, requiredProp: 'syn.synfaltsprovningUtanAnmarkning'}, [{
                             type: 'ue-radio',
                             modelProp: 'syn.synfaltsprovningUtanAnmarkning'
                         }]),
-                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', { required: true}, [{
+                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                                 type: 'ue-alert',
                                 alertType: 'info',
                                 key: 'ts-diabetes.helptext.synfunktioner.synskarpa'
@@ -268,7 +284,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                     type: 'ue-form-label',
                                     key: 'ts-diabetes.label.syn.utankorrektion',
                                     helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
-                                    required: true
+                                    required: true,
+                                    requiredProp: 'syn.hoger.utanKorrektion'
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-diabetes.label.syn.medkorrektion',
@@ -315,7 +332,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                 }]
                             ]
 
-                        }]), fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {required: true}, [{
+                        }]), fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {required: true, requiredProp: 'syn.diplopi'}, [{
                             type: 'ue-radio',
                             modelProp: 'syn.diplopi'
                         }])]
@@ -324,12 +341,12 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
                 // 4. Bedömning
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { }, [
-                    fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required:true }, [{
+                    fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required:true, requiredProp: requiredKorkortProperties('bedomning', 16, 'bedomning.kanInteTaStallning') }, [{
                         type: 'ue-korkort-bedomning',
                         modelProp: 'bedomning',
                         labelTemplate:'KORKORT_{0}.RBK'
                     }]),
-                    fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', { required:true, hideExpression: korkortHogreBehorighet }, [{
+                    fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', { required:true, hideExpression: korkortHogreBehorighet, requiredProp: 'bedomning.lamplighetInnehaBehorighet' }, [{
                         type: 'ue-radio',
                         modelProp: 'bedomning.lamplighetInnehaBehorighet'
                     }])
