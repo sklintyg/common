@@ -239,14 +239,16 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         type: 'ue-textarea',
                         modelProp: 'forsakringsmedicinsktBeslutsstod'
                     }]),
-                    fraga(33, '', '', { required: true, requiredProp: 'arbetstidsforlaggning' }, [{
+                    fraga(33, '', '', { }, [{
                         type: 'ue-radio',
                         modelProp: 'arbetstidsforlaggning',
                         htmlClass: 'more-padding',
                         label: {
                             key: 'FRG_33.RBK',
                             helpKey: 'FRG_33.HLP',
-                            labelType: 'h4'
+                            labelType: 'h4',
+                            required: true,
+                            requiredProp: 'arbetstidsforlaggning'
                         },
                         hideExpression: function(scope) {
 
