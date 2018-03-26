@@ -51,11 +51,15 @@ angular.module('common').directive('wcArendeFooter',
                         showAnswerWithIntyg: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'})
                     };
 
-                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
+                    function onIntygLoaded(event, intyg, intygProperties) {
                         $scope.kompletteringConfig.redirectToExistingUtkast = !!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast;
-                        $scope.intygProperties = ArendeListViewState.intygProperties;
-                    });
+                        $scope.intygProperties = intygProperties;
+                    }
+
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
                     $scope.$on('$destroy', unbindFastEvent);
+
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
                     $scope.showKompletteringButtons = function() {
                         return ArendeListViewState.getUnhandledKompletteringCount() > 0 &&

@@ -32,7 +32,7 @@ angular.module('common').service('common.ArendeListViewStateService',
                     isLoaded: false,
                     isSent: false,
                     isRevoked: false,
-                    isSigned: false,
+                    isInteractionEnabled: false,
                     type: undefined,
                     relations: {}
                 };

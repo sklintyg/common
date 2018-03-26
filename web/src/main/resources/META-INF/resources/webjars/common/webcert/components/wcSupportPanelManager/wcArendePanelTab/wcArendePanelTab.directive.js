@@ -115,7 +115,7 @@ angular.module('common').directive('wcArendePanelTab', [
                     });
                 }
 
-                ArendeListViewState.intygProperties.isSigned = $scope.config.intygContext.isSigned;
+                ArendeListViewState.intygProperties.isInteractionEnabled = $scope.config.intygContext.isSigned && !ArendeListViewState.intygProperties.isRevoked;
             });
             $scope.$on('$destroy', unbindFastEvent);
 

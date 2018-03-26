@@ -78,9 +78,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                             $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
                         });
 
-
-
-
                     } else {
                         $rootScope.$emit('ViewCertCtrl.load', null, null);
 
@@ -91,6 +88,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                         }
                     }
                     $scope.intygBackup.showBackupInfo = false;
+
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
                     ViewState.common.doneLoading = true;

@@ -6,7 +6,7 @@
     <li ng-class="{active: isFilterKomplettering}">
       <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
         Kompletteringsbegäran
-        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-show="config.intygContext.isSigned && unhandledKompletteringCount > 0">
+        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-show="viewState.intygProperties.isInteractionEnabled && unhandledKompletteringCount > 0">
           {{unhandledKompletteringCount}}
         </span>
       </a>
@@ -14,7 +14,7 @@
     <li ng-class="{active: !isFilterKomplettering}">
       <a ng-click="setFilterKomplettering(false)" id="arende-filter-administrativafragor">
         Administrativa frågor
-        <span id="arende-administrativafragor-count" class="badge badge__stat" ng-show="config.intygContext.isSigned && unhandledAdministrativaFragorCount > 0">
+        <span id="arende-administrativafragor-count" class="badge badge__stat" ng-show="viewState.intygProperties.isInteractionEnabled && unhandledAdministrativaFragorCount > 0">
           {{unhandledAdministrativaFragorCount}}
         </span>
       </a>
@@ -37,7 +37,7 @@
 
     <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
 
-      <div ng-if="config.intygContext.isSigned">
+      <div ng-if="viewState.intygProperties.isInteractionEnabled">
         <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
         <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
         <wc-arende-komplettera-meddelande-confirmation arende-list="viewState.arendeList"></wc-arende-komplettera-meddelande-confirmation>
@@ -57,7 +57,7 @@
     <div id="arende-administrativafragor-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && !isFilterKomplettering">
 
       <!-- new arende form -->
-      <arende-new ng-show="config.intygContext.isSigned && viewState.doneLoading && viewState.activeErrorMessageKey == null"
+      <arende-new ng-show="viewState.intygProperties.isInteractionEnabled && viewState.doneLoading && viewState.activeErrorMessageKey == null"
            arende-list="viewState.arendeList" parent-view-state="viewState"></arende-new>
 
       <!-- list of administrativ fraga arenden -->
@@ -74,7 +74,7 @@
 
 </wc-support-panel-scrollable-body>
 
-<wc-arende-footer ng-if="config.intygContext.isSigned" arende-list="viewState.arendeList"></wc-arende-footer>
+<wc-arende-footer ng-if="viewState.intygProperties.isInteractionEnabled" arende-list="viewState.arendeList"></wc-arende-footer>
 
 </wc-spinner>
 <!--  end spinner -->

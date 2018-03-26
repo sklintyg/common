@@ -44,7 +44,7 @@ angular.module('common').directive('arendeVidarebefordra',
                             authority: UserModel.privileges.VIDAREBEFORDRA_FRAGASVAR,
                             intygstyp: $scope.parentViewState.intygProperties.type });
                         return hasAuthPermission &&
-                            $scope.parentViewState.intygProperties.isSigned &&
+                            $scope.parentViewState.intygProperties.isInteractionEnabled &&
                             $scope.arendeListItem.arende.fraga.status !== 'CLOSED';
                     };
                 }

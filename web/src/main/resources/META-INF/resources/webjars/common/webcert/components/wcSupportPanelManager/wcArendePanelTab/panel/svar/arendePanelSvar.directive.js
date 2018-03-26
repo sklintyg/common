@@ -57,7 +57,7 @@ angular.module('common').directive('arendePanelSvar',
                     });
 
                     $scope.canAnswer = function() {
-                        return $scope.parentViewState.intygProperties.isSigned &&
+                        return $scope.parentViewState.intygProperties.isInteractionEnabled &&
                             ArendeSvar.status === 'PENDING_INTERNAL_ACTION' &&
                             !ArendeSvar.intygProperties.isRevoked &&
                             !$scope.arendeListItem.isKomplettering();

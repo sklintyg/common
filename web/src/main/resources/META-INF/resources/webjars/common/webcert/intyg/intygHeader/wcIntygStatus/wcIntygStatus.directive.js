@@ -43,7 +43,7 @@ angular.module('common').directive('wcIntygStatus', [
                 var parentIntygStatuses;
                 function checkParentIntyg() {
                     parentIntygStatuses = undefined;
-                    if (CommonIntygViewState.isRevoked()) {
+                    if (CommonIntygViewState.isRevoked() && CommonIntygViewState.intygProperties.parent) {
                         IntygProxy.getIntyg(CommonIntygViewState.intygProperties.parent.intygsId,
                             IntygHeaderViewState.intygType,
                             // onSuccess
