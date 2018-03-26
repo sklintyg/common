@@ -46,7 +46,7 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
                     $scope.$on('$destroy', unbindFastEvent);
 
-                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties)
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
                     $scope.showFortsattUtkastWarning = function() {
                         return $scope.kompletteringConfig.redirectToExistingUtkast;
