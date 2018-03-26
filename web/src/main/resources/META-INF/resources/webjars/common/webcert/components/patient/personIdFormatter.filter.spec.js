@@ -31,6 +31,10 @@ describe('Filter: PersonIdFormatter', function () {
         expect(PersonIdFormatterFilter('191212121212')).toEqual('19121212-1212');                  // jshint ignore:line
     }));
 
+    it('should return samordningnr with dash for non-dashed one', inject(function (PersonIdFormatterFilter) {
+        expect(PersonIdFormatterFilter('195401875769')).toEqual('19540187-5769');                  // jshint ignore:line
+    }));
+
     it('should return same as supplied when not a valid pnr', inject(function (PersonIdFormatterFilter) {
         expect(PersonIdFormatterFilter('abc-123-def-456')).toEqual('abc-123-def-456');             // jshint ignore:line
     }));

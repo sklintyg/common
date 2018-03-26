@@ -21,13 +21,13 @@ angular.module('common').filter('PersonIdFormatter', ['common.PersonIdValidatorS
         'use strict';
 
         /**
-         * The PersonIdValidatorService returns a yyyyMMdd-NNNN pnr from the validatePersonnummer method if and only if
-         * the supplied input is valid. Otherwise, null or undefined are returned. In those cases, this filter will
-         * just return the input unprocessed.
+         * The PersonIdValidatorService returns a yyyyMMdd-NNNN pnr from the validate method if and only if
+         * the supplied input is a valid personnummer or samordningsnummer.
+         * Otherwise, null or undefined are returned. In those cases, this filter will just return the input unprocessed.
          */
         return function(input) {
-            var validated = PersonIdValidatorService.validatePersonnummer(input);
-            if (validated !== null && typeof validated !== 'undefined') {
+            var validated = PersonIdValidatorService.validate(input);
+            if (PersonIdValidatorService.validResult(validated)) {
                 return validated;
             }
             return input;
