@@ -142,7 +142,8 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-radio',
                             label: {
                                 key: 'DFR_12.1.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'forgiftning'
                             }
                         }]),
                     fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R14 */ }, [
@@ -151,7 +152,8 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-radiogroup', // R15
                             label: {
                                 key: 'DFR_12.2.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'forgiftningOrsak'
                             },
                             choices: [
                                 { label:'ORSAK.OLYCKSFALL.RBK', id: 'OLYCKSFALL'},
@@ -164,13 +166,21 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         {
                             modelProp: 'forgiftningDatum',
                             type: 'ue-date',
-                            label: {key: 'DFR_12.3.RBK', required: true}
+                            label: {
+                                key: 'DFR_12.3.RBK',
+                                required: true,
+                                requiredProp: 'forgiftningDatum'
+                            }
                         }]),
                     fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R17 */ }, [
                         {
                             modelProp: 'forgiftningUppkommelse',
                             type: 'ue-textarea',
-                            label: {key: 'DFR_12.4.RBK', required: true}, htmlMaxlength: 400
+                            label: {
+                                key: 'DFR_12.4.RBK',
+                                required: true,
+                                requiredProp: 'forgiftningUppkommelse'
+                            }, htmlMaxlength: 400
                         }
                     ])
                 ]),
@@ -181,7 +191,9 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-checkgroup', // R18
                             label: {
                                 key: 'DFR_13.1.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: ['grunder.UNDERSOKNING_FORE_DODEN', 'grunder.UNDERSOKNING_EFTER_DODEN',
+                                'grunder.KLINISK_OBDUKTION', 'grunder.RATTSMEDICINSK_OBDUKTION', 'grunder.RATTSMEDICINSK_BESIKTNING' ]
                             },
                             code: 'DODSORSAKSUPPGIFTER',
                             choices: [

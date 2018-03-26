@@ -52,7 +52,8 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         label: {
                             key: 'DFR_5.1.RBK',
                             helpKey: 'DFR_5.1.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'explosivImplantat'
                         }
                     },{
                         type: 'ue-radio',
@@ -61,7 +62,8 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         label: {
                             key: 'DFR_5.2.RBK',
                             helpKey: 'DFR_5.2.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'explosivAvlagsnat',
                         }
                     }])
                 ]),
@@ -78,7 +80,8 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         label: {
                             key: 'DFR_6.1.RBK',
                             helpKey: 'DFR_6.1.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'undersokningYttre'
                         }
                     }, {
                         type: 'ue-date',
@@ -87,7 +90,8 @@ angular.module('db').factory('db.UtkastConfigFactory',
                         label: {
                             key: 'DFR_6.3.RBK',
                             helpKey: 'DFR_6.3.HLP',
-                            required: true
+                            required: true,
+                            requiredProp: 'undersokningDatum'
                         }
                     }])
                 ]),

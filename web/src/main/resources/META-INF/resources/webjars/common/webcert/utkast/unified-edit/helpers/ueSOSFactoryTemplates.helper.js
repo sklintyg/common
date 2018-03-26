@@ -45,7 +45,8 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             label: {
                                 key: 'DFR_1.1.RBK',
                                 helpKey: 'DFR_1.1.HLP',
-                                required: true
+                                required: true,
+                                requiredProp: 'identitetStyrkt'
                             }
                         }
                     ])
@@ -89,7 +90,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             modelProp: 'dodsdatum',
                             type: 'ue-vague-date',
                             hideExpression: 'model.dodsdatumSakert !== false',
-                            label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true}
+                            label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'dodsdatum'}
                         }
                     ]),
                     fraga(2, '', '', { required: true }, [
@@ -128,7 +129,8 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             label: {
                                 key: 'DFR_3.2.RBK',
                                 helpKey: 'DFR_3.2.RBK',
-                                required: true
+                                required: true,
+                                requiredProp: 'dodsplatsBoende'
                             }
                         }
                     ])
@@ -140,7 +142,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'barn',
                             type: 'ue-radio',
-                            label: {key: 'DFR_4.1.RBK', helpKey: 'DFR_4.1.HLP', required: true},
+                            label: {key: 'DFR_4.1.RBK', helpKey: 'DFR_4.1.HLP', required: true, requiredProp: 'barn'},
                             disabledExpression: 'form.formState.barnForced',
                             watcher: {
                                 expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
