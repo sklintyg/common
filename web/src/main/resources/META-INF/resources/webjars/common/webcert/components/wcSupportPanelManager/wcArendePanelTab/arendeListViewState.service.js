@@ -34,7 +34,9 @@ angular.module('common').service('common.ArendeListViewStateService',
                     isRevoked: false,
                     isInteractionEnabled: false,
                     type: undefined,
-                    relations: {}
+                    latestChildRelations: {
+                        complementedByUtkast: false
+                    }
                 };
 
                 // Injecting the IntygViewStateService service so client-side only changes
