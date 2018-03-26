@@ -152,7 +152,7 @@ angular.module('common').factory('common.UtkastNotifyService',
                 // set
                 if (!draft.vidarebefordradContainer.vidarebefordrad && !_isSkipNotifyCookieSet()) {
                     _showNotifyPreferenceDialog('markforward',
-                        'Det verkar som att du har informerat den som ska signera utkastet. Vill du markera utkastet som vidarebefordrad?',
+                        '\tVill du markera utkastet som vidarebefordrat?',
                         function() { // yes
                             $log.debug('yes');
                             draft.vidarebefordradContainer.vidarebefordrad = true;
