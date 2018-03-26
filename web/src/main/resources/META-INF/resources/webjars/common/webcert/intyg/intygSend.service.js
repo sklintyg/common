@@ -41,20 +41,18 @@ angular.module('common').factory('common.IntygSend',
             }
 
             function isObservandumOccupation (occupationList) {
-               for (var i = 0; i < occupationList.length; i++) {
-                   var type = occupationList[i].typ;
-                   if (type === 'ARBETSSOKANDE') {
-                       return true;
-                   } else if (type === 'STUDIER') {
-                       for (var j = 0; j < occupationList.length; j++) {
-                           var secondType = occupationList[j].typ;
-                           if (secondType === 'NUVARANDE_ARBETE') {
-                               console.log('nuvarande arbete & studier true');
-                               return true;
-                           }
-                       }
-                   }
-               }
+                occupationList.forEach(function (occupation) {
+                    if (occupation.typ === 'ARBETSSOKANDE') {
+                        return true;
+                    } else if (occupation.typ === 'STUDIER') {
+                        occupationList.forEach(function (occupation) {
+                            if (occupation.typ  === 'NUVARANDE_ARBETE') {
+                                return true;
+                            }
+                        })
+
+                    }
+                })
                return false;
             }
 
@@ -68,16 +66,16 @@ angular.module('common').factory('common.IntygSend',
                 var duration;
 
                 if (intygModel.typ === 'lisjp') {
-                    for (var j = 0; j < intygModel.sjukskrivningar.length; j++) {
-                        var startDate = new moment (intygModel.sjukskrivningar[j].period.from.split('-'));
-                        var endDate = new moment (intygModel.sjukskrivningar[j].period.tom.split('-'));
+                    intygModel.sjukskrivningar.forEach(function(sjukskrivning) {
+                        var startDate = new moment (sjukskrivning.period.from.split('-'));
+                        var endDate = new moment (sjukskrivning.period.tom.split('-'));
                         duration  = moment.duration(endDate.diff(startDate));
                         duration = duration.days() + 1;
-                    }
-                    
-                    if (duration <= 7 && isObservandumOccupation(intygModel.sysselsattning)) {
-                        return true;
-                    }
+
+                        if (duration <= 7 && isObservandumOccupation(intygModel.sysselsattning)) {
+                            return true;
+                        }
+                    })
                 }
                 return false;
             }
