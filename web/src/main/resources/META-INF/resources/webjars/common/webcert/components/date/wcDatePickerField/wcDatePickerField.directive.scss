@@ -111,10 +111,10 @@
 
     &.current-day .btn-default {
       border-color: $wc-color-21;
-      font-weight: bold;
     }
 
     .active {
+      @extend %wc-typo-06;
       box-shadow: none;
     }
 
