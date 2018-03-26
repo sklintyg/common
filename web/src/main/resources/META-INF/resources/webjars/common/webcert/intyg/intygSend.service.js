@@ -49,10 +49,10 @@ angular.module('common').factory('common.IntygSend',
                             if (occupation.typ  === 'NUVARANDE_ARBETE') {
                                 return true;
                             }
-                        })
+                        });
 
                     }
-                })
+                });
                return false;
             }
 
@@ -75,7 +75,7 @@ angular.module('common').factory('common.IntygSend',
                         if (duration <= 7 && isObservandumOccupation(intygModel.sysselsattning)) {
                             return true;
                         }
-                    })
+                    });
                 }
                 return false;
             }
