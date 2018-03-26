@@ -239,7 +239,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                         type: 'ue-textarea',
                         modelProp: 'forsakringsmedicinsktBeslutsstod'
                     }]),
-                    fraga(33, '', '', { }, [{
+                    fraga(33, '', '', { required: true, requiredProp: 'arbetstidsforlaggning' }, [{
                         type: 'ue-radio',
                         modelProp: 'arbetstidsforlaggning',
                         htmlClass: 'more-padding',
