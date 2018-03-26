@@ -33,6 +33,7 @@ angular.module('common').factory('common.IntygCopyRequestModel',
             this.intygId = data.intygId;
             this.intygType = data.intygType;
             this.patientPersonnummer = data.patientPersonnummer;
+            this.kommentar = data.kommentar;
             this.newIntygType = data.newIntygType || data.intygType;
         }
 

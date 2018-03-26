@@ -62,18 +62,19 @@ angular.module('common').directive('wcArendeFooter',
                             !$scope.kompletteringConfig.redirectToExistingUtkast;
                     };
 
-                    var _answerWithIntyg = function() {
+                    var _answerWithIntyg = function(kommentar) {
 
                         var deferred = $q.defer();
 
                         $scope.updateInProgress = true; // trigger local spinner
                         $scope.activeKompletteringErrorMessageKey = null;
 
-                        IntygProxy.answerWithIntyg(null, ArendeListViewState.intygProperties.type,
+                        IntygProxy.answerWithIntyg(ArendeListViewState.intygProperties.type,
                             IntygCopyRequestModel.build({
                                 intygId: ArendeListViewState.intyg.id,
                                 intygType: ArendeListViewState.intygProperties.type,
-                                patientPersonnummer: ArendeListViewState.intyg.grundData.patient.personId
+                                patientPersonnummer: ArendeListViewState.intyg.grundData.patient.personId,
+                                kommentar: kommentar
                             }), function(result) {
 
                                 $scope.updateInProgress = false;
@@ -144,7 +145,7 @@ angular.module('common').directive('wcArendeFooter',
                                 if (dialogModel.answerWithIntyg) {
                                     // The actual process of answering with a new intyg is rather complex, so defer that
                                     // to calling code, and act on outcome of it here (keep dialog or close it)
-                                    _answerWithIntyg().then(function(result) {
+                                    _answerWithIntyg(dialogModel.ovrigaUpplysningar).then(function(result) {
                                         //If successful, wer'e done here
                                         modalInstance.close();
 
@@ -161,22 +162,7 @@ angular.module('common').directive('wcArendeFooter',
                                     });
                                 }
                                 else {
-                                    var kompletteringar = $scope.arendeList.filter(function(arendeListItem) {
-                                       return arendeListItem.isKomplettering();
-                                    }).sort(function(a, b){
-                                        if (a.arende.fraga.timestamp > b.arende.fraga.timestamp) {
-                                            return -1;
-                                        }
-                                        else if (a.arende.fraga.timestamp < b.arende.fraga.timestamp) {
-                                            return 1;
-                                        }
-                                        return 0;
-                                    });
-                                    var arendeListItem = kompletteringar[0];
-                                    var arendeSvar = ArendeSvarModel.build(ArendeListViewState, arendeListItem);
-                                    arendeSvar.meddelande = dialogModel.meddelandeText;
-
-                                    ArendeProxy.saveKompletteringAnswer(arendeSvar, ArendeListViewState.intygProperties.type, ArendeListViewState.intyg.id, function(result) {
+                                    ArendeProxy.saveKompletteringAnswer(dialogModel.meddelandeText, ArendeListViewState.intygProperties.type, ArendeListViewState.intyg.id, function(result) {
                                         modalInstance.close();
 
                                         if (result !== null) {

@@ -88,14 +88,14 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         /*
          * save new administrativ fråga answer to a komplettering question
          */
-        function _saveKompletteringAnswer(ArendeSvar, intygsTyp, intygsId, onSuccess, onError) {
-            $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsId: ' + intygsId);
+        function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
+            $log.debug('_saveAnswer: intygsId: ' + intygsId);
             if (intygsTyp === 'fk7263') {
                 return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
             }
 
             var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
-            $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
+            $http.put(restPath, meddelande).then(function(response) {
                 $log.debug('got data:' + response.data);
                 onSuccess(response.data);
             }, function(response) {

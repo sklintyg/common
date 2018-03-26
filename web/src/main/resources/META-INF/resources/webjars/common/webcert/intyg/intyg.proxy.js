@@ -87,6 +87,9 @@ angular.module('common').factory('common.IntygProxy',
             if (intygCopyRequest.coherentJournaling) {
                 payload.coherentJournaling = intygCopyRequest.coherentJournaling;
             }
+            if (intygCopyRequest.kommentar) {
+                payload.kommentar = intygCopyRequest.kommentar;
+            }
             return payload;
         }
 
@@ -131,11 +134,10 @@ angular.module('common').factory('common.IntygProxy',
         /*
          * answer komplettering with a new intyg (basically do a copy with a 'komplettering' relation to this intyg)
          */
-        function _answerWithIntyg(internReferens, intygsTyp, intygCopyRequest, onSuccess, onError) {
-            $log.debug('_answerWithIntyg: arendeId:' + internReferens + ' intygsTyp: ' + intygsTyp);
+        function _answerWithIntyg(intygsTyp, intygCopyRequest, onSuccess, onError) {
+            $log.debug('_answerWithIntyg: intygsTyp: ' + intygsTyp);
 
-            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/' +
-                internReferens + '/komplettera';
+            var restPath = '/moduleapi/intyg/' + intygsTyp + '/' + intygCopyRequest.intygId + '/komplettera';
             var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
             $http.post(restPath, payload).then(function(response) {
