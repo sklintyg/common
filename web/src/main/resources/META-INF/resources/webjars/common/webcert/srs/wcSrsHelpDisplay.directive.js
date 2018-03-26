@@ -148,10 +148,10 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.$on('intyg.loaded', function(event, content) {
-                        if(!srsViewState.diagnosisListFetching) {
+                        scope.srsViewState.userHasSrsFeature = checkIfUserHasSrsFeature();
+                        if(scope.srsViewState.userHasSrsFeature && !srsViewState.diagnosisListFetching) {
                             loadDiagCodes();
                         }
-                        scope.srsViewState.userHasSrsFeature = checkIfUserHasSrsFeature();
                         // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
                         if (scope.srsViewState.userHasSrsFeature && scope.id === '2') {
                             scope.srsViewState.consentInfo = '';
