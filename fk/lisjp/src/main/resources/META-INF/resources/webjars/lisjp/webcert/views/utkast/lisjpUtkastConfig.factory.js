@@ -132,7 +132,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             'FORALDRALEDIG',
                             'STUDIER'
                         ]
-                    }]), fraga(29, 'FRG_29.RBK', 'FRG_29.HLP', { required: true, hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]' }, [{
+                    }]), fraga(29, 'FRG_29.RBK', 'FRG_29.HLP', { required: true, hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
+                                                                 requiredProp: 'nuvarandeArbete'}, [{
                         type: 'ue-textarea',
                         modelProp: 'nuvarandeArbete'
                     }])
@@ -295,7 +296,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             helpKey: 'FRG_34.HLP'
                         }
                     }]),
-                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true, requiredProp: 'prognos', hideExpression: 'model.avstangningSmittskydd' }, [{
+                    fraga(39, 'FRG_39.RBK', 'FRG_39.HLP', { required: true, requiredProp: 'prognos.typ', hideExpression: 'model.avstangningSmittskydd' }, [{
                         type: 'ue-prognos',
                         modelProp: 'prognos',
                         code: 'KV_FKMU_0006',
