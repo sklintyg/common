@@ -29,7 +29,7 @@ angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
                 },
                 controller: function($scope, $element, $attrs) {
 
-                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
+                    function onIntygLoaded(event, intyg, intygProperties) {
                         if (ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) {
                             $scope.intygType = ArendeListViewState.intygProperties.type;
                             $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId;
@@ -38,8 +38,12 @@ angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
                             $scope.intygType = undefined;
                             $scope.intygId = undefined;
                         }
-                    });
+                    }
+
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
                     $scope.$on('$destroy', unbindFastEvent);
+
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
                     $scope.showKompletteringsIntyg = function() {
                         return $scope.intygType && $scope.intygId;

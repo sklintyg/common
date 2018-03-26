@@ -35,14 +35,18 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                         redirectToExistingUtkast: false
                     };
 
-                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
+                    function onIntygLoaded(event, intyg, intygProperties) {
                         if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
                             $scope.intygType = ArendeListViewState.intygProperties.type;
                             $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
                             $scope.kompletteringConfig.redirectToExistingUtkast = true;
                         }
-                    });
+                    }
+
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
                     $scope.$on('$destroy', unbindFastEvent);
+
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties)
 
                     $scope.showFortsattUtkastWarning = function() {
                         return $scope.kompletteringConfig.redirectToExistingUtkast;
