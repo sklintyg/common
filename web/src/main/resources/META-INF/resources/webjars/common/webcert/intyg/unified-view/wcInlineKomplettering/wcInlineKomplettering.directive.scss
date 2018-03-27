@@ -12,4 +12,8 @@ wc-inline-komplettering {
   .inline-komplettering-text {
     white-space: pre-line;
   }
+
+  .inline-komplettering-heading {
+    @extend %wc-typo-06;
+  }
 }
