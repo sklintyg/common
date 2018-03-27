@@ -5,11 +5,12 @@
     data-ng-disabled="btnDisabled || loading"
     data-ng-click="btnClick()"
 
-    uib-tooltip="{{::btnTooltip}}"
-    tooltip-placement="auto top"
-    tooltip-enable="!(btnDisabled || loading)"
-    tooltip-append-to-body="true"
-    >
+    uib-popover="{{::btnTooltip}}"
+    popover-placement="auto top"
+    popover-enable="!(btnDisabled || loading)"
+    popover-append-to-body="true"
+    popover-trigger="mouseenter"
+    popover-popup-delay="300">
   <div ng-if="loading" class="loading">
     <i class="icon-wc-ikon-02 animate-spin"></i>
   </div>
