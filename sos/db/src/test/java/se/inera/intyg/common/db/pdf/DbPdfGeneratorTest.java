@@ -24,7 +24,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;

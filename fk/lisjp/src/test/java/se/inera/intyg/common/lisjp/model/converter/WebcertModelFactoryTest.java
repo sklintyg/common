@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -37,19 +37,19 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDateTime;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
 
     private static final String INTYG_ID = "intyg-123";
-
-    @Mock
-    private IntygTextsService intygTextsService;
-
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
+    @Mock
+    private IntygTextsService intygTextsService;
 
     @Test
     public void testHappyPath() throws ConverterException {
@@ -64,13 +64,11 @@ public class WebcertModelFactoryTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LisjpEntryPoint.MODULE_ID)).thenReturn("1.0");
         modelFactory.createNewWebcertDraft(buildNewDraftData(null));
     }
 
     @Test(expected = ConverterException.class)
     public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LisjpEntryPoint.MODULE_ID)).thenReturn("1.0");
         modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
     }
 

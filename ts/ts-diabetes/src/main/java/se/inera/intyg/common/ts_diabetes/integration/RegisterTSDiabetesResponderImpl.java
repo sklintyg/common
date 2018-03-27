@@ -71,9 +71,10 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
 
         try {
             validate(parameters);
-            TsDiabetesUtlatande utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
+
             String xml = xmlToString(parameters);
 
+            TsDiabetesUtlatande utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
             certificateHolder.setOriginalCertificate(xml);
 

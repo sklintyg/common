@@ -26,7 +26,7 @@ ext {
     springVersion = "4.2.2.RELEASE"
 
     jsonAssertVersion = "1.2.0"
-    mockitoVersion = "1.9.0"
+    mockitoVersion = "2.16.0"
     unitilsCoreVersion = "3.3"
     xmlUnitVersion = "1.4"
 }

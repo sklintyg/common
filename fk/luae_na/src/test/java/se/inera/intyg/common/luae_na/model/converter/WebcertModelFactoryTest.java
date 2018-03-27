@@ -22,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -64,13 +64,11 @@ public class WebcertModelFactoryTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LuaenaEntryPoint.MODULE_ID)).thenReturn("1.0");
         modelFactory.createNewWebcertDraft(buildNewDraftData(null));
     }
 
     @Test(expected = ConverterException.class)
     public void testBlankUtlatandeIdThrowsIllegalArgumentException() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LuaenaEntryPoint.MODULE_ID)).thenReturn("1.0");
         modelFactory.createNewWebcertDraft(buildNewDraftData(" "));
     }
 

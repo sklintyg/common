@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -75,12 +75,18 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
 /**
@@ -140,7 +146,9 @@ public class TsDiabetesModuleApiTest {
                 .thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG, false);
+            moduleApi
+                    .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
+                            false);
         }
     }
 
@@ -368,7 +376,7 @@ public class TsDiabetesModuleApiTest {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-        .thenReturn(result);
+                .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
@@ -378,7 +386,7 @@ public class TsDiabetesModuleApiTest {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
-        .thenReturn(result);
+                .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }

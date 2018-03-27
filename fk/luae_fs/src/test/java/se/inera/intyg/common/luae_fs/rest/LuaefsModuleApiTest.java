@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.luae_fs.model.converter.SvarIdHelperImpl;
@@ -82,10 +82,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -163,7 +163,6 @@ public class LuaefsModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientFailsWithoutXmlModel() throws ModuleException {
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
@@ -323,9 +322,6 @@ public class LuaefsModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
 
         when(objectMapper.readValue(json, LuaefsUtlatande.class)).thenReturn(utlatandeBeforeSave);
-
-        RegisterCertificateResponseType result = createReturnVal(ResultCodeType.OK);
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
 
         final String internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal());
         final Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);

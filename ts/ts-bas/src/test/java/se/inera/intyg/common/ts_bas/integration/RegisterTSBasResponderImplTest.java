@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
@@ -46,7 +46,8 @@ import java.util.Arrays;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -129,9 +130,9 @@ public class RegisterTSBasResponderImplTest {
     }
 
     @Test
-    public void testRegisterTSBasConvertException() throws Exception {
+    public void testRegisterTSBasConvertException() {
         TransportValidatorInstance validatorMock = mock(TransportValidatorInstance.class);
-        when(validatorMock.validate(any(TSBasIntyg.class))).thenReturn(new ArrayList<>());
+        when(validatorMock.validate(isNull())).thenReturn(new ArrayList<>());
         ReflectionTestUtils.setField(responder, "validator", validatorMock);
 
         RegisterTSBasResponseType res = responder.registerTSBas(LOGICAL_ADDRESS, new RegisterTSBasType());

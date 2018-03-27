@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
@@ -45,15 +45,12 @@ import se.inera.intyg.common.support.model.Status;
 public class FkBasePdfDefinitionBuilderTest {
 
     private static final String FKASSA_RECIPIENT_ID = "FKASSA";
-    @Mock
-    FkAbstractModuleEntryPoint entryPoint;
 
     @InjectMocks
     private FkBasePdfDefinitionBuilder builder = new FkBasePdfDefinitionBuilder();
 
     @Test
     public void testIsSentToFk() throws Exception {
-        when(entryPoint.getDefaultRecipient()).thenReturn(FKASSA_RECIPIENT_ID);
 
         assertFalse(builder.isSentToFk(null));
 
