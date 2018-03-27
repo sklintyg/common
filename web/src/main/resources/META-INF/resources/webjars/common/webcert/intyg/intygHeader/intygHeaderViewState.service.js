@@ -26,6 +26,7 @@ angular.module('common').service('common.IntygHeaderViewState', [
             */
             this.intygViewState = {};
             this.intygType = null;
+            this.intygLoaded = false;
 
             /*
             // Create from template state

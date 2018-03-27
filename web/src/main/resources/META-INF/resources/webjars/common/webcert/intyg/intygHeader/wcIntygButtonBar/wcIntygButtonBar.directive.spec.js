@@ -28,6 +28,7 @@ describe('wcIntygButtonBar', function() {
     var UserModel;
     var element;
     var CommonIntygViewState;
+    var IntygHeaderViewStateService;
     var userTemplate = {
 
         'features': {
@@ -90,8 +91,8 @@ describe('wcIntygButtonBar', function() {
     }));
 
     beforeEach(angular.mock.inject([
-        '$rootScope', '$controller', '$state', '$compile', 'common.UserModel', 'common.featureService', 'common.UtkastProxy', 'common.IntygViewStateService',
-        function(_$rootScope_, _$controller_, _$state_, _$compile_, _UserModel_, _featureService_, _UtkastProxy_, _IntygViewStateService_) {
+        '$rootScope', '$controller', '$state', '$compile', 'common.UserModel', 'common.featureService', 'common.UtkastProxy', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
+        function(_$rootScope_, _$controller_, _$state_, _$compile_, _UserModel_, _featureService_, _UtkastProxy_, _IntygViewStateService_, _IntygHeaderViewStateService_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
         $controller = _$controller_;
@@ -99,6 +100,10 @@ describe('wcIntygButtonBar', function() {
         UserModel = _UserModel_;
         CommonIntygViewState = _IntygViewStateService_;
         $compile = _$compile_;
+        IntygHeaderViewStateService = _IntygHeaderViewStateService_;
+
+        // Fake that intyg is already loaded so following tests only test the other requirements for buttons to show
+        IntygHeaderViewStateService.intygLoaded =  true;
 
         UserModel.setUser(userTemplate);
 

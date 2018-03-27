@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
+angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.moduleService',
     'common.IntygViewStateService', 'common.IntygHeaderService', 'common.IntygHeaderViewState',
     'common.UserModel', 'common.IntygSend', 'common.dialogService', 'common.PatientProxy', 'common.IntygMakulera',
     'common.IntygCopyActions', 'common.IntygFornyaRequestModel', 'common.IntygCopyRequestModel', 'common.IntygErsattRequestModel',
     'common.ArendeListViewStateService',
-    function($rootScope,
+    function($rootScope, $timeout,
         authorityService, featureService, messageService, moduleService,
         CommonIntygViewState, IntygHeaderService, IntygHeaderViewState,
         UserModel, IntygSend, DialogService, PatientProxy, IntygMakulera,
@@ -58,28 +58,33 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
             });
 
             $scope.ersattButtonDisabled = false;
-            $scope.$on('arenden.loaded', function() {
+            $scope.$on('arenden.updated', function() {
                 if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
                     $scope.ersattButtonDisabled = true;
                     $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.unhandledkomplettering.tooltip');
                 }
+                // Wait for digest to remove buttons first
+                $timeout(function(){
+                    IntygHeaderViewState.intygLoaded = true;
+                });
+
             });
 
             $scope.intygType = intygType;
 
             $scope.showSkickaButton = function(){
-                return !CommonIntygViewState.isSentIntyg() && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced();
+                return IntygHeaderViewState.intygLoaded && !CommonIntygViewState.isSentIntyg() && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced();
             };
 
             $scope.showPrintBtn = function() {
                 if ($scope.showEmployerPrintBtn()) {
                     return false;
                 }
-                return $scope.utskrift;
+                return IntygHeaderViewState.intygLoaded && $scope.utskrift;
             };
 
             $scope.showEmployerPrintBtn = function() {
-                return $scope.arbetsgivarUtskrift && !CommonIntygViewState.isRevoked();
+                return IntygHeaderViewState.intygLoaded && $scope.arbetsgivarUtskrift && !CommonIntygViewState.isRevoked();
             };
 
             $scope.showFornyaButton = function() {
@@ -89,7 +94,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                     feature: featureService.features.FORNYA_INTYG,
                     intygstyp: $scope.intygType });
 
-                return fornyaAuthority &&
+                return IntygHeaderViewState.intygLoaded && fornyaAuthority &&
                     !CommonIntygViewState.isRevoked() &&
                     !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
@@ -101,14 +106,14 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope',
                     authority: UserModel.privileges.ERSATTA_INTYG,
                     intygstyp: $scope.intygType });
 
-                return hasbasicErsattAuth && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
+                return IntygHeaderViewState.intygLoaded && hasbasicErsattAuth && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
                     !CommonIntygViewState.isComplementedByIntyg() &&
                     (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: $scope.intygType }) || !CommonIntygViewState.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
             };
 
             $scope.showMakuleraButton = function() {
-                return !CommonIntygViewState.isRevoked() &&
+                return IntygHeaderViewState.intygLoaded && !CommonIntygViewState.isRevoked() &&
                     authorityService.isAuthorityActive({
                         authority: UserModel.privileges.MAKULERA_INTYG,
                         feature: featureService.features.MAKULERA_INTYG,

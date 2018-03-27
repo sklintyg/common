@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.IntygHeader', [ '$scope', '$state',
+angular.module('common').controller('common.IntygHeader', [ '$scope', '$state', '$timeout',
     'IntygViewState', 'common.IntygHeaderViewState', 'common.IntygHeaderService',
-    function($scope, $state,
+    function($scope, $state, $timeout,
         IntygViewState, IntygHeaderViewState, IntygHeaderService) {
        'use strict';
 
@@ -30,6 +30,11 @@ angular.module('common').controller('common.IntygHeader', [ '$scope', '$state',
 
         $scope.$on('intyg.loaded', function(event, intyg){
             IntygHeaderService.updatePreviousIntygUtkast(intyg);
+
+            // Wait for digest to remove buttons first
+            $timeout(function(){
+                IntygHeaderViewState.intygLoaded = true;
+            });
         });
 
         //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)

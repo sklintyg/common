@@ -1,73 +1,75 @@
 <div class="wc-page-header">
-  <div class="centered-constrained-content">
+  <wc-spinner label="common.load.certificate" show-spinner="!intygHeaderViewState.intygLoaded">
+    <div class="centered-constrained-content">
 
-    <!-- page error message -->
-    <div ng-if="intygViewState.common.activeErrorMessageKey">
-      <wc-alert-message id="intyg-load-error" ng-show="intygViewState.common.doneLoading"
-                        alert-severity="danger">
+      <!-- page error message -->
+      <div ng-if="intygViewState.common.activeErrorMessageKey">
+        <wc-alert-message id="intyg-load-error" ng-show="intygViewState.common.doneLoading"
+                          alert-severity="danger">
 
-        <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
-          <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
-        </span>
-
-        <div
-            ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
-          <p>
+          <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
             <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
-          </p>
-          <p><strong>Intygsinformation</strong></p>
-          <ul>
-            <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
-            <li>Signerat: {{intygBackup.intyg.signeringsDatum | date:'short'}}</li>
-            <li>ID: {{intygBackup.intyg.intygsId}}</li>
-          </ul>
-        </div>
-      </wc-alert-message>
-    </div>
+          </span>
 
-    <!-- header content -->
-    <div ng-if="!intygViewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
-
-      <!-- Status -->
-      <div class="page-header-divider">
-        <div class="inline-block" wc-authority="NAVIGERING" ng-if="::backState">
-          <a ng-click="back()"
-             uib-popover="Tillbaka."
-             popover-trigger="mouseenter"
-             popover-popup-delay="300"
-             popover-append-to-body="true"
-             popover-placement="auto top"
-             popover-class="z-low">
-            <i class="material-icons">arrow_back</i>
-          </a><a
-              id="tillbakaButton"
-              ng-click="back()">Tillbaka
-          </a>
-        </div>
-
-        <wc-intyg-status intyg-view-state="intygViewState"></wc-intyg-status>
+          <div
+              ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
+            <p>
+              <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
+            </p>
+            <p><strong>Intygsinformation</strong></p>
+            <ul>
+              <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
+              <li>Signerat: {{intygBackup.intyg.signeringsDatum | date:'short'}}</li>
+              <li>ID: {{intygBackup.intyg.intygsId}}</li>
+            </ul>
+          </div>
+        </wc-alert-message>
       </div>
-      <div class="flex-row padding-top-small">
-        <div class="flex-col-max">
-          <!-- Header text -->
-          <h2 class="page-heading1">
-            <span>{{certificateName}}</span>
-          </h2>
-          <h3 class="page-heading2"
-              wc-intyg-patient-namn-personnummer
-              patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
-              person-id="personId"
-              old-person-id="oldPersonId">
-          </h3>
-          <!-- Patient status -->
-          <wc-patient-status is-intyg="true" patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status>
+
+      <!-- header content -->
+      <div ng-if="!intygViewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
+
+        <!-- Status -->
+        <div class="page-header-divider">
+          <div class="inline-block" wc-authority="NAVIGERING" ng-if="::backState">
+            <a ng-click="back()"
+               uib-popover="Tillbaka."
+               popover-trigger="mouseenter"
+               popover-popup-delay="300"
+               popover-append-to-body="true"
+               popover-placement="auto top"
+               popover-class="z-low">
+              <i class="material-icons">arrow_back</i>
+            </a><a
+                id="tillbakaButton"
+                ng-click="back()">Tillbaka
+            </a>
+          </div>
+
+          <wc-intyg-status intyg-view-state="intygViewState"></wc-intyg-status>
         </div>
-        <div class="flex-col-min">
-          <!-- Buttonbar -->
-          <wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar>
+        <div class="flex-row padding-top-small">
+          <div class="flex-col-max">
+            <!-- Header text -->
+            <h2 class="page-heading1">
+              <span>{{certificateName}}</span>
+            </h2>
+            <h3 class="page-heading2"
+                wc-intyg-patient-namn-personnummer
+                patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
+                person-id="personId"
+                old-person-id="oldPersonId">
+            </h3>
+            <!-- Patient status -->
+            <wc-patient-status is-intyg="true" patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status>
+          </div>
+          <div class="flex-col-min">
+            <!-- Buttonbar -->
+            <wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar>
+          </div>
         </div>
+        <wc-deprecated-intygstype-message message-suffix="intygheader" intygs-type="{{::intygViewState.common.intygProperties.type}}"></wc-deprecated-intygstype-message>
       </div>
-      <wc-deprecated-intygstype-message message-suffix="intygheader" intygs-type="{{::intygViewState.common.intygProperties.type}}"></wc-deprecated-intygstype-message>
     </div>
-  </div>
+  </wc-spinner>
 </div>

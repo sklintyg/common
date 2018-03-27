@@ -30,6 +30,7 @@ angular.module('common').directive('wcIntygHeader', [ '$window', '$state', 'comm
 
             $scope.certificateName = moduleService.getModuleName(IntygHeaderViewState.intygType);
             $scope.backState = $state.$current.parent.data.backState; // backstate is defined in webcert.intyg state data in router.js
+            $scope.intygHeaderViewState = IntygHeaderViewState;
 
             $scope.back = function(){
                 $state.go($scope.backState);
