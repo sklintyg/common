@@ -140,7 +140,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
