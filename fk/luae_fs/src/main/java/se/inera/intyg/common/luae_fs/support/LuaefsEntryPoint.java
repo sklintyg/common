@@ -95,9 +95,4 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
             return null;
         }
     }
-
-    @Override
-    public boolean isDeprecated() {
-        return false;
-    }
 }

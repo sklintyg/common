@@ -38,7 +38,6 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     private static final String DEFAULT_RECIPIENT_ID = "SOS";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
-    private static final boolean DEPRECATED = false;
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
@@ -107,10 +106,5 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         return "/web/webjars/doi/webcert/module-deps.json";
-    }
-
-    @Override
-    public boolean isDeprecated() {
-        return DEPRECATED;
     }
 }

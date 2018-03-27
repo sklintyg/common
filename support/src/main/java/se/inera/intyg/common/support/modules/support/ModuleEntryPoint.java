@@ -106,9 +106,11 @@ public interface ModuleEntryPoint {
     String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
 
     /**
-     * Flag indicating this inyyg is marked for removal in the near future.
+     * Flag indicating this intyg is marked for removal in the near future.
      *
-     * @return
+     * @return true if the intyg is marked for removal.
      */
-    boolean isDeprecated();
+    default boolean isDeprecated() {
+        return false;
+    }
 }

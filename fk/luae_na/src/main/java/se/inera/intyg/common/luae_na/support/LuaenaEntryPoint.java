@@ -31,7 +31,6 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_NAME = "Läkarutlåtande för aktivitetsersättning vid nedsatt arbetsförmåga";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
     public static final String SCHEMATRON_FILE = "luae_na.sch";
-    private static final boolean DEPRECATED = false;
 
     @Autowired
     private LuaenaModuleApi moduleApi;
@@ -96,10 +95,4 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
             return null;
         }
     }
-
-    @Override
-    public boolean isDeprecated() {
-        return DEPRECATED;
-    }
-
 }
