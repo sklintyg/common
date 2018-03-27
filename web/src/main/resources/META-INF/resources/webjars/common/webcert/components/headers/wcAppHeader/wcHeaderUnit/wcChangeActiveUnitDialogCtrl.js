@@ -174,10 +174,11 @@ angular.module('common').controller(
                             // up on a page we aren't welcome anymore. Maybe we should make these
                             // routes some kind of global configuration? No other choices are
                             // relevant today though.
-                           $state.go(User.getUser().isLakareOrPrivat ? 'webcert.create-index' : 'webcert.enhet-arenden', {}, {
-                                location: 'replace'
+                            $state.go(User.getUser().isLakareOrPrivat ? 'webcert.create-index' : 'webcert.enhet-arenden', {}, {
+                                location: 'replace',
+                                reload: true
                             });
-                           //Since we changed unit, make sure we refresh stats
+                            //Since we changed unit, make sure we refresh stats
                             statService.refreshStat();
 
                         }, function() {
