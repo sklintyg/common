@@ -72,6 +72,11 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
 
             };
 
+            function funktionsnedsattningar() {
+                return ['funktionsnedsattningIntellektuell','funktionsnedsattningKommunikation', 'funktionsnedsattningKoncentration',
+                    'funktionsnedsattningPsykisk', 'funktionsnedsattningSynHorselTal', 'funktionsnedsattningBalansKoordination', 'funktionsnedsattningAnnan'];
+            }
+
 
             var kategori = ueFactoryTemplates.kategori;
             var fraga = ueFactoryTemplates.fraga;
@@ -168,18 +173,18 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     required: true,
                                     key: 'FRG_4.RBK',
                                     helpKey: 'FRG_4.RBK.HLP',
-                                    requiredProp: ['underlag[0].typ', 'underlag[1].typ', 'underlag[2].typ']
+                                    requiredProp: 'underlag[0].typ'
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'common.label.date',
-                                    requiredProp: ['underlag[0].datum', 'underlag[1].datum', 'underlag[2].datum']
+                                    requiredProp: 'underlag[0].datum'
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'DFR_4.3.RBK',
                                     helpKey: 'DFR_4.3.HLP',
-                                    requiredProp: ['underlag[0].hamtasFran', 'underlag[1].hamtasFran', 'underlag[2].hamtasFran']
+                                    requiredProp: 'underlag[0].hamtasFran'
                                 }],
                                 // Row 2-4
                                 buildUnderlagConfigRow(0),
@@ -192,7 +197,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -226,9 +231,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                     }])
                 ]),
 
-                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {required: true, requiredProp: ['funktionsnedsattningIntellektuell','funktionsnedsattningKommunikation',
-                                                                    'funktionsnedsattningKoncentration', 'funktionsnedsattningPsykisk', 'funktionsnedsattningSynHorselTal',
-                                                                    'funktionsnedsattningBalansKoordination', 'funktionsnedsattningAnnan']}, [
+                kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {required: true, requiredProp: funktionsnedsattningar()}, [
                     fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'checkgroup'} }, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
@@ -245,7 +248,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_8.1.RBK',
                                     helpKey: 'DFR_8.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningIntellektuell'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                          }, {
@@ -264,7 +267,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_9.1.RBK',
                                     helpKey: 'DFR_9.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningKommunikation'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }, {
@@ -283,7 +286,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_10.1.RBK',
                                     helpKey: 'DFR_10.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningKoncentration'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }, {
@@ -302,7 +305,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_11.1.RBK',
                                     helpKey: 'DFR_11.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningPsykisk'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }, {
@@ -321,7 +324,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_12.1.RBK',
                                     helpKey: 'DFR_12.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningSynHorselTal'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }, {
@@ -340,7 +343,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_13.1.RBK',
                                     helpKey: 'DFR_13.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningBalansKoordination'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }, {
@@ -359,7 +362,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     key: 'DFR_14.1.RBK',
                                     helpKey: 'DFR_14.1.HLP',
                                     required: 'true',
-                                    requiredProp: 'funktionsnedsattningAnnan'
+                                    requiredProp: funktionsnedsattningar()
                                 }
                             }]
                         }
@@ -372,7 +375,9 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                         modelProp: 'aktivitetsbegransning',
                         label: {
                             key: 'DFR_17.1.RBK',
-                            helpKey: 'DFR_17.1.HLP'
+                            helpKey: 'DFR_17.1.HLP',
+                            required: true,
+                            requiredProp: 'aktivitetsbegransning'
                         }
                     }])
                 ]),

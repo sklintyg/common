@@ -187,7 +187,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: ['diagnoser[0].diagnosKod','diagnoser[1].diagnosKod','diagnoser[2].diagnosKod']}, [{
+                    fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                         type: 'ue-diagnos',
                         modelProp: 'diagnoser',
                         diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -202,7 +202,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattningDebut'
                     }]),
-                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required: true, modelProp: 'funktionsnedsattningPaverkan'}, [{
+                    fraga(16, 'FRG_16.RBK', 'FRG_16.HLP', { required: true, requiredProp: 'funktionsnedsattningPaverkan'}, [{
                         type: 'ue-textarea',
                         modelProp: 'funktionsnedsattningPaverkan'
                     }])
