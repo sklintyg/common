@@ -1,5 +1,5 @@
-/*!
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,34 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/**
+ * Enable help marks with tooltip for other components than wcFields
+ */
+angular.module('common').directive('wcHelp',
+    [
+        function() {
+            'use strict';
 
-.wc-help-chevron__arrow_box {
-  position: relative;
-  background: #e9eaed;
-}
-.wc-help-chevron__arrow_box:after {
-  bottom: 100%;
-  left: 35px;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-  border-color: rgba(242, 242, 242, 0);
-  border-bottom-color: #e9eaed;
-  border-width: 10px;
-  margin-left: -15px;
-}
-.wc-help-chevron__margin-bottom {
-  margin-top: 0px;
-}
-.wc-help-chevron__margin-bottom.in {
-  margin-bottom: 15px;
-}
-.wc-help-chevron__textarea {
-  .scrollable-body {
-    padding: 20px;
-    max-height: 190px; // 190 - padding = 140 = 7 text rows
-  }
-}
+            return {
+                restrict: 'E',
+                scope: {
+                    helpKey: '@'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcHelp/wcHelp.directive.html'
+            };
+        }]);

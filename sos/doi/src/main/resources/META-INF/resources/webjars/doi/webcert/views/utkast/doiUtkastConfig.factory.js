@@ -87,6 +87,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         {
                             type: 'ue-form-label',
                             key: 'KAT_7.2.RBK',
+                            helpKey: 'KAT_7.2.HLP',
                             bold: true
                         },
                         {
@@ -152,6 +153,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-radiogroup', // R15
                             label: {
                                 key: 'DFR_12.2.RBK',
+                                helpKey: 'DFR_12.2.HLP',
                                 required: true,
                                 requiredProp: 'forgiftningOrsak'
                             },
@@ -178,6 +180,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             type: 'ue-textarea',
                             label: {
                                 key: 'DFR_12.4.RBK',
+                                helpKey: 'DFR_12.4.HLP',
                                 required: true,
                                 requiredProp: 'forgiftningUppkommelse'
                             }, htmlMaxlength: 400

@@ -27,8 +27,7 @@ angular.module('common').directive('wcHelpChevronText',
             var animationCount = 0;
 
             return {
-                restrict: 'A',
-                transclude: true,
+                restrict: 'AE',
                 scope: {
                     helpTextKey: '@'
                 },

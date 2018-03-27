@@ -66,12 +66,9 @@ angular.module('common').directive('ueLabel',
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';
                         }
                         if (scope.config.helpKey) {
-                            template += '<span wc-help-chevron help-text-key="' + scope.config.helpKey + '"></span>\n';
+                            template += '<wc-help help-key="' + scope.config.helpKey + '"></wc-help>\n';
                         }
                         template += '</' + scope.config.labelType + '>\n';
-                        if (scope.config.helpKey) {
-                            template += '<span wc-help-chevron-text help-text-key="' + scope.config.helpKey + '"></span>\n';
-                        }
                         element.empty();
                         element.append($compile(template)(scope));
                     };

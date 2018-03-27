@@ -25,8 +25,7 @@ angular.module('common').directive('wcHelpChevron',
             'use strict';
 
             return {
-                restrict: 'A',
-                transclude: true,
+                restrict: 'AE',
                 scope: {
                     helpTextKey: '@'
                 },

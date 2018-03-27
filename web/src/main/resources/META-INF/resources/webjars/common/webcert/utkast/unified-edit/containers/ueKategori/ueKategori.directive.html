@@ -4,9 +4,8 @@
     <h3>
       <span dynamic-label key="{{::config.label.key}}"></span>
       <span class="required icon-wc-ikon-38" ng-if="hasUnfilledRequirements()"></span>
-      <span wc-help-chevron help-text-key="{{::config.label.helpKey}}"></span>
+      <wc-help help-key="{{::config.label.helpKey}}"></wc-help>
     </h3>
-    <span wc-help-chevron-text help-text-key="{{::config.label.helpKey}}"></span>
   </div>
   <ue-render-components class="ue-kategori__body" form="::form" config="::config.components" model="::model" />
 </div>

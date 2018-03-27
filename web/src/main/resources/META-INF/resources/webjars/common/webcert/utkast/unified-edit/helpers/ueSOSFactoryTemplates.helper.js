@@ -128,7 +128,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             ],
                             label: {
                                 key: 'DFR_3.2.RBK',
-                                helpKey: 'DFR_3.2.RBK',
+                                helpKey: 'DFR_3.2.HLP',
                                 required: true,
                                 requiredProp: 'dodsplatsBoende'
                             }
