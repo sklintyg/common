@@ -153,7 +153,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                                             $log.error('Invalid personnummer in _barnDodsDatumListener');
                                         }
                                         else {
-                                            var barn28DagarDate = birthDate.add('days', 28);
+                                            var barn28DagarDate = birthDate.add(28, 'days');
                                             var dodsDatum = dateUtils.toMomentStrict(newValue);
                                             if (dodsDatum && dodsDatum.isValid() &&
                                                 (dodsDatum.isBefore(barn28DagarDate) ||

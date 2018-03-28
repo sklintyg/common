@@ -93,13 +93,13 @@ describe('PersonIdValidatorService', function() {
     });
 
     it('should pass with a "personnummer" with an age of 125 years or less', function() {
-        var pnr = createValidPersonnummer(moment().subtract('years', 125).format('YYYYMMDD'));
+        var pnr = createValidPersonnummer(moment().subtract(125, 'years').format('YYYYMMDD'));
 
         var result = personIdValidatorService.validate(pnr);
         expect(result).not.toBeNull();
         expect(result).not.toBeUndefined();
 
-        pnr = createValidPersonnummer(moment().subtract('years', 124).format('YYYYMMDD'));
+        pnr = createValidPersonnummer(moment().subtract(124, 'years').format('YYYYMMDD'));
         result = personIdValidatorService.validate(pnr);
         expect(result).not.toBeNull();
         expect(result).not.toBeUndefined();
