@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.db.validator;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -26,10 +30,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import static se.inera.intyg.common.db.support.DbModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
@@ -95,7 +95,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                     .isAfter(LocalDate.now())) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
-                                ValidationMessageType.INVALID_FORMAT, "common.validation.date_out_of_range");
+                                ValidationMessageType.INVALID_FORMAT, "common.validation.date.today.or.earlier");
             } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
                 ValidatorUtil
