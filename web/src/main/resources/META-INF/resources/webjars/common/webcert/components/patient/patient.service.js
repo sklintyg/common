@@ -39,9 +39,6 @@ angular.module('common').service('common.PatientService',
                         return;
                     }
     
-                    // TODO: We should not have knowledge about intygstyper in the common codebase...
-                    // Maybe we should implement a concept of "family" or "issuer" or delegate this logic to a
-                    // intygstyp-specific component?
                     var tsIntyg = (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
                     var fkIntyg = !tsIntyg && !(intyg.typ === 'db' || intyg.typ === 'doi');
 
