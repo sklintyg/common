@@ -18,31 +18,33 @@
  */
 package se.inera.intyg.common.ts_diabetes.integration;
 
-import java.io.StringWriter;
-import java.util.List;
-
-import javax.xml.bind.*;
-import javax.xml.namespace.QName;
-
+import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Throwables;
-
-import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
-import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.ts_diabetes.model.converter.TransportToInternalConverter;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.util.ConverterUtil;
 import se.inera.intyg.common.ts_diabetes.validator.transport.TransportValidatorInstance;
-import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
+import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
+import se.inera.intyg.common.util.logging.LogMarkers;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.ObjectFactory;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import java.io.StringWriter;
+import java.util.List;
 
 public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesResponderInterface {
 
@@ -53,7 +55,15 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
 
+    private ObjectFactory objectFactory;
+    private JAXBContext jaxbContext;
     private TransportValidatorInstance validator = new TransportValidatorInstance();
+
+    @PostConstruct
+    public void initializeJaxbContext() throws JAXBException {
+        jaxbContext = JAXBContext.newInstance(RegisterTSDiabetesType.class);
+        objectFactory = new ObjectFactory();
+    }
 
     @Override
     public RegisterTSDiabetesResponseType registerTSDiabetes(String logicalAddress, RegisterTSDiabetesType parameters) {
@@ -107,15 +117,10 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
     }
 
     private String xmlToString(RegisterTSDiabetesType parameters) throws JAXBException {
-        JAXBContext ctx = JAXBContext.newInstance(RegisterTSDiabetesType.class);
-        Marshaller marshaller = ctx.createMarshaller();
-
-        QName qName = new QName("urn:local:se:intygstjanster:services:1", "RegisterTSDiabetesType");
-        JAXBElement<RegisterTSDiabetesType> t = new JAXBElement<>(qName, RegisterTSDiabetesType.class, parameters);
-
-        StringWriter wr = new StringWriter();
-        marshaller.marshal(t, wr);
-
-        return wr.toString();
+        StringWriter stringWriter = new StringWriter();
+        JAXBElement<RegisterTSDiabetesType> requestElement = objectFactory
+                .createRegisterTSDiabetes(parameters);
+        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
+        return stringWriter.toString();
     }
 }
