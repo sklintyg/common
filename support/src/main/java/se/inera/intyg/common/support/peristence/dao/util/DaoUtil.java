@@ -23,7 +23,9 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import java.util.Optional;
 
 public final class DaoUtil {
+
     private DaoUtil() { }
+
     /**
      * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
      * Please observe that this method is only to be used in the DAO and other interactions with the persistence layer!
@@ -35,7 +37,7 @@ public final class DaoUtil {
     public static String formatPnrForPersistence(Personnummer personnummer) {
         Optional<Personnummer> optional = Optional.ofNullable(personnummer);
         if (!optional.isPresent()) {
-            return personnummer.getOriginalPnr();
+            return null;
         }
 
         return personnummer.getPersonnummerWithDash();
