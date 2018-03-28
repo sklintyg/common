@@ -163,18 +163,18 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                                     required: true,
                                     key: 'FRG_4.RBK',
                                     helpKey: 'FRG_4.RBK.HLP',
-                                    requiredProp: ['underlag[0].typ', 'underlag[1].typ', 'underlag[2].typ']
+                                    requiredProp: 'underlag[0].typ'
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'common.label.date',
-                                    requiredProp: ['underlag[0].datum', 'underlag[1].datum', 'underlag[2].datum']
+                                    requiredProp: 'underlag[0].datum'
                                 },{
                                     type: 'ue-form-label',
                                     required: true,
                                     key: 'DFR_4.3.RBK',
                                     helpKey: 'DFR_4.3.HLP',
-                                    requiredProp: ['underlag[0].hamtasFran', 'underlag[1].hamtasFran', 'underlag[2].hamtasFran']
+                                    requiredProp: 'underlag[0].hamtasFran'
                                 }],
                                 // Row 2-4
                                 buildUnderlagConfigRow(0),
