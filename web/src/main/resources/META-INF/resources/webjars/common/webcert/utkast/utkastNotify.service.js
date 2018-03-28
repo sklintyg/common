@@ -31,7 +31,6 @@ angular.module('common').factory('common.UtkastNotifyService',
              * Performs an extra REST call to fetch the Utkast so we get hold of the enhets- and vardgivare names.
              */
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
-
                 // Fetch DraftModel to get hold of enhetsNamn and vardgivareNamn
                 utkastProxy.getUtkast(intygId, intygType, function(draft) {
                         var utkastNotifyRequest = {
@@ -153,21 +152,27 @@ angular.module('common').factory('common.UtkastNotifyService',
                 if (!draft.vidarebefordradContainer.vidarebefordrad && !_isSkipNotifyCookieSet()) {
                     _showNotifyPreferenceDialog('markforward',
                         '\tVill du markera utkastet som vidarebefordrat?',
-                        function() { // yes
+                        function(dontShowAgain) { // yes
                             $log.debug('yes');
                             draft.vidarebefordradContainer.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
                                 onYesCallback(draft);
                             }
+                            if (dontShowAgain) {
+                                _setSkipNotifyCookie();
+                            }
                         },
-                        function() { // no
+                        function(dontShowAgain) { // no
                             $log.debug('no');
                             // Do nothing
                             onRejectCallback();
+                            if (dontShowAgain) {
+                                _setSkipNotifyCookie();
+                            }
                         },
                         function() {
-                            $log.debug('no and dont ask');
+                            $log.debug('dont ask again');
                             // How can user reset this?
                             _setSkipNotifyCookie();
                             onRejectCallback();
@@ -186,12 +191,15 @@ angular.module('common').factory('common.UtkastNotifyService',
                     $scope.title = title;
                     $scope.bodyText = bodyText;
                     $scope.noDontAskVisible = noDontAskCallback !== undefined;
-                    $scope.yes = function(result) {
-                        yesCallback();
-                        $uibModalInstance.close(result);
+                    $scope.model = {
+                        dontShowAgain: false
                     };
-                    $scope.no = function() {
-                        noCallback();
+                    $scope.yes = function(dontShowAgain) {
+                        yesCallback(dontShowAgain);
+                        $uibModalInstance.close(dontShowAgain);
+                    };
+                    $scope.no = function(dontShowAgain) {
+                        noCallback(dontShowAgain);
                         $uibModalInstance.close('cancel');
                     };
                     $scope.noDontAsk = function() {
@@ -289,7 +297,6 @@ angular.module('common').factory('common.UtkastNotifyService',
 
             function _showNotifyJournalsystemDialog(title, bodyText, yesCallback, noCallback,
                 callback) {
-
                 var DialogInstanceCtrl = function($scope, $uibModalInstance, title, bodyText, yesCallback, noCallback
                     ) {
                     $scope.title = title;
