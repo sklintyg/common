@@ -150,6 +150,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         },{
                             type: 'ue-textfield',
                             modelProp: 'diabetes.annanBehandlingBeskrivning',
+                            htmlMaxlength: '53',
                             label: {
                                 key: 'DFR_19.5.RBK'
                             }
@@ -179,6 +180,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                         type: 'ue-textfield',
                         modelProp: 'hypoglykemier.allvarligForekomstBeskrivning',
                         hideExpression:'!model.hypoglykemier.allvarligForekomst',
+                        htmlMaxlength: '35',
                         label: {
                             key: 'DFR_39.2.RBK',
                             required: true,
@@ -192,6 +194,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     },{
                         type: 'ue-textfield',
                         modelProp: 'hypoglykemier.allvarligForekomstTrafikBeskrivning',
+                        htmlMaxlength: '40',
                         hideExpression:'!model.hypoglykemier.allvarligForekomstTrafiken',
                         label: {
                             key: 'DFR_40.2.RBK',
@@ -356,7 +359,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', {}, [{
                         type: 'ue-textarea',
                         modelProp: 'kommentar',
-                        maxlength: 189
+                        htmlMaxlength: 189
                     }])
                 ]),
 
@@ -364,7 +367,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                     fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', {}, [{
                         type: 'ue-textarea',
                         modelProp: 'bedomning.lakareSpecialKompetens',
-                        maxlength: 71
+                        htmlMaxlength: 71
                     }])
                 ]),
 
