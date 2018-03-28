@@ -112,6 +112,8 @@ uv-table {
       color: $wc-color-19;
       &:first-of-type {
         border-radius: 4px 0 0 0;
+        border-right: 4px solid $wc-color-15;
+        padding-right: 4px;
       }
       &:last-of-type {
         border-radius: 0 4px 0 0;
@@ -124,9 +126,17 @@ uv-table {
       border-top: 1px solid $wc-color-00;
     }
 
+    &.table-striped tbody > tr:nth-last-child(-2n+2) > td {
+      border-bottom: 1px solid $wc-color-00;
+    }
+
     tr:last-of-type td {
+      border-top: 0;
+
       &:first-of-type {
         border-radius: 0 0 0 4px;
+        padding-right: 4px;
+        border-right: 4px solid $wc-color-13;
       }
       &:last-of-type {
         border-radius: 0 0 4px 0;
