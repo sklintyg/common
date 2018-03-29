@@ -62,7 +62,6 @@ angular.module('common').constant('common.messages', {
         'common.button.save.as.pdf.utkast.tooltip': 'Laddar ned intygsutkastet för utskrift.',
         'common.button.save.as.pdf.full': 'Fullständigt intyg',
         'common.button.save.as.pdf.minimal': 'Minimalt intyg',
-        'common.button.save.as.pdf.minimal.title': 'Minimalt intyg enligt sjuklönelagens krav på intyg som kan lämnas till arbetsgivare.',
 
         'common.alert.newpersonid': 'Patientens personummer har ändrats',
         'common.alert.newreserveid': 'Patienten har samordningsnummer kopplat till reservnummer: <b>${reserve}</b>.',

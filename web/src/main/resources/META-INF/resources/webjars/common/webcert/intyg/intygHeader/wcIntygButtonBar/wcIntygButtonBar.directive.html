@@ -70,13 +70,7 @@
           </a>
         </li>
         <!--<li wc-authority feature="ARBETSGIVARUTSKRIFT"-->
-        <li ng-if="arbetsgivarUtskrift"
-            uib-popover="{{employerPrintBtnTooltipText}}"
-            popover-trigger="mouseenter"
-            popover-popup-delay="300"
-            popover-append-to-body="true"
-            popover-is-open="arbetsprintPopoverOpen"
-            popover-placement="auto top">
+        <li ng-if="arbetsgivarUtskrift">
           <a href="#" onClick="return false;" ng-click="print(viewState.intygModel, true);arbetsprintPopoverOpen=false">
             <span dynamic-label key="common.button.save.as.pdf.minimal"></span>
           </a>

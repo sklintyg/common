@@ -51,7 +51,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
             $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
             $scope.normalPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
             $scope.selectPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.select.tooltip');
-            $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.minimal.title');
             $scope.normalPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.intyg.tooltip');
             $scope.sendBtnTooltipText = messageService.getProperty('common.send.tooltip', {
                 'recipient': messageService.getProperty('common.recipient.' + moduleService.getModule(intygType).defaultRecipient.toLowerCase())
