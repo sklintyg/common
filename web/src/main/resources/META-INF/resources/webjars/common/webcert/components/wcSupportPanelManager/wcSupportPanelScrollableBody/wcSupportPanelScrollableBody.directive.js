@@ -23,7 +23,8 @@ angular.module('common').directive('wcSupportPanelScrollableBody', [ function() 
         restrict: 'E',
         transclude: true,
         scope: {
-            domId: '@'
+            domId: '@',
+            color: '@'
         },
         templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.html'
     };
