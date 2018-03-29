@@ -179,10 +179,8 @@ public final class ValidatorUtil {
                     ValidationMessageType.EMPTY);
         }
 
-        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postnummer",
-                    ValidationMessageType.EMPTY);
-        } else if (!STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()
+                || !STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
             addValidationError(validationMessages,
                     CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format");
