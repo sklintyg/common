@@ -7,7 +7,7 @@
              ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
              ng-model="model[config.modelProp]"
              ng-blur="updateValidation()"
-             maxlength="{{config.maxlength || 3500}}"
+             maxlength="{{config.htmlMaxlength || 3500}}"
              uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
              typeahead-editable="true">
     </div>
