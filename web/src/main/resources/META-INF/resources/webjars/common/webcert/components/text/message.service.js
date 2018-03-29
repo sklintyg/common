@@ -36,7 +36,8 @@ angular.module('common').factory('common.messageService',
             var value;
             var language = $rootScope.lang;
             if (language) {
-                value = _getPropertyInLanguage(language, key, null);
+                _checkResources();
+                value = _messageResources[language][key];
                 if (value === null || value === undefined) {
                     return false;
                 }

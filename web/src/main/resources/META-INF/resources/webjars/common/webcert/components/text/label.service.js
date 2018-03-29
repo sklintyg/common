@@ -53,9 +53,8 @@ angular.module('common').factory('common.dynamicLabelService',
 
             // get prop req
             function getRequiredTextByPropKey(key) {
-                if(messageService.propertyExists(key)){
-                    var staticLabel = messageService.getProperty(key);
-                    return staticLabel;
+                if (messageService.propertyExists(key)) {
+                    return messageService.getProperty(key);
                 }
 
                 if (_labelResources === null) {
@@ -64,12 +63,8 @@ angular.module('common').factory('common.dynamicLabelService',
 
                 var text = _labelResources[key];
 
-                if(angular.isDefined(text) && text !== ''){
+                if (angular.isDefined(text) && text !== '') {
                     return text;
-                } else {
-                    if(messageService.propertyExists(key)){
-                        return messageService.getProperty(key);
-                    }
                 }
 
                 if (typeof text === 'undefined') {
@@ -147,7 +142,6 @@ angular.module('common').factory('common.dynamicLabelService',
                     DynamicLabelProxy.getDynamicLabels(intygsTyp, intygTextVersion).then(
                         function(dynamicLabelJson) {
                             if (dynamicLabelJson !== null && typeof dynamicLabelJson !== 'undefined') {
-                                $log.debug(dynamicLabelJson);
                                 _clearLabels();
                                 _addLabels(dynamicLabelJson);
                                 $rootScope.$broadcast('dynamicLabels.updated');
