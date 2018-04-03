@@ -41,7 +41,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
          */
         function _sendNewArende(intygsId, intygsTyp, question, onSuccess, onError) {
             var payload = {};
-            payload.amne = ArendeLegacyService.convertAmneArendeToFragasvar(question.chosenTopic.value);
+            payload.amne = ArendeLegacyService.convertAmneArendeToFragasvar(question.chosenTopic);
             payload.frageText = question.frageText;
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
