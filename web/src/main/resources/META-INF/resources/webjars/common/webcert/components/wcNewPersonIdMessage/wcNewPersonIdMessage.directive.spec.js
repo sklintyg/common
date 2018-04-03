@@ -27,6 +27,7 @@ describe('wcNewPersonIdMessageDirective', function() {
 
     var samordningsNummer = '19540187-5769';
     var personNummer1 = '19121212-1212';
+    var personNummer1WithoutDash = '191212121212';
     var personNummer2 = '19520617-2339';
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -59,6 +60,22 @@ describe('wcNewPersonIdMessageDirective', function() {
         it('should not display new personnummer text', function() {
             UserModel.user.parameters.alternateSsn = personNummer1;
             UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1WithoutDash;
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1;
+            $scope.$digest();
+
+            expect($(element).find('span').text()).toBe('');
+        });
+
+        it('should not display new personnummer text', function() {
+            UserModel.user.parameters.alternateSsn = personNummer1;
+            UserModel.user.parameters.beforeAlternateSsn = personNummer1WithoutDash;
             $scope.$digest();
 
             expect($(element).find('span').text()).toBe('');

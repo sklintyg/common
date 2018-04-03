@@ -55,9 +55,10 @@ angular.module('common').directive('wcNewPersonIdMessage', [
                 function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
 
                     var validatedAlternateSSn = personIdValidator.validate(alternatePatientSSn);
+                    var validatedIntygPersonnummer = personIdValidator.validate(intygPersonnummer);
 
                     //If an alternatePatientSSn is given that differs from current..
-                    if (intygPersonnummer !== validatedAlternateSSn) {
+                    if (validatedIntygPersonnummer !== validatedAlternateSSn) {
 
                         showPersonnummerMessage(alternatePatientSSn);
 
