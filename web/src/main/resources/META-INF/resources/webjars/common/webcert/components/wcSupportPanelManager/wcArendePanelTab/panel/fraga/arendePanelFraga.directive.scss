@@ -2,6 +2,10 @@
 
   display: block;
 
+  wc-expandable-content {
+    word-break: break-word;
+  }
+
   .keep-newlines, .content {
     white-space: pre-line;
   }
