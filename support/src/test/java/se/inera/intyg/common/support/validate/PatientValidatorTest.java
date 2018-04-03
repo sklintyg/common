@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +27,8 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
+import static org.junit.Assert.assertEquals;
+
 public class PatientValidatorTest {
 
     @Test
@@ -37,7 +37,7 @@ public class PatientValidatorTest {
         patient.setPostadress("Testadress");
         patient.setPostort("Postort");
         patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        List<ValidationMessage> validations = new ArrayList<>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 0 validation errors", 0, validations.size());
     }
@@ -47,7 +47,7 @@ public class PatientValidatorTest {
         Patient patient = new Patient();
         patient.setPostort("Postort");
         patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        List<ValidationMessage> validations = new ArrayList<>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postadress", "grunddata.patient.postadress", validations.get(0).getField());
@@ -59,7 +59,7 @@ public class PatientValidatorTest {
         Patient patient = new Patient();
         patient.setPostadress("Testadress");
         patient.setPostnummer("12345");
-        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        List<ValidationMessage> validations = new ArrayList<>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postort", "grunddata.patient.postort", validations.get(0).getField());
@@ -71,11 +71,11 @@ public class PatientValidatorTest {
         Patient patient = new Patient();
         patient.setPostadress("Testadress");
         patient.setPostort("Postort");
-        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        List<ValidationMessage> validations = new ArrayList<>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postnummer", "grunddata.patient.postnummer", validations.get(0).getField());
-        assertEquals("Expected EMPTY for postort", ValidationMessageType.EMPTY, validations.get(0).getType());
+        assertEquals("Expected INVALID_FORMAT for postort", ValidationMessageType.INVALID_FORMAT, validations.get(0).getType());
         assertEquals("patient", validations.get(0).getCategory());
     }
 
@@ -85,7 +85,7 @@ public class PatientValidatorTest {
         patient.setPostadress("Testadress");
         patient.setPostnummer("123456");
         patient.setPostort("Postort");
-        List<ValidationMessage> validations = new ArrayList<ValidationMessage>();
+        List<ValidationMessage> validations = new ArrayList<>();
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postort", "grunddata.patient.postnummer", validations.get(0).getField());
@@ -95,6 +95,6 @@ public class PatientValidatorTest {
 
     @Test(expected=RuntimeException.class)
     public void exceptionThrownWithNullPatient() {
-        PatientValidator.validate(null, new ArrayList<ValidationMessage>());
+        PatientValidator.validate(null, new ArrayList<>());
     }
 }

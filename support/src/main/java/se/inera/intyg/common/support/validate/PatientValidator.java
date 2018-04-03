@@ -41,9 +41,9 @@ public final class PatientValidator {
             throw new RuntimeException("No Patient found when attempting to validate");
         }
         validateString(validationMessages, patient.getPostadress(), "patient", "grunddata.patient.postadress");
-        validateString(validationMessages, patient.getPostnummer(), "patient", "grunddata.patient.postnummer");
-        if (!Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()
-                && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+
+        if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()
+                || !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
             validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
                     ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
         }
