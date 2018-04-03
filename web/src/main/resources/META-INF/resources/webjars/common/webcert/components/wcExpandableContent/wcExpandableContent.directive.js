@@ -71,10 +71,9 @@ angular.module('common').directive('wcExpandableContent', [ '$timeout', 'common.
             };
 
             //Let the DOM render the content and then check if we have overflow..
-            $timeout(function() {
+            $timeout(function(){
                 _update();
-            }, 1);
-
+            });
         }
     };
 } ]);
