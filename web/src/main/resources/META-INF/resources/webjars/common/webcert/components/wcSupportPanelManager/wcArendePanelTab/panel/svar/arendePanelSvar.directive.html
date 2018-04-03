@@ -56,7 +56,7 @@
       <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
       </arende-panel-header>
 
-      <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body">
+      <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body multiline">
         {{arendeSvar.meddelande}}
         <div ng-if="arendeSvar.answeredWithIntyg">
           <span dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
