@@ -288,7 +288,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                     key: 'ts-diabetes.label.syn.utankorrektion',
                                     helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
                                     required: true,
-                                    requiredProp: 'syn.hoger.utanKorrektion'
+                                    requiredMode: 'AND',
+                                    requiredProp: ['syn.hoger.utanKorrektion', 'syn.vanster.utanKorrektion', 'syn.binokulart.utanKorrektion']
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-diabetes.label.syn.medkorrektion',

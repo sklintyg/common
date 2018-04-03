@@ -191,7 +191,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 key: 'ts-bas.label.syn.utankorrektion',
                                 helpKey: 'ts-bas.helptext.synfunktioner.utan-korrektion',
                                 required: true,
-                                requiredProp: 'syn.hogerOga.utanKorrektion'
+                                requiredMode: 'AND',
+                                requiredProp: ['syn.hogerOga.utanKorrektion', 'syn.vansterOga.utanKorrektion', 'syn.binokulart.utanKorrektion']
                             },{
                                 type: 'ue-form-label',
                                 key: 'ts-bas.label.syn.medkorrektion',

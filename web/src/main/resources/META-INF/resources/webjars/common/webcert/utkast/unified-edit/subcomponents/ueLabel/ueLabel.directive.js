@@ -31,6 +31,10 @@ angular.module('common').directive('ueLabel',
                 replace: true,
                 link: function(scope, element) {
 
+                    function isDefined(value) {
+                        return !(value === null || value === undefined || value === '' || value === false);
+                    }
+
                     var _onLabelsUpdated = function () {
 
                         var whitespaceBreak = '';
@@ -39,28 +43,37 @@ angular.module('common').directive('ueLabel',
                             whitespaceBreak = ' class="control-label white-space-no-wrap"';
                         }
 
+                        var requiredMode = 'OR';
+                        if (scope.config.requiredMode) {
+                            requiredMode = scope.config.requiredMode;
+                        }
+
                         var template = '<' + scope.config.labelType + whitespaceBreak + (scope.config.key ? ' id="' + ueDomIdFilter(scope.config.key) + '" ': '')  + '>\n';
                         if (scope.config.required) {
+                            template += '<span class="required icon-wc-ikon-38"';
                             if (scope.config.requiredProp) {
                                 if (angular.isArray(scope.config.requiredProp)) {
-                                    scope.allRequiredUndefined = function() {
-                                        for (var i = 0; i < scope.config.requiredProp.length; i++) {
+                                    scope.required = function() {
+                                        var defined = 0, reqPropLength = scope.config.requiredProp.length;
+                                        for (var i = 0; i < reqPropLength; i++) {
                                             var req = $parse(scope.config.requiredProp[i])(scope.model);
-                                            if(req === null || req === undefined || req === '' || req === false) {
-                                                continue;
+                                            if (isDefined(req)) {
+                                                defined++;
                                             }
+                                        }
+                                        if (defined === 0 || requiredMode === 'AND' && defined !== reqPropLength) {
+                                            return true;
+                                        } else {
                                             return false;
                                         }
-                                        return true;
                                     };
-                                    template += '<span class="required icon-wc-ikon-38" ng-if="allRequiredUndefined()"></span>\n';
+                                    template += ' ng-if="required()"';
                                 } else {
-                                    template += '<span class="required icon-wc-ikon-38" ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
-                                    scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "></span>\n';
+                                    template += ' ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
+                                    scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "';
                                 }
-                            } else {
-                                template += '<span class="required icon-wc-ikon-38"></span>\n';
                             }
+                            template += '></span>\n';
                         }
                         if (scope.config.key) {
                             template += dynamicLabelService.getProperty(scope.config.key) + '\n';
