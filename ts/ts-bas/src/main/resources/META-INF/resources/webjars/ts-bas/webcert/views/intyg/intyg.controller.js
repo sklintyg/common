@@ -89,10 +89,8 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                         $scope.cert = result.contents;
-
-                        $scope.pdfUrl = '/moduleapi/intyg/ts-bas/' + ViewState.intygModel.id + '/pdf';
 
                         $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg());
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);

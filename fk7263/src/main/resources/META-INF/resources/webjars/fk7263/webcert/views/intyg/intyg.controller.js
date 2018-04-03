@@ -65,9 +65,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
-
-                        $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
                         $scope.cert = result.contents;
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);

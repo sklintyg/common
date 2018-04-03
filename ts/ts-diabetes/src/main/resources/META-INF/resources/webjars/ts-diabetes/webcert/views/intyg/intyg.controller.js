@@ -76,10 +76,8 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                         $scope.cert = result.contents;
-
-                        $scope.pdfUrl = '/moduleapi/intyg/ts-diabetes/' + ViewState.intygModel.id + '/pdf';
 
                         $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg());
 
