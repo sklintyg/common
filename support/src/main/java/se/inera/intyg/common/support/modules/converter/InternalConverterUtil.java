@@ -27,9 +27,26 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.*;
-import se.riv.clinicalprocess.healthcond.certificate.v3.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.MeddelandeReferens;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Patient;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Relation;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -39,7 +56,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static se.inera.intyg.common.support.Constants.*;
+import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
+import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
@@ -152,7 +174,6 @@ public final class InternalConverterUtil {
     public static String getInternalDateContent(InternalDate internalDate) {
         return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
     }
-
     /**
      * Returns an internalDate as a String where unfilled information is completed with zeros.
      *
@@ -316,7 +337,7 @@ public final class InternalConverterUtil {
     }
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
-            boolean extendedPatientInfo) {
+                                      boolean extendedPatientInfo) {
 
         String pnr = sourcePatient.getPersonId().getPersonnummer();
         Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
@@ -405,11 +426,23 @@ public final class InternalConverterUtil {
             return svar;
         }
 
+        /**
+         * Builder method which are used to add a {@link Delsvar} to a {@link ArrayList} <{@link Delsvar}>.
+         * If the content is null or empty, the method does not add
+         * the delsvar to DelsvarsList
+         *
+         * @param delsvarsId the id of the delsvar.
+         * @param content the content to add to the Delsvar.
+         * @return SvarBuilder
+         */
         public SvarBuilder withDelsvar(String delsvarsId, Object content) {
-            Delsvar delsvar = new Delsvar();
-            delsvar.setId(delsvarsId);
-            delsvar.getContent().add(content);
-            delSvars.add(delsvar);
+
+            if (content != null) {
+                Delsvar delsvar = new Delsvar();
+                delsvar.setId(delsvarsId);
+                delsvar.getContent().add(content);
+                delSvars.add(delsvar);
+            }
             return this;
         }
     }
