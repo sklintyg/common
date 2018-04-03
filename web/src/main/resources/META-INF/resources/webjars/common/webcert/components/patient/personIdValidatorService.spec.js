@@ -168,7 +168,7 @@ describe('PersonIdValidatorService', function() {
     });
 
     it('should fail if "personnummer" with an age greater than 125 years', function() {
-        var pnr = createValidPersonnummer(moment().subtract('years', 126).format('YYYYMMDD'));
+        var pnr = createValidPersonnummer(moment().subtract(126, 'years').format('YYYYMMDD'));
         var result = personIdValidatorService.validate(pnr);
         expect(result).toBeUndefined();
     });

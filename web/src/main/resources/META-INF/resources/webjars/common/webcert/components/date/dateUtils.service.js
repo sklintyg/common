@@ -185,7 +185,7 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
         }
 
         var now = moment();
-        return startMoment.isAfter(now.add('months', months));
+        return startMoment.isAfter(now.add(months, 'months'));
     }
 
     function _isBeforeOrEqual(moment1, moment2) {
