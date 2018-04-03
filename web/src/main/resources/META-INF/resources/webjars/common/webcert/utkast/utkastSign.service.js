@@ -98,7 +98,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -148,7 +148,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -198,20 +198,20 @@ angular.module('common').factory('common.UtkastSignService',
                             } else if (ticket.status === 'BEARBETAR') {
                                 _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, undefined);
                             } else {
-                                _handleFailedSignAttempt(signModel, ticket, deferred);
+                                _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                             }
 
                         }, function(error) {
                             deferred.resolve({newVersion : ticket.version});
-                            _showSigneringsError(signModel, error);
+                            _showSigneringsError(signModel, error, intygsTyp);
                         });
                     }, function(error) {
                         deferred.resolve({newVersion : ticket.version});
-                        _showSigneringsError(signModel, error);
+                        _showSigneringsError(signModel, error, intygsTyp);
                     });
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -228,11 +228,11 @@ angular.module('common').factory('common.UtkastSignService',
                         _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, undefined);
 
                     } else {
-                        _handleFailedSignAttempt(signModel, ticket, deferred);
+                        _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                     }
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -272,7 +272,7 @@ angular.module('common').factory('common.UtkastSignService',
                             if (dialogHandle) {
                                 dialogHandle.close();
                             }
-                            _handleFailedSignAttempt(signModel, ticket, deferred);
+                            _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                         }
                     }, function(error) {
                         if (dialogHandle) {
@@ -310,10 +310,10 @@ angular.module('common').factory('common.UtkastSignService',
                 });
             }
 
-            function _handleFailedSignAttempt(signModel, ticket, deferred) {
+            function _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp) {
                 deferred.resolve({newVersion : ticket.version});
                 $timeout.cancel(signModel._timer);
-                _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
+                _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsTyp);
             }
 
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
@@ -324,16 +324,17 @@ angular.module('common').factory('common.UtkastSignService',
                 statService.refreshStat();
             }
 
-            function _setErrorMessageId(error) {
+            function _setErrorMessageId(error, intygsTyp) {
                 var messageId = '';
 
                 var errorTable = {
-                    'DATA_NOT_FOUND':          'common.error.certificatenotfound',
-                    'INVALID_STATE':           'common.error.certificateinvalidstate',
-                    'SIGN_NETID_ERROR':        'common.error.sign.netid',
-                    'CONCURRENT_MODIFICATION': 'common.error.sign.concurrent_modification',
-                    'AUTHORIZATION_PROBLEM':   'common.error.sign.authorization',
-                    'INDETERMINATE_IDENTITY':  'common.error.sign.indeterminate.identity'
+                    'DATA_NOT_FOUND':             'common.error.certificatenotfound',
+                    'INVALID_STATE':              'common.error.certificateinvalidstate',
+                    'SIGN_NETID_ERROR':           'common.error.sign.netid',
+                    'CONCURRENT_MODIFICATION':    'common.error.sign.concurrent_modification',
+                    'AUTHORIZATION_PROBLEM':      'common.error.sign.authorization',
+                    'INDETERMINATE_IDENTITY':     'common.error.sign.indeterminate.identity',
+                    'INVALID_STATE_INTYG_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists'
                 };
 
                 if (error === undefined) {
@@ -353,8 +354,7 @@ angular.module('common').factory('common.UtkastSignService',
                     } else {
                         messageId = 'common.error.sign.general';
                     }
-                }
-                else {
+                } else {
                     if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
@@ -364,8 +364,8 @@ angular.module('common').factory('common.UtkastSignService',
                 return messageId;
             }
 
-            function _showSigneringsError(signModel, error) {
-                var sithssignerrormessageid = _setErrorMessageId(error);
+            function _showSigneringsError(signModel, error, intygsTyp) {
+                var sithssignerrormessageid = _setErrorMessageId(error, intygsTyp);
 
                 var errorMessage;
                 var variables = null;
