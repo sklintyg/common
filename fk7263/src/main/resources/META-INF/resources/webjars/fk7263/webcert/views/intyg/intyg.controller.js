@@ -73,6 +73,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
                     } else {
                         $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
 
                         if ($stateParams.signed) {
                             ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
@@ -83,6 +84,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                     $scope.intygBackup.showBackupInfo = false;
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                     $scope.intygBackup.showBackupInfo = true;

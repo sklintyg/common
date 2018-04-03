@@ -85,9 +85,13 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);
 
                     } else {
+                        $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
                         ViewState.common.activeErrorMessageKey = 'common.error.data_not_found';
                     }
                 }, function(error) {
+                    $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                 });

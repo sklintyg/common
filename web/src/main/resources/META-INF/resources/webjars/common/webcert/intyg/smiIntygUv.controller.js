@@ -80,6 +80,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
                     } else {
                         $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
 
                         if ($stateParams.signed) {
                             ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
@@ -91,6 +92,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                     $scope.intygBackup.showBackupInfo = true;
