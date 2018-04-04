@@ -232,7 +232,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                 ]),
 
                 kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {required: true, requiredProp: funktionsnedsattningar()}, [
-                    fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'checkgroup'} }, [{
+                    fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'ue-checkgroup'} }, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
                             id: 'check-funktionsnedsattningIntellektuell',
