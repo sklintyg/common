@@ -54,8 +54,6 @@ angular.module('common').directive('arendeNew',
 
                     function onIntygLoaded(event, intyg, intygProperties) {
 
-                        intygLoaded = true;
-
                         if (intyg !== null && !isNotSent()) {
                             ArendeDraftProxy.getDraft(intyg.id, function(data) {
                                 if (data.text !== undefined) {
@@ -72,6 +70,8 @@ angular.module('common').directive('arendeNew',
                             }, function(data) {
                             });
                         }
+
+                        intygLoaded = true;
                     }
 
                     onIntygLoaded(null, ArendeNewViewState.parentViewState.intyg, ArendeNewViewState.parentViewState.intygProperties);
