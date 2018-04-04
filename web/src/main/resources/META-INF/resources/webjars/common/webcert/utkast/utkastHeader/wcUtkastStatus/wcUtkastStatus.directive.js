@@ -25,7 +25,8 @@ angular.module('common').directive('wcUtkastStatus', [
         return {
             restrict: 'E',
             scope: {
-                utkastViewState: '='
+                utkastViewState: '=',
+                certForm: '='
             },
             templateUrl: '/web/webjars/common/webcert/utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.html',
             link: function($scope) {
@@ -48,7 +49,9 @@ angular.module('common').directive('wcUtkastStatus', [
                     if (CommonViewState.saving) {
                         return setIntygStatus($scope.intygstatus2, 'is-013');
                     }
-                    return setIntygStatus($scope.intygstatus2, 'is-014');
+                    else if ($scope.certForm && $scope.certForm.$pristine) {
+                        return setIntygStatus($scope.intygstatus2, 'is-014');
+                    }
                 };
 
                 function setIntygStatus(scopeObj, intygStatus, vars) {

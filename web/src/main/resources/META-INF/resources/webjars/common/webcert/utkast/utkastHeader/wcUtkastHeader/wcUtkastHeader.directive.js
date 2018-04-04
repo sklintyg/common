@@ -23,7 +23,8 @@ angular.module('common').directive('wcUtkastHeader', [ '$window', '$state', 'com
     return {
         restrict: 'E',
         scope: {
-            utkastViewState: '='
+            utkastViewState: '=',
+            certForm: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.html',
         link: function($scope) {
