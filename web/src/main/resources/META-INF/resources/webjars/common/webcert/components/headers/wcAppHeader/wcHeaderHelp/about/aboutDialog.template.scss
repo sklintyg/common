@@ -27,6 +27,11 @@
       border-radius: 0;
       box-shadow: none;
 
+      h4 {
+        @extend %wc-typo-14;
+        color: $wc-color-07;
+      }
+
       > .panel-collapse > .panel-body {
         @extend %wc-typo-07;
         color: $wc-color-07;
