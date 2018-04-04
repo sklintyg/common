@@ -16,9 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueKategori', ['$parse',
-    function($parse) {
+angular.module('common').directive('ueKategori', ['$parse', '$compile', '$timeout',
+    function($parse, $compile, $timeout) {
         'use strict';
+
+        var componentsTemplate = '<ue-render-components class="ue-kategori__body" form="::form" config="::config.components" model="::model" />';
+        var compileQueue = [];
+        var timeoutHandle;
 
         return {
             restrict: 'E',
@@ -28,7 +32,7 @@ angular.module('common').directive('ueKategori', ['$parse',
                 model: '='
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueKategori/ueKategori.directive.html',
-            link: function($scope) {
+            link: function($scope, $element) {
                 if ($scope.config.label.required) {
                     $scope.hasUnfilledRequirements = function() {
                         var reqProp = $scope.config.label.requiredProp;
@@ -54,6 +58,46 @@ angular.module('common').directive('ueKategori', ['$parse',
                         }
                     };
                 }
+
+                // Function to replace the spinner with our subcomponents
+                var compileFunction = function() {
+                    var element = $element.find('.ue-kategori__spinner');
+                    if (element) {
+                        element.replaceWith($compile(componentsTemplate)($scope))
+                    }
+                    // If there are still items in the queue, schedule the next compile call
+                    if (compileQueue.length > 0 && !timeoutHandle) {
+                        timeoutHandle = $timeout(function() {
+                            timeoutHandle = null;
+                            // Async call, check if queue still has items
+                            if (compileQueue.length > 0) {
+                                compileQueue.shift()();
+                            }
+                        });
+                    }
+                };
+
+                // Add our compileFunction to the queue
+                compileQueue.push(compileFunction);
+
+                // If this is the first item in the queue, start the compile process by calling the first item in the queue
+                if (compileQueue.length == 1 && !timeoutHandle) {
+                    timeoutHandle = $timeout(function() {
+                        timeoutHandle = null;
+                        // Async call, check if queue still has items
+                        if (compileQueue.length > 0) {
+                            compileQueue.shift()();
+                        }
+                    });
+                }
+
+                // If this kategori compileFunction is in compileQueue when scope is destroyed, remove it
+                $scope.$on('$destroy', function() {
+                    var index = compileQueue.indexOf(compileFunction);
+                    if (index !== -1) {
+                        compileQueue.splice(index, 1);
+                    }
+                });
             }
         };
     }]);
