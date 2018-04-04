@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-xdescribe('arendeNew', function() {
+describe('arendeNew', function() {
     'use strict';
 
     var $httpBackend;
@@ -55,7 +55,7 @@ xdescribe('arendeNew', function() {
 
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('$stateParams', { certificateId: 'intygsid' });
-        $provide.value('common.ArendeDraftProxy', { deleteQuestionDraft: function() {}});
+        $provide.value('common.ArendeDraftProxy', { deleteQuestionDraft: function() {}, getDraft: function() {}});
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));
