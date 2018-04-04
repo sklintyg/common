@@ -40,46 +40,75 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function isObservandumOccupation (occupationList) {
+            function _shouldSysselsattningSpawnObservandum (occupationList) {
+
+                if(!occupationList){
+                    return false;
+                }
+
+                var areCriteraForObservandumMet = true;
                 occupationList.forEach(function (occupation) {
                     if (occupation.typ === 'ARBETSSOKANDE') {
-                        return true;
+                        areCriteraForObservandumMet = false;
                     } else if (occupation.typ === 'STUDIER') {
                         occupationList.forEach(function (occupation) {
                             if (occupation.typ  === 'NUVARANDE_ARBETE') {
-                                return true;
+                                areCriteraForObservandumMet = false;
                             }
                         });
 
                     }
                 });
-               return false;
+               return areCriteraForObservandumMet;
             }
 
             /**
-             * Is an observandum if it is of type LIJSP, duration shorter or equal to 7 days
-             * and has the occupation arbetssökande or studier AND nuvarande arbete.
+             * Visa observandum om:
+             * Perioden intyget avser är kortare eller lika med 7 dagar
+             * Alternativet Arbetssökande (LISJP) eller Arbetslöshet (FK7263) är EJ valt.
+             * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt (LISJP)
              */
 
-            function isObservandum(intygModel) {
+            function _calculateSjukskrivningDuration(intygModel) {
 
                 var duration;
 
+                var startDate = null;
+                var endDate = null;
+
                 if (intygModel.typ === 'lisjp') {
                     intygModel.sjukskrivningar.forEach(function(sjukskrivning) {
-                        var startDate = new moment (sjukskrivning.period.from.split('-'));
-                        var endDate = new moment (sjukskrivning.period.tom.split('-'));
-                        duration  = moment.duration(endDate.diff(startDate));
-                        duration = duration.days() + 1;
-
-                        if (duration <= 7 && isObservandumOccupation(intygModel.sysselsattning)) {
-                            return true;
+                        var from = new moment (sjukskrivning.period.from);
+                        if(startDate === null || from.isBefore(startDate)) {
+                            startDate = from;
+                        }
+                        var tom = new moment (sjukskrivning.period.tom);
+                        if(endDate === null || tom.isAfter(endDate)) {
+                            endDate = tom;
                         }
                     });
                 }
-                return false;
+
+                if(startDate === null || endDate === null) {
+                    return 0;
+                }
+
+                duration = moment.duration(endDate.diff(startDate));
+                duration = duration.days() + 1;
+
+                return duration;
             }
-            
+
+            function _getObservandumId(intygModel) {
+
+                var duration = _calculateSjukskrivningDuration(intygModel);
+                if (duration <= 7 && _shouldSysselsattningSpawnObservandum(intygModel.sysselsattning)) {
+                    return 'lisjp.label.send.obs.short.duration';
+                }
+
+                return null;
+            }
+
             function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, bodyText, onSuccess) {
              
                 var dialogSendModel ={
@@ -88,7 +117,7 @@ angular.module('common').factory('common.IntygSend',
                     errormessageid: 'error.failedtosendintyg',
                     showerror: false,
                     patientConsent: false,
-                    showObservandum:  isObservandum(intygModel)
+                    observandumId: _getObservandumId(intygModel)
                 };
 
                 sendDialog = dialogService.showDialog({
@@ -123,6 +152,11 @@ angular.module('common').factory('common.IntygSend',
 
             // Return public API for the service
             return {
-                send: _send
+                send: _send,
+
+                // testing only
+                calculateSjukskrivningDuration: _calculateSjukskrivningDuration,
+                shouldSysselsattningSpawnObservandum: _shouldSysselsattningSpawnObservandum,
+                getObservandumId: _getObservandumId
             };
         }]);

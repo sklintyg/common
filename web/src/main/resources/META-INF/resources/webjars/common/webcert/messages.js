@@ -339,8 +339,8 @@ angular.module('common').constant('common.messages', {
         'lisjp.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
         'fk7263.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
 
-        'lisjp.label.send.bodyText': '<div class="lisjp-observandum"><i class="material-icons">error_outline</i><span class="lisjp-observandum-text">Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.</span></div><br>'+
-        'Intyget ska skickas till Försäkringskassan från dag 8 i sjukperioden om patienten är:<br><br>' +
+        'lisjp.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
+        'lisjp.label.send.bodyText': '<p>Intyget ska skickas till Försäkringskassan från dag 8 i sjukperioden om patienten är:</p>' +
          '<ul>' +
         '<li>Egenföretagare</li>' +
         '<li>Arbetssökande</li>' +
