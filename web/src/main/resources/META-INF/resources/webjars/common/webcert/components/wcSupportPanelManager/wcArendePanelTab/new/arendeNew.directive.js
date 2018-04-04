@@ -49,7 +49,12 @@ angular.module('common').directive('arendeNew',
                     $scope.arendeNewModel = arendeNewModel;
                     var intygLoaded = false;
 
-                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function (event, intyg, intygProperties) {
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
+                    $scope.$on('$destroy', unbindFastEvent);
+
+                    function onIntygLoaded(event, intyg, intygProperties) {
+
+                        intygLoaded = true;
 
                         if (intyg !== null && !isNotSent()) {
                             ArendeDraftProxy.getDraft(intyg.id, function(data) {
@@ -67,9 +72,9 @@ angular.module('common').directive('arendeNew',
                             }, function(data) {
                             });
                         }
-                        intygLoaded = true;
-                    });
-                    $scope.$on('$destroy', unbindFastEvent);
+                    }
+
+                    onIntygLoaded(null, ArendeNewViewState.parentViewState.intyg, ArendeNewViewState.parentViewState.intygProperties);
 
                     function isNotSent() {
                         var notSent = ArendeNewViewState.parentViewState.intygProperties.isSent === false;
@@ -167,9 +172,7 @@ angular.module('common').directive('arendeNew',
                     }
 
                     $scope.isArendeValidForSubmit = function() {
-                        var validToSend = (arendeNewModel.chosenTopic ||
-                            !ObjectHelper.isEmpty(arendeNewModel.frageText)) &&
-                            !ArendeNewViewState.updateInProgress;
+                        var validToSend = (arendeNewModel.chosenTopic && !ArendeNewViewState.updateInProgress);
                         return validToSend;
                     };
                 }

@@ -61,7 +61,10 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                 if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
                     $scope.ersattButtonDisabled = true;
                     $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.unhandledkomplettering.tooltip');
+                } else{
+                    $scope.ersattButtonDisabled = false;
                 }
+
                 // Wait for digest to remove buttons first
                 $timeout(function(){
                     IntygHeaderViewState.intygLoaded = true;
