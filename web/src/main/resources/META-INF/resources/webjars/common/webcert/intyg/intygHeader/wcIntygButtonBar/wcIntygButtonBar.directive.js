@@ -129,6 +129,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                         intygType+'.label.send', intygType+'.label.send.body', intygType+ '.label.send.bodyText', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
                             CommonIntygViewState.intygProperties.isSent = true;
+                            CommonIntygViewState.intygProperties.sentTimestamp = new Date();
                             angular.forEach($scope.viewState.relations, function(relation) {
                                 if(relation.intygsId === $scope.viewState.intygModel.id) {
                                     relation.status = 'sent';
@@ -159,6 +160,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                 IntygMakulera.makulera( intyg, confirmationMessage, function() {
                     CommonIntygViewState.isIntygOnRevokeQueue = true;
                     CommonIntygViewState.intygProperties.isRevoked = true;
+                    CommonIntygViewState.intygProperties.revokedTimestamp = new Date();
                     angular.forEach($scope.viewState.relations, function(relation) {
                         if(relation.intygsId === intyg.id) {
                             relation.status = 'cancelled';
