@@ -52,7 +52,7 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
 
                 var updateRelation = function() {
                     $scope.intygRelation = $scope.$eval(scopePathToIntygRelation);
-                    if ($scope.intygRelation) {
+                    if ($scope.intygRelation && $scope.intygRelation.relationKod === 'ERSATT') {
                         loadStates();
                     }
                 };
@@ -86,7 +86,16 @@ angular.module('common').directive('wcIntygRelatedRevokedMessage', [
                 };
 
                 $scope.showMessage = function() {
-                    return $scope.intygRelation.states && $scope.intygRelation.states[0].type !== 'CANCELLED';
+                    return $scope.intygRelation && $scope.intygRelation.states && $scope.intygRelation.states[0].type !== 'CANCELLED';
+                };
+
+                $scope.buildKeyBaseForRevoked = function() {
+                    var intygstyp = $scope.viewState.common.intygProperties.type;
+                    if(intygstyp === 'db' || intygstyp === 'doi') {
+                        return intygstyp;
+                    } else {
+                        return 'intyg';
+                    }
                 };
 
             },

@@ -42,8 +42,9 @@
                class="form-control input-full"
                ng-class="{'fielderror' : hasValidationError('hamtasfran', $index)}"
                ng-model="underlag.hamtasFran"
+               ng-model-options="{ debounce: 500 }"
                ng-blur="validate()"
-               maxlength="4000">
+               maxlength="53">
       </td>
     </tr>
   </table>

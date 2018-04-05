@@ -22,6 +22,10 @@ module.exports = function(grunt) {
     'use strict';
 
     var npmDir = grunt.option('npmDir');
+    if(!npmDir){
+        npmDir = '../';
+    }
+
     var cwd = process.cwd();
     process.chdir(npmDir);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -38,6 +38,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -51,7 +52,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -72,20 +72,19 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
-        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, internalModel, applicationOrigin, CERTIFICATE_FILE_PREFIX);
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
+        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, internalModel, applicationOrigin, CERTIFICATE_FILE_PREFIX,
+                isUtkast);
     }
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields) throws ModuleException {
-        // INTYG-4710: Hack so Webcert always include basedOn-part of certificate. SHOULD ONLY EXIST IN WEBCERT 5.3
-        List<String> tmpOptionalFields = applicationOrigin == ApplicationOrigin.WEBCERT
-                ? Arrays.asList(AbstractLisjpPdfDefinitionBuilder.OPT_GRUND_FOR_MU)
-                : optionalFields;
-        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(tmpOptionalFields);
+            List<String> optionalFields, boolean isUtkast) throws ModuleException {
+        final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
         String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
-        return generatePdf(builder, statuses, internalModel, applicationOrigin, fileNamePrefix);
+        return generatePdf(builder, statuses, internalModel, applicationOrigin,
+                fileNamePrefix, isUtkast);
     }
 
     @Override
@@ -133,10 +132,15 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder)
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
             throws ModuleException {
         try {
-            LisjpUtlatande internal = getInternal(internalModelHolder);
+            if (!LisjpUtlatande.class.isInstance(template)) {
+                LOG.error("Could not create a new internal Webcert model using template of wrong type");
+                throw new ModuleConverterException("Could not create a new internal Webcert model using template of wrong type");
+            }
+
+            LisjpUtlatande internal = (LisjpUtlatande) template;
 
             // Null out applicable fields
             LisjpUtlatande renewCopy = internal.toBuilder()
@@ -177,12 +181,12 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     private PdfResponse generatePdf(AbstractLisjpPdfDefinitionBuilder builder, List<Status> statuses, String internalModel,
-            ApplicationOrigin applicationOrigin, String filePrefix) throws ModuleException {
+            ApplicationOrigin applicationOrigin, String filePrefix, boolean isUtkast) throws ModuleException {
         try {
             LisjpUtlatande luseIntyg = getInternal(internalModel);
             IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, isUtkast);
             Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, filePrefix));

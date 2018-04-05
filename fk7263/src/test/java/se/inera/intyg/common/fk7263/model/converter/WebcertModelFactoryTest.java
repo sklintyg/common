@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -139,7 +139,7 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV3
         Fk7263Utlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
-        assertEquals(5, UtlatandeToIntyg.convert(draft).getSvar().size());
+        assertEquals(4, UtlatandeToIntyg.convert(draft).getSvar().size());
     }
 
     private CreateDraftCopyHolder createDraftCopyHolder(String intygsCopyId, boolean addPatient, boolean addNewPersonId) {

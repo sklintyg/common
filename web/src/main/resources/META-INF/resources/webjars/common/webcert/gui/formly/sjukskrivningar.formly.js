@@ -63,6 +63,7 @@ angular.module('common').run(function(formlyConfig) {
                     return ArendeListViewState.hasKompletteringar($scope.options.key);
                 };
                 $scope.validate = function() {
+                    $scope.form.$commitViewValue();
                     UtkastValidationService.validate($scope.model);
                 };
                 $scope.viewstate = viewstate.reset();

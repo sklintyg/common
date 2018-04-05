@@ -66,6 +66,7 @@ angular.module('lisjp').factory('lisjp.Domain.IntygModel',
                     init._super.call(this, 'lisjpModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

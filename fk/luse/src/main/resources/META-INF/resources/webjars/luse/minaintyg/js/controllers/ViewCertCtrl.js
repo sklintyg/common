@@ -5,6 +5,7 @@ angular.module('luse').controller('luse.ViewCertCtrl',
             dialogService, messageService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.messageService = messageService;
 
@@ -12,19 +13,21 @@ angular.module('luse').controller('luse.ViewCertCtrl',
                 $location.path('/send/luse/' + $stateParams.certificateId + '/FKASSA');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
             certificateService.getCertificate('luse', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
-                    // show error view
-                    $location.path('/luse/visafel/certnotfound');
+                    $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function() {
-                $log.debug('got error');
-                $location.path('/luse/visafel/certnotfound');
+            }, function(errorMsgKey) {
+                $scope.doneLoading = true;
+                $log.debug('getCertificate got error ' + errorMsgKey);
+                $scope.errorMessage = errorMsgKey;
             });
 
             $scope.pagefocus = true;

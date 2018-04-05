@@ -20,23 +20,32 @@
 describe('IntygHeaderCtrl', function() {
     'use strict';
 
+    var $rootScope;
     var $scope;
     var $controller;
     var $state;
     var UserModel;
+    var featureService;
+    var UtkastProxy;
 
     beforeEach(function() {
 
         module('common', function($provide) {
         });
 
-        inject(['$rootScope', '$controller', '$state', 'common.UserModel',
-            function($rootScope, _$controller_, _$state_, _UserModel_) {
-            $scope = $rootScope.$new();
+
+        inject(['$rootScope', '$controller', '$state', 'common.UserModel', 'common.featureService', 'common.UtkastProxy',
+            function(_$rootScope_, _$controller_, _$state_, _UserModel_, _featureService_, _UtkastProxy_) {
+            $rootScope = _$rootScope_;
+            $scope = _$rootScope_.$new();
             $controller = _$controller_;
             $state = _$state_;
             UserModel = _UserModel_;
+            featureService = _featureService_;
+            UtkastProxy = _UtkastProxy_;
+
         }]);
+
     });
 
     describe('header show button logic', function() {
@@ -163,9 +172,11 @@ describe('IntygHeaderCtrl', function() {
                 UserModel.user = {};
 
                 $scope.intygstyp = 'ts-bas';
+                $scope.fornya = false;
                 expect($scope.showFornyaButton()).toBe(false);
 
                 $scope.intygstyp = 'ts-diabetes';
+                $scope.fornya = false;
                 expect($scope.showFornyaButton()).toBe(false);
             });
 
@@ -185,6 +196,104 @@ describe('IntygHeaderCtrl', function() {
                 UserModel.user = {parameters: {inactiveUnit: true}};
 
                 $scope.intygstyp = 'fk7263';
+                expect($scope.showFornyaButton()).toBeFalsy();
+            });
+        });
+
+        describe('skapa <intygstyp> button', function() {
+            it('should be shown if intyg type is db and copying is allowed', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {};
+
+                $scope.intygstyp = 'db';
+                expect($scope.showCreateFromTemplate()).toBeTruthy();
+            });
+
+            it('should be enabled if no previous intyg exists', function() {
+                UserModel.user = {};
+
+                $scope.intygstyp = 'db';
+                $scope.viewState.intygModel = {
+                    grundData: {
+                        patient: {
+                            personId: 'test'
+                        }
+                    }
+                };
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                    onSuccess({});
+                });
+
+                $rootScope.$broadcast('intyg.loaded', {});
+
+                expect($scope.enableCreateFromTemplate()).toBeTruthy();
+            });
+
+            it('should not be enabled if previous intyg exists and feature is enabled', function() {
+                UserModel.user = {};
+
+                $scope.intygstyp = 'db';
+                $scope.viewState.intygModel = {
+                    grundData: {
+                        patient: {
+                            personId: 'test'
+                        }
+                    }
+                };
+
+                spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
+                    onSuccess({
+                        doi: true
+                    });
+                });
+
+                $rootScope.$broadcast('intyg.loaded', {});
+
+                expect($scope.enableCreateFromTemplate()).toBeFalsy();
+            });
+
+            it('should not be shown if intyg type is fk, ts or doi', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {};
+
+                $scope.intygstyp = 'doi';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'ts-bas';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'ts-diabetes';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'fk7263';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'lisjp';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luse';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luae_fs';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+
+                $scope.intygstyp = 'luae_na';
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+            });
+
+            it('should not be shown if makulerat', function() {
+                $scope.viewState.common.intygProperties.isRevoked = true;
+                expect($scope.showCreateFromTemplate()).toBeFalsy();
+            });
+            it('should not be shown if unit is inactive', function() {
+                $scope.viewState.common.isIntygOnRevokeQueue = false;
+                $scope.viewState.common.intygProperties.isRevoked = false;
+                UserModel.user = {parameters: {inactiveUnit: true}};
+
+                $scope.intygstyp = 'db';
                 expect($scope.showFornyaButton()).toBeFalsy();
             });
         });

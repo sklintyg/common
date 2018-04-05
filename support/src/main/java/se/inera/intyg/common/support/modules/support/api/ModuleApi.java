@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -43,7 +43,7 @@ import java.util.Map;
  * <li>Transport model (XML-model that can be used to transmit an intyg between different parties)
  * <li>Internal model (JSON-model used to visualize an intyg in Mina Intyg and Webcert)
  * </ul>
- *
+ * <p>
  * There exists methods for converting between models, generate PDFs, interact with the internal model and extract meta
  * data.
  */
@@ -53,85 +53,96 @@ public interface ModuleApi {
      * Validates the internal model. The status (complete, incomplete) and a list of validation errors is returned.
      *
      * @param internalModel
-     *            The internal model to validate.
-     *
-     * @return response The validation result.
+     *            internal model to validate.
+     * @return response the validation result.
      */
     ValidateDraftResponse validateDraft(String internalModel) throws ModuleException;
 
     /**
-     * Generates a PDF from the internal model.
+     * Generates a PDF from an internal model.
      *
      * @param internalModel
-     *            The internal model to generate a PDF from.
+     *            the internal model to generate a PDF from
+     * @param statuses
+     *            a list of {@link Status} which signifies what has happened to the certificate
      * @param applicationOrigin
-     *            The context from which this method was called (i.e Webcert or MinaIntyg)
-     *
-     * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
+     *            the context from which this method was called (i.e Webcert or Mina intyg)
+     * @param isUtkast
+     *            whether the certificate we're printing is a draft or not. Triggers the "UTKAST" watermark.
+     * @return a {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename
+     * @throws ModuleException
+     *             if the PDF could not be generated
      */
-    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException;
+    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException;
 
     /**
      * Generates a PDF suited for the employer from the internal model.
+     * <p>
+     * A list of optional fields is required which specifies which of the optional fields in the PDF should be filled out.
+     * The format, meaning and syntax of the optionalFields id's is determined within each implementing
+     * module project.
      *
      * @param internalModel
-     *            The internal model to generate a PDF from.
+     *            the internal model to generate a PDF from
      * @param applicationOrigin
-     *            The context from which this method was called (i.e Webcert or MinaIntyg)
-     *
+     *            the context from which this method was called (i.e Webcert or Mina intyg)
      * @param optionalFields
-     *            The optional field references to include in the pdf.
-     *            The format, meaning and syntax of the optionalFields id's is determined within each implementing
-     *            module project.
-     *
+     *            the optional field references to include in the PDF
+     * @param isUtkast
+     *            whether the certificate we're printing is a draft or not. Triggers the "UTKAST" watermark.
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
+     * @throws ModuleException
+     *             if the PDF could not be generated
      */
-    PdfResponse pdfEmployer(String internalModel, List<Status> statuses,
-            ApplicationOrigin applicationOrigin,
-            List<String> optionalFields) throws ModuleException;
+    PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields,
+            boolean isUtkast)
+            throws ModuleException;
 
     /**
-     * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
-     * parameter.
+     * Creates a new internal model.
+     * <p>
+     * The model is prepopulated using data contained in the {@link CreateNewDraftHolder} parameter.
      *
      * @param draftCertificateHolder
-     *            The id of the new internal model, the {@link HoSPersonal} and
-     *            {@link se.inera.intyg.common.support.model.common.internal.Patient;} data.
-     *
-     * @return A new instance of the internal model.
+     *            The id of the new internal model, the {@link HoSPersonal}
+     *            and {@link se.inera.intyg.common.support.model.common.internal.Patient} data.
+     * @return the new instance of the internal model mapped to a String
+     * @throws ModuleException
+     *             if the new model could not be created, typically because the conversion to String failed
      */
     String createNewInternal(CreateNewDraftHolder draftCertificateHolder) throws ModuleException;
 
     /**
-     * Creates a new internal model. The model is prepopulated using data contained in the {@link CreateNewDraftHolder}
-     * parameter and template.
+     * Creates a new internal model from a template.
+     * <p>
+     * The model is prepopulated using data contained in the {@link CreateNewDraftHolder} parameter and template.
      *
      * @param draftCopyHolder
-     *            The id of the new internal model, the {@link HoSPersonal} and optional
-     *            {@link se.inera.intyg.common.support.model.common.internal.Patient;} data.
+     *            the id of the new internal model, the {@link HoSPersonal}
+     *            and optional {@link se.inera.intyg.common.support.model.common.internal.Patient} data.
      * @param template
-     *            An internal model used as a template for the new internal model.
-     *
-     * @return A new instance of the internal model.
+     *            the Utlatande to be used as a template for the new internal model
+     * @return the new instance of the internal mapped to a String
+     * @throws ModuleException
+     *             if the new model could not be created, typically because the conversion to String failed
      */
-    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String template)
-            throws ModuleException;
+    String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
 
     /**
      * Register certificate in Intygstjänsten.
      *
      * @param internalModel
-     *            The internal model of the certificate to send.
+     *            the internal model of the certificate to send
      * @param logicalAddress
-     *            Logical address of receiving system, i.e Intygstjansten
+     *            the logical address of receiving system, i.e Intygstjänsten
+     * @throws ModuleException
+     *             if the certificate could not be sent to recipient
      */
     void registerCertificate(String internalModel, String logicalAddress) throws ModuleException;
 
     /**
      * Send certificate to specified recipient.
-     *
-     * INFO: This method is only here to fix JIRA issue
-     * <a href="https://inera-certificate.atlassian.net/browse/WEBCERT-1442">WEBCERT-1442</a>
      *
      * @param xmlBody
      *            Xml representation of the certificate to send.
@@ -139,6 +150,8 @@ public interface ModuleApi {
      *            The recipient's logical address
      * @param recipientId
      *            The recipient's identifier
+     * @throws ModuleException
+     *             if the certificate could not be sent to recipient
      */
     void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException;
 
@@ -148,7 +161,9 @@ public interface ModuleApi {
      * @param xmlBody
      *            the request
      * @param logicalAddress
-     *            Logical address of receiving system, i.e Intygstjansten
+     *            the logical address of receiving system, i.e Intygstjansten
+     * @throws ModuleException
+     *             if the receiving system could not handle the revoke request
      */
     void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException;
 
@@ -156,12 +171,14 @@ public interface ModuleApi {
      * Fetch a certificate from Intygstjansten.
      *
      * @param certificateId
-     *            The certificate id.
+     *            the certificate id
      * @param logicalAddress
-     *            Logical address of receiving system, i.e Intygstjansten.
+     *            the logical address of system from the certificate is requested, i.e Intygstjansten
      * @param recipientId
-     *            Recipient id for the requester.
+     *            the recipient id for the requester, used to determine which statuses which should be returned
      * @return internal model of the certificate
+     * @throws ModuleException
+     *             if the producer did not respond or responded with ERROR
      */
     CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException;
 
@@ -170,9 +187,12 @@ public interface ModuleApi {
      * using current and persisted model states.
      *
      * @param persistedState
+     *            the state which is saved in Webcert currently
      * @param currentState
+     *            the state which frontend sent back
      * @return true a notification should be sent, false otherwise
      * @throws ModuleException
+     *             if one of the models could not be converted, typically the currentState
      */
     boolean shouldNotify(String persistedState, String currentState) throws ModuleException;
 
@@ -180,12 +200,12 @@ public interface ModuleApi {
      * Returns an updated version of the internal model for saving, with new HoS person information.
      *
      * @param internalModel
-     *            The internal model to use as a base.
+     *            the internal model to use as a base
      * @param hosPerson
-     *            The HoS person to complement the model with.
-     *
-     * @return A new internal model updated with the hosPerson info.
+     *            the HoS person to complement the model with
+     * @return the new internal model updated with the hosPerson info
      * @throws ModuleException
+     *             if the mapping of the internal model to String failed
      */
     String updateBeforeSave(String internalModel, HoSPersonal hosPerson) throws ModuleException;
 
@@ -193,12 +213,12 @@ public interface ModuleApi {
      * Returns an updated version of the internal model for saving, with new patient information applied.
      *
      * @param internalModel
-     *            The internal model to use as a base.
+     *            the internal model to use as a base
      * @param patient
-     *            The patient complement the model with.
-     *
-     * @return A new internal model updated with the Patient info.
+     *            the patient complement the model with
+     * @return the new internal model updated with the Patient info
      * @throws ModuleException
+     *             if the mapping of the internal model to String failed
      */
     String updateBeforeSave(String internalModel, Patient patient) throws ModuleException;
 
@@ -206,16 +226,16 @@ public interface ModuleApi {
      * Returns an updated version of the internal model for signing, with new HoS person information.
      *
      * @param internalModel
-     *            The internal model to use as a base.
+     *            the internal model to use as a base
      * @param hosPerson
-     *            The HoS person to complement the model with.
+     *            the HoS person to complement the model with
      * @param signingDate
-     *            The timestamp of the signing of the intyg.
-     *
-     * @return A new internal model updated with the hosPerson info.
+     *            the timestamp of the signing of the intyg
+     * @return A new internal model updated with the hosPerson info
+     * @throws ModuleException
+     *             if the mapping of the internal model to String failed
      */
-    String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-            throws ModuleException;
+    String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
 
     /**
      * Create a revoke request using the Utlatande and the HoSPersonal.
@@ -227,26 +247,109 @@ public interface ModuleApi {
      * @param meddelande
      *            voluntary message of why the certificate was revoked
      * @return the XML request as a String
+     * @throws ModuleException
+     *             if the creation of the request from utlatande failed
      */
     String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException;
 
-    /** Returns an instance of the particular sub class of Utlatande that this module handles. */
+    /**
+     * Returns an instance of the implementation of Utlatande that this module handles.
+     *
+     * @param utlatandeJson
+     *            the model represented as JSON (internal)
+     * @return the converted utlatande
+     * @throws IOException
+     *             if the mapper could not read the Utlatande
+     */
     Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
 
-    /** Returns an instance of the particular sub class of Utlatande that this module handles. */
+    /**
+     * Returns an instance of the implementation of Utlatande that this module handles.
+     *
+     * @param xml
+     *            the model represented as XML (transport)
+     * @return the converted utlatande
+     * @throws ModuleException
+     *             if there was an error in the conversion
+     */
     Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
 
+    /**
+     * Converts the XML in inputXml to be of correct version.
+     * <p>
+     * Statistiktjänsten handles RegisterCertificate of version 3. All certificates which are communicated (FK7263) in other
+     * ways
+     * need to be converted to RegisterCertificate version 3.0 before they are sent to Statistiktjänsten.
+     * <p>
+     * If the XML already is in correct version then nothing should be done and inputXml can be returned.
+     *
+     * @param inputXml
+     *            the transport model to be converted
+     * @return the XML representation as RegisterCertificate 3.0
+     * @throws ModuleException
+     *             if the conversion threw an exception
+     */
     String transformToStatisticsService(String inputXml) throws ModuleException;
 
-    /** Perform module specific xml validation. */
+    /**
+     * Perform module specific xml validation.
+     *
+     * @param inputXml
+     *            the XML to be validated
+     * @return the result of the validation
+     * @throws ModuleException
+     *             if the validator failed
+     */
     ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
 
-    /** Get Arende parameters specific to module such as parameters belonging to a certain frage id. */
+    /**
+     * Get Arende parameters specific to module such as parameters belonging to a certain frage id.
+     *
+     * @param utlatande
+     *            the internal model, only used to determine certificate type
+     * @param frageIds
+     *            the ids of the questions in transport format requested
+     * @return a mapping from frage id to a list of property handles in the JSON-representation of the certificate
+     */
     Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds);
 
-    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, String internalModelHolder) throws ModuleException;
+    /**
+     * Creates a new internal representation, which is meant to be used as a renewal of a certificate based on template.
+     * <p>
+     * This should clear some fields specific to the certificate type which should not be transferred to the renewal copy.
+     * <p>
+     * NOTE: This can and will change fields in template before writing it to a new String.
+     * Do *NOT* use the template after calling this method.
+     *
+     * @param draftCopyHolder
+     *            the meta information about the new certificate
+     * @param template
+     *            the template certificate which the new renewal should be based upon
+     * @return the new renewal certificate mapped to a String
+     * @throws ModuleException
+     *             if the conversion threw an exception
+     */
+    String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
 
+    /**
+     * Converts the internal representation of the certificate to transport format.
+     *
+     * @param utlatande
+     *            the internal certificate to be converted
+     * @return the transport representation of the certificate
+     * @throws ModuleException
+     *             if the conversion threw an exception
+     */
     Intyg getIntygFromUtlatande(Utlatande utlatande) throws ModuleException;
 
+    /**
+     * Generates the additional info which should be shown in Mina intyg.
+     *
+     * @param intyg
+     *            the certificate to generate the info about
+     * @return the information as a String
+     * @throws ModuleException
+     *             if the certificate could not be converted to internal
+     */
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 }

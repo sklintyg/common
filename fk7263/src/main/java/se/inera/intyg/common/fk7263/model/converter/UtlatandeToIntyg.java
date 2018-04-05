@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -19,6 +19,7 @@
 package se.inera.intyg.common.fk7263.model.converter;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.model.internal.PrognosBedomning;
 import se.inera.intyg.common.fk7263.model.internal.Rehabilitering;
@@ -303,7 +304,8 @@ public final class UtlatandeToIntyg {
         SvarBuilder svarBuilder = aSvar(DIAGNOS_SVAR_6);
         if (source.getDiagnosKodsystem1() != null) {
             svarBuilder = svarBuilder.withDelsvar(DIAGNOS_DELSVAR_6_2,
-                    aCV(Diagnoskodverk.valueOf(source.getDiagnosKodsystem1()).getCodeSystem(), source.getDiagnosKod(), null));
+                    aCV(Diagnoskodverk.valueOf(source.getDiagnosKodsystem1()).getCodeSystem(), source.getDiagnosKod(),
+                            Strings.emptyToNull(source.getDiagnosBeskrivning1())));
         }
         return svarBuilder.build();
     }

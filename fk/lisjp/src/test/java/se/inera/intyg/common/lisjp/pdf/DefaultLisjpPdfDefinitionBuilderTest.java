@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,21 +18,12 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
@@ -41,6 +32,14 @@ import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual
@@ -82,7 +81,7 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LisjpUtlatande intyg : intygList) {
-            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
+            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
             byte[] generatorResult = PdfGenerator
                     .generatePdf(pdfDefinition);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,13 +18,6 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
@@ -40,14 +33,19 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author andreaskaltenbach
@@ -313,10 +311,6 @@ public abstract class PdfAbstractGenerator {
     public static boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream().filter(Objects::nonNull)
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
-    }
-
-    public static boolean isUtkast(Utlatande utlatande) {
-        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
     }
 
     public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {

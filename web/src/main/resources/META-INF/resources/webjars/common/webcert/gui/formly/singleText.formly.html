@@ -4,6 +4,6 @@
   </div>
   <div class="col-md-{{12 - to.labelColSize}}">
     <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled"
-           ng-model="model[options.key]" ng-class="{ 'input-{{to.size}}': to.size }" maxlength="{{to.maxlength || 4000}}">
+           ng-model="model[options.key]" ng-model-options="{ debounce: 500 }" wc-number="{{to.numbersOnly === true}}"  ng-class="{ 'input-{{to.size}}': to.size }" maxlength="{{to.htmlMaxlength || 3500}}">
   </div>
 </div>

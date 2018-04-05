@@ -46,15 +46,20 @@ angular.module('common').factory('common.featureService',
             features: {
                 HANTERA_FRAGOR: 'hanteraFragor',
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
-                KOPIERA_INTYG: 'kopieraIntyg',
+                HANTERA_INTYGSUTKAST_AVLIDEN: 'hanteraIntygsutkastAvliden',
                 FORNYA_INTYG: 'fornyaIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
+                MAKULERA_INTYG_KRAVER_ANLEDNING: 'makuleraIntygKraverAnledning',
                 SKAPA_NYFRAGA: 'skapaNyFraga',
                 SKICKA_INTYG: 'skickaIntyg',
+                SIGNERA_SKICKA_DIREKT: 'signeraSkickaDirekt',
                 UTSKRIFT: 'utskrift',
                 ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
                 JS_LOGGNING: 'jsLoggning',
-                JS_MINIFIED: 'jsMinified'
+                JS_MINIFIED: 'jsMinified',
+                UNIKT_INTYG: 'uniktIntyg',
+                UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg',
+                SRS: 'srs'
             },
             isFeatureActive: _isFeatureActive
         };

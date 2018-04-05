@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -69,9 +69,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("*").stream()
-                .map(u -> new Object[] { u.getName(), u, u.getName().startsWith("fail") })
+        Collection<Object[]> ret = ScenarioFinder.getInternalScenarios("fail-*").stream()
+                .map(u -> new Object[] { u.getName(), u, true})
                 .collect(Collectors.toList());
+        ret.addAll(ScenarioFinder.getInternalScenarios("pass-*").stream()
+                .map(u -> new Object[] { u.getName(), u, false})
+                .collect(Collectors.toList()));
+        return ret;
     }
 
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {

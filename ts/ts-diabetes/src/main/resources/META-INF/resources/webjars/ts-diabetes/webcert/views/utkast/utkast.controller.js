@@ -20,8 +20,9 @@
 angular.module('ts-diabetes').controller('ts-diabetes.UtkastController',
     ['$location', '$log', '$q', '$rootScope', '$scope', '$timeout', '$window', 'common.UtkastService', 'common.UserModel',
         'ts-diabetes.Domain.IntygModel', 'ts-diabetes.UtkastController.ViewStateService', 'common.UtkastValidationService',
+        'common.PrefilledUserDataService',
         function($location, $log, $q, $rootScope, $scope, $timeout, $window, UtkastService, UserModel,
-            IntygModel, viewState, UtkastValidationService) {
+            IntygModel, viewState, UtkastValidationService, prefilledUserDataService) {
             'use strict';
 
             /**********************************************************************************
@@ -81,6 +82,14 @@ angular.module('ts-diabetes').controller('ts-diabetes.UtkastController',
                 viewState.clearModel();
             };
 
+            $scope.$on('intyg.loaded', function() {
+                prefilledUserDataService.searchForPrefilledData(viewState);
+                // Because of some strange angularjs-internal thing (likely related to compile-priority) the code below
+                // fails to run correctly when put into a ng-disable directive in a template; instead a boolean is saved.
+                $scope.shouldDisableAddressInput = prefilledUserDataService.getPrefilledFields().completeAddress &&
+                    UserModel.isDjupintegration();
+            });
+
             // Sätt upp lyssnare för 'intyg.loaded' innan load anropas, säkerställer att lyssnaren hunnit registreras när load körs.
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
@@ -91,6 +100,10 @@ angular.module('ts-diabetes').controller('ts-diabetes.UtkastController',
                 $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
             });
+
+            $scope.hasCompleteAddressPrefilled = function() {
+                return prefilledUserDataService.getPrefilledFields().completeAddress;
+            };
 
             $scope.validate = function() {
                 // When a date is selected from a date popup a blur event is sent.

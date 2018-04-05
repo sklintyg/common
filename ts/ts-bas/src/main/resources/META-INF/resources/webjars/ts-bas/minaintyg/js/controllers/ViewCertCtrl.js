@@ -24,26 +24,31 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
             dialogService, messageService, moduleService, viewConfigFactory) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
+            $scope.certMeta = null;
             $scope.messageService = messageService;
 
             $scope.send = function() {
                 $location.path('/send/ts-bas/' + $stateParams.certificateId + '/TRANSP');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
             IntygService.getCertificate('ts-bas', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/ts-bas/visafel/certnotfound');
+                    $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function(error) {
-                $log.debug(error);
-                $location.path('/ts-bas/visafel/certnotfound');
+            }, function(errorMsgKey) {
+                $scope.doneLoading = true;
+                $log.debug('getCertificate got error ' + errorMsgKey);
+                $scope.errorMessage = errorMsgKey;
             });
 
             $scope.uvConfig = viewConfigFactory.getViewConfig();

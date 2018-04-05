@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,6 +35,7 @@ import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -368,6 +369,35 @@ public class InternalConverterUtilTest {
         assertEquals(pnr.getPersonnummerWithoutDash(), res.getExtension());
         assertEquals("1.2.752.129.2.1.3.3", res.getRoot());
     }
+
+    @Test
+    public void testNothingSuppliedFillWithZeros() {
+       InternalDate date = new InternalDate("");
+        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
+        assertEquals("0000-00-00", testString);
+    }
+
+    @Test
+    public void testYearSuppliedFillRestWithZeros() {
+        InternalDate date = new InternalDate("2017");
+        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
+        assertEquals("2017-00-00", testString);
+    }
+
+    @Test
+    public void testYearMonthSuppliedFillRestWithZeros() {
+        InternalDate date = new InternalDate("2017-01");
+        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
+        assertEquals("2017-01-00", testString);
+    }
+
+    @Test
+    public void testYearMonthDaySuppliedDontFill() {
+        InternalDate date = new InternalDate("2017-01-01");
+        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
+        assertEquals("2017-01-01", testString);
+    }
+
 
     private Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", "patientPersonId",

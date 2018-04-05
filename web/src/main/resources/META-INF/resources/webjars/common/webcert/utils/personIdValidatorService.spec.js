@@ -212,4 +212,24 @@ describe('PersonIdValidatorService', function() {
         var result = personIdValidatorService.validate('¤"&%34n43m');
         expect(result).toBeUndefined();
     });
+
+    it('should extract birthdate from a valid "personnummer"', function() {
+        var result = personIdValidatorService.getBirthDate('19121212-1212');
+        expect(result).toBe('1912-12-12');
+    });
+
+    it('should extract birthdate from a valid "samordningsnummer"', function() {
+        var result = personIdValidatorService.getBirthDate('19121272-1219');
+        expect(result).toBe('1912-12-12');
+    });
+
+    it('should not extract birthdate from an invalid "personnummer"', function() {
+        var result = personIdValidatorService.getBirthDate('19121212-1213');
+        expect(result).toBeUndefined();
+    });
+
+    it('should not extract birthdate from an invalid "samordningsnummer"', function() {
+        var result = personIdValidatorService.getBirthDate('19121372-1219');
+        expect(result).toBeUndefined();
+    });
 });

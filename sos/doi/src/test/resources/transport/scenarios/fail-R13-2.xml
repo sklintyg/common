@@ -8,7 +8,7 @@
             <ns3:extension>1234567</ns3:extension>
         </intygs-id>
         <typ>
-            <ns3:code>doi</ns3:code>
+            <ns3:code>DOI</ns3:code>
             <ns3:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns3:codeSystem>
             <ns3:displayName>Dödsorsaksintyg</ns3:displayName>
         </typ>
@@ -102,7 +102,7 @@
         <svar id="9">
             <instans>1</instans>
             <delsvar id="9.1">foljd 1</delsvar>
-            <delsvar id="9.2">2017-05-01</delsvar>
+            <delsvar id="9.2">2016-05-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>90734009</ns3:code>
@@ -114,7 +114,7 @@
         <svar id="9">
             <instans>2</instans>
             <delsvar id="9.1">foljd 2</delsvar>
-            <delsvar id="9.2">2017-05-02</delsvar>
+            <delsvar id="9.2">2016-04-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
@@ -126,7 +126,7 @@
         <svar id="9">
             <instans>3</instans>
             <delsvar id="9.1">foljd 3</delsvar>
-            <delsvar id="9.2">2017-05-03</delsvar>
+            <delsvar id="9.2">2016-03-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>90734009</ns3:code>

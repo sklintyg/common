@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -25,7 +25,6 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -77,10 +76,6 @@ public class FkBasePdfDefinitionBuilder {
     protected boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream()
                 .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
-    }
-
-    protected boolean isUtkast(Utlatande utlatande) {
-        return utlatande == null || utlatande.getGrundData() == null || utlatande.getGrundData().getSigneringsdatum() == null;
     }
 
     protected String nullSafeString(String string) {

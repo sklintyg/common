@@ -21,28 +21,90 @@ angular.module('common').controller('common.IntygHeader',
     ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'common.authorityService', 'common.featureService',
         'common.messageService', 'common.moduleService', 'common.IntygCopyRequestModel', 'common.IntygFornyaRequestModel',
         'common.IntygErsattRequestModel', 'common.User', 'common.UserModel', 'common.IntygSend', 'common.IntygCopyActions',
-        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy',
+        'common.IntygMakulera', 'common.IntygViewStateService', 'common.dialogService', 'common.PatientProxy', 'common.UtkastProxy',
+        'common.ObjectHelper',
 
         function($rootScope, $scope, $log, $state, $stateParams, authorityService, featureService, messageService,
             moduleService, IntygCopyRequestModel, IntygFornyaRequestModel, IntygErsattRequestModel, User, UserModel,
-            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy) {
+            IntygSend, IntygCopyActions, IntygMakulera, CommonViewState, DialogService, PatientProxy, UtkastProxy, ObjectHelper) {
 
             'use strict';
 
             var intygType = $state.current.data.intygType;
             var _intygActionDialog = null;
+            var previousIntyg = {};
+
+            $scope.intygstyp = intygType;
+            $scope.createFromTemplateConfig = {
+                'db': {
+                    'moduleId': 'doi',
+                    'name': 'dödsorsaksintyg',
+                    'feature': featureService.features.UNIKT_INTYG_INOM_VG,
+                    'warningKey': 'doi.warn.previouscertificate.samevg'
+                }
+            };
+
+            $scope.$on('intyg.loaded', function(event, intyg){
+                if ($scope.createFromTemplateConfig[$scope.intygstyp]) {
+                    UtkastProxy.getPrevious($scope.viewState.intygModel.grundData.patient.personId, function(existing) {
+                        previousIntyg = existing;
+                    });
+                }
+            });
 
             $scope.user = UserModel;
-            $scope.intygstyp = intygType;
             $scope.intygsnamn = moduleService.getModuleName(intygType);
             // get print features
             $scope.utskrift = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: intygType });
             $scope.arbetsgivarUtskrift = authorityService.isAuthorityActive({ feature: featureService.features.ARBETSGIVARUTSKRIFT, intygstyp: intygType });
 
+            // Förnya feature
+            $scope.fornya = authorityService.isAuthorityActive({ authority: featureService.features.FORNYA_INTYG, intygstyp: intygType });
+
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.tooltip');
             $scope.fornyaBtnTooltipText = messageService.getProperty('common.fornya.tooltip');
             $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.tooltip');
             $scope.employerPrintBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.mininmal.title');
+
+            $scope.statusFieldId = function() {
+                if(!$scope.viewState.common.intygProperties.isSent && !$scope.viewState.common.isIntygOnSendQueue) {
+                    return 'certificate-is-sent-to-it-message-text';
+                } else if(!$scope.viewState.common.intygProperties.isSent && $scope.viewState.common.isIntygOnSendQueue) {
+                    return 'certificate-is-on-sendqueue-to-it-message-text';
+                } else {
+                    return 'certificate-is-sent-to-recipient-message-text';
+                }
+            };
+
+            $scope.generateSentText = function () {
+                if($scope.isRevoked()) {
+                    // Case is handled by wcIntygRelatedRevokedMessage directive.
+                    return '';
+                }
+
+                var patientDeceased = $scope.isPatientDeceased();
+                if(intygType === 'doi' || intygType === 'db') {
+                    // db or doi with patient still alive is impossible, and thus not an option.
+                    patientDeceased = true;
+                }
+                var recipientId = moduleService.getModule(intygType).defaultRecipient;
+                var recipient = messageService.getProperty('common.recipient.' + recipientId.toLowerCase());
+                var vars = {'recipient': recipient};
+
+                if($scope.isSentIntyg()) {
+                    if(intygType === 'db' || intygType === 'doi') {
+                        return messageService.getProperty((intygType + '.label.status.sent'), vars);
+                    } else {
+                        return messageService.getProperty(('common.label.status.sent.patient-' + (patientDeceased ? 'dead' : 'alive')), vars);
+                    }
+                } else {
+                    if (patientDeceased) {
+                        return messageService.getProperty('common.label.status.signed.patient-dead');
+                    } else {
+                        return messageService.getProperty((intygType + '.label.status.signed.patient-alive'), vars);
+                    }
+                }
+            };
 
             $scope.isRevoked = function(){
                 return $scope.viewState.common.intygProperties.isRevoked || $scope.viewState.common.isIntygOnRevokeQueue;
@@ -82,7 +144,7 @@ angular.module('common').controller('common.IntygHeader',
             };
 
             $scope.showFornyaButton = function() {
-                return !($scope.intygstyp === 'ts-bas' || $scope.intygstyp === 'ts-diabetes') &&
+                return $scope.fornya &&
                     !$scope.isRevoked() &&
                     !$scope.isPatientDeceased() && !$scope.isReplaced() && !$scope.isComplemented() &&
                     !($scope.user.user.parameters !== undefined && $scope.user.user.parameters.inactiveUnit) &&
@@ -92,13 +154,24 @@ angular.module('common').controller('common.IntygHeader',
             $scope.showErsattButton = function() {
                 return !$scope.isRevoked() && !$scope.isReplaced() &&
                     !$scope.isComplemented() &&
-                    !$scope.isPatientDeceased() &&
+                    (authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: intygType }) || !$scope.isPatientDeceased()) &&
                     !UserModel.getIntegrationParam('inactiveUnit');
+            };
+
+            $scope.showCreateFromTemplate = function() {
+                return $scope.createFromTemplateConfig[$scope.intygstyp] !== undefined && !$scope.isRevoked() && !$scope.isReplaced() &&
+                    !$scope.isComplemented() && !UserModel.getIntegrationParam('inactiveUnit');
+            };
+
+            $scope.enableCreateFromTemplate = function() {
+                return !($scope.createFromTemplateConfig[$scope.intygstyp].feature === featureService.features.UNIKT_INTYG_INOM_VG &&
+                    previousIntyg[$scope.createFromTemplateConfig[$scope.intygstyp].moduleId] === true);
             };
 
             $scope.send = function() {
                 var onPatientFound = function() {
-                    IntygSend.send($scope.viewState.intygModel.id, intygType, CommonViewState.defaultRecipient,
+                    var recipient = moduleService.getModule(intygType).defaultRecipient;
+                    IntygSend.send($scope.viewState.intygModel.id, intygType, recipient,
                         intygType+'.label.send', intygType+'.label.send.body', function() {
                             // After a send request we shouldn't reload right away due to async reasons.
                             // Instead, we show an info message stating 'Intyget has skickats till mottagaren'
@@ -141,7 +214,7 @@ angular.module('common').controller('common.IntygHeader',
                 });
             };
 
-            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel) {
+            function intygCopyAction (intyg, intygServiceMethod, buildIntygRequestModel, newIntygType) {
                 if (intyg === undefined || intyg.grundData === undefined) {
                     $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
                     return;
@@ -151,6 +224,7 @@ angular.module('common').controller('common.IntygHeader',
                     buildIntygRequestModel({
                         intygId: intyg.id,
                         intygType: intygType,
+                        newIntygType: newIntygType || intygType,
                         patientPersonnummer: intyg.grundData.patient.personId
                     }),
                     isOtherCareUnit
@@ -159,6 +233,10 @@ angular.module('common').controller('common.IntygHeader',
 
             $scope.fornya = function(intyg) {
                 return intygCopyAction(intyg, IntygCopyActions.fornya, IntygFornyaRequestModel.build);
+            };
+
+            $scope.createFromTemplate = function(intyg, newIntygType) {
+                return intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, $scope.createFromTemplateConfig[$scope.intygstyp].moduleId);
             };
 
             $scope.copy = function(intyg) {

@@ -28,12 +28,13 @@ angular.module('common').factory('common.IntygCopyRequestModel',
         /**
          * Constructor
          *
-         * parameters intygId, intygType, patientPersonnummer
+         * parameters intygId, intygType, patientPersonnummer, newIntygType
          */
         function IntygCopyRequestModel(data) {
             this.intygId = data.intygId;
             this.intygType = data.intygType;
             this.patientPersonnummer = data.patientPersonnummer;
+            this.newIntygType = data.newIntygType || data.intygType;
         }
 
         IntygCopyRequestModel.build = function(data) {

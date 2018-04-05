@@ -19,8 +19,8 @@
 
 angular.module('doi').factory('doi.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
+        'common.domain.BaseAtticModel', 'common.ObjectHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ObjectHelper) {
             'use strict';
 
             var DoiModel = BaseAtticModel._extend({
@@ -29,12 +29,23 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                     init._super.call(this, 'doiModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 
                         'identitetStyrkt': undefined,
                         'dodsdatumSakert': undefined,
-                        'dodsdatum': undefined,
+                        'dodsdatum': new ModelAttr('dodsdatum', {
+                            defaultValue: '',
+                            fromTransform: function(fromBackend) {
+                                var toFrontend = fromBackend;
+                                return toFrontend;
+                            },
+                            toTransform: function(fromFrontend) {
+                                var toBackend = angular.copy(fromFrontend);
+                                return toBackend;
+                            }
+                        }),
                         'antraffatDodDatum': undefined,
                         'dodsplatsKommun': undefined,
                         'dodsplatsBoende': undefined,
@@ -42,36 +53,143 @@ angular.module('doi').factory('doi.Domain.IntygModel',
                         'land': undefined,
 
                         'terminalDodsorsak': new ModelAttr('terminalDodsorsak', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }],
+                            // for some reason null doesn't work as default value for specifikation for this component due to ui-select using undefined and null as reference internally
+                            // (default value sometimes won't be matched with the place holder item in the control)
+                            defaultValue : { beskrivning: null, datum: null, specifikation: ''},
                             fromTransform: function(fromBackend) {
-                                return [fromBackend];
+
+                                // Terminal is always an object. convert to array so it works in the same system as everything else
+                                var modelTerminal = fromBackend;
+                                if(!modelTerminal || (!modelTerminal.beskrivning && !modelTerminal.datum && !modelTerminal.specifikation)){
+                                    modelTerminal = this.defaultValue;
+                                }
+
+                                if(!modelTerminal.specifikation){
+                                    modelTerminal.specifikation = '';
+                                }
+
+                                return modelTerminal;
                             },
                             toTransform: function(fromFrontend) {
 
-                                if(Array.isArray(fromFrontend)){
-                                    return fromFrontend[0];
+                                var toBackend = angular.copy(fromFrontend);
+                                if(Array.isArray(toBackend)){
+
+                                    if(toBackend[0].specifikation === ''){
+                                        toBackend[0].specifikation = null;
+                                    }
+
+                                    return toBackend[0];
+                                } else {
+                                    if(toBackend.specifikation === ''){
+                                        toBackend.specifikation = null;
+                                    }
                                 }
 
-                                return fromFrontend;
+                                return toBackend;
                             }
                         }),
                         'foljd': new ModelAttr('foljd', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }]
+                            fromTransform: function(fromBackend) {
+
+                                // for some reason null doesn't work as default value for specifikation for this component due to ui-select using undefined and null as reference internally
+                                // (default value sometimes won't be matched with the place holder item in the control)
+                                var modelFoljdArray = fromBackend;
+                                if(!modelFoljdArray){
+                                    modelFoljdArray = [
+                                        { beskrivning: null, datum: null, specifikation: ''},
+                                        { beskrivning: null, datum: null, specifikation: ''},
+                                        { beskrivning: null, datum: null, specifikation: ''}
+                                    ];
+                                }
+
+                                if(modelFoljdArray.length < 3){
+                                    var missingCount = 3 - modelFoljdArray.length;
+                                    for(var i = 0; i < missingCount; i++){
+                                        modelFoljdArray.push({ beskrivning: null, datum: null, specifikation: ''});
+                                    }
+                                }
+
+                                modelFoljdArray.forEach(function(item){
+                                    if(!item.specifikation){
+                                        item.specifikation = '';
+                                    }
+                                });
+
+                                return modelFoljdArray;
+                            },
+                            toTransform: function(fromFrontend) {
+
+                                var toBackend = angular.copy(fromFrontend);
+                                if(Array.isArray(toBackend)){
+
+                                    toBackend.forEach(function(item){
+                                        if(item.specifikation === ''){
+                                            item.specifikation = null;
+                                        }
+                                    });
+
+                                    // Remove empty rows from the end of array until non-empty row is reached
+                                    for(var i=toBackend.length-1; i>=0; i--) {
+                                        var e1 = ObjectHelper.isEmpty(toBackend[i].beskrivning);
+                                        var e2 = ObjectHelper.isEmpty(toBackend[i].datum);
+                                        var e3 = ObjectHelper.isEmpty(toBackend[i].specifikation);
+                                        if (e1 && e2 && e3) {
+                                            toBackend.splice(i, 1);
+                                        }
+                                        else {
+                                            break;
+                                        }
+                                    }
+
+                                    return toBackend;
+                                }
+
+                                return toBackend;
+                            }
                         }),
                         'bidragandeSjukdomar': new ModelAttr('bidragandeSjukdomar', {
-                            defaultValue : [{
-                                beskrivning: undefined,
-                                datum: '',
-                                specifikation: null
-                            }]
+                            // for some reason null doesn't work as default value for specifikation for this component due to ui-select using undefined and null as reference internally
+                            // (default value sometimes won't be matched with the place holder item in the control)
+                            defaultValue : [{ beskrivning: null, datum: null, specifikation: ''}],
+                            fromTransform: function(fromBackend) {
+
+                                var modelSjukdomsArray = fromBackend;
+                                if(!modelSjukdomsArray || modelSjukdomsArray.length === 0){
+                                    modelSjukdomsArray = this.defaultValue;
+                                }
+
+                                modelSjukdomsArray.forEach(function(item){
+                                    if(!item.specifikation){
+                                        item.specifikation = '';
+                                    }
+                                });
+
+                                return modelSjukdomsArray;
+                            },
+                            toTransform: function(fromFrontend) {
+
+                                var toBackend = angular.copy(fromFrontend);
+                                if(Array.isArray(toBackend)){
+
+                                    toBackend.forEach(function(item){
+                                        if(item.specifikation === ''){
+                                            item.specifikation = null;
+                                        }
+                                    });
+
+                                    toBackend = toBackend.filter(function(item) {
+                                        var e1 = !ObjectHelper.isEmpty(item.beskrivning);
+                                        var e2 = !ObjectHelper.isEmpty(item.datum);
+                                        var e3 = !ObjectHelper.isEmpty(item.specifikation);
+                                        return e1 || e2 || e3;
+                                    });
+
+                                    return toBackend;
+                                }
+
+                                return toBackend;
+                            }
                         }),
 
                         'operation': undefined,

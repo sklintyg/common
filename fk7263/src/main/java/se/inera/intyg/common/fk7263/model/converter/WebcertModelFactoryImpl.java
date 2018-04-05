@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -57,7 +57,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory {
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
         resetDataInUtlatande(template);
 
-        template.setNuvarandeArbete(true);
+        template.setNuvarandeArbete(false);
         template.setArbetsloshet(false);
 
         template.setAvstangningSmittskydd(false);

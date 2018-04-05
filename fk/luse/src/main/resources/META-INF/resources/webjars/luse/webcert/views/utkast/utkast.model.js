@@ -10,6 +10,7 @@ angular.module('luse').factory('luse.Domain.IntygModel',
                     init._super.call(this, 'luseModel', {
 
                         'id': undefined,
+                        'typ': undefined,
                         'textVersion': undefined,
                         'grundData': grundData,
 

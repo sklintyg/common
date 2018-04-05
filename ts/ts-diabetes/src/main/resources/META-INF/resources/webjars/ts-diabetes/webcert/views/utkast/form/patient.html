@@ -12,7 +12,7 @@
                  maxlength="50"
                  wc-focus-on="focusFirstInput"
                  ng-blur="validate()"
-                 ng-disabled="userModel.isDjupintegration()">
+                 ng-disabled="shouldDisableAddressInput">
         </div>
       </div>
     </wc-validation-wrapper>
@@ -28,7 +28,8 @@
                  ng-model="viewState.intygModel.grundData.patient.postnummer"
                  maxlength="6"
                  ng-blur="validate()"
-                 ng-disabled="userModel.isDjupintegration()">
+                 ng-disabled="shouldDisableAddressInput"
+                 wc-number="true">
         </div>
       </div>
     </wc-validation-wrapper>
@@ -43,7 +44,7 @@
                  ng-model="viewState.intygModel.grundData.patient.postort"
                  maxlength="25"
                  ng-blur="validate()"
-                 ng-disabled="userModel.isDjupintegration()">
+                 ng-disabled="shouldDisableAddressInput">
         </div>
       </div>
     </wc-validation-wrapper>

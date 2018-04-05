@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,41 +18,17 @@
  */
 package se.inera.intyg.common.ts_bas.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBException;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -64,7 +40,6 @@ import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -79,6 +54,7 @@ import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
@@ -91,6 +67,28 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
@@ -136,19 +134,17 @@ public class TsBasModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class))).thenReturn(new byte[] {});
+        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), Matchers.eq(false))).thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsBasUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG);
+            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG, false);
         }
     }
 
     @Test
     public void copyContainsOriginalData() throws Exception {
         Scenario scenario = ScenarioFinder.getInternalScenario("valid-maximal");
-        String internalHolder = objectMapper.writeValueAsString(scenario.asInternalModel());
-
-        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), internalHolder);
+        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
 
         assertNotNull(holder);
         TsBasUtlatande utlatande = objectMapper.readValue(holder, TsBasUtlatande.class);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -331,6 +331,7 @@ public class UtlatandeToIntygTest {
         JAXBElement<CVType> cv = (JAXBElement<CVType>) testSvar.get(DIAGNOS_SVAR_6).get(0).getDelsvar().get(0).getContent().get(0);
         assertEquals("DiagnosKod", cv.getValue().getCode());
         assertEquals(Diagnoskodverk.ICD_10_SE.getCodeSystem(), cv.getValue().getCodeSystem());
+        assertEquals("HuvudDiagnosBeskrivning", cv.getValue().getDisplayName());
     }
 
     private void assertAtgard(Map<String, List<Svar>> testSvar) {

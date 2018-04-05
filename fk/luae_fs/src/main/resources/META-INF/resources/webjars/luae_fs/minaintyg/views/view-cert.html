@@ -8,9 +8,8 @@
         <span id="viewCertificateHeader" message key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
-      <div>
-        <span message key="luae_fs.label.pageingress"></span>
-      </div>
+      <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced" default-message-key="luae_fs.label.pageingress"
+                                         replaced-message-key="luae_fs.label.pageingress.ersatt"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span message key="modules.page-header.info.select-recipients-and-send"></span>
@@ -25,7 +24,7 @@
     </div>
 
     <div class="col-xs-12 col-sm-5">
-      <latest-events cert-id="{{cert.id}}" statuses="certMeta.statuses"></latest-events>
+      <latest-events cert-id="{{cert.id}}" events="certMeta.events"></latest-events>
     </div>
   </div>
 </mi-page-head>
@@ -35,21 +34,28 @@
   <div class="row-fluid">
 
     <div mi-spinner label="modules.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
-
+      <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
       <mi-certificate-action-buttons
           cert-model="cert"
           on-send="send(cert)"
           enable-archive="true"
-          enable-print="true">
+          enable-print="true"
+          is-replaced="certMeta.isReplaced">
 
       </mi-certificate-action-buttons>
 
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
-      <mi-compact-certificate-body cert-meta-model="certMeta"></mi-compact-certificate-body>
-      <uv-render-components config="uvConfig" view-data="cert"></uv-render-components>
+      <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig" view-data="cert"></uv-render-components>
 
       <div class="row col-xs-12 text-muted"><br><span message key="modules.view-intyg.end-of-intyg.text"></span></div>
     </div>
     <!-- eof spinner -->
   </div>
 </div>
+
+<mi-view-intyg-error-message
+    id="errorMessage"
+    msg-key="{{errorMessage}}"
+    cert-id="certificateId"
+    ng-if="doneLoading && errorMessage">
+</mi-view-intyg-error-message>

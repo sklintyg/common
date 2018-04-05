@@ -88,7 +88,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                         },
                         FactoryTemplates.annatGrundForMUBeskrivningNoLine
                     ]),
-                    fraga(25, [
+                    fraga(null, [
                         {
                             key: 'motiveringTillInteBaseratPaUndersokning',
                             type: 'multi-text',
@@ -135,6 +135,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             templateOptions: {
                                 relatedFormId: categoryNames[3],
                                 fieldName: 'DIAGNOS',
+                                srsId: '2',
                                 panelClass: 'sit-fmb-medium'
                             },
                             fieldGroup: [
@@ -210,13 +211,14 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             templateOptions: {
                                 relatedFormId: categoryNames[6],
                                 fieldName: 'ARBETSFORMAGA',
+                                srsId: '3',
                                 panelClass: 'sit-fmb-large'
                             },
                             fieldGroup: [
                                 {
                                     key: 'sjukskrivningar', type: 'sjukskrivningar',
                                     templateOptions: {
-                                        label: 'DFR_32.1',
+                                        label: 'FRG_32',
                                         code: 'KV_FKMU_0003',
                                         fields: [
                                             'EN_FJARDEDEL',
@@ -230,7 +232,7 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                             ]
                         }
                     ]),
-                    fraga(25, [
+                    fraga(null, [
                         {
                             key: 'motiveringTillTidigtStartdatumForSjukskrivning',
                             type: 'multi-text',
@@ -358,10 +360,12 @@ angular.module('lisjp').factory('lisjp.FormFactory',
                 kategori(7, categoryNames[7], [
                     fraga(40, [
                         {
+                            wrapper: 'fmb-wrapper',
                             key: 'arbetslivsinriktadeAtgarder',
                             type: 'check-group',
                             templateOptions: {
                                 label: 'FRG_40',
+                                srsId: '4',
                                 required: true,
                                 descLabel: 'DFR_40.2',
                                 code: 'KV_FKMU_0004',

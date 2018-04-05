@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -194,10 +194,8 @@ public class LuseModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-        when(objectMapper.readValue(eq("internal model"), eq(LuseUtlatande.class))).thenReturn(null);
-        when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
 
-        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), null);
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
@@ -205,7 +203,7 @@ public class LuseModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testCreateNewInternalFromTemplateThrowsModuleException() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
     }
 
     @Test

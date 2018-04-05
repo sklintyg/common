@@ -18,11 +18,12 @@
  */
 
 angular.module('common').controller('common.UtkastHeader',
-    ['$scope', '$log', '$stateParams', '$timeout', '$window', 'common.UserModel',
-        'common.messageService', 'common.moduleService', 'common.UtkastProxy', 'common.statService',
-        'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService', 'common.UtkastService', 'common.PatientProxy',
-        function($scope, $log, $stateParams, $timeout, $window, UserModel,
-            messageService, moduleService, UtkastProxy, statService, dialogService, CommonViewState, authorityService, UtkastService, PatientProxy) {
+    ['$scope', '$log', '$stateParams', '$timeout', '$window', 'common.UserModel', 'common.messageService', 'common.moduleService',
+        'common.UtkastProxy', 'common.statService', 'common.dialogService', 'common.UtkastViewStateService', 'common.authorityService',
+        'common.UtkastService', 'common.PatientProxy', '$http',
+        function($scope, $log, $stateParams, $timeout, $window, UserModel, messageService, moduleService,
+            UtkastProxy, statService, dialogService, CommonViewState, authorityService,
+            UtkastService, PatientProxy, $http) {
             'use strict';
 
             $scope.intygsnamn = moduleService.getModuleName(CommonViewState.intyg.type);
@@ -147,8 +148,18 @@ angular.module('common').controller('common.UtkastHeader',
                     onNotFoundOrError, onNotFoundOrError);
             };
 
+            var oldUnload = $window.onbeforeunload;
 
             $window.onbeforeunload = function(event) {
+                $scope.certForm.$commitViewValue();
+                if (oldUnload !== undefined) {
+                    oldUnload(event);
+                    // Timeout is stalled while leave/stay is shown.
+                    $timeout(function() {
+                        $http.get('/api/anvandare/logout/cancel');
+                        $log.debug('Reverting logout if one exists');
+                    }, 500);
+                }
                 if ($scope.certForm.$dirty) {
                     // Trigger a save now. If the user responds with "Leave the page" we may not have time to save
                     // before the page is closed. We could use an ajax request with async:false this will force the
@@ -167,7 +178,7 @@ angular.module('common').controller('common.UtkastHeader',
             };
 
             $scope.$on('$destroy', function() {
-                $window.onbeforeunload = null;
+                $window.onbeforeunload = oldUnload;
             });
         }
     ]

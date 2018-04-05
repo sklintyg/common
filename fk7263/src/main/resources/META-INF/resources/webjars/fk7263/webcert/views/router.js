@@ -171,5 +171,24 @@ angular.module('fk7263').config(function($stateProvider) {
                     controller: 'common.IntygHeader'
                 }
             }
-        });
+        }).state('fk7263-readonly', {
+        url: '/intyg-read-only/fk7263/:certificateId',
+        views: {
+            'content@': {
+                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                controller: 'common.wcIntygReadOnlyViewController',
+                resolve: {
+                    intygsType: function() {
+                        return 'fk7263';
+                    },
+                    ViewConfigFactory: 'fk7263.viewConfigFactory',
+                    DiagnosExtractor: function() {
+                        return function (fk7263Model) {
+                            return fk7263Model.diagnosKod;
+                        };
+                    }
+                }
+            }
+        }
+    });
 });

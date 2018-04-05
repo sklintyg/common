@@ -74,7 +74,9 @@
             if (lineCount <= lineMax) {
                 estimateTag.html(text.slice(lineStart, pos));
 
-                if (estimateTag[0].offsetWidth > maxWidth) {
+                var innerHTML = estimateTag[0].innerHTML;
+                var hasBr = innerHTML.indexOf("<br>") > -1;
+                if (estimateTag[0].offsetWidth > maxWidth || hasBr) {
                     lineCount++;
 
                     if (lineCount > lineMax) {
@@ -84,7 +86,7 @@
 
                     estimateTag.html(text.slice(lineStart, lineEnd));
                     resetElement(estimateTag);
-                    lineStart = lineEnd + 1;
+                    lineStart = hasBr ? pos : lineEnd + 1;
                     estimateTag = createElement();
                     element.append(estimateTag);
                 }
@@ -125,6 +127,10 @@
     }
 
     function resetElement(element, type) {
+        if(type && element[0].innerHTML){
+            var innerHTML = element[0].innerHTML.replace(/<br>/g, "");
+            element[0].innerHTML = innerHTML;
+        }
         element.css({
             position: 'inherit',
             overflow: 'hidden',

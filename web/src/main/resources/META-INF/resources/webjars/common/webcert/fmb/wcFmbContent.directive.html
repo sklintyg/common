@@ -21,10 +21,10 @@
       <h4 class="fmb-sub-headline" id="fmb_heading_{{item.heading}}">
         <span message key="{{'fmb.' + item.heading}}"></span>
       </h4>
-      <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text">{{item.text}}</section>
+      <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.text" ng-bind-html="item.text"></section>
       <section class="fmb-section" id="fmb_text_{{item.heading}}" ng-if="item.list">
         <ul class="fmb-bullet-list" ng-repeat="bullet in item.list track by $index">
-          <li id="fmb_bullet_{{item.heading}}_{{$index}}">{{bullet}}</li>
+          <li id="fmb_bullet_{{item.heading}}_{{$index}}" ng-bind-html="bullet"></li>
         </ul>
       </section>
     </div>

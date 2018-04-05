@@ -157,6 +157,21 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
+        /*
+         * Load all intygstyper about which there should be a warning shown for preexisting intyg
+         */
+        function _getPrevious(patientId, onSuccess, onError) {
+            $log.debug('_getPrevious');
+            var restPath = '/api/utkast/previousIntyg/' + patientId;
+            $http.get(restPath).success(function(data) {
+                $log.debug('_getPrevious got data:' + data);
+                onSuccess(data);
+            }).error(function(data, status) {
+                $log.debug('_getPrevious error :' + status);
+                onError(data);
+            });
+        }
+
         // Return public API for the service
         return {
             getUtkast: _getUtkast,
@@ -167,6 +182,7 @@ angular.module('common').factory('common.UtkastProxy',
             getSigneringsstatus: _getSigneringsstatus,
             signeraUtkast: _signeraUtkast,
             signeraUtkastWithGrp: _signeraUtkastWithGrp,
-            signeraUtkastWithSignatur: _signeraUtkastWithSignatur
+            signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
+            getPrevious: _getPrevious
         };
     });

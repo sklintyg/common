@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -22,13 +22,19 @@ public enum ModuleFeature {
 
     HANTERA_FRAGOR("hanteraFragor"),
     HANTERA_INTYGSUTKAST("hanteraIntygsutkast"),
-    KOPIERA_INTYG("kopieraIntyg"),
+    FORNYA_INTYG("fornyaIntyg"),
     MAKULERA_INTYG("makuleraIntyg"),
+    MAKULERA_INTYG_KRAVER_ANLEDNING("makuleraIntygKraverAnledning"),
     SKAPA_NYFRAGA("skapaNyFraga"),
     SKICKA_INTYG("skickaIntyg"),
+    SIGNERA_SKICKA_DIREKT("signeraSkickaDirekt"),
     UTSKRIFT("utskrift"),
     ARBETSGIVARUTSKRIFT("arbetsgivarUtskrift"),
-    SRS("srs");
+    SRS("srs"),
+    UNIKT_INTYG("uniktIntyg"),
+    UNIKT_INTYG_INOM_VG("uniktIntygInomVg"),
+    HANTERA_INTYGSUTKAST_AVLIDEN("hanteraIntygsutkastAvliden"),
+    TAK_KONTROLL("takKontroll");
 
     private final String name;
 

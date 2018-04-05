@@ -73,7 +73,7 @@ angular.module('fk7263').controller('fk7263.EditCert.Form8bCtrl',
                     var descriptionModelName = nedsattModelName + 'Beskrivning';
                     if (!$scope.field8b[nedsattModelName].workState) {
                         viewState.intygModel.updateToAttic(descriptionModelName);
-                        viewState.intygModel.clear(descriptionModelName);
+                        viewState.intygModel.clear('form8b.'+descriptionModelName, viewState.intygModel.form8b);
                     } else {
                         viewState.intygModel.restoreFromAttic(descriptionModelName);
                     }

@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.doi.model.converter;
 
 import com.google.common.base.Charsets;
@@ -52,10 +70,10 @@ public class TransportToInternalTest {
         assertEquals("terminal dödsorsak", res.getTerminalDodsorsak().getBeskrivning());
         assertEquals(new InternalDate(LocalDate.of(2017, 4, 1)), res.getTerminalDodsorsak().getDatum());
         assertEquals(Specifikation.KRONISK, res.getTerminalDodsorsak().getSpecifikation());
-        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2017, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
-        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2017, 5, 2)), Specifikation.PLOTSLIG),
+        assertEquals(Dodsorsak.create("foljd 1", new InternalDate(LocalDate.of(2016, 5, 1)), Specifikation.KRONISK), res.getFoljd().get(0));
+        assertEquals(Dodsorsak.create("foljd 2", new InternalDate(LocalDate.of(2016, 4, 1)), Specifikation.PLOTSLIG),
                 res.getFoljd().get(1));
-        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2017, 5, 3)), Specifikation.KRONISK), res.getFoljd().get(2));
+        assertEquals(Dodsorsak.create("foljd 3", new InternalDate(LocalDate.of(2016, 3, 1)), Specifikation.KRONISK), res.getFoljd().get(2));
         assertEquals(Dodsorsak.create("bidragande sjukdom 1", new InternalDate(LocalDate.of(2017, 3, 1)), Specifikation.KRONISK),
                 res.getBidragandeSjukdomar().get(0));
         assertEquals(Dodsorsak.create("bidragande sjukdom 2", new InternalDate(LocalDate.of(2017, 3, 2)), Specifikation.PLOTSLIG),

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,16 +18,6 @@
  */
 package se.inera.intyg.common.ts_diabetes.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -37,14 +27,13 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
@@ -60,6 +49,15 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.pdf.BasePdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatande> {
 
@@ -169,13 +167,14 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     @Override
     public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
 
-        final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
+        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 
     @Override
-    public byte[] generatePDF(TsDiabetesUtlatande utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    public byte[] generatePDF(TsDiabetesUtlatande utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
             throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -187,11 +186,11 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
             populatePdfFields(utlatande, fields);
 
             // Decorate PDF depending on the origin of the pdf-call and the status of the utlatande
-            if (!isUtkast(utlatande)) {
+            if (!isUtkast) {
                 createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), applicationOrigin);
             }
             // Add applicable watermarks
-            addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(utlatande), isMakulerad(statuses));
+            addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
             pdfStamper.close();
 

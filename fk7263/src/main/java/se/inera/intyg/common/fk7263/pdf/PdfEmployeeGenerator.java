@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,26 +35,26 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private static final int MARK_AS_EMPLOYER_WC_HEIGTH = 55;
     private static final int MARK_AS_EMPLOYER_WC_WIDTH = 478;
     private static final int MARK_AS_EMPLOYER_MI_HEIGHT = 35;
-    private static final int MARK_AS_EMPLOYER_MI_WIDTH = 468;
+    private static final int MARK_AS_EMPLOYER_MI_WIDTH = 478;
     private static final int MARK_AS_EMPLOYER_START_X = 50;
     private static final int MARK_AS_EMPLOYER_START_Y = 670;
 
     // CHECKSTYLE:OFF LineLength
-    private static final String WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg";
-    private static final String WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort";
+    private static final String WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg.";
+    private static final String WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort.";
     // CHECKSTYLE:ON LineLength
 
     private List<String> selectedOptionalFields;
 
     public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, optionalFields, true);
+        this(intyg, statuses, applicationOrigin, optionalFields, isUtkast, true);
     }
 
     protected PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> selectedOptionalFields,
-            boolean flatten)
+            boolean isUtkast, boolean flatten)
             throws PdfGeneratorException {
         try {
             this.selectedOptionalFields = selectedOptionalFields;
@@ -85,15 +85,12 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             case WEBCERT:
                 generateMinimalPdf();
 
-                // INTYG-4709: THIS SHOULD ONLY EVER EXIST IN WEBCERT 5.3
-                fillBasedOn();
-
                 // perform additional decoration for WC originated pdf
                 maskSendToFkInformation(pdfStamper);
                 mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                         MARK_AS_EMPLOYER_WC_HEIGTH, MARK_AS_EMPLOYER_WC_WIDTH);
 
-                if (!isUtkast(intyg)) {
+                if (!isUtkast) {
                     createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
                 }
 
@@ -103,7 +100,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(intyg), isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
 
             pdfStamper.setFormFlattening(flatten);
@@ -121,6 +118,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private void generateMinimalPdf() {
         // Mandatory fields
         fillPatientDetails();
+        fillBasedOn();
         fillRecommendationsKontaktMedForetagshalsovarden();
         fillCapacityRelativeToNuvarandeArbete();
         fillCapacity();
@@ -146,9 +144,6 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
         }
         if (EmployeeOptionalFields.FUNKTIONSNEDSATTNING.isPresent(optionalFields)) {
             fillDisability(); // Fält 4a
-        }
-        if (EmployeeOptionalFields.INTYGET_BASERAS_PA.isPresent(optionalFields)) {
-            fillBasedOn(); // Fält 4b
         }
         if (EmployeeOptionalFields.AKTIVITETSBEGRANSNING.isPresent(optionalFields)) {
             fillActivityLimitation(); // Fält 5

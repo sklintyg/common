@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -29,6 +29,7 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,15 +61,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         validateOperation(utlatande, validationMessages);
         validateForgiftning(utlatande, validationMessages);
         validateGrunder(utlatande, validationMessages);
-        validateLand(utlatande, validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
-    }
-
-    private void validateLand(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getLand()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "personuppgifter.land", ValidationMessageType.EMPTY);
-        }
     }
 
     private void validateDodsorsak(DoiUtlatande utlatande, List<ValidationMessage> validationMessages) {
@@ -78,7 +72,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         }
         if (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && !utlatande
                 .getTerminalDodsorsak().getDatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.dodsorsakDatum", ValidationMessageType.INVALID_FORMAT);
+            ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.terminalDodsorsak.datum",
+                    ValidationMessageType.INVALID_FORMAT);
         }
     }
 
@@ -87,6 +82,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd",
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
+        // To check R21 we need to keep track of earliest date seen so far.
+        // From beginning its dodsdatum and then each foljd in instance order should be before or equal to the previous dates.
+        LocalDate minDate = (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && utlatande
+                .getTerminalDodsorsak().getDatum().isValidDate())
+                ? utlatande.getTerminalDodsorsak().getDatum().asLocalDate()
+                : LocalDate.MAX;
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
@@ -94,10 +95,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                         "utlatandeOrsak.foljd." + i + ".beskrivning",
                         ValidationMessageType.EMPTY);
             }
-            if (foljd.getDatum() != null && !foljd.getDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages,
-                        "utlatandeOrsak.foljd." + i + ".datum",
-                        ValidationMessageType.INVALID_FORMAT);
+            if (foljd.getDatum() != null) {
+                if (!foljd.getDatum().isValidDate()) {
+                    ValidatorUtil.addValidationError(validationMessages,
+                            "utlatandeOrsak.foljd." + i + ".datum",
+                            ValidationMessageType.INVALID_FORMAT);
+                } else if (foljd.getDatum().asLocalDate().isAfter(minDate)) {
+                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak.foljd." + i + ".datum",
+                            ValidationMessageType.INCORRECT_COMBINATION);
+                } else {
+                    minDate = foljd.getDatum().asLocalDate();
+                }
             }
         }
     }
@@ -117,7 +125,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             if (bidragandeSjukdom.getDatum() != null && !bidragandeSjukdom.getDatum().isValidDate()) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "utlatandeOrsak.bidragandeSjukdomar." + i + ".datum",
-                                ValidationMessageType.INVALID_FORMAT);
+                                ValidationMessageType.INVALID_FORMAT, "common.validation.date.invalid_format");
 
             }
         }
@@ -132,11 +140,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil.addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getOperationDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INVALID_FORMAT);
-            } else if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()
-                    && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getOperationDatum()
-                    .asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
+            } else if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getDodsdatum())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION);
+                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "operation.operationDatum.efterDodsdatum");
+            } else if (ValidatorUtil.isDateAfter(utlatande.getOperationDatum(), utlatande.getAntraffatDodDatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "operation.operationDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "operation.operationDatum.efterAntraffatDodDatum");
+            }
+            if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
+                ValidatorUtil.addValidationError(validationMessages, "operation.operationAnledning", ValidationMessageType.EMPTY);
             }
         } else {
             if (utlatande.getOperationDatum() != null) {
@@ -166,14 +180,31 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.EMPTY);
             } else if (!utlatande.getForgiftningDatum().isValidDate()) {
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INVALID_FORMAT);
-            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate() && utlatande.getForgiftningDatum()
-                    .asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
-                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningDatum",
-                        ValidationMessageType.INCORRECT_COMBINATION);
+            } else if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getDodsdatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "forgiftning.forgiftningDatum.efterDodsdatum");
+            } else if (ValidatorUtil.isDateAfter(utlatande.getForgiftningDatum(), utlatande.getAntraffatDodDatum())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "forgiftning.forgiftningDatum", ValidationMessageType.INCORRECT_COMBINATION,
+                                "forgiftning.forgiftningDatum.efterAntraffatDodDatum");
             }
             // R17
             if (Strings.nullToEmpty(utlatande.getForgiftningUppkommelse()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftningUppkommelse", ValidationMessageType.EMPTY);
+            }
+        } else {
+            if (utlatande.getForgiftningOrsak() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.orsak.incorrect_combination");
+            }
+            if (utlatande.getForgiftningDatum() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.datum.incorrect_combination");
+            }
+            if (utlatande.getForgiftningUppkommelse() != null) {
+                ValidatorUtil.addValidationError(validationMessages, "forgiftning.forgiftning",
+                        ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.forgiftning.uppkommelse.incorrect_combination");
             }
         }
     }

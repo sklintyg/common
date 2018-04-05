@@ -97,9 +97,9 @@ angular.module('common').constant('common.messages', {
         'common.modal.label.employee.body': 'Ett minimalt intyg innehåller endast de uppgifter som enligt sjuklönelagen är obligatoriska att delge arbetsgivaren. Observera att det minimala intyget kan ge arbetsgivaren sämre förutsättningar att stödja patientens rehabilitering och göra nödvändiga arbetsanpassningar.<br><br>Sveriges kommuner och landsting rekommenderar att patienten skickar in ett fullständigt läkarintyg till arbetsgivaren, alternativt skapar ett anpassat intyg på <LINK:minaintyg>',
 
         // Text in copy and fornya (renew) modal dialogs
-        'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
+        'common.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.',
 
-        'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>' +
+        'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>' +
             'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
             '<ul><li>Information om sjukskrivningsperiod.</li>' +
             '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
@@ -125,11 +125,13 @@ angular.module('common').constant('common.messages', {
         'intyg.status.patient.address.pu-intyg.changed': 'Observera att en slagning i nationella personuppgiftstjänsten har genomförts och visar att patientens adress har ändrats sedan det här intyget utfärdades. Intyg kommer fortsättningsvis visa patientens nya adress.',
         'intyg.status.patient.name.pu-integration.changed': 'Observera att namnet som visas i intyget har hämtats från den nationella personuppgiftstjänsten och skiljer sig åt från det som är lagrat i journalsystemet.',
 
+        'intyg.status.patient.address.integration.missing' : 'Observera att en slagning i nationella personuppgiftstjänsten har genomförts eftersom inga adressuppgifter angavs av journalsystemet.',
+
         'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
 
         // Revoke status messages (type agnostic)
-        'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
-        'intyg.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
+        'intyg.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat. <br><br>Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
+        'intyg.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat. <br><br>Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
 
         // draft utkast header form status messages
         'draft.status.incomplete': '<strong>Status:</strong> Utkastet är sparat, men obligatoriska uppgifter saknas.',
@@ -254,6 +256,15 @@ angular.module('common').constant('common.messages', {
         'common.postort': 'Postort',
 
         //////////////////////////////////////////////////////////////////////////////////////////////////
+        // Recipients
+        //////////////////////////////////////////////////////////////////////////////////////////////////
+
+        'common.recipient.fkassa': 'Försäkringskassan',
+        'common.recipient.transp': 'Transportstyrelsen',
+        'common.recipient.skv': 'Skatteverket',
+        'common.recipient.sos': 'Socialstyrelsen',
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////
         // WIP. module specific strings that should be made common. keep working on these!
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -303,39 +314,33 @@ angular.module('common').constant('common.messages', {
         'lisjp.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
         'fk7263.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
 
-        // Status
-        'luse.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luse.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luse.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
+        // Status - signed but not sent
+        'common.label.status.signed.patient-dead': 'Intyget är signerat.<br>',
+        // Same status for fk7263 & lisjp
+        'fk7263.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.',
+        'lisjp.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.',
+        // Same status for luse, luae_na, luae_fs and both ts
+        'luse.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+        'luae_na.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+        'luae_fs.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+        'ts-bas.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+        'ts-diabetes.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+
+        // Status - signed and sent
+        'common.label.status.sent.patient-dead': 'Intyget är signerat och har skickats till ${recipient}s system.',
+        'common.label.status.sent.patient-alive': 'Intyget är signerat och har skickats till ${recipient}s system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
+        'db.label.status.sent': 'Dödsbeviset är signerat och har nu skickats till Skatteverket.<br><br>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!<br><br>Du kan nu avsluta Webcert eller direkt skriva ett dödsorsaksintyg för samma person genom att trycka på knappen "Skriv dödsorsaksintyg" ovan.',
+        'doi.label.status.sent': 'Dödsorsaksintyget är signerat och har nu skickats till Socialstyrelsen.<br><br>Glöm inte att göra en journalanteckning att dödsorsaksintyg är inlämnat!',
+
+
+        // Makulera
         'luse.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-
-        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning': 'Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten',
-        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info': 'Information överförs till fältet {0} vid signering.',
-
-        'luae_na.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luae_na.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luae_na.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
         'luae_na.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-
-        'luae_fs.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luae_fs.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'luae_fs.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
         'luae_fs.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-
-        'lisjp.label.status.sent': 'Intyget är signerat och har skickats till Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'lisjp.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Försäkringskassans system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'lisjp.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till Försäkringskassan kan du skicka intyget direkt till Försäkringskassan åt patienten.',
         'lisjp.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-
-        'ts-bas.label.status.sent': 'Intyget är signerat och har skickats till Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'ts-bas.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'ts-bas.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Transportstyrelsen kan du skicka intyget direkt till Transportstyrelsen åt patienten.',
         'ts-bas.label.makulera.confirmation': 'Transportstyrelsens läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-
         'ts-diabetes.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
-        'ts-diabetes.label.status.sent': 'Intyget är signerat och har skickats till Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'ts-diabetes.label.status.recieved': 'Intyget är signerat, skickat och mottaget av Transportstyrelsens system.<br><br>Intyget är nu tillgängligt för patienten i Mina intyg, som nås via minaintyg.se.',
-        'ts-diabetes.label.status.signed': 'Intyget är signerat. <br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via minaintyg.se. Om patienten inte har möjlighet att skicka intyget elektroniskt till Transportstyrelsen kan du skicka intyget direkt till Transportstyrelsen åt patienten.',
+
 
         // Validation messages
         'luse.validation.grund-for-mu.incorrect_combination_annat_beskrivning': 'Fritextfältet som hör till alternativet Annat under \'Uppgifterna i intyget baseras på\' får endast fyllas i om \'Annan referens valts\'.',
@@ -454,6 +459,9 @@ angular.module('common').constant('common.messages', {
         // END WIP module specific strings
         //////////////////////////////////////////////////////////////////////////////////////////////////
 
+        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning': 'Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten',
+        'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info': 'Information överförs till fältet {0} vid signering.',
+
         //common.sit.* messages are candidates for a fk-common messages.js
         'common.sit.label.sjukskrivning.hoursperweek': 'Patienten arbetar i snitt',
         'common.sit.help.sjukskrivning.hoursperweek': 'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.',
@@ -466,7 +474,11 @@ angular.module('common').constant('common.messages', {
         'common.validation.patient.postadress.missing': 'Postadress saknas.',
         'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
         'common.validation.patient.postort.missing': 'Postort saknas.',
-        'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror',
+        'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror.',
+
+        'common.label.year': 'År',
+        'common.label.month': 'Månad',
+        'common.label.day': 'Dag',
 
         'common.validation.boolean.empty': 'Du måste välja ett alternativ.',
         'common.validation.check-group.empty': 'Du måste välja minst ett alternativ.',
@@ -478,15 +490,20 @@ angular.module('common').constant('common.messages', {
         'common.validation.singledate.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
         'common.validation.single-text.empty': 'Fältet får inte vara tomt.',
         'common.validation.single-text-vertical.empty': 'Fältet får inte vara tomt.',
+        'common.validation.typeahead.empty': 'Fältet får inte vara tomt.',
         'common.validation.underlag.empty': 'Minst en rad måste fyllas i',
         'common.validation.date.empty': 'Fältet får inte vara tomt.',
         'common.validation.date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.date.year.not_selected': 'Du måste ange år och månad.',
+        'common.validation.date.month.not_selected': 'Du måste ange månad.',
         'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
         'common.validation.date-period.invalid_order': 'Startdatum får inte vara efter slutdatum.',
         'common.validation.date-period.period_overlap': 'Datumintervall överlappar.',
         'common.validation.date_out_of_range': 'Datum får inte ligga för långt fram eller tillbaka i tiden.',
+        'common.validation.date_out_of_range_no_future': 'Datum får inte ligga för långt tillbaka i tiden.',
         'common.validation.date_invalid': 'Ogiltigt datum',
         'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
+        'common.validation.date.today.or.earlier': 'Datumet får inte vara senare än dagens datum.',
         'common.validation.diagnos.missing': 'Huvuddiagnos måste anges',
         'common.validation.diagnos0.missing': 'ICD-10 kod saknas på huvuddiagnosen.',
         'common.validation.diagnos0.invalid': 'ICD-10 kod på huvuddiagnosen är ej giltig',
@@ -512,6 +529,7 @@ angular.module('common').constant('common.messages', {
         'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
         'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
         'common.validation.underlag.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+        'common.validation.vaguedate.empty': 'Du måste ange år och månad.',
         'common.validation.vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00',
 
         // Common errors
@@ -550,6 +568,7 @@ angular.module('common').constant('common.messages', {
         'common.error.save.unknown_internal_problem': '<strong>Tappade anslutningen till servern.</strong><br>Det går för tillfället inte att spara ändringar.',
         'common.error.save.invalid_state': '<strong>Tekniskt fel.</strong><br>Intyget kunde inte laddas korrekt. (invalid_state).',
         'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med sekretessmarkering.',
+        'common.error.intyg.read-only.failed.load': 'Intyget kunde inte hämtas.',
 
         // FMB texts
         'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
@@ -557,6 +576,17 @@ angular.module('common').constant('common.messages', {
         'fmb.funktionsnedsattning': 'Om funktionsnedsättning',
         'fmb.aktivitetsbegransning': 'Om aktivitetsbegränsning',
         'fmb.beslutsunderlag_textuellt': 'Sjukskrivningsrekommendation',
+
+        // SRS texts
+        'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',
+        'srs.srsfordiagnose.load.error': 'Tekniskt fel, stöd för bedömning kan inte visas.',
+        'srs.srsfordiagnose.load.nodata': 'Det finns ingen information från bedömningsstödet SRS',
+        'srs.srsfordiagnose.atgarder.missing': 'Det finns inga åtgärdsrekommendationer från bedömningsstödet SRS',
+        'srs.srsfordiagnose.atgarder.highercode': 'Åtgärdsrekommendationer från bedömningsstödet SRS visas för den överordnade diagnoskoden ${code}',
+        'srs.srsfordiagnose.statistik.missing': 'Det finns ingen statistik från bedömningsstödet SRS',
+        'srs.srsfordiagnose.statistik.highercode': 'Statistik från bedömningsstödet SRS visas för den överordnade diagnoskoden ${code}',
+
+
 
         // Fragasvar för FK
         'common.fk.info.loading.existing.qa': 'Hämtar tidigare frågor och svar...',
@@ -572,6 +602,9 @@ angular.module('common').constant('common.messages', {
         'common.fk.fragasvar.error.unknown_internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
         'common.fk.fragasvar.error.authorization_problem': '<strong>Du har inte behörighet att utföra funktionen, kontakta supporten för mer information.</strong>',
         'common.fk.fragasvar.error.data_not_found': '<strong>Intyget kunde inte hittas i intygstjänsten.</strong><br>Intyget är borttaget eller så saknas behörighet.',
+
+        // doubling this since some messages use common.error instead of common.arende.error to use other errors, we should unentangle this mess later
+        'common.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
 
         // Ärendehantering errors
         'common.arende.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',

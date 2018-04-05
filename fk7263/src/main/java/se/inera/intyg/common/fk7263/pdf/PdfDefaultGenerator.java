@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,27 +18,27 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 /**
  * Created by marced on 18/08/16.
  */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
             throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, true);
+        this(intyg, statuses, applicationOrigin, isUtkast, true);
     }
 
-    protected PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean flatten)
+    PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast,
+            boolean flatten)
             throws PdfGeneratorException {
         try {
             this.intyg = intyg;
@@ -64,8 +64,8 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
                     markAsElectronicCopy(pdfStamper);
                 }
 
-                if (!isUtkast(intyg)) {
-                    //Only signed intyg prints should have these decorations
+                if (!isUtkast) {
+                    // Only signed intyg prints should have these decorations
                     createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
                     createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
                 }
@@ -76,7 +76,7 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast(intyg), isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

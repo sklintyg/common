@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -154,7 +154,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -163,13 +163,13 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateNewInternalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @Test
     public void testCreateRenewalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -178,7 +178,7 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateRenewalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @SuppressWarnings("unchecked")
@@ -186,28 +186,28 @@ public class TsParentModuleApiTest {
     public void testPdf() throws Exception {
         final ApplicationOrigin applicationOrigin = ApplicationOrigin.INTYGSTJANST;
         final String fileName = "file name";
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class))).thenReturn(new byte[0]);
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false))).thenReturn(new byte[0]);
         when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn(fileName);
 
-        PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin);
+        PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin, false);
         assertNotNull(res);
         assertEquals(fileName, res.getFilename());
-        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin));
+        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin), eq(false));
         verify(pdfGenerator).generatePdfFilename(any(Utlatande.class));
     }
 
     @SuppressWarnings("unchecked")
     @Test(expected = ModuleSystemException.class)
     public void testPdfPdfGeneratorException() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class)))
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false)))
                 .thenThrow(new PdfGeneratorException("error"));
 
-        moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST);
+        moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, false);
     }
 
     @Test(expected = ModuleException.class)
     public void testPdfEmployer() throws Exception {
-        moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null);
+        moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, false);
     }
 
     @Test

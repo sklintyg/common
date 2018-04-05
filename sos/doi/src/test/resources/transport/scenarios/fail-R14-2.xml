@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ Copyright (C) 2017 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
 <ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3"
                          xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
                          xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
@@ -8,7 +27,7 @@
             <ns3:extension>1234567</ns3:extension>
         </intygs-id>
         <typ>
-            <ns3:code>doi</ns3:code>
+            <ns3:code>DOI</ns3:code>
             <ns3:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns3:codeSystem>
             <ns3:displayName>Dödsorsaksintyg</ns3:displayName>
         </typ>
@@ -102,7 +121,7 @@
         <svar id="9">
             <instans>1</instans>
             <delsvar id="9.1">foljd 1</delsvar>
-            <delsvar id="9.2">2017-05-01</delsvar>
+            <delsvar id="9.2">2016-05-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>90734009</ns3:code>
@@ -114,7 +133,7 @@
         <svar id="9">
             <instans>2</instans>
             <delsvar id="9.1">foljd 2</delsvar>
-            <delsvar id="9.2">2017-05-02</delsvar>
+            <delsvar id="9.2">2016-04-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
@@ -126,7 +145,7 @@
         <svar id="9">
             <instans>3</instans>
             <delsvar id="9.1">foljd 3</delsvar>
-            <delsvar id="9.2">2017-05-03</delsvar>
+            <delsvar id="9.2">2016-03-01</delsvar>
             <delsvar id="9.3">
                 <ns3:cv>
                     <ns3:code>90734009</ns3:code>
@@ -224,17 +243,12 @@
             </delsvar>
         </svar>
         <svar id="11">
-            <delsvar id="11.1">
-                <ns3:cv>
-                    <ns3:code>NI</ns3:code>
-                    <ns3:codeSystem>v3 Code System NullFlavor</ns3:codeSystem>
-                    <ns3:displayName>Uppgift saknas</ns3:displayName>
-                </ns3:cv>
-            </delsvar>
+            <delsvar id="11.1">true</delsvar>
+            <delsvar id="11.2">2016-02-01</delsvar>
             <delsvar id="11.3">anledning</delsvar>
         </svar>
         <svar id="12">
-            <delsvar id="12.1">true</delsvar>
+            <delsvar id="12.1">false</delsvar>
             <delsvar id="12.2">
                 <ns3:cv>
                     <ns3:code>SJALVMORD</ns3:code>

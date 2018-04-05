@@ -99,7 +99,7 @@
 
           <!-- Gamla KOPIERA-knappen. Har bytt namn till Förnya -->
           <button type="button"
-                  wc-authority="KOPIERA_INTYG"
+                  wc-authority="FORNYA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
                   id="fornyaBtn"
@@ -133,6 +133,17 @@
           </button>
 
           <button type="button"
+                  intygstyp="{{intygstyp}}"
+                  id="createFromTemplateBtn"
+                  class="btn btn-info"
+                  ng-if="showCreateFromTemplate()"
+                  ng-disabled="!enableCreateFromTemplate()"
+                  ng-click="createFromTemplate(viewState.intygModel)"
+                  wc-check-vardenhet>
+              Skriv {{createFromTemplateConfig[intygstyp].name}}
+          </button>
+
+          <button type="button"
                   wc-authority="MAKULERA_INTYG"
                   request-origin="!UTHOPP"
                   intygstyp="{{intygstyp}}"
@@ -156,15 +167,17 @@
 
       <div wc-secrecy-mark-message person-id="viewState.intygModel.grundData.patient.personId" type="intyg"></div>
 
+      <div ng-if="showCreateFromTemplate() && !enableCreateFromTemplate()" class="alert alert-warning alert-column">
+        <span message key="{{createFromTemplateConfig[intygstyp].warningKey}}"></span>
+      </div>
+
       <div id="intyg-inline-error" ng-show="viewState.common.inlineErrorMessageKey" class="alert alert-danger alert-column">
         <span message key="{{viewState.common.inlineErrorMessageKey}}"></span>
       </div>
 
       <div class="alert alert-info alert-column" ng-if="!viewState.common.intygProperties.isRevoked && !viewState.common.isIntygOnRevokeQueue">
         <strong>Status:</strong>
-        <span ng-if="viewState.common.intygProperties.isSent" id="certificate-is-sent-to-recipient-message-text" message key="{{intygstyp}}.label.status.recieved"></span>
-        <span ng-if="!viewState.common.intygProperties.isSent && !viewState.common.isIntygOnSendQueue" id="certificate-is-sent-to-it-message-text" message key="{{intygstyp}}.label.status.signed"></span>
-        <span ng-if="!viewState.common.intygProperties.isSent && viewState.common.isIntygOnSendQueue" id="certificate-is-on-sendqueue-to-it-message-text" message key="{{intygstyp}}.label.status.sent"></span>
+        <span id="{{statusFieldId()}}" ng-bind-html="generateSentText()"></span>
       </div>
 
       <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -76,7 +76,7 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
-        return MODULE_ID;
+        return MODULE_ID.toUpperCase();
     }
 
     @Override

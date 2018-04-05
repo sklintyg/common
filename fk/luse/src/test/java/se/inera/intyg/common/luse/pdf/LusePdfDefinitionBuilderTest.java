@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,17 +18,7 @@
  */
 package se.inera.intyg.common.luse.pdf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,20 +27,27 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
+import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
+import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
-import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
-import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 /**
  * Generate variants of a LUSE pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
@@ -86,6 +83,7 @@ public class LusePdfDefinitionBuilderTest {
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatande.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_cornercases_utlatande.json").getFile(), LuseUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luse", "1.0");
 
@@ -113,9 +111,9 @@ public class LusePdfDefinitionBuilderTest {
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuseUtlatande intyg : intygList) {
-            FkPdfDefinition foo = lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
+            FkPdfDefinition foo = lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts));
+                    .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false));
 
             assertNotNull(generatorResult);
 

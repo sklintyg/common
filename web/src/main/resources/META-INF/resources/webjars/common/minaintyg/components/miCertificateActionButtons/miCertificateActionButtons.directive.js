@@ -18,7 +18,8 @@
  */
 
 angular.module('common').directive('miCertificateActionButtons',
-        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', function($log, $state, messageService, listCertService, dialogService) {
+        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', 'MIUser',
+            function($log, $state, messageService, listCertService, dialogService, MIUser) {
             'use strict';
 
             return {
@@ -28,7 +29,9 @@ angular.module('common').directive('miCertificateActionButtons',
                     onSend: '&?', // handler for send button. if attribute not present = not enabled
                     enableArchive: '=', // handler for send button. if attribute not present = not enabled
                     enablePrint: '=', // true/false to show print as pdf button
-                    onCustomizePdf: '&?'  // handler for customize pdf  button. if attribute not present = not enabled
+                    enableCustomize: '=', // boolean, if customize button should be enabled or not
+                    onCustomizePdf: '&?',  // handler for customize pdf  button.
+                    isReplaced: '=' // boolean for telling us whether the cert is replaced or not.
                 },
                 templateUrl: '/web/webjars/common/minaintyg/components/miCertificateActionButtons/miCertificateActionButtons.directive.html',
                 controller: function($scope) {
@@ -36,13 +39,13 @@ angular.module('common').directive('miCertificateActionButtons',
                     $scope.messageService = messageService;
 
                     //pdf download link requires the certificate to be present
-                    $scope.buildPdfLink = function() {
+                    function buildPdfLink() {
                         if ($scope.certModel) {
                             return '/moduleapi/certificate/' + $scope.certModel.typ + '/' + $scope.certModel.id + '/pdf';
                         } else {
                             return undefined;
                         }
-                    };
+                    }
 
 
 
@@ -61,8 +64,15 @@ angular.module('common').directive('miCertificateActionButtons',
                                 //Goto inkorgen
                                 $state.go('inkorg');
                             } else {
-                                // show error view
-                                $state.go('fel', {errorCode: 'couldnotarchivecert'});
+                                _dialogInstance.close();
+                                dialogService.showDialog( $scope, {
+                                    dialogId: 'archive-error-dialog',
+                                    titleId: 'error.generictechproblem.title',
+                                    bodyTextId: 'error.modal.couldnotarchivecert',
+                                    button1text: 'common.close',
+                                    templateUrl: '/app/partials/error-dialog.html',
+                                    autoClose: true
+                                });
                             }
                         });
                     };
@@ -84,7 +94,28 @@ angular.module('common').directive('miCertificateActionButtons',
                             autoClose: false
                         });
                     };
-
+                    $scope.onDownloadClicked = function() {
+                        if (MIUser.sekretessmarkering) {
+                            dialogService.showDialog($scope, {
+                                dialogId: 'mi-downloadpdf-sekretess-dialog',
+                                titleId: 'pdf.sekretessmarkeringmodal.header',
+                                bodyTextId: 'pdf.sekretessmarkeringmodal.body',
+                                button1click: function() {
+                                    window.open(buildPdfLink(), '_blank');
+                                },
+                                button2click: function() {
+                                },
+                                button1id: 'close-fkdialog-logout-button',
+                                button1text: 'pdf.sekretessmarkeringmodal.button1',
+                                button2text: 'pdf.sekretessmarkeringmodal.button2',
+                                button2visible: true,
+                                autoClose: true
+                            });
+                        }
+                        else {
+                            window.open(buildPdfLink(), '_blank');
+                        }
+                    };
                 }
             };
         } ]);

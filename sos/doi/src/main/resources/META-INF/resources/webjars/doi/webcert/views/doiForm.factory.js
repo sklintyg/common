@@ -19,13 +19,13 @@
 
 angular.module('doi').factory('doi.FormFactory',
     ['$log', '$timeout',
-        'common.DateUtilsService', 'common.ObjectHelper', 'common.UserModel',
-        'common.FactoryTemplatesHelper', 'common.DateUtilsService',
+        'common.ObjectHelper', 'common.UserModel',
+        'common.FactoryTemplatesHelper', 'common.SOSFactoryTemplatesHelper',
         function($log, $timeout,
-            DateUtils, ObjectHelper, UserModel, FactoryTemplates) {
+            ObjectHelper, UserModel, FactoryTemplates, SOSFactoryTemplates) {
             'use strict';
 
-
+            // Validation category names matched with backend message strings from InternalDraftValidator
             var categoryNames = {
                 1: 'personuppgifter',
                 2: 'dodsdatumochdodsplats',
@@ -40,85 +40,10 @@ angular.module('doi').factory('doi.FormFactory',
             var fraga = FactoryTemplates.fraga;
 
             var formFields = [
-                kategori(1, categoryNames[1], [
-                    fraga(1, [
-                        {
-                            key: 'identitetStyrkt',
-                            type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_1.1', required: true}
-                        }
-                    ]),
-                    fraga(14, [
-                        {
-                            key: 'land',
-                            type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_14.1', required: true}
-                        }
-                    ])
-                ]),
-                kategori(2, categoryNames[2], [ // R1, R2, R3
-                    fraga(2, [
-                        {
-                            key: 'dodsdatumSakert',
-                            type: 'boolean',
-                            templateOptions: {
-                                label: 'FRG_2',
-                                yesLabel: 'DFR_2.1.SVA_1',
-                                noLabel: 'DFR_2.1.SVA_2',
-                                required: true
-                            }
-                        },
-                        {
-                            key: 'dodsdatum',
-                            type: 'singleDate',
-                            hideExpression: 'model.dodsdatumSakert !== true',
-                            templateOptions: {label: 'DFR_2.2', required: true}
-                        },
-                        {
-                            key: 'dodsdatum',
-                            type: 'vagueDate',
-                            hideExpression: 'model.dodsdatumSakert !== false',
-                            templateOptions: {label: 'DFR_2.2', required: true}
-                        },
-                        {
-                            key: 'antraffatDodDatum',
-                            type: 'singleDate',
-                            hideExpression: 'model.dodsdatumSakert !== false',
-                            templateOptions: {label: 'DFR_2.3', required: true}
-                        }
-                    ]),
-                    fraga(3, [
-                        {
-                            key: 'dodsplatsKommun',
-                            type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_3.1', required: true}
-                        },
-                        {
-                            key: 'dodsplatsBoende',
-                            type: 'radio-group', // R4
-                            templateOptions: {
-                                label: 'DFR_3.2',
-                                code: 'KV_DODSPLATS_BOENDE',
-                                choices: [
-                                    'SJUKHUS',
-                                    'ORDINART_BOENDE',
-                                    'SARSKILT_BOENDE',
-                                    'ANNAN'
-                                ],
-                                required: true
-                            }
-                        }
-                    ])
-                ]),
-                kategori(3, categoryNames[3], [
-                    fraga(4, [
-                        {
-                            key: 'barn',
-                            type: 'boolean',
-                            templateOptions: {label: 'DFR_4.1', required: true}
-                        }
-                    ])
-                ]),
+                FactoryTemplates.adress,
+                SOSFactoryTemplates.identitet(categoryNames[1], true),
+                SOSFactoryTemplates.dodsDatum(categoryNames[2]),
+                SOSFactoryTemplates.barn(categoryNames[3]),
                 kategori(7, categoryNames[7], [
                     fraga(8, [
                         {
@@ -127,57 +52,58 @@ angular.module('doi').factory('doi.FormFactory',
                         },
                         {
                             key: 'terminalDodsorsak',
-                            type: 'dodsorsak', // R9
+                            type: 'dodsorsakTerminalFoljd', // R9
                             templateOptions: {
                                 label: 'FRG_8',
-                                maxRows: 1,
                                 orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
+                                    'PLOTSLIG',
                                     'KRONISK',
-                                    'PLOTSLIG'
+                                    'UPPGIFT_SAKNAS'
                                 ],
-                                beskrivningLabel: 'DFR_8.1',
-                                datumLabel: 'DFR_8.2',
-                                orsakLabel: ''
-                            }
-                        }
-                    ]),
-                    fraga(9, [
-                        {
-                            key: 'foljd',
-                            type: 'dodsorsak', // R10
-                            templateOptions: {
-                                label: 'FRG_9',
-                                maxRows: 3,
-                                orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
-                                    'KRONISK',
-                                    'PLOTSLIG'
-                                ],
-                                beskrivningLabel: 'DFR_9.1',
-                                datumLabel: 'DFR_9.2',
-                                orsakLabel: ''
+                                letter: 'A',
+                                required: false,
+                                htmlMaxlength: 140,
+                                beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                datumLabel: 'DELAT_TEXT.DEBUT',
+                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
+                                foljd: {
+                                    key: 'foljd',
+                                    maxRows: 3,
+                                    required: false,
+                                    htmlMaxlength: 140,
+                                    letter: ['B', 'C', 'D'],
+                                    label: 'FRG_9',
+                                    beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                    datumLabel: 'DELAT_TEXT.DEBUT',
+                                    orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
+                                    orsaksTyper: [
+                                        'PLOTSLIG',
+                                        'KRONISK',
+                                        'UPPGIFT_SAKNAS'
+                                    ]
+                                }
                             }
                         }
                     ]),
                     fraga(10, [
                         {
                             type: 'headline',
-                            templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2'}
+                            templateOptions: {id: 'KAT_7.2', label: 'KAT_7.2', bold: true}
                         },
                         {
                             key: 'bidragandeSjukdomar',
-                            type: 'dodsorsak', // R11
+                            type: 'dodsorsakMulti', // R11
                             templateOptions: {
                                 maxRows: 8,
+                                htmlMaxlength: 45,
                                 orsaksTyper: [
-                                    'UPPGIFT_SAKNAS',
+                                    'PLOTSLIG',
                                     'KRONISK',
-                                    'PLOTSLIG'
+                                    'UPPGIFT_SAKNAS'
                                 ],
-                                beskrivningLabel: 'DFR_10.1',
-                                datumLabel: 'DFR_10.2',
-                                orsakLabel: ''
+                                beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
+                                datumLabel: 'DELAT_TEXT.DEBUT',
+                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION'
                             }
                         }
                     ])
@@ -189,7 +115,7 @@ angular.module('doi').factory('doi.FormFactory',
                             type: 'radio-group', // R12
                             templateOptions: {
                                 label: 'DFR_11.1',
-                                code: 'KV_OMOPERATION',
+                                code: 'DFR_11.1',
                                 choices: [
                                     'JA',
                                     'NEJ',
@@ -207,7 +133,8 @@ angular.module('doi').factory('doi.FormFactory',
                         {
                             key: 'operationAnledning',
                             type: 'single-text-vertical',
-                            templateOptions: {label: 'DFR_11.3', required: true}
+                            hideExpression: 'model.operation !== "JA"', // R13
+                            templateOptions: {label: 'DFR_11.3', required: true, htmlMaxlength: 100}
                         }
                     ])
                 ]),
@@ -227,7 +154,7 @@ angular.module('doi').factory('doi.FormFactory',
                             hideExpression: 'model.forgiftning !== true', // R14
                             templateOptions: {
                                 label: 'DFR_12.2',
-                                code: 'KV_ORSAK',
+                                code: 'ORSAK',
                                 choices: [
                                     'OLYCKSFALL',
                                     'SJALVMORD',
@@ -247,7 +174,7 @@ angular.module('doi').factory('doi.FormFactory',
                             key: 'forgiftningUppkommelse',
                             type: 'multi-text',
                             hideExpression: 'model.forgiftning !== true', // R17
-                            templateOptions: {label: 'DFR_12.4', required: true}
+                            templateOptions: {label: 'DFR_12.4', required: true, htmlMaxlength: 400}
                         }
                     ])
                 ]),
@@ -260,7 +187,7 @@ angular.module('doi').factory('doi.FormFactory',
                                 label: 'DFR_13.1',
                                 required: true,
                                 descLabel: 'DFR_13.1',
-                                code: 'KV_DODSORSAKSUPPGIFTER',
+                                code: 'DODSORSAKSUPPGIFTER',
                                 choices: [
                                     'UNDERSOKNING_FORE_DODEN',
                                     'UNDERSOKNING_EFTER_DODEN',

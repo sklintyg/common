@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,6 +23,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A way of handling Dates in our internal model that allows faulty user input,
@@ -39,6 +41,8 @@ public class InternalDate {
     private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
     private static final String GENERAL_DATE_FORMAT = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+    private static final String GENERAL_DATE_FORMAT_YEAR = "([0-9]{4})-.*";
+    private static final String GENERAL_DATE_FORMAT_MONTH = ".*-([0-9]{2})-.*";
     private static final DateTimeFormatter PARSER = DateTimeFormatter.ISO_DATE;
 
     private String date;
@@ -125,6 +129,38 @@ public class InternalDate {
 
     public boolean isCorrectFormat() {
         return date.matches(GENERAL_DATE_FORMAT);
+    }
+
+    public boolean isYearCorrectFormat() {
+        return date.matches(GENERAL_DATE_FORMAT_YEAR);
+    }
+
+    public boolean isMonthCorrectFormat() {
+        return date.matches(GENERAL_DATE_FORMAT_MONTH);
+    }
+
+    public boolean vagueDateInFuture() {
+        LocalDate now = LocalDate.now();
+
+        // This needs to be done on the string level since date parts can be 00, not parsable by LocalDate.parse
+        Pattern yearPattern = Pattern.compile(GENERAL_DATE_FORMAT_YEAR);
+        Matcher yearMatcher = yearPattern.matcher(date);
+        if (yearMatcher.matches()) {
+            if (yearMatcher.group(1).compareTo(Integer.toString(now.getYear())) > 0) {
+                return true;
+            }
+
+            Pattern monthPattern = Pattern.compile(GENERAL_DATE_FORMAT_MONTH);
+            Matcher monthMatcher = monthPattern.matcher(date);
+            if (monthMatcher.matches()) {
+                if (yearMatcher.group(1).equals(Integer.toString(now.getYear()))
+                        && (Integer.parseInt(monthMatcher.group(1)) - now.getMonth().getValue()) > 0) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -19,8 +19,9 @@
 
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        'common.IntygViewStateService', 'common.ArendeListViewStateService',
-        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState, ArendeListViewStateService) {
+        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService', 'common.messageService',
+        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState,
+            ArendeListViewStateService, moduleService, featureService, messageService) {
             'use strict';
 
             // Makulera dialog setup
@@ -33,9 +34,15 @@ angular.module('common').factory('common.IntygMakulera',
                 dialogModel.showerror = false;
 
                 var revokeMessage = {
-                    message : dialogModel.labels[dialogModel.makuleraModel.reason] + '. ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason],
+                    message : '',
                     reason : dialogModel.makuleraModel.reason
                 };
+                if (dialogModel.makuleraModel.reason) {
+                    revokeMessage.message += dialogModel.labels[dialogModel.makuleraModel.reason];
+                    if (dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason]) {
+                        revokeMessage.message += ' ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
+                    }
+                }
                 revokeMessage.message.trim();
 
                 function onMakuleraComplete() {
@@ -60,7 +67,7 @@ angular.module('common').factory('common.IntygMakulera',
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
                 // Only show tooltip for FK-intyg
-                var isFkIntyg = CommonViewState.defaultRecipient === 'FKASSA' ? true : false;
+                var isFkIntyg = moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient === 'FKASSA' ? true : false;
 
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
@@ -73,12 +80,22 @@ angular.module('common').factory('common.IntygMakulera',
                         );
                 }
 
+                function getMakuleraText() {
+                    var textId = CommonViewState.intygProperties.type + '.makulera.body.common-header';
+                    if (!messageService.propertyExists(textId)) {
+                        // If intyg hasn't specified a text, fall back to common text
+                        textId = 'label.makulera.body.common-header';
+                    }
+                    return textId;
+                }
+
                 var dialogMakuleraModel = {
                     isFkIntyg: isFkIntyg,
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
                     focus: false,
+                    bodyTextId: getMakuleraText(),
                     errormessageid: 'error.failedtomakuleraintyg',
                     showerror: false,
                     labels: {},
@@ -89,7 +106,7 @@ angular.module('common').factory('common.IntygMakulera',
                     }
                 };
 
-                if (CommonViewState.intygProperties.type !== 'db' && CommonViewState.intygProperties.type !== 'doi') {
+                if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, CommonViewState.intygProperties.type)) {
                     dialogMakuleraModel.labels = {
                         'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
                         'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'

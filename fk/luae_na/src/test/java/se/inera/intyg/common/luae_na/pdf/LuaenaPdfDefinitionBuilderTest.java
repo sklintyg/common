@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -110,9 +110,9 @@ public class LuaenaPdfDefinitionBuilderTest {
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuaenaUtlatande intyg : intygList) {
-            FkPdfDefinition foo = luaenaPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts);
+            FkPdfDefinition foo = luaenaPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(luaenaPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts));
+                    .generatePdf(luaenaPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false));
 
             assertNotNull(generatorResult);
 

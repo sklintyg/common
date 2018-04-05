@@ -170,4 +170,43 @@ describe('IntygCopyService', function() {
         });
     });
 
+    describe('createFromTemplate', function() {
+
+        var intyg;
+        var $scope;
+        beforeEach(function() {
+            intyg = {
+                'intygId': 'intyg-1', 'source': 'IT', 'intygType': 'intygtype1', 'status': 'SENT', 'newIntygType': 'fk7263',
+                'lastUpdatedSigned': '2011-03-23T09:29:15.000', 'updatedSignedBy': 'Eva Holgersson', 'vidarebefordrad': false,
+                'grundData' : { 'patient' : { 'personId': '19121212-1212'}}
+            };
+            $scope = {
+                viewState: {
+                    activeErrorMessageKey: null,
+                    inlineErrorMessageKey: null,
+                    common: {
+                        intygProperties: {
+                            latestChildRelations: {}
+                        }
+                    }
+                },
+                dialog: {
+                    showerror: false,
+                    acceptprogressdone: false,
+                    errormessageid: null
+                }
+            };
+            spyOn($state, 'go').and.callThrough();
+        });
+
+        it('should request a utkast', function() {
+            $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/' + intyg.newIntygType + '/create/').respond(
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+            );
+            IntygCopyActions.createFromTemplate($scope.viewState, intyg);
+            $httpBackend.flush();
+            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
+        });
+    });
+
 });

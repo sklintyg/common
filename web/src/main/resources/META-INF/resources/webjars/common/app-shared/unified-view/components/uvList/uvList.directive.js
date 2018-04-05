@@ -54,7 +54,7 @@ angular.module('common').directive('uvList', [ 'uvUtil', function(uvUtil) {
                     if ($scope.config.labelKey.indexOf('{var}') !== -1 && listData) {
                         tempListData = listData.map(function(item) {
                             var result = $scope.config.labelKey;
-                            return result.replace('{var}', item[$scope.config.listKey]);
+                            return result.replace('{var}', typeof item === 'object' ? item[$scope.config.listKey] : item);
                         });
                     } else {
                         tempListData = listData;

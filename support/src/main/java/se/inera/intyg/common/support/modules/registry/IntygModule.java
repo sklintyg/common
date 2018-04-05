@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -34,8 +34,11 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String dependencyDefinitionPath;
 
+    private String defaultRecipient;
+
+    // CHECKSTYLE:OFF ParameterNumber
     public IntygModule(String id, String label, String description, String detailedDescription, String cssPath, String scriptPath,
-            String dependencyDefinitionPath) {
+            String dependencyDefinitionPath, String defaultRecipient) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -43,7 +46,9 @@ public class IntygModule implements Comparable<IntygModule> {
         this.cssPath = cssPath;
         this.scriptPath = scriptPath;
         this.dependencyDefinitionPath = dependencyDefinitionPath;
+        this.defaultRecipient = defaultRecipient;
     }
+    // CHECKSTYLE:ON ParameterNumber
 
     public String getId() {
         return id;
@@ -78,6 +83,10 @@ public class IntygModule implements Comparable<IntygModule> {
 
     public String getDependencyDefinitionPath() {
         return dependencyDefinitionPath;
+    }
+
+    public String getDefaultRecipient() {
+        return defaultRecipient;
     }
 
     @Override

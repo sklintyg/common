@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -78,7 +78,8 @@ public final class PdfGenerator {
     }
 
     public static String generatePdfFilename(Personnummer personId, String fileNamePrefix) {
-        final String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
+        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
+        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
         return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
     }
 }

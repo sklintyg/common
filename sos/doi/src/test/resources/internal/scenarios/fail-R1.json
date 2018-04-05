@@ -2,7 +2,7 @@
   "typ": "doi",
   "identitetStyrkt": "körkort",
   "dodsdatumSakert": true,
-  "dodsdatum": "2017-01",
+  "dodsdatum": "2017-01-00",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": true,
@@ -14,17 +14,17 @@
   "foljd": [
     {
       "beskrivning": "foljd 1",
-      "datum": "2017-05-01",
+      "datum": "2016-05-01",
       "specifikation": "KRONISK"
     },
     {
       "beskrivning": "foljd 2",
-      "datum": "2017-05-02",
+      "datum": "2016-04-01",
       "specifikation": "PLOTSLIG"
     },
     {
       "beskrivning": "foljd 3",
-      "datum": "2017-05-03",
+      "datum": "2016-03-01",
       "specifikation": "KRONISK"
     }
   ],

@@ -14,7 +14,7 @@
     border-top:0;
   }
   ul {
-    padding-left: 15px;
+    padding-left: 20px;
   }
 
   h3, h4, label {
@@ -37,7 +37,7 @@
   }
 
   .value-part {
-    padding-top:0;
+    padding-top: 5px;
   }
 
   .unselected {
@@ -46,11 +46,6 @@
 
   .inclusion {
     text-align: right;
-
-    @media (max-width: 767px) {
-      text-align: left;
-    }
-
     margin-top: 20px;
 
     .mandatory {
@@ -68,6 +63,7 @@
   /**  summary list overrides */
   .row {
     &.summary {
+      line-height: 1.1;
       padding-top: 20px;
       h3 {
         font-size: 14px;
@@ -75,6 +71,10 @@
         padding-top: 0;
         margin-top: 0;
 
+        .icon {
+          float: right;
+          margin-left: 5px;
+        }
       }
 
       h4 {
@@ -83,6 +83,13 @@
         font-size: 14px;
         font-weight: normal;
 
+      }
+      div.text {
+        line-height: 1.1;
+      }
+
+      .inline-single-value {
+        padding-bottom: 8px;
       }
     }
 
@@ -96,19 +103,27 @@
       }
       ul {
         padding-left: 0;
+        @media (max-width: 768px) {
+          padding-left: 20px;
+        }
       }
     }
 
-    .icon.excluded-icon {
-      color: red;
-    }
-    .icon.included-icon {
-      color: green;
-      font-size: 18px;
+    .icon {
+      line-height: 1;
+
+      &.excluded-icon {
+        color: #FF0000;
+      }
+
+      &.included-icon {
+        color: #008000;
+        font-size: 18px;
+      }
     }
   }
 
   .asterix {
-    color: red;
+    color: #FF0000;
   }
 }

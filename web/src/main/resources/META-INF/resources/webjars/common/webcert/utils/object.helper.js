@@ -19,6 +19,17 @@ angular.module('common').factory('common.ObjectHelper',
             valueOrNull: function(value) {
                 return value !== null && value !== undefined ? value : null;
             },
+            stringBoolToBool: function(value){
+                return value === true || value === 'true';
+            },
+            stringBoolToBoolUndefinedTrue: function(value){
+                if(!this.isDefined(value)){
+                    return true;
+                } else {
+                    return value === true || value === 'true';
+                }
+            },
+
             /**
              * Deep get property from an object
              * @param  {Object} obj  Nested object to get values from

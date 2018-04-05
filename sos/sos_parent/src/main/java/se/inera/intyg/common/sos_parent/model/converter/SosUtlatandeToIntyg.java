@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -42,6 +42,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContentFillWithZeros;
 
 /**
  * Converters for shared svar between DB and DOI.
@@ -62,7 +63,7 @@ public final class SosUtlatandeToIntyg {
             if (utlatande.getDodsdatumSakert() != null) {
                 dodsdatum.withDelsvar(DODSDATUM_SAKERT_DELSVAR_ID, utlatande.getDodsdatumSakert().toString());
             }
-            dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, getInternalDateContent(utlatande.getDodsdatum()));
+            dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, getInternalDateContentFillWithZeros(utlatande.getDodsdatum()));
             if (utlatande.getAntraffatDodDatum() != null) {
                 dodsdatum.withDelsvar(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getAntraffatDodDatum()));
             }

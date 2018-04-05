@@ -55,12 +55,19 @@ angular.module('common').factory('uvTableService',
                 createRowsFromObjectModel: function(config, model){
                     var rows = [];
                     var colProps = config.colProps;
-                    angular.forEach(colProps, function(colProp, rowIndex){
-                        var cellModel = model[colProp];
-                        if(angular.isDefined(cellModel)){
-                            this.push(_createRow(config, model[colProp], colProp, rowIndex));
-                        }
-                    }, rows);
+
+                    if(!colProps){
+                        // Handle single object without colProps defined
+                        rows.push(_createRow(config, model, null, 0));
+                    } else {
+                        angular.forEach(colProps, function(colProp, rowIndex){
+                            var cellModel = model[colProp];
+                            if(angular.isDefined(cellModel)){
+                                this.push(_createRow(config, model[colProp], colProp, rowIndex));
+                            }
+                        }, rows);
+                    }
+
                     return rows;
                 }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -56,13 +56,14 @@ public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
     }
 
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin) throws ModuleException {
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+            throws ModuleException {
         try {
             LuaenaUtlatande luaenaIntyg = getInternal(internalModel);
             LuaenaPdfDefinitionBuilder builder = new LuaenaPdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuaenaEntryPoint.MODULE_ID, luaenaIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaenaIntyg, statuses, applicationOrigin, texts);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaenaIntyg, statuses, applicationOrigin, texts, isUtkast);
             Personnummer personId = luaenaIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
@@ -74,7 +75,7 @@ public class LuaenaModuleApi extends FkParentModuleApi<LuaenaUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields)
+            List<String> optionalFields, boolean isUtkast)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,23 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import com.google.common.base.Strings;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.bind.JAXBElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -45,11 +56,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import javax.xml.bind.JAXBElement;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
  */
@@ -63,8 +69,8 @@ public final class TransportConverterUtil {
     /**
      * Checks if delsvar can be parsed as string content.
      *
-     * @param delsvar The Delsvar to parse.
-     * @return if delsvar can be parsed as string content:
+     * @param delsvar the Delsvar to parse
+     * @return if delsvar can be parsed as string content
      */
     public static boolean isStringContent(Delsvar delsvar) {
         return delsvar.getContent().stream().allMatch(a -> a instanceof String);
@@ -73,8 +79,8 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a non-empty String from a Delsvar.
      *
-     * @param delsvar The Delsvar to parse.
-     * @return The non-empty String content of the Delsvar.
+     * @param delsvar the Delsvar to parse
+     * @return the non-empty String content of the Delsvar
      */
     public static String getStringContent(Delsvar delsvar) {
         return delsvar.getContent().stream()
@@ -86,9 +92,9 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a CVType from a Delsvar.
      *
-     * @param delsvar The Delsvar to parse.
-     * @return CVType
-     * @throws ConverterException
+     * @param delsvar the Delsvar to parse
+     * @return the CVType converted from the delsvar
+     * @throws ConverterException if the conversion was not successful
      */
     public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
         for (Object o : delsvar.getContent()) {
@@ -141,8 +147,8 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
      *
-     * @param delsvar
-     * @throws ConverterException
+     * @param delsvar the delsvar to be converted
+     * @throws ConverterException if the conversion was not successful
      */
     public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
         for (Object o : delsvar.getContent()) {
@@ -180,6 +186,14 @@ public final class TransportConverterUtil {
         throw new ConverterException("Unexpected outcome while converting DatePeriodType");
     }
 
+    /**
+     * Parses the {@link GrundData} from the source Intyg.
+     *
+     * @param source              the certificate to be converted
+     * @param extendedPatientInfo boolean flag to determine if all patient info should be included (should never be used for certificates
+     *                            on patients with sekretessmarkering)
+     * @return the converted GrundData
+     */
     public static GrundData getGrundData(Intyg source, boolean extendedPatientInfo) {
         GrundData grundData = new GrundData();
         grundData.setPatient(getPatient(source.getPatient(), extendedPatientInfo));
@@ -191,6 +205,13 @@ public final class TransportConverterUtil {
         return grundData;
     }
 
+    /**
+     * Creates the metadata for the certificate.
+     *
+     * @param source         the source certificate
+     * @param additionalInfo the info to be displayed in Mina intyg
+     * @return the meta data
+     */
     public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
         CertificateMetaData metaData = new CertificateMetaData();
         metaData.setCertificateId(source.getIntygsId().getExtension());
@@ -199,10 +220,31 @@ public final class TransportConverterUtil {
         metaData.setFacilityName(source.getSkapadAv().getEnhet().getEnhetsnamn());
         metaData.setSignDate(source.getSigneringstidpunkt());
         metaData.setStatus(getStatusList(source.getStatus()));
+        metaData.setAvailable(isAvailable(metaData.getStatus()));
         metaData.setAdditionalInfo(additionalInfo);
         return metaData;
     }
 
+    private static boolean isAvailable(List<Status> statuses) {
+        final Optional<Status> latestStatus = statuses.stream()
+                .filter(s -> CertificateState.RESTORED.equals(s.getType()) || CertificateState.DELETED.equals(s.getType()))
+                .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed())).findFirst();
+
+        // If neither DELETED or RESTORED at all, it's considered available
+        if (!latestStatus.isPresent()) {
+            return true;
+        } else {
+            // It's available if the latest of these types of statues is a RESTORED status event
+            return CertificateState.RESTORED.equals(latestStatus.get().getType());
+        }
+    }
+
+    /**
+     * Converts a list of statuses of transport format to internal representation.
+     *
+     * @param certificateStatuses the statuses to be converted
+     * @return the converted statuses
+     */
     public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
         List<Status> statuses = new ArrayList<>(certificateStatuses.size());
         for (IntygsStatus certificateStatus : certificateStatuses) {
@@ -211,6 +253,12 @@ public final class TransportConverterUtil {
         return statuses;
     }
 
+    /**
+     * Converts a single status on transport format.
+     *
+     * @param certificateStatus the status to be converted
+     * @return the converted status
+     */
     public static Status getStatus(IntygsStatus certificateStatus) {
         return new Status(
                 StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
@@ -218,6 +266,12 @@ public final class TransportConverterUtil {
                 certificateStatus.getTidpunkt());
     }
 
+    /**
+     * Returns an internal representation of the creator of the certificate.
+     *
+     * @param source the creator in transport format
+     * @return the converted creator
+     */
     public static HoSPersonal getSkapadAv(HosPersonal source) {
         HoSPersonal personal = new HoSPersonal();
         personal.setPersonId(source.getPersonalId().getExtension());
@@ -235,6 +289,12 @@ public final class TransportConverterUtil {
         return personal;
     }
 
+    /**
+     * Converts an Enhet to internal representation.
+     *
+     * @param source the transport representation
+     * @return the converted Vardenhet
+     */
     public static Vardenhet getVardenhet(Enhet source) {
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setPostort(source.getPostort());
@@ -249,6 +309,12 @@ public final class TransportConverterUtil {
         return vardenhet;
     }
 
+    /**
+     * Converts a Vardgivare to internal representation.
+     *
+     * @param source the transport representation
+     * @return the converted Vardgivare
+     */
     public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare source) {
         Vardgivare vardgivare = new Vardgivare();
         vardgivare.setVardgivarid(source.getVardgivareId().getExtension());
@@ -256,6 +322,14 @@ public final class TransportConverterUtil {
         return vardgivare;
     }
 
+    /**
+     * Converts the transport representation of the patient to internal.
+     *
+     * @param source              the transport representation
+     * @param extendedPatientInfo if sensitive patient data should be included
+     *                            (should never be used for certificates which can be used for patients with sekretessmarkering)
+     * @return the converted patient
+     */
     public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {
         Patient patient = new Patient();
         String pnr = source.getPersonId().getExtension();

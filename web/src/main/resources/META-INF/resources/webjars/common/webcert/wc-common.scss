@@ -105,7 +105,9 @@
   @import 'fmb/_fmb.scss';
   @import 'fmb/wcHelpWrapper.scss';
   @import 'gui/formly/diagnos.scss';
-  @import 'gui/formly/dodsorsak.scss';
+  @import 'gui/formly/dodsorsakMulti.scss';
+  @import 'gui/formly/dodsorsakRow.scss';
+  @import 'gui/formly/dodsorsakTerminalFoljd.scss';
   @import 'gui/formly/prognos.scss';
   @import 'gui/formly/sjukskrivningar.scss';
   @import 'gui/formly/underlag.scss';
@@ -120,12 +122,16 @@
   @import 'gui/wcIntygRelatedOtherIntygMessage.directive.scss';
   @import 'gui/wcIntygRelatedRevokedMessage.directive.scss';
   @import 'gui/wcNewPersonIdMessage.scss';
+  @import 'gui/wcPatientAddressMissingFromIntegrationMessage.scss';
   @import 'gui/wcPatientInfoChangeMessage.scss';
+  @import 'gui/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
+  @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
   @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
   @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
   @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
   @import 'intyg/unified-view/wcInlineKomplettering.directive.scss';
   @import 'srs/_srs.scss';
+  @import 'srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.scss';
   // endinjector
 
   %font-common {
@@ -556,6 +562,10 @@
   /* Used in fk7263 intygstyper. Maybe move it there */
   .multiline {
     white-space: pre-line;
+  }
+
+  .white-space-normal {
+    white-space: normal;
   }
 
   /* Used in some jsps */
@@ -1056,4 +1066,13 @@ wc cookie banner css.
         top:40%;
         text-align:center;
       }
+}
+
+.text-8-lines {
+  max-height: 13em;
+  overflow-y: auto;
+}
+
+.date-width {
+  width: 130px;
 }

@@ -52,10 +52,6 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
             var rows = parseInt(scope.attrs.rows, 10);
             var lineHeight = _getLineHeight(node, rows);
 
-            // user input, copy, paste, cut occurrences
-            element.on('input', adjust);
-            element.on('keyup', adjust);
-
             if (ctrl){
                 // view value changed from ngModelController - textarea content changed via javascript
                 scope.$watch(function(){
@@ -99,9 +95,6 @@ angular.module('common').directive('autoExpand', ['$window', '$sniffer', functio
             }
 
             function cleanUp() {
-                element.off('input', adjust);
-                element.off('keyup', adjust);
-
                 angular.element($window).off('resize', adjust);
             }
 

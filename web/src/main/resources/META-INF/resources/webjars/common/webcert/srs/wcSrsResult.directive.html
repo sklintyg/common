@@ -1,13 +1,13 @@
 <div id="srsResult{{id}}">
-    <div ng-if="srsViewState.prediktionInfo && srsViewState.prediction.statusCode">
+    <div ng-if="srsViewState.prediktionInfo">
         <wc-srs-info-box message-string="srsViewState.prediktionInfo"></wc-srs-info-box>
     </div>
-    <div ng-if="srsViewState.prediktionError && srsViewState.prediction.statusCode">
+    <div ng-if="srsViewState.prediktionError">
         <wc-srs-error-box message-string="srsViewState.prediktionError"></wc-srs-error-box>
     </div>
     <div id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box alert alert-danger">
                 <img ng-src="{{srsViewState.riskImage}}" alt="">
-        {{srsViewState.prediction.level + ' ' + srsViewState.prediction.description}}
+        {{srsViewState.prediction.description}}
         <div 
         style="float:right"
         class="glyphicon glyphicon-question-sign"
@@ -28,9 +28,14 @@
             <div ng-if="srsViewState.atgarderError">
                 <wc-srs-error-box message-string="srsViewState.atgarderError"></wc-srs-error-box>
             </div>
-            <div id="atgarderObs" ng-if="status.open && srsViewState.atgarder && srsViewState.atgarder.atgarderObs && parentHasRendered()" clamp="3">{{srsViewState.atgarder.atgarderObs}}</div>
-                <br><br>
-    
+            <div id="atgarderObs" ng-if="status.open">
+                    <span><b>Tänk på att </b></span>
+                <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderObs|limitTo:3">
+                    {{value}}
+                    <br>
+                </div>
+            </div>
+            <br>
             <h3>Rekommenderade åtgärder</h3>
             <div id="atgarderRek" ng-if="status.open">
                 <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderRek">
@@ -38,7 +43,7 @@
                     <br>
                 </div>
                 <div class="floatRight">
-                    <button class="btn btn-info ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked;">Läs mer</button>
+                    <button type="button" class="btn btn-info ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked();">Läs mer</button>
                 </div>
             </div>
 
@@ -53,7 +58,7 @@
             </div>
             <img ng-show="srsViewState.statistik.statistikBild" ng-src="{{srsViewState.statistik.statistikBild}}" alt=""/>
             <div class="floatRight">
-                <button class="btn btn-info ng-binding" ng-click="redirectToStatistikExternalSite(); logStatistikClicked();">Läs mer</button>
+                <button type="button" class="btn btn-info ng-binding" ng-click="redirectToStatistikExternalSite(); logStatistikClicked();">Läs mer</button>
             </div>
         </div>
 

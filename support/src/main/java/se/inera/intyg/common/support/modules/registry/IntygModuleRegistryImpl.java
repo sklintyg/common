@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -58,7 +58,7 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
             IntygModule module = new IntygModule(entryPoint.getModuleId(), entryPoint.getModuleName(),
                     entryPoint.getModuleDescription(), entryPoint.getDetailedModuleDescription(),
                     entryPoint.getModuleCssPath(origin), entryPoint.getModuleScriptPath(origin),
-                    entryPoint.getModuleDependencyDefinitionPath(origin));
+                    entryPoint.getModuleDependencyDefinitionPath(origin), entryPoint.getDefaultRecipient());
 
             intygModuleMap.put(module.getId(), module);
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -63,9 +63,14 @@ public class RoundTripTest {
 
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("*").stream()
+        Collection<Object[]> ret =  ScenarioFinder.getInternalScenarios("pass-*").stream()
                 .map(u -> new Object[] { u.getName(), u })
                 .collect(Collectors.toList());
+
+        ret.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
+                .map(u -> new Object[] { u.getName(), u })
+                .collect(Collectors.toList()));
+        return ret;
     }
 
     /**

@@ -93,34 +93,31 @@ angular.module('common').factory('common.IntygProxy',
         }
 
         function _createIntygCopyActionType(action) {
-            var restEndpoint;
-
-            switch (action) {
-            case 'copy':
-                restEndpoint = 'kopiera';
-                break;
-            case 'fornya':
-                restEndpoint = 'fornya';
-                break;
-            case 'ersatt':
-                restEndpoint = 'ersatt';
-                break;
-            default:
-                throw new Error('common.IntygProxy#_executeIntygCopyActionType: Unknown action parameter', action);
-            }
-
             return function doIntygCopyAction(intygCopyRequest, onSuccess, onError) {
                 $log.debug(action + ' intyg' + intygCopyRequest.intygType + ', ' + intygCopyRequest.intygId);
-
-                var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
                 var restPath = '/moduleapi/intyg/' +
                     intygCopyRequest.intygType +
                     '/' +
                     intygCopyRequest.intygId +
-                    '/' +
-                    restEndpoint +
                     '/';
+
+                switch (action) {
+                case 'fornya':
+                    restPath += 'fornya' + '/';
+                    break;
+                case 'ersatt':
+                    restPath += 'ersatt' + '/';
+                    break;
+                case 'create':
+                    restPath += intygCopyRequest.newIntygType + '/' + 'create' + '/';
+                    break;
+                default:
+                    throw new Error('common.IntygProxy#_executeIntygCopyActionType: Unknown action parameter', action);
+                }
+
+                var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
+
                 $http.post(restPath, payload).success(function(data) {
                     $log.debug('got callback data: ' + data);
                     onSuccess(data);
@@ -160,6 +157,7 @@ angular.module('common').factory('common.IntygProxy',
             sendIntyg: _sendIntyg,
             copyIntyg: _createIntygCopyActionType('copy'),
             fornyaIntyg: _createIntygCopyActionType('fornya'),
+            create: _createIntygCopyActionType('create'),
             ersattIntyg: _createIntygCopyActionType('ersatt'),
             answerWithIntyg: _answerWithIntyg
         };

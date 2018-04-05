@@ -172,7 +172,10 @@ angular.module('luae_na').factory('luae_na.FormFactory',
                         {
                             key: 'aktivitetsbegransning',
                             type: 'multi-text',
-                            templateOptions: {label: 'FRG_17', required: true}
+                            templateOptions: {
+                                label: 'DFR_17.1',
+                                required: 'FRG_ONLY'
+                            }
                         }
                     ])
                 ]),

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,17 +18,12 @@
  */
 package se.inera.intyg.common.support.model.converter.util;
 
-import java.time.LocalDateTime;
-
 import com.google.common.base.Strings;
-
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+
+import java.time.LocalDateTime;
 
 public final class WebcertModelFactoryUtil {
 
@@ -75,72 +70,6 @@ public final class WebcertModelFactoryUtil {
         }
         grundData.setPatient(patient);
     }
-
-    /**
-     * Create a new effective Patient model based on supplied patient and existing patient, following the pattern that
-     * only valid new patient details override existing ones.
-     *
-     * Special logic is applies to personId, where only valid personnr and samordningsnummer are valid override values.
-     *
-     * @param existingPatient
-     * @param newPatient
-     * @return
-     */
-//    public static Patient buildNewEffectivePatient(Patient existingPatient, Patient newPatient) {
-//        Patient mergedPatient = new Patient();
-//
-//        // Only accept valid personnr or samordningsnummer as new personId
-//        if (newPatient.getPersonId() != null && (Personnummer.createValidatedPersonnummerWithDash(newPatient.getPersonId()).isPresent()
-//                || SamordningsnummerValidator.isSamordningsNummer(newPatient.getPersonId()))) {
-//            mergedPatient.setPersonId(newPatient.getPersonId());
-//        } else {
-//            mergedPatient.setPersonId(existingPatient.getPersonId());
-//        }
-//
-//        if (!Strings.nullToEmpty(newPatient.getFornamn()).trim().isEmpty()) {
-//            mergedPatient.setFornamn(newPatient.getFornamn());
-//        } else {
-//            mergedPatient.setFornamn(existingPatient.getFornamn());
-//        }
-//
-//        // Name
-//        if (!Strings.nullToEmpty(newPatient.getMellannamn()).trim().isEmpty()) {
-//            mergedPatient.setMellannamn(newPatient.getMellannamn());
-//        } else {
-//            mergedPatient.setMellannamn(existingPatient.getMellannamn());
-//        }
-//
-//        if (!Strings.nullToEmpty(newPatient.getEfternamn()).trim().isEmpty()) {
-//            mergedPatient.setEfternamn(newPatient.getEfternamn());
-//        } else {
-//            mergedPatient.setEfternamn(existingPatient.getEfternamn());
-//        }
-//
-//        if (!Strings.nullToEmpty(newPatient.getFullstandigtNamn()).trim().isEmpty()) {
-//            mergedPatient.setFullstandigtNamn(newPatient.getFullstandigtNamn());
-//        } else {
-//            mergedPatient.setFullstandigtNamn(existingPatient.getFullstandigtNamn());
-//        }
-//
-//        // Address
-//        if (!Strings.nullToEmpty(newPatient.getPostadress()).trim().isEmpty()) {
-//            mergedPatient.setPostadress(newPatient.getPostadress());
-//        } else {
-//            mergedPatient.setPostadress(existingPatient.getPostadress());
-//        }
-//        if (!Strings.nullToEmpty(newPatient.getPostnummer()).trim().isEmpty()) {
-//            mergedPatient.setPostnummer(newPatient.getPostnummer());
-//        } else {
-//            mergedPatient.setPostnummer(existingPatient.getPostnummer());
-//        }
-//        if (!Strings.nullToEmpty(newPatient.getPostort()).trim().isEmpty()) {
-//            mergedPatient.setPostort(newPatient.getPostort());
-//        } else {
-//            mergedPatient.setPostort(existingPatient.getPostort());
-//        }
-//
-//        return mergedPatient;
-//    }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
         if (Strings.nullToEmpty(target.getPostadress()).trim().isEmpty()) {

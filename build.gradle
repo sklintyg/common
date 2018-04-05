@@ -1,12 +1,12 @@
 plugins {
-    id "se.inera.intyg.plugin.common" version "1.0.45" apply false
+    id "se.inera.intyg.plugin.common" version "1.0.59" apply false
     id "net.ltgt.apt" version "0.11" apply false
     id "com.moowork.node" version "1.1.1" apply false
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.17"
-    intygCertificateSchemasVersion = "1.0.6"
+    intygClinicalprocessSchematronVersion = "1.0.22"
+    intygCertificateSchemasVersion = "1.0.9"
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "3.1.0-RC1.1"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
@@ -15,7 +15,7 @@ ext {
 
     autovalueVersion = "1.1"
     cxfVersion = "3.1.3"
-    fkEIntygAdapterVersion = "2.2-RC2-INTYG"
+    fkEIntygAdapterVersion = "2.2-RC3-INTYG"
     guavaVersion = "20.0"
     itextVersion = "5.3.2"
     jacksonVersion = "2.8.1"
@@ -81,7 +81,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
     }
 
     node {
-        version = '6.6.0'
+        version = '6.11.3'
         download = true
         distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
         workDir = rootProject.projectDir

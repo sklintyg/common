@@ -33,28 +33,28 @@
          summary="summary"
          show-deselected="showDeselected">
         <div ng-show="cert.undersokningAvPatienten!=null">
-          <div id="undersokningAvPatienten">
+          <div id="undersokningAvPatienten" class="inline-single-value">
             <h4><span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
           </div>
         </div>
         <div ng-show="cert.telefonkontaktMedPatienten !=null">
-          <div id="telefonkontaktMedPatienten">
+          <div id="telefonkontaktMedPatienten" class="inline-single-value">
             <h4><span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span></h4><span>  {{cert.telefonkontaktMedPatienten | date:'shortDate' }}</span>
           </div>
         </div>
         <div ng-show="cert.journaluppgifter!=null">
-          <div id="journaluppgifter">
+          <div id="journaluppgifter" class="inline-single-value">
             <h4><span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span></h4><span>  {{cert.journaluppgifter | date:'shortDate' }}</span>
           </div>
         </div>
         <div ng-show="cert.annatGrundForMU!=null">
-          <div id="annatGrundForMU">
+          <div id="annatGrundForMU" class="inline-single-value">
             <h4><span dynamic-label
                   key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
           </div>
         </div>
         <h4><span dynamic-label key="DFR_1.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span></h4>
-        <div ng-show="cert.annatGrundForMUBeskrivning!=null">
+        <div ng-show="cert.annatGrundForMUBeskrivning!=null" class="inline-single-value">
           {{cert.annatGrundForMUBeskrivning}}
         </div>
     </div>
@@ -89,9 +89,8 @@
          field-config="fieldConfig.sysselsattningMandatory"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="sysselsattningMandatory" class="multiline" ng-repeat="sys in cert.sysselsattning" ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">
-        {{cert.nuvarandeArbete}}
-      </div>
+      <div id="sysselsattningMandatory" class="multiline" ng-repeat="sys in cert.sysselsattning"
+           ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">{{cert.nuvarandeArbete}}</div>
     </div>
   </selectable-category-wrapper>
 
@@ -107,30 +106,19 @@
          summary="summary"
          show-deselected="showDeselected">
 
-      <div class="row">
-        <div class="col-xs-12">
-          <label class="bold">
-            <span dynamic-label key="DFR_6.2.RBK"></span>
-          </label>
-        </div>
-      </div>
 
       <div class="row">
         <div class="col-xs-12">
           <table class="table table-striped">
-          <tr>
-            <th ng-repeat="header in viewModel.headers">
-              {{header}}
-            </th>
-          </tr>
+            <tr>
+              <th><span dynamic-label key="DFR_6.2.RBK"></span></th>
+              <th></th>
+            </tr>
           <tr ng-repeat="diagnos in cert.diagnoser track by $index">
             <td ng-attr-id="diagnosKod{{$index}}"> {{diagnos.diagnosKod}}</td>
             <td ng-attr-id="diagnosBeskrivning{{$index}}">{{diagnos.diagnosBeskrivning}}</td>
           </tr>
-          <!-- uv-table currently has no support for uv-no-value -->
           </table>
-
-
         </div>
       </div>
 
@@ -289,9 +277,7 @@
          field-config="fieldConfig.arbetslivsinriktadeAtgarderBeskrivning"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">
-        {{cert.arbetslivsinriktadeAtgarderBeskrivning}}
-      </div>
+      <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">{{cert.arbetslivsinriktadeAtgarderBeskrivning}}</div>
     </div>
   </selectable-category-wrapper>
 

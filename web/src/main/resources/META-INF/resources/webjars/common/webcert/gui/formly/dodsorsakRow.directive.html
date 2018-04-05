@@ -1,0 +1,50 @@
+<div class="padding-top-medium">
+  <label class="control-label inline-block bold" ng-if="to.label">
+    <span dynamic-label key="{{to.label}}.RBK"></span>
+    <span wc-help-chevron help-text-key="{{to.label}}.HLP"></span>
+  </label>
+  <span wc-help-chevron-text help-text-key="{{to.label}}.HLP"></span>
+
+  <div class="dodsorsak-row__controls">
+    <div>{{to.requireDescription}}
+      <span dynamic-label key="{{to.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.beskrivningLabel}}.HLP"></span> <span ng-show="requireDescription" class="required">*</span>
+      <span wc-help-chevron-text help-text-key="{{to.beskrivningLabel}}.HLP"></span>
+      <input id="orsak-{{rowIndex}}-beskrivning"
+             type="text"
+             class="form-control input-full"
+             ng-class="{'fielderror' : hasValidationError('beskrivning', rowIndex)}"
+             ng-model="modelValue.beskrivning"
+             ng-model-options="{ debounce: 500 }"
+             ng-blur="validate()"
+             maxlength="{{to.htmlMaxlength || 3500}}">
+      <span class="dodsorsak-row__letter">{{letter}}</span>
+    </div>
+    <div class="">
+      <div class="inline-block padding-top-small">
+      <span><span dynamic-label key="{{to.datumLabel}}.RBK"></span> </span> <span wc-help-chevron help-text-key="{{to.datumLabel}}.HLP"></span><br>
+      <span wc-help-chevron-text help-text-key="{{to.datumLabel}}.HLP"></span>
+      <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
+            ng-model="modelValue.datum"
+            on-blur="validate()"
+            add-date-parser="loose"></span>
+      </div>
+      <div class="inline-block padding-top-small" style="width: 130px;">
+        <span dynamic-label key="{{to.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{to.orsakLabel}}.HLP"></span>
+        <span wc-help-chevron-text help-text-key="{{to.orsakLabel}}.HLP"></span>
+        <ui-select theme="bootstrap" search-enabled="false" ng-model="modelValue.specifikation"
+                   id="orsak-{{rowIndex}}-specifikation" name="andraDodsorsak-{{rowIndex}}" append-to-body="true"
+                   on-select="validate()">
+          <ui-select-match>
+            <span ng-bind="$select.selected.label" title="{{$select.selected.label}}"></span>
+          </ui-select-match>
+          <ui-select-choices repeat="item.id as item in orsakOptions" value="$select.selected.id">
+            <span ng-bind="item.label"></span>
+          </ui-select-choices>
+        </ui-select>
+      </div>
+    </div>
+  </div>
+
+  <wc-field-validation field-type="dodsorsak" validations="orsakValidations"></wc-field-validation>
+  <wc-field-validation field-type="date" validations="dateValidations"></wc-field-validation>
+</div>

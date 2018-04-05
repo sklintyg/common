@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -195,9 +195,8 @@ public class LisjpModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-        when(objectMapper.readValue(eq("internal model"), eq(LisjpUtlatande.class))).thenReturn(null);
 
-        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
 
         verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
@@ -205,7 +204,7 @@ public class LisjpModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testCreateNewInternalFromTemplateThrowsModuleException() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         fail();
     }
 

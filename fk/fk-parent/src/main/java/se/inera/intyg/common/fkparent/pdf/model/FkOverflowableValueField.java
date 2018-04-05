@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -128,6 +128,14 @@ public class FkOverflowableValueField extends PdfComponent<FkOverflowableValueFi
                 writeText(canvas, targetRect, textValue.substring(0, charsToWrite), SEE_APPENDIX_PAGE_TEXT, false);
                 // Save overflowing text for later. Since we break on a whitespace, trim it.
                 overflowingText = textValue.substring(charsToWrite).trim();
+            } else {
+                //Corner case - NO substring of the the text fitted in the target rect!
+                // Most likely this is caused by having a test value not having any whitespace characters
+                // whatsoever, eg 'AAAAAAAAAAAAAAAAAAAA...'.
+                // We solve this by treating the whole text as overflowing, and just write
+                // the appendix reference text which on it's own should always fit in any textfield.
+                writeText(canvas, targetRect, "", SEE_APPENDIX_PAGE_TEXT, false);
+                overflowingText = textValue;
             }
 
         } else {

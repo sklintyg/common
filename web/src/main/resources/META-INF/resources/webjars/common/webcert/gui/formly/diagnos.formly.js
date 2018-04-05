@@ -4,9 +4,9 @@ angular.module('common').run(function(formlyConfig) {
     formlyConfig.setType({
         name: 'diagnos',
         templateUrl: '/web/webjars/common/webcert/gui/formly/diagnos.formly.html',
-        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService',
+        controller: ['$scope', '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState', 'common.fmbService', 'common.srsService',
             'common.ObjectHelper', 'common.MonitoringLogService', 'common.ArendeListViewStateService', 'common.UtkastValidationService',
-            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, ObjectHelper, monitoringService,
+            function($scope, $log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
                 ArendeListViewState, UtkastValidationService) {
 
                 var formState = $scope.formState;
@@ -17,8 +17,7 @@ angular.module('common').run(function(formlyConfig) {
                         // We only want to log when the diagnoskodverk really changed and not when the value is set in the beginning
                         // of loading the utkast
                         if (oldVal) {
-                            monitoringService.diagnoskodverkChanged(formState.viewState.intygModel.id,
-                                formState.viewState.common.intyg.type);
+                            monitoringService.diagnoskodverkChanged($scope.model.id, $scope.model.typ);
                         }
                     }
                 });
@@ -31,6 +30,11 @@ angular.module('common').run(function(formlyConfig) {
                         //Reset fmb if we no longer have a valid diagnoseCode to work with
                         if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
                             fmbViewState.reset(0);
+                        }
+                        else{
+                            srsService.updateDiagnosKod(newValue);
+                            var diagnoseModel = $scope.model[$scope.options.key][0];
+                            srsService.updateDiagnosBeskrivning(diagnoseModel.diagnosBeskrivning);
                         }
                     });
                 $scope.$watch(
@@ -140,6 +144,9 @@ angular.module('common').run(function(formlyConfig) {
                 };
 
                 $scope.onDiagnoseCodeChanged = function(index) {
+                    if (index === 0 && $scope.form['diagnoseCode' + index].$viewValue === ''){
+                        srsService.updateDiagnosKod($scope.model.diagnosKod);
+                    }
                     if (!$scope.form['diagnoseCode' + index].$viewValue) {
                         $scope.model[$scope.options.key][index].diagnosBeskrivning = undefined;
                         fmbService.updateFmbText(index, null);
@@ -212,6 +219,7 @@ angular.module('common').run(function(formlyConfig) {
                 });
 
                 $scope.validate = function() {
+                    $scope.form.$commitViewValue();
                     //The timeout here allows the model to be updated (via typeahead selection) before sending it for validation
                     $timeout(function() {
                         UtkastValidationService.validate($scope.model);

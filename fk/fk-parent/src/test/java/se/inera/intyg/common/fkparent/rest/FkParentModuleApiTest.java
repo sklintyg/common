@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -184,7 +184,7 @@ public class FkParentModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createNewInternalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -193,13 +193,13 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateNewInternalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createNewInternalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @Test
     public void testCreateRenewalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal());
-        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, json);
+        String res = moduleApi.createRenewalFromTemplate(draftCopyHolder, utlatande);
 
         assertNotNull(res);
         verify(webcertModelFactory).createCopy(eq(draftCopyHolder), any(Utlatande.class));
@@ -208,7 +208,7 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateRenewalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
-        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), json);
+        moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
     }
 
     @Test(expected = ExternalServiceCallException.class)

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory',
-    function($filter, messageService, recipientsFactory) {
+angular.module('common').directive('latestEvents', ['$filter', 'common.messageService', 'common.recipientsFactory', '$uibModal', '$state',
+    function($filter, messageService, recipientsFactory, $uibModal, $state) {
         'use strict';
 
         function _getEventText(msgProperty, params) {
@@ -32,60 +32,96 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
             replace: true,
             scope: {
                 certId: '@',
-                statuses: '=',
-                hideHeader: '@',
-                maxStatuses: '@'
+                events: '=',
+                maxEvents: '@',
+                tightRows: '@',
+                showMoreButtonLocation: '@'
             },
             templateUrl: '/web/webjars/common/minaintyg/components/latestEvents/latestEvents.directive.html',
-            link: function(scope, element, attrs) {
+            link: function(scope) {
 
-                function _updateStatusModel() {
-                    scope.filteredStatuses = $filter('miRelevantStatusFilter')(scope.statuses);
+                if (!scope.showMoreButtonLocation) {
+                    scope.showMoreButtonLocation = 'top';
                 }
-                scope.$watch('statuses', function(){
-                    _updateStatusModel();
+
+                function _updateEventModel() {
+                    scope.filteredEvents = $filter('miRelevantEventFilter')(scope.events);
+                }
+                scope.$watch('events', function(){
+                    _updateEventModel();
                 });
 
-                _updateStatusModel();
+                _updateEventModel();
 
 
                 scope.messageService = messageService;
                 scope.isCollapsedArchive = true;
 
-                // Default hideHeader attribute to false if not explicitly set to true
-                scope.hideHeader = attrs.hideHeader === 'true';
+                // Compile event event message info (date and text)
+                scope.getEventInfo = function(event) {
+                    var timestamp = event.timestamp ?
+                        moment(event.timestamp).format('YYYY-MM-DD HH:mm') :
+                        messageService.getProperty('certificates.events.unknowndatetime');
 
-                // Compile event status message info (date and text)
-                scope.getEventInfo = function(status) {
-                    var timestamp = status.timestamp ?
-                        moment(status.timestamp).format('YYYY-MM-DD HH:mm') :
-                        messageService.getProperty('certificates.status.unknowndatetime');
-                    var params = [recipientsFactory.getNameForId(status.target)];
-                    var msgProperty = 'certificates.status.' + status.type.toLowerCase(); //received [sic] or sent
+                    // Ugly knowledge of inner workings of event object. Perhaps move to backed?
+                    var params = [];
+                    if (event.eventType === 'STATUS') {
+                        params.push(recipientsFactory.getNameForId(event.target));
+                    }
+                    if (event.eventType === 'RELATION') {
+
+                        params.push(event.target);
+                        params.push(event.intygsTyp);
+                    }
+
+                    var msgProperty = 'certificates.events.' + event.type.toLowerCase(); //received [sic] or sent
                     var text = _getEventText(msgProperty, params);
                     return {timestamp: timestamp, text: text};
                 };
 
-                scope.statusesShown = function(statuses, statusViewCollapsed) {
-                    var nrOfStats = statuses ? statuses.length : 0;
-                    var shown = Math.min(nrOfStats, scope.maxStatusRows(statusViewCollapsed));
-                    return messageService.getProperty('certificates.status.statusesshown', [shown, nrOfStats]);
+                scope.eventsShown = function(events, eventViewCollapsed) {
+                    var nrOfStats = events ? events.length : 0;
+                    var shown = Math.min(nrOfStats, scope.maxEventRows(eventViewCollapsed));
+                    return messageService.getProperty('certificates.events.eventsshown', [shown, nrOfStats]);
                 };
 
-                scope.maxStatusRows = function(isCollapsedArchive) {
-                    return scope.maxStatuses ? scope.maxStatuses : (isCollapsedArchive ? 2 : 4);
+                scope.maxEventRows = function(isCollapsedArchive) {
+                    return scope.maxEvents ? scope.maxEvents : (isCollapsedArchive ? 2 : 4);
                 };
 
                 scope.expandClicked = function() {
-                    if (scope.filteredStatuses.length > 4) {
-                        if (!scope.showModal) {
-                            scope.showModal = {};
-                        }
-                        scope.showModal.value = !scope.showModal.value;
+                    if (scope.filteredEvents.length > 4) {
+                        openModal();
                     } else {
                         scope.isCollapsedArchive = !scope.isCollapsedArchive;
                     }
                 };
+
+                scope.viewCert = function(type, certId) {
+                    $state.go(type.toLowerCase() + '-view', {certificateId: certId});
+                };
+
+                function openModal() {
+                    var modalCtrl = function($scope, $uibModalInstance) {
+                        $scope.close = function() {
+                            $uibModalInstance.close();
+                        };
+
+                        $scope.viewCert = function(type, certId) {
+                            $scope.close();
+                            scope.viewCert(type, certId);
+                        };
+                    };
+
+                    $uibModal.open({
+                        scope: scope,
+                        windowClass: 'latest-events-modal',
+                        templateUrl: '/web/webjars/common/minaintyg/components/latestEventsModal/latestEventsModal.html',
+                        backdrop: 'static',
+                        keyboard: false,
+                        controller: modalCtrl
+                    });
+                }
 
             }
 

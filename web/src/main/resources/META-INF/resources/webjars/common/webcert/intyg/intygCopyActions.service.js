@@ -218,7 +218,8 @@ angular.module('common').factory('common.IntygCopyActions',
                                 }
                             });
                         },
-                        button2click: function () {
+                        button2click: function (modalInstance) {
+                            modalInstance.close();
                             _continueOnDraft(viewState.common.intygProperties.latestChildRelations.replacedByUtkast.intygsId, viewState.intygModel.typ);
                         },
                         button3click: function(modalInstance){
@@ -244,6 +245,15 @@ angular.module('common').factory('common.IntygCopyActions',
 
                 return ersattDialog;
 
+            }
+
+            function _createFromTemplate(viewState, intygCreateFromTemplateRequest, isOtherCareUnit) {
+                IntygProxy.create(intygCreateFromTemplateRequest, function(data) {
+                    $log.debug('Successfully requested create draft of new intyg type');
+                    IntygHelper.goToDraft(data.intygsTyp, data.intygsUtkastId);
+                }, function(error) {
+                    $log.debug('Create draft of new intyg type failed: ' + error.message);
+                });
             }
 
             function _createFornyaDraft(intygFornyaRequest, onSuccess, onError) {
@@ -285,6 +295,7 @@ angular.module('common').factory('common.IntygCopyActions',
                 FORNYA_DIALOG_PREFERENCE: _FORNYA_DIALOG_PREFERENCE,
                 fornya: _fornya,
                 ersatt: _ersatt,
+                createFromTemplate: _createFromTemplate,
                 __test__: {
                     createFornyaDraft: _createFornyaDraft
                 }

@@ -31,7 +31,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
                 var grundData = GrundData.build();
                 init._super.call(this, 'TsBasModel', {
                     id: undefined,
-                    typ: undefined, // NOT intygtyp, this is TS-intyg type.
+                    typ: undefined,
                     kommentar: undefined,
                     grundData: grundData,
                     textVersion: undefined,

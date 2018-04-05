@@ -83,7 +83,7 @@ angular.module('common').factory('common.dialogService',
             };
 
             scope.dialog.errormessageid =
-                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.cantconnect');
+                (scope.dialog.errormessageid ? scope.dialog.errormessageid : 'common.error.unknown');
 
             if (options.dialogId === undefined) {
                 throw 'dialogId must be specified';
@@ -97,6 +97,8 @@ angular.module('common').factory('common.dialogService',
             options.button1tooltip = (options.button1tooltip === undefined) ? '' : options.button1tooltip;
 
             options.button2text = (options.button2text === undefined) ? 'common.cancel' : options.button2text;
+            options.button2visible = options.button2visible === undefined ? options.button2text !== undefined :
+                options.button2visible;
             //If button2 is a default cancel button, set the default x icon unless other is specified
             options.button2icon = (options.button2icon === undefined && options.button2text === 'common.cancel') ? 'icon-cancel' : options.button2icon;
             options.button2class = (options.button2class === undefined) ? 'btn-third' :  options.button2class;
@@ -116,8 +118,9 @@ angular.module('common').factory('common.dialogService',
 
             // Create controller to setup dialog
             var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId, bodyText,
-                button1id, button1icon, button1tooltip, button2id, button2icon, button2class, button3id, button3icon, button1click, button2click, button3click, button3visible, button1text,
-                button2text, button3text, autoClose) {
+                button1id, button1icon, button1tooltip, button2id, button2icon, button2class, button3id, button3icon,
+                button1click, button2click, button3click, button2visible, button3visible,
+                button1text, button2text, button3text, autoClose) {
 
                 $scope.model = model;
                 $scope.dialogId = dialogId;
@@ -130,12 +133,15 @@ angular.module('common').factory('common.dialogService',
                         $uibModalInstance.close(result);
                     }
                 };
-                $scope.button2click = function() {
-                    if (button2click) {
-                        button2click();
-                    }
-                    $uibModalInstance.dismiss('button2 dismiss');
-                };
+                $scope.button2visible = button2visible;
+                if ($scope.button2visible !== undefined) {
+                    $scope.button2click = function() {
+                        if (button2click) {
+                            button2click();
+                        }
+                        $uibModalInstance.dismiss('button2 dismiss');
+                    };
+                }
                 $scope.button3visible = button3visible;
                 if ($scope.button3visible !== undefined) {
                     $scope.button3click = function() {
@@ -165,7 +171,6 @@ angular.module('common').factory('common.dialogService',
             var msgbox = $uibModal.open({
                 scope: scope,
                 templateUrl: options.templateUrl,
-                backdrop: 'static',
                 keyboard: false,
                 controller: DialogInstanceCtrl,
                 resolve: {
@@ -225,6 +230,9 @@ angular.module('common').factory('common.dialogService',
                     },
                     button3text: function() {
                         return angular.copy(options.button3text);
+                    },
+                    button2visible: function() {
+                        return angular.copy(options.button2visible);
                     },
                     button3visible: function() {
                         return angular.copy(options.button3visible);

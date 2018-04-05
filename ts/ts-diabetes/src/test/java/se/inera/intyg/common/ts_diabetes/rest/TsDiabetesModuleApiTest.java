@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -143,20 +144,19 @@ public class TsDiabetesModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatande.class), any(List.class), any(ApplicationOrigin.class)))
+        when(pdfGenerator.generatePDF(any(TsDiabetesUtlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false)))
                 .thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsDiabetesUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG);
+            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG, false);
         }
     }
 
     @Test
     public void copyContainsOriginalData() throws Exception {
         Scenario scenario = ScenarioFinder.getTransportScenario("valid-minimal");
-        String internalHolder = objectMapper.writeValueAsString(scenario.asInternalModel());
 
-        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), internalHolder);
+        String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
 
         assertNotNull(holder);
         TsDiabetesUtlatande utlatande = objectMapper.readValue(holder, TsDiabetesUtlatande.class);
@@ -262,7 +262,7 @@ public class TsDiabetesModuleApiTest {
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult(RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS));
-        when(registerTSDiabetesResponderInterface.registerTSDiabetes(Mockito.eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
+        when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
                 .thenReturn(registerResponse);
 
         try {
@@ -282,7 +282,7 @@ public class TsDiabetesModuleApiTest {
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult("INFO"));
-        when(registerTSDiabetesResponderInterface.registerTSDiabetes(Mockito.eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
+        when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
                 .thenReturn(registerResponse);
 
         try {
@@ -302,7 +302,7 @@ public class TsDiabetesModuleApiTest {
 
         RegisterTSDiabetesResponseType registerResponse = new RegisterTSDiabetesResponseType();
         registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        when(registerTSDiabetesResponderInterface.registerTSDiabetes(Mockito.eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
+        when(registerTSDiabetesResponderInterface.registerTSDiabetes(eq(logicalAddress), Mockito.any(RegisterTSDiabetesType.class)))
                 .thenReturn(registerResponse);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -351,7 +351,7 @@ public class TsDiabetesModuleApiTest {
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -364,7 +364,7 @@ public class TsDiabetesModuleApiTest {
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -375,7 +375,7 @@ public class TsDiabetesModuleApiTest {
     public void testGetCertificateRevokedValidationError() throws Exception {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
         .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -385,7 +385,7 @@ public class TsDiabetesModuleApiTest {
     public void testGetCertificateRevokedApplicationError() throws Exception {
         GetTSDiabetesResponseType result = new GetTSDiabetesResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(Mockito.eq("TS"), Mockito.any(GetTSDiabetesType.class)))
+        Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
         .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,11 +18,24 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -44,16 +57,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-
 public class TransportConverterUtilTest {
 
     /* Exception messages */
@@ -74,23 +77,15 @@ public class TransportConverterUtilTest {
         final LocalDateTime signeringstidpunkt = LocalDateTime.now().minusDays(1);
         final LocalDateTime statustidpunkt = LocalDateTime.now();
         final String additionalInfo = "Additional Info";
-        Intyg intyg = new Intyg();
-        intyg.setIntygsId(new IntygId());
-        intyg.getIntygsId().setExtension(intygId);
-        intyg.setTyp(new TypAvIntyg());
-        intyg.getTyp().setCode(intygstyp);
-        intyg.setSkapadAv(new HosPersonal());
-        intyg.getSkapadAv().setFullstandigtNamn(skapadAvFullstandigtNamn);
-        intyg.getSkapadAv().setEnhet(new Enhet());
-        intyg.getSkapadAv().getEnhet().setEnhetsnamn(enhetsnamn);
-        intyg.setSigneringstidpunkt(signeringstidpunkt);
         IntygsStatus status = new IntygsStatus();
         status.setPart(new Part());
         status.getPart().setCode("FKASSA");
         status.setStatus(new Statuskod());
         status.getStatus().setCode(StatusKod.SENTTO.name());
         status.setTidpunkt(statustidpunkt);
-        intyg.getStatus().add(status);
+
+        Intyg intyg = buildIntyg(intygId, intygstyp, skapadAvFullstandigtNamn, enhetsnamn, signeringstidpunkt, Arrays.asList(status));
+
 
         CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, additionalInfo);
         assertNotNull(res);
@@ -104,6 +99,69 @@ public class TransportConverterUtilTest {
         assertEquals("FKASSA", res.getStatus().get(0).getTarget());
         assertEquals(statustidpunkt, res.getStatus().get(0).getTimestamp());
         assertEquals(additionalInfo, res.getAdditionalInfo());
+        assertTrue(res.isAvailable());
+    }
+    @Test
+    public void testGetMetaDataAvailableStatuses() {
+        final LocalDateTime time = LocalDateTime.now();
+        IntygsStatus skickad = buildStatus(time, "", StatusKod.RECEIV);
+        IntygsStatus arkiverad = buildStatus(time.plusHours(1), "", StatusKod.DELETE);
+        IntygsStatus nullDate = buildStatus(null, "", StatusKod.SENTTO);
+
+        Intyg intyg = buildIntyg(Arrays.asList(skickad, nullDate, arkiverad));
+
+        CertificateMetaData res = TransportConverterUtil.getMetaData(intyg, "");
+        assertFalse("Should have been unavailable with just a single DELETE", res.isAvailable());
+
+        //Add a restored event
+        intyg.getStatus().add(buildStatus(time.plusHours(2),"", StatusKod.RESTOR));
+        res = TransportConverterUtil.getMetaData(intyg, "");
+        assertTrue("Should have been available with a later RESTOR", res.isAvailable());
+
+        //Add another archive  event
+        intyg.getStatus().add(buildStatus(time.plusHours(3),"", StatusKod.DELETE));
+        res = TransportConverterUtil.getMetaData(intyg, "");
+        assertFalse("Should have been unavailable with a later DELETE", res.isAvailable());
+
+        //Add another (to early) restored event
+        intyg.getStatus().add(buildStatus(time.minusHours(2),"", StatusKod.RESTOR));
+        res = TransportConverterUtil.getMetaData(intyg, "");
+        assertFalse("Should have been unavailable with a to early RESTOR", res.isAvailable());
+
+        //Finally, add add another restored event
+        intyg.getStatus().add(buildStatus(time.plusHours(5),"", StatusKod.RESTOR));
+        res = TransportConverterUtil.getMetaData(intyg, "");
+        assertTrue("Should have been available with a RESTOR as lastest event", res.isAvailable());
+    }
+
+    private IntygsStatus buildStatus(LocalDateTime statustidpunkt, String partCode, StatusKod statusKod) {
+        final IntygsStatus s = new IntygsStatus();
+        s.setPart(new Part());
+        s.getPart().setCode(partCode);
+        s.setStatus(new Statuskod());
+        s.getStatus().setCode(statusKod.name());
+        s.setTidpunkt(statustidpunkt);
+        return s;
+    }
+
+
+    private Intyg buildIntyg(List<IntygsStatus> statuses) {
+        return buildIntyg("1","fk7263", "Doctor No", "enhet1", LocalDateTime.now(), statuses);
+    }
+
+    private Intyg buildIntyg(String intygId, String intygstyp, String skapadAvFullstandigtNamn, String enhetsnamn, LocalDateTime signeringstidpunkt, List<IntygsStatus> statuses) {
+        Intyg intyg = new Intyg();
+        intyg.setIntygsId(new IntygId());
+        intyg.getIntygsId().setExtension(intygId);
+        intyg.setTyp(new TypAvIntyg());
+        intyg.getTyp().setCode(intygstyp);
+        intyg.setSkapadAv(new HosPersonal());
+        intyg.getSkapadAv().setFullstandigtNamn(skapadAvFullstandigtNamn);
+        intyg.getSkapadAv().setEnhet(new Enhet());
+        intyg.getSkapadAv().getEnhet().setEnhetsnamn(enhetsnamn);
+        intyg.setSigneringstidpunkt(signeringstidpunkt);
+        intyg.getStatus().addAll(statuses);
+        return intyg;
     }
 
     @Test

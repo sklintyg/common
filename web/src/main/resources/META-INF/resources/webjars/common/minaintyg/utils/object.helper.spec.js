@@ -28,6 +28,7 @@ describe('ObjectHelper', function() {
         objectHelper = _objectHelper_;
     }]));
 
+    // isDefined
     it('should return false for undefined', function() {
         expect(objectHelper.isDefined(undefined)).toEqual(false);
     });
@@ -40,7 +41,7 @@ describe('ObjectHelper', function() {
         expect(objectHelper.isDefined('')).toEqual(true);
     });
 
-
+    // isEmpty
     it('should return true for null string', function() {
         expect(objectHelper.isEmpty(null)).toEqual(true);
         expect(objectHelper.isEmpty(undefined)).toEqual(true);
@@ -54,6 +55,7 @@ describe('ObjectHelper', function() {
     });
 
 
+    // isModelValue
     it('should return true for none-empty string', function() {
         expect(objectHelper.isModelValue('hello')).toEqual(true);
     });
@@ -89,6 +91,5 @@ describe('ObjectHelper', function() {
     it('should return true for true', function() {
         expect(objectHelper.isModelValue(false)).toEqual(false);
     });
-
 
 });

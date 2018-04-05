@@ -20,10 +20,9 @@
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'FormFactory',
+        'ViewState', 'FormFactory', 'common.PrefilledUserDataService',
         function($scope, $state,
-            UtkastService, UserModel, fmbService, fmbViewState,
-            viewState, formFactory) {
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, formFactory, prefilledUserDataService) {
             'use strict';
 
             /**********************************************************************************
@@ -43,6 +42,10 @@ angular.module('common').controller('smi.EditCertCtrl',
              * Load certificate and setup form / Constructor ...
              **************************************************************************/
 
+            $scope.$on('intyg.loaded', function() {
+                prefilledUserDataService.searchForPrefilledPatientData(viewState.intygModel.grundData.patient);
+            });
+
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
                 if (viewState.common.textVersionUpdated) {
@@ -57,6 +60,7 @@ angular.module('common').controller('smi.EditCertCtrl',
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {
+                $scope.certForm.$commitViewValue();
                 $scope.certForm.$setPristine();
                 var intygState = {
                     viewState : viewState,

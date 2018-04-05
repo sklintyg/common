@@ -227,10 +227,20 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
         return result !== null && result !== undefined;
     }
 
+    function _getBirthDate(id) {
+        if (_validateSamordningsnummer(id)) {
+            return id.substring(0, 4) + '-' + id.substring(4, 6) + '-' + (id.substring(6, 8) - 60);
+        } else if (_validatePersonnummer(id)) {
+            return id.substring(0, 4) + '-' + id.substring(4, 6) + '-' + id.substring(6, 8);
+        }
+        return undefined;
+    }
+
     return {
         validate: _validate,
         validatePersonnummer: _validatePersonnummer,
         validateSamordningsnummer: _validateSamordningsnummer,
-        validResult: _validResult
+        validResult: _validResult,
+        getBirthDate: _getBirthDate
     };
 });

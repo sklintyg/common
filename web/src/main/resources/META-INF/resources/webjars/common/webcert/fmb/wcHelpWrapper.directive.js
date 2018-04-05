@@ -35,11 +35,7 @@ angular.module('common').directive('wcHelpWrapper', ['$rootScope', 'common.Objec
             },
             link: function(scope, element, attrs) {
 
-                if(!ObjectHelper.isDefined(scope.pushContent)){
-                    scope.pushContent = true;
-                } else {
-                    scope.pushContent = scope.pushContent === 'true';
-                }
+                scope.pushContent = ObjectHelper.stringBoolToBoolUndefinedTrue(scope.pushContent);
 
                 scope.fmbAvailable = true;
                 function updateFMBAvailable() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -73,8 +73,8 @@ public class FkOverflowPage extends FkPage {
         PdfPTable table = new PdfPTable(1);
 
         table.setWidthPercentage(FULL_WIDTH);
-        // Important, we want to make sure label and text is kept together
-        table.setSplitRows(false);
+
+        table.setSplitLate(false);
         table.setHorizontalAlignment(Element.ALIGN_LEFT);
         table.getDefaultCell().setBorder(Rectangle.NO_BORDER);
 

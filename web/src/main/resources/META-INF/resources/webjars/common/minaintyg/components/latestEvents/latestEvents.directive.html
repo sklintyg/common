@@ -1,25 +1,20 @@
 <div class="latest-events">
   <div class="tag" ng-if="!hideHeader" >
-    <span class="lastevent-header" message key="listtable.headers.latestEvent"></span>
-    <span ng-if="!maxStatuses" id="statusesshown">{{statusesShown(filteredStatuses, isCollapsedArchive)}}</span>
-    <button ng-if="!maxStatuses" id="showEventsBtn-{{certId}}" type="button" class="btn-link btn-link-link pull-right"
-            href="#status" ng-show="filteredStatuses.length > 2"
-            ng-click="expandClicked()">
-      <i class="icon icon-up-open rotate-180"></i> <span message key="label.status.{{ !isCollapsedArchive }}"></span>
-    </button>
+    <span class="lastevent-header" message key="listtable.headers.latestevent"></span>
+    <span ng-if="!maxEvents" id="eventsshown">{{eventsShown(filteredEvents, isCollapsedArchive)}}</span>
+    <ng-include ng-if="showMoreButtonLocation === 'top'" class="pull-right" src="'/web/webjars/common/minaintyg/components/latestEvents/latestEventsShowMoreButton.html'"></ng-include>
     <div style="clear:both"></div>
   </div>
-  <div ng-if="filteredStatuses.length > 0" ng-attr-id="event-{{certId}}">
-    <div ng-repeat="status in filteredStatuses track by $index" ng-if="$index < maxStatusRows(isCollapsedArchive)"
-         ng-init="info = getEventInfo(status)" ng-attr-id="event-{{certId}}-{{$index}}"
-         ng-class="{'event-row-tight': maxStatuses, 'event-row': !maxStatuses, 'stripe-dark': !maxStatuses && $even}" >
+  <div ng-if="filteredEvents.length > 0" ng-attr-id="event-{{certId}}">
+    <div ng-repeat="event in filteredEvents track by $index" ng-if="$index < maxEventRows(isCollapsedArchive)"
+         ng-init="info = getEventInfo(event)" ng-attr-id="event-{{certId}}-{{$index}}"
+         ng-class="{'event-row-tight': tightRows, 'event-row': !tightRows, 'stripe-dark': !tightRows && $even}" >
       <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}" class="latest-events-timestamp">{{info.timestamp}}</span>
-      <span class="event-text" ng-attr-id="event-text-{{certId}}-{{$index}}">{{info.text}}</span>
+      <latest-events-text class="event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}" text="info.text" view-cert="viewCert(type, id)"></latest-events-text>
     </div>
-
-    <events-modal show-modal="showModal" statuses="filteredStatuses" hide-header="hideHeader" get-event-info="getEventInfo(status)"/>
   </div>
-  <div ng-if="filteredStatuses.length == 0" data-ng-attr-class="certificate-noevents-{{certId}}">
-    <div ng-attr-id="event-{{certId}}">{{messageService.getProperty('certificates.status.noevents')}}</div>
+  <ng-include ng-if="showMoreButtonLocation === 'bottom'" src="'/web/webjars/common/minaintyg/components/latestEvents/latestEventsShowMoreButton.html'"></ng-include>
+  <div ng-if="filteredEvents.length == 0" data-ng-attr-class="certificate-noevents-{{certId}}">
+    <div ng-attr-id="event-{{certId}}">{{messageService.getProperty('certificates.events.noevents')}}</div>
   </div>
 </div>

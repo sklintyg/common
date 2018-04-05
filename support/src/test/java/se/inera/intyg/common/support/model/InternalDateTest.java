@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.support.model;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.time.LocalDate;
-import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 public class InternalDateTest {
 
@@ -94,4 +93,67 @@ public class InternalDateTest {
         InternalDate empty = new InternalDate("");
         empty.asLocalDate();
     }
+
+    @Test
+    public void testVagueDateInFutureYear0000() {
+        InternalDate date = new InternalDate("0000-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureEarlierYearFalse() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate((currentYear - 1) + "-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureSameYearFalse() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate(currentYear + "-00-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureYearTrue() {
+        int currentYear = LocalDate.now().getYear();
+
+        InternalDate date = new InternalDate((currentYear + 1) + "-00-00");
+        assertTrue(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureMonthFalse() {
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        InternalDate date = new InternalDate(currentYear + "-" + addLeadingZeros(currentMonth, 2) + "-00");
+        assertFalse(date.vagueDateInFuture());
+    }
+
+    @Test
+    public void testVagueDateInFutureMonthTrue() {
+        int currentYear = LocalDate.now().getYear();
+        int currentMonth = LocalDate.now().getMonthValue();
+
+        InternalDate date = new InternalDate(currentYear + "-" + addLeadingZeros(currentMonth + 1, 2) + "-00");
+        assertTrue(date.vagueDateInFuture());
+    }
+
+    private String addLeadingZeros(int digits, int expectedNumberOfDigits) {
+        String number = String.valueOf(digits);
+
+        int diff = expectedNumberOfDigits - number.length();
+
+        if (diff > 0) {
+            for (int i = 0; i < diff; i++) {
+                number = "0" + number;
+            }
+        }
+
+        return number;
+    }
+
 }

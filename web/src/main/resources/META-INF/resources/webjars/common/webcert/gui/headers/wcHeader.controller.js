@@ -351,6 +351,8 @@ angular.module('common').controller('common.wcHeaderController',
                                 // filter after choosing another unit to work on
                                 $cookies.remove('enhetsId');
 
+                                $uibModalInstance.close();
+
                                 // We updated the user context. Reroute to start page so as not to end
                                 // up on a page we aren't welcome anymore. Maybe we should make these
                                 // routes some kind of global configuration? No other choices are
@@ -361,8 +363,6 @@ angular.module('common').controller('common.wcHeaderController',
                                     $location.path('/unhandled-qa');
                                 }
                                 $state.reload();
-
-                                $uibModalInstance.close();
                             }, function() {
                                 $scope.error = true;
                             });

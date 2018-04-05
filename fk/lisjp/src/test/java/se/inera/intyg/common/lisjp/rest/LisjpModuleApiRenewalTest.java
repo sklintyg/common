@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -67,11 +67,11 @@ public class LisjpModuleApiRenewalTest {
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
                 TESTFILE_UTLATANDE).getInputStream());
-        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), internalModelHolder);
+        LisjpUtlatande original = getUtlatandeFromFile();
+        String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
 
         // Create two instances to compare field by field.
-        LisjpUtlatande original = getUtlatandeFromFile();
         LisjpUtlatande renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, LisjpUtlatande.class);
 
         // Blanked out values:

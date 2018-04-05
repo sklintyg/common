@@ -1,0 +1,11 @@
+.wc-intyg-read-only {
+  padding: 20px 30px;
+
+  .srs-border {
+    border-right:1px #eee solid;
+  }
+  //Here we can override default webcert styles for uv framework components e.g:
+  uv-kategori h2 {
+
+  }
+}

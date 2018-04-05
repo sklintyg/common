@@ -38,6 +38,9 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
                 var prediction = {};
+                if(data === 'error'){
+                    return data;
+                }
                 if(data.predictionDiagnosisDescription) {
                     prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
                 }
@@ -161,6 +164,10 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 return response.data;
             });
         }
+        function _getSrsForDiagnoseOnly(diagnoseCode) {
+            return $http.get('/api/srs/atgarder/' + diagnoseCode);
+        }
+
 
         // Return public API for the service
         return {
@@ -173,7 +180,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             logSrsClicked: _logSrsClicked,
             logSrsAtgardClicked: _logSrsAtgardClicked,
             logSrsStatistikClicked: _logSrsStatistikClicked,
-            setConsent: _setConsent
+            setConsent: _setConsent,
+            getSrsForDiagnoseOnly: _getSrsForDiagnoseOnly
         };
     }]);
 

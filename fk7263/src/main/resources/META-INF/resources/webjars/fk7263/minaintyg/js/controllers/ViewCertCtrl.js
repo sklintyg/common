@@ -22,6 +22,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
         function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, customizeViewstate) {
             'use strict';
 
+            $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
 
             $scope.send = function() {
@@ -33,20 +34,22 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                 $location.path('/fk7263/customizepdf/' + $stateParams.certificateId + '/step1');
             };
 
+            $scope.errorMessage = null;
             $scope.doneLoading = false;
-
             certificateService.getCertificate('fk7263', $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
+                    $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/fk7263/visafel/certnotfound');
+                    $scope.errorMessage = 'error.certnotfound';
                 }
-            }, function() {
-                $log.debug('got error');
-                $location.path('/fk7263/visafel/certnotfound');
+            }, function(errorMsgKey) {
+                $scope.doneLoading = true;
+                $log.debug('getCertificate got error ' + errorMsgKey);
+                $scope.errorMessage = errorMsgKey;
             });
 
             $scope.pagefocus = true;

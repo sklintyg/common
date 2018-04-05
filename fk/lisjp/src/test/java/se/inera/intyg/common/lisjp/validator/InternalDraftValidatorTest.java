@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -633,7 +633,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukskrivningIsTooLong() throws Exception {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(2);
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(4);
 
         Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
             new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
@@ -787,7 +787,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("lisjp.validation.bedomning.fmb.empty", res.getValidationErrors().get(0).getMessage());
+        assertEquals("lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 

@@ -22,6 +22,8 @@ angular.module('fk7263').constant('fk7263.messages', {
     'sv': {
         // Labels
         'fk7263.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'fk7263.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till Arkiverade intyg. Du kan när som helst återställa intyget igen.',
+
 
         'fk7263.label.nedsattning.falt8b': 'Jag bedömer att arbetsförmåga är (fält 8b)',
         'fk7263.label.patientname': 'Patientens namn',
@@ -83,7 +85,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.customize.step.3.pagetitle': 'Ladda ner PDF - steg 3 av 3',
         'fk7263.customize.step.3.pageingress.left': 'Här kan du ladda ner ditt anpassade intyg som en PDF, för att sedan kunna skriva ut det eller mejla till din arbetsgivare. ',
         'fk7263.customize.step.3.pageingress.right': '',
-        'fk7263.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
+        'fk7263.customize.step.3.info.fk': 'Intyget <u>ska inte skickas</u> till Försäkringskassan!',
         'fk7263.customize.step.3.download': 'Ladda ner som PDF',
         'fk7263.customize.step.3.download.tooltip' : 'Intyget sparas som PDF på din enhet.',
 
@@ -114,13 +116,8 @@ angular.module('fk7263').constant('fk7263.messages', {
 
 
         'fk7263.inbox.complementaryinfo': 'Intygsperiod',
-        'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
-        'fk7263.message.certificateloading': 'Hämtar intyg...',
+        'fk7263.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
 
-        // Errors
-        'fk7263.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'fk7263.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
     },
     'en': {
         'fk7263.label.pagetitle': 'Show Certificate'

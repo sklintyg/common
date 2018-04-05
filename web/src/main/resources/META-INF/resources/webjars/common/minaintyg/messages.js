@@ -70,9 +70,18 @@ angular.module('common').constant('common.messages', {
         'modules.page-header.info.more.true':'<span class="glyphicon glyphicon-chevron-down"></span> Läs mer om knappfunktioner',
         'modules.view-intyg.end-of-intyg.text': 'Slut på intyget',
 
-
+        // Certificates events
+        'certificates.events.received': 'Mottagits av {0}',
+        'certificates.events.sent': 'Skickat till {0}',
+        'certificates.events.noevents': 'Inga händelser',
+        'certificates.events.unknowndatetime': 'Okänd tid',
+        'certificates.events.eventsshown': '(Visar {0} av {1})',
+        'certificates.events.ersatt': 'Ersattes av vården med ett nytt <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a>',
+        'certificates.events.ersatter': 'Ersätter ett <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a> som inte längre är aktuellt',
+        'certificates.events.ersatt.warn': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/view/{0}">detta intyg</a>.',
 
         //Common text in customized pdf wizard (lisjp and fk7263)
+        'modules.customize.message.customize.disabled': 'Intyg som avser avstängning enligt smittskyddslagen kan inte anpassas till din arbetsgivare. Om du vill hämta det fullständiga intyget så klicka på knappen <i>Ladda ner intyg som PDF</i>.',
         'modules.customize.label.mandatory': 'Obligatorisk info',
         'modules.customize.label.optional': 'Inkludera i anpassat intyg',
         'modules.customize.message.warning': 'Dina val är frivilliga, men att dela med sig av information kan underlätta arbetsgivarens möjlighet att göra arbetsanpassningar för dig.',
@@ -95,11 +104,7 @@ angular.module('common').constant('common.messages', {
         'info.loadingcertificate': 'Hämtar intyget...',
 
         // Common errors
-        'common.error.unknown': '<strong>Tekniskt fel</strong>',
-        'common.error.cantconnect': 'Kunde inte kontakta servern',
-        'common.error.certificatenotfound': 'Intyget finns inte',
-        'common.error.certificateinvalid': 'Intyget är inte korrekt ifyllt',
-        'common.error.data_not_found': '<strong>Intyget kunde inte hittas.</strong><br>Intyget är borttaget eller så saknas behörighet.'
+        'common.error.unknown': '<strong>Tekniskt fel</strong>'
     },
     'en': {
         'common.ok': 'OK',

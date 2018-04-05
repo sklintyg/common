@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.doi.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -134,13 +152,10 @@ public class DoiModuleApiTest {
     @Test
     public void testCreateNewInternalFromTemplate() throws Exception {
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(null);
-        when(objectMapper.readValue(eq("internal model"), eq(DoiUtlatande.class))).thenReturn(null);
-        when(objectMapper.writeValueAsString(any())).thenReturn("internal model");
 
-        String res = moduleApi.createNewInternalFromTemplate(createCopyHolder(), "internal model");
+        moduleApi.createNewInternalFromTemplate(createCopyHolder(), null);
 
-        assertNull(res);
-        verifyZeroInteractions(webcertModelFactory);
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
     }
 
     @Test

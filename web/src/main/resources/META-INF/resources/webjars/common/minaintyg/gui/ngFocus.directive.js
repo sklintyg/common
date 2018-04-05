@@ -40,8 +40,7 @@ angular.module('common').directive('ngFocus',
                 }
             });
 
-            element.bind('blur', function() {
-
+            function onBlur() {
                 if (abortFocusing) {
                     return;
                 }
@@ -49,7 +48,9 @@ angular.module('common').directive('ngFocus',
                 $timeout(function() {
                     ngFocusSet(scope, false);
                 }, 0);
-            });
+            }
+
+            element.bind('blur', onBlur);
 
             var timerStarted = false;
             var focusCount = 0;
@@ -66,8 +67,7 @@ angular.module('common').directive('ngFocus',
                 }, 200);
             }
 
-            element.bind('focus', function() {
-
+            function onFocus() {
                 if (abortFocusing) {
                     return;
                 }
@@ -82,6 +82,13 @@ angular.module('common').directive('ngFocus',
                 $timeout(function() {
                     ngFocusSet(scope, true);
                 }, 0);
-            });
+            }
+
+            element.bind('focus', onFocus);
+
+            scope.$on('$destroy', function() {
+                element.unbind('blur', onBlur);
+                element.unbind('focus', onFocus);
+           });
         };
     });

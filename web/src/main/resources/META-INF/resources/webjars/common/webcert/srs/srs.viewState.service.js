@@ -30,12 +30,12 @@ angular.module('common').service('common.srsViewState',
         this.shownFirstTime = false;
         this.clickedFirstTime = false;
         this.diagnosisCodes = null;
+        this.diagnosisListFetching = null;
         this.errorMessage = '';
         this.srsApplicable = false;
         this.questions = [];
         this.statistik = {};
         this.atgarder = {};
-
                     
         this.prediction = {};
         this.prediction.description = '';
@@ -70,6 +70,7 @@ angular.module('common').service('common.srsViewState',
 
         this.setDiagnosKod = function(diagnosKod) {
             this.diagnosKod = diagnosKod;
+            this.originalDiagnosKod = diagnosKod;
         };
 
         this.setDiagnosBeskrivning = function(diagnosBeskrivning){

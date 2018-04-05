@@ -1,8 +1,11 @@
 /* jshint maxlen: false */
 angular.module('lisjp').constant('lisjp.messages', {
     'sv': {
+        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Be careful to investigate if they are used before removing them.
 
         'lisjp.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget, göra en anpassad version till din arbetsgivare, ladda ner intyget som PDF och arkivera intyget. Om du vill ansöka om sjukpenning, gör du det enklast på <LINK:forsakringskassan-sjuk>. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'lisjp.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till Arkiverade intyg. Du kan när som helst återställa intyget igen.',
 
         // Anpassat intyg
         'lisjp.customize.step.1.pagetitle': 'Anpassa intygsinformation till din arbetsgivare - steg 1 av 3',
@@ -18,7 +21,7 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.customize.step.3.pagetitle': 'Ladda ner PDF - steg 3 av 3',
         'lisjp.customize.step.3.pageingress.left': 'Här kan du ladda ner ditt anpassade intyg som en PDF, för att sedan kunna skriva ut det eller mejla till din arbetsgivare. ',
         'lisjp.customize.step.3.pageingress.right': '',
-        'lisjp.customize.step.3.info.fk': 'Intyget <u>skall inte skickas</u> till Försäkringskassan!',
+        'lisjp.customize.step.3.info.fk': 'Intyget <u>ska inte skickas</u> till Försäkringskassan!',
         'lisjp.customize.step.3.download': 'Ladda ner som PDF',
         'lisjp.customize.step.3.download.tooltip': 'Intyget sparas som PDF på din enhet.',
         'lisjp.customize.change': 'Ändra dina val',
@@ -30,15 +33,10 @@ angular.module('lisjp').constant('lisjp.messages', {
 
         'lisjp.button.cancel': 'Avbryt',
 
-        // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
+        // Composite keys - used with dynamic prefix such as <intygstype>.
         // Be careful to investigate if they are used before removing them.
         'lisjp.inbox.complementaryinfo': 'Intygsperiod',
-        'lisjp.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:',
-
-        'lisjp.error.generic': 'Intyget kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.couldnotsend': 'Intyget kunde inte skickas till Försäkringskassan. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>',
-        'lisjp.error.couldnotarchivecert': 'Intyget kunde inte arkiveras'
+        'lisjp.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
     },
     'en': {
         'lisjp.label.pagetitle': 'Show Certificate'

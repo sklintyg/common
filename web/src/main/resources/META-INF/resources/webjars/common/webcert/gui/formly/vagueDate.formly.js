@@ -27,33 +27,65 @@ angular.module('common').run(function(formlyConfig) {
         },
         templateUrl: '/web/webjars/common/webcert/gui/formly/vagueDate.formly.html',
         controller: ['$scope', 'common.UtkastValidationService',
-            'common.AtticHelper', function($scope, UtkastValidationService) {
+            function($scope, UtkastValidationService) {
+
+                $scope.$on('$destroy', function() {
+                    $scope.model.clear($scope.options.key);
+                });
 
                 $scope.vagueDateModel = {
-                    year:undefined,
-                    month:undefined,
-                    day:undefined
+                    year:'',
+                    month:'',
+                    monthEnabled: false
                 };
 
+                createYears(true);
+                createMonths(true);
                 parseModel();
 
+                $scope.$watch(function(){
+                    return $scope.model[$scope.options.key];
+                }, function(newValue, oldValue){
+                    //if(newValue !== oldValue){
+                        parseModel();
+                    //}
+                });
+
                 $scope.validate = function() {
+                    $scope.form.$commitViewValue();
                     UtkastValidationService.validate($scope.model);
                 };
 
                 $scope.$watch('vagueDateModel.year', function(newValue) {
-                    if (newValue !== undefined) {
+                    $scope.vagueDateModel.monthEnabled = false;
+                    if (newValue !== '') {
                         updateModel();
+                        if (newValue === '0000') {
+                            $scope.vagueDateModel.month = '00';
+                            createMonths(false);
+                        }
+                        else {
+                            $scope.vagueDateModel.monthEnabled = true;
+                            if($scope.vagueDateModel.month === '00'){
+                                createMonths(true);
+                                $scope.vagueDateModel.month = '';
+                            } else {
+                                createMonths(false);
+                            }
+                        }
+                        createYears(false);
+                    }
+                    else {
+                        createYears(true);
                     }
                 });
                 $scope.$watch('vagueDateModel.month', function(newValue) {
-                    if (newValue !== undefined) {
+                    if (newValue !== '') {
                         updateModel();
+                        createMonths(false);
                     }
-                });
-                $scope.$watch('vagueDateModel.day', function(newValue) {
-                    if (newValue !== undefined) {
-                        updateModel();
+                    else {
+                        createMonths(true);
                     }
                 });
 
@@ -61,17 +93,75 @@ angular.module('common').run(function(formlyConfig) {
                     var modelDate = $scope.model[$scope.options.key];
                     if (modelDate) {
                         var result = /^([0-9]{0,4})(-([0-9]{0,2}))?(-([0-9]{0,2}))?/.exec(modelDate);
-                        $scope.vagueDateModel.year = result[1];
-                        $scope.vagueDateModel.month = result[3];
-                        $scope.vagueDateModel.day = result[5];
+                        if (result[1]) {
+                            $scope.vagueDateModel.year = result[1];
+                        } else {
+                            $scope.vagueDateModel.year = '';
+                        }
+                        if (result[3]) {
+                            $scope.vagueDateModel.month = result[3];
+                        } else {
+                            $scope.vagueDateModel.month = '';
+                        }
                     }
                 }
 
                 function updateModel() {
-                    $scope.model[$scope.options.key] =
-                        $scope.vagueDateModel.year + '-' +
-                        $scope.vagueDateModel.month + '-' +
-                        $scope.vagueDateModel.day;
+                    var modelValue = '';
+                    if ($scope.vagueDateModel.year) {
+                        modelValue += $scope.vagueDateModel.year;
+                    }
+                    modelValue += '-';
+                    if ($scope.vagueDateModel.month) {
+                        modelValue += $scope.vagueDateModel.month;
+                    }
+                    modelValue += '-00';
+                    $scope.model[$scope.options.key] = modelValue;
+                }
+
+
+                function createYears(placeholder) {
+                    // No need to recreate if the list has correct length
+                    if ($scope.years) {
+                        if ($scope.years.length === 4 && placeholder) {
+                            return;
+                        }
+                        if ($scope.years.length === 3 && !placeholder) {
+                            return;
+                        }
+                    }
+                    var thisYear = moment().format('YYYY');
+                    var lastYear = (thisYear - 1).toString();
+                    $scope.years = [
+                        {value:'0000', label:'0000 (ej känt)'},
+                        {value:thisYear, label:thisYear},
+                        {value:lastYear, label:lastYear}
+                    ];
+                    if (placeholder) {
+                        $scope.years.unshift({value:'', label:'Ange år'});
+                    }
+                }
+
+                function createMonths(placeholder) {
+                    if ($scope.months) {
+                        if ($scope.months.length === 14 && placeholder) {
+                            return;
+                        }
+                        if ($scope.months.length === 13 && !placeholder) {
+                            return;
+                        }
+                    }
+                    $scope.months = [{value: '00', label: '00 (ej känt)'}];
+                    for (var month = 1; month <= 12; month++) {
+                        var monthPadded = month.toString();
+                        if (monthPadded < 10) {
+                            monthPadded = '0' + monthPadded;
+                        }
+                        $scope.months.push({value: monthPadded, label: monthPadded});
+                    }
+                    if (placeholder) {
+                        $scope.months.unshift({value: '', label: 'Ange månad'});
+                    }
                 }
 
             }]

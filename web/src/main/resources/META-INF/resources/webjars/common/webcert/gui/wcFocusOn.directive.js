@@ -20,16 +20,19 @@
 /**
  * FocusMe directive. Used to set focus to an element via model value
  */
-angular.module('common').directive('wcFocusOn', ['common.anchorScrollService',
-    function(anchorScrollService) {
+angular.module('common').directive('wcFocusOn', ['$browser', 'common.anchorScrollService',
+    function($browser, anchorScrollService) {
         'use strict';
         return function(scope, elem, attr) {
             return scope.$on('wcFocusOn', function(e, name) {
                 if (name === attr.wcFocusOn) {
-                    elem[0].select();
-                    if (name !== 'focusFirstInput') {
-                        anchorScrollService.scrollTo(elem[0].id);
-                    }
+                    elem[0].focus();
+                    $browser.notifyWhenNoOutstandingRequests(function() {
+                        elem[0].focus();
+                        if (name !== 'focusFirstInput') {
+                            anchorScrollService.scrollTo((elem[0].id === 'ovrigt' && angular.element('#form_ovrigt').length > 0) ? 'form_' + elem[0].id : elem[0].id);
+                        }
+                    });
                 }
             });
         };

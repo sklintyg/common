@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,20 +18,13 @@
  */
 package se.inera.intyg.common.luse.pdf;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfPCell;
-
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.pdf.FkBasePdfDefinitionBuilder;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
@@ -58,7 +51,13 @@ import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contructs a object graph of PdfComponents that represents a LUSE intyg.
@@ -86,7 +85,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
     public FkPdfDefinition buildPdfDefinition(LuseUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            IntygTexts intygTexts)
+            IntygTexts intygTexts, boolean isUtkast)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
@@ -101,7 +100,6 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(
                     new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            boolean isUtkast = isUtkast(intyg);
             if (!isUtkast) {
                 def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
             }

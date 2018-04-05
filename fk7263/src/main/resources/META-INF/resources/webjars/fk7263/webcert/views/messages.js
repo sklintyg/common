@@ -141,13 +141,13 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.nedsattningsgrad.nedsatt_med_1_4.arbetstidsforlaggning': 'Arbetstidsförläggning för nedsatt med 1/4',
 
         'fk7263.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
-        'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
-            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
-            '<ul><li>Information om sjukskrivningsperiod.</li>' +
+        'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. <br><br>' +
+        'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+            '<ul><li>Sjukskrivningsperiod och grad.</li>' +
             '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
             '<li>Referenser som intyget baseras på.</li></ul>',
 
-        'fk7263.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett kopierat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan vårdenhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.',
+        'fk7263.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett förnyat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.',
         'fk7263.modal.ersatt.text':'<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga intyget. Uppgifterna i det nya utkastet går att ändra innan det signeras. Ett ersatt intyg är endast tillgängligt att läsa och skriva ut. På det ersatta intyget kommer en länk finnas till det nya intyget.</p>' +
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
 
@@ -188,11 +188,11 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.validation.forandrat-ressatt.choose-one': 'Endast ett alternativ kan anges avseende förändrat ressätt. (Fält 11)',
         'fk7263.validation.nedsattning.tjanstgoringstid': 'För att kunna beräkna arbetstid måste \'Faktisk tjänstgöringstid\' vara ett nummer (Fält 8a)',
         'fk7263.validation.nedsattning.choose-at-least-one': 'Välj minst ett alternativ för arbetsförmåga. (Fält 8b)',
-        'fk7263.validation.nedsattning.nedsattmed100.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
-        'fk7263.validation.nedsattning.nedsattmed75.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
-        'fk7263.validation.nedsattning.nedsattmed50.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
-        'fk7263.validation.nedsattning.nedsattmed25.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 25% har angetts på felaktigt format.',
-        'fk7263.validation.nedsattning.overlapping-date-interval': 'Sjukskrivningsperioder med överlappande datum har angetts.',
+        'fk7263.validation.nedsattning.nedsattmed100.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format. (Fält 8b)',
+        'fk7263.validation.nedsattning.nedsattmed75.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format. (Fält 8b)',
+        'fk7263.validation.nedsattning.nedsattmed50.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format. (Fält 8b)',
+        'fk7263.validation.nedsattning.nedsattmed25.incorrect-format' : 'Datum för nedsatt arbetsförmåga med 25% har angetts på felaktigt format. (Fält 8b)',
+        'fk7263.validation.nedsattning.overlapping-date-interval': 'Sjukskrivningsperioder med överlappande datum har angetts. (Fält 8b)',
         'fk7263.validation.diagnos.missing': 'ICD-10 kod saknas på huvuddiagnosen. (Fält 2)',
         'fk7263.validation.diagnos.invalid': 'Diagnoskoden är ogiltig',
         'fk7263.validation.rekommendationer.ovriga': 'Fritextfältet som hör till alternativet Övrigt måste fyllas i. (Fält 6a)'

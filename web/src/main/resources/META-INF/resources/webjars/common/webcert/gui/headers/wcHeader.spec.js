@@ -129,7 +129,7 @@ describe('wcHeader', function() {
             features: {
                 HANTERA_FRAGOR: 'hanteraFragor',
                 HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
-                KOPIERA_INTYG: 'kopieraIntyg',
+                FORNYA_INTYG: 'fornyaIntyg',
                 MAKULERA_INTYG: 'makuleraIntyg',
                 SKICKA_INTYG: 'skickaIntyg'
             },

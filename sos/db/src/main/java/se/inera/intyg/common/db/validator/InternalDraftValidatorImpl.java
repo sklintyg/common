@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -27,6 +27,7 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,24 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                 ValidatorUtil
                         .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
                                 ValidationMessageType.INVALID_FORMAT);
+            } else if (!utlatande.getUndersokningDatum().isReasonable() || utlatande.getUndersokningDatum().asLocalDate()
+                    .isAfter(LocalDate.now())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum", ValidationMessageType.INVALID_FORMAT,
+                                "common.validation.date_out_of_range");
+            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
+                    && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                                ValidationMessageType.INCORRECT_COMBINATION,
+                                "db.validation.undersokningDatum.after.dodsdatum");
+            } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
+                    && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
+                    && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                                ValidationMessageType.INCORRECT_COMBINATION,
+                                "db.validation.undersokningDatum.after.antraffatDodDatum");
             }
         }
     }
@@ -88,6 +107,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
     private void validatePolisanmalan(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getPolisanmalan() == null) {
             ValidatorUtil.addValidationError(validationMessages, "polisanmalan.polisanmalan", ValidationMessageType.EMPTY);
+        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS && !utlatande.getPolisanmalan()) {
+            // R19
+            ValidatorUtil.addValidationError(validationMessages, "polisanmalan.polisanmalan", ValidationMessageType.INCORRECT_COMBINATION);
         }
     }
 }

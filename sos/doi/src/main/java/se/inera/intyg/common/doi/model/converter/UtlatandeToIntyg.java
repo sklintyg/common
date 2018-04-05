@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -80,7 +80,7 @@ public final class UtlatandeToIntyg {
 
     private static TypAvIntyg getTypAvIntyg(DoiUtlatande utlatande) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(utlatande.getTyp());
+        typAvIntyg.setCode(utlatande.getTyp().toUpperCase());
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(DoiModuleEntryPoint.MODULE_NAME);
         return typAvIntyg;

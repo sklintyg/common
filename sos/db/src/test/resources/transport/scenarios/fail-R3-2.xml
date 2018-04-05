@@ -86,7 +86,7 @@
             </delsvar>
         </svar>
         <svar id="4">
-            <delsvar id="4.1">true</delsvar>
+            <delsvar id="4.1">false</delsvar>
         </svar>
         <svar id="5">
             <delsvar id="5.1">true</delsvar>
@@ -101,7 +101,7 @@
                     <ns3:displayName>UNDERSOKNING_GJORT</ns3:displayName>
                 </ns3:cv>
             </delsvar>
-            <delsvar id="6.3">2017-01-03</delsvar>
+            <delsvar id="6.3">2016-12-31</delsvar>
         </svar>
         <svar id="7">
             <delsvar id="7.1">true</delsvar>

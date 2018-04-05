@@ -24,10 +24,10 @@ angular.module('common').factory('common.UtkastService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService', 'common.srsService',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
             dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService) {
+            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService, srsService) {
             'use strict';
 
             // used to calculate save duration
@@ -74,6 +74,10 @@ angular.module('common').factory('common.UtkastService',
                         $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id + '/');
                     }
                     else {
+
+                        srsService.updatePersonnummer(utkastData.content.grundData.patient.personId);
+                        srsService.updateHsaId(utkastData.content.grundData.skapadAv.vardenhet.enhetsid);
+                        srsService.updateIntygsTyp(utkastData.content.typ);
 
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(

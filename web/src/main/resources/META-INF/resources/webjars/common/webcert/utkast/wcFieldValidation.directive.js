@@ -35,7 +35,7 @@ angular.module('common').directive('wcFieldValidation',
                 },
                 link: function(scope) {
 
-                    // This is used to create keys for fitnesse lookup
+                    // This is used to create keys for lookup
                     scope.getSection = function(message) {
                         var section = message.field.toLowerCase();
                         var i = message.field.indexOf('.');
