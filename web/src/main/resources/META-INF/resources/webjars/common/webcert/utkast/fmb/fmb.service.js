@@ -58,7 +58,7 @@ angular.module('common').factory('common.fmbService', [
             // Request FMB texts for all entered diagnoses
             var i;
             for (i = 0; i < diagnoser.length; i++){
-                if (diagnoser[i].diagnosKod) {
+                if (diagnoser[i].diagnosKod && diagnoser[i].diagnosKodSystem === 'ICD_10_SE') {
                     fmbDiagnosRequest.push({
                         type: diagnosTypes[i],
                         code: diagnoser[i].diagnosKod
@@ -84,21 +84,24 @@ angular.module('common').factory('common.fmbService', [
             return true;
         }
 
-        function _updateFmbText(diagnosType, originalDiagnosKod) {
+        function _updateFmbText(diagnosType, originalDiagnosKod, kodSystem) {
             if (!ObjectHelper.isDefined(originalDiagnosKod) || originalDiagnosKod.length === 0) {
                 fmbViewState.reset(diagnosType);
                 return false;
             } else {
                 if (!angular.isObject(fmbViewState.diagnoses[diagnosType]) ||
                     fmbViewState.diagnoses[diagnosType].diagnosKod !== originalDiagnosKod) {
-                    var fmbSuccess = function fmbSuccess(formData) {
-                        fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
-                    };
-                    var fmbReject = function fmbReject(data) {
-                        $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);
-                        $log.debug(data);
-                    };
-                    fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
+
+                    if (kodSystem === 'ICD_10_SE') {
+                        var fmbSuccess = function fmbSuccess(formData) {
+                            fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
+                        };
+                        var fmbReject = function fmbReject(data) {
+                            $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);
+                            $log.debug(data);
+                        };
+                        fmbProxy.getFMBHelpTextsByCode(originalDiagnosKod).then(fmbSuccess, fmbReject);
+                    }
                 }
             }
             return true;

@@ -244,6 +244,7 @@ describe('fmbService', function() {
                 {
                     diagnosKod: 'J22',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
+                    diagnosKodSystem: 'ICD_10_SE',
                     formData: {
                         DIAGNOS: {
                             heading: 'SYMPTOM_PROGNOS_BEHANDLING',
@@ -255,6 +256,7 @@ describe('fmbService', function() {
                 {
                     diagnosKod: 'M118',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
+                    diagnosKodSystem: 'ICD_10_SE',
                     formData: {
                         DIAGNOS: {
                             heading: 'SYMPTOM_PROGNOS_BEHANDLING',
@@ -266,6 +268,7 @@ describe('fmbService', function() {
                 {
                     diagnosKod: 'H27',
                     diagnosBeskrivning: 'Akut bronkit är inte kul.',
+                    diagnosKodSystem: 'ICD_10_SE',
                     formData: {
                         DIAGNOS: {
                             heading: 'SYMPTOM_PROGNOS_BEHANDLING',
@@ -332,11 +335,23 @@ describe('fmbService', function() {
             var diagnosType = 0;
             var originalDiagnosKod = 'M118';
 
-            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod);
+            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod, 'ICD_10_SE');
             $rootScope.$apply();
 
             expect(result).toBeTruthy();
             expect(fmbViewState.setState).toHaveBeenCalled();
+        });
+
+        it('should only set info if diagnoskod is ICD_10_SE', function() {
+
+            var diagnosType = 0;
+            var originalDiagnosKod = 'M118';
+
+            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod, 'KSH_97_P');
+            $rootScope.$apply();
+
+            expect(result).toBeTruthy();
+            expect(fmbViewState.setState).not.toHaveBeenCalled();
         });
     });
 

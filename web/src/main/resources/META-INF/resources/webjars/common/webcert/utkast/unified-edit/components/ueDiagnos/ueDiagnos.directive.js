@@ -153,7 +153,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 diagnoseModel.diagnosBeskrivning = $item.beskrivning;
                 diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                 $scope.diagnosForm.$setDirty();
-                fmbService.updateFmbText(index, $item.value);
+                fmbService.updateFmbText(index, $item.value, diagnoseModel.diagnosKodSystem);
             };
 
             $scope.onDiagnoseDescriptionSelect = function(index, $item) {
@@ -168,7 +168,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                 $scope.diagnosKodNoResults = [];
                 $scope.diagnosForm.$setDirty();
-                fmbService.updateFmbText(index, $item.value);
+                fmbService.updateFmbText(index, $item.value, diagnoseModel.diagnosKodSystem);
             };
 
             $scope.onDiagnoseCodeChanged = function(index) {
@@ -222,7 +222,9 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                     $scope.diagnosForm['diagnoseCode' + index].$setViewValue();
                     $scope.diagnosForm['diagnoseCode' + index].$render();
                 }
-                fmbService.updateFmbText(index, $scope.model[$scope.config.modelProp][index].diagnosKod);
+                var diagnos = $scope.model[$scope.config.modelProp][index];
+
+                fmbService.updateFmbText(index, diagnos.diagnosKod, diagnos.diagnosKodSystem);
             };
 
             $scope.hasValidationError = function(field, index) {
