@@ -31,10 +31,10 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
         }
 
         function _getCertificates(callback) {
-            $http.get('/api/certificates').success(function(data) {
-                callback(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            $http.get('/api/certificates').then(function(response) {
+                callback(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 //give calling code a chance to handle error
                 callback(null);
             });
@@ -46,12 +46,12 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
                 callback(cachedArchiveList);
                 return;
             }
-            $http.get('/api/certificates/archived').success(function(data) {
+            $http.get('/api/certificates/archived').then(function(response) {
                 $log.debug('populating archive cache');
-                cachedArchiveList = data;
+                cachedArchiveList = response.data;
                 callback(cachedArchiveList);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 //give calling code a chance to handle error
                 callback(null);
             });
@@ -60,11 +60,11 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
         function _archiveCertificate(item, callback) {
             $log.debug('Archiving ' + item.id);
 
-            $http.put('/api/certificates/' + item.id + '/archive').success(function(data) {
+            $http.put('/api/certificates/' + item.id + '/archive').then(function(response) {
                 _emptyCache();
-                callback(data, item);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+                callback(response.data, item);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 //give calling code a chance to handle error
                 callback(null);
             });
@@ -72,11 +72,11 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
 
         function _restoreCertificate(item, callback) {
             $log.debug('restoring ' + item.id);
-            $http.put('/api/certificates/' + item.id + '/restore').success(function(data) {
+            $http.put('/api/certificates/' + item.id + '/restore').then(function(response) {
                 _emptyCache();
-                callback(data, item);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+                callback(response.data, item);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 //give calling code a chance to handle error
                 callback(null);
             });
@@ -84,11 +84,11 @@ angular.module('common').factory('common.IntygListService', ['$rootScope', '$htt
 
         function _getKnownRecipients(callback) {
             $log.debug('getting all available recipients');
-            $http.get('/api/certificates/recipients/list').success(function(data) {
+            $http.get('/api/certificates/recipients/list').then(function(response) {
                 $rootScope.$broadcast('recipients.updated');
-                callback(data);
-            }).error(function(data, status) {
-                $log.error('error ' + status);
+                callback(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
                 callback(null);
             });
         }

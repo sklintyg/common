@@ -29,18 +29,18 @@ angular.module('common').factory('common.IntygService',
         function _getCertificate(type, id, onSuccess, onError) {
             $log.debug('_getCertificate id:' + id + 'of type:' + type);
             var restPath = '/moduleapi/certificate/' + type + '/' + id;
-            $http.get(restPath).success(function(data) {
-                $log.debug('_getCertificate data:' + data);
-                if (data.meta.archived) {
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getCertificate data:' + response.data);
+                if (response.data.meta.archived) {
                     onError('error.certarchived');
                 } else {
-                    dynamicLabelService.updateDynamicLabels(type, data.utlatande);
-                    onSuccess(data);
+                    dynamicLabelService.updateDynamicLabels(type, response.data.utlatande);
+                    onSuccess(response.data);
                 }
 
-            }).error(function(data, status) {
-                $log.error('error ' + status);
-                if (status === 410) {
+            }, function(response) {
+                $log.error('error ' + response.status);
+                if (response.status === 410) {
                     onError('info.certrevoked');
                 } else {
                     onError('error.certnotfound');
