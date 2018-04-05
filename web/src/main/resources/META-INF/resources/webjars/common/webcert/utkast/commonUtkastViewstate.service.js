@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.UtkastViewStateService',
-    ['common.User', 'common.UtkastValidationViewState', 'common.UserModel',
-        function(commonUser, utkastValidationViewState, UserModel) {
+    ['common.User', 'common.UtkastValidationViewState', 'common.UserModel', 'common.IntygHeaderViewState',
+        function(commonUser, utkastValidationViewState, UserModel, IntygHeaderViewState) {
         'use strict';
 
         this.reset = function() {
@@ -52,6 +52,8 @@ angular.module('common').service('common.UtkastViewStateService',
 
             this.validation = utkastValidationViewState;
             this.validation.reset();
+
+            IntygHeaderViewState.reset();
         };
 
         this.update = function(draftModel, data) {

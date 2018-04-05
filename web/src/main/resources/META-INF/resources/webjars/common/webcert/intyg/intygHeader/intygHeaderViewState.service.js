@@ -21,12 +21,16 @@ angular.module('common').service('common.IntygHeaderViewState', [
         function(featureService, moduleService, messageService) {
             'use strict';
 
-            /*
-            // Current intyg view state
-            */
-            this.intygViewState = {};
-            this.intygType = null;
-            this.intygLoaded = false;
+            this.reset = function() {
+                /*
+                // Current intyg view state
+                */
+                this.intygViewState = {};
+                this.intygType = null;
+                this.intygLoaded = false;
+            };
+
+            this.reset();
 
             /*
             // Create from template state

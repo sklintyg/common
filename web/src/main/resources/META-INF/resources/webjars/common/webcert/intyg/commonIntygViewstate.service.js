@@ -18,9 +18,9 @@
  */
 angular.module('common').service('common.IntygViewStateService',
     ['$log',
-        'common.IntygHelper', 'common.moduleService',
+        'common.IntygHelper', 'common.moduleService', 'common.IntygHeaderViewState',
         function($log,
-            IntygHelper, moduleService) {
+            IntygHelper, moduleService, IntygHeaderViewState) {
             'use strict';
 
             // Create persistent object. Never overwrite this. Makes it possible to one-time-bind and reference this object everywhere for faster rendering.
@@ -46,6 +46,8 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.patientNameChangedInPU = false;
                 this.intygProperties.parent = undefined;
                 this.intygProperties.created = undefined;
+
+                IntygHeaderViewState.reset();
             };
 
             this.isRevoked = function(){
