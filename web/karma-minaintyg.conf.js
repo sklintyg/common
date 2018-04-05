@@ -35,15 +35,7 @@ module.exports = function(config) {
         // generate js files from html templates to expose them during testing.
         preprocessors: {
             'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.scss': ['scss'],
-            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.html': ['ng-html2js'],
-            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.scss': ['scss']
-        },
-
-        scssPreprocessor: {
-          options: {
-            sourceMap: true
-          }
+            'src/main/resources/META-INF/resources/webjars/common/app-shared/**/*.html': ['ng-html2js']
         },
 
         ngHtml2JsPreprocessor: {
@@ -100,6 +92,9 @@ module.exports = function(config) {
         // enable / disable watching file and executing tests whenever any file changes
         autoWatch: true,
 
+        // Run specs in semi-random order
+        random: false,
+
         // Start these browsers, currently available:
         // - Chrome
         // - ChromeCanary
@@ -120,8 +115,7 @@ module.exports = function(config) {
             'karma-jasmine',
             'karma-phantomjs-launcher',
             'karma-mocha-reporter',
-            'karma-ng-html2js-preprocessor',
-            'karma-scss-preprocessor'
+            'karma-ng-html2js-preprocessor'
         ],
 
         reporters: [ 'progress' ]

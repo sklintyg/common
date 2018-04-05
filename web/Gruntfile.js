@@ -296,8 +296,9 @@ module.exports = function(grunt) {
         }
 
     });
-    grunt.log.subhead('======================= Autoprefixer settings =====================');
-    grunt.log.ok(autoprefixer.info());
+
+    //grunt.log.subhead('======================= Autoprefixer settings =====================');
+    //grunt.log.ok(autoprefixer.info());
     grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);

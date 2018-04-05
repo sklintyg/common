@@ -41,14 +41,14 @@ describe('PrefilledUserDataService', function() {
             expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(true);
         });
 
-        it('should return negative if any part are ', function() {
+        describe('should return negative if any part are ', function() {
 
-            describe('missing', function() {
+            it('missing', function() {
                 delete patient.postort;
                 expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
             });
 
-            describe('empty', function() {
+            it('empty', function() {
                 patient.postort = '';
                 expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
             });

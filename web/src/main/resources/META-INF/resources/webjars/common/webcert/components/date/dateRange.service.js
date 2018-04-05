@@ -55,7 +55,7 @@ angular.module('common').factory('common.DateRangeService', ['$log', 'common.Dat
         if(min.dateString !== undefined){
             min = min.moment;
         }
-        return min.isBefore(now.subtract('days', 7));
+        return min.isBefore(now.subtract(7, 'days'));
     };
 
     var _areDatesPeriodTooLong = function(minMax) {

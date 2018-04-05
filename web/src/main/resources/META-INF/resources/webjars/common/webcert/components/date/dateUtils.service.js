@@ -165,7 +165,7 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
             return;
         }
         var now = moment();
-        return startMoment.isBefore(now.subtract('days', 7));
+        return startMoment.isBefore(now.subtract(7, 'days'));
     }
 
     /**

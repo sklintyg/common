@@ -54,8 +54,7 @@ module.exports = function(config) {
                 'karma-junit-reporter',
                 'karma-phantomjs-launcher',
                 'karma-mocha-reporter',
-                'karma-ng-html2js-preprocessor',
-                'karma-scss-preprocessor'
+                'karma-ng-html2js-preprocessor'
             ];
             if (runCoverage) {
                 plugins.push('karma-coverage');
@@ -65,8 +64,7 @@ module.exports = function(config) {
 
         preprocessors: (function() {
             var preprocessors = {
-                'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.html': ['ng-html2js'],
-                'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.scss': ['scss']
+                'src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.html': ['ng-html2js']
             };
             if (runCoverage) {
                 preprocessors['src/main/resources/META-INF/resources/webjars/common/minaintyg/**/*.js'] = ['coverage'];
