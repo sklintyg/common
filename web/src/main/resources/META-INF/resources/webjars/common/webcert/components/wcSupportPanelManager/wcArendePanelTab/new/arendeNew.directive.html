@@ -35,8 +35,8 @@
 
         <!-- Avbryt -->
         <button type="button" class="btn btn-default" ng-click="cancelQuestion()"
-                ng-disabled="!isArendeValidForSubmit()"
-                id="cancelArendeBtn">Avbryt</button>
+                ng-disabled="isArendeNonCancellable()"
+                id="cancelArendeBtn">Avbryt XXX</button>
 
         <!-- Status -->
         <span class="arende-draft-status pull-right" ng-switch="arendeNewModel.saveState">
