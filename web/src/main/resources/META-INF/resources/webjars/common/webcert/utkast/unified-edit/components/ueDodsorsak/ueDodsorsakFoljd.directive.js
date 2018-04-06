@@ -29,9 +29,6 @@ angular.module('common').directive('ueDodsorsakFoljd',
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.directive.html',
         link: function($scope, element, attr) {
-            /*        defaultOptions: {
-                        className: 'slide-animation'
-                    },*/
             ueUtil.standardSetup($scope);
         }
     };
