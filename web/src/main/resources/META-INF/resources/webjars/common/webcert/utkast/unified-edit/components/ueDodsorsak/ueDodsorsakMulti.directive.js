@@ -30,9 +30,6 @@ angular.module('common').directive('ueDodsorsakMulti',
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.directive.html',
             link: function($scope) {
-                /*                defaulconfigptions: {
-                                    className: 'slide-animation'
-                                },*/
 
                 $scope.validation = UtkastValidationViewState;
 
@@ -104,14 +101,16 @@ angular.module('common').directive('ueDodsorsakMulti',
                     }
                 }
 
-                $scope.$on('dynamicLabels.updated', function() {
-                    update();
-                });
+                $scope.$on('dynamicLabels.updated', update);
 
-                $scope.$on('intyg.loaded', function() {
+                function setRows() {
                     rows = $scope.model[$scope.config.modelProp];
-                });
+                }
 
+                $scope.$on('intyg.loaded', setRows);
+
+                setRows();
+                update();
             }
         };
     }

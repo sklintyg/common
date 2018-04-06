@@ -114,15 +114,15 @@ angular.module('common').directive('ueDodsorsakRow',
                         }
                     }
 
-                    $scope.$on('dynamicLabels.updated', function() {
-                        update();
-                    });
+                    $scope.$on('dynamicLabels.updated', update);
 
-                    $scope.$on('intyg.loaded', function() {
+                    function setModelValue() {
                         // Pick modelvalue from array if used in an array context otherwise just pick the model modelProp value
                         $scope.modelValue = ObjectHelper.isDefined($scope.rowIndex) ? $scope.model[$scope.modelProp][$scope.rowIndex] : $scope.model[$scope.modelProp];
-                    });
+                    }
+                    $scope.$on('intyg.loaded',setModelValue);
 
+                    setModelValue();
                     update();
                 }
             };
