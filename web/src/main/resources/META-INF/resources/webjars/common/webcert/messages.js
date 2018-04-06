@@ -17,6 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* jshint maxlen: false */
+
+(function(){
+var sjukpenningText = '<p>Intyget ska skickas till Försäkringskassan från dag 8 i sjukperioden om patienten är:</p>' +
+    '<ul>' +
+    '<li>Egenföretagare</li>' +
+    '<li>Arbetssökande</li>' +
+    '<li>Anställd men arbetsgivaren betalar inte ut sjuklön</li>' +
+    '<li>Studerande och arbetar med rätt till sjukpenning (tjänar mer än 10 700 per år)</li>' +
+    '<li>Ledig med föräldrapenning</li>' +
+    '<li>Ledig med graviditetspenning</li>' +
+    '</ul>' +
+    '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.';
+
 angular.module('common').constant('common.messages', {
     'sv': {
 
@@ -336,19 +349,10 @@ angular.module('common').constant('common.messages', {
         'ts-diabetes.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
 
         // Send w sjukpenning
-        'lisjp.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
-        'fk7263.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.<br><br>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
+        'lisjp.label.send.body': sjukpenningText,
+        'fk7263.label.send.body': sjukpenningText,
 
-        'lisjp.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
-        'lisjp.label.send.bodyText': '<p>Intyget ska skickas till Försäkringskassan från dag 8 i sjukperioden om patienten är:</p>' +
-         '<ul>' +
-        '<li>Egenföretagare</li>' +
-        '<li>Arbetssökande</li>' +
-        '<li>Anställd men arbetsgivaren betalar inte ut sjuklön</li>' +
-        '<li>Studerande och arbetar med rätt till sjukpenning (tjänar mer än 10 700 per år)</li>' +
-        '<li>Ledig med föräldrapenning</li>' +
-        '<li>Ledig med graviditetspenning</li>' +
-        '</ul>',
+        'sjukpenning.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
 
         'common.label.utkastcreated': 'Utkastet skapades',
         'common.label.showallstatuses': 'Visa alla händelser',
@@ -705,3 +709,5 @@ angular.module('common').constant('common.messages', {
         'common.cancel': 'Cancel'
     }
 });
+
+})();

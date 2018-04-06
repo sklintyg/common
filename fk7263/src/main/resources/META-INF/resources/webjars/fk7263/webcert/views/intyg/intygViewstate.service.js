@@ -40,5 +40,74 @@ angular.module('fk7263').service('fk7263.IntygController.ViewStateService',
                 }
             };
 
+            this.shouldArbeteSpawnObservandum = function () {
+                return !this.intygModel.arbetsloshet;
+            };
+
+            this.calculateNedsattMedDuration = function () { // jshint ignore:line
+
+                var nedsattMedLevels = ['25', '50', '75', '100'];
+
+                var isAtleastOneLevelValid = false;
+                var i = 0;
+                for(; i < nedsattMedLevels.length; i++){
+                    if(this.intygModel['nedsattMed' + nedsattMedLevels[i]]){
+                        isAtleastOneLevelValid = true;
+                        break;
+                    }
+                }
+
+                if(!isAtleastOneLevelValid){
+                    return 0;
+                }
+
+                var duration;
+
+                var startDate = null;
+                var endDate = null;
+
+                for(i = 0; i < nedsattMedLevels.length; i++){
+                    var sjukskrivning = this.intygModel['nedsattMed' + nedsattMedLevels[i]];
+                    if(!sjukskrivning){
+                        continue;
+                    }
+
+                    var from = new moment (sjukskrivning.from);
+                    if(startDate === null || from.isBefore(startDate)) {
+                        startDate = from;
+                    }
+                    var tom = new moment (sjukskrivning.tom);
+                    if(endDate === null || tom.isAfter(endDate)) {
+                        endDate = tom;
+                    }
+                }
+
+                if(startDate === null || endDate === null) {
+                    return 0;
+                }
+
+                duration = moment.duration(endDate.diff(startDate));
+                duration = duration.days() + 1;
+
+                return duration;
+            };
+
+            /**
+             * Visa observandum om:
+             * Perioden intyget avser är kortare eller lika med 7 dagar
+             * Alternativet Arbetslöshet är EJ valt.
+             */
+            this.getObservandumId = function() {
+
+                var duration = this.calculateNedsattMedDuration();
+                var shouldSysselsattningSpawnObservandum = this.shouldArbeteSpawnObservandum();
+
+                if (duration <= 7 && shouldSysselsattningSpawnObservandum) {
+                    return 'sjukpenning.label.send.obs.short.duration';
+                }
+
+                return null;
+            };
+
             this.reset();
         }]);
