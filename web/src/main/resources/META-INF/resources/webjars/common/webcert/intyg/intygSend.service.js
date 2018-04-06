@@ -40,76 +40,7 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function _shouldSysselsattningSpawnObservandum (occupationList) {
-
-                if(!occupationList){
-                    return false;
-                }
-
-                var areCriteraForObservandumMet = true;
-                occupationList.forEach(function (occupation) {
-                    if (occupation.typ === 'ARBETSSOKANDE') {
-                        areCriteraForObservandumMet = false;
-                    } else if (occupation.typ === 'STUDIER') {
-                        occupationList.forEach(function (occupation) {
-                            if (occupation.typ  === 'NUVARANDE_ARBETE') {
-                                areCriteraForObservandumMet = false;
-                            }
-                        });
-
-                    }
-                });
-               return areCriteraForObservandumMet;
-            }
-
-            /**
-             * Visa observandum om:
-             * Perioden intyget avser är kortare eller lika med 7 dagar
-             * Alternativet Arbetssökande (LISJP) eller Arbetslöshet (FK7263) är EJ valt.
-             * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt (LISJP)
-             */
-
-            function _calculateSjukskrivningDuration(intygModel) {
-
-                var duration;
-
-                var startDate = null;
-                var endDate = null;
-
-                if (intygModel.typ === 'lisjp') {
-                    intygModel.sjukskrivningar.forEach(function(sjukskrivning) {
-                        var from = new moment (sjukskrivning.period.from);
-                        if(startDate === null || from.isBefore(startDate)) {
-                            startDate = from;
-                        }
-                        var tom = new moment (sjukskrivning.period.tom);
-                        if(endDate === null || tom.isAfter(endDate)) {
-                            endDate = tom;
-                        }
-                    });
-                }
-
-                if(startDate === null || endDate === null) {
-                    return 0;
-                }
-
-                duration = moment.duration(endDate.diff(startDate));
-                duration = duration.days() + 1;
-
-                return duration;
-            }
-
-            function _getObservandumId(intygModel) {
-
-                var duration = _calculateSjukskrivningDuration(intygModel);
-                if (duration <= 7 && _shouldSysselsattningSpawnObservandum(intygModel.sysselsattning)) {
-                    return 'lisjp.label.send.obs.short.duration';
-                }
-
-                return null;
-            }
-
-            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, bodyText, onSuccess) {
+            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, observandumId, onSuccess) {
              
                 var dialogSendModel ={
                     acceptprogressdone: true,
@@ -117,14 +48,13 @@ angular.module('common').factory('common.IntygSend',
                     errormessageid: 'error.failedtosendintyg',
                     showerror: false,
                     patientConsent: false,
-                    observandumId: _getObservandumId(intygModel)
+                    observandumId: observandumId
                 };
 
                 sendDialog = dialogService.showDialog({
                     dialogId: 'send-dialog',
                     titleId: titleId,
                     bodyTextId: bodyTextId,
-                    bodyText: bodyText,
                     templateUrl: '/web/webjars/common/webcert/intyg/intygSend.dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
@@ -153,10 +83,5 @@ angular.module('common').factory('common.IntygSend',
             // Return public API for the service
             return {
                 send: _send,
-
-                // testing only
-                calculateSjukskrivningDuration: _calculateSjukskrivningDuration,
-                shouldSysselsattningSpawnObservandum: _shouldSysselsattningSpawnObservandum,
-                getObservandumId: _getObservandumId
             };
         }]);
