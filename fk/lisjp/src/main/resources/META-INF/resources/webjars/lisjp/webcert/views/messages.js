@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* jshint maxlen: false */
+'use strict';
 
 angular.module('lisjp').constant('lisjp.messages', {
     'sv': {
