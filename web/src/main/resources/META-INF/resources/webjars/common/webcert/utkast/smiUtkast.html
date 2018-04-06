@@ -39,7 +39,7 @@
     </form>
   </div>
 
-  <div class="webcert-workarea-supportpanel" ng-if="::supportPanelConfig">
+  <div class="webcert-workarea-supportpanel" ng-if="::supportPanelConfig" ng-hide="viewState.common.deleted">
     <wc-support-panel-manager config="supportPanelConfig"></wc-support-panel-manager>
   </div>
 
