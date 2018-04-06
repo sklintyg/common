@@ -175,6 +175,13 @@ angular.module('common').directive('arendeNew',
                         var validToSend = (arendeNewModel.chosenTopic && !ArendeNewViewState.updateInProgress);
                         return validToSend;
                     };
+
+                    // Returns false if either a topic has been chosen or a frageText exists. May not be invoked during
+                    // updateInProgress just like the submit above.
+                    $scope.isArendeNonCancellable = function() {
+                        var notValidToCancel = !((arendeNewModel.chosenTopic || arendeNewModel.frageText) && !ArendeNewViewState.updateInProgress);
+                        return notValidToCancel;
+                    };
                 }
             };
         }]);

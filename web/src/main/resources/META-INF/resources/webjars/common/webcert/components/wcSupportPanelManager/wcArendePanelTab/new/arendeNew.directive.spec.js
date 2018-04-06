@@ -103,4 +103,25 @@ describe('arendeNew', function() {
         expect(ArendeListViewState.arendeList[0].arende).toEqual(arende);
         expect(ArendeNewViewState.activeErrorMessageKey).toBe('unknown');
     });
+
+    it('Should not be able to cancel Ärende before something has been entered', function() {
+        expect(ArendeListViewState.arendeList.length).toBe(1);
+        $scope.arendeNewModel.chosenTopic = null;
+        $scope.arendeNewModel.frageText = null;
+        expect($scope.isArendeNonCancellable()).toBe(true);
+    });
+
+    it('Should be able to cancel Ärende if something has been entered as topic', function() {
+        expect(ArendeListViewState.arendeList.length).toBe(1);
+        $scope.arendeNewModel.chosenTopic = 'OVRIGT';
+        $scope.arendeNewModel.frageText = null;
+        expect($scope.isArendeNonCancellable()).toBe(false);
+    });
+
+    it('Should be able to cancel Ärende if something has been entered as question text', function() {
+        expect(ArendeListViewState.arendeList.length).toBe(1);
+        $scope.arendeNewModel.chosenTopic = null;
+        $scope.arendeNewModel.frageText = 'Frågetext';
+        expect($scope.isArendeNonCancellable()).toBe(false);
+    });
 });
