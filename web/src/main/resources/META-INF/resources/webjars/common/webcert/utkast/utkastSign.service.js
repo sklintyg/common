@@ -328,6 +328,7 @@ angular.module('common').factory('common.UtkastSignService',
                 var messageId = '';
 
                 var errorTable = {
+                    'PU_PROBLEM':                 'common.error.pu_problem',
                     'DATA_NOT_FOUND':             'common.error.certificatenotfound',
                     'INVALID_STATE':              'common.error.certificateinvalidstate',
                     'SIGN_NETID_ERROR':           'common.error.sign.netid',
