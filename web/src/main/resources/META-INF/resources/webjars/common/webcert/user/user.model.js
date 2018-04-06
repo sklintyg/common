@@ -121,7 +121,8 @@ angular.module('common').factory('common.UserModel',[
                 ATKOMST_ANDRA_ENHETER: 'ATKOMST_ANDRA_ENHETER',
                 HANTERA_PERSONUPPGIFTER: 'HANTERA_PERSONUPPGIFTER',
                 HANTERA_MAILSVAR: 'HANTERA_MAILSVAR',
-                NAVIGERING: 'NAVIGERING'
+                NAVIGERING: 'NAVIGERING',
+                HANTERA_SEKRETESSMARKERAD_PATIENT: 'HANTERA_SEKRETESSMARKERAD_PATIENT'
             },
 
             roles: {
