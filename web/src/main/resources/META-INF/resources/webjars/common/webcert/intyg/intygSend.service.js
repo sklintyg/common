@@ -82,6 +82,6 @@ angular.module('common').factory('common.IntygSend',
 
             // Return public API for the service
             return {
-                send: _send,
+                send: _send
             };
         }]);
