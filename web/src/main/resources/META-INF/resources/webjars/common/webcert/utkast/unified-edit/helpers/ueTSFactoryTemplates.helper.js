@@ -18,18 +18,18 @@
  */
 angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
     '$log', 'common.ObjectHelper', 'common.UserModel', 'common.ueFactoryTemplatesHelper',
-    'common.PrefilledUserDataService',
-    function($log, ObjectHelper, UserModel, ueFactoryTemplates, prefilledUserDataService) {
+    function($log, ObjectHelper, UserModel, ueFactoryTemplates) {
         'use strict';
 
-        function _shouldDisableAddressInputWhen(model) {
-            return prefilledUserDataService.searchForPrefilledPatientData(model.grundData.patient).completeAddress &&
-                UserModel.isDjupintegration();
+        function _patient(viewState) {
+            function _shouldDisableAddressInputWhen(model) {
+                return UserModel.isDjupintegration() && viewState.common.validPatientAddressAquiredFromPU;
+            }
+            return ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, true);
         }
 
+
         return {
-
-            patient: ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, true)
-
+            patient: _patient
         };
     }]);

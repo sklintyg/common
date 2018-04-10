@@ -18,21 +18,24 @@
  */
 angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
     '$log', 'common.ObjectHelper', 'common.UserModel', 'common.DateUtilsService', 'common.PersonIdValidatorService',
-    'common.ueFactoryTemplatesHelper', 'common.PrefilledUserDataService',
-    function($log, ObjectHelper, UserModel, dateUtils, PersonIdValidator, ueFactoryTemplates,
-        prefilledUserDataService) {
+    'common.ueFactoryTemplatesHelper',
+    function($log, ObjectHelper, UserModel, dateUtils, PersonIdValidator, ueFactoryTemplates) {
         'use strict';
 
         var kategori = ueFactoryTemplates.kategori;
         var fraga = ueFactoryTemplates.fraga;
 
-        function _shouldDisableAddressInputWhen(model) {
-            return prefilledUserDataService.searchForPrefilledPatientData(model.grundData.patient).completeAddress;
+
+        function _patient(viewState) {
+            function _shouldDisableAddressInputWhen(model) {
+                return viewState.common.validPatientAddressAquiredFromPU;
+            }
+            return ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, false);
         }
 
         return {
 
-            patient: ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, false),
+            patient: _patient,
 
             identitet: function(categoryName, useFraga14){
 
