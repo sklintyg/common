@@ -42,6 +42,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.deleted = false;
             this.isSigned = false;
             this.textVersionUpdated = false;
+            this.validPatientAddressAquiredFromPU = false;
 
             this.doneLoading = false;
             this.collapsedHeader = false;
@@ -57,6 +58,8 @@ angular.module('common').service('common.UtkastViewStateService',
         };
 
         this.update = function(draftModel, data) {
+            /* Note: data corresponds to DraftHolder dto in backend, which is also used as a wrapper for intyg not just utkast.
+             * To find equivalent DTO-transformation for intyg instead of utkast, see  commonIntygViewstate.service.js */
             if(draftModel){
                 draftModel.update(data);
                 this.__utlatandeJson = data;
@@ -66,6 +69,8 @@ angular.module('common').service('common.UtkastViewStateService',
 
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
+
+                this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
 
                 // Check if new text version is available
                 if (data.latestTextVersion &&
