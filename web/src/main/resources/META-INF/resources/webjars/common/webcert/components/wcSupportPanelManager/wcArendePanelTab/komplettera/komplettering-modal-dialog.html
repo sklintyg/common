@@ -9,7 +9,7 @@
 
   <div class="modal-body">
 
-    <div ng-if="model.kompletteringConfig.showAnswerWithIntyg">
+    <div ng-if="model.showLamnaOvrigaUpplysningar">
       <h4>
         Ange varför du inte kan komplettera med ett nytt intyg:
       </h4>
@@ -53,7 +53,7 @@
       </wc-radio-wrapper>
     </div>
 
-    <div class="form-group" ng-if="model.answerWithIntyg === false" ng-class="{ 'radio-indent' : model.kompletteringConfig.showAnswerWithIntyg }">
+    <div class="form-group" ng-if="model.answerWithIntyg === false" ng-class="{ 'radio-indent' : model.showLamnaOvrigaUpplysningar }">
       <wc-alert-message alert-severity="info">
         Ingen medicinsk information får anges.
       </wc-alert-message>

@@ -124,10 +124,11 @@ angular.module('common').directive('wcArendeFooter',
                         var dialogModel = {
                             enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                             updateInProgress: false,
-                            kompletteringConfig: $scope.kompletteringConfig
+                            kompletteringConfig: $scope.kompletteringConfig,
+                            showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'}) && !UserModel.hasRole('VARDADMINISTRATOR')
                         };
 
-                        if (!$scope.kompletteringConfig.showAnswerWithIntyg) {
+                        if (!dialogModel.showLamnaOvrigaUpplysningar) {
                             dialogModel.answerWithIntyg = false;
                         }
 
