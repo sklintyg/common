@@ -41,10 +41,6 @@ angular.module('common').controller('smi.EditCertCtrl',
              * Load certificate and setup form / Constructor ...
              **************************************************************************/
 
-            $scope.$on('intyg.loaded', function() {
-                prefilledUserDataService.searchForPrefilledPatientData(viewState.intygModel.grundData.patient);
-            });
-
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
                 if (viewState.common.textVersionUpdated) {
