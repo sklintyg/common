@@ -75,7 +75,7 @@ public class PatientValidatorTest {
         PatientValidator.validate(patient, validations);
         assertEquals("Expected 1 validation errors", 1, validations.size());
         assertEquals("Expected validation failure for postnummer", "grunddata.patient.postnummer", validations.get(0).getField());
-        assertEquals("Expected INVALID_FORMAT for postort", ValidationMessageType.INVALID_FORMAT, validations.get(0).getType());
+        assertEquals("Expected EMPTY for postort", ValidationMessageType.EMPTY, validations.get(0).getType());
         assertEquals("patient", validations.get(0).getCategory());
     }
 
