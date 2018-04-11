@@ -51,6 +51,10 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                     {label: 'KV_FKMU_0005.OVRIGT_UTLATANDE.RBK', id: 'OVRIGT_UTLATANDE'}
                 ];
 
+                var kategori = ueFactoryTemplates.kategori;
+                var fraga = ueFactoryTemplates.fraga;
+                var today = moment().format('YYYY-MM-DD');
+
                 var buildUnderlagConfigRow = function(row) {
                     return [ {
                         type: 'ue-dropdown',
@@ -72,11 +76,6 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                     } ];
 
                 };
-
-
-                var kategori = ueFactoryTemplates.kategori;
-                var fraga = ueFactoryTemplates.fraga;
-                var today = moment().format('YYYY-MM-DD');
 
                 var config = [
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
