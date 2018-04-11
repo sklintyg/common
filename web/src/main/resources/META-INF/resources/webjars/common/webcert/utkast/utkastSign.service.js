@@ -263,6 +263,7 @@ angular.module('common').factory('common.UtkastSignService',
                                 if (dialogHandle) {
                                     dialogHandle.close();
                                 }
+                                deferred.reject();
                             } else {
                                 signModel._timer = $timeout(getSigneringsstatus, 1000);
                             }
