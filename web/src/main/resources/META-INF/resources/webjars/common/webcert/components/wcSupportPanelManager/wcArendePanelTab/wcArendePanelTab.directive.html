@@ -6,7 +6,7 @@
     <li ng-class="{active: isFilterKomplettering}">
       <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
         Kompletteringsbegäran
-        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-show="viewState.intygProperties.isInteractionEnabled && unhandledKompletteringCount > 0">
+        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-if="viewState.intygProperties.isInteractionEnabled && unhandledKompletteringCount > 0">
           {{unhandledKompletteringCount}}
         </span>
       </a>
@@ -14,7 +14,7 @@
     <li ng-class="{active: !isFilterKomplettering}">
       <a ng-click="setFilterKomplettering(false)" id="arende-filter-administrativafragor">
         Administrativa frågor
-        <span id="arende-administrativafragor-count" class="badge badge__stat" ng-show="viewState.intygProperties.isInteractionEnabled && unhandledAdministrativaFragorCount > 0">
+        <span id="arende-administrativafragor-count" class="badge badge__stat" ng-if="viewState.intygProperties.isInteractionEnabled && unhandledAdministrativaFragorCount > 0">
           {{unhandledAdministrativaFragorCount}}
         </span>
       </a>
