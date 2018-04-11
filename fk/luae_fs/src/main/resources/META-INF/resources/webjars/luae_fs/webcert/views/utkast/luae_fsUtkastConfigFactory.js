@@ -60,6 +60,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
 
                     }, {
                         type: 'ue-date',
+                        maxDate: today,
                         modelProp: 'underlag[' + row + '].datum',
                         skipAttic: true
                     }, {
@@ -149,6 +150,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory',
                         }]),
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'kannedomOmPatient'}, [{
                             type: 'ue-date',
+                            maxDate: today,
                             modelProp: 'kannedomOmPatient'
 
                         }]),

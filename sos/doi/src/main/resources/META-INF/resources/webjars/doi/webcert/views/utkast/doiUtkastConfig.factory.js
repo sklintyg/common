@@ -23,6 +23,8 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
         function($log, $timeout, DateUtils, ueFactoryTemplates, ueSOSFactoryTemplates) {
             'use strict';
 
+            var today = moment().format('YYYY-MM-DD');
+            
             function _getCategoryIds() {
                 // Validation category names matched with backend message strings from InternalDraftValidator
                 return {
@@ -59,6 +61,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                             modelProp: 'terminalDodsorsak',
                             type: 'ue-dodsorsak-foljd', // R9
+                            maxDate: today,
                             orsaksTyper: [
                                 'PLOTSLIG',
                                 'KRONISK',
@@ -71,6 +74,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
                             foljd: {
                                 modelProp: 'foljd',
+                                maxDate: today,
                                 label: {
                                     key: 'FRG_9.RBK',
                                     helpKey: 'FRG_9.HLP'

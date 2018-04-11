@@ -25,7 +25,8 @@
             ng-class="{'validation-error' : hasValidationError('datum', rowIndex)}"
             ng-model="modelValue.datum"
             on-blur="validate()"
-            add-date-parser="loose"></span>
+            add-date-parser="loose"
+            max-date="{{ ::config.maxDate }}"></span>
       </div>
       <div class="inline-block padding-top-small" style="width: 140px;">
         <span class="label-padding" dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.orsakLabel}}.HLP"></span>
