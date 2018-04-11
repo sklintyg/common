@@ -63,6 +63,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
 
                     }, {
                         type: 'ue-date',
+                        maxDate: today,
                         modelProp: 'underlag[' + row + '].datum',
                         skipAttic: true
                     }, {
