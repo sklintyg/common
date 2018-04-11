@@ -22,10 +22,10 @@ angular.module('common').factory('common.ErrorHelper',
 
         return {
             safeGetError: function(errorData) {
-                if(ObjectHelper.isDefined(errorData)){
+                if(!ObjectHelper.isEmpty(errorData)){
                     return errorData.errorCode;
                 } else {
-                    return'unknown';
+                    return 'unknown';
                 }
             }
         };

@@ -91,7 +91,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
             $log.debug('_saveAnswer: intygsId: ' + intygsId);
             if (intygsTyp === 'fk7263') {
-                return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
+                return ArendeLegacyProxy.saveKompletteringAnswer.apply(null, arguments);
             }
 
             var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
@@ -176,7 +176,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         function _setVidarebefordradState(intygId, intygsTyp, callback) {
             $log.debug('_setVidareBefordradState');
             if (intygsTyp === 'fk7263') {
-                return ArendeLegacyProxy.setVidarebefordradState.apply(null, arguments);
+                return ArendeLegacyProxy.setVidarebefordradState(intygId, callback);
             }
 
             var restPath = '/moduleapi/arende/' + intygId + '/vidarebefordrad';
