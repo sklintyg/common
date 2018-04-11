@@ -70,6 +70,20 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             });
         }
 
+        /*
+         * save new answer to a komplettering question
+         */
+        function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
+            var restPath = '/moduleapi/fragasvar/' + intygsId + '/besvara';
+            $http.put(restPath, meddelande).then(function(response) {
+                $log.debug('got data:' + response.data);
+                onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(response.data));
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
         /*
          * update the handled status to handled ('Closed') of a QuestionAnswer
@@ -127,12 +141,12 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         /*
          * Toggle vidarebefordrad state of a fragasvar entity with given id
          */
-        function _setVidarebefordradState(fragaSvarId, intygsTyp, isVidareBefordrad, callback) {
+        function _setVidarebefordradState(intygsId, callback) {
             $log.debug('_setVidareBefordradState');
-            var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/hanterad';
-            $http.put(restPath, {'dispatched' : isVidareBefordrad}).then(function(response) {
+            var restPath = '/moduleapi/fragasvar/' + intygsId + '/vidarebefordrad';
+            $http.post(restPath).then(function(response) {
                 $log.debug('_setVidareBefordradState data:' + response.data);
-                callback(ArendeLegacyService.convertFragasvarToArende(response.data));
+                callback(ArendeLegacyService.convertFragasvarListToArendeList(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
                 // Let calling code handle the error of no data response
@@ -144,6 +158,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             getArenden: _getArenden,
             sendNewArende: _sendNewArende,
             saveAnswer: _saveAnswer,
+            saveKompletteringAnswer: _saveKompletteringAnswer,
             closeAsHandled: _closeAsHandled,
             openAsUnhandled: _openAsUnhandled,
             closeAllAsHandled: _closeAllAsHandled,
