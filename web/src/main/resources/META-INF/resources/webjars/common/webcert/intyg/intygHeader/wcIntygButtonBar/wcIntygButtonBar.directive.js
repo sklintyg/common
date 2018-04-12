@@ -64,12 +64,6 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                 } else{
                     $scope.ersattButtonDisabled = false;
                 }
-
-                // Wait for digest to remove buttons first
-                $timeout(function(){
-                    IntygHeaderViewState.intygLoaded = true;
-                });
-
             });
 
             $scope.intygType = intygType;

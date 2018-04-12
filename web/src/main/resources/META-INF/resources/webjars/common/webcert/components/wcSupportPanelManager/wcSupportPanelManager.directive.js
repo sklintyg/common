@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelManager', [ function() {
+angular.module('common').directive('wcSupportPanelManager', ['$rootScope', function($rootScope) {
     'use strict';
 
     return {
@@ -34,6 +34,17 @@ angular.module('common').directive('wcSupportPanelManager', [ function() {
                     tab.active = (tab.id === newtab.id);
                 });
             };
+
+            var hasArende = false;
+            $scope.config.tabs.forEach(function(tab) {
+                if (tab.id === 'wc-arende-panel-tab') {
+                    hasArende = true;
+                }
+            });
+            if (!hasArende) {
+                $rootScope.$broadcast('arenden.updated');
+            }
+
         }
     };
 } ]);
