@@ -88,6 +88,9 @@ angular.module('common').directive('wcArendePanelTab', [
                     ArendeListViewState.doneLoading = true;
 
                     ArendeListViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+
+                    // intygHeader.controller.js waits for this event
+                    $rootScope.$broadcast('arenden.updated');
                 });
             }
 

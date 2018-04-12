@@ -17,6 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+wc-intyg-header {
+  wc-spinner {
+    display: block;
+    height: 83px;
+    .wc-spinner
+    {
+      padding: 10px;
+    }
+  }
+}
+
 .page-header-divider {
   border-bottom: 1px solid $wc-color-15;
   padding-bottom: 5px;
