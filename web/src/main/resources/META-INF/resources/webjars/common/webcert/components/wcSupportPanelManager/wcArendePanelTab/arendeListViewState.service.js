@@ -23,6 +23,7 @@ angular.module('common').service('common.ArendeListViewStateService',
 
             this.reset = function() {
                 this.doneLoading = false;
+                this.intygLoaded = false;
                 this.activeErrorMessageKey = null;
                 this.showTemplate = true;
 

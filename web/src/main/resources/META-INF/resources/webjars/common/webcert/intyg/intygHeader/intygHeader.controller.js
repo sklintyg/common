@@ -30,12 +30,16 @@ angular.module('common').controller('common.IntygHeader', [ '$scope', '$state', 
 
         $scope.$on('intyg.loaded', function(event, intyg){
             IntygHeaderService.updatePreviousIntygUtkast(intyg);
+            // Wait for digest to remove buttons first
+            $timeout(function(){
+                IntygHeaderViewState.intygLoaded = true;
+            });
         });
 
         $scope.$on('arenden.updated', function() {
             // Wait for digest to remove buttons first
             $timeout(function(){
-                IntygHeaderViewState.intygLoaded = true;
+                IntygHeaderViewState.arendenLoaded = true;
             });
         });
 

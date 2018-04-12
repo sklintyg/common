@@ -24,7 +24,7 @@
 angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
@@ -32,8 +32,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 type: 'lisjp',
                 aboutMsgKey: 'FRM_2.RBK',
                 id: id,
-                isSigned: isSigned,
-                isSent: isSent
+                isSigned: isSigned
             }
         };
 

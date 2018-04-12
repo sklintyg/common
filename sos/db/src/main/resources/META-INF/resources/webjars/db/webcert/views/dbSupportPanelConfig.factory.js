@@ -24,15 +24,14 @@
 angular.module('db').factory('db.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent) {
+    function _getConfig(id, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'db',
                 id: id,
-                isSigned: isSigned,
-                isSent: isSent
+                isSigned: isSigned
             }
         };
 

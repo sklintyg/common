@@ -48,8 +48,8 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
 
                 $scope.uvConfig = viewConfigFactory.getViewConfig(true, true);
                 $scope.cert = viewState.common.__utlatandeJson.content;
-                //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
-                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, false, viewState.common.intyg.isKomplettering);
+                //We now have all info needed to build support-panel config (id, isSigned, isKompletteringsUtkast)
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, viewState.common.intyg.isKomplettering);
                 viewState.common.showTemplate = true;
 
             }, function(error) {

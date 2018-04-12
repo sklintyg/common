@@ -41,6 +41,9 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
+            //We now have all info needed to build support-panel config (id, isSigned, isKompletteringsUtkast)
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, false);
+
             /**
              * Private
              */
@@ -68,9 +71,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                         ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
                         $scope.cert = result.contents;
-
-                        //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
-                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg(), false);
 
                         //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
                         $timeout(function() {

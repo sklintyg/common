@@ -25,7 +25,7 @@
 angular.module('luae_fs').factory('luae_fs.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
@@ -33,8 +33,7 @@ angular.module('luae_fs').factory('luae_fs.supportPanelConfigFactory', [ 'common
                 type: 'luae_fs',
                 aboutMsgKey: 'FRM_2.RBK',
                 id: id,
-                isSigned: isSigned,
-                isSent: isSent
+                isSigned: isSigned
             }
         };
 

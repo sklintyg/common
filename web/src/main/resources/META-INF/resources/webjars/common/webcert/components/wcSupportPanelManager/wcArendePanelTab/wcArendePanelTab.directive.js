@@ -75,11 +75,11 @@ angular.module('common').directive('wcArendePanelTab', [
                 }
             });
 
-            function fetchArenden(intygId, intygProperties) {
+            function fetchArenden(intygId, intygTyp) {
 
                 abortFetchArenden = $q.defer();
 
-                ArendeProxy.getArenden(intygId, intygProperties.type, abortFetchArenden.promise, function(result) {
+                ArendeProxy.getArenden(intygId, intygTyp, abortFetchArenden.promise, function(result) {
                     $log.debug('getArendeForCertificate:success data:' + result);
                     ArendeListViewState.activeErrorMessageKey = null;
 
@@ -107,31 +107,36 @@ angular.module('common').directive('wcArendePanelTab', [
                 });
             }
 
+            // If this is a signed intyg we cant start fetching ärenden with this certificateId
+            if ($scope.config.intygContext.isSigned) {
+                fetchArenden($stateParams.certificateId, {
+                    type: $state.current.data.intygType
+                });
+            }
+
             var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', function(event, intyg, intygProperties) {
 
-                // IMPORTANT!! DON'T LET fetchArenden DEPEND ON THE INTYG LOAD EVENT (intyg) in this case!
-                // Messages needs to be loaded separately from the intyg as user should be able to see messages even if intyg didn't load.
-                // Used when coming from Intyg page.
                 ArendeListViewState.intyg = intyg;
-                if (ObjectHelper.isDefined(ArendeListViewState.intyg) &&
-                        ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
 
+                var arendeIntygId = $stateParams.certificateId;
+
+                if (ObjectHelper.isDefined(ArendeListViewState.intyg) && ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
                     ArendeListViewState.intygProperties = intygProperties;
                     ArendeListViewState.intygProperties.isLoaded = true;
-                    var intygId = $stateParams.certificateId;
                     if (intygProperties.forceUseProvidedIntyg) {
                         // Used for utkast page. In this case we must use the id from intyg because $stateParams.certificateId is the id of the utkast, not the parentIntyg
-                        intygId = intyg.id;
+                        arendeIntygId = intyg.id;
                     }
-                    fetchArenden(intygId, ArendeListViewState.intygProperties);
+                }
 
-                } else if (ObjectHelper.isDefined($stateParams.certificateId)) {
-                    fetchArenden($stateParams.certificateId, {
-                        type: $state.current.data.intygType
-                    });
+                // If this is a not signed intyg we need the id from the parentIntyg
+                if (!$scope.config.intygContext.isSigned) {
+                    fetchArenden(arendeIntygId, ArendeListViewState.intygProperties);
                 }
 
                 ArendeListViewState.intygProperties.isInteractionEnabled = $scope.config.intygContext.isSigned && !ArendeListViewState.intygProperties.isRevoked;
+
+                ArendeListViewState.intygLoaded = true;
             });
             $scope.$on('$destroy', unbindFastEvent);
 

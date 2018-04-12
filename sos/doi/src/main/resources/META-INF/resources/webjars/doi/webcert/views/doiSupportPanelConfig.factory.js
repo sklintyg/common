@@ -24,15 +24,14 @@
 angular.module('doi').factory('doi.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent) {
+    function _getConfig(id, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'doi',
                 id: id,
-                isSigned: isSigned,
-                isSent: isSent
+                isSigned: isSigned
             }
         };
 

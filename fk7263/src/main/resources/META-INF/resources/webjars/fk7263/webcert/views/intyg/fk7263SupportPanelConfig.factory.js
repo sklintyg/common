@@ -24,7 +24,7 @@
 angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent, isKompletteringsUtkast) {
+    function _getConfig(id, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],

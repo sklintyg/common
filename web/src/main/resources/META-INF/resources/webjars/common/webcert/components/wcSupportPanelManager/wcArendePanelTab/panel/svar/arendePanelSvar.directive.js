@@ -52,7 +52,7 @@ angular.module('common').directive('arendePanelSvar',
                     }
 
                     var ArendeSvar = _buildArendeSvarModel();
-                    $rootScope.$on('arenden.updated', function() {
+                    $scope.$on('arenden.updated', function() {
                         ArendeSvar = _buildArendeSvarModel();
                     });
 

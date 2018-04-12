@@ -25,15 +25,14 @@
 angular.module('ts-diabetes').factory('ts-diabetes.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned, isSent) {
+    function _getConfig(id, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'ts-diabetes',
                 id: id,
-                isSigned: isSigned,
-                isSent: isSent
+                isSigned: isSigned
             }
         };
 
