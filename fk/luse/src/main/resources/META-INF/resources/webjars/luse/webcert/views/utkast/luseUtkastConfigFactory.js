@@ -157,6 +157,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory',
                         }]),
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'kannedomOmPatient'}, [{
                             type: 'ue-date',
+                            maxDate: today,
                             modelProp: 'kannedomOmPatient'
 
                         }]),
