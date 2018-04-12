@@ -16,35 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelManager', ['$rootScope', function($rootScope) {
-    'use strict';
+angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'common.ArendeListViewStateService',
+    function($rootScope, ArendeListViewState) {
+        'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            config: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelManager.directive.html',
-        link: function($scope) {
+        return {
+            restrict: 'E',
+            scope: {
+                config: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelManager.directive.html',
+            link: function($scope) {
 
-            $scope.onSelect = function(newtab, $event) {
-                $event.preventDefault();
+                $scope.onSelect = function(newtab, $event) {
+                    $event.preventDefault();
 
+                    $scope.config.tabs.forEach(function(tab) {
+                        tab.active = (tab.id === newtab.id);
+                    });
+                };
+
+                var hasArende = false;
                 $scope.config.tabs.forEach(function(tab) {
-                    tab.active = (tab.id === newtab.id);
+                    if (tab.id === 'wc-arende-panel-tab') {
+                        hasArende = true;
+                    }
                 });
-            };
-
-            var hasArende = false;
-            $scope.config.tabs.forEach(function(tab) {
-                if (tab.id === 'wc-arende-panel-tab') {
-                    hasArende = true;
+                if (!hasArende) {
+                    // wcArendePanelTab will reset viewstate, but it will not be loaded with this config.
+                    ArendeListViewState.reset();
+                    $rootScope.$broadcast('arenden.updated');
                 }
-            });
-            if (!hasArende) {
-                $rootScope.$broadcast('arenden.updated');
-            }
 
-        }
-    };
-} ]);
+            }
+        };
+    }
+]);

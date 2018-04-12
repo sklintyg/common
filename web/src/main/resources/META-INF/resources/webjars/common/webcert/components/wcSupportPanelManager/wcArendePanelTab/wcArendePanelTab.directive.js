@@ -18,9 +18,9 @@
  */
 
 angular.module('common').directive('wcArendePanelTab', [
-    '$log', '$rootScope', '$state', '$stateParams', '$timeout', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
+    '$log', '$q', '$rootScope', '$state', '$stateParams', '$timeout', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
     'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
-    function($log, $rootScope, $state, $stateParams, $timeout, ObjectHelper, ErrorHelper, UserModel,
+    function($log, $q, $rootScope, $state, $stateParams, $timeout, ObjectHelper, ErrorHelper, UserModel,
         ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
     'use strict';
 
@@ -67,9 +67,19 @@ angular.module('common').directive('wcArendePanelTab', [
                 updateCounts();
             });
 
+            var abortFetchArenden;
+            $scope.$on('$destroy', function() {
+                if (abortFetchArenden) {
+                    abortFetchArenden.resolve();
+                    abortFetchArenden = null;
+                }
+            });
+
             function fetchArenden(intygId, intygProperties) {
 
-                ArendeProxy.getArenden(intygId, intygProperties.type, function(result) {
+                abortFetchArenden = $q.defer();
+
+                ArendeProxy.getArenden(intygId, intygProperties.type, abortFetchArenden.promise, function(result) {
                     $log.debug('getArendeForCertificate:success data:' + result);
                     ArendeListViewState.activeErrorMessageKey = null;
 
@@ -79,15 +89,18 @@ angular.module('common').directive('wcArendePanelTab', [
                     $scope.isFilterKomplettering =
                         !($scope.unhandledKompletteringCount === 0 && $scope.unhandledAdministrativaFragorCount > 0);
 
+                    abortFetchArenden = null;
+
                     $timeout(function(){
                         ArendeListViewState.doneLoading = true;
                     });
-
                 }, function(errorData) {
                     // show error view
                     ArendeListViewState.doneLoading = true;
 
                     ArendeListViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+
+                    abortFetchArenden = null;
 
                     // intygHeader.controller.js waits for this event
                     $rootScope.$broadcast('arenden.updated');
