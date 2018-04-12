@@ -38,7 +38,8 @@ body {
   align-self: center;
   width: 100%;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
-  
+  background-color: $wc-color-24;
+
   //when workarea is empty, hide it.
   &:empty {
     display: none;
