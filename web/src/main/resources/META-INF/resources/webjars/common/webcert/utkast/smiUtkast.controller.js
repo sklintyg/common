@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('smi.EditCertCtrl',
-    ['$scope', '$state',
+    ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        function($scope, $state,
+        function($scope, $state, $stateParams,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService, supportPanelConfigFactory) {
             'use strict';
 
@@ -52,10 +52,12 @@ angular.module('common').controller('smi.EditCertCtrl',
                 if($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
-
-                //We now have all info needed to build support-panel config (id, isSigned, isKompletteringsUtkast)
-                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, viewState.common.intyg.isKomplettering);
             });
+
+            $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering) {
+                //We now have all info needed to build support-panel config (id, isSigned, isKompletteringsUtkast)
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, false, isKomplettering);
+            })
 
             $scope.$on('saveRequest', function($event, saveDeferred) {
                 $scope.certForm.$commitViewValue();

@@ -80,15 +80,18 @@ angular.module('common').factory('common.UtkastService',
                         srsService.updateHsaId(utkastData.content.grundData.skapadAv.vardenhet.enhetsid);
                         srsService.updateIntygsTyp(utkastData.content.typ);
 
+                        viewState.relations = utkastData.relations;
+                        viewState.klartForSigneringDatum = utkastData.klartForSigneringDatum;
+                        viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
+
+                        // update model here so controls dependent on correct models at startup has the right values first
+                        viewState.common.update(viewState.draftModel, utkastData);
+
+                        $rootScope.$broadcast('utkast.supportPanelConfig', viewState.common.intyg.isKomplettering);
+
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(
                             function(labels) {
-                                viewState.relations = utkastData.relations;
-                                viewState.klartForSigneringDatum = utkastData.klartForSigneringDatum;
-                                viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
-
-                                // update model here so controls dependent on correct models at startup has the right values first
-                                viewState.common.update(viewState.draftModel, utkastData);
 
                                 // add tilläggsfrågor to model when dynamic texts are used
                                 if(ObjectHelper.isDefined(labels)) {
@@ -120,6 +123,7 @@ angular.module('common').factory('common.UtkastService',
                 if (ObjectHelper.isDefined(intygModel.grundData.relation) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.relationIntygsId) &&
                     ObjectHelper.isDefined(intygModel.grundData.relation.meddelandeId)) {
+                    $rootScope.$broadcast('arenden.loadForIntygId', intygModel.grundData.relation.relationIntygsId);
                     IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type,
                         function(result) {
                             if (result !== null && result !== '') {
@@ -127,7 +131,6 @@ angular.module('common').factory('common.UtkastService',
                                 var intygMeta = {
                                     isSent: IntygHelper.isSentToTarget(result.statuses, 'FKASSA'),
                                     isRevoked: IntygHelper.isRevoked(result.statuses),
-                                    forceUseProvidedIntyg: true,
                                     meddelandeId: intygModel.grundData.relation.meddelandeId,
                                     type: viewState.common.intyg.type
                                 };

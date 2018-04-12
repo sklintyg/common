@@ -109,8 +109,12 @@ angular.module('common').directive('wcArendePanelTab', [
 
             // If this is a signed intyg we cant start fetching ärenden with this certificateId
             if ($scope.config.intygContext.isSigned) {
-                fetchArenden($stateParams.certificateId, {
-                    type: $state.current.data.intygType
+                fetchArenden($stateParams.certificateId, $state.current.data.intygType);
+            }
+            else {
+                // If this is a not signed intyg we need the id from the parentIntyg. $stateParams.certificateId is the id of the utkast, not the parentIntyg
+                $scope.$on('arenden.loadForIntygId', function(event, intygId) {
+                    fetchArenden(intygId, $state.current.data.intygType);
                 });
             }
 
@@ -118,20 +122,9 @@ angular.module('common').directive('wcArendePanelTab', [
 
                 ArendeListViewState.intyg = intyg;
 
-                var arendeIntygId = $stateParams.certificateId;
-
                 if (ObjectHelper.isDefined(ArendeListViewState.intyg) && ObjectHelper.isDefined(ArendeListViewState.intygProperties)) {
                     ArendeListViewState.intygProperties = intygProperties;
                     ArendeListViewState.intygProperties.isLoaded = true;
-                    if (intygProperties.forceUseProvidedIntyg) {
-                        // Used for utkast page. In this case we must use the id from intyg because $stateParams.certificateId is the id of the utkast, not the parentIntyg
-                        arendeIntygId = intyg.id;
-                    }
-                }
-
-                // If this is a not signed intyg we need the id from the parentIntyg
-                if (!$scope.config.intygContext.isSigned) {
-                    fetchArenden(arendeIntygId, ArendeListViewState.intygProperties);
                 }
 
                 ArendeListViewState.intygProperties.isInteractionEnabled = $scope.config.intygContext.isSigned && !ArendeListViewState.intygProperties.isRevoked;
