@@ -23,14 +23,14 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
         /*
          * Load questions and answers data for a certificate
          */
-        function _getArenden(intygsId, intygsTyp, onSuccess, onError) {
+        function _getArenden(intygsId, intygsTyp, timeout, onSuccess, onError) {
             $log.debug('_getArenden: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             if (intygsTyp === 'fk7263') {
                 return ArendeLegacyProxy.getArenden.apply(null, arguments);
             }
 
             var restPath = '/moduleapi/arende/' + intygsId;
-            $http.get(restPath).then(function(response) {
+            $http.get(restPath, { timeout:timeout }).then(function(response) {
                 $log.debug('got data:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
