@@ -24,11 +24,12 @@ wc-spinner  {
   }
 
   .wc-spinner {
+    @extend %wc-typo-07;
     text-align: center;
     padding: 20px;
+    color: $wc-color-21;
     p {
       text-align: center;
-      color: $wc-color-10;
       margin-top: 20px;
     }
   }

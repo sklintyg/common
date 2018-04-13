@@ -1,8 +1,8 @@
 <div>
   <div ng-if="showSpinner" class="wc-spinner ng-animate-disabled">
-    <img aria-labelledby="loading-message" src="/img/ajax-loader.gif" />
+    <i class="icon-wc-ikon-02 icon-wc-24 animate-spin"></i>
     <p id="loading-message">
-      <strong><span dynamic-label key="{{ label }}"></span></strong>
+      <span dynamic-label key="{{ label }}"></span>
     </p>
   </div>
   <div ng-if="!showSpinner" class="ng-animate-disabled">
