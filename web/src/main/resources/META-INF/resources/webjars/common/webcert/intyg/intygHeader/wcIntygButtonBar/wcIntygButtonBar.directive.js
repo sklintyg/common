@@ -57,14 +57,16 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
             });
 
             $scope.ersattButtonDisabled = false;
-            $scope.$on('arenden.updated', function() {
+            function _updateErsattButton() {
                 if (ArendeListViewStateService.getUnhandledKompletteringCount() > 0) {
                     $scope.ersattButtonDisabled = true;
                     $scope.ersattBtnTooltipText = messageService.getProperty('common.ersatt.unhandledkomplettering.tooltip');
                 } else{
                     $scope.ersattButtonDisabled = false;
                 }
-            });
+            }
+            _updateErsattButton();
+            $scope.$on('arenden.updated', _updateErsattButton);
 
             $scope.intygType = intygType;
 
