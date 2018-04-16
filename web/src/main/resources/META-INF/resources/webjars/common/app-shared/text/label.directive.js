@@ -37,6 +37,8 @@ angular.module('common').directive('dynamicLabel',
 
                         if (!result) {
                             result = dynamicLabelService.getProperty(interpolatedKey);
+                        } else {
+                            result = messageService.getProperty(angular.lowercase(interpolatedKey));
                         }
 
                         if (!result && scope.fallbackValue) {
