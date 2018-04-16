@@ -18,13 +18,9 @@
  */
 
 wc-intyg-header {
-  wc-spinner {
-    display: block;
+  wc-spinner .wc-spinner {
     height: 83px;
-    .wc-spinner
-    {
-      padding: 10px;
-    }
+    padding: 10px;
   }
 }
 

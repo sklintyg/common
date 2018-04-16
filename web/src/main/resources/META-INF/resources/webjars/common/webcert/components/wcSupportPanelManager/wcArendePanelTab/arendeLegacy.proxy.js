@@ -23,10 +23,10 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         /*
          * Load questions and answers data for a certificate
          */
-        function _getArenden(intygsId, intygsTyp, onSuccess, onError) {
+        function _getArenden(intygsId, intygsTyp, timeout, onSuccess, onError) {
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
-            $http.get(restPath).then(function(response) {
+            $http.get(restPath, { timeout:timeout }).then(function(response) {
                 $log.debug('got data:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(response.data));
             }, function(response) {
