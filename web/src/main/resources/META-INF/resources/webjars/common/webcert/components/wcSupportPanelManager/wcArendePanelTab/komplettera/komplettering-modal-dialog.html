@@ -78,12 +78,13 @@
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-success"
-            ng-disabled="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"
-            ng-click="button1click()" wc-check-vardenhet
-            vardenhet="{{kompletteringConfig.enhetsid}}" id="komplettering-modal-dialog-send-answer-button">
-      <img src="/img/loader-small-green.gif" ng-show="model.kompletteringConfig.updateInProgress"> Skicka svar
-    </button>
+    <wc-button btn-id="komplettering-modal-dialog-send-answer-button"
+               btn-class="btn btn-success"
+               btn-click="button1click()"
+               btn-disabled="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"
+               loading="model.updateInProgress">
+      Skicka svar
+    </wc-button>
     <button type="button" class="btn btn-default"
             ng-click="button2click()" id="komplettering-modal-dialog-abort-button">
       Avbryt
