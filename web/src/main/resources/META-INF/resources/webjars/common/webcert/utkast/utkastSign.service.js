@@ -376,7 +376,11 @@ angular.module('common').factory('common.UtkastSignService',
                     variables = {name: error.message};
                 }
                 errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
-                dialogService.showErrorMessageDialog(errorMessage);
+                if (error.errorCode === 'PU_PROBLEM') {
+                    dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
+                } else {
+                    dialogService.showErrorMessageDialog(errorMessage);
+                }
                 signModel.signingWithSITHSInProgress = false;
             }
 
