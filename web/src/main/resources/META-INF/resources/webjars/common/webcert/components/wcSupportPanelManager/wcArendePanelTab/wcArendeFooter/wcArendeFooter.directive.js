@@ -46,6 +46,7 @@ angular.module('common').directive('wcArendeFooter',
 
                     $scope.intygProperties = {};
                     $scope.kompletteringConfig = {
+                        enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
                         showAnswerWithIntyg: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'})
@@ -88,7 +89,12 @@ angular.module('common').directive('wcArendeFooter',
                             }, function(errorData) {
                                 // show error view
                                 $scope.updateInProgress = false;
-                                $scope.activeKompletteringErrorMessageKey = errorData.errorCode;
+                                if (errorData) {
+                                    $scope.activeKompletteringErrorMessageKey = errorData.errorCode;
+                                }
+                                else {
+                                    $scope.activeKompletteringErrorMessageKey = 'unknown';
+                                }
                                 deferred.reject(errorData);
                             });
                         return deferred.promise;
@@ -115,6 +121,17 @@ angular.module('common').directive('wcArendeFooter',
 
                             goToDraft(ArendeListViewState.intygProperties.type, result.intygsUtkastId);
 
+                        }, function(error) {
+                            $log.error(error);
+                            if (!error) {
+                                DialogService.showErrorMessageDialog(messageService.getProperty('common.arende.error.unknown'));
+                            }
+                            else if (error.errorCode === 'PU_PROBLEM') {
+                                DialogService.showMessageDialog('common.arende.error.pu_problem.modalheader', messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
+                            }
+                            else {
+                                DialogService.showErrorMessageDialog(messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
+                            }
                         });
                     };
 

@@ -15,7 +15,8 @@
 
         <button class="btn btn-primary"
                 id="kan-inte-komplettera"
-                ng-click="openKompletteringDialog()">
+                ng-click="openKompletteringDialog()"
+                wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}">
           <i class="icon-wc-ikon-comment"></i> Kan ej komplettera</button>
 
         <a wc-authority request-origin="UTHOPP" ng-click="openUthoppInfoModal()" id="arende-komplettering-uthopp-link">

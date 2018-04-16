@@ -78,6 +78,7 @@ describe('wArendeFooter', function() {
             };
 
             ArendeListViewState.intyg.id = 'testIntygId';
+            ArendeListViewState.intyg.grundData = { skapadAv:{vardenhet:{enhetsid:'testenhetsid'}}};
             ArendeListViewState.intygProperties.type = 'lisjp';
 
             var tpl = angular.element(
