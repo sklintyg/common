@@ -80,7 +80,7 @@
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
                     <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
-                    <ns3:displayName>SJUKHUS</ns3:displayName>
+                    <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>

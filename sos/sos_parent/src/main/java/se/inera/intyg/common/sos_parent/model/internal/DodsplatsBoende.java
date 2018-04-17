@@ -18,9 +18,29 @@
  */
 package se.inera.intyg.common.sos_parent.model.internal;
 
+import java.util.Arrays;
+
 public enum DodsplatsBoende {
-    SJUKHUS,
-    ORDINART_BOENDE,
-    SARSKILT_BOENDE,
-    ANNAN
+
+    SJUKHUS(DodsplatsBoendeConstants.SJUKHUS_VALUE),
+    ORDINART_BOENDE(DodsplatsBoendeConstants.ORDINART_BOENDE_VALUE),
+    SARSKILT_BOENDE(DodsplatsBoendeConstants.SARSKILT_BOENDE_VALUE),
+    ANNAN(DodsplatsBoendeConstants.ANNAN_VALUE);
+
+    private final String beskrivning;
+
+    DodsplatsBoende(final String beskrivning) {
+        this.beskrivning = beskrivning;
+    }
+
+    public String getBeskrivning() {
+        return beskrivning;
+    }
+
+    public static DodsplatsBoende fromString(final String string) throws IllegalArgumentException {
+        return Arrays.stream(DodsplatsBoende.values())
+                .filter(v -> v.beskrivning.equals(string))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("unknown value: " + string));
+    }
 }
