@@ -27,14 +27,18 @@ angular.module('common').directive('wcInlineKomplettering', [ 'common.ArendeList
             frageId: '='
         },
         link: function($scope) {
-            $scope.getKompletteringar = function() {
+
+            var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
+            if (numericFrageId) {
+                _updateKompletteringar();
+                $scope.$on('arenden.updated', _updateKompletteringar);
+            }
+
+            function _updateKompletteringar() {
                 // lookup if there's an unhandled komplettering for this frage-id
-                var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
-                if (!numericFrageId) {
-                    return [];
-                }
-                return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
-            };
+                $scope.kompletteringar = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+            }
+
         }
     };
 } ]);

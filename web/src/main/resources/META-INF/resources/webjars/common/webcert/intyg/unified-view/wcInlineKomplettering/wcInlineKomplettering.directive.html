@@ -1,5 +1,5 @@
-<div ng-if="getKompletteringar().length > 0" class="ng-animate-disabled">
-  <wc-bottom-fadeout color="02" ng-repeat="komplettering in getKompletteringar()">
+<div ng-if="kompletteringar.length > 0" class="ng-animate-disabled">
+  <wc-bottom-fadeout color="02" ng-repeat="komplettering in kompletteringar">
     <wc-alert-message
          alert-severity="komplettering"
          ng-attr-id="{{'inline-komplettering-' + frageId + '-' + $index}}">

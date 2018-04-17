@@ -20,6 +20,15 @@ angular.module('common').directive('wcFragaKomplettering', [ 'common.ArendeListV
     function(ArendeListViewStateService, Utils) {
     'use strict';
 
+    function _updateKompletteringActive(numericFrageId, $element) {
+        // lookup if there's an unhandled komplettering for this frage-id
+        var list = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+        if (list.length > 0) {
+            // Not using ng-class for performance (IE 11)
+            $element.addClass('komplettering-active');
+        }
+    }
+
     return {
         restrict: 'E',
         transclude: true,
@@ -27,18 +36,16 @@ angular.module('common').directive('wcFragaKomplettering', [ 'common.ArendeListV
             frageId: '='
         },
         templateUrl: '/web/webjars/common/webcert/components/wcFragaKomplettering/wcFragaKomplettering.directive.html',
-        link: function($scope) {
-            $scope.hasKompletteringar = function() {
-                // lookup if there's an unhandled komplettering for this frage-id
-               var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
-                if (!numericFrageId) {
-                    return false;
-                }
+        link: function($scope, $element) {
 
-                var list = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
-                return list.length > 0;
+            var numericFrageId = Utils.extractNumericalFrageId($scope.frageId);
+            if (numericFrageId) {
+                _updateKompletteringActive(numericFrageId, $element);
+                $scope.$on('arenden.updated', function() {
+                    _updateKompletteringActive(numericFrageId, $element);
+                });
+            }
 
-            };
         }
     };
 } ]);

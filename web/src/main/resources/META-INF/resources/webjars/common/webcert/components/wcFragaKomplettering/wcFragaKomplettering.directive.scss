@@ -19,7 +19,9 @@
 
 wc-fraga-komplettering {
 
-  .komplettering-active {
+  display: block;
+
+  &.komplettering-active {
     border: 1px solid $wc-color-05;
     border-radius: 4px;
   }
