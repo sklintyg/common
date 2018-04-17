@@ -76,7 +76,8 @@ public final class SosUtlatandeToIntyg {
                     .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
             if (utlatande.getDodsplatsBoende() != null) {
                 dodsplats.withDelsvar(DODSPLATS_BOENDE_DELSVAR_ID,
-                        aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(), utlatande.getDodsplatsBoende().name()));
+                        aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
+                                utlatande.getDodsplatsBoende().getBeskrivning()));
             }
             svar.add(dodsplats.build());
         }
