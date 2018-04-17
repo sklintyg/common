@@ -7,7 +7,7 @@
             <input type="radio"
                    ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
                    name="{{::config.modelProp}}"
-                   value="{{choice.id}}"
+                   value="{{::choice.id}}"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()">

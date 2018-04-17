@@ -30,6 +30,13 @@ angular.module('common').directive('ueRadio', [ 'ueUtil', function(ueUtil) {
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadio/ueRadio.directive.html',
         link: function($scope) {
             ueUtil.standardSetup($scope);
+
+            if (!$scope.config.yesLabel) {
+                $scope.config.yesLabel = null;
+            }
+            if (!$scope.config.noLabel) {
+                $scope.config.noLabel = null;
+            }
         }
     };
 

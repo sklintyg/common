@@ -74,6 +74,19 @@ angular.module('common').factory('ueUtil', ['$parse', '$timeout', 'common.AtticH
                     // Clear attic model and destroy watch on scope destroy
                     AtticHelper.updateToAttic(scope, scope.model, scope.config.modelProp);
                 }
+
+                // One time bindings will stop watching when the result is no longer undefined.
+                if (!scope.config.label) {
+                    // To stop the watch we need to set the value to something that is not undefined.
+                    scope.config.label = null;
+                }
+                // Same as above
+                if (!scope.config.placeholder) {
+                    scope.config.placeholder = null;
+                }
+                if (!scope.config.enableHelp) {
+                    scope.config.enableHelp = false;
+                }
             }
         };
     } ]);

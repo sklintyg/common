@@ -1,4 +1,4 @@
-<div ng-class="::{'form-inline': !config.vertical, 'form-horizontal': config.vertical}" class="ue-del-fraga">
+<div ng-class="::config.vertical ? 'form-horizontal' : 'form-inline'" class="ue-del-fraga">
     <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
         <ue-label config="::config.label" model="::model" class="{{config.htmlClass}}"></ue-label>
         <wc-radio-wrapper>
@@ -10,7 +10,7 @@
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}Yes" ng-class="::{'disabled': config.disabled}">
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}Yes">
                 <span dynamic-label key="{{::config.yesLabel}}" fallback-value="Ja"></span>
             </label>
         </wc-radio-wrapper>
@@ -23,7 +23,7 @@
                    ng-model-options="{ getterSetter: true }"
                    ng-change="updateValidation()"
                    ng-disabled="$eval(config.disabledExpression)" />
-            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}No" ng-class="::{'disabled': config.disabled}">
+            <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}No">
                 <span dynamic-label key="{{::config.noLabel}}" fallback-value="Nej"></span>
             </label>
         </wc-radio-wrapper>

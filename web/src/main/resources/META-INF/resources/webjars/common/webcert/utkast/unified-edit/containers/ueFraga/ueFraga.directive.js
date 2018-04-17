@@ -31,6 +31,12 @@ angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState
             link: function($scope) {
                 $scope.validation = UtkastValidationViewState;
 
+                // One time bindings will stop watching when the result is no longer undefined.
+                if (!$scope.config.label) {
+                    // To stop the watch we need to set the value to something that is not undefined.
+                    $scope.config.label = null;
+                }
+
                 //Returns an array with validationKeys for all child components by recursively iterating the config structure..
                 //This only needs to be done once, since the config tree itself is static
                 function _collectChildValidationKeys(arr, components) {

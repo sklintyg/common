@@ -38,6 +38,10 @@ angular.module('common').directive('ueTextfield', [ 'ueUtil',
                 $scope.config.formType = 'inline';
             }
 
+            if (!$scope.config.size) {
+                $scope.config.size = null;
+            }
+
             ueUtil.standardSetup($scope);
         }
     };
