@@ -5,12 +5,14 @@
             <span dynamic-label key="{{titleId}}"></span>
         </h3>
     </div>
-    <div class="modal-body">
-      <wc-alert-message ng-if="model.observandumId" alert-severity="warning" alert-message-id="{{model.observandumId}}"></wc-alert-message>
+    <wc-bottom-fadeout>
+      <div class="modal-body">
+        <wc-alert-message ng-if="model.observandumId" alert-severity="warning" alert-message-id="{{model.observandumId}}"></wc-alert-message>
 
-      <span dynamic-label key="{{bodyText}}"></span>
-      <span id="{{bodyId}}" dynamic-label key="{{bodyTextId}}"></span>
-    </div>
+        <span dynamic-label key="{{bodyText}}"></span>
+        <span id="{{bodyId}}" dynamic-label key="{{bodyTextId}}"></span>
+      </div>
+    </wc-bottom-fadeout>
     <div class="modal-footer">
       <div class="form-inline">
         <button type="button" id="{{button1id}}" class="btn btn-primary" ng-disabled="!model.acceptprogressdone" ng-click="button1click()">

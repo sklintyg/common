@@ -1,9 +1,11 @@
 <div class="modal-header">
   <h3>Tekniskt fel</h3>
 </div>
-<div class="modal-body">
-  <div id="dialogErrorText" ng-bind-html="bodyText"></div>
-</div>
+<wc-bottom-fadeout>
+  <div class="modal-body">
+    <div id="dialogErrorText" ng-bind-html="bodyText"></div>
+  </div>
+</wc-bottom-fadeout>
 <div class="modal-footer">
   <button id="dialogErrorOkBtn" type="button" class="btn btn-primary" ng-click="$close()">OK</button>
 </div>

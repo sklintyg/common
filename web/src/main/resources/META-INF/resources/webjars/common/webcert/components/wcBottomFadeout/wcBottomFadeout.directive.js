@@ -26,8 +26,14 @@ angular.module('common').directive('wcBottomFadeout',
                 restrict: 'E',
                 transclude: true,
                 scope: {
-                    color: '@'
+                    color: '@',
+                    defaultHeight: '@'
                 },
-                templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html'
+                templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html',
+                link: function($scope, element) {
+                    if ($scope.defaultHeight) {
+                        element.find('.scrollable-body').css('height', $scope.defaultHeight);
+                    }
+                }
             };
         }]);

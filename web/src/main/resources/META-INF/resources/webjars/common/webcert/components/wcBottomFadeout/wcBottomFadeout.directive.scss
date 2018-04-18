@@ -17,6 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+.modal {
+  wc-bottom-fadeout {
+    .bottom-fadeout-gradient {
+      padding: 0 15px;
+    }
+  }
+}
+
 wc-bottom-fadeout {
 
   $wc-text-fadeout-height: 30px;
@@ -26,6 +34,14 @@ wc-bottom-fadeout {
 
   .scrollable-body {
     overflow-y: auto;
+    max-height: 50vh;
+
+    .modal-body {
+      margin: 15px 15px 30px;
+      padding: 0;
+      overflow-y: visible;
+      max-height: none;
+    }
   }
 
   //absolutely positioned element with a gradient background.
