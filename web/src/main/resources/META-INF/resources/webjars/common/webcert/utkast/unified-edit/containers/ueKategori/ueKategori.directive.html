@@ -1,4 +1,5 @@
 <div class="card">
+  <div ng-if="::config.signingDoctor" wc-field-signing-doctor></div>
   <a ng-attr-id="anchor-{{::config.categoryId|ueDomIdFilter}}" name="anchor.{{::config.categoryId}}"></a>
   <div class="ue-kategori__heading" ng-if="::config.label.key">
     <h3>

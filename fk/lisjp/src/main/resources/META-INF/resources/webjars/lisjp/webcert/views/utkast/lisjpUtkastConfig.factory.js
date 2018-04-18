@@ -47,7 +47,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
 
                 var config = [
 
-                    kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', {}, [
+                    kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', {signingDoctor: true}, [
                         fraga(27, '', '', {}, [{
                             type: 'ue-checkbox',
                             modelProp: 'avstangningSmittskydd',

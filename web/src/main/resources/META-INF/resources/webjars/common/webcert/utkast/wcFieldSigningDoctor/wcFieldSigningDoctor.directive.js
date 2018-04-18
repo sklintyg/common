@@ -28,8 +28,8 @@ angular.module('common').directive('wcFieldSigningDoctor',
             return {
                 restrict: 'A',
                 controller: function($scope) {
-                    $scope.show = !!UserModel.getIntegrationParam('responsibleHospName'); // !! converts non-empty string to bool
-                    $scope.hospName = UserModel.getIntegrationParam('responsibleHospName');
+                    $scope.show = UserModel.isDjupintegration();
+                    $scope.hospName = UserModel.getIntegrationParam('responsibleHospName') ? UserModel.getIntegrationParam('responsibleHospName') : 'Ej angivet';
                 },
                 templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.html'
             };

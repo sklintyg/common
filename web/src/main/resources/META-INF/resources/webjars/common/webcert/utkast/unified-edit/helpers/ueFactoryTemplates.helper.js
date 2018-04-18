@@ -39,7 +39,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     requiredProp: options.requiredProp
                 },
                 components: components,
-                hideExpression: options.hideExpression
+                hideExpression: options.hideExpression,
+                signingDoctor: options.signingDoctor
             };
         }
 
@@ -71,8 +72,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
 
             fraga: _fraga,
 
-            patient: function(shouldDisableAddressInputWhen, allowUpdaterButton) {
-                var patient = _kategori('patient', 'common.intyg.patientadress', '', {}, [
+            patient: function(shouldDisableAddressInputWhen, allowUpdaterButton, signingDoctor) {
+                var patient = _kategori('patient', 'common.intyg.patientadress', '', {signingDoctor: signingDoctor}, [
                     _fraga(null, '', '', {}, [{
                         type: 'ue-textfield',
                         modelProp: 'grundData.patient.postadress',

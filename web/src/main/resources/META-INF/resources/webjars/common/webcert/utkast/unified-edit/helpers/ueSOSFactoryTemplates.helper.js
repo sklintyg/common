@@ -31,7 +31,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
             function _shouldDisableAddressInputWhen(model) {
                 return viewState.common.validPatientAddressAquiredFromPU;
             }
-            return ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, false);
+            return ueFactoryTemplates.patient(_shouldDisableAddressInputWhen, false, true);
         }
 
         return {

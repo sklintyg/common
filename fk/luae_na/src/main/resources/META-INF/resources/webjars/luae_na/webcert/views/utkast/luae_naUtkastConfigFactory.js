@@ -89,7 +89,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                 }
 
                 var config = [
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { }, [
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
                             required: true, requiredProp: ['undersokningAvPatienten', 'journaluppgifter',
                                 'anhorigsBeskrivningAvPatienten', 'annatGrundForMU'] }, [{
