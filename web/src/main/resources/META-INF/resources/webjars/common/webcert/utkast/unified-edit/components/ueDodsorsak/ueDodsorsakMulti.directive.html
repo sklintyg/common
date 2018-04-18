@@ -38,10 +38,10 @@
         </wc-dropdown>
       </td>
       <td>
-        <button type="button" ng-if="$index > 0" class="btn btn-default red" ng-click="deleteRow($index)"><i class="material-icons">remove_circle</i></button>
+        <button type="button" ng-if="$index > 0" class="btn btn-type-8" ng-click="deleteRow($index)"><i class="material-icons">remove_circle</i> Ta bort</button>
       </td>
     </tr>
   </table>
-  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-default" ng-click="addRow()"><i class="material-icons">add_circle</i> Lägg till sjukdom/skada</button>
+  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-type-8" ng-click="addRow()"><i class="material-icons">add_circle</i> Lägg till sjukdom/skada</button>
   <ue-validation-list field-type="dodsorsak" validations="orsakValidations"></ue-validation-list>
 </div>
