@@ -25,9 +25,9 @@
   }
 }
 
-wc-bottom-fadeout {
+$wc-text-fadeout-height: 30px;
 
-  $wc-text-fadeout-height: 30px;
+wc-bottom-fadeout {
 
   display: block;
   position: relative;
@@ -37,13 +37,16 @@ wc-bottom-fadeout {
     max-height: 50vh;
 
     .modal-body {
-      margin: 15px 15px 30px;
+      margin: 15px 15px $wc-text-fadeout-height;
       padding: 0;
       overflow-y: visible;
       max-height: none;
     }
   }
+}
 
+wc-bottom-fadeout,
+.webcert-workarea-hflex-container > {
   //absolutely positioned element with a gradient background.
   //The pointer-events:none is important, otherwise elements such as button below this can't be clicked.
   .bottom-fadeout-gradient {
@@ -67,5 +70,19 @@ wc-bottom-fadeout {
     &.wc-color-28 div {
       background-image: linear-gradient(to top, rgba($wc-color-28, 1) 0%, rgba($wc-color-28, 0) 100%);
     }
+    &.wc-color-27 div {
+      background-image: linear-gradient(to top, rgba($wc-color-27, 1) 0%, rgba($wc-color-27, 0) 100%);
+    }
   }
 }
+
+.webcert-workarea-hflex-container {
+  > .bottom-fadeout-gradient {
+    max-width: $wc-max-content-width * 0.6;
+    left: auto;
+    z-index: 10;
+    padding: 0 15px;
+    width: 60%;
+  }
+}
+
