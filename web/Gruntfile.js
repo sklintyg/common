@@ -181,6 +181,7 @@ module.exports = function(grunt) {
                     '<%= config.srcRoot %>webcert/wc-common.scss': [
                         '<%= config.srcRoot %>app-shared/**/*.scss',
                         '<%= config.srcRoot %>webcert/**/!(_variables).{scss,sass}',
+                        '!<%= config.srcRoot %>webcert/**/mixins/*.{scss,sass}',
                         '!<%= config.srcRoot %>/webcert/wc-common.{scss,sass}'
                     ]
                 }

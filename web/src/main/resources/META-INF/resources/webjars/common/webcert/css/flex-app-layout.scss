@@ -106,6 +106,16 @@ body {
       flex: 2;
       min-width: 1%;
     }
+
+    > .bottom-fadeout-gradient {
+      @extend %bottom-gradient;
+
+      max-width: $wc-max-content-width * 0.6;
+      left: auto;
+      z-index: 10;
+      padding: 0 15px;
+      width: 60%;
+    }
   }
 }
 
