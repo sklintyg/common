@@ -96,16 +96,48 @@ uv-patient-grund {
 
 fk-uv-table,
 uv-table {
-  .table {
+  .table-wrapper {
     border-radius: 4px;
     overflow: hidden;
     margin-bottom: 14px;
+  }
+  .table {
+
     > thead > tr > th,
     > thead > tr > td,
     > tbody > tr > th,
     > tbody > tr > td {
       padding: 8px;
       vertical-align: top;
+    }
+    tr {
+      > td {
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+      }
+
+      > td:first-child {
+        border-left: 1px solid transparent;
+      }
+
+      > td:last-child {
+        border-right: 1px solid transparent;
+      }
+
+      &:hover {
+        > td {
+          border-top-color: $wc-color-21 !important;
+          border-bottom-color: $wc-color-21;
+        }
+
+        > td:first-child {
+          border-left-color: $wc-color-21;
+        }
+
+        > td:last-child {
+          border-right-color:$wc-color-21;
+        }
+      }
     }
 
     &.table-striped tbody > tr:nth-child(odd) > th,

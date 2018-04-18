@@ -27,7 +27,7 @@ angular.module('common').directive('uvTable', [
                 config: '=',
                 viewData: '='
             },
-            template: '<div ng-include="contentUrl"></div>',
+            template: '<div ng-include="contentUrl" class="table-wrapper"></div>',
             link: function($scope) {
                 if ($scope.config.contentUrl) {
                     $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvTable/uvTable-' + $scope.config.contentUrl + '.directive.html';
