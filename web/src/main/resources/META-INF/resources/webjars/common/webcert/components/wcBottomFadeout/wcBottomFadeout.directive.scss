@@ -31,6 +31,10 @@ wc-bottom-fadeout {
     @extend %bottom-gradient;
   }
 
+  wc-alert-message .alert {
+    padding-bottom: 12px;
+  }
+
   display: block;
   position: relative;
 
