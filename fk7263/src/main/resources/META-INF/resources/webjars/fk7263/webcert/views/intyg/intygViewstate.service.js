@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').service('fk7263.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService', 'common.ObjectHelper',
-        function($log, CommonViewState, ObjectHelper) {
+    ['$log', 'common.IntygViewStateService', 'common.ObjectHelper', 'common.messageService',
+        function($log, CommonViewState, ObjectHelper, messageService) {
             'use strict';
 
             this.common = CommonViewState;
@@ -107,6 +107,23 @@ angular.module('fk7263').service('fk7263.IntygController.ViewStateService',
                 }
 
                 return null;
+            };
+
+            /**
+             Lägg på text om observandum ska visas och returnera hela modellen
+             */
+            this.getSendContent = function(intygType) {
+
+                var sendContentModel = {
+                    observandumId: this.getObservandumId(),
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
+
+                if(sendContentModel.observandumId) {
+                    sendContentModel.bodyText = messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
+                }
+
+                return sendContentModel;
             };
 
             this.reset();

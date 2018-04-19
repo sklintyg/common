@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('lisjp').service('lisjp.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService',
-        function($log, CommonViewState) {
+    ['$log', 'common.IntygViewStateService', 'common.messageService',
+        function($log, CommonViewState, messageService) {
             'use strict';
 
             this.common = CommonViewState;
@@ -101,6 +101,23 @@ angular.module('lisjp').service('lisjp.IntygController.ViewStateService',
                 }
 
                 return null;
+            };
+
+            /**
+                Lägg på text om observandum ska visas och returnera hela modellen
+             */
+            this.getSendContent = function(intygType) {
+
+                var sendContentModel = {
+                    observandumId: this.getObservandumId(),
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
+
+                if(sendContentModel.observandumId) {
+                    sendContentModel.bodyText = messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
+                }
+
+                return sendContentModel;
             };
 
             this.reset();

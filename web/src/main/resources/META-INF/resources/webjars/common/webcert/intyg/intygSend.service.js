@@ -40,21 +40,21 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function _send(intygModel, intygId, intygType, recipientId, titleId, bodyTextId, observandumId, onSuccess) {
-             
+            function _send(intygModel, intygId, intygType, recipientId, titleId, sendContentModel, onSuccess) {
+
                 var dialogSendModel ={
                     acceptprogressdone: true,
                     focus: false,
                     errormessageid: 'error.failedtosendintyg',
                     showerror: false,
                     patientConsent: false,
-                    observandumId: observandumId
+                    observandumId: sendContentModel && sendContentModel.observandumId
                 };
 
                 sendDialog = dialogService.showDialog({
                     dialogId: 'send-dialog',
                     titleId: titleId,
-                    bodyTextId: bodyTextId,
+                    bodyText: sendContentModel && sendContentModel.bodyText,
                     templateUrl: '/web/webjars/common/webcert/intyg/intygSend.dialog.html',
                     model: dialogSendModel,
                     button1click: function() {
