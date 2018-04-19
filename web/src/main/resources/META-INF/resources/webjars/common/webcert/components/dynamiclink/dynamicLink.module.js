@@ -67,7 +67,7 @@ angular.module('common.dynamiclink').directive('dynamiclink',
                 'linkclass': '@'
             },
             template: '<a href="{{ url }}" class="external-link {{linkclass}}" ng-attr-target="{{ target || undefined}}" ' +
-            'ng-attr-title="{{ tooltip || undefined }}" ng-bind-html="text"></a> <i ng-show="target" class="material-icons">launch</i>',
+            'ng-attr-title="{{ tooltip || undefined }}" rel="noopener noreferrer" ng-bind-html="text"></a> <i ng-show="target" class="material-icons">launch</i>',
             link: function(scope) { //  element, attr
                 scope.$watch(function() {
                     return dynamicLinkService.getLink(scope.key);
