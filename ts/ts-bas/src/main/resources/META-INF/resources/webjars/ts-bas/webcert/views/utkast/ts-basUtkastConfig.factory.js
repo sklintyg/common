@@ -541,7 +541,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     // 16. Övrig kommentar
                     kategori(categoryIds[16], 'KAT_16.RBK', 'KAT_16.HLP', { }, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { }, [{
-                            type: 'ue-textarea',
+                            type: 'ue-textfield',
+                            formType: 'horizontal',
+                            size: 'full',
                             modelProp: 'kommentar',
                             htmlMaxlength: 500
                         }])
@@ -578,7 +580,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             paddingBottom: true
                         }]),
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
-                            type: 'ue-textarea',
+                            type: 'ue-textfield',
+                            formType: 'horizontal',
+                            size: 'full',
                             modelProp: 'bedomning.lakareSpecialKompetens',
                             htmlMaxlength: 130
                         }])
