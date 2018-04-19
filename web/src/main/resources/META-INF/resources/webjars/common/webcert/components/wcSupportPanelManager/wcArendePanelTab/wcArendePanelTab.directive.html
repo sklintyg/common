@@ -2,6 +2,8 @@
 
 <div class="tab-content-title-row">
 
+  <span ng-if="!viewState.intygProperties.isSent">Kompletteringsbegäran och administrativa frågor</span>
+
   <ul class="nav navbar-nav" ng-if="viewState.intygProperties.isSent">
     <li ng-class="{active: isFilterKomplettering}">
       <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
