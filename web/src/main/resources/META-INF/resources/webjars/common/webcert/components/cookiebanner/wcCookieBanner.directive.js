@@ -18,7 +18,7 @@
  */
 angular.module('common').directive('wcCookieBanner',
 
-    function($window) {
+    ['$window', 'common.dialogService', function($window, dialogService) {
         'use strict';
 
         return {
@@ -29,10 +29,27 @@ angular.module('common').directive('wcCookieBanner',
                 $scope.isOpen = false;
                 $scope.showDetails = false;
 
+                var dialogInstance;
+
+                $scope.showModal = function() {
+                    dialogInstance = dialogService.showDialog({
+                        dialogId: 'cookie-banner-modal',
+                        templateUrl: '/web/webjars/common/webcert/components/cookiebanner/wcCookieBanner.modal.html',
+                        button1click: function() {
+                            dialogInstance.close();
+                        },
+                        button2click: function() {
+                            dialogInstance.close();
+                            $scope.onCookieConsentClick();
+                        },
+                        autoClose: false,
+                        size: 'lg'
+                    });
+                };
+
                 function cookieConsentGiven() {
                     return $window.localStorage && $window.localStorage.getItem('wc-cookie-consent-given') === '1';
                 }
-
 
                 $timeout(function() {
                     if (!cookieConsentGiven()) {
@@ -50,4 +67,4 @@ angular.module('common').directive('wcCookieBanner',
                 };
             }
         };
-    });
+    }]);

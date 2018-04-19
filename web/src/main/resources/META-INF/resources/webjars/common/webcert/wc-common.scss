@@ -41,6 +41,7 @@
   @import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
   @import 'components/animations/fold.scss';
   @import 'components/animations/keyframe-animations.scss';
+  @import 'components/cookiebanner/wcCookieBanner.directive.scss';
   @import 'components/date/wcDatePickerField/wcDatePickerField.directive.scss';
   @import 'components/headers/wcAppHeader/wcAppHeader.directive.scss';
   @import 'components/headers/wcAppHeader/wcAppHeader.variables.scss';
@@ -637,31 +638,6 @@
   .anchor-right {
     position: absolute;
     right: 0;
-  }
-
-  /*
-  wc cookie banner css.
-  (the extreme z-index is to make sure the banner is on top of any .stat-circle's)
-  */
-  .wc-cookie-banner-directive {
-
-    margin: 0;
-    top: 0;
-    position: fixed;
-    right: 0;
-    left: 0;
-    border: none;
-    z-index: 1020;
-
-    .alert {
-      max-width: inherit;
-      border-radius: 0;
-      margin-bottom: 0;
-    }
-    .container-fluid {
-      padding: 0;
-    }
-
   }
 
   .empty {
