@@ -29,7 +29,7 @@ describe('IntygCopyService', function() {
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.messageService',
-            jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
+            jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources', 'propertyExists' ]));
         $provide.value('$stateParams', {});
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
         $provide.value('common.UtkastViewStateService', {});

@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygCopyActions',
-    [ '$log', '$stateParams', '$state',
+    [ '$log', '$stateParams', '$state', 'common.messageService',
         'common.dialogService', 'common.IntygProxy', 'common.authorityService', 'common.UserModel', 'common.User', 'common.IntygHelper', 'common.PersonIdValidatorService',
-        function($log, $stateParams, $state,
+        function($log, $stateParams, $state, messageService,
             dialogService, IntygProxy, authorityService, UserModel, userService, IntygHelper, PersonIdValidatorService) {
             'use strict';
 
@@ -205,6 +205,12 @@ angular.module('common').factory('common.IntygCopyActions',
                 ersattDialogModel.deepIntegration = !authorityService.isAuthorityActive({authority: 'HANTERA_PERSONUPPGIFTER'});
                 ersattDialogModel.intygTyp = intygErsattRequest.intygType;
                 ersattDialogModel.ersattningsUtkastFinns = !!viewState.common.intygProperties.latestChildRelations.replacedByUtkast;
+
+                var infoMessageKey = ersattDialogModel.intygTyp + '.modal.ersatt.text.info';
+
+                if (messageService.propertyExists(infoMessageKey)) {
+                    ersattDialogModel.infoMessage = infoMessageKey;
+                }
 
                var ersattDialog = dialogService.showDialog({
                         dialogId: 'ersatt-dialog',

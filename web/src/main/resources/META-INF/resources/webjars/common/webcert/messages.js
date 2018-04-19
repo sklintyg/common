@@ -61,7 +61,7 @@
             'common.createfromtemplate.cancel': 'Avbryt',
             'common.ersatt': 'Ersätt',
             'common.ersatt.resume': 'Fortsätt på utkast',
-            'common.ersatt.cancel': 'Avbryt, ersätt ej',
+            'common.ersatt.cancel': 'Avbryt',
             'common.ersatt.tooltip': 'Skapar en kopia av detta intyg som du kan redigera.',
             'common.ersatt.unhandledkomplettering.tooltip': 'Intyget har minst en ohanterad kompletteringsbegäran och går inte att ersätta.',
             'common.show': 'Visa',
