@@ -38,7 +38,8 @@ angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.f
         if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
-                title: 'Frågor & Svar',
+                title: 'common.supportpanel.arende.title',
+                tooltip: 'common.supportpanel.arende.tooltip',
                 config: {
                     intygContext: config.intygContext
                 }
@@ -48,7 +49,8 @@ angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.f
         //Always has this
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
-            title: 'Tips & Hjälp',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
             config: {
                 intygContext: config.intygContext
             }

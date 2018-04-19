@@ -707,8 +707,16 @@
             'common.arende.error.komplettera-no-intyg': '<strong>Kan inte svara med nytt intyg</strong><br>Intyget kunde inte laddas och är därför inte tillgängligt att användas som grund för komplettering.',
             'common.arende.error.komplettera-no-utkast': '<strong>Kan inte gå till existerande intygsutkast</strong><br>Intygsutkastet kunde inte laddas.',
             'common.arende.error.pu_problem.modalheader': 'Personuppgiftstjänsten svarar inte',
-            'common.arende.error.pu_problem': '<p>Personuppgiftstjänsten svarar inte. Åtgärden kan inte genomföras eftersom den kräver att personuppgifter kan hämtas från personuppgiftsregistret. Prova igen om en stund.</p><p>Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.</p>'
+            'common.arende.error.pu_problem': '<p>Personuppgiftstjänsten svarar inte. Åtgärden kan inte genomföras eftersom den kräver att personuppgifter kan hämtas från personuppgiftsregistret. Prova igen om en stund.</p><p>Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.</p>',
 
+
+            // Högerflikar
+            'common.supportpanel.fmb.title': '<i class="material-icons" style="margin: -3px 0;">lightbulb_outline</i> FMB',
+            'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
+            'common.supportpanel.arende.title': 'Ärendekommunikation',
+            'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',
+            'common.supportpanel.help.title': 'Tips & Hjälp',
+            'common.supportpanel.help.tooltip': 'Läs om intyget.'
         },
         'en': {
             'common.ok': 'OK',

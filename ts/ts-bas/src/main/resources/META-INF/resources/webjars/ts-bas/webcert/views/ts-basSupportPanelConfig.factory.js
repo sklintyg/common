@@ -39,7 +39,8 @@ angular.module('ts-bas').factory('ts-bas.supportPanelConfigFactory', [ function(
         //Always has this
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
-            title: 'Tips & Hjälp',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
             config: {
                 intygContext: config.intygContext
             }

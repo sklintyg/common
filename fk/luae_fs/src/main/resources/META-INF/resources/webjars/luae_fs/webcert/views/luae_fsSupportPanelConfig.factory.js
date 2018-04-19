@@ -41,7 +41,8 @@ angular.module('luae_fs').factory('luae_fs.supportPanelConfigFactory', [ 'common
         if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
-                title: 'Frågor & Svar',
+                title: 'common.supportpanel.arende.title',
+                tooltip: 'common.supportpanel.arende.tooltip',
                 config: {
                     intygContext: config.intygContext
                 },
@@ -52,7 +53,8 @@ angular.module('luae_fs').factory('luae_fs.supportPanelConfigFactory', [ 'common
         //Always has this, but only active by default utkast and not kompletteringsutkast
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
-            title: 'Tips & Hjälp',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
             config: {
                 intygContext: config.intygContext
             },

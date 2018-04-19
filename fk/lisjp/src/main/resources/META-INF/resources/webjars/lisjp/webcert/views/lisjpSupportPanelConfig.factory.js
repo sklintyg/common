@@ -39,7 +39,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
         if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
             config.tabs.push({
                 id: 'wc-arende-panel-tab',
-                title: 'Frågor & Svar',
+                title: 'common.supportpanel.arende.title',
+                tooltip: 'common.supportpanel.arende.tooltip',
                 config: {
                     intygContext: config.intygContext
                 },
@@ -51,7 +52,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
         if (!config.intygContext.isSigned) {
             config.tabs.push({
                 id: 'wc-fmb-panel-tab',
-                title: 'FMB',
+                title: 'common.supportpanel.fmb.title',
+                tooltip: 'common.supportpanel.fmb.tooltip',
                 config: {
                     intygContext: config.intygContext
                 },
@@ -62,7 +64,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
         //Default aktiv om signerat och inte ännu skickat
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
-            title: 'Tips & Hjälp',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
             config: {
                 intygContext: config.intygContext
             },

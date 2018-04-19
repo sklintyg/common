@@ -1,6 +1,12 @@
 <ul class="support-tabs">
   <li ng-repeat="tab in config.tabs" role="presentation" ng-class="{'active': tab.active}">
-    <a href ng-click="onSelect(tab, $event)" ng-attr-id="{{'tab-link-' + tab.id}}">{{tab.title}}</a>
+    <a href ng-click="onSelect(tab, $event)"
+       ng-attr-id="{{::'tab-link-' + tab.id}}"
+       uib-popover="{{::getText(tab.tooltip)}}"
+       popover-trigger="mouseenter"
+       popover-placement="auto top">
+      <span dynamic-label key="{{::tab.title}}"></span>
+    </a>
   </li>
 </ul>
 

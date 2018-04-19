@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'common.ArendeListViewStateService',
-    function($rootScope, ArendeListViewState) {
+angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'common.ArendeListViewStateService', 'common.dynamicLabelService',
+    function($rootScope, ArendeListViewState, dynamicLabelService) {
         'use strict';
 
         return {
@@ -48,6 +48,9 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
                     $rootScope.$broadcast('arenden.updated');
                 }
 
+                $scope.getText = function(key) {
+                    return dynamicLabelService.getProperty(key);
+                };
             }
         };
     }
