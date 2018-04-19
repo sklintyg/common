@@ -1,6 +1,6 @@
 wc-faq-toggler {
   display: block;
-  .btn-primary {
-
+  .btn {
+    @extend %wc-typo-07;
   }
 }
