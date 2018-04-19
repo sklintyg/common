@@ -95,7 +95,7 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 if (featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST)) {
                     var writeCertMenuDef = {
                         link: '/#/create/index',
-                        label: 'Sök/skriv intyg',
+                        label: 'Sök / skriv intyg',
                         requiresDoctor: false,
                         id: 'menu-skrivintyg',
                         getStat: function() {
