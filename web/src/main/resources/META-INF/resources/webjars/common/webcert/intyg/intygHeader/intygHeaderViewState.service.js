@@ -58,6 +58,7 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 this.currentCreateFromTemplateConfig = createFromTemplateConfig[intygType];
                 if(this.currentCreateFromTemplateConfig){
                     this.currentCreateFromTemplateConfig.buttonText = messageService.getProperty('common.createfromtemplate', {intygName: this.currentCreateFromTemplateConfig.name});
+                    this.currentCreateFromTemplateConfig.gotoButtonText = messageService.getProperty('common.gotofromtemplate', {intygName: this.currentCreateFromTemplateConfig.name});
                     var intygSpecificTooltipKey = intygType + '.createfromtemplate.' + this.currentCreateFromTemplateConfig.moduleId + '.tooltip';
                     if (messageService.propertyExists(intygSpecificTooltipKey)) {
                         this.currentCreateFromTemplateConfig.tooltip = messageService.getProperty(intygSpecificTooltipKey);
@@ -88,15 +89,31 @@ angular.module('common').service('common.IntygHeaderViewState', [
             };
 
             this.checkIntygModuleId = function(moduleId){
-                return previousIntyg !== undefined && previousIntyg[moduleId] === true;
+                return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].sameVardgivare;
             };
 
             this.checkUtkastModuleId = function(moduleId){
-                return previousUtkast !== undefined && previousUtkast[moduleId] === true;
+                return previousUtkast !== undefined && previousUtkast[moduleId] && previousUtkast[moduleId].sameVardgivare;
             };
 
             this.checkUtkastModuleIdDifferent = function(moduleId){
-                return previousUtkast !== undefined && previousUtkast[moduleId] === false;
+                return previousUtkast !== undefined && previousUtkast[moduleId] && !previousUtkast[moduleId].sameVardgivare;
+            };
+
+            this.checkIntygModuleId = function(moduleId){
+                return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].sameVardgivare;
+            };
+
+            this.getUtkastIntygsIdForModuleId = function(moduleId){
+                if (previousUtkast && previousUtkast[moduleId]) {
+                    return previousUtkast[moduleId].latestIntygsId;
+                }
+            };
+
+            this.getIntygIntygsIdForModuleId = function(moduleId){
+                if (previousIntyg && previousIntyg[moduleId]) {
+                    return previousIntyg[moduleId].latestIntygsId;
+                }
             };
 
         }

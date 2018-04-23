@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.IntygHeaderService',
-    ['$log', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
+    ['$log', '$state', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
         'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy', 'common.IntygFornyaRequestModel',
-        function($log, featureService, CommonIntygViewState, IntygHeaderViewState,
+        function($log, $state, featureService, CommonIntygViewState, IntygHeaderViewState,
             UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel) {
             'use strict';
 
@@ -59,11 +59,38 @@ angular.module('common').service('common.IntygHeaderService',
 
             this.showCreateFromTemplate = function() {
                 return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced() &&
-                    !CommonIntygViewState.isComplementedByIntyg() && !UserModel.getIntegrationParam('inactiveUnit');
+                    !CommonIntygViewState.isComplementedByIntyg() && !UserModel.getIntegrationParam('inactiveUnit') && !this.showGotoCreatedFromTemplate();
+            };
+
+            this.showGotoCreatedFromTemplate = function() {
+                var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;
+                if (intygTemplateConfig && intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
+                    IntygHeaderViewState.checkIntygModuleId(intygTemplateConfig.moduleId)) {
+                    return true;
+                }
+                if (intygTemplateConfig && intygTemplateConfig.features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
+                    IntygHeaderViewState.checkUtkastModuleId(intygTemplateConfig.moduleId)) {
+                    return true;
+                }
+                return false;
             };
 
             this.createFromTemplate = function(intyg) {
                 return this.intygCopyAction(intyg, IntygCopyActions.createFromTemplate, IntygFornyaRequestModel.build, IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
+            };
+
+            this.gotoRelatedFromTemplate = function() {
+                var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;
+                if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
+                    IntygHeaderViewState.checkUtkastModuleId(intygTemplateConfig.moduleId)) {
+                    var utkastId = IntygHeaderViewState.getUtkastIntygsIdForModuleId(intygTemplateConfig.moduleId);
+                    $state.go(intygTemplateConfig.moduleId + '-edit', {certificateId: utkastId});
+                }
+                else if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
+                    IntygHeaderViewState.checkIntygModuleId(intygTemplateConfig.moduleId)) {
+                    var intygsId = IntygHeaderViewState.getIntygIntygsIdForModuleId(intygTemplateConfig.moduleId);
+                    $state.go('webcert.intyg.' + intygTemplateConfig.moduleId, {certificateId: intygsId});
+                }
             };
 
             this.getCurrentCreateFromTemplate = function() {

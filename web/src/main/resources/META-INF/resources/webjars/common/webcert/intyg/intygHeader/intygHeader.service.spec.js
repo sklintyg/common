@@ -99,7 +99,9 @@ describe('IntygHeaderService', function() {
                 spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
                     onSuccess({
                         intyg: {
-                            doi: true
+                            doi: {
+                                sameVardgivare:true
+                            }
                         }
                     });
                 });
@@ -107,6 +109,8 @@ describe('IntygHeaderService', function() {
                 IntygHeaderService.updatePreviousIntygUtkast(IntygHeaderViewState.intygViewState.intygModel);
 
                 expect(IntygHeaderService.enableCreateFromTemplate()).toBeFalsy();
+                expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
+                expect(IntygHeaderService.showGotoCreatedFromTemplate()).toBeTruthy();
                 expect(IntygHeaderViewState.warningForCreateTemplate).not.toBeNull();
             });
 

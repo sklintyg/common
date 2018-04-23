@@ -17,6 +17,19 @@
   </button>
 
   <button type="button"
+          intygstyp="{{intygType}}"
+          id="gotoRelatedFromTemplateBtn"
+          class="btn btn-success"
+          ng-if="IntygHeaderService.showGotoCreatedFromTemplate()"
+          ng-click="IntygHeaderService.gotoRelatedFromTemplate()"
+          popover-trigger="mouseenter"
+          popover-popup-delay="300"
+          popover-append-to-body="true"
+          popover-placement="auto top">
+    <i class="material-icons">description</i> {{IntygHeaderService.getCurrentCreateFromTemplate().gotoButtonText}}
+  </button>
+
+  <button type="button"
           id="sendBtn"
           class="btn btn-primary"
           wc-authority feature="SKICKA_INTYG"

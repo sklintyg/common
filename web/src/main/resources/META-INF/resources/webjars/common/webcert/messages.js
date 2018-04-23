@@ -45,6 +45,7 @@
             'common.goback': 'Tillbaka',
             'common.createfromtemplate': 'Skriv ${intygName}',
             'common.createfromtemplate.tooltip': 'Skapar ett ${newIntygName} utifrån ${currentIntygName}.',
+            'common.gotofromtemplate': 'Visa ${intygName}',
             'common.makulera': 'Makulera',
             'common.makulera.tooltip': 'Öppnar ett fönster där du kan välja att makulera intyget.',
             'common.sign': 'Signera intyget',

@@ -77,9 +77,9 @@ angular
                         if (featureService.isFeatureActive(featureService.features.UNIKT_INTYG, viewState.common.intyg.type) &&
                             previousIntygWarnings !== undefined) {
 
-                            previousIntyg = previousIntygWarnings[viewState.common.intyg.type] === false;
+                            previousIntyg = previousIntygWarnings[viewState.common.intyg.type];
 
-                            if (previousIntyg) {
+                            if (previousIntyg && !previousIntyg.sameVardgivare) {
                                 previousWarningMessage = viewState.common.intyg.type + '.warn.previouscertificate.differentvg';
                             }
                         }
