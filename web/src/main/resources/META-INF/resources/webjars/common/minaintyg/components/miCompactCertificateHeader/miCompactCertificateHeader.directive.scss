@@ -12,10 +12,34 @@ mi-compact-certificate-header {
       color: $mi-intyg-header-color;
       padding: 15px;
   }
+  .row-wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .certificate-header-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 68%;
+  }
+
+  .date-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-end;
+    }
+  .certificate-issued-date {
+    margin-right: 15px;
+  }
 
   .icon {
     font-size: 42px;
     line-height: 42px;
+    margin-left: 0;
+  }
+
+  .icon:before {
+    margin-left: 0;
   }
 
   .cert-type-title {
@@ -24,10 +48,6 @@ mi-compact-certificate-header {
       cursor: pointer;
     }
     h1 {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 80%;
       margin: 0;
       padding-top: 3px;
     }
@@ -35,22 +55,20 @@ mi-compact-certificate-header {
 
   .complementary-info {
     float: left;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    max-width: 58%;
-    padding-right: 20px;
+    p.small-header {
+      margin: 5px 0 0 0;
+    }
   }
 
   @media (min-width: 992px) {
     .complementary-info {
-      max-width: 78%;
     }
   }
 
   .certificate-issued-date {
     text-align: right;
-    margin-right: 15px;
-    white-space: nowrap;
+    margin-left: 28px;
+    align-self: flex-end;
+    margin-right: 0;
   }
 }
