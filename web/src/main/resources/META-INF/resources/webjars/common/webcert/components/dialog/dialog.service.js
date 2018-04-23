@@ -68,12 +68,41 @@ angular.module('common').factory('common.dialogService',
             });
         }
 
+        function _showMessageDialogText(dialogId, title, bodyText, callback) {
+            var msgbox = $uibModal.open({
+                templateUrl: '/web/webjars/common/webcert/components/dialog/dialogMessage.template.html',
+                controller: function($scope, $uibModalInstance, dialogId, bodyText, title) {
+                    $scope.dialogId = dialogId;
+                    $scope.title = title;
+                    $scope.bodyText = bodyText;
+                },
+                resolve: {
+                    dialogId: function() {
+                        return angular.copy(dialogId);
+                    },
+                    title: function() {
+                        return angular.copy(title);
+                    },
+                    bodyText: function() {
+                        return angular.copy(bodyText);
+                    }
+                }
+            });
+
+            msgbox.result['finally'](function(result) {
+                if (callback) {
+                    callback(result);
+                }
+            });
+        }
+
         /*
          showDialog parameters:
 
          options =
          dialogId: html id attribute of dialog
          titleId: message id of title text
+         titleText: title text
          bodyTextId: message id of body text
          bodyText: body text (can be used instead of or in addition to bodyTextId
          button1id: (optional) html id attribute of button 1
@@ -119,7 +148,7 @@ angular.module('common').factory('common.dialogService',
             return msgbox;
         }
 
-        var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, bodyTextId,
+        var DialogInstanceCtrl = function($scope, $uibModalInstance, model, dialogId, titleId, titleText, bodyTextId,
                     bodyText,
                     button1id, button2id, button3id, button1click, button2click, button3click, button3visible,
                     button1text,
@@ -128,6 +157,7 @@ angular.module('common').factory('common.dialogService',
                     $scope.model = model;
                     $scope.dialogId = dialogId;
                     $scope.title = title;
+                    $scope.titleText = titleText;
                     $scope.titleId = titleId;
                     $scope.bodyTextId = bodyTextId;
                     $scope.bodyText = bodyText;
@@ -214,64 +244,68 @@ angular.module('common').factory('common.dialogService',
 
         function dialogCustomState( options ) {
             return {
-                    model: function() {
-                        return options.model;
-                    },
-                    dialogId: function() {
-                        return angular.copy(options.dialogId);
-                    },
-                    title: function(){
-                      return options.title;
-                    },
-                    titleId: function() {
-                        return angular.copy(options.titleId);
-                    },
-                    bodyTextId: function() {
-                        return angular.copy(options.bodyTextId);
-                    },
-                    bodyText: function() {
-                        return angular.copy(options.bodyText);
-                    },
-                    button1id: function() {
-                        return angular.copy(options.button1id);
-                    },
-                    button2id: function() {
-                        return angular.copy(options.button2id);
-                    },
-                    button3id: function() {
-                        return angular.copy(options.button3id);
-                    },
-                    button1click: function() {
-                        return options.button1click;
-                    },
-                    button2click: function() {
-                        return options.button2click;
-                    },
-                    button3click: function() {
-                        return options.button3click;
-                    },
-                    button1text: function() {
-                        return angular.copy(options.button1text);
-                    },
-                    button2text: function() {
-                        return angular.copy(options.button2text);
-                    },
-                    button3text: function() {
-                        return angular.copy(options.button3text);
-                    },
-                    button3visible: function() {
-                        return angular.copy(options.button3visible);
-                    },
-                    autoClose: function() {
-                        return angular.copy(options.autoClose);
-                    }
-                };
+                model: function() {
+                    return options.model;
+                },
+                dialogId: function() {
+                    return angular.copy(options.dialogId);
+                },
+                title: function(){
+                  return options.title;
+                },
+                titleId: function() {
+                    return angular.copy(options.titleId);
+                },
+                titleText: function(){
+                    return options.titleText;
+                },
+                bodyTextId: function() {
+                    return angular.copy(options.bodyTextId);
+                },
+                bodyText: function() {
+                    return angular.copy(options.bodyText);
+                },
+                button1id: function() {
+                    return angular.copy(options.button1id);
+                },
+                button2id: function() {
+                    return angular.copy(options.button2id);
+                },
+                button3id: function() {
+                    return angular.copy(options.button3id);
+                },
+                button1click: function() {
+                    return options.button1click;
+                },
+                button2click: function() {
+                    return options.button2click;
+                },
+                button3click: function() {
+                    return options.button3click;
+                },
+                button1text: function() {
+                    return angular.copy(options.button1text);
+                },
+                button2text: function() {
+                    return angular.copy(options.button2text);
+                },
+                button3text: function() {
+                    return angular.copy(options.button3text);
+                },
+                button3visible: function() {
+                    return angular.copy(options.button3visible);
+                },
+                autoClose: function() {
+                    return angular.copy(options.autoClose);
+                }
+            };
         }
 
         // Return public API for the service
         return {
             showErrorMessageDialog: _showErrorMessageDialog,
             showMessageDialog: _showMessageDialog,
+            showMessageDialogText: _showMessageDialogText,
             showDialog: _showDialog
         };
     });
