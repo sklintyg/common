@@ -55,8 +55,7 @@ body {
 
   //defines padding for "page" workarea containers
   .webcert-workarea-page {
-    //NOTE: Minimum of 15 padding left/right is needed to handle bootstrap grid negative margins
-    padding: 20px 15px 0 15px;
+    padding: 20px 0 0 0;
 
     //Hack to fix IE not respecting padding bottom
     &:after {
