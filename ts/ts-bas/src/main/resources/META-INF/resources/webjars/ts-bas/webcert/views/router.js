@@ -69,7 +69,7 @@ angular.module('ts-bas').config(function($stateProvider) {
         }).
         state('webcert.intyg.ts-bas', {
             data: { defaultActive: 'index', intygType: 'ts-bas' },
-            url: '/intyg/ts-bas/:certificateId/:focusOn',
+            url: '/intyg/ts-bas/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

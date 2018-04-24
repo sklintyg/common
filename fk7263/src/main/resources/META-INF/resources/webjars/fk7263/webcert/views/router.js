@@ -49,7 +49,7 @@ angular.module('fk7263').config(function($stateProvider) {
     }).
         state('webcert.intyg.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
-            url:'/intyg/fk7263/:certificateId/:focusOn',
+            url:'/intyg/fk7263/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

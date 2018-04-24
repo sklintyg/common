@@ -64,7 +64,7 @@ angular.module('lisjp').config(function($stateProvider) {
             }
         }).state('webcert.intyg.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
-            url:'/intyg/lisjp/:certificateId/:focusOn',
+            url:'/intyg/lisjp/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

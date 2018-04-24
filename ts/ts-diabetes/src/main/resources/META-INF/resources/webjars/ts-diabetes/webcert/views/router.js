@@ -69,7 +69,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
         }).
         state('webcert.intyg.ts-diabetes', {
             data: { defaultActive: 'index', intygType: 'ts-diabetes' },
-            url: '/intyg/ts-diabetes/:certificateId/:focusOn',
+            url: '/intyg/ts-diabetes/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
