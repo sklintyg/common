@@ -118,7 +118,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
         LocalDate minDate = (utlatande.getTerminalDodsorsak() != null && utlatande.getTerminalDodsorsak().getDatum() != null && utlatande
                 .getTerminalDodsorsak().getDatum().isValidDate())
                 ? utlatande.getTerminalDodsorsak().getDatum().asLocalDate()
-                : LocalDate.MAX;
+                : null;
         for (int i = 0; i < utlatande.getFoljd().size(); i++) {
             Dodsorsak foljd = utlatande.getFoljd().get(i);
             if (Strings.nullToEmpty(foljd.getBeskrivning()).trim().isEmpty()) {
@@ -133,9 +133,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                             "utlatandeOrsak",
                             FOLJD_JSON_ID + "[" + i + "].datum",
                             ValidationMessageType.INVALID_FORMAT);
-                } else if (foljd.getDatum().asLocalDate().isAfter(minDate)) {
+                // R21 b, check with today if no earlier date
+                } else if (minDate == null && foljd.getDatum().asLocalDate().isAfter(LocalDate.now())) {
                     ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", FOLJD_JSON_ID + "[" + i + "].datum",
-                            ValidationMessageType.INCORRECT_COMBINATION);
+                            ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date.today.or.earlier");
+                } else if (minDate != null && foljd.getDatum().asLocalDate().isAfter(minDate)) {
+                    String message = "doi.validation.foljd.datum.f.val-050";
+                    if (i > 0) {
+                        message = "doi.validation.foljd.datum.f.val-051";
+                    }
+                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", FOLJD_JSON_ID + "[" + i + "].datum",
+                            ValidationMessageType.INCORRECT_COMBINATION, message);
                 } else {
                     minDate = foljd.getDatum().asLocalDate();
                 }
