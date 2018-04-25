@@ -543,7 +543,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'kommentar',
-                            htmlMaxlength: 500
+                            htmlMaxlength: 500,
+                            rows: 3
                         }])
                     ]),
 
@@ -580,7 +581,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'bedomning.lakareSpecialKompetens',
-                            htmlMaxlength: 130
+                            htmlMaxlength: 130,
+                            rows: 3
                         }])
                     ]),
 
