@@ -11,6 +11,7 @@ wc-inline-komplettering {
 
   .inline-komplettering-text {
     white-space: pre-line;
+    word-break: break-all;
   }
 
   .inline-komplettering-heading {
