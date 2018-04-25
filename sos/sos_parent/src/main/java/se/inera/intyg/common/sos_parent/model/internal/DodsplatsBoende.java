@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.sos_parent.model.internal;
 
-import java.util.Arrays;
-
 public enum DodsplatsBoende {
 
     SJUKHUS(DodsplatsBoendeConstants.SJUKHUS_VALUE),
@@ -35,12 +33,5 @@ public enum DodsplatsBoende {
 
     public String getBeskrivning() {
         return beskrivning;
-    }
-
-    public static DodsplatsBoende fromString(final String string) throws IllegalArgumentException {
-        return Arrays.stream(DodsplatsBoende.values())
-                .filter(v -> v.beskrivning.equals(string))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("unknown value: " + string));
     }
 }
