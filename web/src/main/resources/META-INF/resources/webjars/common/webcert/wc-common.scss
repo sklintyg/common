@@ -331,9 +331,13 @@
       color: $wc-color-21;
     }
 
-    .external-link {
+    &.external-link {
       color: $wc-color-17;
     }
+  }
+
+  .external-link-icon {
+    font-size: inherit;
   }
 
   .dark {
