@@ -392,9 +392,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
                     kategori(categoryIds[5], '', '', {}, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', {}, [{
-                            type: 'ue-textfield',
-                            formType: 'horizontal',
-                            size: 'full',
+                            type: 'ue-textarea',
                             modelProp: 'kommentar',
                             htmlMaxlength: 189
                         }])
@@ -402,9 +400,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
 
                     kategori(categoryIds[6], '', '', {}, [
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', {}, [{
-                            type: 'ue-textfield',
-                            formType: 'horizontal',
-                            size: 'full',
+                            type: 'ue-textarea',
                             modelProp: 'bedomning.lakareSpecialKompetens',
                             htmlMaxlength: 71
                         }])
