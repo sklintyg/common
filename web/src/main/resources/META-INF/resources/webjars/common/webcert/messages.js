@@ -147,6 +147,7 @@
             'intyg.status.has.komplettering': 'Försäkringskassan har begärt kompletteringar på intyget.',
             'intyg.status.draft_incomplete': 'Utkast, uppgifter saknas',
             'intyg.status.draft_complete': 'Utkast, kan signeras',
+            'intyg.status.draft_locked': 'Utkast, låst',
             'intyg.status.signed': 'Signerat',
             'intyg.status.cancelled': 'Makulerat',
             'intyg.status.unknown': 'Okänd',
