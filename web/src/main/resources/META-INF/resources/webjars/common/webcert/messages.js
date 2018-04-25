@@ -714,7 +714,7 @@
 
 
             // Högerflikar
-            'common.supportpanel.fmb.title': '<i class="material-icons" style="margin: -3px 0;">lightbulb_outline</i> FMB',
+            'common.supportpanel.fmb.title': 'FMB',
             'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
             'common.supportpanel.arende.title': 'Ärendekommunikation',
             'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',

@@ -5,6 +5,7 @@
        uib-popover="{{::getText(tab.tooltip)}}"
        popover-trigger="mouseenter"
        popover-placement="auto top">
+      <i data-ng-if="tab.icon" class="material-icons">{{::tab.icon}}</i>
       <span dynamic-label key="{{::tab.title}}"></span>
     </a>
   </li>

@@ -53,6 +53,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             config.tabs.push({
                 id: 'wc-fmb-panel-tab',
                 title: 'common.supportpanel.fmb.title',
+                icon: 'lightbulb_outline',
                 tooltip: 'common.supportpanel.fmb.tooltip',
                 config: {
                     intygContext: config.intygContext
