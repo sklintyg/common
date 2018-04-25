@@ -10,7 +10,7 @@
         <span class="label-padding" wc-help-chevron-text help-text-key="{{config.orsakLabel}}.HLP"></span>
       </th>
     </tr>
-    <tr ng-repeat="orsak in model[config.modelProp] track by $index">
+    <tr ng-repeat="orsak in model[config.modelProp]">
       <td>
         <input id="orsak-multi-{{$index}}-beskrivning"
                type="text"
