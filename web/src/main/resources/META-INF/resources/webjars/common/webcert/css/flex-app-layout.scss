@@ -55,7 +55,7 @@ body {
 
   //defines padding for "page" workarea containers
   .webcert-workarea-page {
-    padding: 20px 0 0 0;
+    padding-top: 20px;
 
     //Hack to fix IE not respecting padding bottom
     &:after {
