@@ -44,34 +44,6 @@ angular.module('common').factory('common.enhetArendenCommonService',
                 });
             }
 
-            function _buildMailToLink(qa) {
-                var baseURL = $window.location.protocol + '//' + $window.location.hostname +
-                    ($window.location.port ? ':' + $window.location.port : '');
-                var certificateUrlPart = UserModel.isUthopp() ? 'certificate/' : 'basic-certificate/';
-
-                if(typeof qa.intygsReferens === 'undefined' || typeof qa.intygsReferens.intygsId === 'undefined') {
-                    $log.error('Invalid intyg id. Cannot create vidarebefordra link');
-                    return 'error';
-                }
-                var url = baseURL + '/webcert/web/user/' + certificateUrlPart + qa.intygsReferens.intygsId + '/questions';
-
-                var recipient = '';
-                var subject = 'En fraga-svar ska besvaras i Webcert';
-                if (qa.vardperson.enhetsnamn !== undefined) {
-                    subject += ' pa enhet ' + qa.vardperson.enhetsnamn;
-                    if (qa.vardperson.vardgivarnamn !== undefined) {
-                        subject += ' for vardgivare ' + qa.vardperson.vardgivarnamn;
-                    }
-                }
-
-                var body = 'Klicka pa lanktexten for att besvara fraga-svar:\n' + url;
-                var link = 'mailto:' + recipient + '?subject=' +
-                    encodeURIComponent(utilsService.replaceAccentedCharacters(subject)) + '&body=' +
-                    encodeURIComponent(body);
-                $log.debug(link);
-                return link;
-            }
-
             function _setSkipVidareBefodradCookie() {
                 var secsDays = 12 * 30 * 24 * 3600 * 1000; // 1 year
                 var now = new Date();
@@ -336,7 +308,6 @@ angular.module('common').factory('common.enhetArendenCommonService',
             return {
                 setVidareBefordradState: _setVidareBefordradState,
                 handleVidareBefodradToggle: _handleVidareBefodradToggle,
-                buildMailToLink: _buildMailToLink,
                 decorateSingleItemMeasure: _decorateSingleItemMeasure,
                 decorateSingleItem: _decorateSingleItem,
                 isUnhandled: _isUnhandled,

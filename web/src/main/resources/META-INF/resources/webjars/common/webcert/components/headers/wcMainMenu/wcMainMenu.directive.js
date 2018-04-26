@@ -63,14 +63,14 @@ angular.module('common').directive('wcMainMenu', ['$state', '$location', 'common
                 if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR)) {
                     menu.push({
                         link: '/#/enhet-arenden',
-                        label: 'Frågor & svar',
+                        label: 'Ej hanterade ärenden',
                         requiresDoctor: false,
                         statNumberId: 'stat-unitstat-unhandled-question-count',
                         statTooltip: 'not set',
                         id: 'menu-enhet-arenden',
                         getStat: function() {
                             this.statTooltip = 'Vårdenheten har ' + $scope.stat.fragaSvarValdEnhet +
-                                ' ej hanterade frågor och svar.';
+                                ' ej hanterade ärenden.';
                             return $scope.stat.fragaSvarValdEnhet || '';
                         }
                     });
