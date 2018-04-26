@@ -243,10 +243,9 @@ angular.module('common').factory('common.UtkastNotifyService',
                     ($window.location.port ? ':' + $window.location.port : '');
                 var url = baseURL + '/web/maillink/intyg/' + intygType + '/' + intygId;
                 var recipient = '';
-                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert pa enhet ' +
-                    utilsService.replaceAccentedCharacters(enhetsNamn) + ' for vardgivare ' +
-                    utilsService.replaceAccentedCharacters(vardgivareNamn);
-                var body = 'Klicka pa lanken for att ga till utkastet:\n' + url + '\n\nOBS! Satt i ditt SITHS-kort innan du klickar pa lanken.';
+                var subject = 'Du har blivit tilldelad ett ej signerat utkast i Webcert på enhet ' +
+                    enhetsNamn + ' för vårdgivare ' + vardgivareNamn;
+                var body = 'Klicka på länken för att gå till utkastet:\n' + url + '\n\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.';
                 var link = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);

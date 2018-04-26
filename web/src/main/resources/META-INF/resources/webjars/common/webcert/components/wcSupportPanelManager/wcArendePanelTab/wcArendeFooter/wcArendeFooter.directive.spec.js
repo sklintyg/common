@@ -94,10 +94,10 @@ describe('wArendeFooter', function() {
         $scope.openMailDialog();
 
         expect($window.location).toEqual(
-            'mailto:?subject=Ett%20arende%20ska%20besvaras%20i%20Webcert%20pa%20enhet%20VE%20for%20vardgivare%20VG'+
-            '&body=Klicka%20pa%20lanktexten%20for%20att%20besvara%20arende%3A%0Aprotocol%2F%2Fhostname%3Aport%2Fwebcert%2Fweb'+
-            '%2Fuser%2Fbasic-certificate%2Flisjp%2FtestIntygId%2Fquestions%0A%0AOBS!%20Satt%20i%20ditt%20SITHS-kort%20innan%20du'+
-            '%20klickar%20pa%20lanken.');
+            'mailto:?subject=Ett%20%C3%A4rende%20ska%20hanteras%20i%20Webcert%20p%C3%A5%20enhet%20VE%20f%C3%B6r%20v%C3%A5rdgivare%20VG'+
+            '&body=Klicka%20p%C3%A5%20l%C3%A4nken%20f%C3%B6r%20att%20hantera%20%C3%A4rendet%3A%0Aprotocol%2F%2Fhostname%3Aport%2Fwebcert%2Fweb'+
+            '%2Fuser%2Fbasic-certificate%2Flisjp%2FtestIntygId%2Fquestions%0A%0AOBS!%20S%C3%A4tt%20i%20ditt%20SITHS-kort%20innan%20du'+
+            '%20klickar%20p%C3%A5%20l%C3%A4nken.');
     });
 
     describe('#vidarebefordra', function() {

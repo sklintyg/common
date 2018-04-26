@@ -148,14 +148,16 @@ describe('UtkastNotifyService', function() {
 
     describe('#notificationEncoding', function() {
 
-        it ('should be unhandled if qa.status === ANSWERED', function () {
+        it ('should convert åäö to urlencoded characters', function () {
             var intygId = 'intyg-1';
             var intygType = 'fk7263';
             var enhetsNamn = 'Vårdenhet åäöÅÄÖ';
             var vardgivareNamn = 'Vårdgivare åäöÅÄÖ';
-            expect(
-                utkastNotifyService.buildNotifyDoctorMailToLink(intygId, intygType, enhetsNamn, vardgivareNamn).indexOf('aaoAAO') > -1
-            ).toBeTruthy();
+
+            // Urlencoded åäö
+            var urlEncoded = '%C3%A5%C3%A4%C3%B6%C3%85%C3%84%C3%96';
+
+            expect(utkastNotifyService.buildNotifyDoctorMailToLink(intygId, intygType, enhetsNamn, vardgivareNamn)).toContain(urlEncoded);
         });
 
     });

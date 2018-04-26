@@ -33,19 +33,19 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                 var url = baseURL + '/webcert/web/user/' + certificateUrlPart + '/' + arendeMailModel.intygType + '/' + arendeMailModel.intygId + '/questions';
 
                 var recipient = '';
-                var subject = 'Ett arende ska besvaras i Webcert';
+                var subject = 'Ett ärende ska hanteras i Webcert';
                 var vardenhet = UserModel.user.valdVardenhet;
                 var vardgivare = UserModel.user.valdVardgivare;
                 if (vardenhet.namn !== undefined) {
-                    subject += ' pa enhet ' + vardenhet.namn;
+                    subject += ' på enhet ' + vardenhet.namn;
                     if (vardgivare.namn !== undefined) {
-                        subject += ' for vardgivare ' + vardgivare.namn;
+                        subject += ' för vårdgivare ' + vardgivare.namn;
                     }
                 }
 
-                var body = 'Klicka pa lanktexten for att besvara arende:\n' + url + '\n\nOBS! Satt i ditt SITHS-kort innan du klickar pa lanken.';
+                var body = 'Klicka på länken för att hantera ärendet:\n' + url + '\n\nOBS! Sätt i ditt SITHS-kort innan du klickar på länken.';
                 var link = 'mailto:' + recipient + '?subject=' +
-                    encodeURIComponent(UtilsService.replaceAccentedCharacters(subject)) + '&body=' +
+                    encodeURIComponent(subject) + '&body=' +
                     encodeURIComponent(body);
                 $log.debug(link);
                 return link;
