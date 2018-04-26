@@ -25,15 +25,24 @@
     border: 1px solid $wc-color-15;
     border-radius: 4px;
     transition: border-color .36s ease-in-out, box-shadow .36s ease-in-out;
+    &:focus {
+      outline: none !important;
+      border: 1px solid $wc-color-21;
+      //box-shadow: 0 4px 2px -2px $black_12;
+      box-shadow: 0 2px 4px 0 $black_12;
+    }
+    &:disabled, fieldset[disabled] & {
+      background-color: $wc-color-20;
+      color: $wc-color-09;
+    }
   }
-  input.form-control:focus {
-    outline: none !important;
-    border: 1px solid $wc-color-21;
-    //box-shadow: 0 4px 2px -2px $black_12;
-    box-shadow: 0 2px 4px 0 $black_12;
-  }
+
   .btn-default {
     border-color: $wc-color-15;
+    &:disabled, fieldset[disabled] & {
+      background-color: $wc-color-20;
+      color: $wc-color-09;
+    }
   }
   .btn {
     padding: 6px 5px;

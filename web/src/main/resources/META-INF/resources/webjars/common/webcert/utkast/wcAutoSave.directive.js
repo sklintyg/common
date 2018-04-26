@@ -22,6 +22,9 @@ angular.module('common').directive('wcAutoSave', ['$timeout', '$window', '$log',
 
         return {
             require: ['^form'],
+            scope: {
+                'saveEnabled': '<wcAutoSave'
+            },
             link: function($scope, $element, $attrs, $ctrls) {
 
                 var SAVE_DELAY = 1 * 800; // Time to wait before autosaving after a user action.
@@ -65,7 +68,7 @@ angular.module('common').directive('wcAutoSave', ['$timeout', '$window', '$log',
                 );
 
                 $scope.$watch(function() {
-                    if ($window.autoSave && form.$dirty &&
+                    if ($window.autoSave && form.$dirty && $scope.saveEnabled &&
                         UtkastViewState.error.saveErrorCode !== 'CONCURRENT_MODIFICATION' &&
                         UtkastViewState.error.saveErrorCode !== 'DATA_NOT_FOUND') {
                         var wait = SAVE_DELAY;

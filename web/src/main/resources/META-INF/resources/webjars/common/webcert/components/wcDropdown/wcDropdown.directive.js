@@ -31,12 +31,19 @@ angular.module('common').directive('wcDropdown',
                     items: '=',
                     onSelect: '&?',
                     useDynamicLabel: '=',
-                    disabled:'=ngDisabled'
+                    disabled:'<ngDisabled'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcDropdown/wcDropdown.directive.html',
                 require: 'ngModel',
                 link: function(scope, element, attrs, ctrl) {
                     var plate = $(element).find('.plate');
+
+                    // HTML input components are disabled if a parent fieldset is disabled.
+                    var parentFieldset = $(element).parents('fieldset');
+                    if (parentFieldset && parentFieldset.attr('disabled') === 'disabled') {
+                        scope.disabled = true;
+                        $(element).attr('disabled', 'disabled');
+                    }
 
                     function offset(element) {
                         var boundingClientRect = element[0].getBoundingClientRect();

@@ -37,6 +37,8 @@ angular.module('common').controller('smi.EditCertCtrl',
 
             $scope.categoryIds = utkastConfigFactory.getCategoryIds();
 
+            $scope.editEnabled = false;
+
             /**************************************************************************
              * Load certificate and setup form / Constructor ...
              **************************************************************************/
@@ -51,6 +53,10 @@ angular.module('common').controller('smi.EditCertCtrl',
 
                 if($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
+                }
+
+                if (viewState.draftModel.status !== 'DRAFT_LOCKED') {
+                    $scope.editEnabled = true;
                 }
             });
 

@@ -74,18 +74,27 @@ wc-radio-wrapper {
       content: "\25cf";
       line-height: normal;
     }
-    input[type="radio"]:disabled {
-      cursor: not-allowed;
-    }
-    input[type="radio"]:disabled + label {
-      opacity: 0.65;
-      cursor: not-allowed;
-    }
 
-    input[type="radio"]:disabled + label::before {
-      background-color: $wc-color-20;
-      color: $wc-color-09;
-      cursor: not-allowed;
+    input[type="radio"] {
+      // :disabled selector doesnt work in ie11 with disabled fieldset, using fieldset[disabled] instead
+      &:disabled, fieldset[disabled] & {
+        cursor: not-allowed;
+
+        & + label {
+          cursor: not-allowed;
+          color: $wc-color-09;
+        }
+
+        & + label::before {
+          background-color: $wc-color-20;
+          color: $wc-color-09;
+          cursor: not-allowed;
+        }
+
+        & + label::after {
+          background-color: $wc-color-09;
+        }
+      }
     }
 
     &.radio-wc-default input[type="radio"]:checked + label::before {

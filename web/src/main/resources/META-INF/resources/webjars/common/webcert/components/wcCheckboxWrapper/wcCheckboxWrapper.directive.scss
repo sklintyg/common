@@ -81,19 +81,26 @@ wc-checkbox-wrapper {
 
     }
 
-    input[type="checkbox"]:disabled {
-      cursor: not-allowed;
-    }
+    input[type="checkbox"] {
+      // :disabled selector doesnt work in ie11 with disabled fieldset, using fieldset[disabled] instead
+      &:disabled, fieldset[disabled] & {
+        cursor: not-allowed;
 
-    input[type="checkbox"]:disabled + label {
-      cursor: not-allowed;
-      opacity: 0.65;
-    }
+        & + label {
+          cursor: not-allowed;
+          color: $wc-color-09;
+        }
 
-    input[type="checkbox"]:disabled + label::before {
-      background-color: $wc-color-20;
-      color: $wc-color-09;
-      cursor: not-allowed;
+        & + label::before {
+          background-color: $wc-color-20;
+          color: $wc-color-09;
+          cursor: not-allowed;
+        }
+
+        & + label::after {
+          background-color: $wc-color-09;
+        }
+      }
     }
 
     &.checkbox-wc-default input[type="checkbox"]:checked + label::before {

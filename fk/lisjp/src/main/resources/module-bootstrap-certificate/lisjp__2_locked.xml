@@ -138,10 +138,10 @@
       <delsvar id="29.1">Siare</delsvar>
     </svar>
     <svar id="6">
-      <delsvar id="6.1">J&#xE4;rnbristanemi</delsvar>
+      <delsvar id="6.1">Icke specificerad akut infektion i nedre luftv&#xE4;garna</delsvar>
       <delsvar id="6.2">
         <ns3:cv>
-          <ns3:code>D50</ns3:code>
+          <ns3:code>J22</ns3:code>
           <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
         </ns3:cv>
       </delsvar>

@@ -9,34 +9,39 @@
 
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid edit-form">
 
-    <form name="certForm" novalidate autocomplete="off" wc-auto-save class="ng-animate-disabled">
-      <div ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">
+    <form name="certForm" novalidate autocomplete="off" wc-auto-save="editEnabled" class="ng-animate-disabled">
+      <fieldset ng-disabled="!editEnabled">
+        <div ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">
 
-        <wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading">
+          <wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading">
 
-          <div id="certificate" class="row certificate">
-            <div class="col-md-12 intyg-body">
+            <div id="certificate" class="row certificate">
+              <div class="col-md-12 intyg-body">
 
-              <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
+                <wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>
 
-              <div ui-view="utkast" />
+                <div ui-view="utkast" />
+
+              </div>
+              <!-- intyg body -->
 
             </div>
-            <!-- intyg body -->
+            <!-- certificate -->
 
-          </div>
-          <!-- certificate -->
+            <div ng-if="editEnabled">
 
-          <wc-utkast-error-summary
-              categories="viewState.common.validation.sections"
-              category-ids="categoryIds">
-          </wc-utkast-error-summary>
+              <wc-utkast-error-summary
+                  categories="viewState.common.validation.sections"
+                  category-ids="categoryIds">
+              </wc-utkast-error-summary>
 
-          <div ui-view="footer"></div>
+              <div ui-view="footer"></div>
 
-        </wc-spinner>
-      </div>
+            </div>
 
+          </wc-spinner>
+        </div>
+      </fieldset>
     </form>
   </div>
 

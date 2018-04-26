@@ -42,28 +42,25 @@ wc-dropdown {
         }
     }
 
-    &[disabled] {
-        .dropdown-label {
-            cursor: not-allowed;
-            color: $wc-color-23;
-            background-color: $wc-color-20;
-            border-color: $wc-color-23;
+    .dropdown-label {
+        color: $wc-color-07;
+        background: #fff;
+
+        &:hover, &.open {
+            border-color: $wc-color-21;
+            background-color: #fff;
+            color: $wc-color-07;
+            cursor: pointer;
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
         }
     }
 
-    &:not([disabled]) {
-        .dropdown-label {
-            color: $wc-color-07;
-            background: #fff;
-
-            &:hover, &.open {
-                border-color: $wc-color-21;
-                background-color: #fff;
-                color: $wc-color-07;
-                cursor: pointer;
-                box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
-            }
-        }
+    &[disabled] .dropdown-label, fieldset[disabled] & .dropdown-label {
+        cursor: not-allowed;
+        color: $wc-color-09;
+        background-color: $wc-color-20;
+        border-color: $wc-color-15;
+        box-shadow: none;
     }
 
     .plate {

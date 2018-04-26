@@ -1,3 +1,10 @@
 ue-textarea {
   display: block;
+
+  textarea.form-control {
+    &:disabled, fieldset[disabled] & {
+      background-color: $wc-color-20;
+      color: $wc-color-09;
+    }
+  }
 }
