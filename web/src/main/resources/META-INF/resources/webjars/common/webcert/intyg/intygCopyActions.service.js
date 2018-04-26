@@ -208,6 +208,8 @@ angular.module('common').factory('common.IntygCopyActions',
 
                 var infoMessageKey = ersattDialogModel.intygTyp + '.modal.ersatt.text.info';
 
+                ersattDialogModel.infoMessage = undefined;
+
                 if (messageService.propertyExists(infoMessageKey)) {
                     ersattDialogModel.infoMessage = infoMessageKey;
                 }
@@ -258,11 +260,23 @@ angular.module('common').factory('common.IntygCopyActions',
 
             }
 
-            function _createFromTemplate(viewState, intygCreateFromTemplateRequest, isOtherCareUnit) {
+            function _createFromTemplate(viewState, intygCreateFromTemplateRequest, isOtherCareUnit, previousIntyg) {
+
+                var newIntygType = intygCreateFromTemplateRequest.newIntygType;
+
+                createFromTemplateDialogModel.infoMessage = undefined;
+
+                if (previousIntyg !== undefined && previousIntyg[newIntygType] && !previousIntyg[newIntygType].sameVardgivare) {
+                    var infoMessageKey = intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text.info';
+
+                    if (messageService.propertyExists(infoMessageKey)) {
+                        createFromTemplateDialogModel.infoMessage = infoMessageKey;
+                    }
+                }
 
                 var createDialog = dialogService.showDialog({
                     dialogId: 'ersatt-dialog',
-                    titleId: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + intygCreateFromTemplateRequest.newIntygType + '.modal.header',
+                    titleId: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.header',
                     templateUrl: '/app/partials/createfromtemplate-dialog.html',
                     model: createFromTemplateDialogModel,
                     button1click: function () {
@@ -282,7 +296,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     },
                     button1text: 'common.createfromtemplate.continue',
                     button2text: 'common.createfromtemplate.cancel',
-                    bodyText: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + intygCreateFromTemplateRequest.newIntygType + '.modal.text',
+                    bodyText: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text',
                     autoClose: false
                 });
 

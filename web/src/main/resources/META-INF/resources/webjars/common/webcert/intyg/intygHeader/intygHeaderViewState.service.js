@@ -104,6 +104,10 @@ angular.module('common').service('common.IntygHeaderViewState', [
                 return previousIntyg !== undefined && previousIntyg[moduleId] && previousIntyg[moduleId].sameVardgivare;
             };
 
+            this.getPreviousIntyg = function(){
+                return previousIntyg;
+            };
+
             this.getUtkastIntygsIdForModuleId = function(moduleId){
                 if (previousUtkast && previousUtkast[moduleId]) {
                     return previousUtkast[moduleId].latestIntygsId;

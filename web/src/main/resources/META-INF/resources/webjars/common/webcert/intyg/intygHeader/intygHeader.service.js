@@ -53,7 +53,8 @@ angular.module('common').service('common.IntygHeaderService',
                         newIntygType: newIntygType || IntygHeaderViewState.intygType,
                         patientPersonnummer: intyg.grundData.patient.personId
                     }),
-                    isOtherCareUnit
+                    isOtherCareUnit,
+                    IntygHeaderViewState.getPreviousIntyg()
                 );
             };
 
