@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luse.pdf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,13 +30,13 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -47,7 +48,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
 
 /**
  * Generate variants of a LUSE pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
@@ -79,7 +79,7 @@ public class LusePdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luse", "1.0");
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatande.class));
+
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatande.class));
@@ -90,8 +90,8 @@ public class LusePdfDefinitionBuilderTest {
 
     @Test
     public void testGenerateNotSentToFK() throws Exception {
-        generate("unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG);
-        generate("unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT);
+        generateIntyg("unsent", new ArrayList<>(), ApplicationOrigin.MINA_INTYG);
+        generateIntyg("unsent", new ArrayList<>(), ApplicationOrigin.WEBCERT);
     }
 
     @Test
@@ -99,32 +99,45 @@ public class LusePdfDefinitionBuilderTest {
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, FKASSA_RECIPIENT_ID, LocalDateTime.now()));
 
-        generate("sent", statuses, ApplicationOrigin.MINA_INTYG);
-        generate("sent", statuses, ApplicationOrigin.WEBCERT);
+        generateIntyg("sent", statuses, ApplicationOrigin.MINA_INTYG);
+        generateIntyg("sent", statuses, ApplicationOrigin.WEBCERT);
+
+        statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
-
-
+        generateIntyg("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
     }
 
-    private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
+    @Test
+    public void testGeneratePdfForUtkast() throws Exception {
+        LuseUtlatande utkast = objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatande.class);
+
+        byte[] generatorResult = PdfGenerator
+                .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+        assertNotNull(generatorResult);
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
+    }
+
+    @Test
+    public void testGeneratePdfForLockedUtkast() throws Exception {
+        LuseUtlatande utkast = objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatande.class);
+
+        byte[] generatorResult = PdfGenerator
+                .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+        assertNotNull(generatorResult);
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
+    }
+
+    private void generateIntyg(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuseUtlatande intyg : intygList) {
-            FkPdfDefinition foo = lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false));
-
+                    .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED));
             assertNotNull(generatorResult);
-
             writePdfToFile(generatorResult, origin, scenarioName, intyg.getId());
         }
     }
 
     private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
-        String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
-                                 // way in gradle;
-        if (dir == null) {
-            return;
-        }
+        String dir = "build/tmp";
 
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "luse.pdf"));
         FileOutputStream fop = new FileOutputStream(file);

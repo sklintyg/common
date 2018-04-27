@@ -39,24 +39,20 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
     private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
+    private static final String LOCKED_DRAFT_WATERMARK_TEXT = "LÅST UTKAST";
     private static final int ROTATION = 45;
     private static final float FILL_OPACITY = 0.5f;
 
-    private boolean isUtkast;
-    private boolean isMakulerad;
+     private Phrase watermark;
 
-    private Phrase watermark;
-
-    public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad) {
-        this.isUtkast = isUtkast;
-        this.isMakulerad = isMakulerad;
-
+    public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad, boolean isLocked) {
         if (isUtkast) {
             watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
+        } else if (isLocked) {
+            watermark = new Phrase(LOCKED_DRAFT_WATERMARK_TEXT, FONT);
         }
-
     }
 
     @Override

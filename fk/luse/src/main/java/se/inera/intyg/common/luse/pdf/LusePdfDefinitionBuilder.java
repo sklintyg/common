@@ -51,6 +51,7 @@ import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -85,12 +86,14 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private static final float CHECKBOX_DEFAULT_WIDTH = 72.2f;
 
     public FkPdfDefinition buildPdfDefinition(LuseUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            IntygTexts intygTexts, boolean isUtkast)
+            IntygTexts intygTexts, UtkastStatus utkastStatus)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
         try {
             FkPdfDefinition def = new FkPdfDefinition();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
@@ -100,11 +103,11 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(
                     new FkOverflowPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            if (!isUtkast) {
+            if (!isUtkast && !isLocked) {
                 def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
             }
 
-            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses)));
+            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses), isLocked));
 
 
             def.addPageEvent(new FkLogoEventHandler(1, 1));

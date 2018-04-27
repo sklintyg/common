@@ -31,6 +31,7 @@ import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -76,7 +77,7 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields
@@ -98,7 +99,7 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields
@@ -117,7 +118,7 @@ public class PdfDefaultGeneratorTest {
 
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-normal");
     }
 
@@ -127,8 +128,18 @@ public class PdfDefaultGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         intyg.getGrundData().setSigneringsdatum(null);
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-UTKAST-normal");
+    }
+
+    @Test
+    public void testWCWriteLockedUtkastPdf() throws Exception {
+
+        Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
+        intyg.getGrundData().setSigneringsdatum(null);
+        // generate PDF
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED, false).getBytes();
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-UTKAST-låst");
     }
 
     @Test
@@ -141,7 +152,7 @@ public class PdfDefaultGeneratorTest {
         statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT,  "-MAKULERAT-normal");
     }
 
@@ -150,7 +161,7 @@ public class PdfDefaultGeneratorTest {
 
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.MINA_INTYG,  "-normal");
     }
 
@@ -164,7 +175,7 @@ public class PdfDefaultGeneratorTest {
     @Test
     public void testWCGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfDefaultGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false, false).getBytes();
+            byte[] pdf = new PdfDefaultGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.WEBCERT);
         }
@@ -179,7 +190,7 @@ public class PdfDefaultGeneratorTest {
     @Test
     public void testMIGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfDefaultGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, false, false).getBytes();
+            byte[] pdf = new PdfDefaultGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, false).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.MINA_INTYG);
         }
@@ -190,7 +201,7 @@ public class PdfDefaultGeneratorTest {
     public void testWCWithFalt9Borta() throws Exception {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263falt9bortaJson, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "field9missing");
     }
 
@@ -198,7 +209,7 @@ public class PdfDefaultGeneratorTest {
     public void testMIWithFalt9Borta() throws Exception {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263falt9bortaJson, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.MINA_INTYG, "field9missing");
     }
 
@@ -206,15 +217,13 @@ public class PdfDefaultGeneratorTest {
     public void pdfGenerationRemovesFormFields() throws IOException, PdfGeneratorException {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         //Flatten the fields
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, false, true).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, true).getBytes();
 
         PdfReader reader = new PdfReader(generatorResult);
         AcroFields generatedFields = reader.getAcroFields();
 
         assertEquals(0, generatedFields.getFields().size());
     }
-
-
 
     /**
      * This test assert that a user can print a Intyg of type FK7263 even if it hasn't yet been sent to FK.
@@ -232,7 +241,7 @@ public class PdfDefaultGeneratorTest {
         statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "default-signed-NOT-sent-to-fk");
     }
 
@@ -252,7 +261,7 @@ public class PdfDefaultGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, Fk7263EntryPoint.DEFAULT_RECIPIENT_ID, LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, false, false).getBytes();
+        byte[] generatorResult = new PdfDefaultGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-signed-AND-sent-to-fk");
     }
 
@@ -273,7 +282,7 @@ public class PdfDefaultGeneratorTest {
     }
 
     private void writePdfToFile(byte[] pdf,  ApplicationOrigin origin,  String namingPrefix) throws IOException {
-        String dir = System.getProperty("pdfOutput.dir");
+        String dir = "build/tmp";
         if (dir == null) {
             return;
         }

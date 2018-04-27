@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import java.io.ByteArrayOutputStream;
@@ -47,14 +48,14 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private List<String> selectedOptionalFields;
 
     public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, boolean isUtkast)
+            List<String> optionalFields, UtkastStatus utkastStatus)
             throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, optionalFields, isUtkast, true);
+        this(intyg, statuses, applicationOrigin, optionalFields, utkastStatus, true);
     }
 
     protected PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> selectedOptionalFields,
-            boolean isUtkast, boolean flatten)
+            UtkastStatus utkastStatus, boolean flatten)
             throws PdfGeneratorException {
         try {
             this.selectedOptionalFields = selectedOptionalFields;
@@ -65,6 +66,8 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             PdfReader pdfReader = new PdfReader(PDF_TEMPLATE);
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             switch (applicationOrigin) {
             case MINA_INTYG:
@@ -100,7 +103,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
 
 
             pdfStamper.setFormFlattening(flatten);

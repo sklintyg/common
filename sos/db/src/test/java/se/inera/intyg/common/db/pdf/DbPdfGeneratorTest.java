@@ -28,6 +28,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -61,9 +62,10 @@ public class DbPdfGeneratorTest {
 
     @Test
     public void testGenerate() throws Exception {
-        testSingleScenario("DbPdfGenerator/dbUtlatande-all-true.json", "all-true");
-        testSingleScenario("DbPdfGenerator/dbUtlatande-all-false.json", "all-false");
-        testSingleScenario("DbPdfGenerator/dbUtlatande-utkast.json", "utkast");
+        testSingleScenario("DbPdfGenerator/dbUtlatande-all-true.json", "all-true", UtkastStatus.SIGNED);
+        testSingleScenario("DbPdfGenerator/dbUtlatande-all-false.json", "all-false", UtkastStatus.SIGNED);
+        testSingleScenario("DbPdfGenerator/dbUtlatande-utkast.json", "utkast", UtkastStatus.DRAFT_COMPLETE);
+        testSingleScenario("DbPdfGenerator/dbUtlatande-utkast.json", "utkast-locked", UtkastStatus.DRAFT_LOCKED);
     }
 
     @Test
@@ -71,7 +73,7 @@ public class DbPdfGeneratorTest {
         final File jsonFile = new ClassPathResource("DbPdfGenerator/dbUtlatande-all-true.json").getFile();
         DbUtlatande intyg = objectMapper.readValue(jsonFile, DbUtlatande.class);
 
-        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), false).getBytes();
+        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), UtkastStatus.SIGNED).getBytes();
 
         final AcroFields expectedFields = readAcroFields("DbPdfGenerator/dbUtlatande-all-true.pdf");
 
@@ -86,10 +88,10 @@ public class DbPdfGeneratorTest {
         }
     }
 
-    private void testSingleScenario(String jsonPath, String testName) throws Exception {
+    private void testSingleScenario(String jsonPath, String testName, UtkastStatus utkastStatus) throws Exception {
         final File file = new ClassPathResource(jsonPath).getFile();
         DbUtlatande intyg = objectMapper.readValue(file, DbUtlatande.class);
-        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), false, true).getBytes();
+        byte[] generatorResult = new DbPdfGenerator(intyg, intygTexts, new ArrayList<>(), utkastStatus, true).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-" + testName);
     }
 

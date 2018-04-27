@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -67,13 +68,14 @@ public interface ModuleApi {
      *            a list of {@link Status} which signifies what has happened to the certificate
      * @param applicationOrigin
      *            the context from which this method was called (i.e Webcert or Mina intyg)
-     * @param isUtkast
-     *            whether the certificate we're printing is a draft or not. Triggers the "UTKAST" watermark.
+     * @param utkastStatus
+     *            Status indicating whether the certificate we're printing is a draft or not. Triggers the "UTKAST" or
+     *            "UTKAST_LOCKED" watermark.
      * @return a {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename
      * @throws ModuleException
      *             if the PDF could not be generated
      */
-    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+    PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException;
 
     /**
@@ -89,14 +91,15 @@ public interface ModuleApi {
      *            the context from which this method was called (i.e Webcert or Mina intyg)
      * @param optionalFields
      *            the optional field references to include in the PDF
-     * @param isUtkast
-     *            whether the certificate we're printing is a draft or not. Triggers the "UTKAST" watermark.
+     * @param utkastStatus
+     *            Status indicating whether the certificate we're printing is a draft or not. Triggers the "UTKAST" or
+     *            "UTKAST_LOCKED" watermark.
      * @return A {@link PdfResponse} consisting of a binary stream containing a PDF data and a suitable filename.
      * @throws ModuleException
      *             if the PDF could not be generated
      */
     PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, List<String> optionalFields,
-            boolean isUtkast)
+                            UtkastStatus utkastStatus)
             throws ModuleException;
 
     /**

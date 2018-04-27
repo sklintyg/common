@@ -55,7 +55,6 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
         intygsTextRepositoryHelper.update();
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("lisjp", "1.0");
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/maximalt_utlatande.json").getFile(), LisjpUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/tillaggsfragor_utlatande.json").getFile(), LisjpUtlatande.class));
@@ -64,8 +63,7 @@ public abstract class BaseLisjpPdfDefinitionBuilderTest {
     }
 
     protected void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
-        String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
-        // way in gradle;
+        String dir = "build/tmp";
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "lisjp.pdf"));
         file.getParentFile().mkdirs();
         FileOutputStream fop = new FileOutputStream(file);

@@ -37,6 +37,7 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.ri
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -188,28 +189,28 @@ public class TsParentModuleApiTest {
     public void testPdf() throws Exception {
         final ApplicationOrigin applicationOrigin = ApplicationOrigin.INTYGSTJANST;
         final String fileName = "file name";
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false))).thenReturn(new byte[0]);
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED))).thenReturn(new byte[0]);
         when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn(fileName);
 
-        PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin, false);
+        PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin, UtkastStatus.SIGNED);
         assertNotNull(res);
         assertEquals(fileName, res.getFilename());
-        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin), eq(false));
+        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin), eq(UtkastStatus.SIGNED));
         verify(pdfGenerator).generatePdfFilename(any(Utlatande.class));
     }
 
     @SuppressWarnings("unchecked")
     @Test(expected = ModuleSystemException.class)
     public void testPdfPdfGeneratorException() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false)))
+        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
                 .thenThrow(new PdfGeneratorException("error"));
 
-        moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, false);
+        moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, UtkastStatus.SIGNED);
     }
 
     @Test(expected = ModuleException.class)
     public void testPdfEmployer() throws Exception {
-        moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, false);
+        moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, UtkastStatus.SIGNED);
     }
 
     @Test

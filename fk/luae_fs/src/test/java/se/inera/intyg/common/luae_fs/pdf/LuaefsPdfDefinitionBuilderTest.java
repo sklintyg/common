@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luae_fs.pdf;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,7 @@ import se.inera.intyg.common.services.texts.IntygTextsServiceImpl;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -79,7 +81,6 @@ public class LuaefsPdfDefinitionBuilderTest {
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
 
-        intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/fullt_utlatande.json").getFile(), LuaefsUtlatande.class));
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
@@ -102,14 +103,35 @@ public class LuaefsPdfDefinitionBuilderTest {
         generate("sent", statuses, ApplicationOrigin.WEBCERT);
 
         //generate makulerat version
+        statuses.clear();
         statuses.add(new Status(CertificateState.CANCELLED, "HSVARD", LocalDateTime.now()));
         generate("sent-makulerat", statuses, ApplicationOrigin.WEBCERT);
 
     }
 
+    @Test
+    public void testGeneratePdfForUtkast() throws Exception {
+        LuaefsUtlatande utkast = objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatande.class);
+
+        byte[] generatorResult = PdfGenerator
+                .generatePdf(luaefsPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+        assertNotNull(generatorResult);
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
+    }
+
+    @Test
+    public void testGeneratePdfForLockedUtkast() throws Exception {
+        LuaefsUtlatande utkast = objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/utkast_utlatande.json").getFile(), LuaefsUtlatande.class);
+
+        byte[] generatorResult = PdfGenerator
+                .generatePdf(luaefsPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+        assertNotNull(generatorResult);
+        writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
+    }
+
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuaefsUtlatande intyg : intygList) {
-            FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
+            FkPdfDefinition pdfDefinition = luaefsPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
                     .generatePdf(pdfDefinition);
 
@@ -120,8 +142,7 @@ public class LuaefsPdfDefinitionBuilderTest {
     }
 
     private void writePdfToFile(byte[] pdf, ApplicationOrigin origin, String scenarioName, String namingPrefix) throws IOException {
-        String dir = "build/tmp";// TODO: System.getProperty("pdfOutput.dir") only existed in POM file - need to find a
-                                 // way in gradle;
+        String dir = "build/tmp";
         File file = new File(String.format("%s/%s-%s-%s-%s", dir, origin.name(), scenarioName, namingPrefix, "luae_fs.pdf"));
         FileOutputStream fop = new FileOutputStream(file);
 

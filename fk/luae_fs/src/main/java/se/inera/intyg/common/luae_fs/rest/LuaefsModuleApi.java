@@ -34,6 +34,7 @@ import se.inera.intyg.common.luae_fs.pdf.LuaefsPdfDefinitionBuilder;
 import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -59,14 +60,15 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
         try {
             LuaefsUtlatande luaefsIntyg = getInternal(internalModel);
             LuaefsPdfDefinitionBuilder builder = new LuaefsPdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuaefsEntryPoint.MODULE_ID, luaefsIntyg.getTextVersion());
 
-            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin, texts, isUtkast);
+            final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin,
+                    texts, utkastStatus);
             Personnummer personId = luaefsIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
                     PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
@@ -78,7 +80,7 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, boolean isUtkast)
+            List<String> optionalFields, UtkastStatus utkastStatus)
             throws ModuleException {
         throw new RuntimeException("Not implemented");
     }

@@ -31,6 +31,7 @@ import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 
 import java.io.ByteArrayOutputStream;
@@ -170,13 +171,13 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private static final String FIELD_BIDRAGANDE_DODSORSAK_ROW_UNGEFARLIG_DEBUT = "Ungefärlig debut %d";
     private DoiUtlatande doiUtlatande;
 
-    public DoiPdfGenerator(DoiUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast)
+    public DoiPdfGenerator(DoiUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
             throws SoSPdfGeneratorException {
-        this(intyg, intygTexts, statuses, isUtkast, true);
+        this(intyg, intygTexts, statuses, utkastStatus, true);
     }
 
-    protected DoiPdfGenerator(DoiUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast, boolean flatten)
-            throws SoSPdfGeneratorException {
+    protected DoiPdfGenerator(DoiUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses,
+                              UtkastStatus utkastStatus, boolean flatten) throws SoSPdfGeneratorException {
         try {
             this.doiUtlatande = utlatande;
             outputStream = new ByteArrayOutputStream();
@@ -186,17 +187,19 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
             pdfReader.removeUsageRights();
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             fillAcroformFields();
 
             markAsElectronicCopy(pdfStamper);
-            if (!isUtkast) {
+            if (!isUtkast && !isLocked) {
                 // Only signed doiUtlatande prints should have these decorations
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

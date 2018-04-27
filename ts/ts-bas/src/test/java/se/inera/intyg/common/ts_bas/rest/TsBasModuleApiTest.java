@@ -29,6 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -136,13 +137,13 @@ public class TsBasModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false)))
+        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
                 .thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsBasUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
             moduleApi
                     .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
-                            false);
+                            UtkastStatus.SIGNED);
         }
     }
 

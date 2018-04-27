@@ -56,6 +56,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -98,12 +99,14 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
 
     public FkPdfDefinition buildPdfDefinition(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            IntygTexts intygTexts, boolean isUtkast)
+            IntygTexts intygTexts, UtkastStatus utkastStatus)
             throws PdfGeneratorException {
         this.intygTexts = intygTexts;
 
         try {
             FkPdfDefinition def = new FkPdfDefinition();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
@@ -113,11 +116,11 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             def.addPageEvent(new FkFormPagePersonnummerEventHandlerImpl(intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
             def.addPageEvent(new FkOverflowPagePersonnummerEventHandlerImpl(
                     intyg.getGrundData().getPatient().getPersonId().getPersonnummer()));
-            if (!isUtkast) {
+            if (!isUtkast && !isLockedUtkast) {
                 def.addPageEvent(new FkPrintedByEventHandler(intyg.getId(), getPrintedByText(applicationOrigin)));
             }
 
-            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses)));
+            def.addPageEvent(new IntygStateWatermarker(isUtkast, isMakulerad(statuses), isLockedUtkast));
             def.addPageEvent(new FkLogoEventHandler(1, 1, 0.233f * 100f, 13f, 22.5f));
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarintyg", "för sjukpenning"));

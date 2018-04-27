@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -197,8 +198,8 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     @Override
-    public byte[] generatePDF(TsBasUtlatande utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
-            throws PdfGeneratorException {
+    public byte[] generatePDF(TsBasUtlatande utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin,
+                              UtkastStatus utkastStatus) throws PdfGeneratorException {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
@@ -206,14 +207,17 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
             PdfStamper pdfStamper = new PdfStamper(pdfReader, outputStream);
             pdfStamper.setFormFlattening(formFlattening);
             AcroFields fields = pdfStamper.getAcroFields();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE.equals(utkastStatus) || UtkastStatus.DRAFT_INCOMPLETE.equals(utkastStatus);
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED.equals(utkastStatus);
+
             populatePdfFields(utlatande, fields);
 
             // Decorate PDF depending on the origin of the pdf-call
-            if (!isUtkast) {
+            if (!isUtkast && !isLocked) {
                 createLeftMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), applicationOrigin);
             }
             // Add applicable watermarks
-            addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
+            addWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
 
             pdfStamper.close();
 

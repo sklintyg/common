@@ -22,6 +22,7 @@ import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import java.io.ByteArrayOutputStream;
@@ -32,12 +33,12 @@ import java.util.List;
  */
 public class PdfDefaultGenerator extends PdfAbstractGenerator {
 
-    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+    public PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws PdfGeneratorException {
-        this(intyg, statuses, applicationOrigin, isUtkast, true);
+        this(intyg, statuses, applicationOrigin, utkastStatus, true);
     }
 
-    PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast,
+    PdfDefaultGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus,
             boolean flatten)
             throws PdfGeneratorException {
         try {
@@ -48,6 +49,9 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
             PdfReader pdfReader = new PdfReader(PDF_TEMPLATE);
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+
             generatePdf();
 
             switch (applicationOrigin) {
@@ -64,7 +68,7 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
                     markAsElectronicCopy(pdfStamper);
                 }
 
-                if (!isUtkast) {
+                if (!isUtkast && !isLocked) {
                     // Only signed intyg prints should have these decorations
                     createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
                     createSignatureNotRequiredField(pdfStamper, pdfReader.getNumberOfPages());
@@ -76,7 +80,7 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

@@ -28,6 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.Scenario;
@@ -62,7 +63,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGeneratePdf() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, false);
+            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED);
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario);
         }
@@ -72,11 +73,16 @@ public class PdfGeneratorTest {
     public void testGenerateDraftPdf() throws Exception {
         final TsDiabetesUtlatande tsBasUtlatande = objectMapper
                 .readValue(new ClassPathResource("PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatande.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, true);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE);
         writePdfToFile(pdf, "webcert-utkast");
+    }
 
-        pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.MINA_INTYG, true);
-        writePdfToFile(pdf, "minaintyg-utkast");
+    @Test
+    public void testGenerateLockedDraftPdf() throws Exception {
+        final TsDiabetesUtlatande tsBasUtlatande = objectMapper
+                .readValue(new ClassPathResource("PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatande.class);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED);
+        writePdfToFile(pdf, "webcert-locked");
     }
 
     @Test
@@ -88,19 +94,15 @@ public class PdfGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
         statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, false);
+        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         writePdfToFile(pdf, "webcert-makulerat");
 
-        pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.MINA_INTYG, false);
+        pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED);
         writePdfToFile(pdf, "minaintyg-makulerat");
     }
 
     private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
-        String dir = System.getProperty("pdfOutput.dir");
-        if (dir == null) {
-            return;
-        }
-
+        String dir = "build/tmp";
         File file = new File(
                 String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
@@ -113,11 +115,7 @@ public class PdfGeneratorTest {
     }
 
     private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
-        String dir = System.getProperty("pdfOutput.dir");
-        if (dir == null) {
-            return;
-        }
-
+        String dir = "build/tmp";
         File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);

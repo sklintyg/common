@@ -30,6 +30,7 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -70,7 +71,7 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
     }
 
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
         try {
             if (ApplicationOrigin.WEBCERT != applicationOrigin) {
@@ -78,7 +79,7 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
             }
             DbUtlatande intyg = getInternal(internalModel);
             IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
-            DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, isUtkast);
+            DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(),
                     pdfGenerator.generatePdfFilename(intyg.getGrundData().getPatient().getPersonId(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
@@ -89,7 +90,7 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, boolean isUtkast) throws ModuleException {
+            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsbevis");
     }
 

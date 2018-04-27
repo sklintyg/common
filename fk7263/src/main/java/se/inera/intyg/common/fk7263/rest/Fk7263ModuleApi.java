@@ -57,6 +57,7 @@ import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -174,11 +175,11 @@ public class Fk7263ModuleApi implements ModuleApi {
      * {@inheritDoc}
      */
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, boolean isUtkast)
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, isUtkast);
+            PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(false));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
@@ -191,11 +192,11 @@ public class Fk7263ModuleApi implements ModuleApi {
      */
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, boolean isUtkast)
+            List<String> optionalFields, UtkastStatus utkastStatus)
             throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields, isUtkast);
+            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(pdfGenerator.isCustomized()));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);

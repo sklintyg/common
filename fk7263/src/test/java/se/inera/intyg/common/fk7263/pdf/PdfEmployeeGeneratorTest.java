@@ -30,6 +30,7 @@ import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.LocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
@@ -83,7 +84,7 @@ public class PdfEmployeeGeneratorTest {
         intyg.setGiltighet(new LocalDateInterval(LocalDate.parse("2016-08-15"), LocalDate.parse("2016-10-30")));
 
         // generate PDF
-        final PdfEmployeeGenerator pdfEmployeeGenerator = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, false);
+        final PdfEmployeeGenerator pdfEmployeeGenerator = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED);
 
         assertEquals("lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(false));
         assertEquals("anpassat_lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(true));
@@ -97,7 +98,7 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testWCGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, false).getBytes();
+            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.WEBCERT);
         }
@@ -109,7 +110,7 @@ public class PdfEmployeeGeneratorTest {
     @Test
     public void testMIGenerateFromScenarios() throws Exception {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, false).getBytes();
+            byte[] pdf = new PdfEmployeeGenerator(scenario.asInternalModel(), new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED).getBytes();
             assertNotNull("Error in scenario " + scenario.getName(), pdf);
             writePdfToFile(pdf, scenario, ApplicationOrigin.MINA_INTYG);
         }
@@ -123,7 +124,7 @@ public class PdfEmployeeGeneratorTest {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, false, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED, false).getBytes();
         AcroFields expectedFields = readExpectedFields();
 
         // read expected PDF fields
@@ -141,7 +142,7 @@ public class PdfEmployeeGeneratorTest {
     public void testWCWriteEmployerCopy() throws Exception {
         Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-normal");
     }
 
@@ -159,7 +160,7 @@ public class PdfEmployeeGeneratorTest {
         statuses.add(new Status(CertificateState.RECEIVED, null, LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-signed-NOT-sent-to-fk");
     }
 
@@ -179,7 +180,7 @@ public class PdfEmployeeGeneratorTest {
         statuses.add(new Status(CertificateState.SENT, "FK", LocalDateTime.now()));
 
         // generate PDF
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, false, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, statuses, ApplicationOrigin.WEBCERT, null, UtkastStatus.SIGNED, false).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-signed-AND_sent-to-fk");
     }
 
@@ -192,7 +193,7 @@ public class PdfEmployeeGeneratorTest {
 
         List<String> optionalFields = new ArrayList<>();
 
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, optionalFields, false, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<>(), ApplicationOrigin.MINA_INTYG, optionalFields, UtkastStatus.SIGNED, false).getBytes();
 
         // Get all available fields in a fk7263 pdf
         AcroFields expectedFields = readExpectedFields();
@@ -219,7 +220,7 @@ public class PdfEmployeeGeneratorTest {
         // generate PDF
         List<String> allFields = Stream.of(EmployeeOptionalFields.values()).map(EmployeeOptionalFields::value).collect(Collectors.toList());
 
-        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, allFields, false, false).getBytes();
+        byte[] generatorResult = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, allFields, UtkastStatus.SIGNED, false).getBytes();
 
         // Get all available fields in a fk7263 pdf
         AcroFields expectedFields = readExpectedFields();

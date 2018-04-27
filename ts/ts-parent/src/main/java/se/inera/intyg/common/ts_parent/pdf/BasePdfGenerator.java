@@ -48,6 +48,7 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";
     private static final String CANCELLED_WATERMARK_TEXT = "MAKULERAT";
+    private static final String LOCKED_WATERMARK_TEXT = "LÅST UTKAST";
     private static final int ROTATION = 45;
     private static final float FILL_OPACITY = 0.5f;
     // Constants for printing ID and origin in left margin
@@ -61,15 +62,16 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
     }
 
 
-    public void addWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
+    public void addWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
         Phrase watermark;
 
         if (isUtkast) {
             watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
+        } else if (isLocked) {
+            watermark = new Phrase(LOCKED_WATERMARK_TEXT, FONT);
         } else {
-            // No watermark to add
             return;
         }
 

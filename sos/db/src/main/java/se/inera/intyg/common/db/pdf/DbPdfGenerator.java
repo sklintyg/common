@@ -27,6 +27,7 @@ import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.pdf.AbstractSoSPdfGenerator;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 
 import java.io.ByteArrayOutputStream;
@@ -134,13 +135,13 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
     private DbUtlatande dbUtlatande;
 
-    public DbPdfGenerator(DbUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast)
+    public DbPdfGenerator(DbUtlatande intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
             throws SoSPdfGeneratorException {
-        this(intyg, intygTexts, statuses, isUtkast, true);
+        this(intyg, intygTexts, statuses, utkastStatus, true);
     }
 
     // Only called directly by tests.
-    DbPdfGenerator(DbUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, boolean isUtkast, boolean flatten)
+    DbPdfGenerator(DbUtlatande utlatande, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus, boolean flatten)
             throws SoSPdfGeneratorException {
         try {
             this.dbUtlatande = utlatande;
@@ -151,17 +152,19 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
             pdfReader.removeUsageRights();
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             fillAcroformFields();
 
             markAsElectronicCopy(pdfStamper);
-            if (!isUtkast) {
+            if (!isUtkast && !isLocked) {
                 // Only signed dbUtlatande prints should have these decorations
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
             }
 
             // Add applicable watermarks
-            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses));
+            addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

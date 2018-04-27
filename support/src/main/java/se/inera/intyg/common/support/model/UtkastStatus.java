@@ -16,21 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_parent.pdf;
+package se.inera.intyg.common.support.model;
 
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+/**
+ * Possible statuses for a Utkast entity in Webcert.
+ *
+ * @author marced
+ */
+public enum UtkastStatus {
 
-import java.util.List;
+    /**
+     * Work in progress, invalid.
+     */
+    DRAFT_INCOMPLETE,
 
-public interface PdfGenerator<T extends Utlatande> {
-    String PDF_PATH_PROPERTY_KEY = "pdfPath";
+    /**
+     * Valid and ready for signing.
+     */
+    DRAFT_COMPLETE,
 
-    String generatePdfFilename(T utlatande);
+    /**
+     * Locked journalhandling.
+     */
+    DRAFT_LOCKED,
 
-    byte[] generatePDF(T utlatande, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws PdfGeneratorException;
-
+    /**
+     * Signed and valid.
+     */
+    SIGNED;
 }

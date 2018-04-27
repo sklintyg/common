@@ -25,6 +25,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import java.io.IOException;
@@ -98,7 +99,7 @@ public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitio
             throws PdfGeneratorException, IOException {
         EmployeeLisjpPdfDefinitionBuilder employeePdfBuilder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
         for (LisjpUtlatande intyg : intygList) {
-            FkPdfDefinition pdfDefinition = employeePdfBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, false);
+            FkPdfDefinition pdfDefinition = employeePdfBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
                     .generatePdf(pdfDefinition);
 

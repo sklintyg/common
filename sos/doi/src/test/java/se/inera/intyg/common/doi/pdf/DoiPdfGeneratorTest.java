@@ -40,6 +40,7 @@ import com.itextpdf.text.pdf.PdfReader;
 
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
@@ -63,8 +64,9 @@ public class DoiPdfGeneratorTest {
 
     @Test
     public void testGenerate() throws Exception {
-        testSingleScenario("DoiPdfGenerator/doiUtlatande-default.json", "default");
-        testSingleScenario("DoiPdfGenerator/doiUtlatande-utkast.json", "utkast");
+        testSingleScenario("DoiPdfGenerator/doiUtlatande-default.json", "default", UtkastStatus.SIGNED);
+        testSingleScenario("DoiPdfGenerator/doiUtlatande-utkast.json", "utkast", UtkastStatus.DRAFT_COMPLETE);
+        testSingleScenario("DoiPdfGenerator/doiUtlatande-utkast.json", "utkast-locked", UtkastStatus.DRAFT_LOCKED);
     }
 
     @Test
@@ -72,7 +74,7 @@ public class DoiPdfGeneratorTest {
         final File jsonFile = new ClassPathResource("DoiPdfGenerator/doiUtlatande-default.json").getFile();
         DoiUtlatande intyg = objectMapper.readValue(jsonFile, DoiUtlatande.class);
 
-        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), false, false).getBytes();
+        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), UtkastStatus.SIGNED, false).getBytes();
 
         final AcroFields expectedFields = readAcroFields("DoiPdfGenerator/doiUtlatande-default.pdf");
 
@@ -87,10 +89,10 @@ public class DoiPdfGeneratorTest {
         }
     }
 
-    private void testSingleScenario(String jsonPath, String testName) throws Exception {
+    private void testSingleScenario(String jsonPath, String testName, UtkastStatus utkastStatus) throws Exception {
         final File file = new ClassPathResource(jsonPath).getFile();
         DoiUtlatande intyg = objectMapper.readValue(file, DoiUtlatande.class);
-        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), true).getBytes();
+        byte[] generatorResult = new DoiPdfGenerator(intyg, intygTexts, new ArrayList<>(), utkastStatus).getBytes();
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "-" + testName);
     }
 

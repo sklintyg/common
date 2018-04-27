@@ -71,6 +71,7 @@ public abstract class AbstractSoSPdfGenerator {
     private static final Font INTYG_STATEWATERMARK_FONT = new Font(Font.FontFamily.HELVETICA, 100f, Font.NORMAL, BaseColor.GRAY);
     private static final String INTYG_STATEWATERMARK_DRAFT_TEXT = "UTKAST";
     private static final String INTYG_STATEWATERMARK_CANCELLED_TEXT = "MAKULERAT";
+    private static final String INTYG_STATEWATERMARK_LOCKED_TEXT = "LÅST UTKAST";
     private static final int INTYG_STATEWATERMARK_ROTATION = 45;
     private static final float INTYG_STATEWATERMARK_FILL_OPACITY = 0.5f;
     // Constants for printing ID and origin in right margin
@@ -198,16 +199,19 @@ public abstract class AbstractSoSPdfGenerator {
         ct.go();
     }
 
-    protected void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad) {
+    protected void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad,
+                                          boolean isLocked) {
         Phrase watermark;
 
         if (isUtkast) {
             watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
+        } else if (isLocked) {
+            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_TEXT, INTYG_STATEWATERMARK_FONT);
         } else {
-            // No watermark to add
             return;
+
         }
 
         PdfContentByte over;
