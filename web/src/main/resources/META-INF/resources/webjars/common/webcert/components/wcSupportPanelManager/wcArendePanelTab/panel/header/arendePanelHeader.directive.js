@@ -42,6 +42,11 @@ angular.module('common').directive('arendePanelHeader',
                     }
                     else if ($scope.headerType === 'svar') {
                         $scope.headerData = $scope.arendeListItem.arende.svar;
+
+                        if($scope.arendeListItem.arende.answeredWithIntyg){
+                            $scope.headerData.vardaktorNamn = $scope.arendeListItem.arende.answeredWithIntyg.namnetPaSkapareAvIntyg;
+                            $scope.headerData.frageStallare = 'WC';
+                        }
                     }
                 }
             };

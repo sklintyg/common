@@ -1,8 +1,9 @@
 <div>
 
   <div class="arende-header-icon" ng-switch="arendeListItem.isKomplettering()">
-    <div ng-switch-when="true">
-      <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/FK.png">
+    <div ng-switch-when="true" ng-switch="headerType">
+      <img ng-switch-when="fraga" src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/FK.png">
+      <i ng-switch-when="svar" class="icon-wc-ikon-comment icon-wc-32"></i>
     </div>
     <div ng-switch-when="false" ng-switch="headerType">
       <i ng-switch-when="fraga" class="icon-wc-ikon-fraga icon-wc-24"></i>

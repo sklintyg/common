@@ -33,6 +33,7 @@ angular.module('common').directive('wcArendeKompletteraMeddelandeConfirmation',
                     $scope.showKompletteringBesvaradesMedMeddelande = false;
 
                     $scope.$on('arenden.updated', update);
+                    update();
 
                     function update() {
                         $timeout(function() {

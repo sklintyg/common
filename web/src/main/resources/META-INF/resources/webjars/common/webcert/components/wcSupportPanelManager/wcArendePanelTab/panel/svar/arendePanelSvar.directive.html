@@ -56,10 +56,10 @@
       <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
       </arende-panel-header>
 
-      <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body multiline">
-        {{arendeSvar.meddelande}}
+      <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body">
+        <div ng-if="arendeSvar.meddelande" class="multiline">{{arendeSvar.meddelande}}</div>
         <div ng-if="arendeSvar.answeredWithIntyg">
-          <span dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
+          <span class="multiline" dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
           <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span dynamic-label key="common.arende.svar.go"></span></button>
         </div>
       </div>
