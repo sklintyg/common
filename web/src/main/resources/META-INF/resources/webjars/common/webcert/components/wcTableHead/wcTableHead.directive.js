@@ -29,7 +29,10 @@ angular.module('common').directive('wcTableHead',
             templateUrl: '/web/webjars/common/webcert/components/wcTableHead/wcTableHead.directive.html',
             scope: {
                 labelKey: '@',
-                helpKey: '@'
+                helpKey: '@',
+                sorting: '=',
+                sortingCurrent: '=',
+                sortingAscending: '='
             },
             link: function($scope, element, attr) {
 
