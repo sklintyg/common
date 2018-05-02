@@ -21,15 +21,18 @@ mi-compact-certificate-header {
     display: flex;
     flex-direction: column;
     max-width: 68%;
+    width: 100%;
   }
 
   .date-wrapper {
     display: flex;
     flex-direction: column;
     align-self: flex-end;
-    }
+  }
+
   .certificate-issued-date {
     margin-right: 15px;
+    width: 24%;
   }
 
   .icon {
@@ -60,15 +63,22 @@ mi-compact-certificate-header {
     }
   }
 
-  @media (min-width: 992px) {
-    .complementary-info {
-    }
-  }
-
   .certificate-issued-date {
     text-align: right;
     margin-left: 28px;
     align-self: flex-end;
     margin-right: 0;
   }
+
+  @media (max-width: 525px) {
+    .certificate-issued-date {
+      margin-left: 70%;
+      width: auto;
+    }
+    .row-wrapper {
+      flex-wrap: wrap;
+    }
+
+  }
+
 }

@@ -3,32 +3,33 @@
         ng-show="certMetaModel">
     <div class="row-wrapper">
 
-        <i class="icon icon-doc-text pull-left"></i>
-
+        <div class="icon-wrapper">
+            <i class="icon icon-doc-text pull-left"></i>
+        </div>
         <div class="certificate-header-wrapper">
-        <div class="cert-type-title">
-            <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
-            <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
-        </div>
-        <div class="complementary-info">
-            <span ng-if="!certMetaModel.replacedBy">
-                <p class="small-header" dynamic-label key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></p>
-                <p ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
-                {{certMetaModel.complementaryInfo}}
-              </p>
-            </span>
+            <div class="cert-type-title">
+                <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
+                <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
+            </div>
+            <div class="complementary-info">
+                <span ng-if="!certMetaModel.replacedBy">
+                    <p class="small-header" dynamic-label key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></p>
+                    <p ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+                 {{certMetaModel.complementaryInfo}}
+                </p>
+                </span>
 
-            <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
-              <p dynamic-label key="certificates.label.replaced"></p>
-            </span>
-        </div>
+                <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+                    <p dynamic-label key="certificates.label.replaced"></p>
+                </span>
+            </div>
         </div>
 
+        <div class="certificate-issued-date date-wrapper">
+            <span class="visible-xs">Utfärdat</span>
+            <span class="hidden-xs">Intyg utfärdat</span>
+            <b>{{certMetaModel.sentDate | date:'shortDate'}}</b>
+        </div>
 
-    </div>
-    <div class="certificate-issued-date date-wrapper">
-        <span class="visible-xs">Utfärdat</span>
-        <span class="hidden-xs">Intyg utfärdat</span>
-        <b>{{certMetaModel.sentDate | date:'shortDate'}}</b>
     </div>
 </div>
