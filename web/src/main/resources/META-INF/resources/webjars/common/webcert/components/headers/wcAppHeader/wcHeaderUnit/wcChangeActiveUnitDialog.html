@@ -10,7 +10,7 @@
       <div ng-repeat="vg in vardgivare | orderBy:'namn'">
         <div class="row vardgivare">
           <div class="col-xs-5">{{vg.namn}}</div>
-          <div class="col-xs-4" wc-authority feature="HANTERA_FRAGOR">Ej hanterade ärenden och svar</div>
+          <div class="col-xs-4" wc-authority feature="HANTERA_FRAGOR">Ej hanterade ärenden</div>
           <div class="col-xs-3" wc-authority feature="HANTERA_INTYGSUTKAST">Ej signerade utkast</div>
         </div>
         <div ng-repeat="enhet in vg.vardenheter | orderBy:'namn'">
