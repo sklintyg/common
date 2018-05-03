@@ -18,26 +18,37 @@
  */
 package se.inera.intyg.common.db.model.internal;
 
+import static se.inera.intyg.common.db.model.internal.UndersokningConstants.UNDERSOKNING_GJORT_TEXT;
+import static se.inera.intyg.common.db.model.internal.UndersokningConstants.UNDERSOKNING_GJORT_TRANSPORT;
+import static se.inera.intyg.common.db.model.internal.UndersokningConstants.UNDERSOKNING_SKA_GORAS_TEXT;
+import static se.inera.intyg.common.db.model.internal.UndersokningConstants.UNDERSOKNING_SKA_GORAS_TRANSPORT;
+
 import java.util.stream.Stream;
 
 public enum Undersokning {
-    JA(""), // Transport is never used as it is represented as boolean 'true'
-    UNDERSOKNING_GJORT(UndersokningConstants.UNDERSOKNING_GJORT),
-    UNDERSOKNING_SKA_GORAS(UndersokningConstants.UNDERSOKNING_SKA_GORAS);
+    JA("", ""), // Transport is never used as it is represented as boolean 'true'
+    UNDERSOKNING_GJORT_KORT_FORE_DODEN(UNDERSOKNING_GJORT_TRANSPORT, UNDERSOKNING_GJORT_TEXT),
+    UNDERSOKNING_SKA_GORAS(UNDERSOKNING_SKA_GORAS_TRANSPORT, UNDERSOKNING_SKA_GORAS_TEXT);
 
     private final String transport;
+    private final String beskrivning;
 
-    Undersokning(final String transport) {
+    Undersokning(final String transport, final String beskrivning) {
         this.transport = transport;
+        this.beskrivning = beskrivning;
     }
 
     public String getTransport() {
         return transport;
     }
 
+    public String getBeskrivning() {
+        return beskrivning;
+    }
+
     public static Undersokning fromTransport(String transport) {
         return Stream.of(Undersokning.values())
-                .filter(v -> v.name().equals(transport))
+                .filter(v -> v.getTransport().equals(transport))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
     }
