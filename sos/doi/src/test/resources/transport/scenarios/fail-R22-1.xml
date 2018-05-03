@@ -70,11 +70,11 @@
     <svar id="8"><delsvar id="8.1">Stroke</delsvar><delsvar id="8.2">2018-02-20</delsvar><delsvar id="8.3"><ns3:cv><ns3:code>90734009</ns3:code><ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem><ns3:displayName>kronisk</ns3:displayName></ns3:cv></delsvar></svar>
     <svar id="11"><delsvar id="11.1">false</delsvar></svar>
     <svar id="12"><delsvar id="12.1">false</delsvar></svar>
-    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>UNDERSOKNING_FORE_DODEN</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>UNDERSOKNING_FORE_DODEN</ns3:displayName></ns3:cv></delsvar></svar>
-    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>UNDERSOKNING_EFTER_DODEN</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>UNDERSOKNING_EFTER_DODEN</ns3:displayName></ns3:cv></delsvar></svar>
-    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>KLINISK_OBDUKTION</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>KLINISK_OBDUKTION</ns3:displayName></ns3:cv></delsvar></svar>
-    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>RATTSMEDICINSK_OBDUKTION</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>RATTSMEDICINSK_OBDUKTION</ns3:displayName></ns3:cv></delsvar></svar>
-    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>RATTSMEDICINSK_BESIKTNING</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>RATTSMEDICINSK_BESIKTNING</ns3:displayName></ns3:cv></delsvar></svar>
+    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>UNDERSOKNING_FORE_DODEN</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>Undersökning före döden</ns3:displayName></ns3:cv></delsvar></svar>
+    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>UNDERSOKNING_EFTER_DODEN</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>Yttre undersökning efter döden</ns3:displayName></ns3:cv></delsvar></svar>
+    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>KLINISK_OBDUKTION</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>Klinisk obduktion</ns3:displayName></ns3:cv></delsvar></svar>
+    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>RATTSMEDICINSK_OBDUKTION</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>Rättsmedicinsk obduktion</ns3:displayName></ns3:cv></delsvar></svar>
+    <svar id="13"><delsvar id="13.1"><ns3:cv><ns3:code>RATTSMEDICINSK_BESIKTNING</ns3:code><ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem><ns3:displayName>Rättsmedicinsk likbesiktning</ns3:displayName></ns3:cv></delsvar></svar>
     <svar id="14"><delsvar id="14.1">Sverige</delsvar></svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>

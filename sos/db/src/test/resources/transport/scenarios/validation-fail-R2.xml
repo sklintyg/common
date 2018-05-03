@@ -117,7 +117,7 @@
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_GJORT</ns3:code>
                     <ns3:codeSystem>KV_DETALJER_UNDERSOKNING</ns3:codeSystem>
-                    <ns3:displayName>UNDERSOKNING_GJORT</ns3:displayName>
+                    <ns3:displayName>Den avlidne undersökt kort före döden</ns3:displayName>
                 </ns3:cv>
             </delsvar>
             <delsvar id="6.3">2017-01-03</delsvar>

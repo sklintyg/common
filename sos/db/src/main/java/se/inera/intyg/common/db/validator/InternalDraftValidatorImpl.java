@@ -83,7 +83,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         if (utlatande.getUndersokningYttre() == null) {
             ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_YTTRE_JSON_ID,
                     ValidationMessageType.EMPTY);
-        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
+        } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT) {
             if (utlatande.getUndersokningDatum() == null) {
                 ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                         ValidationMessageType.EMPTY);

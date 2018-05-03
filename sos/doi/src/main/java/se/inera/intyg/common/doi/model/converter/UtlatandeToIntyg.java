@@ -185,7 +185,9 @@ public final class UtlatandeToIntyg {
             }
             if (utlatande.getForgiftningOrsak() != null) {
                 forgiftning.withDelsvar(FORGIFTNING_ORSAK_DELSVAR_ID,
-                        aCV(FORGIFTNING_ORSAK_CODE_SYSTEM, utlatande.getForgiftningOrsak().name(), utlatande.getForgiftningOrsak().name()));
+                        aCV(FORGIFTNING_ORSAK_CODE_SYSTEM,
+                                utlatande.getForgiftningOrsak().name(),
+                                utlatande.getForgiftningOrsak().getBeskrivning()));
             }
             if (utlatande.getForgiftningDatum() != null) {
                 forgiftning.withDelsvar(FORGIFTNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getForgiftningDatum()));
@@ -199,7 +201,9 @@ public final class UtlatandeToIntyg {
         // Svar 13
         if (utlatande.getGrunder() != null && !utlatande.getGrunder().isEmpty()) {
             for (Dodsorsaksgrund grund : utlatande.getGrunder()) {
-                svar.add(aSvar(GRUNDER_SVAR_ID).withDelsvar(GRUNDER_DELSVAR_ID, aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.name()))
+                svar.add(aSvar(
+                        GRUNDER_SVAR_ID).withDelsvar(
+                                GRUNDER_DELSVAR_ID, aCV(GRUNDER_CODE_SYSTEM, grund.name(), grund.getBeskrivning()))
                         .build());
             }
         }

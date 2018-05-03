@@ -129,7 +129,7 @@
                 <ns3:cv>
                     <ns3:code>KLINISK_OBDUKTION</ns3:code>
                     <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
-                    <ns3:displayName>KLINISK_OBDUKTION</ns3:displayName>
+                    <ns3:displayName>Klinisk obduktion</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -138,7 +138,7 @@
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_FORE_DODEN</ns3:code>
                     <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
-                    <ns3:displayName>UNDERSOKNING_FORE_DODEN</ns3:displayName>
+                    <ns3:displayName>Undersökning före döden</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
