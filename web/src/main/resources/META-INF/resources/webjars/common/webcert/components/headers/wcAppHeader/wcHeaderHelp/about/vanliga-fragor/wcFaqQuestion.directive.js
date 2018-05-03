@@ -43,7 +43,7 @@ angular.module('common').directive('wcFaqQuestion', ['smoothScroll', function(sm
                     wcFaqToggler.someChildToggledItself();
                 }
                 if ($scope.vm.open) {
-                    var offset = Math.floor($('#'+ scrollContainerId).height() / 2);
+                    var offset = Math.min(30, Math.floor($('#'+ scrollContainerId).height() / 2));
                     var options = {
                         containerId: scrollContainerId,
                         duration: 500,

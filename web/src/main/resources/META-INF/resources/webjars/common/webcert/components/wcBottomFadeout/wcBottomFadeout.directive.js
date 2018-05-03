@@ -28,7 +28,8 @@ angular.module('common').directive('wcBottomFadeout',
                 scope: {
                     color: '@',
                     defaultHeight: '@',
-                    maxHeight: '@'
+                    maxHeight: '@',
+                    scrollId: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html',
                 link: function($scope, element) {

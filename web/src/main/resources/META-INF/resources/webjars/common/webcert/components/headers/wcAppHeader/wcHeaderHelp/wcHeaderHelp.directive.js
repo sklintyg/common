@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcHeaderHelp',
-        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'common.AvtalProxy', 'moduleConfig' ,
+        [ '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'common.AvtalProxy', 'moduleConfig',
             function($window, $rootScope, $uibModal, UtilsService, authorityService, avtalProxy, moduleConfig) {
             'use strict';
 
@@ -94,6 +94,26 @@ angular.module('common').directive('wcHeaderHelp',
                                 $scope.close = function() {
                                     $uibModalInstance.close();
                                 };
+
+                                $scope.open = {
+                                    om: false,
+                                    terms: false,
+                                    support: false,
+                                    faq: false,
+                                    kakor: false
+                                };
+
+                                // Scroll to top if a accordion opens.
+                                $scope.$watch('open', function(newValue) {
+
+                                    if (newValue.om || newValue.terms || newValue.support || newValue.faq || newValue.kakor) {
+                                        var scrollContainerId = 'wc-about-modal-body';
+
+                                        $('#' + scrollContainerId).animate({
+                                            scrollTop: 0
+                                        }, 500);
+                                    }
+                                }, true);
 
                             },
                             resolve: {

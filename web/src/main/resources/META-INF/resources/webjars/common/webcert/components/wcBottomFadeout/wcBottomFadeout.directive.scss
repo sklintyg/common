@@ -41,6 +41,7 @@ wc-bottom-fadeout {
   .scrollable-body {
     overflow-y: auto;
     max-height: 50vh;
+    position: relative;
 
     .modal-body {
       margin: 15px 15px $wc-text-fadeout-height;
