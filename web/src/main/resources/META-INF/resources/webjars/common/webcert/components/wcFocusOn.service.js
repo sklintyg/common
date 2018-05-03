@@ -28,12 +28,16 @@ angular
 
                 if (element.length > 0) {
                     element.focus();
-                    $browser.notifyWhenNoOutstandingRequests(function() {
+                }
+                $browser.notifyWhenNoOutstandingRequests(function() {
+                    var element = angular.element('#' + name);
+
+                    if (element.length > 0) {
                         element.focus();
 
                         anchorScrollService.scrollIntygContainerTo(name, 50);
-                    });
-                }
+                    }
+                });
             });
         };
     }

@@ -174,7 +174,8 @@ angular.module('common').directive('wcArendeFooter',
                                         statService.refreshStat();
 
                                         var stateParams = {
-                                            certificateId: result.intygsUtkastId
+                                            certificateId: result.intygsUtkastId,
+                                            focusOn: 'ovrigt'
                                         };
                                         $state.go(ArendeListViewState.intygProperties.type + '-edit', stateParams);
                                     }, function(errorResult) {
