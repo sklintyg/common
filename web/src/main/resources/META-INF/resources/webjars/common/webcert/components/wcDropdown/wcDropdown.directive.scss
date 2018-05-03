@@ -76,7 +76,7 @@ wc-dropdown {
         div {
             padding: 4px 10px;
             color: $wc-color-07;
-            &:hover {
+            &:hover, &.selected {
                 background-color: $wc-color-21;
                 color: #fff;
                 cursor: pointer;

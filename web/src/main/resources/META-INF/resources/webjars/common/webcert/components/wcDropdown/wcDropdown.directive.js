@@ -88,14 +88,62 @@ angular.module('common').directive('wcDropdown',
                     }
 
                     function getSelectedItemLabel() {
+                        var index = getIndexForId(ctrl.$viewValue);
+                        if (index === null) {
+                            return null;
+                        }
+                        return scope.items[index].label;
+                    }
+
+                    function getIndexForId(id) {
                         if (scope.items) {
                             for (var i = 0; i < scope.items.length; i++) {
-                                if (scope.items[i].id === ctrl.$viewValue) {
-                                    return scope.items[i].label;
+                                if (scope.items[i].id === id) {
+                                    return i;
                                 }
                             }
                         }
+                        return null;
                     }
+
+                    function handleKeyEventWhenOpened(keyCode) {
+                        var index;
+                        if (keyCode === 40) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null && index < scope.items.length - 1) {
+                                scope.selectedItemId = scope.items[index + 1].id;
+                            }
+                        }
+                        else if (keyCode === 38) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null && index > 0) {
+                                scope.selectedItemId = scope.items[index - 1].id;
+                            }
+                        }
+                        else if (keyCode === 13 || keyCode === 32) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null) {
+                                scope.select(scope.items[index]);
+                            }
+                        }
+                        else if (keyCode === 27) {
+                            closePlate();
+                        }
+                    }
+
+                    scope.onKeydown = function(e) {
+                        if (scope.disabled) {
+                            return;
+                        }
+                        if (scope.isOpen) {
+                            handleKeyEventWhenOpened(e.keyCode);
+                        }
+                        else if (e.keyCode === 13 || e.keyCode === 32) {
+                            openPlate();
+                            scope.selectedItemId = ctrl.$viewValue;
+                        }
+                        e.preventDefault();
+                    };
 
                     scope.togglePlate = function() {
                         if (scope.disabled) {
