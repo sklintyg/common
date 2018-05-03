@@ -131,7 +131,10 @@ angular.module('common').directive('wcArendePanelTab', [
                     });
                 }
 
-                ArendeListViewState.intygProperties.isInteractionEnabled = $scope.config.intygContext.isSigned && !ArendeListViewState.intygProperties.isRevoked;
+                ArendeListViewState.intygProperties.isInteractionEnabled =
+                    $scope.config.intygContext.isSigned &&
+                    !ArendeListViewState.intygProperties.isRevoked &&
+                    !ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg);
             });
             $scope.$on('$destroy', unbindFastEvent);
 
