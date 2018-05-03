@@ -70,6 +70,14 @@ angular.module('common').directive('wcExpandableContent', [ '$timeout', 'common.
                 _update();
             };
 
+            // Sent by wcSupportPanelManager when tab is changed.
+            // wcSupportPanelManager uses ng-show, content will be in dom but offsetHeight will be 0 until it is displayed.
+            $scope.$on('panel.activated', function() {
+                $timeout(function(){
+                    _update();
+                });
+            });
+
             //Let the DOM render the content and then check if we have overflow..
             $timeout(function(){
                 _update();
