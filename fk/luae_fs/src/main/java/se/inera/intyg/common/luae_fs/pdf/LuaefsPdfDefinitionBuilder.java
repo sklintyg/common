@@ -427,7 +427,7 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         allElements.add(fraga3);
 
         // Fraga 4. Funktionsnedsattning
-        FkFieldGroup fraga4 = new FkFieldGroup("4. " + getText("FRG_6.RBK"))
+        FkFieldGroup fraga4 = new FkFieldGroup("4. " + getText("KAT_4.RBK"))
                 .offset(KATEGORI_OFFSET_X, 66.5f).size(KATEGORI_FULL_WIDTH, 58.5f)
                 .withBorders(Rectangle.BOX);
 
