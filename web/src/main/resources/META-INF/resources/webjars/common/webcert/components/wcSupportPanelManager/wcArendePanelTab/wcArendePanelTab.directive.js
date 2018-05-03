@@ -67,6 +67,18 @@ angular.module('common').directive('wcArendePanelTab', [
                 updateCounts();
             });
 
+            function updateInteractionEnabled(){
+                ArendeListViewState.intygProperties.isInteractionEnabled =
+                    ArendeListViewState.intygProperties.isSent &&
+                    $scope.config.intygContext.isSigned &&
+                    !ArendeListViewState.intygProperties.isRevoked &&
+                    !ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg);
+            }
+
+            $scope.$on('intygstatus.updated', function(){
+                updateInteractionEnabled();
+            });
+
             var abortFetchArenden;
             $scope.$on('$destroy', function() {
                 if (abortFetchArenden) {
@@ -127,11 +139,7 @@ angular.module('common').directive('wcArendePanelTab', [
                     ArendeListViewState.intygProperties.isLoaded = true;
                 }
 
-                ArendeListViewState.intygProperties.isInteractionEnabled =
-                    $scope.config.intygContext.isSigned &&
-                    !ArendeListViewState.intygProperties.isRevoked &&
-                    !ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg);
-
+                updateInteractionEnabled();
                 ArendeListViewState.intygLoaded = true;
             });
             $scope.$on('$destroy', unbindFastEvent);
