@@ -65,7 +65,7 @@ public class TransportToInternalTest {
         assertEquals(true, res.getBarn());
         assertEquals(true, res.getExplosivImplantat());
         assertEquals(true, res.getExplosivAvlagsnat());
-        assertEquals(Undersokning.UNDERSOKNING_GJORT, res.getUndersokningYttre());
+        assertEquals(Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN, res.getUndersokningYttre());
         assertEquals(new InternalDate(LocalDate.of(2016, 12, 31)), res.getUndersokningDatum());
         assertEquals(true, res.getPolisanmalan());
     }
