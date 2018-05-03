@@ -29,6 +29,9 @@ angular.module('common').controller('common.IntygHeader', [ '$scope', '$state', 
         IntygHeaderViewState.setIntygViewState(IntygViewState, intygType);
 
         $scope.$on('intyg.loaded', function(event, intyg){
+            if (intyg === null) {
+                IntygHeaderViewState.intygLoaded = true;
+            }
             IntygHeaderService.updatePreviousIntygUtkast(intyg);
             // Wait for digest to remove buttons first
             $timeout(function(){

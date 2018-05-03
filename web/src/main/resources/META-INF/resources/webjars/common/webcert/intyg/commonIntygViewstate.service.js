@@ -133,6 +133,8 @@ angular.module('common').service('common.IntygViewStateService',
                     this.activeErrorMessageKey = 'common.error.authorization_problem_sekretessmarkering_enhet';
                 } else if (error.errorCode === 'AUTHORIZATION_PROBLEM_SEKRETESSMARKERING') {
                     this.activeErrorMessageKey = 'common.error.authorization_problem_sekretessmarkering';
+                } else if (error.errorCode === 'PU_PROBLEM') {
+                    this.activeErrorMessageKey = 'common.error.pu_problem';
                 } else {
                     if (signed) {
                         this.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
