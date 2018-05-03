@@ -43,7 +43,7 @@
     <button type="button" id="{{button1id}}" class="btn btn-secondary"
             ng-disabled="!model.isMakuleraEnabled(model)"
             ng-click="button1click()">
-      <img ng-hide="model.makuleraProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
+      <i ng-show="!model.makuleraProgressDone" class="icon-wc-ikon-02 animate-spin ng-hide"></i>
       <span dynamic-label key="{{button1text}}"></span>
     </button>
 
