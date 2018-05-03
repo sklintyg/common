@@ -31,6 +31,7 @@ angular.module('common').directive('arendePanelHeaderAmne',
                 restrict: 'E',
                 templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.directive.html',
                 scope: {
+                    headerType: '=',
                     arendeListItem: '='
                 }
             };
