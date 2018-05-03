@@ -34,6 +34,8 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
                     $scope.config.tabs.forEach(function(tab) {
                         tab.active = (tab.id === newtab.id);
                     });
+
+                    $scope.$broadcast('panel.activated', newtab.id);
                 };
 
                 var hasArende = false;
