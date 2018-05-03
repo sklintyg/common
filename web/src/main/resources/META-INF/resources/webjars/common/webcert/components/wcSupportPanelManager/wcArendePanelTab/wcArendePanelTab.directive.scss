@@ -3,7 +3,6 @@ wc-arende-panel-tab {
   flex-direction: column;
   flex: 1;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
-  background-color: $wc-color-28;
 
   /* Forcing spinner to use flex just in this tab */
   wc-spinner, wc-spinner > div, wc-spinner > div > div:not(.wc-spinner), wc-spinner > div > div > div {
@@ -19,7 +18,14 @@ wc-arende-panel-tab {
       padding: 28px 20px;
       border-radius: 0;
       box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.24);
+      margin: 0;
     }
+  }
+
+  .card-divider {
+    background: $wc-color-28;
+    height: 13px;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.24);
   }
 
   .bottom-fadeout-gradient {
