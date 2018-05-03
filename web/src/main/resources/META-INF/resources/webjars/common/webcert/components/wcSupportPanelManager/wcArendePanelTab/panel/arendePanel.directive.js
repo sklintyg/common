@@ -35,7 +35,8 @@ angular.module('common').directive('arendePanel',
                     panelId: '@',
                     arendeListItem: '=',
                     arendeList: '=',
-                    parentViewState: '='
+                    parentViewState: '=',
+                    lastCard: '<'
                 },
                 controller: function($scope) {
 

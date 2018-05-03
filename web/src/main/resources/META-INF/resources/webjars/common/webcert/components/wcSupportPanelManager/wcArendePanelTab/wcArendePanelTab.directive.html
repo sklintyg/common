@@ -25,7 +25,7 @@
 
 </div>
 
-<wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body" color="28">
+<wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
   <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
@@ -50,7 +50,7 @@
         <!-- list of komplettering arenden -->
         <div ng-repeat="arendeListItem in viewState.arendeList | filter:kompletteringarFilter | orderBy:['-arende.senasteHandelse'] as kompletteringarList"
              class="arende-item">
-          <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
+          <arende-panel last-card="$last" panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
                parent-view-state="viewState"></arende-panel>
         </div>
 
@@ -63,12 +63,13 @@
         <!-- new arende form -->
         <arende-new ng-if="viewState.intygProperties.isInteractionEnabled && viewState.doneLoading && viewState.activeErrorMessageKey == null"
              arende-list="viewState.arendeList" parent-view-state="viewState"></arende-new>
+        <div class="card-divider"></div>
 
         <!-- list of administrativ fraga arenden -->
         <div
             ng-repeat="arendeListItem in viewState.arendeList | filter:administrativaFragorFilter | orderBy:['-arende.senasteHandelse'] as administrativaFragorList"
             class="arende-item">
-          <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
+          <arende-panel last-card="$last" panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
                parent-view-state="viewState"></arende-panel>
         </div>
 
