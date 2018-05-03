@@ -30,7 +30,7 @@ public enum Specifikation {
 
     UPPGIFT_SAKNAS(UPPGIFT_SAKNAS_CODE, UPPGIFT_SAKNAS_DISPLAY_NAME, V3_CODE_SYSTEM_NULL_FLAVOR),
     KRONISK("90734009", "kronisk", Diagnoskodverk.SNOMED_CT.getCodeSystem()),
-    PLOTSLIG("424124008", "plötslig debut och/eller kort duration", Diagnoskodverk.SNOMED_CT.getCodeSystem());
+    PLOTSLIG("424124008", "akut", Diagnoskodverk.SNOMED_CT.getCodeSystem());
 
     private final String id;
     private final String label;

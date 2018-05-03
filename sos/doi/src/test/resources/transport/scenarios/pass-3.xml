@@ -138,7 +138,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
+                    <ns3:displayName>akut</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -172,7 +172,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
+                    <ns3:displayName>akut</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -194,7 +194,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
+                    <ns3:displayName>akut</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -216,7 +216,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
+                    <ns3:displayName>akut</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -238,7 +238,7 @@
                 <ns3:cv>
                     <ns3:code>424124008</ns3:code>
                     <ns3:codeSystem>1.2.752.116.2.1.1.1</ns3:codeSystem>
-                    <ns3:displayName>plötslig debut och/eller kort duration</ns3:displayName>
+                    <ns3:displayName>akut</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -253,7 +253,7 @@
                 <ns3:cv>
                     <ns3:code>SJALVMORD</ns3:code>
                     <ns3:codeSystem>KV_ORSAK</ns3:codeSystem>
-                    <ns3:displayName>SJALVMORD</ns3:displayName>
+                    <ns3:displayName>Självmord</ns3:displayName>
                 </ns3:cv>
             </delsvar>
             <delsvar id="12.3">2017-01-01</delsvar>
@@ -264,7 +264,7 @@
                 <ns3:cv>
                     <ns3:code>KLINISK_OBDUKTION</ns3:code>
                     <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
-                    <ns3:displayName>KLINISK_OBDUKTION</ns3:displayName>
+                    <ns3:displayName>Klinisk obduktion</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -273,7 +273,7 @@
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_FORE_DODEN</ns3:code>
                     <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
-                    <ns3:displayName>UNDERSOKNING_FORE_DODEN</ns3:displayName>
+                    <ns3:displayName>Undersökning före döden</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>

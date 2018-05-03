@@ -18,20 +18,13 @@
  */
 package se.inera.intyg.common.doi.model.internal;
 
-public enum Dodsorsaksgrund {
-    UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
-    UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
-    KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
-    RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
-    RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
+public final class DodsorsaksgrundConstants {
+    public static final String UNDERSOKNING_FORE_DODEN = "Undersökning före döden";
+    public static final String UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
+    public static final String KLINISK_OBDUKTION = "Klinisk obduktion";
+    public static final String RATTSMEDICINSK_OBDUKTION = "Rättsmedicinsk obduktion";
+    public static final String RATTSMEDICINSK_BESIKTNING = "Rättsmedicinsk likbesiktning";
 
-    private final String beskrivning;
-
-    Dodsorsaksgrund(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
-
-    public String getBeskrivning() {
-        return beskrivning;
+    private DodsorsaksgrundConstants() {
     }
 }

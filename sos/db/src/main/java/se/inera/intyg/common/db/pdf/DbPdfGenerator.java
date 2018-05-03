@@ -221,7 +221,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
             if (dbUtlatande.getUndersokningYttre() == Undersokning.JA) {
                 // Type RADIOBUTTON - values [Yttre undersök ja,Yttre undersök nej,]
                 checkRadioField(FIELD_GROUP7, "Yttre undersök ja");
-            } else if (dbUtlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
+            } else if (dbUtlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT) {
                 // Type RADIOBUTTON - values [Yttre undersök ja,Yttre undersök nej,]
                 checkRadioField(FIELD_GROUP7, "Yttre undersök nej");
             } else if (dbUtlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS) {

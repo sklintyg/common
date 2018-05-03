@@ -18,27 +18,10 @@
  */
 package se.inera.intyg.common.db.model.internal;
 
-import java.util.stream.Stream;
+public final class UndersokningConstants {
+    public static final String UNDERSOKNING_GJORT = "Den avlidne undersökt kort före döden";
+    public static final String UNDERSOKNING_SKA_GORAS = "Rättsmedicinsk undersökning ska göras";
 
-public enum Undersokning {
-    JA(""), // Transport is never used as it is represented as boolean 'true'
-    UNDERSOKNING_GJORT(UndersokningConstants.UNDERSOKNING_GJORT),
-    UNDERSOKNING_SKA_GORAS(UndersokningConstants.UNDERSOKNING_SKA_GORAS);
-
-    private final String transport;
-
-    Undersokning(final String transport) {
-        this.transport = transport;
-    }
-
-    public String getTransport() {
-        return transport;
-    }
-
-    public static Undersokning fromTransport(String transport) {
-        return Stream.of(Undersokning.values())
-                .filter(v -> v.name().equals(transport))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
+    private UndersokningConstants() {
     }
 }
