@@ -31,5 +31,9 @@
     background-color: transparent;
     color: $wc-color-16;
     outline: none;
+
+    &:focus {
+      outline: 1px dotted $wc-color-07;
+    }
   }
 }
