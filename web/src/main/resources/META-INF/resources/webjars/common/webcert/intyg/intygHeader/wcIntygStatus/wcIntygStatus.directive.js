@@ -200,7 +200,7 @@ angular.module('common').directive('wcIntygStatus', [
                     IntygStatusService.sortByStatusAndTimestamp(allStatuses);
                     var allStatusesModalInstance = $uibModal.open({
                         templateUrl: '/web/webjars/common/webcert/intyg/intygHeader/wcIntygStatus/wcIntygStatusModal.template.html',
-                        size: 'lg',
+                        size: 'md',
                         controller: function($scope) {
                             $scope.statuses = allStatuses;
                         }
