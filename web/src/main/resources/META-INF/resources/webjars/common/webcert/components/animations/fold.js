@@ -43,7 +43,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
                 addClass: 'fold-slide-fade-animation',
                 easing: 'ease-out',
                 from: { height:'0', padding:'0',  overflow: 'hidden' },
-                to: { height: height + 'px', overflow: 'auto' },
+                to: { height: height + 'px', overflow: 'hidden' },
                 duration: 0.3,
                 cleanupStyles: true
             });
@@ -56,7 +56,7 @@ angular.module('common').animation('.fold-animation', ['$animateCss', '$log', fu
                 addClass: 'fold-slide-fade-animation-hidden',
                 easing: 'ease-out',
                 from: { height: height + 'px', overflow: 'hidden' },
-                to: { height:'0', overflow: 'auto' },
+                to: { height:'0', overflow: 'hidden' },
                 duration: 0.3
             });
         }
