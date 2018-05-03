@@ -20,8 +20,10 @@
 angular
     .module('common')
     .directive('wcUtkastFooterSign',
-    ['common.dynamicLabelService', 'common.UtkastValidationViewState', 'common.UtkastSignService', 'common.UtkastProxy', 'common.featureService', 'common.UtkastFooterService', '$q',
-        function(dynamicLabelService, utkastValidationViewState, UtkastSignService, commonUtkastProxy, featureService, UtkastFooterService,  $q) {
+    ['$q', 'common.dynamicLabelService', 'common.UtkastValidationViewState', 'common.UtkastSignService', 'common.UtkastProxy', 'common.featureService', 'common.UtkastFooterService',
+        'common.messageService', 'common.moduleService',
+        function($q, dynamicLabelService, utkastValidationViewState, UtkastSignService, commonUtkastProxy, featureService, UtkastFooterService,
+            messageService, moduleService) {
             'use strict';
 
             return {
@@ -39,10 +41,22 @@ angular
                     var previousIntygWarnings = {};
                     var waitingForSignCompletion = $q.resolve();
 
-                    var messageKey = 'common.' + (isSignAndSendOrKomp() ? 'signsend' : 'sign');
+                    var messageKey = 'common.';
+
+                    if (viewState.common.intyg.isKomplettering) {
+                        messageKey += 'signsend.completion';
+                    }
+                    else if (isSignAndSend()) {
+                        messageKey += 'signsend';
+                    }
+                    else {
+                        messageKey += 'sign';
+                    }
 
                     $scope.signBtnText = dynamicLabelService.getProperty(messageKey);
-                    $scope.signBtnTooltip = dynamicLabelService.getProperty(messageKey + '.tooltip');
+                    $scope.signBtnTooltip = messageService.getProperty(messageKey + '.tooltip', {
+                        'recipient': messageService.getProperty('common.recipient.' + moduleService.getModule(viewState.common.intyg.type).defaultRecipient.toLowerCase())
+                    });
 
                     $scope.getPreviousIntygWarning = function() {
                         return previousWarningMessage;

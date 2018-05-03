@@ -51,7 +51,9 @@
             'common.sign': 'Signera intyget',
             'common.sign.tooltip': 'Intyget signeras.',
             'common.signsend': 'Signera och skicka',
-            'common.signsend.tooltip': 'Intyget signeras och skickas direkt.',
+            'common.signsend.tooltip': 'Intyget skickas direkt till ${recipient}.',
+            'common.signsend.completion': 'Signera och skicka',
+            'common.signsend.completion.tooltip': 'Det kompletterade intyget skickas direkt till ${recipient}.',
             'common.send': 'Skicka',
             'common.send.tooltip': 'Öppnar ett fönster där du kan välja att skicka intyget till ${recipient}.',
             'common.copy': 'Kopiera',
@@ -189,7 +191,6 @@
             'draft.signingdoctor': 'Signerande läkare',
             'draft.helptext.signingdoctor': 'Den läkare som avses signera intyget anges här.',
             'draft.notifydoctor': 'Skicka ett mejl med en länk till utkastet till den läkare som ska signera.',
-            'draft.completion.signinfo': 'Om du går vidare kommer det nya kompletterade intyget signeras och skickas direkt till Försäkringskassans system.',
 
             'draft.notify.check-missing': 'Visa vad som saknas',
             'draft.notify.button': 'Vidarebefordra utkast',
