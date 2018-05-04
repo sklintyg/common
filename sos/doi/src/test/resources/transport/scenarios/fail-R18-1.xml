@@ -80,7 +80,7 @@
             <delsvar id="3.2">
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
-                    <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
+                    <ns3:codeSystem>65f0069f-14b5-4634-b187-5193580a3349</ns3:codeSystem>
                     <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
@@ -233,7 +233,7 @@
             <delsvar id="12.2">
                 <ns3:cv>
                     <ns3:code>SJALVMORD</ns3:code>
-                    <ns3:codeSystem>KV_ORSAK</ns3:codeSystem>
+                    <ns3:codeSystem>e5d1d1fb-d918-47b4-9e69-483d3be523ee</ns3:codeSystem>
                     <ns3:displayName>Självmord</ns3:displayName>
                 </ns3:cv>
             </delsvar>

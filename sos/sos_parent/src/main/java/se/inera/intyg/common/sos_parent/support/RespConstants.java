@@ -102,10 +102,11 @@ public final class RespConstants {
     public static final String GRUNDER_DELSVAR_ID = "13.1";
     public static final String LAND_DELSVAR_ID = "14.1";
 
-    public static final String DODSPLATS_BOENDE_CODE_SYSTEM = "KV_DODSPLATS_BOENDE";
-    public static final String UNDERSOKNING_DETALJER_CODE_SYSTEM = "KV_DETALJER_UNDERSOKNING";
-    public static final String GRUNDER_CODE_SYSTEM = "KV_DODSORSAKSUPPGIFTER";
-    public static final String FORGIFTNING_ORSAK_CODE_SYSTEM = "KV_ORSAK";
+    public static final String DODSPLATS_BOENDE_CODE_SYSTEM = "65f0069f-14b5-4634-b187-5193580a3349"; //kv dödsplats boende
+    public static final String UNDERSOKNING_DETALJER_CODE_SYSTEM = "da46dd8c-b3f1-4e39-8d62-777d069213ea"; //kv detaljer undersökning
+    public static final String GRUNDER_CODE_SYSTEM = "f9051865-b97c-4ee3-98ab-db2b7a11176e"; //kv dödsorsaksuppgifter
+    public static final String FORGIFTNING_ORSAK_CODE_SYSTEM = "e5d1d1fb-d918-47b4-9e69-483d3be523ee"; //kv orsak
+
     public static final String UPPGIFT_SAKNAS_CODE = "NI";
     public static final String UPPGIFT_SAKNAS_DISPLAY_NAME = "Uppgift saknas";
     public static final String V3_CODE_SYSTEM_NULL_FLAVOR = "v3 Code System NullFlavor";

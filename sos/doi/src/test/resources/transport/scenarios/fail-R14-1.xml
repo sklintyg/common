@@ -80,7 +80,7 @@
             <delsvar id="3.2">
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
-                    <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
+                    <ns3:codeSystem>65f0069f-14b5-4634-b187-5193580a3349</ns3:codeSystem>
                     <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
@@ -237,7 +237,7 @@
             <delsvar id="13.1">
                 <ns3:cv>
                     <ns3:code>KLINISK_OBDUKTION</ns3:code>
-                    <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
+                    <ns3:codeSystem>f9051865-b97c-4ee3-98ab-db2b7a11176e</ns3:codeSystem>
                     <ns3:displayName>Klinisk obduktion</ns3:displayName>
                 </ns3:cv>
             </delsvar>
@@ -246,7 +246,7 @@
             <delsvar id="13.1">
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_FORE_DODEN</ns3:code>
-                    <ns3:codeSystem>KV_DODSORSAKSUPPGIFTER</ns3:codeSystem>
+                    <ns3:codeSystem>f9051865-b97c-4ee3-98ab-db2b7a11176e</ns3:codeSystem>
                     <ns3:displayName>Undersökning före döden</ns3:displayName>
                 </ns3:cv>
             </delsvar>
