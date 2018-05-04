@@ -100,13 +100,14 @@ angular.module('common').directive('wcHeaderHelp',
                                     terms: false,
                                     support: false,
                                     faq: false,
-                                    kakor: false
+                                    kakor: false,
+                                    personuppgifter: false
                                 };
 
                                 // Scroll to top if a accordion opens.
                                 $scope.$watch('open', function(newValue) {
 
-                                    if (newValue.om || newValue.terms || newValue.support || newValue.faq || newValue.kakor) {
+                                    if (newValue.om || newValue.terms || newValue.support || newValue.faq || newValue.kakor || newValue.personuppgifter) {
                                         var scrollContainerId = 'wc-about-modal-body';
 
                                         $('#' + scrollContainerId).animate({

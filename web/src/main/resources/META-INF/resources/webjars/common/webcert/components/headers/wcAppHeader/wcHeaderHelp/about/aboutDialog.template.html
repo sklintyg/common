@@ -57,6 +57,15 @@
         <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/kakor-partial.html'"></div>
       </div>
 
+      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.personuppgifter">
+        <div uib-accordion-heading>
+          <div class="wc-about-panel-header">
+            <span>Om behandling av personuppgifter</span> <i class="material-icons md-24">{{open.personuppgifter ? 'expand_less':'expand_more'}}</i>
+          </div>
+        </div>
+        <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-personuppgifter.html'"></div>
+      </div>
+
     </div>
   </div>
 </wc-bottom-fadeout>
