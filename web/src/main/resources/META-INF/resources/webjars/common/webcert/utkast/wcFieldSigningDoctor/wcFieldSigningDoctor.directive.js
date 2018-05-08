@@ -28,7 +28,7 @@ angular.module('common').directive('wcFieldSigningDoctor',
             return {
                 restrict: 'A',
                 controller: function($scope) {
-                    $scope.show = UserModel.isDjupintegration();
+                    $scope.show = UserModel.isDjupintegration() && UserModel.isVardAdministrator();
                     $scope.hospName = UserModel.getIntegrationParam('responsibleHospName') ? UserModel.getIntegrationParam('responsibleHospName') : 'Ej angivet';
                 },
                 templateUrl: '/web/webjars/common/webcert/utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.html'
