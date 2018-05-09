@@ -84,6 +84,7 @@ wc-support-panel-manager {
     flex-direction: column;
     min-height: 1%;
     border: 1px solid $tab-border-color;
+    background: $wc-color-00;
   }
 
   .tab-content-title-row {
@@ -92,10 +93,6 @@ wc-support-panel-manager {
     background-color: $active-tab-background-color;
     padding: 19px 15px;
   }
-
-
-
-
 
   .footer {
     flex: 1;
