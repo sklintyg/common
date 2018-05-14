@@ -1,4 +1,7 @@
 ue-textfield {
+
+  @extend %field-set-disabled-ie11-fix;
+
   input.form-control {
     height: 38px;
     width: 100%;

@@ -34,7 +34,13 @@
     &:disabled, fieldset[disabled] & {
       background-color: $wc-color-20;
       color: $wc-color-09;
+      pointer-events: none; /* this is a workaround for fieldset[disabled] not working correctly in IE11 */
     }
+  }
+
+  /* this is a workaround for fieldset[disabled] not working correctly in IE11 */
+  fieldset[disabled] & {
+    cursor:not-allowed;
   }
 
   .btn-default {

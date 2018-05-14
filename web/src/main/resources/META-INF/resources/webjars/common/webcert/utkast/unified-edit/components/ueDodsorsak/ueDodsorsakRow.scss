@@ -19,6 +19,8 @@
 
 ue-dodsorsak-row {
 
+  @extend %field-set-disabled-ie11-fix;
+
   display: block;
 
   .label-padding {

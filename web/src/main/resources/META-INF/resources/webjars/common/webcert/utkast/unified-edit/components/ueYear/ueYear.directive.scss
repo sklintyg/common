@@ -18,6 +18,9 @@
  */
 
 ue-year {
+
+  @extend %field-set-disabled-ie11-fix;
+
   input.form-control {
     width: 4em;
     &:disabled, fieldset[disabled] & {

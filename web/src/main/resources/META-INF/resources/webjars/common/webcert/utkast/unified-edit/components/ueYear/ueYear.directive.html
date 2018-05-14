@@ -4,7 +4,7 @@
       <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
         <ue-label config="::config.label" model="::model"></ue-label>
       </div>
-      <div ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
+      <div class="input-wrapper" ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
                ng-model="modelGetterSetter"
                ng-model-options="{ getterSetter: true }"

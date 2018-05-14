@@ -42,3 +42,15 @@ textarea.form-control:focus {
   border: 1px solid $wc-color-21;
   box-shadow: 2px 2px 4px 0 $black_12;
 }
+
+/* this is a workaround for fieldset[disabled] not working correctly in IE11, needs an input-wrapper around the input field */
+%field-set-disabled-ie11-fix {
+  input.form-control {
+    &:disabled, fieldset[disabled] & {
+      pointer-events: none;
+    }
+  }
+  fieldset[disabled] & .input-wrapper {
+    cursor:not-allowed;
+  }
+}

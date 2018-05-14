@@ -8,13 +8,15 @@
     <div>{{config.requireDescription}}
       <span dynamic-label key="{{config.beskrivningLabel}}.RBK" class="label-padding"></span> <span wc-help-chevron help-text-key="{{config.beskrivningLabel}}.HLP"></span> <span ng-if="requireDescription && !modelValue.beskrivning" class="required icon-wc-ikon-38"></span>
       <span wc-help-chevron-text help-text-key="{{config.beskrivningLabel}}.HLP"></span>
-      <input id="orsak-{{rowIndex}}-beskrivning"
-             type="text"
-             class="form-control input-full"
-             ng-class="{'validation-error' : hasValidationError('beskrivning', rowIndex)}"
-             ng-model="modelValue.beskrivning"
-             ng-blur="validate()"
-             maxlength="{{config.htmlMaxlength || 3500}}">
+      <div class="input-wrapper">
+        <input id="orsak-{{rowIndex}}-beskrivning"
+               type="text"
+               class="form-control input-full"
+               ng-class="{'validation-error' : hasValidationError('beskrivning', rowIndex)}"
+               ng-model="modelValue.beskrivning"
+               ng-blur="validate()"
+               maxlength="{{config.htmlMaxlength || 3500}}">
+      </div>
       <span class="dodsorsak-row__letter">{{letter}}</span>
     </div>
     <div>

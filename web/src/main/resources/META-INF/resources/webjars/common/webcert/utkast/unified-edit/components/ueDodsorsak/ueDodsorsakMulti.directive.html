@@ -12,13 +12,15 @@
     </tr>
     <tr ng-repeat="orsak in model[config.modelProp]">
       <td>
-        <input id="orsak-multi-{{$index}}-beskrivning"
-               type="text"
-               class="form-control input-full"
-               ng-class="{'validation-error' : hasValidationError('beskrivning', $index)}"
-               ng-model="orsak.beskrivning"
-               ng-blur="validate()"
-               maxlength="{{config.htmlMaxlength || 3500}}">
+        <div class="input-wrapper">
+          <input id="orsak-multi-{{$index}}-beskrivning"
+                 type="text"
+                 class="form-control input-full"
+                 ng-class="{'validation-error' : hasValidationError('beskrivning', $index)}"
+                 ng-model="orsak.beskrivning"
+                 ng-blur="validate()"
+                 maxlength="{{config.htmlMaxlength || 3500}}">
+        </div>
       </td>
       <td>
         <span wc-date-picker-field target-model="orsak.datum" dom-id="orsak-multi-{{$index}}-datum"

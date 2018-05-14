@@ -18,6 +18,8 @@
  */
 ue-diagnos {
 
+  @extend %field-set-disabled-ie11-fix;
+
   .ue-diagnos {
     position: relative;
     width: 100%;
