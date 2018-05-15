@@ -244,67 +244,6 @@ describe('PatientService', function() {
             ]);
             expect(PatientService.hasChangedNameInIntegration(intygModel.grundData)).toBeFalsy();
         });
-
-        it('hasChangedAddressInIntegration false if none has changed', function() {
-            angular.mock.inject(['common.UserModel',
-                function(_UserModel_) {
-                    UserModel = _UserModel_;
-                    UserModel.setUser({
-                        parameters: {
-                            postadress: 'Blomstervägen 13',
-                            postort: 'Småmåla',
-                            postnummer: '123 45'
-                        }
-                    });
-                }
-            ]);
-            expect(PatientService.hasChangedAddressInIntegration(intygModel.grundData)).toBeFalsy();
-        });
-        it('hasChangedAddressInIntegration true if postadress has changed', function() {
-            angular.mock.inject(['common.UserModel',
-                function(_UserModel_) {
-                    UserModel = _UserModel_;
-                    UserModel.setUser({
-                        parameters: {
-                            postadress: 'Blomstervägen 12',
-                            postort: 'Småmåla',
-                            postnummer: '123 45'
-                        }
-                    });
-                }
-            ]);
-            expect(PatientService.hasChangedAddressInIntegration(intygModel.grundData)).toBeTruthy();
-        });
-        it('hasChangedAddressInIntegration true if postort has changed', function() {
-            angular.mock.inject(['common.UserModel',
-                function(_UserModel_) {
-                    UserModel = _UserModel_;
-                    UserModel.setUser({
-                        parameters: {
-                            postadress: 'Blomstervägen 13',
-                            postort: 'Stormåla',
-                            postnummer: '123 45'
-                        }
-                    });
-                }
-            ]);
-            expect(PatientService.hasChangedAddressInIntegration(intygModel.grundData)).toBeTruthy();
-        });
-        it('hasChangedAddressInIntegration true if postnummer has changed', function() {
-            angular.mock.inject(['common.UserModel',
-                function(_UserModel_) {
-                    UserModel = _UserModel_;
-                    UserModel.setUser({
-                        parameters: {
-                            postadress: 'Blomstervägen 13',
-                            postort: 'Småmåla',
-                            postnummer: '54321'
-                        }
-                    });
-                }
-            ]);
-            expect(PatientService.hasChangedAddressInIntegration(intygModel.grundData)).toBeTruthy();
-        });
     });
 
     describe('Testa detektering av avsaknad adress i integrationsparametrar i ts-intyg för UTKAST', function() {
