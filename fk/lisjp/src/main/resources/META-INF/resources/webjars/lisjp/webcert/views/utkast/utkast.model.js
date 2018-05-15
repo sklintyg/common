@@ -115,7 +115,9 @@ angular.module('lisjp').factory('lisjp.Domain.IntygModel',
 
                         // Kategori 4 Sjukdomens konsekvenser
                         'funktionsnedsattning': undefined,
+                        'funktionsKategorier': undefined,
                         'aktivitetsbegransning': undefined,
+                        'aktivitetsKategorier': undefined,
 
                         // Kategori 5 Medicinska behandlingar / åtgärder
                         'pagaendeBehandling': undefined,

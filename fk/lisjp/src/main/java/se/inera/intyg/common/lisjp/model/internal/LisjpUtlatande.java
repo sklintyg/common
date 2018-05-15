@@ -212,6 +212,12 @@ public abstract class LisjpUtlatande implements Utlatande {
     @Nullable
     public abstract ImmutableList<Tillaggsfraga> getTillaggsfragor();
 
+    @Nullable
+    public abstract List<String> getFunktionsKategorier();
+
+    @Nullable
+    public abstract List<String> getAktivitetsKategorier();
+
     /*
      * Retrieve a builder from an existing LisjpUtlatande object. The builder can then be used
      * to create a new copy with modified attributes.
@@ -225,6 +231,8 @@ public abstract class LisjpUtlatande implements Utlatande {
                 .setSysselsattning(ImmutableList.<Sysselsattning> of())
                 .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
                 .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
+                .setFunktionsKategorier(ImmutableList.<String> of())
+                .setAktivitetsKategorier(ImmutableList.<String> of());
                 .setSignature(null);
     }
 
@@ -285,8 +293,14 @@ public abstract class LisjpUtlatande implements Utlatande {
         @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
         public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);
 
+        @JsonProperty("funktionsKategorier")
+        public abstract Builder setFunktionsKategorier(List<String> funktionsKategorier);
+
         @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17)
         public abstract Builder setAktivitetsbegransning(String aktivitetsbegransning);
+
+        @JsonProperty("aktivitetsKategorier")
+        public abstract Builder setAktivitetsKategorier(List<String> aktivitetsKategorier);
 
         @JsonProperty(PAGAENDEBEHANDLING_SVAR_JSON_ID_19)
         public abstract Builder setPagaendeBehandling(String pagaendeBehandling);
@@ -350,6 +364,8 @@ public abstract class LisjpUtlatande implements Utlatande {
 
         /* package private */
         abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);
+
+
     }
 
 }

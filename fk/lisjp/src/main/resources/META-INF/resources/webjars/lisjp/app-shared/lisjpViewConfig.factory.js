@@ -132,8 +132,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                     type: 'uv-del-fraga',
                     labelKey: 'DFR_35.1.RBK',
                     components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'funktionsnedsattning'
+                        type: 'uv-icf',
+                        modelProp: 'funktionsnedsattning',
+                        kategoriProp: 'funktionsKategorier'
                     }]
                 } ]
             },
@@ -144,8 +145,9 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                     type: 'uv-del-fraga',
                     labelKey: 'DFR_17.1.RBK',
                     components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'aktivitetsbegransning'
+                        type: 'uv-icf',
+                        modelProp: 'aktivitetsbegransning',
+                        kategoriProp: 'aktivitetsKategorier'
                     }]
                 } ]
             }

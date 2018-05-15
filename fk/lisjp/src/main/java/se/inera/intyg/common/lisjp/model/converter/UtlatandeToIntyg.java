@@ -134,8 +134,12 @@ public final class UtlatandeToIntyg {
 
         handleDiagnosSvar(svars, source.getDiagnoser());
 
-        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_DELSVAR_ID_35, source.getFunktionsnedsattning());
-        addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_DELSVAR_ID_17, source.getAktivitetsbegransning());
+        handleIcf(svars, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_DELSVAR_ID_35,
+                source.getFunktionsnedsattning(), source.getFunktionsKategorier(), "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:");
+
+        handleIcf(svars, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_DELSVAR_ID_17,
+                source.getAktivitetsbegransning(), source.getAktivitetsKategorier(), "Svårigheter som påverkar patientens sysselsättning:");
+
         addIfNotBlank(svars, PAGAENDEBEHANDLING_SVAR_ID_19, PAGAENDEBEHANDLING_DELSVAR_ID_19, source.getPagaendeBehandling());
         addIfNotBlank(svars, PLANERADBEHANDLING_SVAR_ID_20, PLANERADBEHANDLING_DELSVAR_ID_20, source.getPlaneradBehandling());
 
@@ -282,6 +286,23 @@ public final class UtlatandeToIntyg {
 
         String ret = Joiner.on("\n").skipNulls().join(motiveringTillInteBaseratPaUndersokning, motiveringTillTidigSjukskrivning, ovrigt);
         return !ret.trim().isEmpty() ? ret : null;
+    }
+
+    private static void handleIcf(List<Svar> svars, String svarsId, String delsvarsId, String content, List<String> aktiviteter, String icfHeader) {
+        if (!Strings.nullToEmpty(content).trim().isEmpty()) {
+            if (aktiviteter != null && aktiviteter.size() > 0) {
+                String icfContent = icfHeader + "\n";
+                for (String aktivitet : aktiviteter) {
+                    icfContent += aktivitet;
+                    if (aktiviteter.indexOf(aktivitet) != aktiviteter.size() - 1) {
+                        icfContent += " - ";
+                    }
+                }
+                icfContent += "\n\n" + content;
+                content = icfContent;
+            }
+            svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content).build());
+        }
     }
 
 }

@@ -332,12 +332,25 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
 
+        String content = intyg.getFunktionsnedsattning();
+        if (intyg.getFunktionsKategorier() != null && intyg.getFunktionsKategorier().size() > 0) {
+            String icfContent = "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:\n";
+            for (String aktivitet : intyg.getFunktionsKategorier()) {
+                icfContent += aktivitet;
+                if (intyg.getFunktionsKategorier().indexOf(aktivitet) != intyg.getFunktionsKategorier().size() - 1) {
+                    icfContent += " - ";
+                }
+            }
+            icfContent += "\n\n" + content;
+            content = icfContent;
+        }
         fraga5.addChild(
-                new FkOverflowableValueField(shouldPrint(OPT_FUNKTIONSNADSATTNING, optionalFields) ? intyg.getFunktionsnedsattning() : "",
+                new FkOverflowableValueField(shouldPrint(OPT_FUNKTIONSNADSATTNING, optionalFields) ? content : "",
                         getText("DFR_35.1.RBK"))
                                 .offset(0f, 0f)
                                 .size(KATEGORI_FULL_WIDTH, 43f)
-                                .showLabelOnTop());
+                                .showLabelOnTop()
+                                .keepNewLines());
         return fraga5;
     }
 
@@ -348,12 +361,26 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
 
+        String content = intyg.getAktivitetsbegransning();
+        if (intyg.getAktivitetsKategorier() != null && intyg.getAktivitetsKategorier().size() > 0) {
+            String icfContent = "Svårigheter som påverkar patientens sysselsättning:\n";
+            for (String aktivitet : intyg.getAktivitetsKategorier()) {
+                icfContent += aktivitet;
+                if (intyg.getAktivitetsKategorier().indexOf(aktivitet) != intyg.getAktivitetsKategorier().size() - 1) {
+                    icfContent += " - ";
+                }
+            }
+            icfContent += "\n\n" + content;
+            content = icfContent;
+        }
+
         fraga6.addChild(
-                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? intyg.getAktivitetsbegransning() : "",
+                new FkOverflowableValueField(shouldPrint(OPT_AKTIVITETSBEGRANSNING, optionalFields) ? content : "",
                         getText("DFR_17.1.RBK"))
                                 .offset(0f, 0f)
                                 .size(KATEGORI_FULL_WIDTH, 43f)
-                                .showLabelOnTop());
+                                .showLabelOnTop()
+                                .keepNewLines());
         return fraga6;
     }
 

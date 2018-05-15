@@ -1,0 +1,63 @@
+<ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]" class="ue-del-fraga">
+
+  <ue-label config="::config.label" model="::model"></ue-label>
+
+  <div id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-dropdown"
+       ng-click="openFunktionsDropdown();$event.stopPropagation();" class="dropdown-label"
+       ng-class="{'disabled': !hasICFDiagnos(), 'open': funktionsDropdown}" uib-popover="{{getPopoverText()}}"
+       popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+       popover-placement="auto top">
+    <span><i class="material-icons bluetext">lightbulb_outline</i> Ta hjälp av ICF</span>
+    <i class="material-icons">{{isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+  </div>
+
+  <div ng-if="funktionsDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-plate"
+       class="funktions-dropdown-plate">
+    <div class="kategori-header">
+      <span>{{ config.modelProp == 'funktionsnedsattning' ?
+          'Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.' :
+          'Välj enbart de svårigheter som påverkar patientens sysselsättning.' }}</span>
+    </div>
+    <div class="kategori-content">
+      <span class="kategori-label">ICF-kategori för:</span><br />
+      <strong class="medborder">{{diagnosBeskrivningen()}}</strong>
+      <div ng-repeat="urval in icfFunktioner">
+        <div class="kategorier">
+          <input type="checkbox" class="big-checkbox" ng-model="urval.vald" />
+          <span ng-click="toggle(urval)">{{urval.namn}}</span><span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i
+            class="glyphicon" ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
+        </div>
+        <div ng-if="visamer" class="beskrivning">{{urval.beskrivning}}</div>
+        <div ng-if="visamer && urval.innefattar" class="beskrivning">
+          <strong>Innefattar</strong><br />
+          <span>{{urval.innefattar}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kategori-footer">
+      <a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
+        om ICF hos Socialstyrelsen <i class="external-link-icon material-icons">launch</i></a>
+      <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()" />
+      <input type="button" class="btn btn-primary kategori-add"
+             value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
+             ng-click="add(icfFunktioner)" />
+    </div>
+  </div>
+
+  <div ng-if="model[config.kategoriProp].length > 0" class="problemContainer">
+      <span class="problemListTitle">{{ config.modelProp == 'funktionsnedsattning' ?
+          'Problem som påverkar patientens möjlighet att utföra sin sysselsättning:' :
+          'Svårigheter som påverkar patientens sysselsättning:'}}</span>
+    <span class="problem" ng-repeat="val in model[config.kategoriProp]">{{val}}</span>
+  </div>
+
+  <div ng-if="modelGetterSetter() && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}
+  </div>
+  <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control"
+            rows="{{::config.rows || 6}}" auto-expand ng-model="modelGetterSetter"
+            ng-model-options="{ debounce: 500, getterSetter: true }" maxlength="{{::config.htmlMaxlength || 3500}}"
+            ng-blur="updateValidation()" placeholder="{{model[config.kategoriProp].length > 0 ? getPlaceHolder() : ''}}"
+            ng-class="{'placeholderPadding': modelGetterSetter() && model[config.kategoriProp].length > 0 }">
+  </textarea>
+</ue-validation-wrapper>

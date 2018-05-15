@@ -1,0 +1,263 @@
+/*!
+  * Copyright (C) 2018 Inera AB (http://www.inera.se)
+  *
+  * This file is part of sklintyg (https://github.com/sklintyg).
+  *
+  * sklintyg is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * sklintyg is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+ue-icf {
+  ue-validation-wrapper > div {
+    position: relative;
+
+    .dropdown-label {
+      display: inline-flex;
+      height: 38px;
+      padding: 5px;
+      border: 1px solid $wc-color-15;
+      border-radius: 4px;
+      text-align: left;
+      position: absolute;
+      right: 0;
+      top: -25px;
+
+      span {
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1 1 auto;
+        white-space: nowrap;
+      }
+
+      .bluetext {
+        color: #496cec;
+      }
+
+      i {
+        flex: 0 0 16px;
+      }
+      color: $wc-color-07;
+      background: #fff;
+
+      &.open, &:hover {
+        color: $wc-color-07;
+        border-color: $wc-color-21;
+        background-color: #fff;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
+        cursor: pointer;
+      }
+
+      &.disabled {
+        &:hover {
+          border-color: $wc-color-15;
+        }
+        cursor: default;
+
+        .bluetext {
+          color: $wc-color-07;
+        }
+      }
+    }
+
+    .funktions-dropdown-plate {
+      z-index: 1000;
+      display: flex;
+      position: absolute;
+      width: 100%;
+      max-height: 400px;
+      overflow: hidden;
+      border: 1px solid #496cec;
+      border-radius: 4px;
+      top: 15px;
+      background-color: #fff;
+      flex-direction: column;
+
+      .kategori-header {
+        color: #003c75;
+        background-color: #b3e5fc;
+        flex: 1 0 38px;
+
+        span {
+          display: inline-block;
+          padding: 10px;
+        }
+      }
+
+      .kategori-content {
+        max-height: 300px;
+        padding: 10px;
+        overflow: auto;
+        flex: 1 0 auto;
+
+        >div:nth-child(odd) {
+          background-color: $wc-color-24;
+        }
+
+        >div:nth-child(even) {
+          background-color: #fff;
+        }
+
+        .kategori-label {
+          color: #6a6a6a;
+        }
+
+        strong.medborder {
+          display: block;
+          width: 100%;
+          margin-bottom: 5px;
+          padding-bottom: 5px;
+          color: #212121;
+          border-bottom: 1px solid #9a9a9a;
+        }
+
+        .kategorier {
+          display: flex;
+          padding: 4px 0;
+
+          input {
+            flex: 0 0 30px;
+            height: 20px;
+          }
+
+          span {
+            align-self: flex-end;
+            flex: 1 1 auto;
+          }
+
+          .visamer {
+            text-align: end;
+            text-decoration: underline;
+            flex: 0 0 95px;
+            cursor: pointer;
+
+            i {
+              text-decoration: none;
+            }
+          }
+        }
+
+        .beskrivning {
+          padding: 10px;
+          color: #6a6a6a;
+        }
+      }
+
+      .kategori-footer {
+        display: flex;
+        background-color: #e9eaed;
+        flex: 1 0 55px;
+
+        a {
+          flex: 1 0 1%;
+          align-self: center;
+          padding-left: 10px;
+        }
+
+        .btn {
+          height: 38px;
+          margin: 10px 10px 0 0;
+          flex: 0 0 auto;
+        }
+      }
+    }
+
+    .icf-funktion {
+      position: relative;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      background-color: #fff;
+
+      .funktion-tabort {
+        position: absolute;
+        top: -5px;
+        right: 0;
+        padding: 10px;
+        color: #ccc;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      h4 {
+        display: inline;
+      }
+
+      .beskrivning {
+        margin: 5px 0;
+      }
+
+      .funktions-column {
+        display: flex;
+
+        div {
+          flex: 1 0 150px;
+        }
+      }
+
+      .ui-select-container {
+        width: auto;
+        flex: 1 0 150px;
+      }
+
+      input {
+        max-width: none;
+        margin-left: 5px;
+        flex: 1 1 auto;
+
+        &.ng-invalid-required {
+          border-color: #fc625c;
+        }
+      }
+
+      .invalid .btn {
+        border-color: #fc625c;
+      }
+    }
+  }
+
+  .problemContainer {
+    background: #e9eaed;
+    margin-bottom: 20px;
+    padding: 10px 15px 15px 15px;
+
+    .problemListTitle {
+      display: block;
+      padding-bottom: 10px;
+    }
+
+    .problem {
+      border: 1px solid #c0c0c0;
+      border-radius: 5px;
+      background-color: #fff;
+      padding: 5px;
+      margin: 5px 5px 5px 0;
+    }
+  }
+
+  .placeholder {
+    position: absolute;
+    margin-top: -4px;
+    margin-left: 15px;
+    background: #fff;
+    padding: 0 10px;
+    @extend %wc-typo-13;
+    color: $wc-color-21;
+    line-height: .7;
+  }
+
+  .placeholderPadding {
+    padding-top: 10px;
+  }
+}
