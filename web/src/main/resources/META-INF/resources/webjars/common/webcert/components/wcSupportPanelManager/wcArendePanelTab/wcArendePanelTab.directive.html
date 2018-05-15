@@ -40,9 +40,9 @@
     <div ng-if="viewState.intygProperties.isSent" ng-switch="isFilterKomplettering">
 
       <div id="arende-kompletteringar-section" class="arende-list-section" ng-switch-when="true">
+        <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
 
-        <div ng-if="viewState.intygProperties.isInteractionEnabled">
-          <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
+        <div ng-if="viewState.intygProperties.isInteractionEnabled">  
           <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
           <wc-arende-komplettera-meddelande-confirmation arende-list="viewState.arendeList"></wc-arende-komplettera-meddelande-confirmation>
         </div>
