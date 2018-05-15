@@ -36,9 +36,9 @@
     <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
 
     <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
+      <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
 
-      <div ng-if="viewState.intygProperties.isInteractionEnabled">
-        <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
+      <div ng-if="viewState.intygProperties.isInteractionEnabled">    
         <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
         <wc-arende-komplettera-meddelande-confirmation arende-list="viewState.arendeList"></wc-arende-komplettera-meddelande-confirmation>
       </div>
