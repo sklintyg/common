@@ -30,21 +30,21 @@ angular.module('common').directive('uvIcf', [ 'uvUtil', function(uvUtil) {
             var text = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
             var kategorier = uvUtil.getValue($scope.viewData, $scope.config.kategoriProp);
 
-            var value = "";
+            var value = '';
 
             if (kategorier.length > 0 ) {
                 if($scope.config.modelProp === 'aktivitetsbegransning') {
-                    value += "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:" + "\n";
+                    value += 'Problem som påverkar patientens möjlighet att utföra sin sysselsättning:' + '\n';
                 } else {
-                    value += "Svårigheter som påverkar patientens sysselsättning:" + "\n";
+                    value += 'Svårigheter som påverkar patientens sysselsättning:' + '\n';
                 }
                 for (var i = 0; i < kategorier.length; i++) {
                     value += kategorier[i];
                     if (i !== kategorier.length - 1) {
-                        value += " - ";
+                        value += ' - ';
                     }
                 }
-                value += "\n\n";
+                value += '\n\n';
             }
 
             value += text;

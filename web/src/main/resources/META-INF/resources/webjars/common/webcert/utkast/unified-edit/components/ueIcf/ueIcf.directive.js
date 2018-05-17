@@ -31,9 +31,6 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
         link: function(scope) {
             ueUtil.standardSetup(scope);
 
-
-            scope.tempModel = {'funktioner':[], 'text': undefined};
-
             scope.hasICFDiagnos = function() {
                if(scope.model.diagnoser) {
                    for(var i = 0; i < scope.model.diagnoser.length; i++) {
@@ -69,8 +66,6 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
                 return scope.hasICFDiagnos().diagnosBeskrivning;
             };
 
-
-            // --------  DROPDOWN
             scope.openPlate = function() {
                 $window.document.addEventListener('click', onDocumentClick, true);
                 scope.funktionsDropdown = true;
@@ -83,6 +78,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
 
             scope.openFunktionsDropdown = function() {
                 if (scope.hasICFDiagnos()) {
+                    setupChoices();
                     if (!scope.funktionsDropdown) {
                         scope.openPlate();
                     } else {
@@ -90,7 +86,6 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
                     }
                 }
             };
-            // -------- DROPDOWN:END
 
             scope.rensa = function(option) {
                 for (var i = 0; i < scope.icfFunktioner.length; i++) {
@@ -127,18 +122,29 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
                 }
             }
 
+            function setupChoices() {
+                if (scope.model[scope.config.kategoriProp].length > 0) {
+                    for (var i = 0; i < scope.model[scope.config.kategoriProp].length; i++) {
+                        for (var f = 0; f < scope.icfFunktioner.length; f++) {
+                            if (scope.icfFunktioner[f].namn === scope.model[scope.config.kategoriProp][i]) {
+                                scope.icfFunktioner[f].vald = true;
+                            }
+                        }
+                    }
+                }
+            }
+
             scope.getPlaceHolder = function () {
                 return scope.config.modelProp === 'funktionsnedsattning' ?
                     'Hur har du kommit fram till ovanstående? På vilket sätt och i vilken utsträckning är patienten påverkad?' :
-                    'Hur begränsar ovanstående patientens sysselsättning och i vilken utsträckning?'
+                    'Hur begränsar ovanstående patientens sysselsättning och i vilken utsträckning?';
             };
 
             scope.getPopoverText = function () {
                 if (!scope.model.diagnoser || scope.model.diagnoser[0].diagnosKod === undefined) {
-                    return 'Ange minst en diagnos för att få ICF-stöd.'
+                    return 'Ange minst en diagnos för att få ICF-stöd.';
                 }
                 if (scope.model.diagnoser) {
-                    var found = false;
                     for (var i = 0; i < scope.model.diagnoser.length; i++) {
                         var diagnos = scope.model.diagnoser[i];
                         if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
@@ -146,12 +152,23 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
                         }
                     }
                     if (scope.model.diagnoser[1].diagnosKod === undefined) {
-                        return 'För den angivna diagnosen finns för tillfället inget ICF-stöd.'
+                        return 'För den angivna diagnosen finns för tillfället inget ICF-stöd.';
                     } else {
-                        return 'För de angivna diagnoserna finns för tillfället inget ICF-stöd.'
+                        return 'För de angivna diagnoserna finns för tillfället inget ICF-stöd.';
                     }
                 }
-            }
+            };
+
+            scope.isInteractionDisabled = function() {
+                for (var i = 0; i < scope.icfFunktioner.length; i++) {
+                    if (scope.icfFunktioner[i].vald) {
+                        return false;
+                    }
+                }
+                if (scope.model[scope.config.kategoriProp].length === 0) {
+                    return true;
+                }
+            };
         }
     };
 

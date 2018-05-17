@@ -38,8 +38,8 @@
     <div class="kategori-footer">
       <a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
         om ICF hos Socialstyrelsen <i class="external-link-icon material-icons">launch</i></a>
-      <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()" />
-      <input type="button" class="btn btn-primary kategori-add"
+      <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
+      <input type="button" class="btn btn-primary kategori-add" ng-disabled="isInteractionDisabled()"
              value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
              ng-click="add(icfFunktioner)" />
     </div>
@@ -52,8 +52,7 @@
     <span class="problem" ng-repeat="val in model[config.kategoriProp]">{{val}}</span>
   </div>
 
-  <div ng-if="modelGetterSetter() && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}
-  </div>
+  <div ng-if="modelGetterSetter() && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}</div>
   <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control"
             rows="{{::config.rows || 6}}" auto-expand ng-model="modelGetterSetter"
             ng-model-options="{ debounce: 500, getterSetter: true }" maxlength="{{::config.htmlMaxlength || 3500}}"
