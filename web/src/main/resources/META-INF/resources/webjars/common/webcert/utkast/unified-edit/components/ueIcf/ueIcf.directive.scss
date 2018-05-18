@@ -21,54 +21,20 @@ ue-icf {
   ue-validation-wrapper > div {
     position: relative;
 
-    .dropdown-label {
-      display: inline-flex;
-      height: 38px;
-      padding: 5px;
-      border: 1px solid $wc-color-15;
-      border-radius: 4px;
-      text-align: left;
-      position: absolute;
-      right: 0;
-      top: -25px;
+    ue-label {
+        width: 70%;
+    }
 
-      span {
-        display: inline-block;
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex: 1 1 auto;
-        white-space: nowrap;
-      }
-
-      .bluetext {
-        color: #496cec;
-      }
-
-      i {
-        flex: 0 0 16px;
-      }
-      color: $wc-color-07;
-      background: #fff;
-
-      &.open, &:hover {
-        color: $wc-color-07;
-        border-color: $wc-color-21;
-        background-color: #fff;
-        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .12);
-        cursor: pointer;
-      }
-
-      &.disabled {
-        &:hover {
-          border-color: $wc-color-15;
-        }
-        cursor: default;
-
+    .icf-button {
+        position: absolute;
+        right: 0;
+        top: -25px;
         .bluetext {
-          color: $wc-color-07;
+          color: #496cec;
         }
-      }
+        &:hover .bluetext {
+          color: #ffffff;
+        }
     }
 
     .funktions-dropdown-plate {
@@ -76,11 +42,11 @@ ue-icf {
       display: flex;
       position: absolute;
       width: 100%;
-      max-height: 400px;
+      height: 400px;
       overflow: hidden;
       border: 1px solid #496cec;
       border-radius: 4px;
-      top: 15px;
+      top: 17px;
       background-color: #fff;
       flex-direction: column;
 
@@ -96,16 +62,16 @@ ue-icf {
       }
 
       .kategori-content {
-        max-height: 300px;
+        height: 300px;
         padding: 10px;
         overflow: auto;
         flex: 1 0 auto;
 
-        >div:nth-child(odd) {
+        .kategori:nth-child(odd) {
           background-color: $wc-color-24;
         }
 
-        >div:nth-child(even) {
+        .kategori:nth-child(even) {
           background-color: #fff;
         }
 
@@ -152,6 +118,17 @@ ue-icf {
           padding: 10px;
           color: #6a6a6a;
         }
+
+      }
+
+      .fader {
+        position: absolute;
+        top: 292px;
+        height: 50px;
+        width: 97%;
+        background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0) 100%);
+        pointer-events: none;
       }
 
       .kategori-footer {
@@ -243,6 +220,7 @@ ue-icf {
       background-color: #fff;
       padding: 5px;
       margin: 5px 5px 5px 0;
+      display: inline-block;
     }
   }
 
@@ -252,7 +230,7 @@ ue-icf {
     margin-left: 15px;
     background: #fff;
     padding: 0 10px;
-    @extend %wc-typo-13;
+    font-size: 12px;
     color: $wc-color-21;
     line-height: .7;
   }
