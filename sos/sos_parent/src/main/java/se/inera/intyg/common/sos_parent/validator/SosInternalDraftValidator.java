@@ -80,10 +80,10 @@ public final class SosInternalDraftValidator {
             }
         } else {
             if (!utlatande.getDodsdatum().isYearCorrectFormat()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID + ".year",
                         ValidationMessageType.EMPTY, "common.validation.date.year.not_selected");
             } else if (!utlatande.getDodsdatum().isMonthCorrectFormat()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID + ".month",
                         ValidationMessageType.EMPTY, "common.validation.date.month.not_selected");
             } else if (!utlatande.getDodsdatum().isCorrectFormat()) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
