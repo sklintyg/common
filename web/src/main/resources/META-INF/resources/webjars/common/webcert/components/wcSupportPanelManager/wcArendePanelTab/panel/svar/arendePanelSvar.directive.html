@@ -35,7 +35,7 @@
         </wc-alert-message>
 
         <button type="button" class="btn btn-success" ng-click="sendAnswer()"
-                ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress"
+                ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress || onlySpace(arendeSvar.meddelande)"
                 id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">
           Skicka
         </button>

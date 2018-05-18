@@ -79,6 +79,14 @@ angular.module('common').directive('arendePanelSvar',
                         $scope.answerPanelOpen = true;
                     };
 
+                    //Disable button if only space and no characters
+                    $scope.onlySpace = function(message) {
+                        if(message.trim().length > 0 ) {
+                            return false;
+                        }
+                        return true;
+                    };
+
                     /**
                      * Svara på ärende från fk
                      */
