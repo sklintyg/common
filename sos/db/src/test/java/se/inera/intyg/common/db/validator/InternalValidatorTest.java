@@ -64,7 +64,7 @@ public class InternalValidatorTest {
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.EMPTY, internalValidationResponse.getValidationErrors().get(0).getType());
         assertEquals("dodsdatumOchdodsPlats", internalValidationResponse.getValidationErrors().get(0).getCategory());
-        assertEquals("dodsdatum", internalValidationResponse.getValidationErrors().get(0).getField());
+        assertEquals("dodsdatum.month", internalValidationResponse.getValidationErrors().get(0).getField());
     }
 
     @Test
