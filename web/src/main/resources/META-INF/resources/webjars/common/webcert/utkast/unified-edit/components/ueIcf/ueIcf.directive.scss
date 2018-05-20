@@ -22,19 +22,29 @@ ue-icf {
     position: relative;
 
     ue-label {
-        width: 70%;
+      width: 70%;
     }
 
     .icf-button {
-        position: absolute;
-        right: 0;
-        top: -25px;
+      position: absolute;
+      right: 0;
+      top: -25px;
+
+      .bluetext {
+        color: #496cec;
+      }
+
+      &:hover .bluetext {
+        color: #fff;
+      }
+
+      &.disabled:hover {
+        color: #6a6a6a !important;
+
         .bluetext {
-          color: #496cec;
+          color: #6a6a6a;
         }
-        &:hover .bluetext {
-          color: #ffffff;
-        }
+      }
     }
 
     .funktions-dropdown-plate {
@@ -118,7 +128,6 @@ ue-icf {
           padding: 10px;
           color: #6a6a6a;
         }
-
       }
 
       .fader {
@@ -126,8 +135,7 @@ ue-icf {
         top: 292px;
         height: 50px;
         width: 97%;
-        background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 0) 100%);
+        background-image: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
         pointer-events: none;
       }
 
