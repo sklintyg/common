@@ -9,14 +9,24 @@
             btn-class="btn-success margin-right"
             btn-click="kompletteraIntyg()"
             loading="updateInProgress"
-            disabled="updateInProgress">
+            disabled="updateInProgress"
+            uib-popover="Öppnar ett nytt intygsutkast."
+            popover-trigger="mouseenter"
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
           <i class="icon-wc-ikon-komplettera"></i> Komplettera intyg</button>
         </wc-button>
 
         <button class="btn btn-primary"
                 id="kan-inte-komplettera"
                 ng-click="openKompletteringDialog()"
-                wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}">
+                wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}"
+                uib-popover="Öppnar en dialogruta med mer information."
+                popover-trigger="mouseenter"
+                popover-popup-delay="300"
+                popover-append-to-body="true"
+                popover-placement="auto top">
           <i class="icon-wc-ikon-comment"></i> Kan ej komplettera</button>
 
         <a wc-authority request-origin="UTHOPP" ng-click="openUthoppInfoModal()" id="arende-komplettering-uthopp-link">
@@ -28,7 +38,12 @@
             wc-authority="VIDAREBEFORDRA_FRAGASVAR" intygstyp="{{intygProperties.type}}"
             ng-show="!intygProperties.isRevoked"
             class="btn btn-primary stick-right" title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
-            ng-click="openMailDialog()">
+            ng-click="openMailDialog()"
+            uib-popover="Skapar ett e-postmeddelande i din e-postklient med en direktlänk till frågan/svaret."
+            popover-trigger="mouseenter"
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
       <i class="icon-wc-ikon-reply"></i> Vidarebefordra</span>
     </button>
   </div>

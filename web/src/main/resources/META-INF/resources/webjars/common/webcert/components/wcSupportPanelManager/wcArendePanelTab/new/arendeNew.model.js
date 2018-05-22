@@ -32,7 +32,7 @@ angular.module('common').factory('common.ArendeNewModel',
             // Topics are defined under RE-13
             this.topics = [
                 {
-                    label: 'Välj typ av fråga',
+                    label: 'Välj ämne',
                     id: null
                 }
             ];

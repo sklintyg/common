@@ -18,8 +18,8 @@
  */
 
 angular.module('common').directive('wcArendeKompletteraUtkastWarning',
-    [ '$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper',
-        function($rootScope, ArendeListViewState, ArendeHelper) {
+    [ '$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.ObjectHelper',
+        function($rootScope, ArendeListViewState, ArendeHelper, ObjectHelper) {
             'use strict';
 
             return {
@@ -36,11 +36,14 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                     };
 
                     function onIntygLoaded(event, intyg, intygProperties) {
-                        if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
-                            $scope.intygType = ArendeListViewState.intygProperties.type;
-                            $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
-                            $scope.kompletteringConfig.redirectToExistingUtkast = true;
+                        if(ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations)) {
+                            if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
+                                $scope.intygType = ArendeListViewState.intygProperties.type;
+                                $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
+                                $scope.kompletteringConfig.redirectToExistingUtkast = true;
+                            }
                         }
+
                     }
 
                     var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
