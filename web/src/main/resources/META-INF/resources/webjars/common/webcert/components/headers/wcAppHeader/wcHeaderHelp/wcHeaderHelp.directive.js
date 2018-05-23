@@ -103,19 +103,6 @@ angular.module('common').directive('wcHeaderHelp',
                                     kakor: false,
                                     personuppgifter: false
                                 };
-
-                                // Scroll to top if a accordion opens.
-                                $scope.$watch('open', function(newValue) {
-
-                                    if (newValue.om || newValue.terms || newValue.support || newValue.faq || newValue.kakor || newValue.personuppgifter) {
-                                        var scrollContainerId = 'wc-about-modal-body';
-
-                                        $('#' + scrollContainerId).animate({
-                                            scrollTop: 0
-                                        }, 500);
-                                    }
-                                }, true);
-
                             },
                             resolve: {
                                 avtalProxy :  avtalProxy,
