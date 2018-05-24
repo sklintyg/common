@@ -83,6 +83,7 @@ angular.module('common').factory('common.UtkastService',
                         viewState.relations = utkastData.relations;
                         viewState.klartForSigneringDatum = utkastData.klartForSigneringDatum;
                         viewState.common.intyg.isKomplettering = utkastData.content.grundData.relation !== undefined && utkastData.content.grundData.relation.relationKod === 'KOMPLT';
+                        viewState.common.intyg.isLocked = utkastData.status === 'DRAFT_LOCKED';
 
                         // update model here so controls dependent on correct models at startup has the right values first
                         viewState.common.update(viewState.draftModel, utkastData);

@@ -17,20 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcUtkastPatientAddressUpdater',
-  ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService', 'common.PrefilledUserDataService',
-    function ($timeout, $log, PatientProxy, UtkastValidationService, PrefilledUserDataService) {
+  ['$timeout', '$log', 'common.PatientProxy', 'common.UtkastValidationService', 'common.PrefilledUserDataService', 'common.UtkastViewStateService',
+      function ($timeout, $log, PatientProxy, UtkastValidationService, PrefilledUserDataService, CommonUtkastViewState) {
       'use strict';
 
       return {
         restrict: 'E',
         scope: {
           patientModel: '=',
-          form: '=',
-          viewState: '='
+          form: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.html',
         controller: function ($scope) {
+
+          $scope.disableButton = false;
+
+          function updateButtonDisabledState() {
+            if(CommonUtkastViewState.intyg) {
+                $scope.disableButton = CommonUtkastViewState.intyg.isLocked;
+            }
+          }
+
+          $scope.$on('intyg.loaded', updateButtonDisabledState);
+          updateButtonDisabledState();
+
           $scope.onUpdateAddressClick = function () {
+
             if (!(angular.isObject($scope.patientModel) &&
               angular.isString($scope.patientModel.personId))) {
               $log.debug('No patientId to do lookup for.');
