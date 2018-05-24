@@ -14,6 +14,7 @@
                class="form-control input-full"
                ng-class="{'validation-error' : hasValidationError('beskrivning', rowIndex)}"
                ng-model="modelValue.beskrivning"
+               ue-filter-latin1
                ng-blur="validate()"
                maxlength="{{config.htmlMaxlength || 3500}}">
       </div>

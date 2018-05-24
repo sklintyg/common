@@ -6,6 +6,7 @@
              class="form-control"
              ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
              ng-model="model[config.modelProp]"
+             ue-filter-latin1
              ng-blur="updateValidation()"
              maxlength="{{config.htmlMaxlength || 3500}}"
              uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
