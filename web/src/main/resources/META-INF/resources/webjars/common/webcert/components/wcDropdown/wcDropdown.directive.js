@@ -113,22 +113,30 @@ angular.module('common').directive('wcDropdown',
                             if (index !== null && index < scope.items.length - 1) {
                                 scope.selectedItemId = scope.items[index + 1].id;
                             }
+                            return true;
                         }
                         else if (keyCode === 38) {
                             index = getIndexForId(scope.selectedItemId);
                             if (index !== null && index > 0) {
                                 scope.selectedItemId = scope.items[index - 1].id;
                             }
+                            return true;
                         }
                         else if (keyCode === 13 || keyCode === 32) {
                             index = getIndexForId(scope.selectedItemId);
                             if (index !== null) {
                                 scope.select(scope.items[index]);
                             }
+                            return true;
                         }
                         else if (keyCode === 27) {
                             closePlate();
+                            return true;
                         }
+                        else if (keyCode === 9) {
+                            closePlate();
+                        }
+                        return false;
                     }
 
                     scope.onKeydown = function(e) {
@@ -136,13 +144,15 @@ angular.module('common').directive('wcDropdown',
                             return;
                         }
                         if (scope.isOpen) {
-                            handleKeyEventWhenOpened(e.keyCode);
+                            if (handleKeyEventWhenOpened(e.keyCode)) {
+                                e.preventDefault();
+                            }
                         }
                         else if (e.keyCode === 13 || e.keyCode === 32) {
                             openPlate();
                             scope.selectedItemId = ctrl.$viewValue;
+                            e.preventDefault();
                         }
-                        e.preventDefault();
                     };
 
                     scope.togglePlate = function() {

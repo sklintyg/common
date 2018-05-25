@@ -1,5 +1,5 @@
 <div ng-click="togglePlate()"
-     tabindex="0"
+     tabindex="{{disabled?-1:0}}"
      aria-haspopup="listbox"
      aria-expanded="{{isOpen}}"
      aria-owns="wcdropdown-{{id}}"

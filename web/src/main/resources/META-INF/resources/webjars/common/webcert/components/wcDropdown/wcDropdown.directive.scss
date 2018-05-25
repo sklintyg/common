@@ -54,7 +54,8 @@ wc-dropdown {
             box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12);
         }
         &:focus {
-            outline: none;
+            outline: 1px dotted $wc-color-07;
+            outline-offset: 1px;
         }
     }
 
