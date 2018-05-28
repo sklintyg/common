@@ -65,7 +65,7 @@ public final class UtlatandeToIntyg {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE);
         typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(TsBasEntryPoint.MODULE_NAME);
+        typAvIntyg.setDisplayName(TsBasEntryPoint.ISSUER_MODULE_NAME);
         return typAvIntyg;
     }
 

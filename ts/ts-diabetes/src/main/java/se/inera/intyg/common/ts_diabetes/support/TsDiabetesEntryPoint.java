@@ -27,7 +27,8 @@ import se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi;
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-diabetes";
-    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
+    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg diabetes";
+    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
     public static final String MODULE_DESCRIPTION = "Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.";
     // CHECKSTYLE:ON LineLength
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";

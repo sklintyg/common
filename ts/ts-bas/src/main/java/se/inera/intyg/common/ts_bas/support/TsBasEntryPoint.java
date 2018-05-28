@@ -27,7 +27,8 @@ import se.inera.intyg.common.ts_bas.rest.TsBasModuleApi;
 public class TsBasEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-bas";
-    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg";
+    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg högre körkortsbehörighet";
+    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
     // CHECKSTYLE:OFF LineLength
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
