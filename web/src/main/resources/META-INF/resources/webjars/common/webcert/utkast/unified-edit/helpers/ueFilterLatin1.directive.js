@@ -29,6 +29,9 @@ angular.module('common').directive('ueFilterLatin1', function() {
             var re = /[^\n\u0020-\u007E\u00A1-\u00AC\u00AE-\u00FF]/g;
 
             function filter(valFromView) {
+                if (!valFromView) {
+                    return valFromView;
+                }
                 var filtered = valFromView.replace(re, '');
                 if (filtered !== valFromView) {
                     ngModelCtrl.$setViewValue(filtered);
