@@ -44,7 +44,7 @@ public final class PatientValidator {
 
         if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()) {
             validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
-                    ValidationMessageType.EMPTY));
+                    ValidationMessageType.EMPTY, "common.validation.postnummer.incorrect-format"));
         } else if (!STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
             validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
                     ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
