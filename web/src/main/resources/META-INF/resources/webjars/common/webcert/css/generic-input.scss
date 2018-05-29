@@ -54,3 +54,6 @@ textarea.form-control:focus {
     cursor:not-allowed;
   }
 }
+fieldset[disabled] button {
+  pointer-events: none;
+}
