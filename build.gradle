@@ -23,7 +23,7 @@ ext {
     phSchematronVersion = "3.0.1"
     saxonVersion = "9.6.0-4"
     servletApiVersion = "2.5"
-    springVersion = "4.2.2.RELEASE"
+    springVersion = "4.3.16.RELEASE"
 
     jsonAssertVersion = "1.2.0"
     mockitoVersion = "2.16.0"
