@@ -103,7 +103,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                                 required: true,
                                 requiredProp: 'annatGrundForMUBeskrivning'
                             },
-                            type: 'ue-textfield',
+                            type: 'ue-textarea',
                             hideExpression: '!model.annatGrundForMU',
                             modelProp: 'annatGrundForMUBeskrivning'
                         }]), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
