@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('luae_na').service('luae_na.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService',
-        function($log, CommonViewState) {
+    ['$log', 'common.IntygViewStateService', 'common.messageService',
+        function($log, CommonViewState, messageService) {
             'use strict';
 
             this.common = CommonViewState;
@@ -26,6 +26,16 @@ angular.module('luae_na').service('luae_na.IntygController.ViewStateService',
             this.reset = function() {
                 this.common.reset();
                 this.common.intygProperties.type = 'luae_na';
+            };
+
+            this.getSendContent = function(intygType) {
+
+                var sendContentModel = {
+                    observandumId: undefined,
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
+
+                return sendContentModel;
             };
 
             this.reset();
