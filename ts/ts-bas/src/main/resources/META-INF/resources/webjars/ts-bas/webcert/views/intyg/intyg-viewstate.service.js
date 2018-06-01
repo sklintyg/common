@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-bas').service('ts-bas.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService',
-        function($log, CommonViewState) {
+    ['$log', 'common.IntygViewStateService', 'common.messageService',
+        function($log, CommonViewState, messageService) {
             'use strict';
 
             this.common = CommonViewState;
@@ -27,6 +27,16 @@ angular.module('ts-bas').service('ts-bas.IntygController.ViewStateService',
             this.reset = function() {
                 this.common.reset();
                 this.common.intygProperties.type = 'ts-bas';
+            };
+
+            this.getSendContent = function(intygType) {
+
+                var sendContentModel = {
+                    observandumId: undefined,
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
+
+                return sendContentModel;
             };
 
             this.reset();

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-diabetes').service('ts-diabetes.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService',
-        function($log, CommonViewState) {
+    ['$log', 'common.IntygViewStateService', 'common.messageService',
+        function($log, CommonViewState, messageService) {
             'use strict';
 
             this.common = CommonViewState;
@@ -31,6 +31,16 @@ angular.module('ts-diabetes').service('ts-diabetes.IntygController.ViewStateServ
                 this.intygAvser = ''; // holds built list of selected körkortstyper for intyg avser
                 this.bedomning = ''; // holds built list of selected körkortstyper for bedomning
                 return this;
+            };
+
+            this.getSendContent = function(intygType) {
+
+                var sendContentModel = {
+                    observandumId: undefined,
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
+
+                return sendContentModel;
             };
 
             this.reset();
