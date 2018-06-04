@@ -18,7 +18,7 @@ ext {
     fkEIntygAdapterVersion = "2.2-RC3-INTYG"
     guavaVersion = "24.1-jre"
     itextVersion = "5.3.2"
-    jacksonVersion = "2.9.5"
+    jacksonVersion = "2.8.1"
     logbackVersion = "1.0.11"
     phSchematronVersion = "3.0.1"
     saxonVersion = "9.6.0-4"
