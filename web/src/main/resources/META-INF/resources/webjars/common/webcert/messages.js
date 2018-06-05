@@ -564,7 +564,7 @@
             // Standard valideringsmeddelande UE komponenter
 
             'common.validation.ue-checkbox-date.empty': 'Fältet får inte vara tomt.',
-            'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD.',
+            'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Du måste välja minst ett alternativ.',
             'common.validation.ue-radio.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
@@ -576,14 +576,14 @@
             'common.validation.ue-fraga.empty': 'Frågan är obligatorisk att besvara.',
             'common.validation.ue-underlag.empty': 'Minst en rad måste fyllas i.',
             'common.validation.ue-date.empty': 'Du måste välja datum.',
-            'common.validation.ue-date.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD.',
+            'common.validation.ue-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-prognos.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-checkgroup-ts.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-synskarpa.empty': 'Fältet får inte vara tomt.',
             'common.validation.ue-syn.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-korkort-bedomning.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
-            'common.validation.ue-vaguedate.invalid_format': 'ÅÅÅÅ måste anges, månad och dag kan anges som 00.',
+            'common.validation.ue-vaguedate.invalid_format': 'åååå måste anges, månad och dag kan anges som 00.',
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
 
             // Specifika valideringsmeddelande från backend
@@ -615,7 +615,7 @@
             'common.validation.diagnos2.psykisk.length-4': 'Diagnoskod på diagnosrad 3 ska anges med minst fyra positioner då en psykisk diagnos anges.',
             'common.validation.diagnos2.description.missing': 'Diagnostext saknas på diagnosrad 3.',
             'common.validation.sjukskrivning_period.empty': 'Fältet får inte vara tomt.',
-            'common.validation.sjukskrivning_period.invalid_format': 'Datum behöver skrivas på formatet ÅÅÅÅ-MM-DD',
+            'common.validation.sjukskrivning_period.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.sjukskrivning_period.incorrect_combination': 'Startdatum får inte vara efter slutdatum.',
             'common.validation.sjukskrivning_period.period_overlap': 'Sjukskrivningsperioder med överlappande datum har angetts.',
             'common.validation.sjukskrivning_period.en_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 25% har angetts på felaktigt format.',
