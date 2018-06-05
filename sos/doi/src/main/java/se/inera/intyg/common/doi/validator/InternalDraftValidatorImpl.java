@@ -166,7 +166,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
             if (bidragandeSjukdom.getDatum() != null && !bidragandeSjukdom.getDatum().isValidDate()) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "utlatandeOrsak", BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]."
-                                + DODSORSAK_DATUM_JSON_ID, ValidationMessageType.INVALID_FORMAT, "common.validation.date.invalid_format");
+                                + DODSORSAK_DATUM_JSON_ID, ValidationMessageType.INVALID_FORMAT,
+                                "common.validation.ue-date.invalid_format");
 
             }
         }
