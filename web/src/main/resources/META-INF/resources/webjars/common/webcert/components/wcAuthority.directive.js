@@ -22,10 +22,21 @@ angular.module('common').directive('wcAuthority',
             'use strict';
             return {
                 restrict: 'A',
-
                 link: function($scope, $element, $attr) {
 
-                    if($attr.timeout !== undefined && !$attr.timeout) {
+                    if ($attr.timeout) {
+                        var options = {
+                            authority: $attr.wcAuthority,
+                            feature: $attr.feature,
+                            role: $attr.role,
+                            intygstyp: $attr.intygstyp,
+                            requestOrigin: $attr.requestOrigin
+                        };
+                        if (!authorityService.isAuthorityActive(options)) {
+                            $element.remove();
+                        }
+                    }
+                    else {
                         $timeout(function(){
 
                             var options = {
@@ -39,17 +50,6 @@ angular.module('common').directive('wcAuthority',
                                 $element.remove();
                             }
                         });
-                    } else if ($attr.timeout) {
-                        var options = {
-                            authority: $attr.wcAuthority,
-                            feature: $attr.feature,
-                            role: $attr.role,
-                            intygstyp: $attr.intygstyp,
-                            requestOrigin: $attr.requestOrigin
-                        };
-                        if (!authorityService.isAuthorityActive(options)) {
-                            $element.remove();
-                        }
                     }
                 }
             };
