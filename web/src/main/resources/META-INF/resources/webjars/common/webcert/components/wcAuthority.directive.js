@@ -22,9 +22,24 @@ angular.module('common').directive('wcAuthority',
             'use strict';
             return {
                 restrict: 'A',
-                link: function($scope, $element, $attr) {
-                    $timeout(function(){
 
+                link: function($scope, $element, $attr) {
+
+                    if($attr.timeout !== undefined && !$attr.timeout) {
+                        $timeout(function(){
+
+                            var options = {
+                                authority: $attr.wcAuthority,
+                                feature: $attr.feature,
+                                role: $attr.role,
+                                intygstyp: $attr.intygstyp,
+                                requestOrigin: $attr.requestOrigin
+                            };
+                            if (!authorityService.isAuthorityActive(options)) {
+                                $element.remove();
+                            }
+                        });
+                    } else if ($attr.timeout) {
                         var options = {
                             authority: $attr.wcAuthority,
                             feature: $attr.feature,
@@ -35,7 +50,7 @@ angular.module('common').directive('wcAuthority',
                         if (!authorityService.isAuthorityActive(options)) {
                             $element.remove();
                         }
-                    });
+                    }
                 }
             };
         }]);
