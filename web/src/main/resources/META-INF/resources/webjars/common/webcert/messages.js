@@ -631,7 +631,7 @@
             'common.error.cantconnect': '<strong>Kunde inte kontakta servern.</strong>',
             'common.error.certificatenotfound': '<strong>Intyget finns inte.</strong>',
             'common.error.certificateinvalid': '<strong>Intyget är inte korrekt ifyllt.</strong>',
-            'common.error.certificateinvalidstate': '<strong>Åtgärden kunde inte slutföras.</strong><br>Åtgärden ej applicerbar. Ladda om sidan och försök igen. Kontakta supporten om problemet kvarstår.',
+            'common.error.certificateinvalidstate': 'Signeringen kunde inte slutföras. Intyget har inte signerats. Prova att ladda om sidan och försök igen.<br>Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'common.error.certificate_revoked': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare makulerat intyget medan du arbetat på samma post. Ladda om sidan och försök igen',
             'common.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Ladda om sidan och försök igen. Kontakta supporten om problemet kvarstår.',
             'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
