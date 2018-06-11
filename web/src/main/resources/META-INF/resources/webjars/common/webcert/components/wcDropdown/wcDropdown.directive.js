@@ -41,7 +41,7 @@ angular.module('common').directive('wcDropdown',
                     // HTML input components are disabled if a parent fieldset is disabled.
                     var parentFieldset = $(element).parents('fieldset');
                     if (parentFieldset && parentFieldset.attr('disabled') === 'disabled') {
-                        scope.disabled = true;
+                        scope.formDisabled = true;
                         $(element).attr('disabled', 'disabled');
                     }
 
@@ -140,7 +140,7 @@ angular.module('common').directive('wcDropdown',
                     }
 
                     scope.onKeydown = function(e) {
-                        if (scope.disabled) {
+                        if (scope.disabled || scope.formDisabled) {
                             return;
                         }
                         if (scope.isOpen) {
@@ -156,7 +156,7 @@ angular.module('common').directive('wcDropdown',
                     };
 
                     scope.togglePlate = function() {
-                        if (scope.disabled) {
+                        if (scope.disabled || scope.formDisabled) {
                             return;
                         }
                         if (scope.isOpen) {
