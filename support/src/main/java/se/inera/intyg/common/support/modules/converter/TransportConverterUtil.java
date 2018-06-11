@@ -21,13 +21,19 @@ package se.inera.intyg.common.support.modules.converter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3._2000._09.xmldsig_.SignatureType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -41,9 +47,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -344,6 +354,15 @@ public final class TransportConverterUtil {
             }
         }
         return patient;
+    }
+
+    public static String signatureTypeToBase64(SignatureType signature) {
+        if (signature == null) {
+            return null;
+        }
+        StringWriter sw = new StringWriter();
+        JAXB.marshal(signature, sw);
+        return Base64.getEncoder().encodeToString(sw.toString().getBytes(Charset.forName("UTF-8")));
     }
 
     private static Relation getRelation(Intyg source) {

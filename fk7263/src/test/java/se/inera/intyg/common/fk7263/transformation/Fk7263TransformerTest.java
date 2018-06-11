@@ -83,10 +83,11 @@ public class Fk7263TransformerTest {
     public static void initGeneralSchema() throws Exception {
         SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
         Source rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263SIT_SCHEMA);
+        schemaValidatorBuilder.registerResource(CLINICAL_UTLATANDE_TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_GENERAL_SCHEMA);
         schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA);
         schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
-        schemaValidatorBuilder.registerResource(CLINICAL_UTLATANDE_TYPES_SCHEMA);
+
         fk7263sitOutputSchema = schemaValidatorBuilder.build(rootSource);
     }
 

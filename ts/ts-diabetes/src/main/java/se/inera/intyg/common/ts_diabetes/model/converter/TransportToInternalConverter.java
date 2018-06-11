@@ -18,18 +18,30 @@
  */
 package se.inera.intyg.common.ts_diabetes.model.converter;
 
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
-import static se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil.getTextVersion;
-
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
-import se.inera.intyg.common.ts_diabetes.model.internal.*;
+import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
 import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.model.internal.Synskarpevarden;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
+import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+import se.inera.intygstjanster.ts.services.v1.BedomningTypDiabetes;
+import se.inera.intygstjanster.ts.services.v1.IdentitetStyrkt;
+import se.inera.intygstjanster.ts.services.v1.IntygsAvserTypDiabetes;
+import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsDiabetes;
+import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
+import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
+
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
+import static se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil.getTextVersion;
 
 public final class TransportToInternalConverter {
 

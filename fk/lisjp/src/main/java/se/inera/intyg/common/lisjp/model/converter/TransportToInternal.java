@@ -18,6 +18,31 @@
  */
 package se.inera.intyg.common.lisjp.model.converter;
 
+import com.google.common.primitives.Ints;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
+import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
+import se.inera.intyg.common.lisjp.model.internal.Prognos;
+import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
@@ -64,31 +89,6 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.primitives.Ints;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande;
-import se.inera.intyg.common.lisjp.model.internal.LisjpUtlatande.Builder;
-import se.inera.intyg.common.lisjp.model.internal.Prognos;
-import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
 public final class TransportToInternal {
 
     private static final int TILLAGGSFRAGA_START = 9001;
@@ -101,6 +101,7 @@ public final class TransportToInternal {
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
+        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getSignature()));
         setSvar(utlatande, source);
         return utlatande.build();
     }
