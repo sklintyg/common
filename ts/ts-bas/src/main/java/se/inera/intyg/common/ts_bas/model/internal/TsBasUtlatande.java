@@ -32,6 +32,8 @@ public class TsBasUtlatande implements Utlatande {
 
     private String textVersion;
 
+    private String signature;
+
     private String kommentar;
 
     private Vardkontakt vardkontakt;
@@ -240,4 +242,12 @@ public class TsBasUtlatande implements Utlatande {
         this.textVersion = textVersion;
     }
 
+    @Override
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
 }

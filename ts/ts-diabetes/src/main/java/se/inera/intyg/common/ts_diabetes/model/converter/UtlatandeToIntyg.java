@@ -18,6 +18,31 @@
  */
 package se.inera.intyg.common.ts_diabetes.model.converter;
 
+import com.google.common.base.Strings;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.ModelException;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
+import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
@@ -82,32 +107,6 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_ME
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
 
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Strings;
-
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.ModelException;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.ts_diabetes.model.internal.Bedomning;
-import se.inera.intyg.common.ts_diabetes.model.internal.BedomningKorkortstyp;
-import se.inera.intyg.common.ts_diabetes.model.internal.Diabetes;
-import se.inera.intyg.common.ts_diabetes.model.internal.Hypoglykemier;
-import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
-import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
-import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
-import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 public final class UtlatandeToIntyg {
 
     private static final String DEFAULT_VERSION = "2.6";
@@ -115,12 +114,13 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(TsDiabetesUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source, true);
+    public static Intyg convert(TsDiabetesUtlatande utlatande) {
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
         complementArbetsplatskodIfMissing(intyg);
         intyg.setTyp(getTypAvIntyg());
-        intyg.getSvar().addAll(getSvar(source));
-        intyg.setVersion(getVersion(source).orElse(DEFAULT_VERSION));
+        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
+        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
         return intyg;
     }
 

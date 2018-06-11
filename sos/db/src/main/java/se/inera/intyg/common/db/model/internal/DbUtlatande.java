@@ -41,6 +41,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.GRUNDDATA_S
 import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
@@ -110,6 +111,10 @@ public abstract class DbUtlatande implements SosUtlatande {
     @Nullable
     public abstract Boolean getPolisanmalan();
 
+    @Nullable
+    @Override
+    public abstract String getSignature();
+
     /*
      * Retrieve a builder from an existing LuseUtlatande object. The builder can then be used
      * to create a new copy with modified attributes.
@@ -164,5 +169,8 @@ public abstract class DbUtlatande implements SosUtlatande {
 
         @JsonProperty(POLISANMALAN_JSON_ID)
         public abstract Builder setPolisanmalan(Boolean polisanmalan);
+
+        @JsonProperty(SIGNATURE)
+        public abstract Builder setSignature(String signature);
     }
 }

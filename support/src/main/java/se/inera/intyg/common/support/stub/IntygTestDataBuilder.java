@@ -43,6 +43,11 @@ public final class IntygTestDataBuilder {
             }
 
             @Override
+            public String getSignature() {
+                return "signature";
+            }
+
+            @Override
             public String getId() {
                 return "test-id";
             }

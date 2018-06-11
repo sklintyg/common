@@ -23,6 +23,7 @@ public final class RespConstants {
     public static final String ID_JSON_ID = "id";
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
     public static final String TEXTVERSION_JSON_ID = "textVersion";
+    public static final String SIGNATURE = "signature";
 
     public static final String IDENTITET_STYRKT_JSON_ID = "identitetStyrkt";
     public static final String DODSDATUM_JSON_ID = "dodsdatum";

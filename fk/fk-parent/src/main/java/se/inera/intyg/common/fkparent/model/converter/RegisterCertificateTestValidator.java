@@ -33,7 +33,9 @@ import java.io.IOException;
 
 public class RegisterCertificateTestValidator {
     private static final String RESPONDER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
-    private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.0.xsd";
+    private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
+    private static final String EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+    private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
     private static final String TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd";
 
     private static final Logger LOG = LoggerFactory.getLogger(RegisterCertificateTestValidator.class);
@@ -44,6 +46,8 @@ public class RegisterCertificateTestValidator {
         SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
         schemaValidatorBuilder.registerResource(TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(GENERAL_SCHEMA);
+        schemaValidatorBuilder.registerResource(EXT_SCHEMA);
+        schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
         Source rootSource = schemaValidatorBuilder.registerResource(RESPONDER_SCHEMA);
         generalSchema = schemaValidatorBuilder.build(rootSource);
     }

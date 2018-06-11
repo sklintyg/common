@@ -535,4 +535,10 @@ public class Fk7263Utlatande implements Utlatande {
         return null;
     }
 
+    // Not used for this certificate
+    @Override
+    public String getSignature() {
+        return null;
+    }
+
 }

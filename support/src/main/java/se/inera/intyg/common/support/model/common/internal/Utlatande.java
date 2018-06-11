@@ -27,4 +27,6 @@ public interface Utlatande {
     GrundData getGrundData();
 
     String getTextVersion();
+
+    String getSignature();
 }

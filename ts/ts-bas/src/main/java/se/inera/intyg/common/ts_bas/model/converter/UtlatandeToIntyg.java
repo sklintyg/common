@@ -49,14 +49,15 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(TsBasUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source, true);
+    public static Intyg convert(TsBasUtlatande utlatande) {
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
 
         complementArbetsplatskodIfMissing(intyg);
 
         intyg.setTyp(getTypAvIntyg());
-        intyg.getSvar().addAll(getSvar(source));
-        intyg.setVersion(getVersion(source).orElse(DEFAULT_VERSION));
+        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
+        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
 
         return intyg;
     }

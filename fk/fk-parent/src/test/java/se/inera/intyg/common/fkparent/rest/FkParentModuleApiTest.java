@@ -570,6 +570,8 @@ public class FkParentModuleApiTest {
 
         private GrundData grundData = new GrundData();
 
+        private String signature;
+
         @Override
         public String getId() {
             return id;
@@ -588,6 +590,11 @@ public class FkParentModuleApiTest {
         @Override
         public String getTextVersion() {
             return textVersion;
+        }
+
+        @Override
+        public String getSignature() {
+            return signature;
         }
     }
 
