@@ -23,7 +23,9 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
@@ -297,6 +299,16 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
             throw new ModuleException(e.getMessage());
         }
     }
+
+    @Override
+    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+        if (signatureXml == null) {
+            return jsonModel;
+        }
+        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+    }
+
     protected IntygTexts getTexts(String intygsTyp, String version) {
         if (intygTexts == null) {
             throw new IllegalStateException("intygTextsService not available in this context");
@@ -327,6 +339,8 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
             throw new ModuleSystemException("Failed to serialize internal model", e);
         }
     }
+
+    protected abstract T decorateWithSignature(T utlatande, String base64EncodedSignatureXml);
 
     private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {
         try {
@@ -360,6 +374,16 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
             return toInternalModelResponse(utlatande);
         } catch (ModuleException | ConverterException e) {
             throw new ModuleException("Error while updating internal model", e);
+        }
+    }
+
+    private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
+            throws ModuleException {
+        try {
+            T utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
+            return toInternalModelResponse(utlatande);
+        } catch (ModuleException e) {
+            throw new ModuleException("Error while updating internal model with signature", e);
         }
     }
 

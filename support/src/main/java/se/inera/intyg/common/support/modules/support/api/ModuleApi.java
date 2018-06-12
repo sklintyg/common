@@ -18,11 +18,6 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
-
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -37,6 +32,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -377,4 +377,12 @@ public interface ModuleApi {
      *             if the certificate could not be converted to internal
      */
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
+
+    /**
+     *
+     * @param jsonModel
+     * @param signatureXml
+     * @return
+     */
+    String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException;
 }

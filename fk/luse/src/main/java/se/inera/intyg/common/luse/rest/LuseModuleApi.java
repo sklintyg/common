@@ -120,6 +120,11 @@ public class LuseModuleApi extends FkParentModuleApi<LuseUtlatande> {
     }
 
     @Override
+    protected LuseUtlatande decorateWithSignature(LuseUtlatande utlatande, String base64EncodedSignatureXml) {
+        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();
