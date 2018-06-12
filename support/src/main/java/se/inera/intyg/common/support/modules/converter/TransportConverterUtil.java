@@ -109,27 +109,27 @@ public final class TransportConverterUtil {
                         continue;
                     }
                     String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getNodeName()) {
-                    case "ns3:code":
+                    switch (list.item(i).getLocalName()) {
+                    case "code":
                         cvType.setCode(textContent);
                         break;
-                    case "ns3:codeSystem":
+                    case "codeSystem":
                         cvType.setCodeSystem(textContent);
                         break;
-                    case "ns3:codeSystemVersion":
+                    case "codeSystemVersion":
                         cvType.setCodeSystemVersion(textContent);
                         break;
-                    case "ns3:codeSystemName":
+                    case "codeSystemName":
                         cvType.setCodeSystemName(textContent);
                         break;
-                    case "ns3:displayName":
+                    case "displayName":
                         cvType.setDisplayName(textContent);
                         break;
-                    case "ns3:originalText":
+                    case "originalText":
                         cvType.setOriginalText(textContent);
                         break;
                     default:
-                        LOG.debug("Unexpected element found while parsing CVType");
+                        LOG.debug("Unexpected element found while parsing CVType: " + list.item(i).getNodeName());
                         break;
                     }
                 }
@@ -163,11 +163,11 @@ public final class TransportConverterUtil {
                         continue;
                     }
                     String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getNodeName()) {
-                    case "ns3:start":
+                    switch (list.item(i).getLocalName()) {
+                    case "start":
                         datePeriodType.setStart(LocalDate.parse(textContent));
                         break;
-                    case "ns3:end":
+                    case "end":
                         datePeriodType.setEnd(LocalDate.parse(textContent));
                         break;
                     default:
