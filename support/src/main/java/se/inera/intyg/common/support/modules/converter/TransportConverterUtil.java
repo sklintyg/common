@@ -21,7 +21,9 @@ package se.inera.intyg.common.support.modules.converter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3._2000._09.xmldsig_.ObjectFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
+import org.w3._2002._06.xmldsig_filter2.XPathType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -47,8 +49,10 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
@@ -356,13 +360,23 @@ public final class TransportConverterUtil {
         return patient;
     }
 
-    public static String signatureTypeToBase64(SignatureType signature) {
-        if (signature == null) {
+    public static String signatureTypeToBase64(SignatureType signatureType) throws ConverterException {
+        if (signatureType == null) {
             return null;
         }
-        StringWriter sw = new StringWriter();
-        JAXB.marshal(signature, sw);
-        return Base64.getEncoder().encodeToString(sw.toString().getBytes(Charset.forName("UTF-8")));
+        try {
+            JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(signatureType);
+            JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
+
+            // Serialize SignatureType into XML (<Signature>...</Signature>)
+            StringWriter sw = new StringWriter();
+            Marshaller marshaller = jc.createMarshaller();
+            marshaller.marshal(signature, sw);
+
+            return Base64.getEncoder().encodeToString(sw.toString().getBytes(Charset.forName("UTF-8")));
+        } catch (JAXBException e) {
+            throw new ConverterException("JAXB exception converting SignatureType into String: " + e.getMessage());
+        }
     }
 
     private static Relation getRelation(Intyg source) {
