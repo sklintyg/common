@@ -43,7 +43,7 @@ angular.module('common').factory('common.UtkastSignService',
             function _signera(intygsTyp, version) {
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
-                    _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
+                    _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'EFOS') {
@@ -54,9 +54,9 @@ angular.module('common').factory('common.UtkastSignService',
                 return deferred.promise;
             }
 
-            function _signeraServer(intygsTyp, intygsId, version, deferred) {
+            function _signeraServerFake(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
-                _confirmSignera(signModel, intygsTyp, intygsId, version, deferred);
+                _confirmSigneraMedFake(signModel, intygsTyp, intygsId, version, deferred);
             }
 
             /**
@@ -189,8 +189,8 @@ angular.module('common').factory('common.UtkastSignService',
                     signingWithSITHSInProgress : true
                 };
                 UtkastProxy.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
-                    _openNetIdPlugin(ticket.hash, function(signatur) {
-                        UtkastProxy.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, function(ticket) {
+                    _openNetIdPlugin(ticket.hash, function(signatur, certifikat) {
+                        UtkastProxy.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, certifikat, function(ticket) {
 
                             if (ticket.status === 'SIGNERAD') {
                                 deferred.resolve({newVersion: ticket.version});
@@ -217,19 +217,20 @@ angular.module('common').factory('common.UtkastSignService',
 
             var knownSignStatuses = {'BEARBETAR':'', 'VANTA_SIGN':'', 'NO_CLIENT':'', 'SIGNERAD':'', 'OKAND': ''};
 
-            // fake inlognings signering?
-            function _confirmSignera(signModel, intygsTyp, intygsId, version, deferred) {
-                UtkastProxy.signeraUtkast(intygsId, intygsTyp, version, function(ticket) {
-                    if (ticket.status === 'SIGNERAD') {
-                        deferred.resolve({newVersion: ticket.version});
-                        _showIntygAfterSignering(signModel, intygsTyp, intygsId);
-                    } else if (ticket.status === 'BEARBETAR') {
+            function _confirmSigneraMedFake(signModel, intygsTyp, intygsId, version, deferred) {
 
-                        _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, undefined);
+                // Anropa server, starta signering med GRP
+                UtkastProxy.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
 
-                    } else {
-                        _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
-                    }
+                    // Kick off the poller
+                    _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred);
+
+                    // Since this is fake, call the fejksignera endpoint right away. Only needs an error callback.
+                    UtkastProxy.fejkSignera(intygsTyp, intygsId, version, ticket.id, function(error) {
+                        deferred.resolve({});
+                        _showSigneringsError(signModel, error, intygsTyp);
+                    });
+
                 }, function(error) {
                     deferred.resolve({});
                     _showSigneringsError(signModel, error, intygsTyp);
@@ -289,26 +290,116 @@ angular.module('common').factory('common.UtkastSignService',
 
             }
 
+            // OLD
+            // function _openNetIdPlugin(hash, onSuccess, onError) {
+            //     $timeout(function() {
+            //         iid_SetProperty('Base64', 'true'); // jshint ignore:line
+            //         iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
+            //         iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
+            //         if (UserModel.user.authenticationMethod === 'NET_ID') {
+            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
+            //         } else if  (UserModel.user.authenticationMethod === 'SITHS') {
+            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
+            //         }
+            //         var resultCode = iid_Invoke('Sign'); // jshint ignore:line
+            //
+            //         if (resultCode === 0) {
+            //             onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
+            //         } else {
+            //             var messageAbort = 'Signeringen avbröts med kod: ' + resultCode;
+            //             $log.info(messageAbort);
+            //             onError({ errorCode: 'SIGN_NETID_ERROR'});
+            //         }
+            //     });
+            // }
+
             function _openNetIdPlugin(hash, onSuccess, onError) {
                 $timeout(function() {
+                    iid_SetProperty('Algorithm', '1.2.840.113549.1.1.11'); // jshint ignore:line
                     iid_SetProperty('Base64', 'true'); // jshint ignore:line
-                    iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
+                    iid_SetProperty('Raw', 'true'); // jshint ignore:line
+                    iid_SetProperty('Data', hash); // jshint ignore:line
                     iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
+
                     if (UserModel.user.authenticationMethod === 'NET_ID') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-                    } else if  (UserModel.user.authenticationMethod === 'SITHS') {
+                    } else if (UserModel.user.authenticationMethod === 'SITHS') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
+
+                    var certifikat = _findX509Certificate(
+                        (UserModel.user.authenticationMethod === 'NET_ID' ? UserModel.user.personId :
+                            UserModel.user.hsaId), '64');
+
+                    // Call sign
                     var resultCode = iid_Invoke('Sign'); // jshint ignore:line
 
                     if (resultCode === 0) {
-                        onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
+                        var signatur = iid_GetProperty('Signature'); // jshint ignore:line
+                        onSuccess(signatur, certifikat); // jshint ignore:line
                     } else {
-                        var messageAbort = 'Signeringen avbröts med kod: ' + resultCode;
+                        var messageAbort = 'Signeringen avbröts med kod: ' + resultCode + ', msg: ' +
+                            iid_GetProperty('Error' + resultCode);                 // jshint ignore:line
                         $log.info(messageAbort);
-                        onError({ errorCode: 'SIGN_NETID_ERROR'});
+                        onError({errorCode: 'SIGN_NETID_ERROR'});
                     }
                 });
+            }
+
+            // Iterates over certificate slots 0-6, tries to find a signing cert (keyUsage 64) for the specified subject.
+            function _findX509Certificate(subjectIdentifier, keyUsage) {
+                for (var a = 0; a < 6; a++) {
+                    var cert = iid_EnumProperty('CertificateEx', String(a));    // jshint ignore:line
+                    var obj = _parseCertificateExInfo(cert);
+                    if (obj !== null && obj.keyUsage === keyUsage && obj.subject.indexOf('2.5.4.5=' + subjectIdentifier) > -1) {
+                        return obj.value;
+                    }
+                }
+                return null;
+            }
+
+
+            function CertificateInfoEx(slotId, realSlotId, keyId, label, issuer, subject, validFrom, validTo, isCA,
+                                       credential, thumbprint, authorityIdentifier, keyUsage, expire, value) {
+                this.slotId = slotId;
+                this.realSlotId = realSlotId;
+                this.keyId = keyId;
+                this.label = label;
+                this.issuer = issuer;
+                this.subject = subject;
+                this.validFrom = validFrom;
+                this.validTo = validTo;
+                this.isCA = isCA;
+                this.credential = credential;
+                this.thumbprint = thumbprint;
+                this.authorityIdentifier = authorityIdentifier;
+                this.keyUsage = keyUsage;
+                this.expire = expire;
+                this.value = value;
+            }
+
+            // GetPartBy comes from NetiD _utility.js script.
+            function _parseCertificateExInfo(information) {                          // jshint ignore:line
+                var certificateEx = null;                                            // jshint ignore:line
+                if ((information != null) && (information.length > 14)) {            // jshint ignore:line
+                    certificateEx = new CertificateInfoEx(                           // jshint ignore:line
+                        GetPartBy(information, 0, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 1, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 2, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 3, ';'),                              // jshint ignore:line
+                        URL.decode(GetPartBy(information, 4, ';')),                  // jshint ignore:line
+                        URL.decode(GetPartBy(information, 5, ';')),                  // jshint ignore:line
+                        GetPartBy(information, 6, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 7, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 8, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 9, ';'),                              // jshint ignore:line
+                        GetPartBy(information, 10, ';'),                             // jshint ignore:line
+                        GetPartBy(information, 11, ';'),                             // jshint ignore:line
+                        GetPartBy(information, 12, ';'),                             // jshint ignore:line
+                        GetPartBy(information, 13, ';'),                             // jshint ignore:line
+                        GetPartBy(information, 14, ';'));                            // jshint ignore:line
+                }
+                return certificateEx;
             }
 
             function _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp) {
@@ -389,7 +480,7 @@ angular.module('common').factory('common.UtkastSignService',
                 signera: _signera,
 
                 __test__: {
-                    confirmSignera: _confirmSignera,
+                    confirmSignera: _confirmSigneraMedFake,
                     setErrorMessageId: _setErrorMessageId,
                     showSigneringsError: _showSigneringsError
                 }

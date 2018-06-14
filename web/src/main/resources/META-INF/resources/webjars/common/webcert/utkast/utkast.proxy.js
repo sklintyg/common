@@ -92,37 +92,51 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
-        function _getSigneringshash(intygsId, intygsTyp, version, onSuccess, onError) {
-            $log.debug('_getSigneringshash, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
-            $http.post(restPath).
-                then(function(response) {
-                    onSuccess(response.data);
-                }, function(response) {
-                    _handleError(onError, response.data);
-                });
-        }
+        // function _getSigneringshash(intygsId, intygsTyp, version, onSuccess, onError) {
+        //     $log.debug('_getSigneringshash, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
+        //     var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
+        //     $http.post(restPath).
+        //         then(function(response) {
+        //             onSuccess(response.data);
+        //         }, function(response) {
+        //             _handleError(onError, response.data);
+        //         });
+        // }
 
         function _getSigneringsstatus(ticketId, intygsTyp, onSuccess, onError) {
             $log.debug('_getSigneringsstatus, ticketId: ' + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeringsstatus';
+            var restPath = '/api/signature/' + intygsTyp + '/' + ticketId + '/signeringsstatus';
             $http.get(restPath).
-                then(function(response) {
-                    onSuccess(response.data);
-                },function(response) {
-                    _handleError(onError, response.data);
-                });
+            then(function(response) {
+                onSuccess(response.data);
+            },function(response) {
+                _handleError(onError, response.data);
+            });
         }
 
-        function _signeraUtkast(intygsId, intygsTyp, version, onSuccess, onError) {
-            $log.debug('_signeraUtkast, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeraserver';
+
+        // HASH /api/signature/lisjp/e4821d45-86e4-47df-9cdf-d1b5b449657e/2/signeringshash
+        function _startSigningProcess(intygsId, intygsTyp, version, onSuccess, onError) {
+            $log.debug('_signeraUtkastWithFake. intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
             $http.post(restPath).
-                then(function(response) {
-                    onSuccess(response.data);
-                }, function(response) {
-                    _handleError(onError, response.data);
-                });
+            then(function(response) {
+                onSuccess(response.data);
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
+        }
+
+        // UTFÖR /api/signature/lisjp/e4821d45-86e4-47df-9cdf-d1b5b449657e/2/fejksignera/258fdfd4-ac78-48f0-95dc-0efee9ed22dc
+        function _fejkSignera(intygsTyp, intygsId, version, ticketId, onError) {
+            $log.debug('_fejkSignera, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/fejksignera/' + ticketId;
+            $http.post(restPath).
+            then(function(response) {
+                $log.debug('Fake sign OK');
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
         }
 
         function _signeraUtkastWithGrp(intygsId, intygsTyp, version, onSuccess, onError) {
@@ -147,17 +161,30 @@ angular.module('common').factory('common.UtkastProxy',
             });
         }
 
-        function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
+        // function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
+        //     $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
+        //     var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
+        //     $http.post(restPath, {
+        //         'signatur': signatur
+        //     }).
+        //         then(function(response) {
+        //             onSuccess(response.data); // ticket
+        //         }, function(response) {
+        //             _handleError(onError, response.data);
+        //         });
+        // }
+        function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, certifkat, onSuccess, onError) {
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
+            var restPath = '/api/signature/' + intygsTyp + '/' + ticketId + '/signeranetidplugin';
             $http.post(restPath, {
-                'signatur': signatur
+                'signatur': signatur,
+                'certifikat': certifkat
             }).
-                then(function(response) {
-                    onSuccess(response.data); // ticket
-                }, function(response) {
-                    _handleError(onError, response.data);
-                });
+            then(function(response) {
+                onSuccess(response.data); // ticket
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
         }
 
         /*
@@ -181,9 +208,10 @@ angular.module('common').factory('common.UtkastProxy',
             saveUtkast: _saveUtkast,
             isSaveUtkastInProgress: _isSaveUtkastInProgress,
             discardUtkast: _discardUtkast,
-            getSigneringshash: _getSigneringshash,
+            getSigneringshash: _startSigningProcess,
             getSigneringsstatus: _getSigneringsstatus,
-            signeraUtkast: _signeraUtkast,
+            fejkSignera: _fejkSignera,
+            //signeraUtkastWithFake: _signeraUtkastWithFake,
             signeraUtkastWithGrp: _signeraUtkastWithGrp,
             signeraUtkastWithNias: _signeraUtkastWithNias,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
