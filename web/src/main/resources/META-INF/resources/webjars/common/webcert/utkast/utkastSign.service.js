@@ -90,7 +90,7 @@ angular.module('common').factory('common.UtkastSignService',
                 };
 
                 // Anropa server, starta signering med GRP
-                UtkastProxy.signeraUtkastWithGrp(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
 
                     // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
                     var templateUrl = templates[UserModel.authenticationMethod()];
@@ -140,7 +140,7 @@ angular.module('common').factory('common.UtkastSignService',
                 };
 
                 // Anropa server, starta signering med GRP
-                UtkastProxy.signeraUtkastWithNias(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
 
                     // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
                     var templateUrl = templates[UserModel.authenticationMethod()];
@@ -188,7 +188,7 @@ angular.module('common').factory('common.UtkastSignService',
                 var signModel = {
                     signingWithSITHSInProgress : true
                 };
-                UtkastProxy.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur, certifikat) {
                         UtkastProxy.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, certifikat, function(ticket) {
 
@@ -220,7 +220,7 @@ angular.module('common').factory('common.UtkastSignService',
             function _confirmSigneraMedFake(signModel, intygsTyp, intygsId, version, deferred) {
 
                 // Anropa server, starta signering med GRP
-                UtkastProxy.getSigneringshash(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
 
                     // Kick off the poller
                     _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred);

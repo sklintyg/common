@@ -92,17 +92,18 @@ angular.module('common').factory('common.UtkastProxy',
                 });
         }
 
-        // function _getSigneringshash(intygsId, intygsTyp, version, onSuccess, onError) {
-        //     $log.debug('_getSigneringshash, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
-        //     var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
-        //     $http.post(restPath).
-        //         then(function(response) {
-        //             onSuccess(response.data);
-        //         }, function(response) {
-        //             _handleError(onError, response.data);
-        //         });
-        // }
-
+        /**
+         * Används "i bakgrunden" av frontend för att kontrollera signaturstatus för pågående signering.
+         *
+         * Används av BankID/Mobilt BankID, Netid Access samt fejksignering. NetiD-plugin behöver inte polla
+         * backend men verkar göra det ändå...
+         *
+         * @param ticketId
+         * @param intygsTyp
+         * @param onSuccess
+         * @param onError
+         * @private
+         */
         function _getSigneringsstatus(ticketId, intygsTyp, onSuccess, onError) {
             $log.debug('_getSigneringsstatus, ticketId: ' + ' intygsTyp: ' + intygsTyp);
             var restPath = '/api/signature/' + intygsTyp + '/' + ticketId + '/signeringsstatus';
@@ -114,10 +115,20 @@ angular.module('common').factory('common.UtkastProxy',
             });
         }
 
-
-        // HASH /api/signature/lisjp/e4821d45-86e4-47df-9cdf-d1b5b449657e/2/signeringshash
+        /**
+         * Används av SAMTLIGA signeringsmetoder för att skapa upp signaturhash och "SignaturBiljett"
+         * på backend och i förekommande fall (BankID, Mobilt BankID och NetiD Access Server) kicka
+         * igång sign/collect-jobben i backend.
+         *
+         * @param intygsId
+         * @param intygsTyp
+         * @param version
+         * @param onSuccess
+         * @param onError
+         * @private
+         */
         function _startSigningProcess(intygsId, intygsTyp, version, onSuccess, onError) {
-            $log.debug('_signeraUtkastWithFake. intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            $log.debug('_startSigningProcess. intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
             $http.post(restPath).
             then(function(response) {
@@ -127,7 +138,18 @@ angular.module('common').factory('common.UtkastProxy',
             });
         }
 
-        // UTFÖR /api/signature/lisjp/e4821d45-86e4-47df-9cdf-d1b5b449657e/2/fejksignera/258fdfd4-ac78-48f0-95dc-0efee9ed22dc
+        /**
+         * Används ENBART vid fejksignering. Själva signeringen genomförs med hitte-på privat nyckel i backend.
+         *
+         * Backend-komponenten är EJ aktiv med prod-profil.
+         *
+         * @param intygsTyp
+         * @param intygsId
+         * @param version
+         * @param ticketId
+         * @param onError
+         * @private
+         */
         function _fejkSignera(intygsTyp, intygsId, version, ticketId, onError) {
             $log.debug('_fejkSignera, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/fejksignera/' + ticketId;
@@ -139,40 +161,20 @@ angular.module('common').factory('common.UtkastProxy',
             });
         }
 
-        function _signeraUtkastWithGrp(intygsId, intygsTyp, version, onSuccess, onError) {
-            $log.debug('_signeraUtkastWithGrp, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/grp/signeraserver';
-            $http.post(restPath).
-                then(function(response) {
-                    onSuccess(response.data);
-                }, function(response) {
-                    _handleError(onError, response.data);
-                });
-        }
-
-        function _signeraUtkastWithNias(intygsId, intygsTyp, version, onSuccess, onError) {
-            $log.debug('_signeraUtkastWithNias, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/nias/signeraserver';
-            $http.post(restPath).
-            then(function(response) {
-                onSuccess(response.data);
-            }, function(response) {
-                _handleError(onError, response.data);
-            });
-        }
-
-        // function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
-        //     $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
-        //     var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeraklient';
-        //     $http.post(restPath, {
-        //         'signatur': signatur
-        //     }).
-        //         then(function(response) {
-        //             onSuccess(response.data); // ticket
-        //         }, function(response) {
-        //             _handleError(onError, response.data);
-        //         });
-        // }
+        /**
+         * Körs av NetiD-plugin efter att signering genomförts i pluginen. POST:ar ner signatur (raw) och
+         * x509 certifikat (aka publik nyckel) till backend.
+         *
+         * @param ticketId
+         * @param intygsTyp
+         * @param signatur
+         *      RAW
+         * @param certifkat
+         *      X509, infogas sedan i XML digital signature för att signaturen skall gå att validera.
+         * @param onSuccess
+         * @param onError
+         * @private
+         */
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, certifkat, onSuccess, onError) {
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/api/signature/' + intygsTyp + '/' + ticketId + '/signeranetidplugin';
@@ -208,12 +210,9 @@ angular.module('common').factory('common.UtkastProxy',
             saveUtkast: _saveUtkast,
             isSaveUtkastInProgress: _isSaveUtkastInProgress,
             discardUtkast: _discardUtkast,
-            getSigneringshash: _startSigningProcess,
+            startSigningProcess: _startSigningProcess,
             getSigneringsstatus: _getSigneringsstatus,
             fejkSignera: _fejkSignera,
-            //signeraUtkastWithFake: _signeraUtkastWithFake,
-            signeraUtkastWithGrp: _signeraUtkastWithGrp,
-            signeraUtkastWithNias: _signeraUtkastWithNias,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
             getPrevious: _getPrevious
         };

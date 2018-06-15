@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var iid_GetProperty, iid_Invoke, iid_SetProperty; // jshint ignore:line
+var iid_GetProperty, iid_Invoke, iid_SetProperty, iid_EnumProperty; // jshint ignore:line
 
 describe('UtkastSignService', function() {
     'use strict';
@@ -107,10 +107,13 @@ describe('UtkastSignService', function() {
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
-                respond(200, { id: biljettId, status: 'SIGNERAD' });
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
+            respond(200, { id: biljettId, status: 'SIGNERAD' });
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
+            respond(200, { id: biljettId, status: 'SIGNERAD' });
+
 
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
@@ -120,15 +123,16 @@ describe('UtkastSignService', function() {
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
+            respond(200, { id: biljettId, status: 'SIGNERAD' });
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
             $timeout.flush();
             $httpBackend.flush();
@@ -138,7 +142,7 @@ describe('UtkastSignService', function() {
 
         it('should show an error if the server refuses the request to sign', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(500, { errorCode: 'DATA_NOT_FOUND' });
 
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
@@ -150,21 +154,9 @@ describe('UtkastSignService', function() {
 
         it('should show an error if the server responds with concurrent update error', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(500, { errorCode: 'CONCURRENT_MODIFICATION' });
 
-            UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
-            $httpBackend.flush();
-
-            expect($location.path).not.toHaveBeenCalled();
-            expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
-        });
-
-        it('should show an error if the server returns an unknown status', function() {
-
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeraserver').
-                respond(200, { id: biljettId, status: 'ERROR' });
-            
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
@@ -198,11 +190,11 @@ describe('UtkastSignService', function() {
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/grp/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
             respond(200, { id: biljettId, hash: 'abcd1234' });
 
             // Visa text om att öppna bankid app
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
                 version: 111,
                 status: 'BEARBETAR'
             });
@@ -215,22 +207,16 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            // expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.open');
-            // expect(dialogState.model.signState).toBe('BEARBETAR');
-
             // Visa text om att signera i app
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
                 version: 111,
                 status: 'VANTA_SIGN'
             });
             $timeout.flush();
             $httpBackend.flush();
 
-            // expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.signing');
-            // expect(dialogState.model.signState).toBe('VANTA_SIGN');
-
             // Signering klar
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').respond(200, {
                 version: 111,
                 status: 'SIGNERAD'
             });
@@ -244,7 +230,7 @@ describe('UtkastSignService', function() {
         });
 
         it('should show error if the bankid is busy', function() {
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/grp/signeraserver').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
             respond(500, { errorCode:'GRP_PROBLEM', message: 'ALREADY_IN_PROGRESS' });
 
             UserModel.hasAuthenticationMethod = function() {
@@ -267,6 +253,7 @@ describe('UtkastSignService', function() {
             iid_GetProperty = jasmine.createSpy('iid_GetProperty'); // jshint ignore:line
             iid_Invoke = jasmine.createSpy('invoke'); // jshint ignore:line
             iid_SetProperty = jasmine.createSpy('iid_SetProperty'); // jshint ignore:line
+            iid_EnumProperty = jasmine.createSpy('iid_EnumProperty'); // jshint ignore:line
 
             User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
             User.getUser().authenticationMethod = 'NET_ID';
@@ -281,17 +268,18 @@ describe('UtkastSignService', function() {
 
         it('should redirect to "visa intyg" if the request to sign was successful', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
             iid_Invoke.and.returnValue(0); // jshint ignore:line
+            iid_EnumProperty.and.returnValue('') // jshint ignore:line
             iid_GetProperty.and.returnValue('4321dcba'); // jshint ignore:line
 
             UtkastSignService.signera('fk7263', version);
 
             $httpBackend.flush();
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + biljettId + '/signeranetidplugin').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
             $timeout.flush();
             $httpBackend.flush();
@@ -301,23 +289,24 @@ describe('UtkastSignService', function() {
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
             iid_Invoke.and.returnValue(0); // jshint ignore:line
+            iid_EnumProperty.and.returnValue('') // jshint ignore:line
             iid_GetProperty.and.returnValue('4321dcba'); // jshint ignore:line
 
             UtkastSignService.signera('fk7263', version);
             $httpBackend.flush();
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + biljettId + '/signeraklient').
-                respond(200, { id: biljettId, status: 'BEARBETAR' });  // Var BEARBETAD, en totalt okänd status
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + biljettId + '/signeranetidplugin').
+            respond(200, { id: biljettId, status: 'BEARBETAR' });
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
             $timeout.flush();
             $httpBackend.flush();
 
-            $httpBackend.expectGET('/moduleapi/utkast/fk7263/' + biljettId + '/signeringsstatus').
+            $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'SIGNERAD' });
             $timeout.flush();
             $httpBackend.flush();
@@ -327,7 +316,7 @@ describe('UtkastSignService', function() {
 
         it('should show error if unable to get hash', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version +
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version +
                 '/signeringshash').respond(500, { message: 'Jan Nilsson', errorCode: 'CONCURRENT_MODIFICATION'});
 
             UtkastSignService.signera('fk7263', version);
@@ -338,7 +327,7 @@ describe('UtkastSignService', function() {
 
         it('should show error if the NetID client is not present', function() {
 
-            $httpBackend.expectPOST('/moduleapi/utkast/fk7263/' + intygId + '/' + version + '/signeringshash').
+            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/signeringshash').
                 respond(200, { id: biljettId, hash: 'abcd1234' });
 
             iid_Invoke.and.returnValue(-1); // jshint ignore:line
