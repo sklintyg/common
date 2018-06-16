@@ -36,7 +36,7 @@ public class RegisterCertificateTestValidator {
     private static final String GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
     private static final String EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
-    private static final String TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd";
+    private static final String TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
 
     private static final Logger LOG = LoggerFactory.getLogger(RegisterCertificateTestValidator.class);
 

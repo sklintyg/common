@@ -61,7 +61,7 @@ public class Fk7263TransformerTest {
 
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
 
-    private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd";
+    private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
 
     private static Schema lakarutlatandeInputSchema;
     private static Schema fk7263sitOutputSchema;
