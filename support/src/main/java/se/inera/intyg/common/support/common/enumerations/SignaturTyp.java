@@ -16,17 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.model.common.internal;
+package se.inera.intyg.common.support.common.enumerations;
 
-public interface Utlatande {
-
-    String getId();
-
-    String getTyp();
-
-    GrundData getGrundData();
-
-    String getTextVersion();
-
-    String getSignature();
+public enum SignaturTyp {
+    XMLDSIG, LEGACY, PKCS7
 }

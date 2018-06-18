@@ -106,6 +106,7 @@ public final class TransportToInternal {
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
+        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getSignature()));
         setSvar(utlatande, source);
         return utlatande.build();
     }

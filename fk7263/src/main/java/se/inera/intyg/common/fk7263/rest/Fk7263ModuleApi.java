@@ -677,4 +677,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         JAXB.marshal(request, writer);
         return writer.toString();
     }
+
+    @Override
+    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+        // Signatures are not applicable for FK7263.
+        return jsonModel;
+    }
 }

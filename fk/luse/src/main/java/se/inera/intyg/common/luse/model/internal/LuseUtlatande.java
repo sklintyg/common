@@ -48,6 +48,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SJUKDOMSFORLOPP_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
@@ -90,6 +91,10 @@ public abstract class LuseUtlatande implements Utlatande {
 
     @Override
     public abstract String getTextVersion();
+
+    @Override
+    @Nullable
+    public abstract String getSignature();
 
     // Kategori 1 – Grund för medicinskt underlag
     // Fråga 1
@@ -228,8 +233,10 @@ public abstract class LuseUtlatande implements Utlatande {
     public abstract Builder toBuilder();
 
     public static Builder builder() {
-        return new AutoValue_LuseUtlatande.Builder().setUnderlag(ImmutableList.<Underlag> of()).setDiagnoser(ImmutableList.<Diagnos> of())
-                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
+        return new AutoValue_LuseUtlatande.Builder().setUnderlag(ImmutableList.<Underlag> of())
+                .setDiagnoser(ImmutableList.<Diagnos> of())
+                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
+                .setSignature(null);
     }
 
     @AutoValue.Builder
@@ -353,6 +360,9 @@ public abstract class LuseUtlatande implements Utlatande {
         public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
             return setTillaggsfragor(ImmutableList.copyOf(tillaggsfragor));
         }
+
+        @JsonProperty(SIGNATURE)
+        public abstract Builder setSignature(String signature);
 
         /* package private */
         abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);

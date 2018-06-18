@@ -122,6 +122,11 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
     }
 
     @Override
+    protected LuaefsUtlatande decorateWithSignature(LuaefsUtlatande utlatande, String base64EncodedSignatureXml) {
+        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             ImmutableList<Diagnos> diagnoser = transportToInternal(intyg).getDiagnoser();

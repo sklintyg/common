@@ -53,6 +53,7 @@ public final class UtlatandeToIntyg {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
         intyg.setTyp(getTypAvIntyg(utlatande));
         intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
         return intyg;
     }
 

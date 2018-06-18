@@ -34,6 +34,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNE
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
@@ -69,6 +70,10 @@ public abstract class LuaefsUtlatande implements Utlatande {
 
     @Override
     public abstract String getTextVersion();
+
+    @Override
+    @Nullable
+    public abstract String getSignature();
 
     @Override
     public String getTyp() {
@@ -175,7 +180,8 @@ public abstract class LuaefsUtlatande implements Utlatande {
         return new AutoValue_LuaefsUtlatande.Builder()
                 .setDiagnoser(ImmutableList.<Diagnos> of())
                 .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
-                .setUnderlag(ImmutableList.<Underlag> of());
+                .setUnderlag(ImmutableList.<Underlag> of())
+                .setSignature(null);
     }
 
     @AutoValue.Builder
@@ -261,6 +267,9 @@ public abstract class LuaefsUtlatande implements Utlatande {
         public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
             return setTillaggsfragor(ImmutableList.copyOf(tillaggsfragor));
         }
+
+        @JsonProperty(SIGNATURE)
+        public abstract Builder setSignature(String signature);
 
         /* package private */
         abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);

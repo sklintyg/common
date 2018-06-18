@@ -264,6 +264,12 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         return writer.toString();
     }
 
+    @Override
+    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+        // Note - until we've migrated T-intyg to v3 of RegisterCertificate for WC -> IT, we cannot attach the signature.
+        return jsonModel;
+    }
+
     protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
 
     protected T getInternal(String internalModel) throws ModuleException {

@@ -21,13 +21,21 @@ package se.inera.intyg.common.support.modules.converter;
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3._2000._09.xmldsig_.ObjectFactory;
+import org.w3._2000._09.xmldsig_.SignatureType;
+import org.w3._2002._06.xmldsig_filter2.XPathType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -41,9 +49,15 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -99,27 +113,27 @@ public final class TransportConverterUtil {
                         continue;
                     }
                     String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getNodeName()) {
-                    case "ns3:code":
+                    switch (list.item(i).getLocalName()) {
+                    case "code":
                         cvType.setCode(textContent);
                         break;
-                    case "ns3:codeSystem":
+                    case "codeSystem":
                         cvType.setCodeSystem(textContent);
                         break;
-                    case "ns3:codeSystemVersion":
+                    case "codeSystemVersion":
                         cvType.setCodeSystemVersion(textContent);
                         break;
-                    case "ns3:codeSystemName":
+                    case "codeSystemName":
                         cvType.setCodeSystemName(textContent);
                         break;
-                    case "ns3:displayName":
+                    case "displayName":
                         cvType.setDisplayName(textContent);
                         break;
-                    case "ns3:originalText":
+                    case "originalText":
                         cvType.setOriginalText(textContent);
                         break;
                     default:
-                        LOG.debug("Unexpected element found while parsing CVType");
+                        LOG.debug("Unexpected element found while parsing CVType: " + list.item(i).getNodeName());
                         break;
                     }
                 }
@@ -153,11 +167,11 @@ public final class TransportConverterUtil {
                         continue;
                     }
                     String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getNodeName()) {
-                    case "ns3:start":
+                    switch (list.item(i).getLocalName()) {
+                    case "start":
                         datePeriodType.setStart(LocalDate.parse(textContent));
                         break;
-                    case "ns3:end":
+                    case "end":
                         datePeriodType.setEnd(LocalDate.parse(textContent));
                         break;
                     default:
@@ -344,6 +358,25 @@ public final class TransportConverterUtil {
             }
         }
         return patient;
+    }
+
+    public static String signatureTypeToBase64(SignatureType signatureType) throws ConverterException {
+        if (signatureType == null) {
+            return null;
+        }
+        try {
+            JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(signatureType);
+            JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
+
+            // Serialize SignatureType into XML (<Signature>...</Signature>)
+            StringWriter sw = new StringWriter();
+            Marshaller marshaller = jc.createMarshaller();
+            marshaller.marshal(signature, sw);
+
+            return Base64.getEncoder().encodeToString(sw.toString().getBytes(Charset.forName("UTF-8")));
+        } catch (JAXBException e) {
+            throw new ConverterException("JAXB exception converting SignatureType into String: " + e.getMessage());
+        }
     }
 
     private static Relation getRelation(Intyg source) {

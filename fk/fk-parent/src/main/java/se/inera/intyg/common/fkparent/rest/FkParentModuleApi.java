@@ -18,38 +18,64 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-import com.google.common.primitives.Ints;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_START;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
+
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
-import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.support.validate.InternalDraftValidator;
-import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
+import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.*;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -63,20 +89,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
-
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
-import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
 public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleApi {
 
@@ -260,6 +272,15 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
+        if (signatureXml == null) {
+            return jsonModel;
+        }
+        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
+        return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
+    }
+
+    @Override
     public Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
         return objectMapper.readValue(utlatandeJson, type);
     }
@@ -326,6 +347,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
+
+
     protected abstract String getSchematronFileName();
 
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
@@ -337,6 +360,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract T decorateDiagnoserWithDescriptions(T utlatande);
 
     protected abstract T decorateUtkastWithComment(T utlatande, String comment);
+
+    protected abstract T decorateWithSignature(T utlatande, String base64EncodedSignatureXml);
 
     protected T getInternal(String internalModel) throws ModuleException {
         try {
@@ -407,6 +432,16 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             return toInternalModelResponse(utlatande);
         } catch (ModuleException | ConverterException e) {
             throw new ModuleException("Error while updating internal model", e);
+        }
+    }
+
+    private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
+            throws ModuleException {
+        try {
+            T utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
+            return toInternalModelResponse(utlatande);
+        } catch (ModuleException e) {
+            throw new ModuleException("Error while updating internal model with signature", e);
         }
     }
 

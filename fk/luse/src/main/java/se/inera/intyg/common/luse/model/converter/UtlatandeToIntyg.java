@@ -98,10 +98,11 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(LuseUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source, false);
-        intyg.setTyp(getTypAvIntyg(source));
-        intyg.getSvar().addAll(getSvar(source));
+    public static Intyg convert(LuseUtlatande utlatande) {
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
         return intyg;
     }
 

@@ -71,6 +71,11 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
     }
 
     @Override
+    protected DbUtlatande decorateWithSignature(DbUtlatande utlatande, String base64EncodedSignatureXml) {
+        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+    }
+
+    @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
         try {

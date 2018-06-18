@@ -47,6 +47,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIG
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
@@ -86,6 +87,10 @@ public abstract class LisjpUtlatande implements Utlatande {
 
     @Override
     public abstract String getTextVersion();
+
+    @Override
+    @Nullable
+    public abstract String getSignature();
 
     // Kategori 10 - Smittbärarpenning
     // Fråga 27
@@ -219,7 +224,8 @@ public abstract class LisjpUtlatande implements Utlatande {
                 .setSjukskrivningar(ImmutableList.<Sjukskrivning> of())
                 .setSysselsattning(ImmutableList.<Sysselsattning> of())
                 .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
-                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of());
+                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
+                .setSignature(null);
     }
 
     @AutoValue.Builder
@@ -338,6 +344,9 @@ public abstract class LisjpUtlatande implements Utlatande {
         public Builder setTillaggsfragor(List<Tillaggsfraga> tillaggsfragor) {
             return setTillaggsfragor(ImmutableList.copyOf(tillaggsfragor));
         }
+
+        @JsonProperty(SIGNATURE)
+        public abstract Builder setSignature(String signature);
 
         /* package private */
         abstract Builder setTillaggsfragor(ImmutableList<Tillaggsfraga> tillaggsfragor);

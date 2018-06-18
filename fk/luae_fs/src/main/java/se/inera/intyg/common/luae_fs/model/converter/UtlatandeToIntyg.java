@@ -18,6 +18,21 @@
  */
 package se.inera.intyg.common.luae_fs.model.converter;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15;
@@ -47,31 +62,16 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 public final class UtlatandeToIntyg {
 
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(LuaefsUtlatande source) {
-        Intyg intyg = InternalConverterUtil.getIntyg(source, false);
-        intyg.setTyp(getTypAvIntyg(source));
-        intyg.getSvar().addAll(getSvar(source));
+    public static Intyg convert(LuaefsUtlatande utlatande) {
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
+        intyg.setTyp(getTypAvIntyg(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
         return intyg;
     }
 

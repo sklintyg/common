@@ -30,6 +30,8 @@ public class TsDiabetesUtlatande implements Utlatande {
 
     private GrundData grundData = new GrundData();
 
+    private String signature;
+
     private String kommentar;
 
     private Vardkontakt vardkontakt;
@@ -139,5 +141,14 @@ public class TsDiabetesUtlatande implements Utlatande {
 
     public void setTextVersion(String textVersion) {
         this.textVersion = textVersion;
+    }
+
+    @Override
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

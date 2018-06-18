@@ -55,9 +55,13 @@ public class Fk7263TransformerTest {
 
     private static final String ROOT_LEVEL_FK7263SIT_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
 
-    private static final String ROOT_LEVEL_FK7263_GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.0.xsd";
+    private static final String ROOT_LEVEL_FK7263_GENERAL_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
 
-    private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.0.xsd";
+    private static final String ROOT_LEVEL_FK7263_EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
+
+    private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
+
+    private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
 
     private static Schema lakarutlatandeInputSchema;
     private static Schema fk7263sitOutputSchema;
@@ -79,8 +83,11 @@ public class Fk7263TransformerTest {
     public static void initGeneralSchema() throws Exception {
         SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
         Source rootSource = schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263SIT_SCHEMA);
-        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_GENERAL_SCHEMA);
         schemaValidatorBuilder.registerResource(CLINICAL_UTLATANDE_TYPES_SCHEMA);
+        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_GENERAL_SCHEMA);
+        schemaValidatorBuilder.registerResource(ROOT_LEVEL_FK7263_EXT_SCHEMA);
+        schemaValidatorBuilder.registerResource(XMLDSIG_SCHEMA);
+
         fk7263sitOutputSchema = schemaValidatorBuilder.build(rootSource);
     }
 

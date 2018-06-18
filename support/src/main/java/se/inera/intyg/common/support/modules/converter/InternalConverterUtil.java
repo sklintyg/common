@@ -19,8 +19,10 @@
 package se.inera.intyg.common.support.modules.converter;
 
 import com.google.common.base.Strings;
+import org.w3._2000._09.xmldsig_.SignatureType;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.ModelException;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -48,11 +50,15 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -313,6 +319,36 @@ public final class InternalConverterUtil {
      */
     public static SvarBuilder aSvar(String id, Integer instans) {
         return new SvarBuilder(id, instans);
+    }
+
+    /**
+     * Constructs a SignatureType from a Base64-encoded string. If signature is null or empty, null is returned as
+     * signatures are optional.
+     *
+     * @param utlatande
+     *      Utlatande that may or may not contain a signature. If yes, signature must be base64-encoded.
+     * @return
+     */
+    public static SignatureType base64StringToSignatureType(Utlatande utlatande) {
+        if (utlatande == null) {
+            throw new ModelException("Cannot convert base64 string to SignatureType, null utlatande");
+        }
+
+        // If utlatande contains no signature, just return null as it's optional.
+        if (Strings.isNullOrEmpty(utlatande.getSignature())) {
+            return null;
+        }
+
+        try {
+            byte[]  decodedSignature = Base64.getDecoder().decode(utlatande.getSignature());
+            try (StringReader sr = new StringReader(new String(decodedSignature, Charset.forName("UTF-8")))) {
+                return JAXB.unmarshal(sr, SignatureType.class);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, " + e.getMessage());
+        }
+
+
     }
 
     private static Enhet getEnhet(Vardenhet sourceVardenhet) {

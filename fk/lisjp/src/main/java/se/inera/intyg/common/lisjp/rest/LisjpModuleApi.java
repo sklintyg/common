@@ -126,6 +126,11 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     }
 
     @Override
+    protected LisjpUtlatande decorateWithSignature(LisjpUtlatande utlatande, String base64EncodedSignatureXml) {
+        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
+    }
+
+    @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
         try {
             return transportToInternal(intyg).getSjukskrivningar().stream()
