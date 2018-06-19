@@ -111,7 +111,7 @@ describe('UtkastSignService', function() {
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
             $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
             respond(200, { id: biljettId, status: 'SIGNERAD' });
-            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
+            $httpBackend.expectPOST('/api/fake/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
             respond(200, { id: biljettId, status: 'SIGNERAD' });
 
 
@@ -127,7 +127,7 @@ describe('UtkastSignService', function() {
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
             $httpBackend.expectGET('/api/signature/fk7263/' + biljettId + '/signeringsstatus').
                 respond(200, { id: biljettId, status: 'BEARBETAR' });
-            $httpBackend.expectPOST('/api/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
+            $httpBackend.expectPOST('/api/fake/signature/fk7263/' + intygId + '/' + version + '/fejksignera/' + biljettId).
             respond(200, { id: biljettId, status: 'SIGNERAD' });
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
