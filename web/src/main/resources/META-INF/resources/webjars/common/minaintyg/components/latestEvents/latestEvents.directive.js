@@ -116,8 +116,7 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
                         scope: scope,
                         windowClass: 'latest-events-modal',
                         templateUrl: '/web/webjars/common/minaintyg/components/latestEventsModal/latestEventsModal.html',
-                        backdrop: 'static',
-                        keyboard: false,
+                        keyboard: true,
                         controller: modalCtrl
                     });
                 }
