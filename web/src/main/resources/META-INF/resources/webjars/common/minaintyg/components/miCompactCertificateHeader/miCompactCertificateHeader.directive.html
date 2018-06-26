@@ -13,10 +13,10 @@
             </div>
             <div class="complementary-info">
                 <span ng-if="!certMetaModel.replacedBy">
-                    <p class="small-header" dynamic-label key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></p>
-                    <p ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+                    <span class="small-header" dynamic-label key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></span><br class="visible-xs">
+                    <span ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
                  {{certMetaModel.complementaryInfo}}
-                </p>
+                </span>
                 </span>
 
                 <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
