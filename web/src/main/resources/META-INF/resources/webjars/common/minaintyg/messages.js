@@ -75,9 +75,9 @@ angular.module('common').constant('common.messages', {
         'certificates.events.noevents': 'Inga händelser',
         'certificates.events.unknowndatetime': 'Okänd tid',
         'certificates.events.eventsshown': '(Visar {0} av {1})',
-        'certificates.events.ersatt': 'Ersattes av vården med ett nytt <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a>',
-        'certificates.events.ersatter': 'Ersätter ett <a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">intyg</a> som inte längre är aktuellt',
-        'certificates.events.ersatt.warn': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/view/{0}">detta intyg</a>.',
+        'certificates.events.ersatt': '<a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">Ersattes av vården med ett nytt intyg</a>',
+        'certificates.events.ersatter': '<a data-ng-click="viewCert({type: \'{1}\', id: \'{0}\'})">Ersätter ett intyg som inte längre är aktuellt</a>',
+        'certificates.events.ersatt.warn': '<a href="/web/start#/{1}/view/{0}">OBS! Intyget har ersatts av vården med detta intyg.</a>',
 
         //Common text in customized pdf wizard (lisjp and fk7263)
         'modules.customize.message.customize.disabled': 'Intyg som avser avstängning enligt smittskyddslagen kan inte anpassas till din arbetsgivare. Om du vill hämta det fullständiga intyget så klicka på knappen <i>Ladda ner intyg som PDF</i>.',
