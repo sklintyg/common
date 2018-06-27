@@ -24,12 +24,6 @@ mi-compact-certificate-header {
     width: 100%;
   }
 
-  .date-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-end;
-  }
-
   .certificate-issued-date {
     margin-right: 15px;
     width: 24%;
@@ -66,8 +60,11 @@ mi-compact-certificate-header {
   .certificate-issued-date {
     text-align: right;
     margin-left: 28px;
-    align-self: flex-end;
     margin-right: 0;
+
+    .date {
+      white-space: nowrap;
+    }
   }
 
   @media (max-width: 525px) {
