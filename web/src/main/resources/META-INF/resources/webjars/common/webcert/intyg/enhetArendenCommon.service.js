@@ -91,7 +91,7 @@ angular.module('common').factory('common.enhetArendenCommonService',
                 if (qa.status === 'CLOSED') {
                     qa.measureResKey = 'handled';
                 } else if (_isUnhandledForDecoration(qa)) {
-                    qa.measureResKey = 'markhandled';
+                    qa.measureResKey = 'markhandled.' + (_fromFk(qa) ? 'fk' : 'wc'); 
                 } else if (_isKomplettering(qa.amne)) {
                     qa.measureResKey = 'komplettering';
                 } else {
