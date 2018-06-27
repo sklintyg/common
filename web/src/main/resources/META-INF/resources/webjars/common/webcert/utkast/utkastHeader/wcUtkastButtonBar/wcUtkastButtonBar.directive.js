@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', '$stateParams', '$timeout', '$window',
+angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams', '$timeout', '$window',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService', 'common.dialogService',
     'common.PatientProxy', 'common.statService', 'common.UtkastProxy',
-    function($rootScope, $log, $stateParams, $timeout, $window,
+    function($log, $stateParams, $timeout, $window,
         authorityService, featureService, messageService, CommonViewState, dialogService,
         PatientProxy, statService, UtkastProxy) {
     'use strict';
@@ -36,6 +36,8 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', 
 
             $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
             $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
+
+            var utskriftFeature = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: CommonViewState.intyg.type });
 
             /**
              * Action to discard the certificate draft and return to WebCert again.
@@ -147,6 +149,14 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$rootScope', '$log', 
                 // INTYG-4086: Before printing, we must make sure the PU-service is available
                 PatientProxy.getPatient($scope.viewState.draftModel.content.grundData.patient.personId, onPatientFound,
                     onNotFoundOrError, onNotFoundOrError);
+            };
+
+            $scope.showPrintBtn = function() {
+                if ($scope.viewState.draftModel.status === 'DRAFT_LOCKED') {
+                    return false;
+                }
+
+                return utskriftFeature;
             };
         }
     };

@@ -158,11 +158,11 @@ describe('wcIntygButtonBar', function() {
                 CommonIntygViewState.intygProperties.isRevoked = false;
                 expect($scope.showPrintBtn()).toBeFalsy();
             });
-            it('should be shown if allowed as feature and intyg is revoked', function() {
+            it('should not be shown if allowed as feature and intyg is revoked', function() {
                 $scope.utskrift = true;
                 $scope.arbetsgivarUtskrift = true;
                 CommonIntygViewState.intygProperties.isRevoked = true;
-                expect($scope.showPrintBtn()).toBeTruthy();
+                expect($scope.showPrintBtn()).toBeFalsy();
             });
             it('should not be shown if not allowed as feature', function() {
                 $scope.utskrift = false;
