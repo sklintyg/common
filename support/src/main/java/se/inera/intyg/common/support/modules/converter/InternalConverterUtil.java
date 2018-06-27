@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.modules.converter;
 
 import com.google.common.base.Strings;
 import org.w3._2000._09.xmldsig_.SignatureType;
+import org.w3._2002._06.xmldsig_filter2.XPathType;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.ModelException;
@@ -50,9 +51,12 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
@@ -342,7 +346,15 @@ public final class InternalConverterUtil {
         try {
             byte[]  decodedSignature = Base64.getDecoder().decode(utlatande.getSignature());
             try (StringReader sr = new StringReader(new String(decodedSignature, Charset.forName("UTF-8")))) {
-                return JAXB.unmarshal(sr, SignatureType.class);
+                JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
+                Unmarshaller unmarshaller = jc.createUnmarshaller();
+
+                StreamSource streamSource = new StreamSource(sr);
+                JAXBElement<SignatureType> jaxbElement = unmarshaller.unmarshal(streamSource,
+                        SignatureType.class);
+                return jaxbElement.getValue();
+            } catch (JAXBException e) {
+                throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, JAXBException: " + e.getMessage());
             }
         } catch (IllegalArgumentException e) {
             throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, " + e.getMessage());

@@ -88,7 +88,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuseUtlatand
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
         resetDataInGrundData(grundData);
-
+        templateBuilder.setSignature(null);
         return templateBuilder.build();
     }
 

@@ -85,7 +85,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory {
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(fk7263Utlatande.getGrundData(), copyData);
 
         resetDataInUtlatande(fk7263Utlatande);
-
         return fk7263Utlatande;
     }
 

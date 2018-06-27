@@ -65,6 +65,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);
+        template.setSignature(null);
 
         // Default to latest version available of intyg
         template.setTextVersion(intygTexts.getLatestVersion(LisjpEntryPoint.MODULE_ID));
@@ -89,7 +90,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
         resetDataInGrundData(grundData);
-
+        templateBuilder.setSignature(null);
         return templateBuilder.build();
     }
 
@@ -107,5 +108,4 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
 
         grundData.setSigneringsdatum(null);
     }
-
 }

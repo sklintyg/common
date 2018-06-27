@@ -82,6 +82,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         GrundData grundData = tsBasUtlatande.getGrundData();
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
         resetDataInCopy(grundData);
+        tsBasUtlatande.setSignature(null);
         return tsBasUtlatande;
     }
 

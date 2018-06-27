@@ -80,6 +80,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
         GrundData grundData = tsDiabetesUtlatande.getGrundData();
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
         resetDataInCopy(grundData);
+        tsDiabetesUtlatande.setSignature(null);
         return tsDiabetesUtlatande;
     }
 

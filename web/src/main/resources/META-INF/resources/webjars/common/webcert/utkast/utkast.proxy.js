@@ -153,8 +153,7 @@ angular.module('common').factory('common.UtkastProxy',
         function _fejkSignera(intygsTyp, intygsId, version, ticketId, onError) {
             $log.debug('_fejkSignera, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/api/fake/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/fejksignera/' + ticketId;
-            $http.post(restPath).
-            then(function(response) {
+            $http.post(restPath).then(function(response) {
                 $log.debug('Fake sign OK');
             }, function(response) {
                 _handleError(onError, response.data);

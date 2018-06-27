@@ -68,7 +68,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatande
             WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
             resetDataInCopy(grundData);
-
+            templateBuilder.setSignature(null);
             return templateBuilder.build();
         } else if (SosUtlatande.class.isInstance(template)) {
             SosUtlatande sosUtlatande = (SosUtlatande) template;
@@ -92,7 +92,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatande
             builder.setDodsplatsKommun(sosUtlatande.getDodsplatsKommun());
             builder.setDodsplatsBoende(sosUtlatande.getDodsplatsBoende());
             builder.setBarn(sosUtlatande.getBarn());
-
+            builder.setSignature(null);
             return builder.build();
         } else {
             throw new ConverterException("Template is not of correct type");
