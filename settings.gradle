@@ -14,6 +14,7 @@ include ':common-web'
 include ':integration-util'
 include ':common-schemas'
 include ':common-services'
+include ':common-pdf'
 
 include ':fk7263'
 include ':fk-parent'
@@ -34,6 +35,7 @@ project(':common-web').projectDir = "$rootDir/web" as File
 project(':integration-util').projectDir = "$rootDir/util/integration-util" as File
 project(':common-schemas').projectDir = "$rootDir/schemas" as File
 project(':common-services').projectDir = "$rootDir/services" as File
+project(':common-pdf').projectDir = "$rootDir/pdf" as File
 project(':fk-parent').projectDir = "$rootDir/fk/fk-parent" as File
 project(':luse').projectDir = "$rootDir/fk/luse" as File
 project(':lisjp').projectDir = "$rootDir/fk/lisjp" as File
