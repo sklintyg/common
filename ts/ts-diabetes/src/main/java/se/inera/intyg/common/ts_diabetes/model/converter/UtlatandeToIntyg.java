@@ -120,7 +120,7 @@ public final class UtlatandeToIntyg {
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
-        intyg.setSignature(InternalConverterUtil.base64StringToSignatureType(utlatande));
+        intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
 

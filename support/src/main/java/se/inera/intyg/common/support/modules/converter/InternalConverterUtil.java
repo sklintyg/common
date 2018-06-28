@@ -41,6 +41,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFor
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvRelation;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -332,8 +333,9 @@ public final class InternalConverterUtil {
      * @param utlatande
      *      Utlatande that may or may not contain a signature. If yes, signature must be base64-encoded.
      * @return
+     *      UnderskriftType containing the SignatureType, if present on the utlatande.
      */
-    public static SignatureType base64StringToSignatureType(Utlatande utlatande) {
+    public static UnderskriftType base64StringToUnderskriftType(Utlatande utlatande) {
         if (utlatande == null) {
             throw new ModelException("Cannot convert base64 string to SignatureType, null utlatande");
         }
@@ -344,7 +346,7 @@ public final class InternalConverterUtil {
         }
 
         try {
-            byte[]  decodedSignature = Base64.getDecoder().decode(utlatande.getSignature());
+            byte[] decodedSignature = Base64.getDecoder().decode(utlatande.getSignature());
             try (StringReader sr = new StringReader(new String(decodedSignature, Charset.forName("UTF-8")))) {
                 JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
                 Unmarshaller unmarshaller = jc.createUnmarshaller();
@@ -352,7 +354,10 @@ public final class InternalConverterUtil {
                 StreamSource streamSource = new StreamSource(sr);
                 JAXBElement<SignatureType> jaxbElement = unmarshaller.unmarshal(streamSource,
                         SignatureType.class);
-                return jaxbElement.getValue();
+                SignatureType signatureType = jaxbElement.getValue();
+                UnderskriftType underskriftType = new UnderskriftType();
+                underskriftType.setSignature(signatureType);
+                return underskriftType;
             } catch (JAXBException e) {
                 throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, JAXBException: " + e.getMessage());
             }
