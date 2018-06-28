@@ -1,6 +1,8 @@
 <div class="white-space-no-wrap">
 
-  <button type="button"
+  <button
+          data-ng-if="showPrintBtn()"
+          type="button"
           id="skriv-ut-utkast"
           class="btn btn-primary"
           ng-click="print()"

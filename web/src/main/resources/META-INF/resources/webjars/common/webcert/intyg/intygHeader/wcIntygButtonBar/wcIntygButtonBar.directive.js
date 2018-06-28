@@ -78,7 +78,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                 if ($scope.showEmployerPrintBtn()) {
                     return false;
                 }
-                return IntygHeaderViewState.intygLoaded && $scope.utskrift;
+                return IntygHeaderViewState.intygLoaded && $scope.utskrift && !CommonIntygViewState.isRevoked();
             };
 
             $scope.showEmployerPrintBtn = function() {

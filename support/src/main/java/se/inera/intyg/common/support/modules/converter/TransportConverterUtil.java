@@ -43,6 +43,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -360,12 +361,12 @@ public final class TransportConverterUtil {
         return patient;
     }
 
-    public static String signatureTypeToBase64(SignatureType signatureType) throws ConverterException {
-        if (signatureType == null) {
+    public static String signatureTypeToBase64(UnderskriftType underskriftType) throws ConverterException {
+        if (underskriftType == null || underskriftType.getSignature() == null) {
             return null;
         }
         try {
-            JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(signatureType);
+            JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(underskriftType.getSignature());
             JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
 
             // Serialize SignatureType into XML (<Signature>...</Signature>)
