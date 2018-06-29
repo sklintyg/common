@@ -53,7 +53,6 @@ import java.util.UUID;
 public class PdfRenderer {
 
     Color white = new DeviceRgb(255, 255, 255);
-
     Color black = new DeviceRgb(0, 0, 0);
     Color ineraBlue = new DeviceRgb(67, 121, 154);
 

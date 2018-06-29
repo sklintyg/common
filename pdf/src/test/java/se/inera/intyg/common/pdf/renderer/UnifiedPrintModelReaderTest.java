@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.pdf.jsparser;
+package se.inera.intyg.common.pdf.renderer;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +31,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import se.inera.intyg.common.pdf.renderer.UnifiedRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
 import javax.script.ScriptEngine;
@@ -55,18 +54,19 @@ public class UnifiedPrintModelReaderTest {
     private ScriptEngine engine = null;
     private ScriptObjectMirror jsIntygModel;
 
-    private UnifiedRenderer unifiedRenderer = new UnifiedRenderer();
+    private UnifiedRenderer unifiedRenderer = UnifiedRenderer.getInstance();
 
     @Test
-    public void testRenderUnified() throws IOException {
-        String cleanedJson = loadAndCleanIntygJson();
+    public void testRenderUnifiedLijsp() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("intyg.lisjp.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         ClassPathResource cpr = new ClassPathResource("lisjp-up.js");
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
-        IntygTexts intygTexts = loadTexts();
+        IntygTexts intygTexts = loadTexts("texterMU_LISJP_v1.0.xml");
 
-        byte[] data = unifiedRenderer.render(cleanedJson, upJsModel, intygTexts);
+        byte[] data = unifiedRenderer.startRendering(cleanedJson, upJsModel, intygTexts, intygJsonNode);
         try (FileOutputStream fos = new FileOutputStream("lisjp-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -74,11 +74,29 @@ public class UnifiedPrintModelReaderTest {
         }
     }
 
-    private IntygTexts loadTexts() {
+    @Test
+    public void testRenderUnifiedTsBas() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("intyg.tsbas.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tsbas-up.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("texterTS_TSTRK_1007_v6.8.xml");
+
+        byte[] data = unifiedRenderer.startRendering(cleanedJson, upJsModel, intygTexts, intygJsonNode);
+        try (FileOutputStream fos = new FileOutputStream("tsbas-generic.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private IntygTexts loadTexts(String fileName) {
 
         try {
             Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new ClassPathResource("texterMU_LISJP_v1.0.xml").getInputStream());
+                    .parse(new ClassPathResource(fileName).getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -108,7 +126,8 @@ public class UnifiedPrintModelReaderTest {
 
     @Test
     public void readModel() throws ScriptException, IOException {
-        String cleanedJson = loadAndCleanIntygJson();
+        JsonNode intygJsonNode = loadAndCleanIntygJson("intyg.lisjp.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
         engine = new ScriptEngineManager().getEngineByName("nashorn");
 
@@ -122,12 +141,12 @@ public class UnifiedPrintModelReaderTest {
         dumpTree((ScriptObjectMirror) viewConfig);
     }
 
-    private String loadAndCleanIntygJson() throws IOException {
-        InputStream inputStream = loadJsonModel();
+    private JsonNode loadAndCleanIntygJson(String intygJsonFile) throws IOException {
+        InputStream inputStream = loadJsonModel(intygJsonFile);
         String jsonModel = IOUtils.toString(inputStream, Charset.forName("UTF-8"));
-        JsonNode jsonNode = new ObjectMapper().readTree(jsonModel);
-        return new ObjectMapper().writeValueAsString(jsonNode);
+        return new ObjectMapper().readTree(jsonModel);
     }
+
 
     private int indent = 0;
 
@@ -189,8 +208,8 @@ public class UnifiedPrintModelReaderTest {
         mirror.entrySet().stream().forEach( entry -> printObjectMirror((ScriptObjectMirror) entry.getValue()));
     }
 
-    private InputStream loadJsonModel() {
-        ClassPathResource classPathResource = new ClassPathResource("intyg.lisjp.json");
+    private InputStream loadJsonModel(String intygJsonFile) {
+        ClassPathResource classPathResource = new ClassPathResource(intygJsonFile);
         try {
             InputStream inputStream = classPathResource.getInputStream();
             return inputStream;

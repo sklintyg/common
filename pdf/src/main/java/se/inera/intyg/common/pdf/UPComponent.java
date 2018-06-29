@@ -22,23 +22,29 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.itextpdf.layout.element.Div;
+
+import jdk.nashorn.api.scripting.ScriptObjectMirror;
+
 public class UPComponent {
     private String type;
-
     private String labelKey;
-
-    private String modelProp;
-
+    private List<String> modelProp = new ArrayList<>();
+    private String listKey;
+    private List<String> listKeyResults = new ArrayList<>();
     private String contentUrl;
+    private String separator;
+    private String noValue;
 
-    // The value here is evaluated when building the UPComponent graph
+    // The value here is evaluated when building the UVComponent graph
     private boolean render = true;
 
     private List<String> headers = new ArrayList<>();
-
+    private List<String> colProps = new ArrayList<>();
     private List<String> valueProps = new ArrayList<>();
-
     private List<UPComponent> components = new ArrayList<>();
+    private List<String> kvModelProps = new ArrayList<>();
+    private List<String> kvLabelKeys = new ArrayList<>();
 
     public String getType() {
         return type;
@@ -56,11 +62,11 @@ public class UPComponent {
         this.labelKey = labelKey;
     }
 
-    public String getModelProp() {
+    public List<String> getModelProp() {
         return modelProp;
     }
 
-    public void setModelProp(String modelProp) {
+    public void setModelProp(List<String> modelProp) {
         this.modelProp = modelProp;
     }
 
@@ -96,6 +102,14 @@ public class UPComponent {
         this.components = components;
     }
 
+    public List<String> getColProps() {
+        return colProps;
+    }
+
+    public void setColProps(List<String> colProps) {
+        this.colProps = colProps;
+    }
+
     public List<String> getValueProps() {
         return valueProps;
     }
@@ -104,8 +118,56 @@ public class UPComponent {
         this.valueProps = valueProps;
     }
 
+    public List<String> getKvModelProps() {
+        return kvModelProps;
+    }
+
+    public void setKvModelProps(List<String> kvModelProps) {
+        this.kvModelProps = kvModelProps;
+    }
+
+    public List<String> getKvLabelKeys() {
+        return kvLabelKeys;
+    }
+
+    public void setKvLabelKeys(List<String> kvLabelKeys) {
+        this.kvLabelKeys = kvLabelKeys;
+    }
+
+    public String getListKey() {
+        return listKey;
+    }
+
+    public void setListKey(String listKey) {
+        this.listKey = listKey;
+    }
+
+    public List<String> getListKeyResults() {
+        return listKeyResults;
+    }
+
+    public void setListKeyResults(List<String> listKeyResults) {
+        this.listKeyResults = listKeyResults;
+    }
+
+    public String getSeparator() {
+        return separator;
+    }
+
+    public void setSeparator(String separator) {
+        this.separator = separator;
+    }
+
+    public String getNoValue() {
+        return noValue;
+    }
+
+    public void setNoValue(String noValue) {
+        this.noValue = noValue;
+    }
+
     @Override
     public String toString() {
-        return (render ? "RENDER" : "HIDE") + "[type = " + type + ", labelKey = " + labelKey + ", modelProp = " + modelProp + ", headers = " + headers.stream().collect(Collectors.joining(", ")) + "]";
+        return (render ? "RENDER" : "HIDE") + "[type = " + type + ", labelKey = " + labelKey + ", modelProp = " + modelProp.toString() + ", headers = " + headers.stream().collect(Collectors.joining(", ")) + "]";
     }
 }
