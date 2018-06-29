@@ -6,7 +6,6 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 public class UVDelfraga extends UVComponent {
@@ -32,7 +31,8 @@ public class UVDelfraga extends UVComponent {
                         .setFont(renderer.fragaDelFragaFont)
                         .setFontColor(wcColor09)
                         .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
-                        .setPadding(0f).setMarginTop(0f)
+                        .setPadding(0f)
+                        .setMarginTop(0f)
                         .setMarginBottom(0f));
             }
         } else {

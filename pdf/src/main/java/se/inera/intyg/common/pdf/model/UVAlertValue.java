@@ -31,11 +31,9 @@ public class UVAlertValue extends UVComponent {
                         .setFontColor(wcColor09)
                         .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
                         .setBackgroundColor(wcColor02)
-                        .setPaddingTop(millimetersToPoints(5f))
-                        .setPaddingBottom(millimetersToPoints(5f))
-                        .setPaddingLeft(millimetersToPoints(5f))
-                        .setMarginTop(0f)
-                        .setMarginBottom(0f));
+                        .setPaddingTop(5f).setPaddingBottom(5f).setPaddingLeft(5f)
+                        .setMarginTop(5f)
+                        .setMarginBottom(5f));
             }
         } else {
             System.out.println("Skipping element " + labelKey + " due to show/hide expression");

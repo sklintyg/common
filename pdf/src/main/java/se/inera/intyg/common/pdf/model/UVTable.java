@@ -50,8 +50,9 @@ public class UVTable extends UVComponent {
             for (Object value : modelValue.values()) {
 
                 // Start columns
+                List<String> columnValues = new ArrayList<>();
                 for (Object valueProp : valuePropsObj.values()) {
-                    List<String> columnValues = new ArrayList<>();
+
                     if (valueProp instanceof String) {
                         handleStringValueProp(modelProp, (ScriptObjectMirror) value, (String) valueProp, columnValues);
                     }
@@ -61,17 +62,22 @@ public class UVTable extends UVComponent {
                             System.out.println("FOUND FUNC");
                         }
                     }
-                    data.add(columnValues);
+
                 }
+                data.add(columnValues);
+
             }
+
+
         } else if (modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
             List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
-            // Start rows. colProps are rows...
+            // Start rows. colProps are rows... very confusing...
 
-            List<String> columnValues = new ArrayList<>();
+
             int row = 0;
 
             for (String colProp : colProps) {
+                List<String> columnValues = new ArrayList<>();
                 // Start cols
                 int col = 0;
                 for (Object valueProp : valuePropsObj.values()) {
@@ -81,18 +87,24 @@ public class UVTable extends UVComponent {
                     ScriptObjectMirror function = (ScriptObjectMirror) valueProp;
                     Object result = function.call(null, som, row, col++, colProp);
                     if (result != null) {
-                        columnValues.add(result.toString());
+                        String text = renderer.getText(result.toString());
+                        if (text != null) {
+                            columnValues.add(text);
+                        } else {
+                            columnValues.add(result.toString());
+                        }
                     } else {
                         columnValues.add("");
                     }
                 }
                 row++;
+                data.add(columnValues);
             }
-            data.add(columnValues);
+
         }
 
         // RENDER
-        renderTableData(table, data);
+        renderTableData(table, data, headerLabels);
 
         parent.add(table);
     }
@@ -123,11 +135,18 @@ public class UVTable extends UVComponent {
         }
     }
 
-    private void renderTableData(Table table, List<List<String>> data) {
+    private void renderTableData(Table table, List<List<String>> data, List<String> headerLabels) {
         for (List<String> row: data) {
+            int columnIndex = 0;
             for (String col : row) {
-                table.addCell(new Cell().setBorder(Border.NO_BORDER).add(
-                                    new Paragraph(col)));
+                Paragraph paragraph = new Paragraph(col);
+
+                // Weird extra rule - if first column has no header text, make the values bold.
+                if (columnIndex == 0 && headerLabels.get(0).isEmpty()) {
+                    paragraph.setBold();
+                }
+                table.addCell(new Cell().setBorder(Border.NO_BORDER).add(paragraph));
+                columnIndex++;
             }
         }
     }

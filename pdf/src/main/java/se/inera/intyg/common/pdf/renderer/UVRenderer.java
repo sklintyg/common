@@ -1,5 +1,20 @@
 package se.inera.intyg.common.pdf.renderer;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Map;
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
@@ -7,11 +22,8 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Div;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.pdf.model.UVAlertValue;
 import se.inera.intyg.common.pdf.model.UVBooleanValue;
 import se.inera.intyg.common.pdf.model.UVDelfraga;
@@ -20,17 +32,9 @@ import se.inera.intyg.common.pdf.model.UVKategori;
 import se.inera.intyg.common.pdf.model.UVKodverkValue;
 import se.inera.intyg.common.pdf.model.UVList;
 import se.inera.intyg.common.pdf.model.UVSimpleValue;
+import se.inera.intyg.common.pdf.model.UVSkapadAv;
 import se.inera.intyg.common.pdf.model.UVTable;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.Map;
 
 public class UVRenderer {
 
@@ -98,41 +102,45 @@ public class UVRenderer {
     }
 
     private void render(Div rootDiv, ScriptObjectMirror currentUvNode) {
+
+        Div currentDiv = new Div();
         String type = (String) currentUvNode.get("type");
         switch (type) {
         case "uv-kategori":
             new UVKategori(this)
-                    .render(rootDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
             break;
         case "uv-fraga":
             new UVFraga(this)
-                    .render(rootDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
             break;
         case "uv-del-fraga":
             new UVDelfraga(this)
-                    .render(rootDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
             break;
         case "uv-simple-value":
             new UVSimpleValue(this)
-                    .render(rootDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
             break;
         case "uv-kodverk-value":
-            new UVKodverkValue(this).render(rootDiv, currentUvNode);
+            new UVKodverkValue(this).render(currentDiv, currentUvNode);
             break;
         case "uv-boolean-statement":
         case "uv-boolean-value":
-            new UVBooleanValue(this).render(rootDiv, currentUvNode);
+            new UVBooleanValue(this).render(currentDiv, currentUvNode);
             break;
         case "uv-list":
-            new UVList(this).render(rootDiv, currentUvNode);
+            new UVList(this).render(currentDiv, currentUvNode);
             break;
         case "uv-table":
-            new UVTable(this).render(rootDiv, currentUvNode);
+            new UVTable(this).render(currentDiv, currentUvNode);
             break;
         case "uv-alert-value":
-            new UVAlertValue(this).render(rootDiv, currentUvNode);
+            new UVAlertValue(this).render(currentDiv, currentUvNode);
             break;
-
+        case "uv-skapad-av":
+            new UVSkapadAv(this).render(currentDiv, currentUvNode);
+            break;
         }
 
         // Recurse into sub-components
@@ -140,8 +148,13 @@ public class UVRenderer {
             Object components = currentUvNode.get("components");
             ScriptObjectMirror array = (ScriptObjectMirror) components;
             for (Map.Entry<String, Object> entry : array.entrySet()) {
-                render(rootDiv, (ScriptObjectMirror) entry.getValue());
+                render(currentDiv, (ScriptObjectMirror) entry.getValue());
             }
+        }
+        rootDiv.add(currentDiv);
+        if ("uv-kategori".equalsIgnoreCase(type)) {
+            // Add a spacer to the parent div _after_
+            rootDiv.add(new Div().setMarginTop(16f));
         }
     }
 
@@ -158,7 +171,7 @@ public class UVRenderer {
         try {
             return intygTexts.getTexter().get(labelKey);
         } catch (Exception e) {
-            return null; //"missing key: " + labelKey;
+            return null; // "missing key: " + labelKey;
         }
     }
 
