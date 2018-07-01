@@ -1,15 +1,15 @@
 package se.inera.intyg.common.pdf.model;
 
-import com.itextpdf.layout.borders.Border;
-import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.element.Table;
-
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UVSkapadAv extends UVComponent {
+
     public UVSkapadAv(UVRenderer renderer) {
         super(renderer);
     }
@@ -18,50 +18,48 @@ public class UVSkapadAv extends UVComponent {
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get("modelProp");
 
-        /*
-         * Intyget är utfärdat och signerat av:
-         * Karin Persson
-         * Tel: 054203408
-         * nmt_vg1_ve1, nmt_vg1
-         * Bryggaregatan 11, 65340 Karlstad
-         */
-        parent.setMarginTop(0f)
-                .setMarginBottom(0f)
-                .setPadding(16f)
+        StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
 
-                .setBold()
-                .setFontSize(10f)
-                .setFontColor(white)
-                .setBackgroundColor(ineraBlue);
+        StringBuilder kontaktUppgifter = buildKontaktuppgifter(modelProp);
 
-        parent.add(new Paragraph("Intyget är utfärdat och signerat av:"));
-        Table skapadAv = new Table(new float[] { 12f, 12f });
-        skapadAv.setWidth(400f);
-        skapadAv.addHeaderCell(
-                new Cell().setPadding(0f)
-                        .setBorder(Border.NO_BORDER)
-                        .add(
-                                new Paragraph(renderer.eval(modelProp + ".fullstandigtNamn").toString()).setFontSize(10f)
-                                        .setBold()));
-        skapadAv.addHeaderCell(
-                new Cell().setPadding(0f)
-                        .setBorder(Border.NO_BORDER)
-                        .add(
-                                new Paragraph(renderer.eval(modelProp + ".vardenhet.enhetsnamn") + " "
-                                        + renderer.eval(modelProp + ".vardenhet.vardgivare.vardgivarnamn"))
-                                        .setFontSize(10f).setBold()));
+        // Render
+        parent.add(new Paragraph("Intygsutfärdare:").setBold());
+        parent.add(new Paragraph(intygsUtfardare.toString()));
+        parent.add(new Paragraph("Kontaktuppgifter:").setBold());
+        parent.add(new Paragraph(kontaktUppgifter.toString()));
+    }
 
-        skapadAv.addCell(
-                new Cell().setPadding(0f).setBorder(Border.NO_BORDER).add(
-                        new Paragraph("Tel: " + renderer.eval(modelProp + ".vardenhet.telefonnummer"))
-                                .setFontSize(10f)));
+    private StringBuilder buildIntygsutfardare(String modelProp) {
+        StringBuilder intygsUtfardare = new StringBuilder();
+        intygsUtfardare.append(renderer.eval(modelProp + ".fullstandigtNamn").toString()).append("\n");
 
-        skapadAv.addCell(
-                new Cell().setPadding(0f).setBorder(Border.NO_BORDER).add(
-                        new Paragraph(renderer.eval(modelProp + ".vardenhet.postadress") + ", "
-                                + renderer.eval(modelProp + ".vardenhet.postnummer") + " "
-                                + renderer.eval(modelProp + ".vardenhet.postort")).setFontSize(10f)));
+        // Befattningar
+        List<String> befattningar = fromStringArray(renderer.eval(modelProp + ".befattningar"));
+        if (befattningar.size() > 0) {
+            intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
+        }
 
-        parent.add(skapadAv);
+        // Specialistkompetenser
+        List<String> specialistkompentenser = fromStringArray(renderer.eval(modelProp + ".specialiteter"));
+        if (specialistkompentenser.size() > 0) {
+            intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
+        }
+
+        // Leg yrkesgrupp.
+        return intygsUtfardare;
+    }
+
+    private StringBuilder buildKontaktuppgifter(String modelProp) {
+        StringBuilder kontaktUppgifter = new StringBuilder();
+        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.enhetsnamn").toString())
+                .append("\n");
+
+        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.postnummer").toString())
+                .append(" ")
+                .append(renderer.eval(modelProp + ".vardenhet.postadress").toString())
+                .append("\n");
+        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.telefonnummer").toString())
+                .append("\n");
+        return kontaktUppgifter;
     }
 }
