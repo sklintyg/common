@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean class="se.inera.intyg.common.afmu.model.converter.WebcertModelFactoryImpl" />
+
+  <bean class="se.inera.intyg.common.afmu.model.converter.SvarIdHelperImpl" />
+
+  <bean class="se.inera.intyg.common.afmu.rest.AfmuModuleApi" />
+
+  <bean class="se.inera.intyg.common.afmu.validator.InternalDraftValidatorImpl" />
+  
+  <bean class="se.inera.intyg.common.afmu.model.util.AfmuModelCompareUtil" />
+
+  <bean id="afmuUtokadEntryPoint" class="se.inera.intyg.common.afmu.support.AfmuEntryPoint" />
+
+</beans>

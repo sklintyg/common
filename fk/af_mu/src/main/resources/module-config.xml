@@ -7,8 +7,8 @@
 
   <context:annotation-config />
 
-  <import resource="lisjp-beans.xml" />
+  <import resource="afmu-beans.xml" />
 
-  <import resource="lisjp-ws-stub.xml" />
+  <import resource="afmu-ws-stub.xml" />
 
 </beans>
