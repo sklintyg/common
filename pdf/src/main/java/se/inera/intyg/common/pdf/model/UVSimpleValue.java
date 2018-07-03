@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
@@ -7,7 +25,12 @@ import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders a uv-simple-value.
+ */
 public class UVSimpleValue extends UVComponent {
+
+    private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
 
     public UVSimpleValue(UVRenderer renderer) {
         super(renderer);
@@ -15,15 +38,17 @@ public class UVSimpleValue extends UVComponent {
 
     @Override
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
-        String modelProp = (String) currentUvNode.get("modelProp");
-        Object value = renderer.eval(modelProp);
+        String modelProp = (String) currentUvNode.get(MODEL_PROP);
+        Object value = renderer.evalValueFromModel(modelProp);
         if (value != null) {
             parent.add(new Paragraph(value.toString()).setItalic()
-                    .setMarginRight(millimetersToPoints(10f))
-                    .setMarginLeft(millimetersToPoints(5f))
+                    .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
+                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
                     .setFont(renderer.svarFont)
                     .setFontSize(SVAR_FONT_SIZE)
-                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
+                    );
         }
 
     }

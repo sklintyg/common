@@ -1,5 +1,24 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.pdf.model;
 
+import com.google.common.base.Strings;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Cell;
@@ -14,7 +33,12 @@ import java.util.List;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * The table component is somewhat complex since table data can be both property and function-based.
+ */
 public class UVTable extends UVComponent {
+
+    private static final float DEFAULT_TABLE_WIDTH_MM = 140f;
 
     public UVTable(UVRenderer renderer) {
         super(renderer);
@@ -24,8 +48,9 @@ public class UVTable extends UVComponent {
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
         List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
-        Table table = new Table(headerLabels.size()).setMarginRight(millimetersToPoints(10f))
-                .setMarginLeft(millimetersToPoints(5f));
+        Table table = new Table(headerLabels.size()).setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS);
+        table.setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM));
 
         // Render headers with tabs
         renderHeaders(headerLabels, table);
@@ -37,9 +62,8 @@ public class UVTable extends UVComponent {
             throw new IllegalArgumentException("Table valueProps must be of type array.");
         }
 
-        String modelProp = (String) currentUvNode.get("modelProp");
-        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.eval(modelProp);
-
+        String modelProp = (String) currentUvNode.get(MODEL_PROP);
+        ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
 
         List<List<String>> data = new ArrayList<>();
 
@@ -58,21 +82,17 @@ public class UVTable extends UVComponent {
                     }
                     if (valueProp instanceof ScriptObjectMirror) {
                         ScriptObjectMirror valuePropSOM = (ScriptObjectMirror) valueProp;
-                        if (valuePropSOM.isFunction()) {
-                            System.out.println("FOUND FUNC");
-                        }
+                        throw new IllegalStateException(
+                                "Found unhandled ScriptObjectMirror in UVTable for valueProp " + valuePropSOM.getClassName());
                     }
 
                 }
                 data.add(columnValues);
-
             }
-
 
         } else if (modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
             List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
             // Start rows. colProps are rows... very confusing...
-
 
             int row = 0;
 
@@ -116,14 +136,13 @@ public class UVTable extends UVComponent {
             String extracted = valueStr.substring(valueStr.indexOf("{") + 1, valueStr.indexOf("}"));
             String result = (String) renderer.findInModel(value, extracted);
             String textKey = valueStr.replaceAll("\\{" + extracted + "\\}", result);
-            if (textKey != null) {
-                String text = renderer.getText(textKey);
+
+            String text = renderer.getText(textKey);
+            if (!Strings.isNullOrEmpty(text)) {
                 columnValues.add(text);
             } else {
                 columnValues.add("");
-                System.err.println("Null value for: " + modelProp + "." + extracted);
             }
-
         } else {
             Object result = renderer.findInModel(value, valueStr);
             if (result != null) {
@@ -136,14 +155,16 @@ public class UVTable extends UVComponent {
     }
 
     private void renderTableData(Table table, List<List<String>> data, List<String> headerLabels) {
-        for (List<String> row: data) {
+        for (List<String> row : data) {
             int columnIndex = 0;
             for (String col : row) {
-                Paragraph paragraph = new Paragraph(col);
+                Paragraph paragraph = new Paragraph(col)
+                        .setFont(renderer.svarFont)
+                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
 
                 // Weird extra rule - if first column has no header text, make the values bold.
                 if (columnIndex == 0 && headerLabels.get(0).isEmpty()) {
-                    paragraph.setBold();
+                    paragraph.setFont(renderer.fragaDelFragaFont);
                 }
                 table.addCell(new Cell().setBorder(Border.NO_BORDER).add(paragraph));
                 columnIndex++;
@@ -154,13 +175,13 @@ public class UVTable extends UVComponent {
     private void renderHeaders(List<String> headerLabels, Table table) {
         for (String header : headerLabels) {
             table.addHeaderCell(
-                        new Cell()
-                                .setBorder(Border.NO_BORDER)
-                                .setBorderBottom(new SolidBorder(0.5f))
-                                .add(
-                                        new Paragraph(header)
-                                                .setFont(renderer.fragaDelFragaFont)
-                                                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
+                    new Cell()
+                            .setBorder(Border.NO_BORDER)
+                            .setBorderBottom(new SolidBorder(DEFAULT_BORDER_WIDTH))
+                            .add(
+                                    new Paragraph(header)
+                                            .setFont(renderer.fragaDelFragaFont)
+                                            .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)));
         }
     }
 

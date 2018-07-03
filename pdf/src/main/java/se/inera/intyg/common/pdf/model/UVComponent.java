@@ -18,33 +18,41 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
-
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
-public abstract class UVComponent {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-    protected static final float KATEGORI_FONT_SIZE = 14f;
-    protected static final float FRAGA_DELFRAGA_FONT_SIZE = 12f;
-    protected static final float SVAR_FONT_SIZE = 12f;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
+/**
+ * Base class for all UV / Unified Print components. Contains constants and helper functions.
+ */
+// CHECKSTYLE:OFF MagicNumber
+public abstract class UVComponent {
+    public static final float ELEM_MARGIN_LEFT_POINTS = millimetersToPoints(5f);
+    public static final float ELEM_MARGIN_RIGHT_POINTS = millimetersToPoints(10f);
+
+    static final float DEFAULT_BORDER_WIDTH = 0.5f;
+
+    public static final float KATEGORI_FONT_SIZE = 12f;
+    public static final float FRAGA_DELFRAGA_FONT_SIZE = 10f;
+    public static final float SVAR_FONT_SIZE = 10f;
 
     protected final UVRenderer renderer;
 
-    protected Color white = new DeviceRgb(255, 255, 255);
-    protected Color black = new DeviceRgb(0, 0, 0);
-    protected Color ineraBlue = new DeviceRgb(67, 121, 154);
+    Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
+    Color wcColor07 = new DeviceRgb(33, 33, 33);
+    Color wcColor09 = new DeviceRgb(106, 106, 106);
 
-    protected Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
-    protected Color wcColor07 = new DeviceRgb(33, 33, 33);
-    protected Color wcColor09 = new DeviceRgb(106, 106, 106);
+    static final String LABEL_KEY = "labelKey";
+    static final String MODEL_PROP = "modelProp";
 
     public UVComponent(UVRenderer renderer) {
         this.renderer = renderer;
@@ -52,7 +60,10 @@ public abstract class UVComponent {
 
     public abstract void render(Div parent, ScriptObjectMirror currentUvNode);
 
-    protected List<String> fromStringArray(Object arrayValues) {
+    /**
+     * Transforms the value entries of a ScriptObjectMirror into a list of strings.
+     */
+    List<String> fromStringArray(Object arrayValues) {
         List<String> results = new ArrayList<>();
         if (arrayValues != null) {
             ScriptObjectMirror valuesRoot = (ScriptObjectMirror) arrayValues;
@@ -60,23 +71,28 @@ public abstract class UVComponent {
                 // Typically string or function
                 if (entry.getValue() instanceof String) {
                     results.add((String) entry.getValue());
+                } else {
+                    throw new IllegalStateException("Unhandled array type " + entry.getValue().getClass().getName());
                 }
             }
         }
         return results;
     }
 
-    protected String getBooleanValue(String modelProp) {
-        Object eval = renderer.eval(modelProp);
+    /**
+     * Resolves the boolean value of the supplied modelProp and returns Ja/Nej or ERROR if not boolean.
+     */
+    String getBooleanValue(String modelProp) {
+        Object eval = renderer.evalValueFromModel(modelProp);
         if (eval != null) {
             if (eval instanceof Boolean) {
-                return ((Boolean) eval).booleanValue() ? "Ja" : "Nej";
+                return (Boolean) eval ? "Ja" : "Nej";
             }
         }
         return "ERROR";
     }
 
-    protected boolean renderMe(ScriptObjectMirror obj) {
+    boolean show(ScriptObjectMirror obj) {
         boolean render = true;
         if (isNotEligibleForCheck(obj)) {
             return true;
@@ -123,13 +139,12 @@ public abstract class UVComponent {
 
     private boolean resolveHideExpression(String hideExpression) {
         boolean render;
-        String expression = hideExpression;
-        if (expression.startsWith("!")) {
+        if (hideExpression.startsWith("!")) {
             // negation
-            Object eval = renderer.eval(expression.substring(1));
+            Object eval = renderer.evalValueFromModel(hideExpression.substring(1));
             render = isTrue(eval);
         } else {
-            Object eval = renderer.eval(expression);
+            Object eval = renderer.evalValueFromModel(hideExpression);
             render = !isTrue(eval);
         }
         return render;
@@ -139,10 +154,10 @@ public abstract class UVComponent {
         boolean render;
         if (expression.startsWith("!")) {
             // negation
-            Object eval = renderer.eval(expression.substring(1));
+            Object eval = renderer.evalValueFromModel(expression.substring(1));
             render = !isTrue(eval);
         } else {
-            Object eval = renderer.eval(expression);
+            Object eval = renderer.evalValueFromModel(expression);
             render = isTrue(eval);
         }
         return render;
@@ -156,8 +171,9 @@ public abstract class UVComponent {
             return false;
         }
         if (res instanceof Boolean) {
-            return ((Boolean) res).booleanValue();
+            return (Boolean) res;
         }
         return false;
     }
 }
+// CHECKSTYLE:ON MagicNumber

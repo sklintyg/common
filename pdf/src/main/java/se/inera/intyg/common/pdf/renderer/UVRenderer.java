@@ -1,40 +1,47 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.pdf.renderer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.Map;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-
-import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
-
-import com.itextpdf.io.font.FontConstants;
-import com.itextpdf.kernel.events.Event;
-import com.itextpdf.kernel.events.IEventHandler;
+import com.itextpdf.io.image.ImageDataFactory;
+import com.itextpdf.kernel.colors.Color;
+import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
-import com.itextpdf.kernel.geom.Rectangle;
 import com.itextpdf.kernel.pdf.PdfDocument;
-import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
-import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
-import com.itextpdf.layout.Canvas;
+import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import com.itextpdf.layout.property.TextAlignment;
-
+import com.itextpdf.layout.property.AreaBreakType;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import se.inera.intyg.common.pdf.eventhandler.IntygFooter;
+import se.inera.intyg.common.pdf.eventhandler.IntygHeader;
+import se.inera.intyg.common.pdf.eventhandler.MarginTexts;
+import se.inera.intyg.common.pdf.eventhandler.PageNumberEvent;
 import se.inera.intyg.common.pdf.model.UVAlertValue;
 import se.inera.intyg.common.pdf.model.UVBooleanValue;
 import se.inera.intyg.common.pdf.model.UVDelfraga;
@@ -47,23 +54,48 @@ import se.inera.intyg.common.pdf.model.UVSkapadAv;
 import se.inera.intyg.common.pdf.model.UVTable;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Map;
+
+import static se.inera.intyg.common.pdf.model.UVComponent.FRAGA_DELFRAGA_FONT_SIZE;
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders PDFs using iText7 based on the uv view configs.
+ */
+// CHECKSTYLE:OFF MagicNumber
 public class UVRenderer {
 
     private static final Logger LOG = LoggerFactory.getLogger(UVRenderer.class);
+    public static final float TOP_MARGIN_SUMMARY_PAGE = millimetersToPoints(42f);
+
+    public static final Color WC_COLOR_11 = new DeviceRgb(0xDA, 0x44, 0x53);
+
+    // In millimeters
+    public static final float PAGE_MARGIN_LEFT = 20f;
+    public static final float PAGE_MARGIN_BOTTOM = 40f;
+    public static final float PAGE_MARGIN_TOP = 58f;
+    private static final float MARGIN_BETWEEN_KATEGORIER = 5f;
 
     public PdfFont kategoriFont;
     public PdfFont fragaDelFragaFont;
     public PdfFont svarFont;
 
-    private Document document;
     private ScriptObjectMirror jsIntygModel;
     private IntygTexts intygTexts;
 
     private ScriptEngine engine;
 
-    public byte[] startRendering(String intygJsonModel, String upJsModel, IntygTexts intygTexts) {
+    private PdfImageXObject observandumIcon;
+
+    public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
         this.intygTexts = intygTexts;
 
         this.kategoriFont = loadFont("Roboto-Medium.woff2");
@@ -77,36 +109,41 @@ public class UVRenderer {
 
             // Initialize PDF document
             PdfDocument pdf = new PdfDocument(writer);
-            pdf.addEventHandler(PdfDocumentEvent.START_PAGE,
-                    new Header("The Strange Case of Dr. Jekyll and Mr. Hyde"));
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new FooterLine());
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new FooterText());
 
-            PageXofY event = new PageXofY(pdf);
-            pdf.addEventHandler(PdfDocumentEvent.END_PAGE, event);
+            // Load icon for observandum
+            this.observandumIcon = new PdfImageXObject(
+                    ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
 
-            // Add page handlers
-            // PageNumberHandler pageNumberHandler = new PageNumberHandler();
-            // pdf.addEventHandler(PdfDocumentEvent.START_PAGE, pageNumberHandler);
+            // Initialize event handlers for header, footer etc.
+            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+                    new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
+            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+                    new IntygFooter(svarFont));
+            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+                    new MarginTexts(printConfig, svarFont));
+
+            PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
+            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+                    pageNumberEvent);
 
             // Initialize document
-            document = new Document(pdf, PageSize.A4);
-            document.setMargins(120, 10, 40, 10);
+            Document document = new Document(pdf, PageSize.A4);
+            document.setMargins(millimetersToPoints(PAGE_MARGIN_TOP), millimetersToPoints(PAGE_MARGIN_LEFT),
+                    millimetersToPoints(PAGE_MARGIN_BOTTOM), millimetersToPoints(PAGE_MARGIN_LEFT));
 
             // Initialize script engine
             engine = new ScriptEngineManager().getEngineByName("nashorn");
 
-            // Bind the $filter function
-            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream()));
+            // Bind the $filter function and other custom functions declared in uvViewConfig.
+            engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
 
             // Parse JSON intyg into JS object
-            jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + intygJsonModel + "');");
+            jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + printConfig.getIntygJsonModel() + "');");
             engine.put("jsIntygModel", jsIntygModel);
 
             // Load unified print JS model
-            InputStreamReader inputStreamReader = new InputStreamReader(IOUtils.toInputStream(upJsModel, Charset.forName("UTF-8")));
+            InputStreamReader inputStreamReader = new InputStreamReader(
+                    IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
             engine.eval(inputStreamReader);
             ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
             engine.put("viewConfig", viewConfig);
@@ -116,16 +153,34 @@ public class UVRenderer {
                 render(rootDiv, (ScriptObjectMirror) o);
             }
 
-
             document.add(rootDiv);
 
-            event.writeTotal(pdf);
+            // Final page.
+            renderSummaryPage(printConfig, document);
+
+            pageNumberEvent.writeTotal(pdf);
 
             document.close();
             return bos.toByteArray();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void renderSummaryPage(PrintConfig printConfig, Document document) {
+        document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
+        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+        Div summaryDiv = new Div();
+        summaryDiv.add(new Paragraph(printConfig.getSummaryHeader())
+                .setMarginBottom(0f)
+                .setFont(fragaDelFragaFont)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+        summaryDiv.add(new Paragraph(printConfig.getSummaryText())
+                .setMarginTop(0f)
+                // .setMarginLeft(millimetersToPoints(PAGE_MARGIN_LEFT))
+                .setFont(svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
+        document.add(summaryDiv);
     }
 
     public ScriptObjectMirror getIntygModel() {
@@ -185,7 +240,7 @@ public class UVRenderer {
         rootDiv.add(currentDiv);
         if ("uv-kategori".equalsIgnoreCase(type)) {
             // Add a spacer to the parent div _after_
-            rootDiv.add(new Div().setMarginTop(16f));
+            rootDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
         }
     }
 
@@ -198,6 +253,9 @@ public class UVRenderer {
         }
     }
 
+    /**
+     * Resolves a text from the intygTexts.
+     */
     public String getText(String labelKey) {
         try {
             return intygTexts.getTexter().get(labelKey);
@@ -206,7 +264,10 @@ public class UVRenderer {
         }
     }
 
-    public Object eval(String modelProp) {
+    /**
+     * Resolves a value from the jsIntygModel already bound to the Nashorn engine.
+     */
+    public Object evalValueFromModel(String modelProp) {
         try {
             return engine.eval("jsIntygModel." + modelProp);
         } catch (ScriptException e) {
@@ -214,6 +275,12 @@ public class UVRenderer {
         }
     }
 
+    /**
+     * Uses nashorn eval(..) to resolve the value of a model property in the given ScriptObjectMirror model.
+     *
+     * Works by binding the supplied model to the engine context, executing the engine.eval on it and the removing
+     * the model again.
+     */
     public Object findInModel(ScriptObjectMirror model, String modelProp) {
         engine.put("model", model);
         try {
@@ -225,97 +292,8 @@ public class UVRenderer {
         }
     }
 
-    protected class Header implements IEventHandler {
-        String header;
-
-        public Header(String header) {
-            this.header = header;
-        }
-
-        @Override
-        public void handleEvent(Event event) {
-            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-            PdfDocument pdf = docEvent.getDocument();
-            PdfPage page = docEvent.getPage();
-
-            Rectangle pageSize = page.getPageSize();
-            PdfCanvas pdfCanvas = new PdfCanvas(
-                    page.newContentStreamBefore(), page.getResources(), pdf);
-            Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-            canvas.showTextAligned(header,
-                    pageSize.getWidth() / 2,
-                    pageSize.getTop() - 30, TextAlignment.CENTER);
-        }
+    public PdfImageXObject getObservandumIcon() {
+        return this.observandumIcon;
     }
-
-    protected class FooterText implements IEventHandler {
-
-        @Override
-        public void handleEvent(Event event) {
-            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-            PdfDocument pdf = docEvent.getDocument();
-            PdfPage page = docEvent.getPage();
-            Rectangle pageSize = page.getPageSize();
-            PdfCanvas pdfCanvas = new PdfCanvas(
-                    page.newContentStreamBefore(), page.getResources(), pdf);
-            Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-            canvas.showTextAligned("Utskriften skapades med Webcert - en tjänst som drivs av Inera\nwww.inera.se",
-                    millimetersToPoints(13),
-                    millimetersToPoints(pageSize.getBottom() + 5), TextAlignment.LEFT);
-        }
-    }
-
-    protected class FooterLine implements IEventHandler {
-
-        @Override
-        public void handleEvent(Event event) {
-            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-            PdfDocument pdf = docEvent.getDocument();
-            PdfPage page = docEvent.getPage();
-            PdfCanvas pdfCanvas = new PdfCanvas(
-                    page.newContentStreamBefore(), page.getResources(), pdf);
-            pdfCanvas.moveTo(millimetersToPoints(13), millimetersToPoints(15));
-            pdfCanvas.lineTo(millimetersToPoints(197), millimetersToPoints(15));
-            pdfCanvas.setLineWidth(0.5f);
-            pdfCanvas.stroke();
-            pdfCanvas.release();
-        }
-    }
-
-    protected class PageXofY implements IEventHandler {
-
-        protected PdfFormXObject placeholder;
-        protected float side = 20;
-        protected float x = 195; //300;
-        protected float y = 25;
-        protected float space = 0f;//4.5f;
-        protected float descent = 3;
-
-        public PageXofY(PdfDocument pdf) {
-            placeholder = new PdfFormXObject(new Rectangle(0, 0, side, side));
-        }
-
-        @Override
-        public void handleEvent(Event event) {
-            PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
-            PdfDocument pdf = docEvent.getDocument();
-            PdfPage page = docEvent.getPage();
-            int pageNumber = pdf.getPageNumber(page);
-            Rectangle pageSize = page.getPageSize();
-            PdfCanvas pdfCanvas = new PdfCanvas(
-                    page.newContentStreamBefore(), page.getResources(), pdf);
-            Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
-            Paragraph p = new Paragraph()
-                    .add("Sida ").add(String.valueOf(pageNumber) + "(");
-            canvas.showTextAligned(p, millimetersToPoints(x), y, TextAlignment.RIGHT);
-            pdfCanvas.addXObject(placeholder, millimetersToPoints(x) + space, y - descent);
-            pdfCanvas.release();
-        }
-
-        private void writeTotal(PdfDocument pdf) {
-            Canvas canvas = new Canvas(placeholder, pdf);
-            canvas.showTextAligned(String.valueOf(pdf.getNumberOfPages() + ")"),
-                    0, descent, TextAlignment.LEFT);
-        }
-    }
+    // CHECKSTYLE:ON MagicNumber
 }

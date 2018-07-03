@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.pdf.renderer;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -19,8 +37,15 @@ import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.UUID;
 
 public class UVRendererTest {
+
+    private static final String PNR = "19121212-1212";
+    private static final String INFO_TEXT_TS = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
+            + "redan har skickats till Transportstyrelsen.";
+    private static final String INFO_TEXT_FK = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
+            + "redan har skickats till Transportstyrelsen.";
 
     @Test
     public void testTsBas() throws IOException {
@@ -31,8 +56,23 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("tsbas/texterTS_TSTRK_1007_v6.8.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
-        byte[] data = new UVRenderer().startRendering(cleanedJson, upJsModel, intygTexts);
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Transportstyrelsens läkarintyg")
+                .withIntygsKod("TSTRK1007")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_TS)
+                .withSummaryHeader("Om Transportstyrelsens läkarintyg")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("TSTRK1007 (U08) 160114")
+                .withUtfardarLogotyp(logoData)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("tsbas-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -49,8 +89,23 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("lisjp/texterMU_LISJP_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("forsakringskassan-logo.png").getInputStream());
 
-        byte[] data = new UVRenderer().startRendering(cleanedJson, upJsModel, intygTexts);
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Läkarintyg för sjukpenning")
+                .withIntygsKod("FK7800")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_TS)
+                .withSummaryHeader("Om försäkringskassans läkarintyg")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("FK7800 180214")
+                .withUtfardarLogotyp(logoData)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("lisjp-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
@@ -95,7 +150,6 @@ public class UVRendererTest {
         }
         return texts;
     }
-
 
     private InputStream loadJsonModel(String intygJsonFile) {
         ClassPathResource classPathResource = new ClassPathResource(intygJsonFile);

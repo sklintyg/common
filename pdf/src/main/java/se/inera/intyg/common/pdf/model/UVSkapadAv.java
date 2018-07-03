@@ -1,13 +1,37 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package se.inera.intyg.common.pdf.model;
 
+import com.google.common.base.Strings;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Renders a uv-skapad-av component.
+ */
 public class UVSkapadAv extends UVComponent {
 
     public UVSkapadAv(UVRenderer renderer) {
@@ -16,31 +40,62 @@ public class UVSkapadAv extends UVComponent {
 
     @Override
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
-        String modelProp = (String) currentUvNode.get("modelProp");
+        String modelProp = (String) currentUvNode.get(MODEL_PROP);
 
         StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
-
         StringBuilder kontaktUppgifter = buildKontaktuppgifter(modelProp);
+        String signaturDatum = buildSigneringsDatum();
 
         // Render
-        parent.add(new Paragraph("Intygsutfärdare:").setBold());
-        parent.add(new Paragraph(intygsUtfardare.toString()));
-        parent.add(new Paragraph("Kontaktuppgifter:").setBold());
-        parent.add(new Paragraph(kontaktUppgifter.toString()));
+        parent.add(new Paragraph("Intygsutfärdare:")
+                .setMarginBottom(0f)
+                .setFont(renderer.fragaDelFragaFont)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+        parent.add(new Paragraph(intygsUtfardare.toString())
+                .setMarginTop(0f)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
+
+        parent.add(new Paragraph("Kontaktuppgifter:")
+                .setMarginBottom(0f)
+                .setFont(renderer.fragaDelFragaFont)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+        parent.add(new Paragraph(kontaktUppgifter.toString())
+                .setMarginTop(0f)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
+
+        parent.add(new Paragraph("Intyget signerades:")
+                .setMarginBottom(0f)
+                .setFont(renderer.fragaDelFragaFont)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+        parent.add(new Paragraph(signaturDatum)
+                .setMarginTop(0f)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
+    }
+
+    private String buildSigneringsDatum() {
+        String str = (String) renderer.evalValueFromModel("grundData.signeringsdatum");
+        if (Strings.isNullOrEmpty(str)) {
+            return "";
+        }
+        LocalDateTime signeringsDatum = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return signeringsDatum.format(DateTimeFormatter.ISO_DATE);
     }
 
     private StringBuilder buildIntygsutfardare(String modelProp) {
         StringBuilder intygsUtfardare = new StringBuilder();
-        intygsUtfardare.append(renderer.eval(modelProp + ".fullstandigtNamn").toString()).append("\n");
+        intygsUtfardare.append(renderer.evalValueFromModel(modelProp + ".fullstandigtNamn").toString()).append("\n");
 
         // Befattningar
-        List<String> befattningar = fromStringArray(renderer.eval(modelProp + ".befattningar"));
+        List<String> befattningar = fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
         if (befattningar.size() > 0) {
             intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
         }
 
         // Specialistkompetenser
-        List<String> specialistkompentenser = fromStringArray(renderer.eval(modelProp + ".specialiteter"));
+        List<String> specialistkompentenser = fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
         if (specialistkompentenser.size() > 0) {
             intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
         }
@@ -51,14 +106,14 @@ public class UVSkapadAv extends UVComponent {
 
     private StringBuilder buildKontaktuppgifter(String modelProp) {
         StringBuilder kontaktUppgifter = new StringBuilder();
-        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.enhetsnamn").toString())
+        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn").toString())
                 .append("\n");
 
-        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.postnummer").toString())
+        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer").toString())
                 .append(" ")
-                .append(renderer.eval(modelProp + ".vardenhet.postadress").toString())
+                .append(renderer.evalValueFromModel(modelProp + ".vardenhet.postadress").toString())
                 .append("\n");
-        kontaktUppgifter.append(renderer.eval(modelProp + ".vardenhet.telefonnummer").toString())
+        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer").toString())
                 .append("\n");
         return kontaktUppgifter;
     }
