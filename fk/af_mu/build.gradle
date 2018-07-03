@@ -1,0 +1,6 @@
+dependencies {
+    compile project(':fk-parent')
+
+    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+    apt "com.google.auto.value:auto-value:${autovalueVersion}"
+}
