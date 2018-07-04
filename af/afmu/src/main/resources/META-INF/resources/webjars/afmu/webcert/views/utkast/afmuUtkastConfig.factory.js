@@ -26,8 +26,9 @@ angular.module('afmu').factory('afmu.UtkastConfigFactory',
             function _getCategoryIds() {
                 return {
                     1: 'funktionsnedsattning',
-                    2: 'medicinskaBehandlingar',
-                    3: 'ovrigt'
+                    2: 'aktivitetsbegransning',
+                    3: 'medicinskaBehandlingar',
+                    5: 'ovrigt'
                 };
             }
 
@@ -36,54 +37,55 @@ angular.module('afmu').factory('afmu.UtkastConfigFactory',
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
-                var today = moment().format('YYYY-MM-DD');
 
                 var config = [
 
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', [
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {}, [{
                             type: 'ue-textarea',
                             modelProp: 'funktionsnedsattning',
                             label: {
-                                key: 'DFR_1.1.RBK',
-                                helpKey: 'DFR_1.1.HLP',
+                                key: 'DFR_1.2.RBK',
+                                helpKey: 'DFR_1.2.HLP',
                                 required: true,
                                 requiredProp: 'funktionsnedsattning'
-                            }
-                        }]),
-                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {}, [{
-                            type: 'ue-textarea',
-                            modelProp: 'aktivitetsbegransning',
-                            label: {
-                                key: 'DFR_2.1.RBK',
-                                helpKey: 'DFR_2.1.HLP',
-                                required: true,
-                                requiredProp: 'aktivitetsbegransning'
                             }
                         }])
                     ]),
 
-                    kategori(categoryIds[2], 'KAT_3.RBK', 'KAT_3.HLP', [
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {}, [
+                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {}, [{
+                            type: 'ue-textarea',
+                            modelProp: 'aktivitetsbegransning',
+                            label: {
+                                key: 'DFR_2.2.RBK',
+                                helpKey: 'DFR_2.2.HLP',
+                                required: true,
+                                requiredProp: 'aktivitetsbegransning'
+                            }
+                        }])]),
+
+                    kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
                         fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [{
                             type: 'ue-textarea',
                             modelProp: 'pagaendeBehandling',
                             label: {
-                                key: 'DFR_3.1.RBK',
-                                helpKey: 'DFR_3.1.HLP'
+                                key: 'DFR_3.2.RBK',
+                                helpKey: 'DFR_3.2.HLP'
                             }
                         }]),
                         fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', {}, [{
                             type: 'ue-textarea',
                             modelProp: 'planeradBehandling',
                             label: {
-                                key: 'DFR_4.1.RBK',
-                                helpKey: 'DFR_4.1.HLP'
+                                key: 'DFR_4.2.RBK',
+                                helpKey: 'DFR_4.2.HLP'
                             }
                         }])
                     ]),
 
-                    kategori(categoryIds[8], 'KAT_8.RBK', 'KAT_8.HLP', {}, [
-                        fraga(25, '', '', { }, [{
+                    kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
+                        fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { }, [{
                             modelProp: 'ovrigt',
                             type: 'ue-textarea'
                         }])

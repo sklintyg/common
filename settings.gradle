@@ -22,7 +22,7 @@ include ':lisjp'
 include ':luae_na'
 include ':luae_fs'
 include ':af-parent'
-include ':af_mu'
+include ':afmu'
 include ':ts-parent'
 include ':ts-bas'
 include ':ts-diabetes'
@@ -42,7 +42,7 @@ project(':lisjp').projectDir = "$rootDir/fk/lisjp" as File
 project(':luae_na').projectDir = "$rootDir/fk/luae_na" as File
 project(':luae_fs').projectDir = "$rootDir/fk/luae_fs" as File
 project(':af-parent').projectDir = "$rootDir/af/af_parent" as File
-project(':af_mu').projectDir = "$rootDir/af/af_mu" as File
+project(':afmu').projectDir = "$rootDir/af/afmu" as File
 project(':ts-parent').projectDir = "$rootDir/ts/ts-parent" as File
 project(':ts-bas').projectDir = "$rootDir/ts/ts-bas" as File
 project(':ts-diabetes').projectDir = "$rootDir/ts/ts-diabetes" as File

@@ -22,7 +22,7 @@ angular.module('afmu').factory('afmu.Domain.IntygModel',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform, ObjectHelper) {
             'use strict';
 
-            var LisjpModel = BaseAtticModel._extend({
+            var AfmuModel = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
                     init._super.call(this, 'afmuModel', {
@@ -41,7 +41,7 @@ angular.module('afmu').factory('afmu.Domain.IntygModel',
                         'planeradBehandling': undefined,
 
                         // Kategori 8 Övrigt
-                        'ovrigt': undefined,
+                        'ovrigt': undefined
                     });
                 },
                 update: function update(content, parent) {
@@ -53,13 +53,13 @@ angular.module('afmu').factory('afmu.Domain.IntygModel',
 
             }, {
                 build : function(){
-                    return new DraftModel(new LisjpModel());
+                    return new DraftModel(new AfmuModel());
                 }
             });
 
             /**
              * Return the constructor function IntygModel
              */
-            return LisjpModel;
+            return AfmuModel;
 
         }]);

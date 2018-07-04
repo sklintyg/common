@@ -38,17 +38,17 @@ describe('afmuFormFactory', function() {
         $scope.$digest();
     }]));
 
-    var grundData = {
-        'skapadAv':{'personId':'TSTNMT2321000156-1079','fullstandigtNamn':'Arnold Johansson','vardenhet':{'enhetsid':'TSTNMT2321000156-1077',
-            'enhetsnamn':'NMT vg3 ve1','postadress':'NMT gata 3','postnummer':'12345','postort':'Testhult','telefonnummer':'0101112131416',
-            'epost':'enhet3@webcert.invalid.se','vardgivare':{'vardgivarid':'TSTNMT2321000156-102Q','vardgivarnamn':'NMT vg3'},'arbetsplatsKod':'1234567890'}},
-        'patient':{'personId':'19121212-1212','fullstandigtNamn':'Tolvan Tolvansson','fornamn':'Tolvan','efternamn':'Tolvansson',
-            'postadress':'Svensson, Storgatan 1, PL 1234','postnummer':'12345','postort':'Småmåla','samordningsNummer':false},'relation':{}};
+    // var grundData = {
+    //     'skapadAv':{'personId':'TSTNMT2321000156-1079','fullstandigtNamn':'Arnold Johansson','vardenhet':{'enhetsid':'TSTNMT2321000156-1077',
+    //         'enhetsnamn':'NMT vg3 ve1','postadress':'NMT gata 3','postnummer':'12345','postort':'Testhult','telefonnummer':'0101112131416',
+    //         'epost':'enhet3@webcert.invalid.se','vardgivare':{'vardgivarid':'TSTNMT2321000156-102Q','vardgivarnamn':'NMT vg3'},'arbetsplatsKod':'1234567890'}},
+    //     'patient':{'personId':'19121212-1212','fullstandigtNamn':'Tolvan Tolvansson','fornamn':'Tolvan','efternamn':'Tolvansson',
+    //         'postadress':'Svensson, Storgatan 1, PL 1234','postnummer':'12345','postort':'Småmåla','samordningsNummer':false},'relation':{}};
 
-    var utkastData = {
-        'grundData':grundData,
-        'funktionsnedsattning':'Inga fynd gjordes','aktivitetsbegransning':'Har svårt att sitta och ligga.. Och stå. Får huka sig.',
-        'pagaendeBehandling':'Meditering, självmedicinering','planeradBehandling':'Inga planerade åtgärder. Patienten har ingen almanacka.',
-        'ovrigt':'Inga övriga upplysningar.'};
+    // var utkastData = {
+    //     'grundData':grundData,
+    //     'funktionsnedsattning':'Inga fynd gjordes','aktivitetsbegransning':'Har svårt att sitta och ligga.. Och stå. Får huka sig.',
+    //     'pagaendeBehandling':'Meditering, självmedicinering','planeradBehandling':'Inga planerade åtgärder. Patienten har ingen almanacka.',
+    //     'ovrigt':'Inga övriga upplysningar.'};
 
 });
