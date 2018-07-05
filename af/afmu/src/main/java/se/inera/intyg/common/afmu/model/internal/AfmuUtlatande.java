@@ -20,15 +20,19 @@ package se.inera.intyg.common.afmu.model.internal;
 
 // CHECKSTYLE:OFF LineLength
 
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_2;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
 import javax.annotation.Nullable;
 
@@ -64,31 +68,45 @@ public abstract class AfmuUtlatande implements AfUtlatande {
     @Nullable
     public abstract String getSignature();
 
+    // Kategori 1 - Sjukdomens konsekvenser
 
-    // Kategori 4 - Sjukdomens konsekvenser
-    // Fråga 35 - Funktionsnedsättning
-    // Fråga 35.1
+    // Fråga 1 - Funktionsnedsättning
+    // Fråga 1.1
+    @Nullable
+    public abstract Boolean getHarFunktionsnedsattning();
+
+    // Fråga 1.2
     @Nullable
     public abstract String getFunktionsnedsattning();
 
-    // Fråga 17 Aktivitetsbegränsning
-    // Fråga 17.1
+    // Kategori 2 - Aktivitetsbegränsning
+    // Fråga 2 Aktivitetsbegränsning
+    // Fråga 2.1
+    @Nullable
+    public abstract Boolean getHarAktivitetsbegransning();
+
     @Nullable
     public abstract String getAktivitetsbegransning();
 
-    // Kategori 5 - Medicinska behandlingar / åtgärder
-    // Fråga 19 -Pågående medicinska behandlingar
-    // Fråga 19.1 - Typ av pågående medicinska behandlingar
+    // Kategori 3 - Utredning och behandling
+    // Fråga 3 -Pågående medicinska behandlingar
+    // Fråga 3.1 - Typ av pågående medicinska behandlingar
     @Nullable
-    public abstract String getPagaendeBehandling();
+    public abstract Boolean getHarUtredningBehandling();
 
-    // Fråga 20 - Planerad medicinsk behandling
-    // Fråga 20.1
     @Nullable
-    public abstract String getPlaneradBehandling();
+    public abstract String getUtredningBehandling();
 
-    // Kategori 8 - Övrigt
-    // Fråga 25
+    // Fråga 4 - Planerad medicinsk behandling
+    // Fråga 4.1
+    @Nullable
+    public abstract Boolean getHarArbetetsPaverkan();
+
+    @Nullable
+    public abstract String getArbetetsPaverkan();
+
+    // Kategori 5 - Övrigt
+    // Fråga 5
     @Nullable
     public abstract String getOvrigt();
 
@@ -117,17 +135,29 @@ public abstract class AfmuUtlatande implements AfUtlatande {
         @JsonProperty(TEXTVERSION_JSON_ID)
         public abstract Builder setTextVersion(String textVersion);
 
-        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_1)
+        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)
+        public abstract Builder setHarFunktionsnedsattning(Boolean harFunktionsnedsattning);
+
+        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
         public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);
 
-        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_2)
+        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
+        public abstract Builder setHarAktivitetsbegransning(Boolean harAktivitetsbegransning);
+
+        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
         public abstract Builder setAktivitetsbegransning(String aktivitetsbegransning);
 
-        @JsonProperty(PAGAENDEBEHANDLING_SVAR_JSON_ID_3)
-        public abstract Builder setPagaendeBehandling(String pagaendeBehandling);
+        @JsonProperty(UTREDNING_BEHANDLING_SVAR_JSON_ID_31)
+        public abstract Builder setHarUtredningBehandling(Boolean harUtredningBehandling);
 
-        @JsonProperty(PLANERADBEHANDLING_SVAR_JSON_ID_4)
-        public abstract Builder setPlaneradBehandling(String planeradBehandling);
+        @JsonProperty(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
+        public abstract Builder setUtredningBehandling(String utredningBehandling);
+
+        @JsonProperty(ARBETETS_PAVERKAN_SVAR_JSON_ID_41)
+        public abstract Builder setHarArbetetsPaverkan(Boolean harArbetetsPaverkan);
+
+        @JsonProperty(ARBETETS_PAVERKAN_SVAR_JSON_ID_42)
+        public abstract Builder setArbetetsPaverkan(String arbetetsPaverkan);
 
         @JsonProperty(OVRIGT_SVAR_JSON_ID_5)
         public abstract Builder setOvrigt(String ovrigt);

@@ -26,8 +26,12 @@ angular.module('afmu').factory('afmu.viewConfigFactory', ['uvUtil', function (uv
             type: 'uv-fraga',
             labelKey: 'FRG_1.RBK',
             components: [{
+                type: 'uv-boolean-value',
+                modelProp: 'harFunktionsnedsattning'
+            }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_1.2.RBK',
+                hideExpression: '!harFunktionsnedsattning   ',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'funktionsnedsattning'
@@ -42,8 +46,12 @@ angular.module('afmu').factory('afmu.viewConfigFactory', ['uvUtil', function (uv
             type: 'uv-fraga',
             labelKey: 'FRG_2.RBK',
             components: [{
+                type: 'uv-boolean-value',
+                modelProp: 'harAktivitetsbegransning'
+            },{
                 type: 'uv-del-fraga',
-                labelKey: 'DFR_2.1.RBK',
+                labelKey: 'DFR_2.2.RBK',
+                hideExpression: '!harAktivitetsbegransning',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'aktivitetsbegransning'
@@ -58,8 +66,12 @@ angular.module('afmu').factory('afmu.viewConfigFactory', ['uvUtil', function (uv
             type: 'uv-fraga',
             labelKey: 'FRG_3.RBK',
             components: [{
+                type: 'uv-boolean-value',
+                modelProp: 'harUtredningBehandling'
+            },{
                 type: 'uv-del-fraga',
-                labelKey: 'DFR_3.1.RBK',
+                labelKey: 'DFR_3.2.RBK',
+                hideExpression: '!harUtredningBehandling',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'utredningBehandling'
@@ -74,8 +86,12 @@ angular.module('afmu').factory('afmu.viewConfigFactory', ['uvUtil', function (uv
             type: 'uv-fraga',
             labelKey: 'FRG_4.RBK',
             components: [{
+                type: 'uv-boolean-value',
+                modelProp: 'harArbetetsPaverkan'
+            },{
                 type: 'uv-del-fraga',
-                labelKey: 'DFR_4.1.RBK',
+                labelKey: 'DFR_4.2.RBK',
+                hideExpression: '!harArbetetspaverkan',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'arbetetsPaverkan'

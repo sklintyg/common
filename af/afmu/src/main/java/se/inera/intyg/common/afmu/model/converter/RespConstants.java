@@ -21,20 +21,29 @@ package se.inera.intyg.common.afmu.model.converter;
 public final class RespConstants {
 
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_1 = "1";
-    public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_1 = "1.1";
-    public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_1 = "funktionsnedsattning";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_11 = "1.1";
+    public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11 = "harFunktionsnedsattning";
+    public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_12 = "1.2";
+    public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12 = "funktionsnedsattning";
+
 
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_2 = "2";
-    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_2 = "2.1";
-    public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_2 = "aktivitetsbegransning";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_21 = "2.1";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21 = "harAktivitetsbegransning";
+    public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_22 = "2.2";
+    public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22 = "aktivitetsbegransning";
 
-    public static final String PAGAENDEBEHANDLING_SVAR_ID_3 = "3";
-    public static final String PAGAENDEBEHANDLING_DELSVAR_ID_3 = "3.1";
-    public static final String PAGAENDEBEHANDLING_SVAR_JSON_ID_3 = "pagaendeBehandling";
+    public static final String UTREDNING_BEHANDLING_SVAR_ID_3 = "3";
+    public static final String UTREDNING_BEHANDLING_DELSVAR_ID_31 = "3.1";
+    public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_31 = "harUtredningBehandling";
+    public static final String UTREDNING_BEHANDLING_DELSVAR_ID_32 = "3.2";
+    public static final String UTREDNING_BEHANDLING_SVAR_JSON_ID_32 = "utredningBehandling";
 
-    public static final String PLANERADBEHANDLING_SVAR_ID_4 = "4";
-    public static final String PLANERADBEHANDLING_DELSVAR_ID_4 = "4.1";
-    public static final String PLANERADBEHANDLING_SVAR_JSON_ID_4 = "planeradBehandling";
+    public static final String ARBETETS_PAVERKAN_SVAR_ID_4 = "4";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_ID_41 = "4.1";
+    public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_41 = "harArbetetsPaverkan";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_ID_42 = "4.2";
+    public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_42 = "arbetetsPaverkan";
 
     public static final String OVRIGT_SVAR_ID_5 = "5";
     public static final String OVRIGT_DELSVAR_ID_5 = "5.1";

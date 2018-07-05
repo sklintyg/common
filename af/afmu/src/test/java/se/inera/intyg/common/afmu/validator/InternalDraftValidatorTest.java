@@ -127,9 +127,9 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBlankstegPagaendeBehandling() throws Exception {
+    public void validateBlankstegUtredningBehandling() throws Exception {
         AfmuUtlatande utlatande = builderTemplate
-                .setPagaendeBehandling(" ")
+                .setUtredningBehandling(" ")
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -142,7 +142,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateBlankstegPlaneradBehandling() throws Exception {
         AfmuUtlatande utlatande = builderTemplate
-                .setPlaneradBehandling(" ")
+                .setUtredningBehandling(" ")
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);

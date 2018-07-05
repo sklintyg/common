@@ -62,13 +62,13 @@
     </skapadAv>
 
     <svar id="1">
-      <delsvar id="1.1">Inga fynd gjordes</delsvar>
+      <delsvar id="1.2">Inga fynd gjordes</delsvar>
     </svar>
     <svar id="2">
-      <delsvar id="2.1">Har sv&#xE5;rt att sitta och ligga.. Och st&#xE5;. F&#xE5;r huka sig.</delsvar>
+      <delsvar id="2.2">Har sv&#xE5;rt att sitta och ligga.. Och st&#xE5;. F&#xE5;r huka sig.</delsvar>
     </svar>
     <svar id="25">
-      <delsvar id="25.1">Inga &#xF6;vriga upplysningar.</delsvar>
+      <delsvar id="5.2">Inga &#xF6;vriga upplysningar.</delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>

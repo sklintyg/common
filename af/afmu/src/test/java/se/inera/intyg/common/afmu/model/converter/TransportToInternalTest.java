@@ -33,8 +33,8 @@ public class TransportToInternalTest {
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setPagaendeBehandling("Medicin");
-        utlatande.setPlaneradBehandling("Mer medicin");
+        utlatande.setUtredningBehandling("Medicin");
+        utlatande.setArbetetsPaverkan("Halt");
 
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
 

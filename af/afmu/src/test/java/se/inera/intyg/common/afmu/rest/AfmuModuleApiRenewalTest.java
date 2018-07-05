@@ -74,10 +74,11 @@ public class AfmuModuleApiRenewalTest {
         assertNull(renewCopy.getSignature());
 
         // Retained values
+        assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        assertEquals(original.getPagaendeBehandling(), renewCopy.getPagaendeBehandling());
-        assertEquals(original.getPlaneradBehandling(), renewCopy.getPlaneradBehandling());
+        assertEquals(original.getUtredningBehandling(), renewCopy.getUtredningBehandling());
+        assertEquals(original.getArbetetsPaverkan(), renewCopy.getArbetetsPaverkan());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
     }

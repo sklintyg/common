@@ -32,15 +32,23 @@ angular.module('afmu').factory('afmu.Domain.IntygModel',
                         'textVersion': undefined,
                         'grundData': grundData,
 
-                        // Kategori 4 Sjukdomens konsekvenser
+                        // Kategori 1
+                        'harFunktionsnedsattning': undefined,
                         'funktionsnedsattning': undefined,
+
+                        // Kategori 2
+                        'harAktivitetsbegransning': undefined,
                         'aktivitetsbegransning': undefined,
 
-                        // Kategori 5 Medicinska behandlingar / åtgärder
-                        'pagaendeBehandling': undefined,
-                        'planeradBehandling': undefined,
+                        // Kategori 3
+                        'harUtredningBehandling': undefined,
+                        'utredningBehandling': undefined,
 
-                        // Kategori 8 Övrigt
+                        // Kategori 4
+                        'harArbetetsPaverkan': undefined,
+                        'arbetetsPaverkan': undefined,
+
+                        // Kategori 5
                         'ovrigt': undefined
                     });
                 },

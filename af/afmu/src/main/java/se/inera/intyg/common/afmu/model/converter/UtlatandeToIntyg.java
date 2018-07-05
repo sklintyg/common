@@ -29,16 +29,16 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_2;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_2;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_ID_4;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_SVAR_ID_5;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_3;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_ID_3;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PLANERADBEHANDLING_DELSVAR_ID_4;
-import static se.inera.intyg.common.afmu.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_ID_4;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 
@@ -66,10 +66,10 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(AfmuUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
-        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_1, source.getFunktionsnedsattning());
-        addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_2, source.getAktivitetsbegransning());
-        addIfNotBlank(svars, PAGAENDEBEHANDLING_SVAR_ID_3, PAGAENDEBEHANDLING_DELSVAR_ID_3, source.getPagaendeBehandling());
-        addIfNotBlank(svars, PLANERADBEHANDLING_SVAR_ID_4, PLANERADBEHANDLING_DELSVAR_ID_4, source.getPlaneradBehandling());
+        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning());
+        addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning());
+        addIfNotBlank(svars, UTREDNING_BEHANDLING_SVAR_ID_3, UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling());
+        addIfNotBlank(svars, ARBETETS_PAVERKAN_SVAR_ID_4, ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan());
 
         addIfNotBlank(svars, OVRIGT_SVAR_ID_5, OVRIGT_DELSVAR_ID_5, buildOvrigaUpplysningar(source));
 

@@ -58,6 +58,10 @@ public class AfmuModuleApi extends AfParentModuleApi<AfmuUtlatande> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
+       // AfmuUtlatande afmuIntyg = getInternal(internalModel);
+       // IntygTexts texts = getTexts(AfmuEntryPoint.MODULE_ID, afmuIntyg.getTextVersion());
+
+      //  Personnummer personId = afmuIntyg.getGrundData().getPatient().getPersonId();
         return null;
     }
 

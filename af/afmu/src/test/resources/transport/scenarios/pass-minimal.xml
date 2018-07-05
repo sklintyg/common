@@ -69,10 +69,10 @@
     </skapadAv>
 
     <svar id="1">
-      <delsvar id="1.1">Haltar när han dansar</delsvar>
+      <delsvar id="1.2">Haltar när han dansar</delsvar>
     </svar>
     <svar id="2">
-      <delsvar id="2.1">Kommer inte in i bilen</delsvar>
+      <delsvar id="2.2">Kommer inte in i bilen</delsvar>
     </svar>
 
   </ns2:intyg>
