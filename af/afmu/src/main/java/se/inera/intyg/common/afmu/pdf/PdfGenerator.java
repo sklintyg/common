@@ -18,18 +18,12 @@
  */
 package se.inera.intyg.common.afmu.pdf;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.UUID;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.afmu.support.AfmuEntryPoint;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -37,6 +31,10 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.UUID;
 
 public class PdfGenerator {
 
@@ -50,14 +48,14 @@ public class PdfGenerator {
     private static final String CERTIFICATE_FILE_PREFIX = "arbetsformedlingens_mediniska_utlatande";
     private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_arbetsformedlingens_mediniska_utlatande";
 
-
     public PdfResponse generatePdf(String jsonModel, Personnummer personId, IntygTexts intygTexts) throws ModuleException {
 
         try {
             JsonNode intygJsonNode = toIntygJsonNode(jsonModel);
             String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
-            String upJsModel = IOUtils.toString(new ClassPathResource(PDF_UP_MODEL_CLASSPATH_URI).getInputStream(), Charset.forName("UTF-8"));
+            String upJsModel = IOUtils.toString(new ClassPathResource(PDF_UP_MODEL_CLASSPATH_URI).getInputStream(),
+                    Charset.forName("UTF-8"));
             byte[] logoData = IOUtils.toByteArray(new ClassPathResource(PDF_LOGOTYPE_CLASSPATH_URI).getInputStream());
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
