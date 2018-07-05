@@ -72,6 +72,8 @@ public class InternalToTransportTest {
 
         utlatande.setFunktionsnedsattning("Haltar när han dansar");
         utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
+        utlatande.setArbetetsPaverkan("Påverkas ja");
+        utlatande.setUtredningBehandling("Utredningen är under behandling");
 
         return utlatande.build();
     }

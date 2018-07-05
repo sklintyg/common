@@ -31,8 +31,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
@@ -40,7 +42,9 @@ import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING
 public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUtlatande> {
 
     private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
-    private static final String CATEGORY_MEDICINSKABEHANDLINGAR = "medicinskabehandlingar";
+    private static final String CATEGORY_AKTIVITETSBEGRANSNING = "aktivitetsbegransning";
+    private static final String CATEGORY_UTREDNING_BEHANDLING = "utredningBehandling";
+    private static final String CATEGORY_ARBETETS_PAVERKAN = "arbetetsPaverkan";
     private static final String CATEGORY_OVRIGT = "ovrigt";
 
     private static <T> boolean containsUnique(List<T> list) {
@@ -52,10 +56,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUt
     public ValidateDraftResponse validateDraft(AfmuUtlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
+        // Kategori 1 - Funktionsnedsättning
         validateFunktionsnedsattning(utlatande, validationMessages);
+
+        // Kategori 2 - Aktivitetsbegränsning
         validateAktivitetsbegransning(utlatande, validationMessages);
 
-        // Kategori 5 – Medicinska behandlingar/åtgärder
+        // Kategori 3 - Behandling / Utredning
+
+        // Kategori 4 - arbetetsPaverkan
+        validateArbetetsPaverkan(utlatande, validationMessages);
+
+        // Kategori 5 – Övrigt
         validateBlanksForOptionalFields(utlatande, validationMessages);
         // vårdenhet
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
@@ -64,15 +76,34 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUt
     }
 
     private void validateFunktionsnedsattning(AfmuUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+        // Yes or no must be specified.
+        if (utlatande.getHarFunktionsnedsattning() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11,
+                    ValidationMessageType.EMPTY);
+        }
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning())
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12,
                     ValidationMessageType.EMPTY);
         }
     }
 
     private void validateAktivitetsbegransning(AfmuUtlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22,
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && isSetToTrue(utlatande.getHarAktivitetsbegransning())
+                && Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22,
+                    ValidationMessageType.EMPTY);
+        }
+
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && utlatande.getHarAktivitetsbegransning() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21,
+                    ValidationMessageType.INCORRECT_COMBINATION);
+        }
+    }
+
+    private void validateArbetetsPaverkan(AfmuUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        if (isSetToTrue(utlatande.getHarArbetetsPaverkan()) && Strings.nullToEmpty(utlatande.getArbetetsPaverkan()).trim().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETETS_PAVERKAN, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
                     ValidationMessageType.EMPTY);
         }
     }
@@ -81,16 +112,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUt
 
         if (ValidatorUtil.isBlankButNotNull(utlatande.getUtredningBehandling())) {
             ValidatorUtil.addValidationError(validationMessages,
-                    CATEGORY_MEDICINSKABEHANDLINGAR, UTREDNING_BEHANDLING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                    CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
                     "afmu.validation.blanksteg.otillatet");
-        }
-        if (ValidatorUtil.isBlankButNotNull(utlatande.getArbetetsPaverkan())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKABEHANDLINGAR, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
-                    ValidationMessageType.EMPTY, "afmu.validation.blanksteg.otillatet");
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_5, ValidationMessageType.EMPTY,
                     "afmu.validation.blanksteg.otillatet");
         }
+    }
+
+    private boolean isSetToTrue(Boolean bool) {
+        return bool != null && bool;
     }
 }

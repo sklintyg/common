@@ -57,8 +57,15 @@ public class InternalDraftValidatorTest {
         builderTemplate = AfmuUtlatande.builder()
                 .setId("intygsId")
                 .setGrundData(buildGrundData(LocalDateTime.now()))
+                .setHarFunktionsnedsattning(true)
                 .setFunktionsnedsattning("funktionsnedsattning")
+                .setHarAktivitetsbegransning(true)
                 .setAktivitetsbegransning("aktivitetsbegransning")
+                .setHarUtredningBehandling(true)
+                .setUtredningBehandling("utredningBehandling")
+                .setHarArbetetsPaverkan(true)
+                .setArbetetsPaverkan("arbetetsPaverkan")
+                .setOvrigt("ovrigt")
                 .setTextVersion("");
     }
 
@@ -107,7 +114,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
         assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
@@ -121,9 +128,23 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
         assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateAktivitetsbegransningUnspecifiedWhenHarFunktionsnedsattning() throws Exception {
+        AfmuUtlatande utlatande = builderTemplate
+                .setHarAktivitetsbegransning(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("harAktivitetsbegransning", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
     }
 
     @Test

@@ -29,18 +29,23 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_2;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_ID_4;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_SVAR_ID_5;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
 public final class UtlatandeToIntyg {
 
@@ -66,9 +71,16 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(AfmuUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
+        addIfNotNull(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_11, source.getHarFunktionsnedsattning());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning());
+
+        addIfNotNull(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_21, source.getHarAktivitetsbegransning());
         addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning());
+
+        addIfNotNull(svars, UTREDNING_BEHANDLING_SVAR_ID_3, UTREDNING_BEHANDLING_DELSVAR_ID_31, source.getHarUtredningBehandling());
         addIfNotBlank(svars, UTREDNING_BEHANDLING_SVAR_ID_3, UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling());
+
+        addIfNotNull(svars, ARBETETS_PAVERKAN_SVAR_ID_4, ARBETETS_PAVERKAN_DELSVAR_ID_41, source.getHarArbetetsPaverkan());
         addIfNotBlank(svars, ARBETETS_PAVERKAN_SVAR_ID_4, ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan());
 
         addIfNotBlank(svars, OVRIGT_SVAR_ID_5, OVRIGT_DELSVAR_ID_5, buildOvrigaUpplysningar(source));
@@ -78,8 +90,6 @@ public final class UtlatandeToIntyg {
 
     // Original taken and then modified from luse/../UtlatandeToIntyg.java, INTYG-3024
     private static String buildOvrigaUpplysningar(AfmuUtlatande source) {
-        String motiveringTillInteBaseratPaUndersokning = null;
-        String motiveringTillTidigSjukskrivning = null;
         String ovrigt = null;
 
         if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {

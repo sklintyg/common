@@ -32,11 +32,17 @@ public class TransportToInternalTest {
         utlatande.setId("1234567");
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-        utlatande.setUtredningBehandling("Medicin");
-        utlatande.setArbetetsPaverkan("Halt");
-
+        utlatande.setHarFunktionsnedsattning(true);
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
+
+        utlatande.setHarAktivitetsbegransning(true);
+        utlatande.setAktivitetsbegransning("Väldigt sjuk");
+
+        utlatande.setHarUtredningBehandling(true);
+        utlatande.setUtredningBehandling("Medicin");
+
+        utlatande.setHarArbetetsPaverkan(true);
+        utlatande.setArbetetsPaverkan("Halt");
 
         utlatande.setOvrigt("Trevlig kille");
         return utlatande.build();

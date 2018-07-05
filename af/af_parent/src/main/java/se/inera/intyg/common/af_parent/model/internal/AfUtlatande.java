@@ -21,7 +21,7 @@ package se.inera.intyg.common.af_parent.model.internal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 /**
- * Future shared fields between differernt AF intyg.
+ * Future shared fields between different AF intyg.
  */
 public interface AfUtlatande extends Utlatande {
 

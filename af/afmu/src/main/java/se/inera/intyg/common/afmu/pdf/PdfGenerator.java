@@ -34,6 +34,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class PdfGenerator {
@@ -45,8 +47,8 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
     private static final String INFO_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "arbetsformedlingens_mediniska_utlatande";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_arbetsformedlingens_mediniska_utlatande";
+
+    private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
 
     public PdfResponse generatePdf(String jsonModel, Personnummer personId, IntygTexts intygTexts) throws ModuleException {
 
@@ -73,11 +75,17 @@ public class PdfGenerator {
                     .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-            return new PdfResponse(data, CERTIFICATE_FILE_PREFIX + "_" + personId.getPersonnummer() + ".pdf");
+            return new PdfResponse(data, buildFilename());
         } catch (IOException e) {
             LOG.error("Error generating PDF for AFMU: " + e.getMessage());
             throw new ModuleException("Error generating PDF for AFMU: " + e.getMessage());
         }
+    }
+
+    // af_medicinskt_utlatande_åå_mm_dd_ttmm
+    private String buildFilename() {
+        LocalDateTime now = LocalDateTime.now();
+        return CERTIFICATE_FILE_PREFIX + "_" + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
     }
 
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {

@@ -25,14 +25,18 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_2;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_ID_4;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.OVRIGT_SVAR_ID_5;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
@@ -80,6 +84,9 @@ public final class TransportToInternal {
     private static void handleFunktionsnedsattning(AfmuUtlatande.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
+            case FUNKTIONSNEDSATTNING_DELSVAR_ID_11:
+                utlatande.setHarFunktionsnedsattning(Boolean.valueOf(getStringContent(delsvar)));
+                break;
             case FUNKTIONSNEDSATTNING_DELSVAR_ID_12:
                 utlatande.setFunktionsnedsattning(getStringContent(delsvar));
                 break;
@@ -93,6 +100,9 @@ public final class TransportToInternal {
     private static void handleAktivitetsbegransning(AfmuUtlatande.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
+        case AKTIVITETSBEGRANSNING_DELSVAR_ID_21:
+            utlatande.setHarAktivitetsbegransning(Boolean.valueOf(getStringContent(delsvar)));
+            break;
         case AKTIVITETSBEGRANSNING_DELSVAR_ID_22:
             utlatande.setAktivitetsbegransning(getStringContent(delsvar));
             break;
@@ -104,6 +114,9 @@ public final class TransportToInternal {
     private static void handleUtredningBehandling(AfmuUtlatande.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
+        case UTREDNING_BEHANDLING_DELSVAR_ID_31:
+            utlatande.setHarUtredningBehandling(Boolean.valueOf(getStringContent(delsvar)));
+            break;
         case UTREDNING_BEHANDLING_DELSVAR_ID_32:
             utlatande.setUtredningBehandling(getStringContent(delsvar));
             break;
@@ -115,6 +128,9 @@ public final class TransportToInternal {
     private static void handleArbetetsPaverkan(AfmuUtlatande.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
+        case ARBETETS_PAVERKAN_DELSVAR_ID_41:
+            utlatande.setHarArbetetsPaverkan(Boolean.valueOf(getStringContent(delsvar)));
+            break;
         case ARBETETS_PAVERKAN_DELSVAR_ID_42:
             utlatande.setArbetetsPaverkan(getStringContent(delsvar));
             break;

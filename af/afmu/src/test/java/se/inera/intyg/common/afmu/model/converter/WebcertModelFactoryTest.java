@@ -81,7 +81,6 @@ public class WebcertModelFactoryTest {
 
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
-        // this to follow schema during CertificateStatusUpdateForCareV2
         when(intygTextsService.getLatestVersion(AfmuEntryPoint.MODULE_ID)).thenReturn("1.0");
         AfmuUtlatande draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
