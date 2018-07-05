@@ -28,7 +28,7 @@ public final class DaoUtil {
 
     /**
      * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
-     * Please observe that this method is only to be used in the DAO and other interactions with the persistence layer!
+     * Please observe that this method is only to be used in the DAO and other interactions with the config layer!
      *
      * @param personnummer Personnummer
      *

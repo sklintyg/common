@@ -664,7 +664,7 @@
 
             // FMB texts
             'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
-            'fmb.generell_info': 'Generell information',
+            'fmb.generell_info': 'Försäkringsmedicinsk information',
             'fmb.funktionsnedsattning': 'Om funktionsnedsättning',
             'fmb.aktivitetsbegransning': 'Om aktivitetsbegränsning',
             'fmb.beslutsunderlag_textuellt': 'Sjukskrivningsrekommendation',
