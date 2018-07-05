@@ -47,6 +47,8 @@ import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 public class IntygHeader implements IEventHandler {
+
+    // All constants related to positioning should be in points.
     private static final float LOGOTYPE_Y_TOP_OFFSET = millimetersToPoints(24f);
     private static final float UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET = millimetersToPoints(15f);
     private static final float UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET = millimetersToPoints(19f);
@@ -137,11 +139,11 @@ public class IntygHeader implements IEventHandler {
         canvas.setFont(fragaDelFragaFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Person- samordningsnr",
                 pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
-                pageSize.getTop() - millimetersToPoints(UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET), TextAlignment.RIGHT);
+                pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(printConfig.getPersonnummer(),
                 pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
-                pageSize.getTop() - millimetersToPoints(UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET), TextAlignment.RIGHT);
+                pageSize.getTop() - UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET, TextAlignment.RIGHT);
     }
 
     private void renderIntygNameAndCode(Rectangle pageSize, Canvas canvas) {

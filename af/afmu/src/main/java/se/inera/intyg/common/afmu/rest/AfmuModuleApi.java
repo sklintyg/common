@@ -25,7 +25,9 @@ import se.inera.intyg.common.afmu.model.converter.InternalToTransport;
 import se.inera.intyg.common.afmu.model.converter.TransportToInternal;
 import se.inera.intyg.common.afmu.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.afmu.model.internal.AfmuUtlatande;
+import se.inera.intyg.common.afmu.pdf.PdfGenerator;
 import se.inera.intyg.common.afmu.support.AfmuEntryPoint;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -36,6 +38,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -44,9 +47,6 @@ import java.util.List;
 public class AfmuModuleApi extends AfParentModuleApi<AfmuUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AfmuModuleApi.class);
-
-    private static final String CERTIFICATE_FILE_PREFIX = "arbetsformedlingens_mediniska_utlatande";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_arbetsformedlingens_mediniska_utlatande";
 
     public AfmuModuleApi() {
         super(AfmuUtlatande.class);
@@ -58,11 +58,11 @@ public class AfmuModuleApi extends AfParentModuleApi<AfmuUtlatande> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
-       // AfmuUtlatande afmuIntyg = getInternal(internalModel);
-       // IntygTexts texts = getTexts(AfmuEntryPoint.MODULE_ID, afmuIntyg.getTextVersion());
+        AfmuUtlatande afmuIntyg = getInternal(internalModel);
+        IntygTexts texts = getTexts(AfmuEntryPoint.MODULE_ID, afmuIntyg.getTextVersion());
 
-      //  Personnummer personId = afmuIntyg.getGrundData().getPatient().getPersonId();
-        return null;
+        Personnummer personId = afmuIntyg.getGrundData().getPatient().getPersonId();
+        return new PdfGenerator().generatePdf(internalModel, personId, texts);
     }
 
     @Override
