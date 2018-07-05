@@ -152,10 +152,6 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             };
 
             $scope.showPrintBtn = function() {
-                if ($scope.viewState.draftModel.status === 'DRAFT_LOCKED') {
-                    return false;
-                }
-
                 return utskriftFeature;
             };
         }
