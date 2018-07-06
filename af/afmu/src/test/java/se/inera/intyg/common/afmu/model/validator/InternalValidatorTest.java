@@ -37,9 +37,25 @@ public class InternalValidatorTest {
     private InternalDraftValidatorImpl internalValidator;
 
     @Test
-    public void test() throws ScenarioNotFoundException {
+    public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
         final int numErrors = 1;
         AfmuUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+    }
+
+    @Test
+    public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
+        final int numErrors = 1;
+        AfmuUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+    }
+
+    @Test
+    public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
+        final int numErrors = 1;
+        AfmuUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
     }

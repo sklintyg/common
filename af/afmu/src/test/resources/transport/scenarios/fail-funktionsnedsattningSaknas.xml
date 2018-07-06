@@ -68,7 +68,12 @@
     </skapadAv>
 
     <svar id="2">
-      <delsvar id="2.1">Kommer inte in i bilen</delsvar>
+      <delsvar id="2.1">true</delsvar>
+      <delsvar id="2.2">Kommer inte in i bilen</delsvar>
+    </svar>
+    <svar id="4">
+      <delsvar id="4.1">true</delsvar>
+      <delsvar id="4.2">Arbetet påverkas</delsvar>
     </svar>
 
   </ns2:intyg>

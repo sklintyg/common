@@ -33,6 +33,7 @@ import java.util.Set;
 
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
@@ -69,6 +70,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUt
 
         // Kategori 5 – Övrigt
         validateBlanksForOptionalFields(utlatande, validationMessages);
+
         // vårdenhet
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
@@ -102,6 +104,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AfmuUt
     }
 
     private void validateArbetetsPaverkan(AfmuUtlatande utlatande, List<ValidationMessage> validationMessages) {
+        // Yes or no must be specified.
+        if (utlatande.getHarArbetetsPaverkan() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETETS_PAVERKAN, ARBETETS_PAVERKAN_SVAR_JSON_ID_41,
+                    ValidationMessageType.EMPTY);
+        }
+
         if (isSetToTrue(utlatande.getHarArbetetsPaverkan()) && Strings.nullToEmpty(utlatande.getArbetetsPaverkan()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETETS_PAVERKAN, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
                     ValidationMessageType.EMPTY);

@@ -70,10 +70,17 @@ public class InternalToTransportTest {
         }
         utlatande.setGrundData(grundData);
 
+        utlatande.setHarFunktionsnedsattning(true);
         utlatande.setFunktionsnedsattning("Haltar när han dansar");
+
+        utlatande.setHarAktivitetsbegransning(true);
         utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
-        utlatande.setArbetetsPaverkan("Påverkas ja");
+
+        utlatande.setHarUtredningBehandling(true);
         utlatande.setUtredningBehandling("Utredningen är under behandling");
+
+        utlatande.setHarArbetetsPaverkan(true);
+        utlatande.setArbetetsPaverkan("Påverkas ja");
 
         return utlatande.build();
     }

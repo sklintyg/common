@@ -35,5 +35,6 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "aktivitetsbegransning": "Kommer inte in i bilen"
+  "aktivitetsbegransning": "Kommer inte in i bilen",
+  "harArbetetsPaverkan": false
 }

@@ -44,8 +44,8 @@ import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.afmu.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
 public final class UtlatandeToIntyg {
 
@@ -71,17 +71,33 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(AfmuUtlatande source) {
         List<Svar> svars = new ArrayList<>();
 
-        addIfNotNull(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_11, source.getHarFunktionsnedsattning());
-        addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_1, FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning());
+        if (source.getHarFunktionsnedsattning() != null) {
+            svars.add(aSvar(FUNKTIONSNEDSATTNING_SVAR_ID_1)
+                    .withDelsvar(FUNKTIONSNEDSATTNING_DELSVAR_ID_11, source.getHarFunktionsnedsattning().toString())
+                    .withDelsvar(FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getFunktionsnedsattning())
+                    .build());
+        }
 
-        addIfNotNull(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_21, source.getHarAktivitetsbegransning());
-        addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_2, AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning());
+        if (source.getHarAktivitetsbegransning() != null) {
+            svars.add(aSvar(AKTIVITETSBEGRANSNING_SVAR_ID_2)
+                    .withDelsvar(AKTIVITETSBEGRANSNING_DELSVAR_ID_21, source.getHarAktivitetsbegransning().toString())
+                    .withDelsvar(AKTIVITETSBEGRANSNING_DELSVAR_ID_22, source.getAktivitetsbegransning())
+                    .build());
+        }
 
-        addIfNotNull(svars, UTREDNING_BEHANDLING_SVAR_ID_3, UTREDNING_BEHANDLING_DELSVAR_ID_31, source.getHarUtredningBehandling());
-        addIfNotBlank(svars, UTREDNING_BEHANDLING_SVAR_ID_3, UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling());
+        if (source.getHarUtredningBehandling() != null) {
+            svars.add(aSvar(UTREDNING_BEHANDLING_SVAR_ID_3)
+                    .withDelsvar(UTREDNING_BEHANDLING_DELSVAR_ID_31, source.getHarUtredningBehandling().toString())
+                    .withDelsvar(UTREDNING_BEHANDLING_DELSVAR_ID_32, source.getUtredningBehandling())
+                    .build());
+        }
 
-        addIfNotNull(svars, ARBETETS_PAVERKAN_SVAR_ID_4, ARBETETS_PAVERKAN_DELSVAR_ID_41, source.getHarArbetetsPaverkan());
-        addIfNotBlank(svars, ARBETETS_PAVERKAN_SVAR_ID_4, ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan());
+        if (source.getHarArbetetsPaverkan() != null) {
+            svars.add(aSvar(ARBETETS_PAVERKAN_SVAR_ID_4)
+                    .withDelsvar(ARBETETS_PAVERKAN_DELSVAR_ID_41, source.getHarArbetetsPaverkan().toString())
+                    .withDelsvar(ARBETETS_PAVERKAN_DELSVAR_ID_42, source.getArbetetsPaverkan())
+                    .build());
+        }
 
         addIfNotBlank(svars, OVRIGT_SVAR_ID_5, OVRIGT_DELSVAR_ID_5, buildOvrigaUpplysningar(source));
 

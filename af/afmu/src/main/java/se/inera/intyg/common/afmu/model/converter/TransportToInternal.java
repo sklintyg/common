@@ -98,44 +98,48 @@ public final class TransportToInternal {
     }
 
     private static void handleAktivitetsbegransning(AfmuUtlatande.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-        case AKTIVITETSBEGRANSNING_DELSVAR_ID_21:
-            utlatande.setHarAktivitetsbegransning(Boolean.valueOf(getStringContent(delsvar)));
-            break;
-        case AKTIVITETSBEGRANSNING_DELSVAR_ID_22:
-            utlatande.setAktivitetsbegransning(getStringContent(delsvar));
-            break;
-        default:
-            throw new IllegalArgumentException();
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case AKTIVITETSBEGRANSNING_DELSVAR_ID_21:
+                    utlatande.setHarAktivitetsbegransning(Boolean.valueOf(getStringContent(delsvar)));
+                    break;
+                case AKTIVITETSBEGRANSNING_DELSVAR_ID_22:
+                    utlatande.setAktivitetsbegransning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
         }
+
     }
 
     private static void handleUtredningBehandling(AfmuUtlatande.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-        case UTREDNING_BEHANDLING_DELSVAR_ID_31:
-            utlatande.setHarUtredningBehandling(Boolean.valueOf(getStringContent(delsvar)));
-            break;
-        case UTREDNING_BEHANDLING_DELSVAR_ID_32:
-            utlatande.setUtredningBehandling(getStringContent(delsvar));
-            break;
-        default:
-            throw new IllegalArgumentException();
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case UTREDNING_BEHANDLING_DELSVAR_ID_31:
+                    utlatande.setHarUtredningBehandling(Boolean.valueOf(getStringContent(delsvar)));
+                    break;
+                case UTREDNING_BEHANDLING_DELSVAR_ID_32:
+                    utlatande.setUtredningBehandling(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
         }
     }
 
     private static void handleArbetetsPaverkan(AfmuUtlatande.Builder utlatande, Svar svar) {
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        switch (delsvar.getId()) {
-        case ARBETETS_PAVERKAN_DELSVAR_ID_41:
-            utlatande.setHarArbetetsPaverkan(Boolean.valueOf(getStringContent(delsvar)));
-            break;
-        case ARBETETS_PAVERKAN_DELSVAR_ID_42:
-            utlatande.setArbetetsPaverkan(getStringContent(delsvar));
-            break;
-        default:
-            throw new IllegalArgumentException();
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ARBETETS_PAVERKAN_DELSVAR_ID_41:
+                    utlatande.setHarArbetetsPaverkan(Boolean.valueOf(getStringContent(delsvar)));
+                    break;
+                case ARBETETS_PAVERKAN_DELSVAR_ID_42:
+                    utlatande.setArbetetsPaverkan(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
         }
     }
 
