@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean class="se.inera.intyg.common.af00213.model.converter.WebcertModelFactoryImpl" />
+
+  <bean class="se.inera.intyg.common.af00213.rest.Af00213ModuleApi" />
+
+  <bean class="se.inera.intyg.common.af00213.validator.InternalDraftValidatorImpl" />
+  
+  <bean class="se.inera.intyg.common.af00213.model.util.Af00213ModelCompareUtil" />
+
+  <bean id="af00213UtokadEntryPoint" class="se.inera.intyg.common.af00213.support.Af00213EntryPoint" />
+
+</beans>

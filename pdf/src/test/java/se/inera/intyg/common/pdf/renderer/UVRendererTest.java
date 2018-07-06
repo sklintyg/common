@@ -116,14 +116,14 @@ public class UVRendererTest {
     }
 
     @Test
-    public void testAfmu() throws IOException {
-        JsonNode intygJsonNode = loadAndCleanIntygJson("afmu/intyg.afmu.json");
+    public void testAf00213() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213.json");
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
 
-        ClassPathResource cpr = new ClassPathResource("afmu/afmu-uv-viewmodel.js");
+        ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
-        IntygTexts intygTexts = loadTexts("afmu/texterMU_AFMU_v1.0.xml");
+        IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("arbetsformedlingen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
@@ -141,7 +141,7 @@ public class UVRendererTest {
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-        try (FileOutputStream fos = new FileOutputStream("afmu-generic.pdf")) {
+        try (FileOutputStream fos = new FileOutputStream("af00213-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();
