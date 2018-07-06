@@ -11,7 +11,6 @@ dependencies {
     compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
-    compile "com.itextpdf:itextpdf:${itextVersion}"
     compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
 

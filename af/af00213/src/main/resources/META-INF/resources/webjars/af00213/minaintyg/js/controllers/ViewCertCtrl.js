@@ -18,19 +18,14 @@
  */
 angular.module('af00213').controller(
         'af00213.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'af00213.customizeViewstate', 'af00213.viewConfigFactory',
-                function($location, $log, $stateParams, $scope, certificateService, customizeViewstate, viewConfigFactory) {
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'af00213.viewConfigFactory',
+                function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
                     'use strict';
                     $scope.certificateId = $stateParams.certificateId;
                     $scope.cert = undefined;
 
                     $scope.send = function() {
-                        $location.path('/send/af00213/' + $stateParams.certificateId + '/FKASSA');
-                    };
-
-                    $scope.customizeCertificate = function() {
-                        customizeViewstate.resetModel();
-                        $location.path('/af00213/customize/' + $stateParams.certificateId + '/step1');
+                        $location.path('/send/af00213/' + $stateParams.certificateId + '/AF');
                     };
 
                     $scope.errorMessage = null;

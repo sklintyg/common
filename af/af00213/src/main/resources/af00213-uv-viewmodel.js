@@ -88,7 +88,7 @@ var viewConfig = [{
         },{
             type: 'uv-del-fraga',
             labelKey: 'DFR_4.2.RBK',
-            hideExpression: '!harArbetetspaverkan',
+            hideExpression: '!harArbetetsPaverkan',
             components: [{
                 type: 'uv-simple-value',
                 modelProp: 'arbetetsPaverkan'

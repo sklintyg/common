@@ -89,7 +89,7 @@ public abstract class UVComponent {
                 return (Boolean) eval ? "Ja" : "Nej";
             }
         }
-        return "ERROR";
+        return "Ej angivet";
     }
 
     boolean show(ScriptObjectMirror obj) {

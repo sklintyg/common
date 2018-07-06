@@ -30,58 +30,6 @@ angular.module('af00213').config(function($stateProvider) {
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
         }
-    }).state('af00213-customize', {
-        abstract: true, // jshint ignore:line
-        url: '/:type/customize/:certificateId',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/customize-pdf.html',
-        controller: 'af00213.CustomizePdfCtrl',
-        data: {
-            title: 'Anpassa intyget till arbetsgivare',
-            keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
-
-    }).state('af00213-customize.step1', {
-        url: '/step1',
-        views: {
-            'header@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step1.header.html'
-            },
-            'body@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step1.body.html'
-            }
-        },
-        data: {
-            index: 0
-        }
-
-    }).state('af00213-customize.step2', {
-        url: '/step2',
-        views: {
-            'header@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step2.header.html'
-            },
-            'body@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step2.body.html'
-            }
-        },
-        data: {
-            index: 1
-        }
-
-    }).state('af00213-customize.step3', {
-        url: '/step3',
-        views: {
-            'header@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step3.header.html'
-            },
-            'body@af00213-customize': {
-                templateUrl: '/web/webjars/af00213/minaintyg/views/step3.body.html'
-            }
-        },
-        data: {
-            index: 2
-        }
-
     }).state('af00213-fel', {
         url: '/af00213/fel/:errorCode',
         templateUrl: '/web/webjars/af00213/minaintyg/views/error.html',

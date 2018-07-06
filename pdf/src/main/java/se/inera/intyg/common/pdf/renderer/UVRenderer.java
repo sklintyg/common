@@ -137,8 +137,13 @@ public class UVRenderer {
             // Bind the $filter function and other custom functions declared in uvViewConfig.
             engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
 
+
+
+            // Fix line breaks in the actual answers, the escape-mess below transforms \n to \\n
+            String json = printConfig.getIntygJsonModel().replaceAll("\\\\n", "\\\\\\\\n");
+
             // Parse JSON intyg into JS object
-            jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + printConfig.getIntygJsonModel() + "');");
+            jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + json + "');");
             engine.put("jsIntygModel", jsIntygModel);
 
             // Load unified print JS model
@@ -288,7 +293,7 @@ public class UVRenderer {
             engine.put("model", null);
             return result;
         } catch (ScriptException e) {
-            return "ERROR";
+            return "Ej angivet";
         }
     }
 
