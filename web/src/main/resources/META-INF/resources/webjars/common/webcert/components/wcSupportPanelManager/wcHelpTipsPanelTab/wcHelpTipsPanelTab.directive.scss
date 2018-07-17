@@ -25,26 +25,5 @@ wc-help-tips-panel-tab {
       white-space: pre-line;
     }
 
-    //Test to style external links icon
-    a[target="_blank"]::after {
-      content: 'launch';
-      font-family: 'Material Icons';
-      font-feature-settings: 'liga';
-
-      display: inline-block;
-      line-height: 1;
-      text-transform: none;
-      letter-spacing: normal;
-      word-wrap: normal;
-      white-space: nowrap;
-      direction: ltr;
-      vertical-align: middle;
-      height: 14px;
-      overflow: hidden;
-      margin-left: 2px;
-      text-decoration: none !important;
-
-    }
-
   }
 }
