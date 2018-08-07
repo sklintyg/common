@@ -93,6 +93,22 @@ angular.module('common').factory('common.UtkastProxy',
         }
 
         /**
+         * Copy utkast
+         */
+        function _copyUtkast(intygsId, intygsTyp, onSuccess, onError) {
+            $log.debug('_copyUtkast id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/copy';
+
+            $http.post(restPath).
+            then(function(response) {
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
+            });
+        }
+
+        /**
          * Används "i bakgrunden" av frontend för att kontrollera signaturstatus för pågående signering.
          *
          * Används av BankID/Mobilt BankID, Netid Access samt fejksignering. NetiD-plugin behöver inte polla
@@ -209,6 +225,7 @@ angular.module('common').factory('common.UtkastProxy',
             saveUtkast: _saveUtkast,
             isSaveUtkastInProgress: _isSaveUtkastInProgress,
             discardUtkast: _discardUtkast,
+            copyUtkast: _copyUtkast,
             startSigningProcess: _startSigningProcess,
             getSigneringsstatus: _getSigneringsstatus,
             fejkSignera: _fejkSignera,

@@ -58,6 +58,7 @@
             'common.send.tooltip': 'Öppnar ett fönster där du kan välja att skicka intyget till ${recipient}.',
             'common.copy': 'Kopiera',
             'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
+            'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggat på.',
             'common.fornya': 'Förnya',
             'common.fornya.tooltip': 'Skapar en kopia av detta intyg som du kan redigera.',
             'common.fornya.sjukskrivning.tooltip': 'Skapar ett nytt intygsutkast för förlängning av sjukskrivning, där en del information från detta intyg följer med.',
@@ -110,6 +111,11 @@
 
             // labels for common modal dialogs
             'common.title.sign': 'Signera intyget',
+
+            'common.modal.copy.title': 'Kopiera låst utkast',
+            'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>' +
+                                            '<p>Det nya utkastet skapas på den enhet du är inloggat på.</p>',
+            'common.modal.copy.body_go': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>',
 
             'common.modal.label.discard_draft': 'Ta bort utkast',
             'common.modal.label.confirm_sign': 'Signera intyget',
