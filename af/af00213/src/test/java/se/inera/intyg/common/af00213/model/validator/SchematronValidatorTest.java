@@ -27,6 +27,7 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 import java.net.URL;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -51,7 +52,7 @@ public class SchematronValidatorTest {
     public void validXmlPassesTest() throws Exception {
         String inputXml = Resources.toString(getResource("transport/af00213.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().isEmpty());
+        assertTrue(response.getValidationErrors().stream().collect(Collectors.joining("\n")), response.getValidationErrors().isEmpty());
     }
 
     private static URL getResource(String href) {
