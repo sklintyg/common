@@ -72,6 +72,14 @@
     </iso:rule>
   </iso:pattern>
 
+  <iso:pattern id="q1.1-2.1">
+    <iso:rule context="//gn:delsvar[@id='1.1' and matches(normalize-space(.), '1|true')]">
+      <iso:assert test="count(../../gn:svar[@id='2']/gn:delsvar[@id='2.1']) = 1">
+        Om 'Finns besvär som medför funktionsnedsättning' besvarats med 'Ja' ska 'Finns aktivitetsbegränsning i relation till arbete/studier' visas och vara obligatorisk att besvara.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
+
   <iso:pattern id="q2">
     <iso:rule context="//gn:svar[@id='2']">
       <iso:assert test="count(gn:delsvar[@id='2.1']) = 1">

@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("af00213-test.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("af00213.sch");
 
     static {
         // avoid com.helger debug log
