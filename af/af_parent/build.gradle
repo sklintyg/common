@@ -4,6 +4,7 @@ dependencies {
     compile project(":integration-util")
     compile project(":common-services")
     compile project(":common-schemas")
+    compile project(":common-pdf")
 
     compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
