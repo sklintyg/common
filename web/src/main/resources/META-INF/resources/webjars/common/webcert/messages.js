@@ -57,6 +57,7 @@
             'common.send': 'Skicka',
             'common.send.tooltip': 'Öppnar ett fönster där du kan välja att skicka intyget till ${recipient}.',
             'common.copy': 'Kopiera',
+            'common.copy.resume': 'Fortsätt på utkast',
             'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
             'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggat på.',
             'common.fornya': 'Förnya',

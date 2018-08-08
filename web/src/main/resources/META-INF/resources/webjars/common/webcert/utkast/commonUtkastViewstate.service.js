@@ -108,6 +108,19 @@ angular.module('common').service('common.UtkastViewStateService',
             return false;
         }
 
+        this.isCopied = function() {
+            return angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
+                angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
+        };
+
+        this.getCopyUtkastId = function() {
+            if (this.isCopied()) {
+                return this.__utlatandeJson.relations.latestChildRelations.utkastCopy.intygsId;
+            }
+
+            return null;
+        };
+
         this.setShowComplete = function(showComplete) {
             this.showComplete = showComplete;
             return this.showComplete;

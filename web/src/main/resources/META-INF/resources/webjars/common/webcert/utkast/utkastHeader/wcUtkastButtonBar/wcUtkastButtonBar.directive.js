@@ -167,43 +167,61 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                     showerror: false
                 };
 
+                var isCopied = CommonViewState.isCopied();
+
+                var button1text = 'common.copy';
+                var bodytext = 'common.modal.copy.body_new';
+
+                if (isCopied) {
+                    button1text = 'common.copy.resume';
+                    bodytext = 'common.modal.copy.body_go';
+                }
+
                 dialogService.showDialog({
                     dialogId: 'confirm-draft-copy',
                     titleId: 'common.modal.copy.title',
                     templateUrl: '/app/partials/copy-dialog.html',
-                    bodyTextId: 'common.modal.copy.body_new',
+                    bodyTextId: bodytext,
                     button1id: 'confirm-draft-copy-button',
                     model: dialogModel,
 
                     button1click: function(modalInstance) {
-                        dialogModel.acceptprogressdone = false;
+                        if (isCopied) {
+                            modalInstance.close();
 
-                        UtkastProxy.copyUtkast(
-                            $stateParams.certificateId,
-                            CommonViewState.intyg.type,
-                            function(data) {
-                                dialogModel.acceptprogressdone = true;
-                                modalInstance.close();
+                            $location.url('/' + CommonViewState.intyg.type + '/edit/' + CommonViewState.getCopyUtkastId() + '/', true);
+                        } else {
+                            dialogModel.acceptprogressdone = false;
 
-                                $location.url('/' + data.intygsTyp + '/edit/' + data.intygsUtkastId + '/', true);
-                            },
-                            function(error) {
-                                dialogModel.acceptprogressdone = true;
-                                dialogModel.showerror = true;
-                                dialogModel.errormessage = '';
-                                if (error === '') {
-                                    dialogModel.errormessageid = 'common.error.cantconnect';
-                                } else {
-                                    dialogModel.errormessageid =
-                                        ('common.error.' + error.errorCode).toLowerCase();
+                            UtkastProxy.copyUtkast(
+                                $stateParams.certificateId,
+                                CommonViewState.intyg.type,
+                                function(data) {
+                                    dialogModel.acceptprogressdone = true;
+                                    modalInstance.close();
+
+                                    $location.url('/' + data.intygsTyp + '/edit/' + data.intygsUtkastId + '/', true);
+                                },
+                                function(error) {
+                                    dialogModel.acceptprogressdone = true;
+                                    dialogModel.showerror = true;
+                                    dialogModel.errormessage = '';
+                                    if (error === '') {
+                                        dialogModel.errormessageid = 'common.error.cantconnect';
+                                    } else {
+                                        dialogModel.errormessageid =
+                                            ('common.error.' + error.errorCode).toLowerCase();
+                                    }
                                 }
-                            }
-                        );
+                            );
+                        }
+
+
                     },
                     button2click: function(modalInstance){
                         modalInstance.close();
                     },
-                    button1text: 'common.copy',
+                    button1text: button1text,
                     button2text: 'common.cancel',
                     autoClose: false
                 });
