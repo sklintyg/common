@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('ueTextarea', [ 'ueUtil',
-    'common.UtkastViewStateService', function(ueUtil) {
+    function(ueUtil) {
     'use strict';
 
     return {

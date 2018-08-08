@@ -157,7 +157,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             };
 
             $scope.showCopyBtn = function() {
-                return $scope.viewState.draftModel.status === 'DRAFT_LOCKED';
+                return CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
             };
 
             $scope.copy = function() {

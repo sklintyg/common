@@ -39,6 +39,9 @@ angular.module('common').directive('wcUtkastStatus', [
                     if (CommonViewState.isSigned) {
                         return setIntygStatus($scope.intygstatus1, 'is-001');
                     }
+                    else if(CommonViewState.isLocked) {
+                        return setIntygStatus($scope.intygstatus1, 'lus-01');
+                    }
                     else if (CommonViewState.intyg.isComplete) {
                         return setIntygStatus($scope.intygstatus1, 'is-016');
                     }
@@ -46,7 +49,9 @@ angular.module('common').directive('wcUtkastStatus', [
                 };
 
                 $scope.getIntygStatus2 = function() {
-                    if (CommonViewState.saving) {
+                    if (CommonViewState.isLocked) {
+                        return;
+                    } else if (CommonViewState.saving) {
                         return setIntygStatus($scope.intygstatus2, 'is-013');
                     }
                     else if ($scope.certForm && $scope.certForm.$pristine) {

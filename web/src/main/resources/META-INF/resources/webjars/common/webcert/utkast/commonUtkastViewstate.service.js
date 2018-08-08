@@ -41,12 +41,11 @@ angular.module('common').service('common.UtkastViewStateService',
             this.hospName = UserModel.getIntegrationParam('responsibleHospName');
             this.deleted = false;
             this.isSigned = false;
+            this.isLocked = false;
             this.textVersionUpdated = false;
             this.validPatientAddressAquiredFromPU = false;
 
             this.doneLoading = false;
-            this.collapsedHeader = false;
-            this.showHideButtonText = 'Dölj meny';
             this.saving = false;
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
@@ -67,6 +66,7 @@ angular.module('common').service('common.UtkastViewStateService',
                 this.error.saveErrorMessage = null;
                 this.error.saveErrorCode = null;
 
+                this.isLocked = draftModel.isLocked();
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
 
@@ -108,6 +108,10 @@ angular.module('common').service('common.UtkastViewStateService',
             return false;
         }
 
+        this.isSameCareUnit = function() {
+            return commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
+        };
+
         this.isCopied = function() {
             return angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
                 angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
@@ -124,19 +128,6 @@ angular.module('common').service('common.UtkastViewStateService',
         this.setShowComplete = function(showComplete) {
             this.showComplete = showComplete;
             return this.showComplete;
-        };
-
-        this.toggleCollapsedHeader = function() {
-            this.collapsedHeader = !this.collapsedHeader;
-            if(this.collapsedHeader){
-                this.showHideButtonText = 'Visa meny';
-            } else {
-                this.showHideButtonText = 'Dölj meny';
-            }
-        };
-
-        this.setDoneLoading = function(val){
-            this.doneLoading = val;
         };
 
         this.reset();

@@ -389,8 +389,14 @@
             'common.label.intygstatus.is-015': 'Obligatoriska uppgifter saknas',
             'common.label.intygstatus.is-016': 'Klart att signera',
 
+            'common.label.intygstatus.lus-01': 'Utkastet är låst',
+            'common.label.intygstatus.lus-02': 'Utkastet är makulerat',
+
             'common.modalheader.intygstatus.is-004': 'Intyget är makulerat',
             'common.modalbody.intygstatus.is-004': 'Intyget är inte längre tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>.',
+            'common.modalheader.intygstatus.lus-01': 'Utkastet är låst',
+            'common.modalbody.intygstatus.lus-01': '<p>Det har gått fler än fjorton dagar sedan det här utkastet skapades. Det har därför låsts.</p><p>Intyg, inklusive utkast, betraktas som journalhandlingar vilket innebär att Patiendatalagen och Socialstyrelsens föreskrifter om journalföring gäller för alla intyg och utkast som hanteras av Webcert.</p>',
+
             'db.modalbody.intygstatus.is-004': '',
             'doi.modalbody.intygstatus.is-004': '',
 
