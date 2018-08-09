@@ -115,7 +115,7 @@ angular.module('common').service('common.UtkastViewStateService',
         };
 
         this.isCopied = function() {
-            return this.__utlatandeJson != null &&
+            return this.__utlatandeJson !== null &&
                 angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
                 angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
         };
