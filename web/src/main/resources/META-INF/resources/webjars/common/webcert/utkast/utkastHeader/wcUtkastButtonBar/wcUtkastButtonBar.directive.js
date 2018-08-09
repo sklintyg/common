@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams', '$timeout', '$window',
+angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams', '$timeout', '$window', '$location',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService', 'common.dialogService',
     'common.PatientProxy', 'common.statService', 'common.UtkastProxy',
-    function($log, $stateParams, $timeout, $window,
+    function($log, $stateParams, $timeout, $window, $location,
         authorityService, featureService, messageService, CommonViewState, dialogService,
         PatientProxy, statService, UtkastProxy) {
     'use strict';
@@ -35,6 +35,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             $scope.CommonViewState = CommonViewState;
 
             $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
+            $scope.copyBtnTooltipText = messageService.getProperty('common.copy.utkast.tooltip');
             $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
 
             var utskriftFeature = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: CommonViewState.intyg.type });
@@ -153,6 +154,77 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
 
             $scope.showPrintBtn = function() {
                 return utskriftFeature;
+            };
+
+            $scope.showCopyBtn = function() {
+                return CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
+            };
+
+            $scope.copy = function() {
+                var dialogModel = {
+                    acceptprogressdone: false,
+                    errormessageid: 'Error',
+                    showerror: false
+                };
+
+                var isCopied = CommonViewState.isCopied();
+
+                var button1text = 'common.copy';
+                var bodytext = 'common.modal.copy.body_new';
+
+                if (isCopied) {
+                    button1text = 'common.copy.resume';
+                    bodytext = 'common.modal.copy.body_go';
+                }
+
+                dialogService.showDialog({
+                    dialogId: 'confirm-draft-copy',
+                    titleId: 'common.modal.copy.title',
+                    templateUrl: '/app/partials/copy-dialog.html',
+                    bodyTextId: bodytext,
+                    button1id: 'confirm-draft-copy-button',
+                    model: dialogModel,
+
+                    button1click: function(modalInstance) {
+                        if (isCopied) {
+                            modalInstance.close();
+
+                            $location.url('/' + CommonViewState.intyg.type + '/edit/' + CommonViewState.getCopyUtkastId() + '/', true);
+                        } else {
+                            dialogModel.acceptprogressdone = false;
+
+                            UtkastProxy.copyUtkast(
+                                $stateParams.certificateId,
+                                CommonViewState.intyg.type,
+                                function(data) {
+                                    dialogModel.acceptprogressdone = true;
+                                    modalInstance.close();
+
+                                    $location.url('/' + data.intygsTyp + '/edit/' + data.intygsUtkastId + '/', true);
+                                },
+                                function(error) {
+                                    dialogModel.acceptprogressdone = true;
+                                    dialogModel.showerror = true;
+                                    dialogModel.errormessage = '';
+                                    if (error === '') {
+                                        dialogModel.errormessageid = 'common.error.cantconnect';
+                                    } else {
+                                        dialogModel.errormessageid =
+                                            ('common.error.' + error.errorCode).toLowerCase();
+                                    }
+                                }
+                            );
+                        }
+
+
+                    },
+                    button2click: function(modalInstance){
+                        modalInstance.close();
+                    },
+                    button1text: button1text,
+                    button2text: 'common.cancel',
+                    autoClose: false
+                });
             };
         }
     };

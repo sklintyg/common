@@ -55,7 +55,7 @@ angular.module('common').controller('smi.EditCertCtrl',
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
 
-                if (viewState.draftModel.status !== 'DRAFT_LOCKED') {
+                if (!viewState.draftModel.isLocked()) {
                     $scope.editEnabled = true;
                 }
             });

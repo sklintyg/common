@@ -41,12 +41,12 @@ angular.module('common').service('common.UtkastViewStateService',
             this.hospName = UserModel.getIntegrationParam('responsibleHospName');
             this.deleted = false;
             this.isSigned = false;
+            this.isLocked = false;
             this.textVersionUpdated = false;
             this.validPatientAddressAquiredFromPU = false;
+            this.sameCareUnit = false;
 
             this.doneLoading = false;
-            this.collapsedHeader = false;
-            this.showHideButtonText = 'Dölj meny';
             this.saving = false;
             this.today = new Date();
             this.today.setHours(0, 0, 0, 0); // reset time to increase comparison accuracy (using new Date() also sets time)
@@ -67,6 +67,8 @@ angular.module('common').service('common.UtkastViewStateService',
                 this.error.saveErrorMessage = null;
                 this.error.saveErrorCode = null;
 
+                this.sameCareUnit = commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
+                this.isLocked = draftModel.isLocked();
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
 
@@ -108,22 +110,27 @@ angular.module('common').service('common.UtkastViewStateService',
             return false;
         }
 
+        this.isSameCareUnit = function() {
+            return this.sameCareUnit;
+        };
+
+        this.isCopied = function() {
+            return this.__utlatandeJson != null &&
+                angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
+                angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
+        };
+
+        this.getCopyUtkastId = function() {
+            if (this.isCopied()) {
+                return this.__utlatandeJson.relations.latestChildRelations.utkastCopy.intygsId;
+            }
+
+            return null;
+        };
+
         this.setShowComplete = function(showComplete) {
             this.showComplete = showComplete;
             return this.showComplete;
-        };
-
-        this.toggleCollapsedHeader = function() {
-            this.collapsedHeader = !this.collapsedHeader;
-            if(this.collapsedHeader){
-                this.showHideButtonText = 'Visa meny';
-            } else {
-                this.showHideButtonText = 'Dölj meny';
-            }
-        };
-
-        this.setDoneLoading = function(val){
-            this.doneLoading = val;
         };
 
         this.reset();

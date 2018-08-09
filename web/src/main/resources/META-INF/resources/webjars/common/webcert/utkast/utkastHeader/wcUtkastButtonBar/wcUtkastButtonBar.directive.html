@@ -1,6 +1,20 @@
 <div class="white-space-no-wrap">
 
   <button
+      data-ng-if="showCopyBtn()"
+      type="button"
+      id="copy-utkast"
+      class="btn btn-primary"
+      ng-click="copy()"
+      uib-popover="{{copyBtnTooltipText}}"
+      popover-trigger="mouseenter"
+      popover-popup-delay="300"
+      popover-append-to-body="true"
+      popover-placement="auto top">
+    <i class="icon-wc-ikon-komplettera icon-wc-24 align-middle"></i> <span dynamic-label key="common.copy"></span>
+  </button>
+
+  <button
           data-ng-if="showPrintBtn()"
           type="button"
           id="skriv-ut-utkast"

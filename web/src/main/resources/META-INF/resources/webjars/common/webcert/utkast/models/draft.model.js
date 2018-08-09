@@ -64,6 +64,10 @@ angular.module('common').factory('common.Domain.DraftModel',
             return (this.status && this.status === 'DRAFT_COMPLETE');
         };
 
+        DraftModel.prototype.isLocked = function (){
+            return (this.status && this.status === 'DRAFT_LOCKED');
+        };
+
         DraftModel.build = function() {
             return new DraftModel();
         };
