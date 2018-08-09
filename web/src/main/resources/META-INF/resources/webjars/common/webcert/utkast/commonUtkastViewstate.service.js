@@ -44,6 +44,7 @@ angular.module('common').service('common.UtkastViewStateService',
             this.isLocked = false;
             this.textVersionUpdated = false;
             this.validPatientAddressAquiredFromPU = false;
+            this.sameCareUnit = false;
 
             this.doneLoading = false;
             this.saving = false;
@@ -66,6 +67,7 @@ angular.module('common').service('common.UtkastViewStateService',
                 this.error.saveErrorMessage = null;
                 this.error.saveErrorCode = null;
 
+                this.sameCareUnit = commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
                 this.isLocked = draftModel.isLocked();
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
@@ -109,11 +111,12 @@ angular.module('common').service('common.UtkastViewStateService',
         }
 
         this.isSameCareUnit = function() {
-            return commonUser.getUser().valdVardenhet.id === this.__utlatandeJson.content.grundData.skapadAv.vardenhet.enhetsid;
+            return this.sameCareUnit;
         };
 
         this.isCopied = function() {
-            return angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
+            return this.__utlatandeJson != null &&
+                angular.isObject(this.__utlatandeJson.relations.latestChildRelations) &&
                 angular.isObject(this.__utlatandeJson.relations.latestChildRelations.utkastCopy);
         };
 
