@@ -243,8 +243,9 @@ public class UVRenderer {
             }
         }
         rootDiv.add(currentDiv);
+
+        // Add a spacer to the parent div _after_ kategori and its subcomponents.
         if ("uv-kategori".equalsIgnoreCase(type)) {
-            // Add a spacer to the parent div _after_
             rootDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
         }
     }
@@ -283,7 +284,7 @@ public class UVRenderer {
     /**
      * Uses nashorn eval(..) to resolve the value of a model property in the given ScriptObjectMirror model.
      *
-     * Works by binding the supplied model to the engine context, executing the engine.eval on it and the removing
+     * Works by binding the supplied model to the engine context, executing the engine.eval on it and then removing
      * the model again.
      */
     public Object findInModel(ScriptObjectMirror model, String modelProp) {

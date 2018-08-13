@@ -49,10 +49,11 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 public class IntygHeader implements IEventHandler {
 
     // All constants related to positioning should be in points.
-    private static final float LOGOTYPE_Y_TOP_OFFSET = millimetersToPoints(24f);
+    private static final float LOGOTYPE_Y_TOP_OFFSET = millimetersToPoints(15f);
     private static final float UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET = millimetersToPoints(15f);
     private static final float UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET = millimetersToPoints(19f);
     private static final float LOGOTYPE_MAX_HEIGHT = millimetersToPoints(15f);
+    private static final float LOGOTYPE_MAX_WIDTH = millimetersToPoints(35f);
     private static final float INTYG_NAME_Y_TOP_OFFSET = millimetersToPoints(35f);
     private static final float LINE_WIDTH = 0.5f;
     private static final float HR_Y_TOP_OFFSET = millimetersToPoints(38f);
@@ -107,7 +108,7 @@ public class IntygHeader implements IEventHandler {
         renderIntygNameAndCode(pageSize, canvas);
 
         // Streck under
-        renderHorisontalLine(pageSize, pdfCanvas);
+        renderHorizontalLine(pageSize, pdfCanvas);
 
         // Röda rutan. Do not render on last "info" page.
         if (pdf.getPageNumber(page) != pdf.getNumberOfPages()) {
@@ -119,8 +120,19 @@ public class IntygHeader implements IEventHandler {
     }
 
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {
-        pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET, LOGOTYPE_MAX_HEIGHT, false, false);
+
+        // We need to constrain the logotype either by width or by height. Typically width.
+        if (logotypeData.getWidth() > millimetersToPoints(LOGOTYPE_MAX_WIDTH)) {
+            // Constrain by width
+            float ratio = LOGOTYPE_MAX_WIDTH / logotypeData.getWidth();
+            pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
+        } else {
+            // Constrain by height
+            pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT, LOGOTYPE_MAX_HEIGHT, false, false);
+        }
+
     }
 
     private void renderUtskriftsDatum(Rectangle pageSize, Canvas canvas) {
@@ -162,7 +174,7 @@ public class IntygHeader implements IEventHandler {
                 pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
     }
 
-    private void renderHorisontalLine(Rectangle pageSize, PdfCanvas pdfCanvas) {
+    private void renderHorizontalLine(Rectangle pageSize, PdfCanvas pdfCanvas) {
         pdfCanvas.moveTo(millimetersToPoints(PAGE_MARGIN_LEFT), pageSize.getTop() - HR_Y_TOP_OFFSET);
         pdfCanvas.lineTo(pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
                 pageSize.getTop() - HR_Y_TOP_OFFSET);

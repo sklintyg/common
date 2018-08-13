@@ -34,7 +34,7 @@ import java.util.List;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
- * The table component is somewhat complex since table data can be both property and function-based.
+ * The table component is somewhat complex since table data can be either property- or function-based.
  */
 public class UVTable extends UVComponent {
 
@@ -48,9 +48,10 @@ public class UVTable extends UVComponent {
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
         List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
-        Table table = new Table(headerLabels.size()).setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS);
-        table.setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM));
+        Table table = new Table(headerLabels.size())
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM));
 
         // Render headers with tabs
         renderHeaders(headerLabels, table);
@@ -92,10 +93,9 @@ public class UVTable extends UVComponent {
 
         } else if (modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
             List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
+
             // Start rows. colProps are rows... very confusing...
-
             int row = 0;
-
             for (String colProp : colProps) {
                 List<String> columnValues = new ArrayList<>();
                 // Start cols
@@ -120,7 +120,6 @@ public class UVTable extends UVComponent {
                 row++;
                 data.add(columnValues);
             }
-
         }
 
         // RENDER

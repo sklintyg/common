@@ -23,6 +23,7 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+import se.inera.intyg.common.support.services.BefattningService;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,6 +48,7 @@ public class UVSkapadAv extends UVComponent {
         String signaturDatum = buildSigneringsDatum();
 
         // Render
+        parent.setKeepTogether(true);
         parent.add(new Paragraph("Intygsutfärdare:")
                 .setMarginBottom(0f)
                 .setFont(renderer.fragaDelFragaFont)
@@ -91,13 +93,15 @@ public class UVSkapadAv extends UVComponent {
         // Befattningar
         List<String> befattningar = fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
         if (befattningar.size() > 0) {
-            intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
+            intygsUtfardare.append(befattningar.stream()
+                    .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
+                    .collect(Collectors.joining(" ,"))).append("\n");
         }
 
         // Specialistkompetenser
         List<String> specialistkompentenser = fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
         if (specialistkompentenser.size() > 0) {
-            intygsUtfardare.append(befattningar.stream().collect(Collectors.joining(" ,"))).append("\n");
+            intygsUtfardare.append(specialistkompentenser.stream().collect(Collectors.joining(" ,"))).append("\n");
         }
 
         // Leg yrkesgrupp.

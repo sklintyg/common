@@ -32,7 +32,7 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders an alert component consisting of a table where cell1 contains an icon and the other cell contains the
- * altert text.
+ * alert text.
  */
 public class UVAlertValue extends UVComponent {
 
@@ -74,7 +74,7 @@ public class UVAlertValue extends UVComponent {
             paragraph = paragraph
                     .add(delFraga)
                     .setFont(renderer.fragaDelFragaFont)
-                    .setFontColor(wcColor09)
+                    .setFontColor(wcColor05)
                     .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
             Cell textCell = new Cell();
             textCell.setBorder(Border.NO_BORDER);

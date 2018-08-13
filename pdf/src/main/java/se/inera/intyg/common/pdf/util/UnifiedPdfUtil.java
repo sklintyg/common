@@ -18,6 +18,9 @@
  */
 package se.inera.intyg.common.pdf.util;
 
+/**
+ * Helper functions for transforming millimeters to itext 7 points.
+ */
 public final class UnifiedPdfUtil {
 
     private static final float PPI = 72f;
@@ -37,14 +40,14 @@ public final class UnifiedPdfUtil {
     /**
      * Konverterar från millimeter till tum.
      */
-    public static float millimetersToInches(final float value) {
+    private static float millimetersToInches(final float value) {
         return value / MM_PER_TUM;
     }
 
     /**
      * Konverterar från tum till iText 7 points.
      */
-    public static float inchesToPoints(final float value) {
+    private static float inchesToPoints(final float value) {
         return value * PPI;
     }
 

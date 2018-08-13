@@ -42,7 +42,7 @@ import java.util.UUID;
 public class PdfGenerator {
 
     private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens medicinska utlåtande";
-    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "arbetsformedlingen-logo.png";
+    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "Af_logo_rgb_270px@2x.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "af00213-uv-viewmodel.js";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);

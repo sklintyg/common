@@ -33,11 +33,14 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Base class for all UV / Unified Print components. Contains constants and helper functions.
+ *
+ * @author eriklupander
  */
 // CHECKSTYLE:OFF MagicNumber
 public abstract class UVComponent {
-    public static final float ELEM_MARGIN_LEFT_POINTS = millimetersToPoints(5f);
-    public static final float ELEM_MARGIN_RIGHT_POINTS = millimetersToPoints(10f);
+
+    static final float ELEM_MARGIN_LEFT_POINTS = millimetersToPoints(5f);
+    static final float ELEM_MARGIN_RIGHT_POINTS = millimetersToPoints(10f);
 
     static final float DEFAULT_BORDER_WIDTH = 0.5f;
 
@@ -45,9 +48,13 @@ public abstract class UVComponent {
     public static final float FRAGA_DELFRAGA_FONT_SIZE = 10f;
     public static final float SVAR_FONT_SIZE = 10f;
 
+    static final String HIDE_EXPRESSION = "hideExpression";
+    static final String SHOW_EXPRESSION = "showExpression";
+
     protected final UVRenderer renderer;
 
     Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
+    Color wcColor05 = new DeviceRgb(0x76, 0x5A, 0x20);
     Color wcColor07 = new DeviceRgb(33, 33, 33);
     Color wcColor09 = new DeviceRgb(106, 106, 106);
 
@@ -99,21 +106,21 @@ public abstract class UVComponent {
         }
 
         // Show expression
-        if (obj.containsKey("hideExpression")) {
+        if (obj.containsKey(HIDE_EXPRESSION)) {
             render = handleHideExpression(obj);
-        } else if (obj.containsKey("showExpression")) {
+        } else if (obj.containsKey(SHOW_EXPRESSION)) {
             render = handleShowExpression(obj);
         }
         return render;
     }
 
     private boolean isNotEligibleForCheck(ScriptObjectMirror obj) {
-        return !obj.containsKey("hideExpression") && !obj.containsKey("showExpression");
+        return !obj.containsKey(HIDE_EXPRESSION) && !obj.containsKey(SHOW_EXPRESSION);
     }
 
     private boolean handleHideExpression(ScriptObjectMirror obj) {
         boolean render;
-        Object hideExpression = obj.get("hideExpression");
+        Object hideExpression = obj.get(HIDE_EXPRESSION);
         if (hideExpression instanceof ScriptObjectMirror) {
             Object result = ((ScriptObjectMirror) hideExpression).call(null, renderer.getIntygModel());
             render = !isTrue(result);
@@ -126,7 +133,7 @@ public abstract class UVComponent {
 
     private boolean handleShowExpression(ScriptObjectMirror obj) {
         boolean render;
-        Object showExpression = obj.get("showExpression");
+        Object showExpression = obj.get(SHOW_EXPRESSION);
         if (showExpression instanceof ScriptObjectMirror) {
             Object result = ((ScriptObjectMirror) showExpression).call(null, renderer.getIntygModel());
             render = isTrue(result);
