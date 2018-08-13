@@ -34,9 +34,9 @@ public final class InternalToTransport {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
-        RegisterCertificateType lisjpType = new RegisterCertificateType();
-        lisjpType.setIntyg(UtlatandeToIntyg.convert(source));
-        lisjpType.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
-        return lisjpType;
+        RegisterCertificateType transport = new RegisterCertificateType();
+        transport.setIntyg(UtlatandeToIntyg.convert(source));
+        transport.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
+        return transport;
     }
 }
