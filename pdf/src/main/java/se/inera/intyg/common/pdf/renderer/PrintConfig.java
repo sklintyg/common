@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.
  *
@@ -43,6 +45,8 @@ public class PrintConfig {
     private boolean isUtkast;
     private boolean isLockedUtkast;
     private boolean isMakulerad;
+
+    private ApplicationOrigin applicationOrigin;
 
     public String getIntygJsonModel() {
         return intygJsonModel;
@@ -100,6 +104,9 @@ public class PrintConfig {
         return isMakulerad;
     }
 
+    public ApplicationOrigin getApplicationOrigin() {
+        return applicationOrigin;
+    }
 
     public static final class PrintConfigBuilder {
         private String intygJsonModel;
@@ -116,6 +123,7 @@ public class PrintConfig {
         private boolean isUtkast;
         private boolean isLockedUtkast;
         private boolean isMakulerad;
+        private ApplicationOrigin applicationOrigin;
 
         private PrintConfigBuilder() {
         }
@@ -194,22 +202,28 @@ public class PrintConfig {
             return this;
         }
 
+        public PrintConfigBuilder withApplicationOrigin(ApplicationOrigin applicationOrigin) {
+            this.applicationOrigin = applicationOrigin;
+            return this;
+        }
+
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
-            printConfig.intygsKod = this.intygsKod;
-            printConfig.intygsId = this.intygsId;
+            printConfig.utfardarLogotyp = this.utfardarLogotyp;
+            printConfig.summaryHeader = this.summaryHeader;
+            printConfig.intygJsonModel = this.intygJsonModel;
+            printConfig.upJsModel = this.upJsModel;
+            printConfig.personnummer = this.personnummer;
+            printConfig.intygsNamn = this.intygsNamn;
+            printConfig.applicationOrigin = this.applicationOrigin;
             printConfig.isUtkast = this.isUtkast;
             printConfig.infoText = this.infoText;
-            printConfig.personnummer = this.personnummer;
-            printConfig.leftMarginTypText = this.leftMarginTypText;
-            printConfig.upJsModel = this.upJsModel;
-            printConfig.intygJsonModel = this.intygJsonModel;
-            printConfig.intygsNamn = this.intygsNamn;
-            printConfig.utfardarLogotyp = this.utfardarLogotyp;
             printConfig.summaryText = this.summaryText;
-            printConfig.summaryHeader = this.summaryHeader;
-            printConfig.isLockedUtkast = this.isLockedUtkast;
+            printConfig.intygsId = this.intygsId;
+            printConfig.leftMarginTypText = this.leftMarginTypText;
             printConfig.isMakulerad = this.isMakulerad;
+            printConfig.isLockedUtkast = this.isLockedUtkast;
+            printConfig.intygsKod = this.intygsKod;
             return printConfig;
         }
     }

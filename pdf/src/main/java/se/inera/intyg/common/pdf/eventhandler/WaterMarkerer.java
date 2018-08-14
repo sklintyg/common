@@ -33,6 +33,9 @@ import com.itextpdf.layout.property.VerticalAlignment;
 
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
+/**
+ * Adds watermark (if applicable).
+ */
 public class WaterMarkerer implements IEventHandler {
 
     private static final String DRAFT_WATERMARK_TEXT = "UTKAST";

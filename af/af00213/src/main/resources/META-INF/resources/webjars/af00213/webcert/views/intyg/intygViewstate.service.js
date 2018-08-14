@@ -34,14 +34,11 @@ angular.module('af00213').service('af00213.IntygController.ViewStateService',
              */
             this.getSendContent = function(intygType) {
 
+
                 var sendContentModel = {
-                    observandumId: this.getObservandumId(),
+                    observandumId: undefined,
                     bodyText: messageService.getProperty(intygType + '.label.send.body')
                 };
-
-                if(sendContentModel.observandumId) {
-                    sendContentModel.bodyText = messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
-                }
 
                 return sendContentModel;
             };

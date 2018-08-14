@@ -28,21 +28,30 @@ import com.itextpdf.kernel.pdf.PdfPage;
 import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.property.TextAlignment;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders the footer elements.
+ */
 public class IntygFooter implements IEventHandler {
 
     private static final float PADDING = 5.0f;
-    public static final float LINE_WIDTH = 0.5f;
-    public static final float LINE_Y_OFFSET = millimetersToPoints(15);
+    private static final float LINE_WIDTH = 0.5f;
+    private static final float LINE_Y_OFFSET = millimetersToPoints(15);
+
+    private static final String WEBCERT_APP_NAME = "Webcert";
+    private static final String MINA_INTYG_APP_NAME = "Mina Intyg";
 
     private PdfFont svarFont;
+    private ApplicationOrigin applicationOrigin;
 
-    public IntygFooter(PdfFont svarFont) {
+    public IntygFooter(PdfFont svarFont, ApplicationOrigin applicationOrigin) {
         this.svarFont = svarFont;
+        this.applicationOrigin = applicationOrigin;
     }
 
     @Override
@@ -50,6 +59,19 @@ public class IntygFooter implements IEventHandler {
         if (!(event instanceof PdfDocumentEvent)) {
             return;
         }
+
+        String appName = null;
+        switch (applicationOrigin) {
+            case WEBCERT:
+                appName = WEBCERT_APP_NAME;
+                break;
+            case MINA_INTYG:
+                appName = MINA_INTYG_APP_NAME;
+                break;
+                default:
+                    throw new IllegalStateException("Unhandled ApplicationOrigin: " + applicationOrigin);
+        }
+
         PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
         PdfDocument pdf = docEvent.getDocument();
         PdfPage page = docEvent.getPage();
@@ -59,7 +81,7 @@ public class IntygFooter implements IEventHandler {
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned("Utskriften skapades med Webcert - en tjänst som drivs av Inera\nwww.inera.se",
+        canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera\nwww.inera.se",
                 millimetersToPoints(PAGE_MARGIN_LEFT),
                 millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
 

@@ -34,6 +34,9 @@ import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders the texts in the right and left margins.
+ */
 public class MarginTexts implements IEventHandler {
 
     private static final float FONT_SIZE = 10f;
@@ -65,9 +68,11 @@ public class MarginTexts implements IEventHandler {
                 millimetersToPoints(PAGE_MARGIN_LEFT / 2),
                 millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
 
-        // Right magin
-        canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
-                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+        // Right margin, visas endast för signerat intyg
+        if (!printConfig.isUtkast() && !printConfig.isLockedUtkast()) {
+            canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
+                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+                    millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+        }
     }
 }

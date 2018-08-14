@@ -28,6 +28,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileOutputStream;
@@ -72,10 +73,11 @@ public class UVRendererTest {
                 .withSummaryText("Lorem ipsum")
                 .withLeftMarginTypText("TSTRK1007 (U08) 160114")
                 .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-        try (FileOutputStream fos = new FileOutputStream("tsbas-generic.pdf")) {
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,10 +107,11 @@ public class UVRendererTest {
                 .withSummaryText("Lorem ipsum")
                 .withLeftMarginTypText("FK7800 180214")
                 .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-        try (FileOutputStream fos = new FileOutputStream("lisjp-generic.pdf")) {
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/lisjp-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,10 +141,11 @@ public class UVRendererTest {
                 .withSummaryText("Lorem ipsum")
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-        try (FileOutputStream fos = new FileOutputStream("af00213-generic.pdf")) {
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-generic.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();
@@ -172,10 +176,11 @@ public class UVRendererTest {
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withIsMakulerad(true)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
-        try (FileOutputStream fos = new FileOutputStream("af00213-generic.pdf")) {
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-makulerad.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();

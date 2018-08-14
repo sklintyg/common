@@ -35,6 +35,10 @@ import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders the page number. Note that quirky placeholder stuff going on since we don't know the total number of pages
+ * until the full PDF have been rendered.
+ */
 public class PageNumberEvent implements IEventHandler {
 
     private static final float PAGE_NUMBER_Y_OFFSET = 15f;

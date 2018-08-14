@@ -352,6 +352,8 @@
             'ts-diabetes.button.send': 'Skicka till Transportstyrelsen',
             'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
 
+            'af00213.button.send': 'Skicka till Arbetsförmedlingen',
+
             // Send fk
             'luse.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
             'luae_na.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
@@ -365,6 +367,9 @@
             'common.label.send.body': sjukpenningText,
             'lisjp.label.send.body': '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
             'fk7263.label.send.body': '<p>Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.</p>Upplys patienten om att även göra en ansökan om sjukpenning hos Försäkringskassan.',
+
+             // Send AF
+            'af00213.label.send.body': 'Om du går vidare kommer intyget att skickas till Arbetsförmedlingens system, vilket ska göras i samråd med patienten.',
 
             'sjukpenning.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
 

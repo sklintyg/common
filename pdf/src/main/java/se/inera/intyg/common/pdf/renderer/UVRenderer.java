@@ -123,7 +123,7 @@ public class UVRenderer {
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
                     new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new IntygFooter(svarFont));
+                    new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
                     new MarginTexts(printConfig, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,

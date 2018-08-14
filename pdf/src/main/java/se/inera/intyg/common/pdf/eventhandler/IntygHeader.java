@@ -46,6 +46,9 @@ import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+/**
+ * Renders the header elements.
+ */
 public class IntygHeader implements IEventHandler {
 
     // All constants related to positioning should be in points.
@@ -116,7 +119,6 @@ public class IntygHeader implements IEventHandler {
         }
 
         pdfCanvas.release();
-
     }
 
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {

@@ -81,11 +81,12 @@ public class PdfGenerator {
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummaryHeader(PDF_SUMMARY_HEADER)
                     .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
-                    .withLeftMarginTypText(Af00213EntryPoint.ISSUER_TYPE_ID)
+                    .withLeftMarginTypText(Af00213EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
                     .withIsLockedUtkast(isLockedUtkast)
                     .withIsMakulerad(isMakulerad)
+                    .withApplicationOrigin(applicationOrigin)
                     .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
