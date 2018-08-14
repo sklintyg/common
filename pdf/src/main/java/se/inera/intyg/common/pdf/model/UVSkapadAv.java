@@ -46,6 +46,9 @@ public class UVSkapadAv extends UVComponent {
         StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
         StringBuilder kontaktUppgifter = buildKontaktuppgifter(modelProp);
         String signaturDatum = buildSigneringsDatum();
+        String skapadDatum = buildSkapadDatum();
+
+        boolean isUtkast = renderer.getPrintConfig().isUtkast() || renderer.getPrintConfig().isLockedUtkast();
 
         // Render
         parent.setKeepTogether(true);
@@ -67,14 +70,26 @@ public class UVSkapadAv extends UVComponent {
                 .setFont(renderer.svarFont)
                 .setFontSize(SVAR_FONT_SIZE));
 
-        parent.add(new Paragraph("Intyget signerades:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-        parent.add(new Paragraph(signaturDatum)
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+        if (!isUtkast) {
+            parent.add(new Paragraph("Intyget signerades:")
+                    .setMarginBottom(0f)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            parent.add(new Paragraph(signaturDatum)
+                    .setMarginTop(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+        } else {
+            parent.add(new Paragraph("Utkastet skrevs ut:")
+                    .setMarginBottom(0f)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            parent.add(new Paragraph(skapadDatum)
+                    .setMarginTop(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+        }
+
     }
 
     private String buildSigneringsDatum() {
@@ -84,6 +99,10 @@ public class UVSkapadAv extends UVComponent {
         }
         LocalDateTime signeringsDatum = LocalDateTime.parse(str, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         return signeringsDatum.format(DateTimeFormatter.ISO_DATE);
+    }
+
+    private String buildSkapadDatum() {
+        return LocalDateTime.now().format(DateTimeFormatter.ISO_DATE);
     }
 
     private StringBuilder buildIntygsutfardare(String modelProp) {

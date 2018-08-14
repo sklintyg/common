@@ -29,6 +29,10 @@ import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -37,6 +41,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.UUID;
 
 public class PdfGenerator {
@@ -46,17 +51,25 @@ public class PdfGenerator {
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "af00213-uv-viewmodel.js";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
-    private static final String INFO_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
 
+    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
+    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
+     + "skickas till Arbetsförmedlingen.";
+    private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
 
-    public PdfResponse generatePdf(String jsonModel, Personnummer personId, IntygTexts intygTexts) throws ModuleException {
+    public PdfResponse generatePdf(String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
+            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
             String upJsModel = loadUvViewConfig();
             byte[] logoData = loadLogotype();
+
+            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+            boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                     .withIntygJsonModel(cleanedJson)
@@ -65,11 +78,14 @@ public class PdfGenerator {
                     .withIntygsNamn(Af00213EntryPoint.MODULE_NAME)
                     .withIntygsKod(Af00213EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
-                    .withInfoText(INFO_TEXT)
+                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummaryHeader(PDF_SUMMARY_HEADER)
                     .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
                     .withLeftMarginTypText(Af00213EntryPoint.ISSUER_TYPE_ID)
                     .withUtfardarLogotyp(logoData)
+                    .withIsUtkast(isUtkast)
+                    .withIsLockedUtkast(isLockedUtkast)
+                    .withIsMakulerad(isMakulerad)
                     .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
@@ -78,6 +94,15 @@ public class PdfGenerator {
             LOG.error("Error generating PDF for AF00213: " + e.getMessage());
             throw new ModuleException("Error generating PDF for AF00213: " + e.getMessage());
         }
+    }
+
+    private String buildInfoText(boolean isUtkast, List<Status> statuses) {
+        StringBuilder buf = new StringBuilder();
+        buf.append(isUtkast ? INFO_UTKAST_TEXT : INFO_SIGNED_TEXT);
+        if (statuses != null && statuses.stream().anyMatch(status -> CertificateState.SENT == status.getType())) {
+            buf.append("\n").append(SENT_TEXT);
+        }
+        return buf.toString();
     }
 
     private byte[] loadLogotype() throws IOException {

@@ -24,12 +24,15 @@ import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertNotNull;
@@ -48,7 +51,8 @@ public class PdfGeneratorTest {
 
         String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
                 Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts);
+        PdfResponse pdfResponse = testee.generatePdf(jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^af_medicinskt_utlatande_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
