@@ -155,11 +155,6 @@ uv-table {
 }
 
 uv-render-components {
-  h3, h4, h5, uv-no-value span {
-    .revoked-certificate & {
-      color: $wc-color-22;
-    }
-  }
   > div:first-child uv-kategori {
     padding-top: 0;
   }
