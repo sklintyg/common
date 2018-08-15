@@ -137,8 +137,12 @@ angular.module('db').factory('db.viewConfigFactory', [ 'uvUtil', function(uvUtil
         components: [ {
             type: 'uv-fraga',
             labelKey: 'DFR_7.1.RBK',
-            components: [ {
-                type: 'uv-boolean-value',
+            components: [{
+                type: 'uv-enum-value',
+                values: {
+                    'true'  : 'DFR_7.1.SVA_1.RBK',
+                    'false' : 'DFR_7.1.SVAR_NEJ.RBK'
+                },
                 modelProp: 'polisanmalan'
             },{
                 type: 'uv-alert-value',
