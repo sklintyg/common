@@ -42,9 +42,6 @@
       <iso:assert test="count(gn:delsvar[@id='1.1']) = 1">
         'Funktionsnedsättning' måste besvaras med Ja eller Nej.
       </iso:assert>
-      <iso:assert test="count(gn:delsvar[@id='1.2']) = 1">
-        'Funktionsnedsättning' måste ha ett 'Beskrivning'.
-      </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^1\.[12]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
         Oväntat delsvars-id i delsvar till svar "<value-of select="@id"/>". Delsvars-id:n måste matcha "<value-of select="$delsvarsIdExpr"/>".
@@ -64,7 +61,15 @@
     </iso:rule>
   </iso:pattern>
 
-  <iso:pattern id="q1.1-1.2">
+  <iso:pattern id="q1.1-1.2-true">
+    <iso:rule context="//gn:delsvar[@id='1.1' and matches(normalize-space(.), '1|true')]">
+      <iso:assert test="count(../gn:delsvar[@id='1.2']) = 1">
+        Om 'Funktionsnedsättning' besvarats med ja måste 'Beskrivning' anges.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
+
+  <iso:pattern id="q1.1-1.2-false">
     <iso:rule context="//gn:delsvar[@id='1.1' and matches(normalize-space(.), '0|false')]">
       <iso:assert test="count(../gn:delsvar[@id='1.2']) = 0">
         Om 'Funktionsnedsättning' besvarats med nej kan 'Beskrivning' inte fyllas i.
@@ -85,9 +90,6 @@
       <iso:assert test="count(gn:delsvar[@id='2.1']) = 1">
         'Aktivitetsbegränsningar' måste besvaras med Ja eller Nej.
       </iso:assert>
-      <iso:assert test="count(gn:delsvar[@id='2.2']) = 1">
-        'Aktivitetsbegränsningar' måste ha ett 'Beskrivning'.
-      </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^2\.[12]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
         Oväntat delsvars-id i delsvar till svar "<value-of select="@id"/>". Delsvars-id:n måste matcha "<value-of select="$delsvarsIdExpr"/>".
@@ -106,7 +108,16 @@
     </iso:rule>
   </iso:pattern>
 
-  <iso:pattern id="q2.1-2.2">
+
+  <iso:pattern id="q2.1-2.2-true">
+    <iso:rule context="//gn:delsvar[@id='2.1' and matches(normalize-space(.), '1|true')]">
+      <iso:assert test="count(../gn:delsvar[@id='2.2']) = 1">
+        Om 'Aktivitetsbegränsningar' besvarats med ja måste 'Beskrivning' anges.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
+
+  <iso:pattern id="q2.1-2.2-false">
     <iso:rule context="//gn:delsvar[@id='2.1' and matches(normalize-space(.), '0|false')]">
       <iso:assert test="count(../gn:delsvar[@id='2.2']) = 0">
         Om 'Aktivitetsbegränsningar' besvarats med nej kan 'Beskrivning' inte fyllas i.
@@ -118,9 +129,6 @@
     <iso:rule context="//gn:svar[@id='3']">
       <iso:assert test="count(gn:delsvar[@id='3.1']) = 1">
         'Utredning och behandling' måste besvaras med Ja eller Nej.
-      </iso:assert>
-      <iso:assert test="count(gn:delsvar[@id='3.2']) = 1">
-        'Utredning och behandling' måste ha ett 'Beskrivning'.
       </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^3\.[12]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
@@ -140,7 +148,15 @@
     </iso:rule>
   </iso:pattern>
 
-  <iso:pattern id="q3.1-3.2">
+  <iso:pattern id="q3.1-3.2-true">
+    <iso:rule context="//gn:delsvar[@id='3.1' and matches(normalize-space(.), '1|true')]">
+      <iso:assert test="count(../gn:delsvar[@id='3.2']) = 1">
+        Om 'Utredning och behandling' besvarats med ja måste 'Beskrivning' anges.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
+
+  <iso:pattern id="q3.1-3.2-false">
     <iso:rule context="//gn:delsvar[@id='3.1' and matches(normalize-space(.), '0|false')]">
       <iso:assert test="count(../gn:delsvar[@id='3.2']) = 0">
         Om 'Utredning och behandling' besvarats med nej kan 'Beskrivning' inte fyllas i.
@@ -152,9 +168,6 @@
     <iso:rule context="//gn:svar[@id='4']">
       <iso:assert test="count(gn:delsvar[@id='4.1']) = 1">
         'Arbetets påverkan' måste besvaras med Ja eller Nej.
-      </iso:assert>
-      <iso:assert test="count(gn:delsvar[@id='4.2']) = 1">
-        'Arbetets påverkan' måste ha ett 'Beskrivning'.
       </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^4\.[12]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
@@ -174,7 +187,15 @@
     </iso:rule>
   </iso:pattern>
 
-  <iso:pattern id="q4.1-4.2">
+  <iso:pattern id="q4.1-4.2-true">
+    <iso:rule context="//gn:delsvar[@id='4.1' and matches(normalize-space(.), '1|true')]">
+      <iso:assert test="count(../gn:delsvar[@id='4.2']) = 1">
+        Om 'Arbetets påverkan' besvarats med ja måste 'Beskrivning' anges.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
+
+  <iso:pattern id="q4.1-4.2-false">
     <iso:rule context="//gn:delsvar[@id='4.1' and matches(normalize-space(.), '0|false')]">
       <iso:assert test="count(../gn:delsvar[@id='4.2']) = 0">
         Om 'Arbetets påverkan' besvarats med nej kan 'Beskrivning' inte fyllas i.
