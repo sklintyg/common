@@ -25,7 +25,7 @@ public enum RelationKod {
     ERSATT("ERSATT", "Ersätter"),
     KOMPLT("KOMPLT", "Kompletterar"),
     FRLANG("FRLANG", "Förlänger"),
-    COPY("COPY", "Kopierat");
+    KOPIA("KOPIA", "Kopierat");
 
     private final String value;
     private final String klartext;
