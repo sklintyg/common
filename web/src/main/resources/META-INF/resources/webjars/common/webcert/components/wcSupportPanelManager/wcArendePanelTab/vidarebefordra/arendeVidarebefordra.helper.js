@@ -57,7 +57,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                 if (!_isSkipVidareBefodradCookieSet()) {
                     this.showVidarebefordradPreferenceDialog(
                         'markforward',
-                        'Det verkar som att du har informerat den som ska hantera ärendet. Vill du markera ärendet som vidarebefordrat?',
+                        'Vill du markera ärendet som vidarebefordrat?',
                         function() { // yes
                             $log.debug('yes');
                             if (onYesCallback) {
