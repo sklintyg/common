@@ -15,7 +15,8 @@
       <div class="form-group">
         <textarea ng-trim="false" maxlength="5000"
                   class="form-control" ng-model="arendeSvar.meddelande"
-                  id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
+                  id="answerText-{{arendeSvar.fragaInternReferens}}"
+                  ue-filter-latin1></textarea>
         <span class="arende-draft-status pull-right" ng-switch="arendeSvar.draftState">
           <span ng-switch-when="saving" id="arende-draft-saving" dynamic-label key="common.arende.draft.saving"></span>
           <span ng-switch-when="saved" id="arende-draft-saved" dynamic-label key="common.arende.draft.saved"></span>

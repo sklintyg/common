@@ -13,9 +13,15 @@
         <wc-dropdown id="new-question-topic" ng-model="arendeNewModel.chosenTopic" items="arendeNewModel.topics" use-dynamic-label="false"></wc-dropdown>
       </div>
       <div class="form-group">
-        <textarea ng-trim="false" maxlength="2000" rows="13" class="form-control"
-                ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
-                id="arendeNewModelText"></textarea>
+        <textarea id="arendeNewModelText"
+                  ng-trim="false"
+                  maxlength="2000"
+                  rows="13"
+                  class="form-control"
+                  ng-model="arendeNewModel.frageText"
+                  wc-focus-me="localViewState.focusArende"
+                  ue-filter-latin1>
+        </textarea>
       </div>
 
       <!-- error message occuring when inteacting with server for this FragaSvar-->

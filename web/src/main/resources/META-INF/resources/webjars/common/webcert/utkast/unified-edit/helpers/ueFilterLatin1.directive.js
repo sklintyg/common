@@ -41,7 +41,7 @@ angular.module('common').directive('ueFilterLatin1', function() {
             }
 
             ngModelCtrl.$parsers.push(filter);
-
+            ngModelCtrl.$formatters.push(filter);
         }
     };
 
