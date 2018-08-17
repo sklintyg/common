@@ -41,8 +41,8 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
 
                 var config = [
 
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {required: true}, [
-                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {}, [{
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
+                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: 'harFunktionsnedsattning'}, [{
                             type: 'ue-radio',
                             modelProp: 'harFunktionsnedsattning'
                         },
@@ -60,10 +60,9 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
                     ]),
 
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {
-                            required: true,
                             hideExpression: '!model.harFunktionsnedsattning'
                         }, [
-                            fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {}, [{
+                            fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'harAktivitetsbegransning'}, [{
                                 type: 'ue-radio',
                                 modelProp: 'harAktivitetsbegransning'
                             }, {
@@ -90,13 +89,15 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
                             hideExpression: '!model.harUtredningBehandling',
                             label: {
                                 key: 'DFR_3.2.RBK',
-                                helpKey: 'DFR_3.2.HLP'
+                                helpKey: 'DFR_3.2.HLP',
+                                required: true,
+                                requiredProp: 'utredningBehandling'
                             }
                         }])
                     ]),
 
-                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {required: true}, [
-                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', {}, [{
+                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', {required: true, requiredProp: 'harArbetetsPaverkan'}, [{
                             type: 'ue-radio',
                             modelProp: 'harArbetetsPaverkan'
                         },
