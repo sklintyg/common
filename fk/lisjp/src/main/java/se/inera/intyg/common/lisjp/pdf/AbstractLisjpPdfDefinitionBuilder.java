@@ -224,7 +224,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     FkFieldGroup fraga3(LisjpUtlatande intyg, List<String> optionalFields) {
         FkFieldGroup fraga3 = new FkFieldGroup("3. " + getText("FRG_28.RBK"))
                 .offset(KATEGORI_OFFSET_X, 164.5f)
-                .size(KATEGORI_FULL_WIDTH, 67.5f)
+                .size(KATEGORI_FULL_WIDTH, 45f)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
         // Sysselsattning = nuvarande arbete & arbetsbeskrivning = obligatoriskt
@@ -270,7 +270,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     FkFieldGroup fraga4(LisjpUtlatande intyg, List<String> optionalFields) {
         // Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga
         FkFieldGroup fraga4 = new FkFieldGroup("4. " + getText("FRG_6.RBK"))
-                .offset(KATEGORI_OFFSET_X, 245.5f)
+                .offset(KATEGORI_OFFSET_X, 223.5f)
                 .size(KATEGORI_FULL_WIDTH, 29f)
                 .withFont(PdfConstants.FONT_FRAGERUBRIK_SMALL)
                 .withBorders(Rectangle.BOX);
