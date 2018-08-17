@@ -21,8 +21,8 @@
  * the corresponding category input section.
  */
 angular.module('common').directive('wcUtkastErrorSummary',
-    [ 'common.dynamicLabelService', 'common.messageService', 'common.anchorScrollService',
-            function(dynamicLabelService, messageService, anchorScrollService) {
+    [ '$filter', 'common.dynamicLabelService', 'common.messageService', 'common.anchorScrollService',
+            function($filter, dynamicLabelService, messageService, anchorScrollService) {
                 'use strict';
 
                 return {
@@ -59,7 +59,8 @@ angular.module('common').directive('wcUtkastErrorSummary',
 
                         $scope.scrollTo = function(categoryId) {
                             //By convention the ueKategori directive creates an anchor named 'anchor-<categoryId>'
-                            anchorScrollService.scrollIntygContainerTo('anchor-' + categoryId);
+                            // Validation categories are lowercased in utkastValidation.service
+                            anchorScrollService.scrollIntygContainerTo('anchor-' + $filter('ueDomIdFilter')(categoryId));
                         };
 
                     }
