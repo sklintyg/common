@@ -104,7 +104,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
                     ValidationMessageType.EMPTY);
         }
 
-        if (isSetToTrue(utlatande.getHarUtredningBehandling()) && Strings.nullToEmpty(utlatande.getUtredningBehandling()).trim().isEmpty()) {
+        if (isSetToTrue(utlatande.getHarUtredningBehandling()) &&
+                Strings.nullToEmpty(utlatande.getUtredningBehandling()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32,
                     ValidationMessageType.EMPTY);
         }
