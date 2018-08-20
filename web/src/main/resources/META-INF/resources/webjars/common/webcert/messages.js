@@ -353,6 +353,7 @@
             'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
 
             'af00213.button.send': 'Skicka till Arbetsförmedlingen',
+            'af00213.label.send': 'Skicka intyg till Arbetsförmedlingen',
 
             // Send fk
             'luse.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
