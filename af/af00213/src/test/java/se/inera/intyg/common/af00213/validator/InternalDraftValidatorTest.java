@@ -32,6 +32,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -148,19 +149,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateBlankstegUtredningBehandling() throws Exception {
-        Af00213Utlatande utlatande = builderTemplate
-                .setUtredningBehandling(" ")
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("af00213.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
     public void validateBlankstegPlaneradBehandling() throws Exception {
         Af00213Utlatande utlatande = builderTemplate
                 .setUtredningBehandling(" ")
@@ -169,7 +157,6 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("af00213.validation.blanksteg.otillatet", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 

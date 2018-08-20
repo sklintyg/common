@@ -37,5 +37,6 @@
   },
   "harFunktionsnedsattning": true,
   "funktionsnedsattning": "Kommer inte in i bilen",
-  "harAktivitetsbegransning": false
+  "harAktivitetsbegransning": false,
+  "harUtredningBehandling": false
 }

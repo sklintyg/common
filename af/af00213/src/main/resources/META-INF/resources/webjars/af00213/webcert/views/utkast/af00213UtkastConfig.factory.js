@@ -18,8 +18,7 @@
  */
 
 angular.module('af00213').factory('af00213.UtkastConfigFactory',
-    ['$log', '$timeout',
-        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
+    ['$log', '$timeout', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
         function ($log, $timeout, DateUtils, ueFactoryTemplates) {
             'use strict';
 
@@ -45,42 +44,38 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: 'harFunktionsnedsattning'}, [{
                             type: 'ue-radio',
                             modelProp: 'harFunktionsnedsattning'
-                        },
-                            {
-                                type: 'ue-textarea',
-                                modelProp: 'funktionsnedsattning',
-                                hideExpression: '!model.harFunktionsnedsattning',
-                                label: {
-                                    key: 'DFR_1.2.RBK',
-                                    helpKey: 'DFR_1.2.HLP',
-                                    required: true,
-                                    requiredProp: 'funktionsnedsattning'
-                                }
-                            }])
+                        }, {
+                            type: 'ue-textarea',
+                            modelProp: 'funktionsnedsattning',
+                            hideExpression: '!model.harFunktionsnedsattning',
+                            label: {
+                                key: 'DFR_1.2.RBK',
+                                helpKey: 'DFR_1.2.HLP',
+                                required: true,
+                                requiredProp: 'funktionsnedsattning'
+                            }
+                        }])
                     ]),
 
-                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {
-                            hideExpression: '!model.harFunktionsnedsattning'
-                        }, [
-                            fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'harAktivitetsbegransning'}, [{
-                                type: 'ue-radio',
-                                modelProp: 'harAktivitetsbegransning'
-                            }, {
-                                type: 'ue-textarea',
-                                modelProp: 'aktivitetsbegransning',
-                                hideExpression: '!model.harAktivitetsbegransning',
-
-                                label: {
-                                    key: 'DFR_2.2.RBK',
-                                    helpKey: 'DFR_2.2.HLP',
-                                    required: true,
-                                    requiredProp: 'aktivitetsbegransning'
-                                }
-                            }])]
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', { hideExpression: '!model.harFunktionsnedsattning' }, [
+                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'harAktivitetsbegransning'}, [{
+                            type: 'ue-radio',
+                            modelProp: 'harAktivitetsbegransning'
+                        }, {
+                            type: 'ue-textarea',
+                            modelProp: 'aktivitetsbegransning',
+                            hideExpression: '!model.harAktivitetsbegransning',
+                            label: {
+                                key: 'DFR_2.2.RBK',
+                                helpKey: 'DFR_2.2.HLP',
+                                required: true,
+                                requiredProp: 'aktivitetsbegransning'
+                            }
+                        }])]
                     ),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {}, [{
+                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {required: true, requiredProp: 'harUtredningBehandling'}, [{
                             type: 'ue-radio',
                             modelProp: 'harUtredningBehandling'
                         }, {
@@ -100,18 +95,17 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
                         fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', {required: true, requiredProp: 'harArbetetsPaverkan'}, [{
                             type: 'ue-radio',
                             modelProp: 'harArbetetsPaverkan'
-                        },
-                            {
-                                type: 'ue-textarea',
-                                modelProp: 'arbetetsPaverkan',
-                                hideExpression: '!model.harArbetetsPaverkan',
-                                label: {
-                                    key: 'DFR_4.2.RBK',
-                                    helpKey: 'DFR_4.2.HLP',
-                                    required: true,
-                                    requiredProp: 'arbetetsPaverkan'
-                                }
-                            }])
+                        }, {
+                            type: 'ue-textarea',
+                            modelProp: 'arbetetsPaverkan',
+                            hideExpression: '!model.harArbetetsPaverkan',
+                            label: {
+                                key: 'DFR_4.2.RBK',
+                                helpKey: 'DFR_4.2.HLP',
+                                required: true,
+                                requiredProp: 'arbetetsPaverkan'
+                            }
+                        }])
                     ]),
 
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
@@ -127,9 +121,9 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
                 return config;
             }
 
-
             return {
                 getConfig: _getConfig,
                 getCategoryIds: _getCategoryIds
             };
-        }]);
+        }
+    ]);

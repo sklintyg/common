@@ -38,5 +38,6 @@
   "harFunktionsnedsattning": true,
   "funktionsnedsattning": "Kommer inte in i bilen",
   "harArbetetsPaverkan": true,
-  "arbetetsPaverkan": "Massor"
+  "arbetetsPaverkan": "Massor",
+  "harUtredningBehandling": false
 }

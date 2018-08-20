@@ -35,8 +35,9 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "aktivitetsbegransning": "Kommer inte in i bilen",
+  "harFunktionsnedsattning": true,
+  "funktionsnedsattning": "Kommer inte in i bilen",
+  "harAktivitetsbegransning": false,
   "harArbetetsPaverkan": false,
-  "harUtredningBehandling": false,
-  "utredningBehandling": "Plaska i pölar"
+  "harUtredningBehandling": true
 }

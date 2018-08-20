@@ -27,6 +27,7 @@ import se.inera.intyg.common.af00213.utils.ScenarioFinder;
 import se.inera.intyg.common.af00213.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.af00213.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 
 import static org.junit.Assert.assertEquals;
 
@@ -56,6 +57,14 @@ public class InternalValidatorTest {
     public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
         final int numErrors = 1;
         Af00213Utlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
+    }
+
+    @Test
+    public void testUtredningBehandlingSaknas() throws ScenarioNotFoundException {
+        final int numErrors = 1;
+        Af00213Utlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-utredningBehandlingSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors, getNumberOfInternalValidationErrors(internalValidationResponse));
     }
