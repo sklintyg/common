@@ -259,8 +259,8 @@
             'common.arende.fraga.amne.ovrigt': 'Övrigt',
             'common.arende.fraga.amne.paminn': 'Påminnelse',
 
-            'common.arende.svar.besvaradmedintyg': 'Frågan är besvarad med ett nytt intyg.',
-            'common.arende.svar.go': 'Gå vidare till intyget',
+            'common.arende.svar.besvaradmedintyg': 'Kompletteringsbegäran besvarades med ett nytt intyg.',
+            'common.arende.svar.go': 'Öppna intyget',
             'common.arende.svar.komplettering.help': 'Beskriv varför kompletteringen inte kan genomföras. Här får ingen medicinsk information anges.',
 
             // Används bara av fk7263 (ArendeLegacyProxy)
