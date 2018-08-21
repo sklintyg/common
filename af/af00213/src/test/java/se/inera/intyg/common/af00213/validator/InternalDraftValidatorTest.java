@@ -149,6 +149,22 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void validateUtredningBehandlingJaRequiresText() throws Exception {
+        Af00213Utlatande utlatande = builderTemplate
+                .setHarAktivitetsbegransning(false)
+                .setHarArbetetsPaverkan(false)
+                .setHarFunktionsnedsattning(false)
+                .setHarUtredningBehandling(true)
+                .setUtredningBehandling(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
     public void validateBlankstegPlaneradBehandling() throws Exception {
         Af00213Utlatande utlatande = builderTemplate
                 .setUtredningBehandling(" ")
