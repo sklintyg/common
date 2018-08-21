@@ -38,6 +38,7 @@ import static se.inera.intyg.common.af00213.model.converter.RespConstants.ARBETE
 import static se.inera.intyg.common.af00213.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
 import static se.inera.intyg.common.af00213.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
 import static se.inera.intyg.common.af00213.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.af00213.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Af00213Utlatande> {
@@ -105,7 +106,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
     }
 
     private void validateUtredningBehandling(Af00213Utlatande utlatande, List<ValidationMessage> validationMessages) {
-        // Not required. If Ja, textarea must have text. Note that blanksteg is handled elsewhere.
+        // Yes or no must be specified.
+        if (utlatande.getHarUtredningBehandling() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_31,
+                    ValidationMessageType.EMPTY);
+        }
+
         if (isSetToTrue(utlatande.getHarUtredningBehandling())
                 && (utlatande.getUtredningBehandling() == null || utlatande.getUtredningBehandling().isEmpty())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32,

@@ -32,7 +32,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -78,6 +77,19 @@ public class InternalDraftValidatorTest {
 
         assertFalse(res.hasErrorMessages());
         assertTrue(res.getValidationErrors().isEmpty());
+    }
+
+    @Test
+    public void validateFunktionsnedsattningJaNejNotSpecified() throws Exception {
+        Af00213Utlatande utlatande = builderTemplate
+                .setHarFunktionsnedsattning(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("harFunktionsnedsattning", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
     @Test
@@ -146,6 +158,45 @@ public class InternalDraftValidatorTest {
         assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
         assertEquals("harAktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateUtredningBehandlingJaNejNotSpecified() throws Exception {
+        Af00213Utlatande utlatande = builderTemplate
+                .setHarUtredningBehandling(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("harUtredningBehandling", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateUtredningBehandlingMissingText() throws Exception {
+        Af00213Utlatande utlatande = builderTemplate
+                .setHarUtredningBehandling(true)
+                .setUtredningBehandling(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("utredningBehandling", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateUtredningBehandlingDoesNotRequireTextWhenNej() throws Exception {
+        Af00213Utlatande utlatande = builderTemplate
+                .setHarUtredningBehandling(false)
+                .setUtredningBehandling(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(0, res.getValidationErrors().size());
     }
 
     @Test
