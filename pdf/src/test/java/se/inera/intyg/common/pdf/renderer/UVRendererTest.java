@@ -127,7 +127,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("Af_logo_rgb_270px@2x.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                 .withIntygJsonModel(cleanedJson)
@@ -161,7 +161,7 @@ public class UVRendererTest {
         String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
 
         IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
-        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("Af_logo_rgb_270px@2x.png").getInputStream());
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                 .withIntygJsonModel(cleanedJson)
