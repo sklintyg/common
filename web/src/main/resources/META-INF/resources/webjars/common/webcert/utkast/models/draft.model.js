@@ -51,6 +51,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.sekretessmarkering = data.sekretessmarkering;
             this.avliden = data.avliden;
             this.created = data.created;
+            this.revokedAt = data.revokedAt;
             if(this.content){
                 this.content.update(data.content);
             }
@@ -66,6 +67,10 @@ angular.module('common').factory('common.Domain.DraftModel',
 
         DraftModel.prototype.isLocked = function (){
             return (this.status && this.status === 'DRAFT_LOCKED');
+        };
+
+        DraftModel.prototype.isRevoked = function (){
+            return !!this.revokedAt;
         };
 
         DraftModel.build = function() {

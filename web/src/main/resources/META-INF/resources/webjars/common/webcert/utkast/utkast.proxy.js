@@ -93,6 +93,19 @@ angular.module('common').factory('common.UtkastProxy',
         }
 
         /**
+         * Revoke a utkast
+         */
+        function _makuleraUtkast(intygId, intygType, revokeMessage, onSuccess, onError) {
+            $log.debug('_revokeLockedDraft: ' + intygId + ' intygsTyp: ' + intygType);
+            var restPath = '/moduleapi/utkast/' + intygType + '/' + intygId + '/aterkalla';
+            $http.post(restPath, revokeMessage).then(function() {
+                onSuccess();
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
+        }
+
+        /**
          * Copy utkast
          */
         function _copyUtkast(intygsId, intygsTyp, onSuccess, onError) {
@@ -225,6 +238,7 @@ angular.module('common').factory('common.UtkastProxy',
             saveUtkast: _saveUtkast,
             isSaveUtkastInProgress: _isSaveUtkastInProgress,
             discardUtkast: _discardUtkast,
+            makuleraUtkast: _makuleraUtkast,
             copyUtkast: _copyUtkast,
             startSigningProcess: _startSigningProcess,
             getSigneringsstatus: _getSigneringsstatus,

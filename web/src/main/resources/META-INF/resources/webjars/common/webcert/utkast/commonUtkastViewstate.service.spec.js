@@ -45,6 +45,7 @@ describe('commonUtkastViewstateService', function() {
                 update: function() {},
                 isLocked: function() {},
                 isSigned: function() {},
+                isRevoked: function() {},
                 isDraftComplete: function() {}
             };
 
@@ -81,6 +82,7 @@ describe('commonUtkastViewstateService', function() {
                 update: function() {},
                 isLocked: function() {},
                 isSigned: function() {},
+                isRevoked: function() {},
                 isDraftComplete: function() {}
             };
 

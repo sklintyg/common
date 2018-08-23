@@ -17,10 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygMakulera',
-    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
-        'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService', 'common.messageService',
-        function($log, $stateParams, dialogService, IntygProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper, CommonViewState,
-            ArendeListViewStateService, moduleService, featureService, messageService) {
+    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.UtkastProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
+        'common.IntygHelper', 'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService',
+        'common.messageService',
+        function($log, $stateParams, dialogService, IntygProxy, UtkastProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper,
+            CommonViewState, ArendeListViewStateService, moduleService, featureService,
+            messageService) {
             'use strict';
 
             // Makulera dialog setup
@@ -59,8 +61,14 @@ angular.module('common').factory('common.IntygMakulera',
 
                 if(intygMakuleraMethod === 'REVOKE') {
                     dialogModel.makuleraProgressDone = false;
-                    IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
-                        onMakuleraComplete, onMakuleraFail);
+
+                    if (intyg.utkast) {
+                        UtkastProxy.makuleraUtkast(intyg.id, intyg.intygType, revokeMessage,
+                            onMakuleraComplete, onMakuleraFail);
+                    } else {
+                        IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
+                            onMakuleraComplete, onMakuleraFail);
+                    }
                 }
             }
 
@@ -77,7 +85,7 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 function getMakuleraText() {
-                    var textId = CommonViewState.intygProperties.type + '.makulera.body.common-header';
+                    var textId = intyg.intygType + '.makulera.body.common-header';
                     if (!messageService.propertyExists(textId)) {
                         // If intyg hasn't specified a text, fall back to common text
                         textId = 'label.makulera.body.common-header';
@@ -99,10 +107,10 @@ angular.module('common').factory('common.IntygMakulera',
                         reason: undefined,
                         clarification: []
                     },
-                    recipient: 'common.recipient.' + moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient.toLowerCase()
+                    recipient: 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase()
                 };
 
-                if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, CommonViewState.intygProperties.type)) {
+                if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, intyg.intygType)) {
                     dialogMakuleraModel.labels = {
                         'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
                         'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'

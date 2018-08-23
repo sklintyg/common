@@ -88,6 +88,7 @@ describe('UtkastService', function() {
                 common: commonViewState,
                 draftModel: {
                     isLocked: function() {},
+                    isRevoked: function() {},
                     isSigned: function() {},
                     isDraftComplete: function() {},
                     update: function(data) {

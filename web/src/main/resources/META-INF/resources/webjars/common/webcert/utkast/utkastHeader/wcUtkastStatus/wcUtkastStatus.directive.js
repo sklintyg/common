@@ -40,6 +40,10 @@ angular.module('common').directive('wcUtkastStatus', [
                         return setIntygStatus($scope.intygstatus1, 'is-001');
                     }
                     else if(CommonViewState.isLocked) {
+                        if (CommonViewState.isRevoked()) {
+                            return setIntygStatus($scope.intygstatus1, 'lus-02');
+                        }
+
                         return setIntygStatus($scope.intygstatus1, 'lus-01');
                     }
                     else if (CommonViewState.intyg.isComplete) {

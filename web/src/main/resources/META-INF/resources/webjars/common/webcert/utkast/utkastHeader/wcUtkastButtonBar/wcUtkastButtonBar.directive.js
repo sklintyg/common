@@ -18,10 +18,10 @@
  */
 angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams', '$timeout', '$window', '$location',
     'common.authorityService', 'common.featureService', 'common.messageService', 'common.UtkastViewStateService', 'common.dialogService',
-    'common.PatientProxy', 'common.statService', 'common.UtkastProxy',
+    'common.PatientProxy', 'common.statService', 'common.UtkastProxy', 'common.UserModel', 'common.IntygMakulera',
     function($log, $stateParams, $timeout, $window, $location,
         authorityService, featureService, messageService, CommonViewState, dialogService,
-        PatientProxy, statService, UtkastProxy) {
+        PatientProxy, statService, UtkastProxy, UserModel, IntygMakulera) {
     'use strict';
 
     return {
@@ -37,6 +37,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             $scope.printBtnTooltipText = messageService.getProperty('common.button.save.as.pdf.utkast.tooltip');
             $scope.copyBtnTooltipText = messageService.getProperty('common.copy.utkast.tooltip');
             $scope.deleteBtnTooltipText = messageService.getProperty('common.delete.tooltip');
+            $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
 
             var utskriftFeature = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: CommonViewState.intyg.type });
 
@@ -153,11 +154,23 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             };
 
             $scope.showPrintBtn = function() {
-                return utskriftFeature;
+                return !CommonViewState.isRevoked() && utskriftFeature;
             };
 
             $scope.showCopyBtn = function() {
-                return CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
+                return !CommonViewState.isRevoked() && CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
+            };
+
+            $scope.showDeleteBtn = function() {
+                return !CommonViewState.isLocked;
+            };
+
+            $scope.showMakuleraBtn = function() {
+                return CommonViewState.isLocked && !CommonViewState.isRevoked() &&
+                    authorityService.isAuthorityActive({
+                        authority: UserModel.privileges.MAKULERA_INTYG,
+                        feature: featureService.features.MAKULERA_INTYG,
+                        intygstyp: CommonViewState.intyg.type });
             };
 
             $scope.copy = function() {
@@ -224,6 +237,22 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                     button1text: button1text,
                     button2text: 'common.cancel',
                     autoClose: false
+                });
+            };
+
+            $scope.makulera = function() {
+                var confirmationMessage = messageService.getProperty(CommonViewState.intyg.type + '.label.makulera.confirmation', {
+                    namn: CommonViewState.__utlatandeJson.content.grundData.patient.fullstandigtNamn,
+                    personnummer: CommonViewState.__utlatandeJson.content.grundData.patient.personId
+                });
+                var intyg = {
+                    id: $stateParams.certificateId,
+                    intygType: CommonViewState.intyg.type,
+                    utkast: true
+                };
+
+                IntygMakulera.makulera(intyg, confirmationMessage, function() {
+                    CommonViewState.intyg.isRevoked = true;
                 });
             };
         }

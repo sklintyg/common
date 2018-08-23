@@ -29,6 +29,7 @@ angular.module('common').service('common.UtkastViewStateService',
             };
             this.intyg = {
                 isComplete : false,
+                isRevoked: false,
                 type : undefined
             };
             //some drafts will be presented using uv-framwork, and need the "raw" utlatande-json as input.
@@ -71,6 +72,7 @@ angular.module('common').service('common.UtkastViewStateService',
                 this.isLocked = draftModel.isLocked();
                 this.isSigned = draftModel.isSigned();
                 this.intyg.isComplete = draftModel.isSigned() || draftModel.isDraftComplete();
+                this.intyg.isRevoked = draftModel.isRevoked();
 
                 this.validPatientAddressAquiredFromPU = data.validPatientAddressAquiredFromPU;
 
@@ -112,6 +114,10 @@ angular.module('common').service('common.UtkastViewStateService',
 
         this.isSameCareUnit = function() {
             return this.sameCareUnit;
+        };
+
+        this.isRevoked = function() {
+            return this.intyg.isRevoked;
         };
 
         this.isCopied = function() {
