@@ -33,6 +33,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertNotNull;
@@ -51,7 +52,7 @@ public class PdfGeneratorTest {
 
         String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
                 Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
         Pattern p = Pattern.compile("^af_medicinskt_utlatande_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");

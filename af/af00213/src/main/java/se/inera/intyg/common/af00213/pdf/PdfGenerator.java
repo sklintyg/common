@@ -18,13 +18,21 @@
  */
 package se.inera.intyg.common.af00213.pdf;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -36,13 +44,6 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.UUID;
 
 public class PdfGenerator {
 
@@ -59,8 +60,8 @@ public class PdfGenerator {
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
 
-    public PdfResponse generatePdf(String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+    public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
+                                   ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -74,7 +75,7 @@ public class PdfGenerator {
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                     .withIntygJsonModel(cleanedJson)
                     .withUpJsModel(upJsModel)
-                    .withIntygsId(UUID.randomUUID().toString())
+                    .withIntygsId(intygsId)
                     .withIntygsNamn(Af00213EntryPoint.MODULE_NAME)
                     .withIntygsKod(Af00213EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
