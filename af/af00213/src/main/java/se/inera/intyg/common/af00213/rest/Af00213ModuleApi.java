@@ -62,7 +62,8 @@ public class Af00213ModuleApi extends AfParentModuleApi<Af00213Utlatande> {
         IntygTexts texts = getTexts(Af00213EntryPoint.MODULE_ID, af00213Intyg.getTextVersion());
 
         Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, personId, texts, statuses, applicationOrigin, utkastStatus);
+        return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, personId, texts, statuses, applicationOrigin,
+                utkastStatus);
     }
 
     @Override
