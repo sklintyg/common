@@ -138,7 +138,7 @@ angular.module('common').factory('common.domain.AtticService',
                         }
                     } else if( prop instanceof Array ){
                         thisUpdate(this, prop, atticModel, thisUpdate);
-                    } else if(typeof prop === 'object'){
+                    } else if(prop != null && typeof prop === 'object'){
                         thisUpdate(model[key], properties[key], atticModel[key], thisUpdate);
                     } else {
                         if (ObjectHelper.isDefined(atticModel) && atticModel.hasOwnProperty(prop) && this.hasOwnProperty(prop)) {

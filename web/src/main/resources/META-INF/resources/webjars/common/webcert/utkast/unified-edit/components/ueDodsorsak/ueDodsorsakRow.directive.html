@@ -25,7 +25,6 @@
       <span><span class="label-padding" dynamic-label key="{{config.datumLabel}}.RBK"></span> </span> <span wc-help-chevron help-text-key="{{config.datumLabel}}.HLP"></span><br>
       <span wc-help-chevron-text help-text-key="{{config.datumLabel}}.HLP"></span>
       <span wc-date-picker-field target-model="modelValue.datum" dom-id="orsak-{{rowIndex}}-datum"
-            ng-class="{'validation-error' : hasValidationError('datum', rowIndex)}"
             ng-model="modelValue.datum"
             on-blur="validate()"
             add-date-parser="loose"
@@ -40,8 +39,7 @@
                      data-on-select="validate()"
                      id="orsak-{{rowIndex}}-specifikation"
                      name="andraDodsorsak-{{rowIndex}}"
-                     use-dynamic-label="false"
-                     ng-class="{'validation-error' : hasValidationError('specifikation', rowIndex)}">
+                     use-dynamic-label="false">
         </wc-dropdown>
 
       </div>
