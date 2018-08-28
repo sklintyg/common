@@ -40,16 +40,16 @@ public class UVSimpleValue extends UVComponent {
     public void render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
         Object value = renderer.evalValueFromModel(modelProp);
-        if (value != null) {
-            parent.add(new Paragraph(value.toString()).setItalic()
-                    .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
-                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                    .setFont(renderer.svarFont)
-                    .setFontSize(SVAR_FONT_SIZE)
-                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
-                    );
-        }
+        String outputText = value != null ? value.toString() : UVComponent.EJ_ANGIVET_STR;
+
+        parent.add(new Paragraph(outputText).setItalic()
+                .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE)
+                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
+                );
 
     }
 }

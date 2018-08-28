@@ -51,6 +51,8 @@ public abstract class UVComponent {
     static final String HIDE_EXPRESSION = "hideExpression";
     static final String SHOW_EXPRESSION = "showExpression";
 
+    protected static final String EJ_ANGIVET_STR = "Ej angivet";
+
     protected final UVRenderer renderer;
 
     Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
@@ -96,7 +98,7 @@ public abstract class UVComponent {
                 return (Boolean) eval ? "Ja" : "Nej";
             }
         }
-        return "Ej angivet";
+        return EJ_ANGIVET_STR;
     }
 
     boolean show(ScriptObjectMirror obj) {

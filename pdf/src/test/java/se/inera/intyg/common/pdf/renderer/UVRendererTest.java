@@ -153,6 +153,40 @@ public class UVRendererTest {
     }
 
     @Test
+    public void testAf00213OvrigtEjAngivet() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213-noovrigt.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("af00213/af00213-uv-viewmodel.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("af00213/texterMU_AF00213_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+                .withIntygsKod("AF00213")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AF)
+                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("AF00213")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-noovrigt.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testAf00213Makulerad() throws IOException {
         JsonNode intygJsonNode = loadAndCleanIntygJson("af00213/intyg.af00213.json");
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
