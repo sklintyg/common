@@ -125,8 +125,8 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     ]),
 
                     // Identitet styrkt genom
-                    kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', { required: true, requiredProp: 'vardkontakt.idkontroll' }, [
-                        fraga(null, '', '', {}, [{
+                    kategori(categoryIds[100], 'KAT_100.RBK', 'KAT_100.HLP', {}, [
+                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'vardkontakt.idkontroll'}, [{
                             type: 'ue-radiogroup',
                             modelProp: 'vardkontakt.idkontroll',
                             htmlClass: 'col-md-6 no-padding',
@@ -139,19 +139,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 {label: 'ts-bas.label.identitet.forsakran_kap18', id: 'FORSAKRAN_KAP18'},
                                 {label: 'ts-bas.label.identitet.pass', id: 'PASS'}
                             ]
-                        }]),
-                        fraga(null, '', '', {}, [{
-                            type: 'ue-alert',
-                            alertType: 'info',
-                            key: 'FRM_1.RBK'
-                        }])
-                    ]),
-
-                    kategori('', '', '', {}, [
-                        fraga(null, '', '', {}, [{
-                            type: 'ue-alert',
-                            alertType: 'info',
-                            key: 'FRM_2.RBK'
                         }])
                     ]),
 
@@ -183,10 +170,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'syn.nystagmus'
                         }]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
-                            type: 'ue-alert',
-                            alertType: 'info',
-                            key: 'FRG_8.INF'
-                        },{
                             type: 'ue-grid',
                             components: [
                                 // Row 1
@@ -194,14 +177,12 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.utankorrektion',
-                                    helpKey: 'ts-bas.helptext.synfunktioner.utan-korrektion',
                                     required: true,
                                     requiredMode: 'AND',
                                     requiredProp: ['syn.hogerOga.utanKorrektion', 'syn.vansterOga.utanKorrektion', 'syn.binokulart.utanKorrektion']
                                 },{
                                     type: 'ue-form-label',
-                                    key: 'ts-bas.label.syn.medkorrektion',
-                                    helpKey: 'ts-bas.helptext.synfunktioner.med-korrektion'
+                                    key: 'ts-bas.label.syn.medkorrektion'
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.kontaktlinster'
@@ -253,11 +234,15 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 },{
                                 }]
                             ]
+                        },{
+                            type: 'ue-alert',
+                            alertType: 'info',
+                            key: 'FRG_8.INF'
                         }]),
-                        fraga(9, '', '', { }, [{
+                        fraga(9, 'FRG_9.RBK', '', { }, [{
                             type: 'ue-checkbox',
                             label: {
-                                key: 'FRG_9.RBK',
+                                key: 'FRG_9.1.RBK',
                                 helpKey: 'FRG_9.HLP'
                             },
                             modelProp: 'syn.korrektionsglasensStyrka',
