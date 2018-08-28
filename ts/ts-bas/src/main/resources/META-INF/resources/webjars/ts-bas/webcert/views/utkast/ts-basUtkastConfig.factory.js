@@ -117,7 +117,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygAvser.korkortstyp',
-                            labelTemplate:'KORKORT_{0}.RBK',
+                            labelTemplate:'KORKORT.{0}.RBK',
                             label: {
                                 key: 'FRG_1.2.RBK'
                             }
@@ -536,10 +536,36 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     // Bedömning
                     kategori(categoryIds[101], 'KAT_101.RBK', 'KAT_101.HLP', { }, [
                         fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required: true,
-                            requiredProp: requiredKorkortProperties('bedomning', 'bedomning.kanInteTaStallning')}, [{
-                            type: 'ue-korkort-bedomning',
-                            modelProp: 'bedomning',
-                            labelTemplate:'KORKORT_{0}.RBK'
+                            requiredProp: requiredKorkortProperties('bedomning', 'bedomning.KAN_INTE_TA_STALLNING')}, [{
+                            labelTemplate:'KORKORT.{0}.RBK',
+                            type: 'ue-checkgroup-ts',
+                            modelProp: 'bedomning.korkortstyp',
+/*                            watcher: [{
+                                type: '$watch',
+                                watchDeep: true,
+                                expression: 'model.bedomning.korkortstyp',
+                                listener: function(newValue, oldValue, scope) {
+                                    if (oldValue && newValue !== oldValue) {
+                                        if (newValue.KAN_INTE_TA_STALLNING !== oldValue.KAN_INTE_TA_STALLNING) {
+                                            if (newValue.KAN_INTE_TA_STALLNING) {
+                                                angular.forEach(scope.model.bedomning.korkortstyp,
+                                                    function(atgard, key) {
+                                                        if (key !== 'KAN_INTE_TA_STALLNING') {
+                                                            scope.model.bedomning.korkortstyp[key] = undefined;
+                                                        }
+                                                    });
+                                            }
+                                        } else {
+                                            angular.forEach(scope.model.bedomning.korkortstyp,
+                                                function(atgard, key) {
+                                                    if (key !== 'KAN_INTE_TA_STALLNING' && atgard) {
+                                                        scope.model.bedomning.korkortstyp.KAN_INTE_TA_STALLNING = undefined;
+                                                    }
+                                                });
+                                        }
+                                    }
+                                }
+                            }]*/
                         }]),
                         fraga(33, '', '', { }, [{
                             type: 'ue-text',

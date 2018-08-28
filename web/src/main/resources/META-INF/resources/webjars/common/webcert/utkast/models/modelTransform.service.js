@@ -21,6 +21,19 @@ angular.module('common').factory('common.domain.ModelTransformService',
         'use strict';
 
         return {
+            tsCheckToBackend: function(fromApp) {
+
+                var transportModel = [];
+
+                angular.forEach(fromApp, function(value, key) {
+                    transportModel.push({
+                        type: key,
+                        selected: value
+                    });
+                }, fromApp);
+
+                return transportModel;
+            },
             toTypeTransform: function(fromApp) {
 
                 var transportModel = [];
@@ -42,24 +55,55 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 }
                 return modelInternal;
             },
-            enumToTransform: function(fromApp) {
+            toTypeTransform: function(fromApp) {
 
                 var transportModel = [];
 
                 angular.forEach(fromApp, function(value, key) {
                     if(value === true) {
-                        transportModel.push({typ: key});
+                        transportModel.push({val: parseInt(key, 10)});
                     }
                 }, fromApp);
 
                 return transportModel;
             },
-            enumFromTransform: function(fromBackend) {
+            fromTypeTransform: function(fromBackend) {
 
                 var modelInternal = {};
 
                 for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
-                    modelInternal[fromBackend[backendPropIndex].typ] = true;
+                    modelInternal[fromBackend[backendPropIndex].val] = true;
+                }
+                return modelInternal;
+            },
+            enumToTransform: function(fromApp, propName) {
+
+                if(!propName) {
+                    propName = 'typ';
+                }
+
+                var transportModel = [];
+
+                angular.forEach(fromApp, function(value, key) {
+                    if(value === true) {
+                        var propObject = {};
+                        propObject[propName] = key;
+                        transportModel.push(propObject);
+                    }
+                }, fromApp);
+
+                return transportModel;
+            },
+            enumFromTransform: function(fromBackend, propName) {
+
+                if(!propName) {
+                    propName = 'typ';
+                }
+
+                var modelInternal = {};
+
+                for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
+                    modelInternal[fromBackend[backendPropIndex][propName]] = true;
                 }
                 return modelInternal;
             },

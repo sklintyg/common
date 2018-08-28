@@ -18,11 +18,37 @@
  */
 angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
+        'common.domain.BaseAtticModel', 'common.domain.ModelTransformService',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform) {
         'use strict';
 
-        /**
+        var bedomningFromTransform = function(backendBedomning) {
+
+            var korkortstyp = backendBedomning.korkortstyp;
+            korkortstyp.push({type:'KAN_INTE_TA_STALLNING', selected: backendBedomning.kanInteTaStallning});
+
+            var frontendObject = {
+                korkortstyp: korkortstyp,
+                lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
+            }
+
+            return frontendObject;
+        };
+
+        var bedomningToTransform = function(frontendObject) {
+
+            var kanInteTaStallning = frontendObject.korkortstyp['KAN_INTE_TA_STALLNING'];
+            delete frontendObject.korkortstyp['KAN_INTE_TA_STALLNING'];
+
+            var backendBedomning = {
+                korkortstyp: ModelTransform.tsCheckToBackend(frontendObject.korkortstyp),
+                kanInteTaStallning: kanInteTaStallning,
+                lakareSpecialKompetens: frontendObject.lakareSpecialKompetens
+            }
+            return backendBedomning;
+        };
+
+            /**
          * Constructor, with class name
          */
         var TsBasModel = BaseAtticModel._extend({
@@ -139,23 +165,26 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
                         'stadigvarandeMedicinering': undefined,
                         'beskrivning': undefined
                     },
-                    bedomning: {
-                        'korkortstyp': new ModelAttr('korkortstyp',
-                            {defaultValue:[
-                            {'type': 'C1', 'selected': false},
-                            {'type': 'C1E', 'selected': false},
-                            {'type': 'C', 'selected': false},
-                            {'type': 'CE', 'selected': false},
-                            {'type': 'D1', 'selected': false},
-                            {'type': 'D1E', 'selected': false},
-                            {'type': 'D', 'selected': false},
-                            {'type': 'DE', 'selected': false},
-                            {'type': 'TAXI', 'selected': false},
-                            {'type': 'ANNAT', 'selected': false}
-                        ]}),
-                        'kanInteTaStallning': false,
-                        'lakareSpecialKompetens': undefined
-                    }
+                    bedomning: new ModelAttr('bedomning', {
+                        defaultValue: {
+                            korkortstyp: [
+                                {'type': 'C1', 'selected': false},
+                                {'type': 'C1E', 'selected': false},
+                                {'type': 'C', 'selected': false},
+                                {'type': 'CE', 'selected': false},
+                                {'type': 'D1', 'selected': false},
+                                {'type': 'D1E', 'selected': false},
+                                {'type': 'D', 'selected': false},
+                                {'type': 'DE', 'selected': false},
+                                {'type': 'TAXI', 'selected': false},
+                                {'type': 'ANNAT', 'selected': false}
+                            ],
+                            'kanInteTaStallning': false,
+                            'lakareSpecialKompetens': undefined
+                        },
+                        toTransform: bedomningToTransform,
+                        fromTransform: bedomningFromTransform,
+                    }),
                 });
             },
             update: function update(content, parent) {
