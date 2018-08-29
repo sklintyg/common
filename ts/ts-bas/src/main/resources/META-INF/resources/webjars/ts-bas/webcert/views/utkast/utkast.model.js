@@ -25,7 +25,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
         var bedomningFromTransform = function(backendBedomning) {
 
             var korkortstyp = backendBedomning.korkortstyp;
-            korkortstyp.push({type:'KAN_INTE_TA_STALLNING', selected: backendBedomning.kanInteTaStallning});
+            korkortstyp.push({type:'KAN_INTE_TA_STALLNING', selected: !angular.isDefined(backendBedomning.kanInteTaStallning) ? false : backendBedomning.kanInteTaStallning});
 
             var frontendObject = {
                 korkortstyp: korkortstyp,
@@ -37,18 +37,31 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
 
         var bedomningToTransform = function(frontendObject) {
 
-            var kanInteTaStallning = frontendObject.korkortstyp['KAN_INTE_TA_STALLNING'];
-            delete frontendObject.korkortstyp['KAN_INTE_TA_STALLNING'];
+            function findWithAttr(array, attr, value) {
+                for(var i = array.length - 1; i >= 0; i--) {
+                    if(array[i][attr] === value) {
+                        return i;
+                    }
+                }
+                return -1;
+            }
+
+            var index = findWithAttr(frontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
+            var kanInteTaStallning = undefined;
+            if(index !== -1) {
+                kanInteTaStallning = frontendObject.korkortstyp[index].selected;
+                frontendObject.korkortstyp.splice(index);
+            }
 
             var backendBedomning = {
-                korkortstyp: ModelTransform.tsCheckToBackend(frontendObject.korkortstyp),
+                korkortstyp: frontendObject.korkortstyp,
                 kanInteTaStallning: kanInteTaStallning,
                 lakareSpecialKompetens: frontendObject.lakareSpecialKompetens
             }
             return backendBedomning;
         };
 
-            /**
+        /**
          * Constructor, with class name
          */
         var TsBasModel = BaseAtticModel._extend({
@@ -166,22 +179,6 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
                         'beskrivning': undefined
                     },
                     bedomning: new ModelAttr('bedomning', {
-                        defaultValue: {
-                            korkortstyp: [
-                                {'type': 'C1', 'selected': false},
-                                {'type': 'C1E', 'selected': false},
-                                {'type': 'C', 'selected': false},
-                                {'type': 'CE', 'selected': false},
-                                {'type': 'D1', 'selected': false},
-                                {'type': 'D1E', 'selected': false},
-                                {'type': 'D', 'selected': false},
-                                {'type': 'DE', 'selected': false},
-                                {'type': 'TAXI', 'selected': false},
-                                {'type': 'ANNAT', 'selected': false}
-                            ],
-                            'kanInteTaStallning': false,
-                            'lakareSpecialKompetens': undefined
-                        },
                         toTransform: bedomningToTransform,
                         fromTransform: bedomningFromTransform,
                     }),

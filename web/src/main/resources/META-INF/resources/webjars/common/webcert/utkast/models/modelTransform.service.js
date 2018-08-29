@@ -21,19 +21,6 @@ angular.module('common').factory('common.domain.ModelTransformService',
         'use strict';
 
         return {
-            tsCheckToBackend: function(fromApp) {
-
-                var transportModel = [];
-
-                angular.forEach(fromApp, function(value, key) {
-                    transportModel.push({
-                        type: key,
-                        selected: value
-                    });
-                }, fromApp);
-
-                return transportModel;
-            },
             toTypeTransform: function(fromApp) {
 
                 var transportModel = [];

@@ -109,7 +109,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     'model.medicinering.stadigvarandeMedicinering === true)';
 
                 var config = [
-
+/*
                     patient,
 
                     // Intyget avser
@@ -532,11 +532,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             rows: 3
                         }])
                     ]),
-
+*/
                     // Bedömning
                     kategori(categoryIds[101], 'KAT_101.RBK', 'KAT_101.HLP', { }, [
                         fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required: true,
-                            requiredProp: requiredKorkortProperties('bedomning', 'bedomning.KAN_INTE_TA_STALLNING')}, [{
+                            requiredProp: requiredKorkortProperties('bedomning')}, [{
                             labelTemplate:'KORKORT.{0}.RBK',
                             type: 'ue-checkgroup-ts',
                             modelProp: 'bedomning.korkortstyp',
@@ -567,7 +567,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 }
                             }]*/
                         }]),
-                        fraga(33, '', '', { }, [{
+  /*                      fraga(33, '', '', { }, [{
                             type: 'ue-text',
                             label: {
                                 key: 'ts-bas.helptext.bedomning.info'
@@ -595,7 +595,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             htmlMaxlength: 130,
                             rows: 3
                         }])
-                    ]),
+*/                    ]),/*
 
                     ueFactoryTemplates.vardenhet/*,
 

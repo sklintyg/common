@@ -3,6 +3,7 @@
   <div class="row form-horizontal">
     <ue-label class="col-sm-12" config="::config.label" model="::model"></ue-label>
     <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter()">
+      {{choice}}
      <wc-checkbox-wrapper>
         <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
                type="checkbox"
