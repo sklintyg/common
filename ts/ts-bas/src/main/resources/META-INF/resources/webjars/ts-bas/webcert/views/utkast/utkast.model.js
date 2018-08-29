@@ -46,18 +46,19 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
                 return -1;
             }
 
-            var index = findWithAttr(frontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
+            var transformedFrontendObject = angular.copy(frontendObject);
+            var index = findWithAttr(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
             var kanInteTaStallning = undefined;
             if(index !== -1) {
-                kanInteTaStallning = frontendObject.korkortstyp[index].selected;
-                frontendObject.korkortstyp.splice(index);
+                kanInteTaStallning = transformedFrontendObject.korkortstyp[index].selected;
+                transformedFrontendObject.korkortstyp.splice(index);
             }
 
             var backendBedomning = {
-                korkortstyp: frontendObject.korkortstyp,
+                korkortstyp: transformedFrontendObject.korkortstyp,
                 kanInteTaStallning: kanInteTaStallning,
-                lakareSpecialKompetens: frontendObject.lakareSpecialKompetens
-            }
+                lakareSpecialKompetens: transformedFrontendObject.lakareSpecialKompetens
+            };
             return backendBedomning;
         };
 
