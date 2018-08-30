@@ -157,7 +157,10 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
             fillAcroformFields();
 
-            markAsElectronicCopy(pdfStamper);
+            if (!isUtkast) {
+                // Only signed dbUtlatande prints should have this text
+                markAsElectronicCopy(pdfStamper);
+            }
             if (!isUtkast && !isLocked) {
                 // Only signed dbUtlatande prints should have these decorations
                 createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), utlatande.getId(), WEBCERT_MARGIN_TEXT);
