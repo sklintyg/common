@@ -29,6 +29,8 @@ angular.module('common').directive('ueVagueDate', [ 'ueUtil', 'common.UtkastVali
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueVagueDate/ueVagueDate.directive.html',
             controller: function($scope) {
+                $scope.validation = UtkastValidationViewState;
+                $scope.monthValidationKey = $scope.config.modelProp + '.month';
 
                 $scope.$on('$destroy', function() {
                     $scope.model.clear($scope.config.modelProp);
