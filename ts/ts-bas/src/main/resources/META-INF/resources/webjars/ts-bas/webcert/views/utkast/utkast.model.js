@@ -18,8 +18,8 @@
  */
 angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.domain.ModelTransformService',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ModelTransform) {
+        'common.domain.BaseAtticModel', 'common.UtilsService',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u) {
         'use strict';
 
         var bedomningFromTransform = function(backendBedomning) {
@@ -37,17 +37,8 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
 
         var bedomningToTransform = function(frontendObject) {
 
-            function findWithAttr(array, attr, value) {
-                for(var i = array.length - 1; i >= 0; i--) {
-                    if(array[i][attr] === value) {
-                        return i;
-                    }
-                }
-                return -1;
-            }
-
             var transformedFrontendObject = angular.copy(frontendObject);
-            var index = findWithAttr(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
+            var index = u.findIndexWithPropertyValue(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
             var kanInteTaStallning = undefined;
             if(index !== -1) {
                 kanInteTaStallning = transformedFrontendObject.korkortstyp[index].selected;

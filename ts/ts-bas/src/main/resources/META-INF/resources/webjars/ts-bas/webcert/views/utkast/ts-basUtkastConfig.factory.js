@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
-    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
-        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates) {
+    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper', 'common.UtilsService',
+        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates, u) {
             'use strict';
 
             function _getCategoryIds() {
@@ -109,7 +109,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     'model.medicinering.stadigvarandeMedicinering === true)';
 
                 var config = [
-/*
+
                     patient,
 
                     // Intyget avser
@@ -532,7 +532,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             rows: 3
                         }])
                     ]),
-*/
                     // Bedömning
                     kategori(categoryIds[101], 'KAT_101.RBK', 'KAT_101.HLP', { }, [
                         fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required: true,
@@ -540,34 +539,44 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             labelTemplate:'KORKORT.{0}.RBK',
                             type: 'ue-checkgroup-ts',
                             modelProp: 'bedomning.korkortstyp',
-/*                            watcher: [{
+                            watcher: [{
                                 type: '$watch',
                                 watchDeep: true,
                                 expression: 'model.bedomning.korkortstyp',
                                 listener: function(newValue, oldValue, scope) {
                                     if (oldValue && newValue !== oldValue) {
-                                        if (newValue.KAN_INTE_TA_STALLNING !== oldValue.KAN_INTE_TA_STALLNING) {
-                                            if (newValue.KAN_INTE_TA_STALLNING) {
-                                                angular.forEach(scope.model.bedomning.korkortstyp,
-                                                    function(atgard, key) {
-                                                        if (key !== 'KAN_INTE_TA_STALLNING') {
-                                                            scope.model.bedomning.korkortstyp[key] = undefined;
-                                                        }
-                                                    });
+
+                                        // find if a regular prop or kanintetastallning changed
+                                        var kanInteTaStallningActivated = false;
+                                        var otherActivated = false;
+                                        for(var i = 0; i < newValue.length; i++){
+                                            if(newValue[i].selected !== oldValue[i].selected && newValue[i].selected === true){
+                                                if(!kanInteTaStallningActivated && newValue[i].type === 'KAN_INTE_TA_STALLNING'){
+                                                    kanInteTaStallningActivated = true;
+                                                } else if(!otherActivated) {
+                                                    otherActivated = true;
+                                                }
                                             }
-                                        } else {
-                                            angular.forEach(scope.model.bedomning.korkortstyp,
-                                                function(atgard, key) {
-                                                    if (key !== 'KAN_INTE_TA_STALLNING' && atgard) {
-                                                        scope.model.bedomning.korkortstyp.KAN_INTE_TA_STALLNING = undefined;
+                                        }
+
+                                        // deselect all checks from the group not selected if something was selected
+                                        var index = u.findIndexWithPropertyValue(newValue, 'type', 'KAN_INTE_TA_STALLNING');
+                                        if (index != -1) {
+                                            if(kanInteTaStallningActivated) {
+                                                for(var i = 0; i < scope.model.bedomning.korkortstyp.length; i++){
+                                                    if(index != i){
+                                                        scope.model.bedomning.korkortstyp[i].selected = false;
                                                     }
-                                                });
+                                                }
+                                            } else if(otherActivated) {
+                                               scope.model.bedomning.korkortstyp[index].selected = false;
+                                            }
                                         }
                                     }
                                 }
-                            }]*/
+                            }]
                         }]),
-  /*                      fraga(33, '', '', { }, [{
+                        fraga(33, '', '', { }, [{
                             type: 'ue-text',
                             label: {
                                 key: 'ts-bas.helptext.bedomning.info'
@@ -595,7 +604,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             htmlMaxlength: 130,
                             rows: 3
                         }])
-*/                    ]),/*
+                    ]),
 
                     ueFactoryTemplates.vardenhet/*,
 

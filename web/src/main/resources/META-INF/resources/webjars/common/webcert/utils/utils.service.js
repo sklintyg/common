@@ -86,6 +86,15 @@ angular.module('common').factory('common.UtilsService', function() {
         return _isValidString(str) && _isValidString(suffix) && str.indexOf(suffix, str.length - suffix.length) !== -1;
     }
 
+    function _findIndexWithPropertyValue(array, attr, value) {
+        for(var i = array.length - 1; i >= 0; i--) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     return {
         extractNumericalFrageId: _extractNumericalFrageId,
         isValidString: _isValidString,
@@ -93,7 +102,8 @@ angular.module('common').factory('common.UtilsService', function() {
         replaceAccentedCharacters: _replaceAccentedCharacters,
         replaceAll: _replaceAll,
         insertAt: _insertAt,
-        endsWith: _endsWith
+        endsWith: _endsWith,
+        findIndexWithPropertyValue: _findIndexWithPropertyValue
     };
 
 });
