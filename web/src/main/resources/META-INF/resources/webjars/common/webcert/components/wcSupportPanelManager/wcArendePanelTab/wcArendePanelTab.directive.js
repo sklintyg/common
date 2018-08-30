@@ -196,10 +196,14 @@ angular.module('common').directive('wcArendePanelTab', [
                 return arendeListItem.isKomplettering();
             };
 
+            $scope.paminnelseFilter = function(arendeListItem) {
+                return arendeListItem.isPaminnelse();
+            };
+
             $scope.administrativaFragorFilter = function(arendeListItem) {
                 return !$scope.kompletteringarFilter(arendeListItem);
             };
-
+    
         }
     };
 } ]);

@@ -60,7 +60,8 @@ angular.module('common').directive('arendePanelSvar',
                         return $scope.parentViewState.intygProperties.isInteractionEnabled &&
                             ArendeSvar.status === 'PENDING_INTERNAL_ACTION' &&
                             !ArendeSvar.intygProperties.isRevoked &&
-                            !$scope.arendeListItem.isKomplettering();
+                            !$scope.arendeListItem.isKomplettering() &&
+                            !$scope.arendeListItem.isPaminnelse();
                     };
 
                     $scope.showAnswer = function() {

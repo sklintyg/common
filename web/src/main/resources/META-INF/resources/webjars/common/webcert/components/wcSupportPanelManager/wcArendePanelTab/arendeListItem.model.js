@@ -121,6 +121,10 @@ angular.module('common').factory('common.ArendeListItemModel',
             return _isKomplettering(this.arende.fraga.amne);
         };
 
+        ArendeListItemModel.prototype.isPaminnelse = function() {
+            return _isPaminnelse(this.arende.fraga.amne);
+        };
+
         ArendeListItemModel.prototype.fromFk = function() {
             if (this.arende.fraga.frageStallare === 'FK'){
                 return true;
