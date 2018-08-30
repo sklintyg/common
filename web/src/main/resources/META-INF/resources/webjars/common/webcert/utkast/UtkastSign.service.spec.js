@@ -32,6 +32,8 @@ describe('UtkastSignService', function() {
     var dialogService;
     var User;
     var UserModel;
+    var authorityService;
+    var receiverService;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('$document', [
@@ -46,7 +48,7 @@ describe('UtkastSignService', function() {
         $provide.value('common.dialogService',
             jasmine.createSpyObj('common.dialogService', [ 'showErrorMessageDialog' ]));
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
-        $provide.value('common.UserModel', { user: { authenticationScheme: null } });
+        $provide.value('common.UserModel', { user: { authenticationScheme: null }, privileges: {GODKANNA_MOTTAGARE: 'true'}, hasPrivilege: function(){} });
         $provide.value('common.UtkastViewStateService', {});
         $provide.value('common.utkastNotifyService', {});
         $provide.value('common.domain.DraftModel', {});
@@ -62,9 +64,9 @@ describe('UtkastSignService', function() {
     }));
 
     beforeEach(angular.mock.inject(['common.UtkastSignService', '$httpBackend', '$location', '$q', '$stateParams', '$timeout',
-        'common.dialogService', 'common.User', 'common.UserModel', '$uibModal',
+        'common.dialogService', 'common.User', 'common.UserModel', '$uibModal', 'common.authorityService', 'common.receiverService',
         function(_UtkastSignService_, _$httpBackend_, _$location_, _$q_, _$stateParams_, _$timeout_,
-            _dialogService_, _User_, _UserModel_, _$uibModal_) {
+            _dialogService_, _User_, _UserModel_, _$uibModal_, _authorityService_, _receiverService_) {
 
             UtkastSignService = _UtkastSignService_;
             $httpBackend = _$httpBackend_;
@@ -76,10 +78,11 @@ describe('UtkastSignService', function() {
             dialogService = _dialogService_;
             User = _User_;
             UserModel = _UserModel_;
-
-            spyOn($location, 'path').and.callFake(function() {
-                return { search: function() {
-                } };
+            authorityService = _authorityService_;
+            receiverService = _receiverService_;
+            spyOn($location, 'path').and.callThrough();
+            spyOn(UserModel, 'hasPrivilege').and.callFake(function() {
+                return true;
             });
         }]));
 

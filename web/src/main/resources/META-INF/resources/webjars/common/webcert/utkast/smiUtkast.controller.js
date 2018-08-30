@@ -19,9 +19,10 @@
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
+        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory', 'common.receiverService',
         function($scope, $state, $stateParams,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService, supportPanelConfigFactory) {
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService,
+            supportPanelConfigFactory, receiverService) {
             'use strict';
 
             /**********************************************************************************
@@ -45,6 +46,8 @@ angular.module('common').controller('smi.EditCertCtrl',
 
             // Get the certificate draft from the server.
             UtkastService.load(viewState).then(function(intygModel) {
+                receiverService.updatePossibleReceivers(viewState.common.intyg.type);
+
                 if (viewState.common.textVersionUpdated) {
                     $scope.certForm.$setDirty();
                 }

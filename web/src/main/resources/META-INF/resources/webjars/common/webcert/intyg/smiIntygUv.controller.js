@@ -20,8 +20,10 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
     [ '$log', '$timeout', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
         'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil', 'supportPanelConfigFactory',
+        'common.receiverService', 'common.authorityService',
         function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
-            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil, supportPanelConfigFactory) {
+            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil,
+            supportPanelConfigFactory, receiverService, authorityService) {
             'use strict';
 
             ViewState.reset();
@@ -44,13 +46,23 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             //We now have all info needed to build support-panel config (id, isSigned, isKompletteringsUtkast)
             $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, false);
 
+            //Did we just sign this intyg, and was it determined that we need to show approve receivers dialog for it?
+            if ($stateParams.signed && $stateParams.approvereceivers === 'true') {
+                receiverService.openConfigDialogForIntyg(ViewState.common.intygProperties.type, $stateParams.certificateId, false);
+            } else if (authorityService.isAuthorityActive({
+                        authority: UserModel.privileges.GODKANNA_MOTTAGARE,
+                        intygstyp: ViewState.common.intygProperties.type})) {
+                // potentially this intyg/user could require approval of receivers. If this is the case - we prefetch the configuration of approved receivers for
+                // this intyg right now, so that other components, such as wcApproveReceiversButton can determine it's enabled state without delay.
+                receiverService.getApprovedReceivers(ViewState.common.intygProperties.type, $stateParams.certificateId);
+            }
+
             /**
              * Private
              */
             function loadIntyg() {
                 $log.debug('Loading intyg ' + $stateParams.certificateId);
                 IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, function(result) {
-
 
                     ViewState.common.doneLoading = true;
                     if (result !== null && result !== '') {

@@ -22,9 +22,9 @@
 angular.module('common').factory('common.UtkastSignService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', '$uibModal',
+        'common.UserModel', '$uibModal', 'common.authorityService', 'common.receiverService',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal) {
+            UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal, authorityService, receiverService) {
             'use strict';
 
             // Used for updating scope inside bankID modal(s) during signing.
@@ -408,11 +408,20 @@ angular.module('common').factory('common.UtkastSignService',
                 _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsTyp);
             }
 
+            function needsReceiverApproval(intygsTyp) {
+                var hasbasicAuth = authorityService.isAuthorityActive({
+                    authority: UserModel.privileges.GODKANNA_MOTTAGARE,
+                    intygstyp: intygsTyp });
+
+                return hasbasicAuth && receiverService.getData().possibleReceivers.length > 1;
+
+
+            }
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true);
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true).search('approvereceivers', needsReceiverApproval(intygsTyp));
                 statService.refreshStat();
             }
 

@@ -725,7 +725,13 @@
             'common.supportpanel.arende.title': 'Ärendekommunikation',
             'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',
             'common.supportpanel.help.title': 'Tips & Hjälp',
-            'common.supportpanel.help.tooltip': 'Läs om intyget.'
+            'common.supportpanel.help.tooltip': 'Läs om intyget.',
+
+            // Approve receivers related resources
+            'common.receivers.save.btn': 'Spara',
+            'common.receivers.loading.text': 'Hämtar intygsmottagare...',
+            'common.receivers.save.error': 'Kunde inte spara mottagare på grund av ett tekniskt fel. Försök igen och kontakta supporten om problemet kvarstår.'
+
         },
         'en': {
             'common.ok': 'OK',

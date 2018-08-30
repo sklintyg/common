@@ -64,7 +64,7 @@ angular.module('af00213').config(function($stateProvider) {
             }
         }).state('webcert.intyg.af00213', {
             data: { defaultActive : 'index', intygType: 'af00213' },
-            url:'/intyg/af00213/:certificateId/:focusOn?:signed',
+            url:'/intyg/af00213/:certificateId/:focusOn?:signed?:approvereceivers?',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
