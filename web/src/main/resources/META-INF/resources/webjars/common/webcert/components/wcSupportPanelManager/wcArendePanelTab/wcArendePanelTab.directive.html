@@ -80,7 +80,9 @@
 
 </wc-support-panel-scrollable-body>
 
-<wc-arende-footer ng-if="viewState.intygProperties.isInteractionEnabled" arende-list="viewState.arendeList"></wc-arende-footer>
+<wc-arende-footer ng-if="viewState.intygProperties.isInteractionEnabled && 
+                         (unhandledAdministrativaFragorCount > 0 || unhandledKompletteringCount > 0)" 
+                         arende-list="viewState.arendeList"></wc-arende-footer>
 
 </wc-spinner>
 <!--  end spinner -->
