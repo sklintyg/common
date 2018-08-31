@@ -110,8 +110,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 var config = [
 
-                    patient,
-
                     // Intyget avser
                     kategori(categoryIds[99], 'KAT_99.RBK', 'KAT_99.HLP', {}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
