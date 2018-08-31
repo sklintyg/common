@@ -23,13 +23,7 @@
             "specialiteter" : ["SPECIALITET"]
         },
         "patient": {
-            "personId": "19121212-1212",
-            "fullstandigtNamn": "Herr Dundersjuk",
-            "fornamn": "Herr",
-            "efternamn": "Dundersjuk",
-            "postadress": "Testvägen 12",
-            "postnummer": "12345",
-            "postort": "Testort"
+            "personId": "19121212-1212"
         }
     },
     "kommentar" : "Här kommer en övrig kommentar",
