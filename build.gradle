@@ -5,7 +5,7 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.29"
+    intygClinicalprocessSchematronVersion = "0-SNAPSHOT"
     intygCertificateSchemasVersion = "1.0.13-beta8"
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "3.2.0-RC3"
@@ -73,7 +73,7 @@ allprojects {
     }
 }
 
-configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213'].contains(it.name)}) {
+configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213'].contains(it.name)}) {
     apply plugin: 'com.moowork.grunt'
 
     grunt {
@@ -136,7 +136,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'lus
     }
 }
 
-configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'af00213'].contains(it.name) }) {
+configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'lisjp', 'af00213'].contains(it.name) }) {
     configurations {
         jstests
     }
