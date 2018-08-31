@@ -34,7 +34,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                             labelKey: 'FRG_1.2.RBK',
                             components: [{
                                 type: 'uv-list',
-                                labelKey: 'KORKORT_{var}.RBK',
+                                labelKey: 'KORKORT.{var}.RBK',
                                 listKey: function(model) {
                                     return model.selected ? model.type : null;
                                 },
@@ -646,7 +646,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 labelKey: 'DFR_33.1.RBK',
                                 components: [{
                                     type: 'uv-list',
-                                    labelKey: 'KORKORT_{var}.RBK',
+                                    labelKey: 'KORKORT.{var}.RBK',
                                     listKey: function(model) {
                                         return model.selected ? model.type : null;
                                     },
