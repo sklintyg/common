@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_diabetes.rest;
 
 import java.io.StringReader;
 
+import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -45,6 +46,7 @@ import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.*;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 /**
@@ -162,5 +164,20 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     @Override
     protected Intyg utlatandeToIntyg(TsDiabetesUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
+    }
+
+    @Override
+    protected String getSchematronFileName() {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    protected RegisterCertificateType internalToTransport(TsDiabetesUtlatande utlatande) throws ConverterException {
+        throw new NotSupportedException();
+    }
+
+    @Override
+    protected TsDiabetesUtlatande transportToInternal(Intyg intyg) throws ConverterException {
+        throw new NotSupportedException();
     }
 }

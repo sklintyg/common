@@ -19,22 +19,28 @@
 package se.inera.intyg.common.ts_bas.model.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
-import java.time.LocalDateTime;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 
 /**
  * Unit test for InternalToExternalConverter.
@@ -44,6 +50,10 @@ import se.inera.intygstjanster.ts.services.v1.SkapadAv;
  */
 public class InternalToTransportTest {
 
+    private static URL getResource(String href) {
+        return Thread.currentThread().getContextClassLoader().getResource(href);
+    }
+
     private static final String ENHETSNAMN = "enhetsnamn";
     private static final String ENHETSID = "enhetsid";
     private static final String VARDGIVARNAMN = "vardgivarnamn";
@@ -51,39 +61,96 @@ public class InternalToTransportTest {
     private static final String POSTNUMMER = "postnummer";
     private static final String POSTORT = "postort";
     private static final String TELEFONNUMMER = "telefonnummer";
+    private static final String ARBETSPLATSKOD = "0000000";
     private static final String VARDGIVARID = "vardgivarid";
     private static final List<String> SPECIALIST_KOMPETENS = Arrays.asList("a", "b", "c");
     private static final String FULLSTANDIGT_NAMN = "test testorsson";
     private static final String PERSONID = "personid";
 
-    @Test
-    public void testConvert() throws Exception {
-        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+    public static TsBasUtlatande getUtlatande() throws Exception {
+        return getUtlatande(null, null, null);
+    }
+
+    public static TsBasUtlatande getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
+        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
 
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        SkapadAv skapadAv = res.getIntyg().getGrundData().getSkapadAv();
-        assertEquals(ENHETSNAMN, skapadAv.getVardenhet().getEnhetsnamn());
-        assertEquals(ENHETSID, skapadAv.getVardenhet().getEnhetsId().getExtension());
-        assertEquals(VARDGIVARNAMN, skapadAv.getVardenhet().getVardgivare().getVardgivarnamn());
-        assertEquals(POSTADRESS, skapadAv.getVardenhet().getPostadress());
-        assertEquals(POSTNUMMER, skapadAv.getVardenhet().getPostnummer());
-        assertEquals(POSTORT, skapadAv.getVardenhet().getPostort());
-        assertEquals(TELEFONNUMMER, skapadAv.getVardenhet().getTelefonnummer());
-        assertEquals(VARDGIVARID, skapadAv.getVardenhet().getVardgivare().getVardgivarid().getExtension());
-        assertEquals(FULLSTANDIGT_NAMN, skapadAv.getFullstandigtNamn());
-        assertEquals(PERSONID, skapadAv.getPersonId().getExtension());
+        if (relationKod != null) {
+            Relation relation = new Relation();
+            relation.setRelationKod(relationKod);
+            relation.setMeddelandeId(relationMeddelandeId);
+            relation.setReferensId(referensId);
+            utlatande.getGrundData().setRelation(relation);
+        }
 
-        assertEquals(SPECIALIST_KOMPETENS, skapadAv.getSpecialiteter());
+        return utlatande;
+    }
+/*
+    Waiting for INTYG-6650
+
+    @Test
+    public void doSchematronValidationTsBas() throws Exception {
+        String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
+
+        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+        assertTrue(generalValidator.validateGeneral(xmlContents));
+
+        RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
+        SchematronOutputType result = validator
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+
+        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+    }
+*/
+    @Test
+    public void testInternalToTransportConversion() throws Exception {
+        TsBasUtlatande expected = getUtlatande();
+        RegisterCertificateType transport = InternalToTransport.convert(expected);
+        TsBasUtlatande actual = TransportToInternal.convert(transport.getIntyg());
+
+//        assertEquals(expected, actual); // Switch after INTYG-6980
+        ObjectMapper objectMapper = new CustomObjectMapper();
+        assertEquals(objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
+    }
+
+    @Test(expected = ConverterException.class)
+    public void testInternalToTransportSourceNull() throws Exception {
+        InternalToTransport.convert(null);
     }
 
     @Test
-    public void testConvertWithMillisInTimestamp() throws Exception {
-        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.getGrundData().setSigneringsdatum(LocalDateTime.of(2012, 8, 2, 10, 9, 0, 123));
+    public void convertDecorateSvarPaTest() throws Exception {
+        final String meddelandeId = "meddelandeId";
+        final String referensId = "referensId";
+        TsBasUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNotNull(transport.getSvarPa());
+        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+        assertEquals(referensId, transport.getSvarPa().getReferensId());
+    }
 
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        assertEquals("2012-08-02T10:09:00", res.getIntyg().getGrundData().getSigneringsTidstampel()); // millis is not valid in transport
+    @Test
+    public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
+        final String meddelandeId = "meddelandeId";
+        TsBasUtlatande utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNotNull(transport.getSvarPa());
+        assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
+        assertNull(transport.getSvarPa().getReferensId());
+    }
+
+    @Test
+    public void convertDecorateSvarPaNoRelationTest() throws Exception {
+        TsBasUtlatande utlatande = getUtlatande();
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNull(transport.getSvarPa());
+    }
+
+    @Test
+    public void convertDecorateSvarPaNotKompltTest() throws Exception {
+        TsBasUtlatande utlatande = getUtlatande(RelationKod.FRLANG, null, null);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        assertNull(transport.getSvarPa());
     }
 
     @Test
@@ -94,11 +161,11 @@ public class InternalToTransportTest {
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens1);
         utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens2);
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        SkapadAv skapadAv = res.getIntyg().getGrundData().getSkapadAv();
-        assertEquals(2, skapadAv.getSpecialiteter().size());
-        assertEquals(specialistkompetens1, skapadAv.getSpecialiteter().get(0));
-        assertEquals(specialistkompetens2, skapadAv.getSpecialiteter().get(1));
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
+        assertEquals(2, skapadAv.getSpecialistkompetens().size());
+        assertEquals(specialistkompetens1, skapadAv.getSpecialistkompetens().get(0).getDisplayName());
+        assertEquals(specialistkompetens2, skapadAv.getSpecialistkompetens().get(1).getDisplayName());
     }
 
     @Test
@@ -108,10 +175,11 @@ public class InternalToTransportTest {
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        SkapadAv skapadAv = res.getIntyg().getGrundData().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(description, skapadAv.getBefattningar().get(0));
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
+        assertEquals(1, skapadAv.getBefattning().size());
+        assertEquals(befattning, skapadAv.getBefattning().get(0).getCode());
+        assertEquals(description, skapadAv.getBefattning().get(0).getDisplayName());
     }
 
     @Test
@@ -120,10 +188,10 @@ public class InternalToTransportTest {
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
         utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        SkapadAv skapadAv = res.getIntyg().getGrundData().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattningar().size());
-        assertEquals(befattningskod, skapadAv.getBefattningar().get(0));
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
+        assertEquals(1, skapadAv.getBefattning().size());
+        assertEquals(befattningskod, skapadAv.getBefattning().get(0).getCode());
     }
 
     @Test
@@ -132,28 +200,25 @@ public class InternalToTransportTest {
         final String utgava = "08";
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.setTextVersion(version + "." + utgava);
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        assertEquals(version, res.getIntyg().getVersion());
-        assertEquals(utgava, res.getIntyg().getUtgava());
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        assertEquals(version + "." + utgava, res.getIntyg().getVersion());
     }
 
     @Test
     public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
-        final String defaultVersion = "06";
-        final String defaultUtgava = "07";
+        final String defaultVersion = "6";
+        final String defaultUtgava = "7";
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
         utlatande.setTextVersion(null);
-        RegisterTSBasType res = InternalToTransport.convert(utlatande);
-        assertEquals(defaultVersion, res.getIntyg().getVersion());
-        assertEquals(defaultUtgava, res.getIntyg().getUtgava());
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
 
         utlatande.setTextVersion("");
         res = InternalToTransport.convert(utlatande);
-        assertEquals(defaultVersion, res.getIntyg().getVersion());
-        assertEquals(defaultUtgava, res.getIntyg().getUtgava());
+        assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
     }
 
-    private HoSPersonal buildHosPersonal(List<String> specialistKompetens) {
+    private static HoSPersonal buildHosPersonal(List<String> specialistKompetens) {
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId(PERSONID);
         hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);
@@ -172,6 +237,7 @@ public class InternalToTransportTest {
         vardenhet.setPostnummer(POSTNUMMER);
         vardenhet.setPostort(POSTORT);
         vardenhet.setTelefonnummer(TELEFONNUMMER);
+        vardenhet.setArbetsplatsKod(ARBETSPLATSKOD);
         hosPersonal.setVardenhet(vardenhet);
 
         return hosPersonal;

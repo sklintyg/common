@@ -18,38 +18,115 @@
  */
 package se.inera.intyg.common.ts_bas.model.converter;
 
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BALANSRUBBNINGAR_YRSEL_SVAR_ID_10;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEHANDLING_DIABETES_SVAR_ID_19;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BINOKULART_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.DUBBELSEENDE_DELSVAR_ID_6;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.DUBBELSEENDE_SVAR_ID_6;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID_21;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.FOREKOMST_RISKFAKTORER_STROKE_DELSVAR_ID_16;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.FOREKOMST_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HAR_DIABETES_DELSVAR_ID_17;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HAR_DIABETES_SVAR_ID_17;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HJART_ELLER_KARLSJUKDOM_DELSVAR_ID_14;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HJART_ELLER_KARLSJUKDOM_SVAR_ID_14;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_ID_2;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID_2;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INSULINBEHANDLING_DELSVAR_ID_19;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.KOSTBEHANDLING_DELSVAR_ID_19;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.MEDVETANDESTORNING_SVAR_ID_21;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.MISSBRUK_BEROENDE_SVAR_ID_25;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.NEDSATT_NJURFUNKTION_DELSVAR_ID_22;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.NEDSATT_NJURFUNKTION_SVAR_ID_22;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.NYSTAGMUS_DELSVAR_ID_7;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.NYSTAGMUS_SVAR_ID_7;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID_13;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID_13;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.OVRIGA_KOMMENTARER_SVAR_ID_32;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PROGRESSIV_OGONSJUKDOM_SVAR_ID_5;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PSYKISK_SJUKDOM_STORNING_SVAR_ID_27;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.PSYKISK_UTVECKLINGSSTORNING_SVAR_ID_28;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID_26;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.RISKFAKTORER_STROKE_SVAR_ID_16;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SEENDE_NEDSATT_BELYSNING_SVAR_ID_4;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID_12;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.STADIGVARANDE_MEDICINERING_SVAR_ID_31;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SYNFALTSDEFEKTER_DELSVAR_ID_3;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SYNFALTSDEFEKTER_SVAR_ID_3;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.SYNSKARPA_SVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TABLETTBEHANDLING_DELSVAR_ID_19;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID_20;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID_20;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_PA_HJARNSKADA_DELSVAR_ID_15;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_PA_HJARNSKADA_SVAR_ID_15;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_ID_24;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID_23;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID_23;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID_21;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TYP_AV_DIABETES_DELSVAR_ID_18;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TYP_AV_DIABETES_SVAR_ID_18;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID_16;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_DELSVAR_ID_9;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFATTA_SAMTALSTAMMA_DELSVAR_ID_11;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFATTA_SAMTALSTAMMA_SVAR_ID_11;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
-import static se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil.getTextVersion;
-
-import java.util.ArrayList;
-import java.util.List;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_bas.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
-import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil;
-import se.inera.intygstjanster.ts.services.v1.AlkoholNarkotikaLakemedel;
-import se.inera.intygstjanster.ts.services.v1.BedomningTypBas;
-import se.inera.intygstjanster.ts.services.v1.DiabetesTypBas;
-import se.inera.intygstjanster.ts.services.v1.HjartKarlSjukdomar;
-import se.inera.intygstjanster.ts.services.v1.HorselBalanssinne;
-import se.inera.intygstjanster.ts.services.v1.IdentitetStyrkt;
-import se.inera.intygstjanster.ts.services.v1.IntygsAvserTypBas;
-import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsBas;
-import se.inera.intygstjanster.ts.services.v1.Medvetandestorning;
-import se.inera.intygstjanster.ts.services.v1.OvrigMedicinering;
-import se.inera.intygstjanster.ts.services.v1.RorelseorganenFunktioner;
-import se.inera.intygstjanster.ts.services.v1.Sjukhusvard;
-import se.inera.intygstjanster.ts.services.v1.SynfunktionBas;
-import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
-import se.inera.intygstjanster.ts.services.v1.Utvecklingsstorning;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
+import se.inera.intygstjanster.ts.services.v1.Korkortsbehorighet;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 
@@ -58,193 +135,621 @@ public final class TransportToInternal {
     private TransportToInternal() {
     }
 
-    /**
-     * Takes an utlatande on the transport format and converts it to the internal model.
-     *
-     * @param source
-     *            {@link TsBasUtlatande}
-     *
-     * @return {@link TsBasUtlatande}, unless the source is null in which case a
-     *         {@link se.inera.intyg.common.support.model.converter.util.ConverterException} is thrown
-     *
-     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException
-     */
-    public static TsBasUtlatande convert(TSBasIntyg source) throws ConverterException {
-        LOG.trace("Converting transport model to internal");
-
-        if (source == null) {
-            throw new ConverterException("Source utlatande was null, cannot convert");
-        }
-
-        TsBasUtlatande internal = new TsBasUtlatande();
-        internal.setGrundData(TransportToInternalUtil.buildGrundData(source.getGrundData()));
-        internal.setId(source.getIntygsId());
-        internal.setTextVersion(getTextVersion(source.getVersion(), source.getUtgava()));
-        internal.setKommentar(source.getOvrigKommentar());
-        internal.setTyp(TsBasEntryPoint.MODULE_ID);
-
-        internal.getPsykiskt().setPsykiskSjukdom(source.isHarPsykiskStorning());
-        internal.getKognitivt().setSviktandeKognitivFunktion(source.isHarKognitivStorning());
-        internal.getNjurar().setNedsattNjurfunktion(source.isHarNjurSjukdom());
-        internal.getSomnVakenhet().setTeckenSomnstorningar(source.isHarSomnVakenhetStorning());
-        internal.getNeurologi().setNeurologiskSjukdom(source.isNeurologiskaSjukdomar());
-
-        buildAlkoholNarkotikaLakemedel(internal, source.getAlkoholNarkotikaLakemedel());
-        buildBedomning(internal, source.getBedomning());
-        buildDiabetes(internal, source.getDiabetes());
-        buildHjartKarl(internal, source.getHjartKarlSjukdomar());
-        buildHorselBalans(internal, source.getHorselBalanssinne());
-        buildIdentitetStyrkt(internal, source.getIdentitetStyrkt());
-        buildIntygAvser(internal, source.getIntygAvser());
-        buildMedvetandeStorning(internal, source.getMedvetandestorning());
-        buildMedicinering(internal, source.getOvrigMedicinering());
-        buildFunktionsnedsattning(internal, source.getRorelseorganensFunktioner());
-        buildSjukhusvard(internal, source.getSjukhusvard());
-        buildSynfunktioner(internal, source.getSynfunktion());
-        buildUvecklingsstorning(internal, source.getUtvecklingsstorning());
-        return internal;
+    public static TsBasUtlatande convert(Intyg source) throws ConverterException {
+        TsBasUtlatande utlatande = new TsBasUtlatande();
+        utlatande.setId(source.getIntygsId().getExtension());
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
+        utlatande.setTextVersion(source.getVersion());
+        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
+        setSvar(utlatande, source);
+        return utlatande;
     }
 
-    private static void buildAlkoholNarkotikaLakemedel(TsBasUtlatande internal, AlkoholNarkotikaLakemedel source) {
-        internal.getNarkotikaLakemedel().setForemalForVardinsats(source.isHarVardinsats());
-        internal.getNarkotikaLakemedel().setLakarordineratLakemedelsbruk(source.isHarLakarordineratLakemedelsbruk());
-        internal.getNarkotikaLakemedel().setLakemedelOchDos(source.getLakarordineratLakemedelOchDos());
-        internal.getNarkotikaLakemedel().setProvtagningBehovs(source.isHarVardinsatsProvtagningBehov());
-        internal.getNarkotikaLakemedel().setTeckenMissbruk(source.isHarTeckenMissbruk());
-    }
-
-    private static void buildBedomning(TsBasUtlatande internal, BedomningTypBas source) {
-        internal.getBedomning().setKanInteTaStallning(source.isKanInteTaStallning());
-        internal.getBedomning().setLakareSpecialKompetens(source.getBehovAvLakareSpecialistKompetens());
-        if (source.getKorkortstyp() != null && !source.getKorkortstyp().isEmpty()) {
-            internal.getBedomning().getKorkortstyp().addAll(convertBedomningKorkortstyp(source.getKorkortstyp()));
-        }
-    }
-
-    private static List<BedomningKorkortstyp> convertBedomningKorkortstyp(List<KorkortsbehorighetTsBas> source) {
-        List<BedomningKorkortstyp> korkortsTyper = new ArrayList<>();
-        for (KorkortsbehorighetTsBas it : source) {
-            korkortsTyper.add(BedomningKorkortstyp.valueOf(it.value().value()));
-        }
-        return korkortsTyper;
-    }
-
-    private static void buildDiabetes(TsBasUtlatande internal, DiabetesTypBas source) {
-        internal.getDiabetes().setHarDiabetes(source.isHarDiabetes());
-        if (source.isHarDiabetes()) {
-            if (source.getDiabetesTyp() != null) {
-                internal.getDiabetes().setDiabetesTyp(TransportToInternalUtil.convertDiabetesTyp(source.getDiabetesTyp()).name());
-            }
-            internal.getDiabetes().setInsulin(source.isHarBehandlingInsulin());
-            internal.getDiabetes().setKost(source.isHarBehandlingKost());
-            internal.getDiabetes().setTabletter(source.isHarBehandlingTabletter());
-        }
-    }
-
-    private static void buildHjartKarl(TsBasUtlatande internal, HjartKarlSjukdomar source) {
-        internal.getHjartKarl().setBeskrivningRiskfaktorer(source.getRiskfaktorerStrokeBeskrivning());
-        internal.getHjartKarl().setHjarnskadaEfterTrauma(source.isHarHjarnskadaICNS());
-        internal.getHjartKarl().setHjartKarlSjukdom(source.isHarRiskForsamradHjarnFunktion());
-        internal.getHjartKarl().setRiskfaktorerStroke(source.isHarRiskfaktorerStroke());
-    }
-
-    private static void buildHorselBalans(TsBasUtlatande internal, HorselBalanssinne source) {
-        internal.getHorselBalans().setBalansrubbningar(source.isHarBalansrubbningYrsel());
-        internal.getHorselBalans().setSvartUppfattaSamtal4Meter(source.isHarSvartUppfattaSamtal4Meter());
-    }
-
-    private static void buildIdentitetStyrkt(TsBasUtlatande internal, IdentitetStyrkt source) {
-        internal.getVardkontakt().setTyp(VARDKONTAKT_TYP);
-        internal.getVardkontakt().setIdkontroll(IdKontrollKod.fromCode(source.getIdkontroll().value()).name());
-    }
-
-    private static void buildIntygAvser(TsBasUtlatande internal, IntygsAvserTypBas source) {
-        internal.getIntygAvser().getKorkortstyp().addAll(convertIntygAvsergKorkortstyp(source.getKorkortstyp()));
-    }
-
-    private static List<IntygAvserKategori> convertIntygAvsergKorkortstyp(List<KorkortsbehorighetTsBas> source) {
-        List<IntygAvserKategori> korkortsTyper = new ArrayList<>();
-        for (KorkortsbehorighetTsBas it : source) {
-            korkortsTyper.add(IntygAvserKategori.valueOf(it.value().value()));
-        }
-        return korkortsTyper;
-    }
-
-    private static void buildMedvetandeStorning(TsBasUtlatande internal, Medvetandestorning source) {
-        internal.getMedvetandestorning().setBeskrivning(source.getMedvetandestorningBeskrivning());
-        internal.getMedvetandestorning().setMedvetandestorning(source.isHarMedvetandestorning());
-    }
-
-    private static void buildMedicinering(TsBasUtlatande internal, OvrigMedicinering source) {
-        internal.getMedicinering().setBeskrivning(source.getStadigvarandeMedicineringBeskrivning());
-        internal.getMedicinering().setStadigvarandeMedicinering(source.isHarStadigvarandeMedicinering());
-    }
-
-    private static void buildFunktionsnedsattning(TsBasUtlatande internal, RorelseorganenFunktioner source) {
-        internal.getFunktionsnedsattning().setBeskrivning(source.getRorelsebegransningBeskrivning());
-        internal.getFunktionsnedsattning().setFunktionsnedsattning(source.isHarRorelsebegransning());
-        internal.getFunktionsnedsattning().setOtillrackligRorelseformaga(source.isHarOtillrackligRorelseformagaPassagerare());
-    }
-
-    private static void buildSjukhusvard(TsBasUtlatande internal, Sjukhusvard source) {
-        internal.getSjukhusvard().setAnledning(source.getSjukhusvardEllerLakarkontaktAnledning());
-        internal.getSjukhusvard().setSjukhusEllerLakarkontakt(source.isHarSjukhusvardEllerLakarkontakt());
-        internal.getSjukhusvard().setTidpunkt(source.getSjukhusvardEllerLakarkontaktDatum());
-        internal.getSjukhusvard().setVardinrattning(source.getSjukhusvardEllerLakarkontaktVardinrattning());
-    }
-
-    private static void buildSynfunktioner(TsBasUtlatande internal, SynfunktionBas source) {
-        internal.getSyn().setBinokulart(buildBinokulart(source));
-        internal.getSyn().setHogerOga(buildHoger(source));
-        internal.getSyn().setVansterOga(buildVanster(source));
-
-        internal.getSyn().setDiplopi(source.isHarDiplopi());
-        internal.getSyn().setKorrektionsglasensStyrka(source.isHarGlasStyrkaOver8Dioptrier());
-        internal.getSyn().setNattblindhet(source.isHarNattblindhet());
-        internal.getSyn().setNystagmus(source.isHarNystagmus());
-        internal.getSyn().setProgressivOgonsjukdom(source.isHarProgressivOgonsjukdom());
-        internal.getSyn().setSynfaltsdefekter(source.isHarSynfaltsdefekt());
-    }
-
-    private static Synskarpevarden buildBinokulart(SynfunktionBas source) {
-        Synskarpevarden binokulart = new Synskarpevarden();
-        binokulart.setUtanKorrektion(source.getSynskarpaUtanKorrektion().getBinokulart());
-        if (source.getSynskarpaMedKorrektion() != null && source.getSynskarpaMedKorrektion().getBinokulart() != null) {
-            binokulart.setMedKorrektion(source.getSynskarpaMedKorrektion().getBinokulart());
-        }
-        return binokulart;
-    }
-
-    private static Synskarpevarden buildHoger(SynfunktionBas source) {
-        Synskarpevarden hoger = new Synskarpevarden();
-        hoger.setUtanKorrektion(source.getSynskarpaUtanKorrektion().getHogerOga());
-        if (source.getSynskarpaMedKorrektion() != null) {
-            if (source.getSynskarpaMedKorrektion().getHogerOga() != null) {
-                hoger.setMedKorrektion(source.getSynskarpaMedKorrektion().getHogerOga());
-            }
-            if (source.getSynskarpaMedKorrektion().isHarKontaktlinsHogerOga() != null) {
-                hoger.setKontaktlins(source.getSynskarpaMedKorrektion().isHarKontaktlinsHogerOga());
+    private static void setSvar(TsBasUtlatande utlatande, Intyg source) throws ConverterException {
+        for (Svar svar : source.getSvar()) {
+            switch (svar.getId()) {
+                case INTYG_AVSER_SVAR_ID_1:
+                    handleIntygAvser(utlatande, svar);
+                    break;
+                case IDENTITET_STYRKT_GENOM_SVAR_ID_2:
+                    handleIdentitetStyrktGenom(utlatande, svar);
+                    break;
+                case SYNFALTSDEFEKTER_SVAR_ID_3:
+                    handleSynfaltsdefekter(utlatande, svar);
+                    break;
+                case SEENDE_NEDSATT_BELYSNING_SVAR_ID_4:
+                    handleSeendeNedsattBelysning(utlatande, svar);
+                    break;
+                case PROGRESSIV_OGONSJUKDOM_SVAR_ID_5:
+                    handleProgressivOgonsjukdom(utlatande, svar);
+                    break;
+                case DUBBELSEENDE_SVAR_ID_6:
+                    handleDubbelseende(utlatande, svar);
+                    break;
+                case NYSTAGMUS_SVAR_ID_7:
+                    handleNystagmus(utlatande, svar);
+                    break;
+                case SYNSKARPA_SVAR_ID_8:
+                    handleSynskarpa(utlatande, svar);
+                    break;
+                case UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9:
+                    handleUndersokning8DioptriersKorrektionsgrad(utlatande, svar);
+                    break;
+                case BALANSRUBBNINGAR_YRSEL_SVAR_ID_10:
+                    handleBalansrubbningarYrsel(utlatande, svar);
+                    break;
+                case UPPFATTA_SAMTALSTAMMA_SVAR_ID_11:
+                    handleUppfattaSamtalstamma(utlatande, svar);
+                    break;
+                case SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID_12:
+                    handleSjukdomFunktionsnedsattning(utlatande, svar);
+                    break;
+                case OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID_13:
+                    handleOtillrackligRorelseformaga(utlatande, svar);
+                    break;
+                case HJART_ELLER_KARLSJUKDOM_SVAR_ID_14:
+                    handleHjartEllerKarlsjukdom(utlatande, svar);
+                    break;
+                case TECKEN_PA_HJARNSKADA_SVAR_ID_15:
+                    handleTeckenPaHjarnskada(utlatande, svar);
+                    break;
+                case RISKFAKTORER_STROKE_SVAR_ID_16:
+                    handleRiskfaktorerStroke(utlatande, svar);
+                    break;
+                case HAR_DIABETES_SVAR_ID_17:
+                    handleHarDiabetes(utlatande, svar);
+                    break;
+                case TYP_AV_DIABETES_SVAR_ID_18:
+                    handleTypAvDiabetes(utlatande, svar);
+                    break;
+                case BEHANDLING_DIABETES_SVAR_ID_19:
+                    handleBehandlingDiabetes(utlatande, svar);
+                    break;
+                case TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID_20:
+                    handleTeckenNeurologiskSjukdom(utlatande, svar);
+                    break;
+                case MEDVETANDESTORNING_SVAR_ID_21:
+                    handleMedvetandestorning(utlatande, svar);
+                    break;
+                case NEDSATT_NJURFUNKTION_SVAR_ID_22:
+                    handleNedsattNjurfunktion(utlatande, svar);
+                    break;
+                case TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID_23:
+                    handleTeckenSviktandeKognitivFunktion(utlatande, svar);
+                    break;
+                case TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24:
+                    handleTeckenSomnEllerVakenhetsstorning(utlatande, svar);
+                    break;
+                case MISSBRUK_BEROENDE_SVAR_ID_25:
+                    handleMissbrukBeroende(utlatande, svar);
+                    break;
+                case REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID_26:
+                    handleRegelbundetLakarordineratBrukLakemedel(utlatande, svar);
+                    break;
+                case PSYKISK_SJUKDOM_STORNING_SVAR_ID_27:
+                    handlePsykiskSjukdomStorning(utlatande, svar);
+                    break;
+                case PSYKISK_UTVECKLINGSSTORNING_SVAR_ID_28:
+                    handlePsykiskUtvecklingsstorning(utlatande, svar);
+                    break;
+                case ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29:
+                    handleAdhdAddDampAspergersTourettes(utlatande, svar);
+                    break;
+                case VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30:
+                    handleVardSjukhusKontaktLakare(utlatande, svar);
+                    break;
+                case STADIGVARANDE_MEDICINERING_SVAR_ID_31:
+                    handleStadigvarandeMedicinering(utlatande, svar);
+                    break;
+                case OVRIGA_KOMMENTARER_SVAR_ID_32:
+                    handleOvrigaKommentarer(utlatande, svar);
+                    break;
+                case UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33:
+                    handleUppfyllerKravForBehorighet(utlatande, svar);
+                    break;
+                case BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34:
+                    handleBorUndersokasAvSpecialistlakare(utlatande, svar);
+                    break;
             }
         }
-        return hoger;
     }
 
-    private static Synskarpevarden buildVanster(SynfunktionBas source) {
-        Synskarpevarden vanster = new Synskarpevarden();
-        vanster.setUtanKorrektion(source.getSynskarpaUtanKorrektion().getVansterOga());
-        if (source.getSynskarpaMedKorrektion() != null) {
-            if (source.getSynskarpaMedKorrektion().getVansterOga() != null) {
-                vanster.setMedKorrektion(source.getSynskarpaMedKorrektion().getVansterOga());
-            }
-            if (source.getSynskarpaMedKorrektion().isHarKontaktlinsVansterOga() != null) {
-                vanster.setKontaktlins(source.getSynskarpaMedKorrektion().isHarKontaktlinsVansterOga());
+    private static void handleIntygAvser(TsBasUtlatande utlatande, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case INTYG_AVSER_DELSVAR_ID_1:
+                    IntygAvserKod intygAvserKod = IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode());
+                    utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.valueOf(intygAvserKod.name()));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
             }
         }
-        return vanster;
     }
 
-    private static void buildUvecklingsstorning(TsBasUtlatande internal, Utvecklingsstorning source) {
-        internal.getUtvecklingsstorning().setHarSyndrom(source.isHarAndrayndrom());
-        internal.getUtvecklingsstorning().setPsykiskUtvecklingsstorning(source.isHarPsykiskUtvecklingsstorning());
+    private static void handleIdentitetStyrktGenom(TsBasUtlatande utlatande, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case IDENTITET_STYRKT_GENOM_ID_2:
+                    utlatande.getVardkontakt().setTyp(VARDKONTAKT_TYP);
+                    utlatande.getVardkontakt().setIdkontroll(IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name());
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
+
+    private static void handleSynfaltsdefekter(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case SYNFALTSDEFEKTER_DELSVAR_ID_3:
+                    utlatande.getSyn().setSynfaltsdefekter(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSeendeNedsattBelysning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case SEENDE_NEDSATT_BELYSNING_DELSVAR_ID_4:
+                    utlatande.getSyn().setNattblindhet(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleProgressivOgonsjukdom(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case PROGRESSIV_OGONSJUKDOM_DELSVAR_ID_5:
+                    utlatande.getSyn().setProgressivOgonsjukdom(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleDubbelseende(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case DUBBELSEENDE_DELSVAR_ID_6:
+                    utlatande.getSyn().setDiplopi(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleNystagmus(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case NYSTAGMUS_DELSVAR_ID_7:
+                    utlatande.getSyn().setNystagmus(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSynskarpa(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case HOGER_OGA_UTAN_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getHogerOga() == null) {
+                        utlatande.getSyn().setHogerOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getHogerOga().setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+                case HOGER_OGA_MED_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getHogerOga() == null) {
+                        utlatande.getSyn().setHogerOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getHogerOga().setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+                case KONTAKTLINSER_HOGER_OGA_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getHogerOga() == null) {
+                        utlatande.getSyn().setHogerOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getHogerOga().setKontaktlins(getBooleanContent(delsvar));
+                    break;
+                case VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getVansterOga() == null) {
+                        utlatande.getSyn().setVansterOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getVansterOga().setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+                case VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getVansterOga() == null) {
+                        utlatande.getSyn().setVansterOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getVansterOga().setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+                case KONTAKTLINSER_VANSTER_OGA_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getVansterOga() == null) {
+                        utlatande.getSyn().setVansterOga(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getVansterOga().setKontaktlins(getBooleanContent(delsvar));
+                    break;
+                case BINOKULART_UTAN_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getBinokulart() == null) {
+                        utlatande.getSyn().setBinokulart(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getBinokulart().setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+                case BINOKULART_MED_KORREKTION_DELSVAR_ID_8:
+                    if (utlatande.getSyn().getBinokulart() == null) {
+                        utlatande.getSyn().setBinokulart(new Synskarpevarden());
+                    }
+                    utlatande.getSyn().getBinokulart().setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
+                    break;
+            }
+        }
+    }
+
+    private static void handleUndersokning8DioptriersKorrektionsgrad(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_DELSVAR_ID_9:
+                    utlatande.getSyn().setKorrektionsglasensStyrka(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleBalansrubbningarYrsel(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10:
+                    utlatande.getHorselBalans().setBalansrubbningar(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleUppfattaSamtalstamma(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case UPPFATTA_SAMTALSTAMMA_DELSVAR_ID_11:
+                    utlatande.getHorselBalans().setSvartUppfattaSamtal4Meter(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSjukdomFunktionsnedsattning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case FOREKOMST_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12:
+                    utlatande.getFunktionsnedsattning().setFunktionsnedsattning(getBooleanContent(delsvar));
+                    break;
+                case TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12:
+                    utlatande.getFunktionsnedsattning().setBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleOtillrackligRorelseformaga(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID_13:
+                    utlatande.getFunktionsnedsattning().setOtillrackligRorelseformaga(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleHjartEllerKarlsjukdom(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case HJART_ELLER_KARLSJUKDOM_DELSVAR_ID_14:
+                    utlatande.getHjartKarl().setHjartKarlSjukdom(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleTeckenPaHjarnskada(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TECKEN_PA_HJARNSKADA_DELSVAR_ID_15:
+                    utlatande.getHjartKarl().setHjarnskadaEfterTrauma(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleRiskfaktorerStroke(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case FOREKOMST_RISKFAKTORER_STROKE_DELSVAR_ID_16:
+                    utlatande.getHjartKarl().setRiskfaktorerStroke(getBooleanContent(delsvar));
+                    break;
+                case TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID_16:
+                    utlatande.getHjartKarl().setBeskrivningRiskfaktorer(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleHarDiabetes(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case HAR_DIABETES_DELSVAR_ID_17:
+                    utlatande.getDiabetes().setHarDiabetes(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleTypAvDiabetes(TsBasUtlatande utlatande, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TYP_AV_DIABETES_DELSVAR_ID_18:
+                    utlatande.getDiabetes().setDiabetesTyp(DiabetesKod.fromCode(getCVSvarContent(delsvar).getCode()).name());
+                    break;
+
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleBehandlingDiabetes(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case KOSTBEHANDLING_DELSVAR_ID_19:
+                    utlatande.getDiabetes().setKost(getBooleanContent(delsvar));
+                    break;
+                case TABLETTBEHANDLING_DELSVAR_ID_19:
+                    utlatande.getDiabetes().setTabletter(getBooleanContent(delsvar));
+                    break;
+                case INSULINBEHANDLING_DELSVAR_ID_19:
+                    utlatande.getDiabetes().setInsulin(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleTeckenNeurologiskSjukdom(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID_20:
+                    utlatande.getNeurologi().setNeurologiskSjukdom(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleMedvetandestorning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID_21:
+                    utlatande.getMedvetandestorning().setMedvetandestorning(getBooleanContent(delsvar));
+                    break;
+                case TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID_21:
+                    utlatande.getMedvetandestorning().setBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleNedsattNjurfunktion(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case NEDSATT_NJURFUNKTION_DELSVAR_ID_22:
+                    utlatande.getNjurar().setNedsattNjurfunktion(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleTeckenSviktandeKognitivFunktion(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID_23:
+                    utlatande.getKognitivt().setSviktandeKognitivFunktion(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleTeckenSomnEllerVakenhetsstorning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_ID_24:
+                    utlatande.getSomnVakenhet().setTeckenSomnstorningar(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleMissbrukBeroende(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TECKEN_MISSBRUK_BEROENDE_DELSVAR_ID_25:
+                    utlatande.getNarkotikaLakemedel().setTeckenMissbruk(getBooleanContent(delsvar));
+                    break;
+                case VARDINSATSER_MISSBRUK_BEROENDE_DELSVAR_ID_25:
+                    utlatande.getNarkotikaLakemedel().setForemalForVardinsats(getBooleanContent(delsvar));
+                    break;
+                case PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25:
+                    utlatande.getNarkotikaLakemedel().setProvtagningBehovs(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleRegelbundetLakarordineratBrukLakemedel(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26:
+                    utlatande.getNarkotikaLakemedel().setLakarordineratLakemedelsbruk(getBooleanContent(delsvar));
+                    break;
+                case LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26:
+                    utlatande.getNarkotikaLakemedel().setLakemedelOchDos(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handlePsykiskSjukdomStorning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27:
+                    utlatande.getPsykiskt().setPsykiskSjukdom(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handlePsykiskUtvecklingsstorning(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28:
+                    utlatande.getUtvecklingsstorning().setPsykiskUtvecklingsstorning(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleAdhdAddDampAspergersTourettes(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29:
+                    utlatande.getUtvecklingsstorning().setHarSyndrom(getBooleanContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleVardSjukhusKontaktLakare(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30:
+                    utlatande.getSjukhusvard().setSjukhusEllerLakarkontakt(getBooleanContent(delsvar));
+                    break;
+                case TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30:
+                    utlatande.getSjukhusvard().setTidpunkt(getStringContent(delsvar));
+                    break;
+                case PLATS_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30:
+                    utlatande.getSjukhusvard().setVardinrattning(getStringContent(delsvar));
+                    break;
+                case ORSAK_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30:
+                    utlatande.getSjukhusvard().setAnledning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleStadigvarandeMedicinering(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31:
+                    utlatande.getMedicinering().setStadigvarandeMedicinering(getBooleanContent(delsvar));
+                    break;
+                case MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31:
+                    utlatande.getMedicinering().setBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleOvrigaKommentarer(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32:
+                    utlatande.setKommentar(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleUppfyllerKravForBehorighet(TsBasUtlatande utlatande, Svar svar) throws ConverterException {
+        utlatande.getBedomning().setKanInteTaStallning(false);
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
+                    KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
+                    if (korkortsbehorighetKod == KorkortsbehorighetKod.KANINTETEASTALLNING) {
+                        utlatande.getBedomning().setKanInteTaStallning(true);
+                    } else {
+                        Korkortsbehorighet korkortsbehorighet = Korkortsbehorighet.fromValue(korkortsbehorighetKod.name());
+                        BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighet.value());
+                        utlatande.getBedomning().getKorkortstyp().add(bedomningKorkortstyp);
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleBorUndersokasAvSpecialistlakare(TsBasUtlatande utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34:
+                    utlatande.getBedomning().setLakareSpecialKompetens(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
 }

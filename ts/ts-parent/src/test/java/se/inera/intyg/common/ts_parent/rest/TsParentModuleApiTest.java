@@ -317,12 +317,12 @@ public class TsParentModuleApiTest {
         String res = moduleApi.transformToStatisticsService(inputString);
         assertEquals(inputString, res);
     }
-
+/*
     @Test(expected = UnsupportedOperationException.class)
     public void testvalidateXml() throws Exception {
         moduleApi.validateXml("xmlBody");
     }
-
+*/
     @Test(expected = UnsupportedOperationException.class)
     public void testGetModuleSpecificArendeParameters() throws Exception {
         moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), new ArrayList<>());

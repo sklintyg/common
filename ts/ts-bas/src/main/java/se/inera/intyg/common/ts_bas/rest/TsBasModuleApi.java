@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.rest;
 
-import java.io.StringReader;
 
+import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -31,27 +31,23 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_bas.integration.RegisterTSBasResponderImpl;
 import se.inera.intyg.common.ts_bas.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.model.converter.TransportToInternal;
-import se.inera.intyg.common.ts_bas.model.converter.TsBasMetaDataConverter;
 import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponderInterface;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponseType;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import java.io.StringReader;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -65,10 +61,6 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     private GetTSBasResponderInterface getTSBasResponderInterface;
 
     @Autowired(required = false)
-    @Qualifier("registerTSBasClient")
-    private RegisterTSBasResponderInterface registerTSBasResponderInterface;
-
-    @Autowired(required = false)
     @Qualifier("tsBasSendCertificateClient")
     private SendTSClient sendTsBasClient;
 
@@ -78,30 +70,6 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     public TsBasModuleApi() {
         super(TsBasUtlatande.class);
-    }
-
-    @Override
-    public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
-        RegisterTSBasType request;
-        try {
-            request = InternalToTransport.convert(getInternal(internalModel));
-        } catch (ConverterException e) {
-            LOG.error("Failed to convert to transport format during registerTSBas", e);
-            throw new ExternalServiceCallException("Failed to convert to transport format during registerTSBas", e);
-        }
-
-        RegisterTSBasResponseType response = registerTSBasResponderInterface.registerTSBas(logicalAddress, request);
-
-        // check whether call was successful or not
-        if (response.getResultat().getResultCode() == ResultCodeType.INFO) {
-            throw new ExternalServiceCallException(response.getResultat().getResultText(),
-                    RegisterTSBasResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
-                            ? ErrorIdEnum.VALIDATION_ERROR
-                            : ErrorIdEnum.APPLICATION_ERROR);
-        } else if (response.getResultat().getResultCode() == ResultCodeType.ERROR) {
-            throw new ExternalServiceCallException(response.getResultat().getErrorId() + " : " + response.getResultat().getResultText());
-        }
-
     }
 
     @Override
@@ -146,10 +114,8 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     @Override
     public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterTSBasType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                RegisterTSBasType.class);
         try {
-            return TransportToInternal.convert(jaxbObject.getIntyg());
+            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
@@ -157,7 +123,8 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     private CertificateResponse convert(GetTSBasResponseType response, boolean revoked) throws ModuleException {
-        try {
+        throw new NotSupportedException();
+/*        try {
             TsBasUtlatande utlatande = TransportToInternal.convert(response.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
 
@@ -165,11 +132,26 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
-        }
+        }*/
     }
 
     @Override
     protected Intyg utlatandeToIntyg(TsBasUtlatande utlatande) throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
+    }
+
+    @Override
+    protected String getSchematronFileName() {
+        return TsBasEntryPoint.SCHEMATRON_FILE;
+    }
+
+    @Override
+    protected RegisterCertificateType internalToTransport(TsBasUtlatande utlatande) throws ConverterException {
+        return InternalToTransport.convert(utlatande);
+    }
+
+    @Override
+    protected TsBasUtlatande transportToInternal(Intyg intyg) throws ConverterException {
+        return TransportToInternal.convert(intyg);
     }
 }

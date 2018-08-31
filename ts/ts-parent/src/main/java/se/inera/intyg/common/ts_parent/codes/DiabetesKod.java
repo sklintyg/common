@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_parent.codes;
 
+import java.util.stream.Stream;
+
 public enum DiabetesKod {
 
     DIABETES_TYP_1("E10", "Diabetes mellitus typ 1"),
@@ -37,5 +39,10 @@ public enum DiabetesKod {
 
     public String getDescription() {
         return description;
+    }
+
+    public static DiabetesKod fromCode(String code) {
+        return Stream.of(DiabetesKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 }

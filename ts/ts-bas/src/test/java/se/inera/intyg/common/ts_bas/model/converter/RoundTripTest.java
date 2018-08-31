@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.*;
+import javax.xml.namespace.QName;
 
 import org.custommonkey.xmlunit.*;
 import org.junit.Test;
@@ -51,23 +52,6 @@ public class RoundTripTest {
 
     private Scenario scenario;
 
-    private CustomObjectMapper objectMapper = new CustomObjectMapper();
-    private ObjectFactory objectFactory = new ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory rivtav3ObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory();
-    private se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory transformedObjectFactory = new se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.ObjectFactory();
-    private static Marshaller marshaller;
-    private static XslTransformer transformer;
-
-    static {
-        try {
-            marshaller = JAXBContext.newInstance(RegisterTSBasType.class, RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class,
-                    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
-                    .createMarshaller();
-            transformer = new XslTransformer("xsl/transform-ts-bas.xsl");
-        } catch (JAXBException e) {
-        }
-    }
-
     private String name;
 
     public RoundTripTest(String name, Scenario scenario) {
@@ -82,14 +66,21 @@ public class RoundTripTest {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Test that no information is lost when mapping json -> xml -> json.
+     * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
+     */
     @Test
-    public void testRoundTrip() throws Exception {
-        RegisterTSBasType transport = InternalToTransport.convert(scenario.asInternalModel());
+    public void testRoundTripInternalFirst() throws Exception {
+        CustomObjectMapper objectMapper = new CustomObjectMapper();
+        RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
-        marshaller.marshal(objectFactory.createRegisterTSBas(scenario.asTransportModel()), expected);
-        marshaller.marshal(objectFactory.createRegisterTSBas(transport), actual);
+        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(transport), actual);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
@@ -102,53 +93,38 @@ public class RoundTripTest {
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
     }
 
+    /**
+     * Test that no information is lost when mapping xml -> json -> xml.
+     * This represents the case where the certificate is from another medical journaling system and is read from
+     * Intygstjansten.
+     */
     @Test
-    public void testConvertToRivtaV3() throws Exception {
-        TsBasUtlatande internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
-        RegisterCertificateType actual = new RegisterCertificateType();
-        actual.setIntyg(UtlatandeToIntyg.convert(internal));
+    public void testRoundTripTransportFirst() throws Exception {
+        CustomObjectMapper objectMapper = new CustomObjectMapper();
+        TsBasUtlatande internal = TransportToInternal.convert(scenario.asRivtaV3TransportModel().getIntyg());
 
+        JsonNode tree = objectMapper.valueToTree(internal);
+        JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
+        JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
-        StringWriter actualSw = new StringWriter();
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
-        marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
+        StringWriter actual = new StringWriter();
+        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actualSw.toString());
+        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
         diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        diff.overrideDifferenceListener(new IgnoreNamespacePrefixDifferenceListener());
-        assertTrue(name + " " + diff.toString(), diff.similar());
+        assertTrue(diff.toString(), diff.similar());
     }
 
-    @Test
-    public void testTransportTransform() throws Exception {
-        StringWriter transformingString = new StringWriter();
-        marshaller.marshal(objectFactory.createRegisterTSBas(scenario.asTransportModel()), transformingString);
-        String actual = transformer.transform(transformingString.toString());
-
-        StringWriter expected = new StringWriter();
-        marshaller.marshal(transformedObjectFactory.createRegisterCertificate(scenario.asTransformedTransportModel()), expected);
-
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual);
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        diff.overrideDifferenceListener(new IgnoreNamespacePrefixDifferenceListener());
-        assertTrue(name + " " + diff.toString(), diff.similar());
-    }
-
-    private class IgnoreNamespacePrefixDifferenceListener implements DifferenceListener {
-        @Override
-        public int differenceFound(Difference difference) {
-            if (difference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID) {
-                return DifferenceListener.RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
-            }
-            return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
-        }
-
-        @Override
-        public void skippedComparison(Node control, Node test) {
-        }
+    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
+        JAXBElement<?> jaxbElement = new JAXBElement<>(
+                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+                RegisterCertificateType.class, ws);
+        return jaxbElement;
     }
 }

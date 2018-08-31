@@ -96,6 +96,10 @@ public final class TransportConverterUtil {
                 .reduce("", String::concat);
     }
 
+    public static Boolean getBooleanContent(Delsvar delsvar) {
+        return Boolean.valueOf(getStringContent(delsvar));
+    }
+
     /**
      * Attempt to parse a CVType from a Delsvar.
      *

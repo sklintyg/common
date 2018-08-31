@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -45,6 +46,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -53,8 +55,12 @@ import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
@@ -92,12 +98,39 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private ObjectMapper objectMapper;
 
     @Autowired(required = false)
+    @Qualifier("registerCertificateClient")
+    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+
+    @Autowired(required = false)
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     private Class<T> type;
 
     public TsParentModuleApi(Class<T> type) {
         this.type = type;
+    }
+
+    @Override
+    public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
+        RegisterCertificateType request;
+        try {
+            request = internalToTransport(getInternal(internalModel));
+        } catch (ConverterException e) {
+            LOG.error("Failed to convert to transport format during registerCertificate", e);
+            throw new ModuleConverterException("Failed to convert to transport format during registerCertificate", e);
+        }
+
+        RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
+
+        // check whether call was successful or not
+        if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+            throw new ExternalServiceCallException(response.getResult().getResultText(),
+                    "Certificate already exists".equals(response.getResult().getResultText())
+                            ? ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR
+                            : ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR);
+        } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+            throw new ExternalServiceCallException(response.getResult().getErrorId() + " : " + response.getResult().getResultText());
+        }
     }
 
     @Override
@@ -188,7 +221,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        throw new UnsupportedOperationException();
+        return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());
     }
 
     @Override
@@ -304,4 +337,10 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         }
         return toInternalModelResponse(utlatande);
     }
+
+    protected abstract String getSchematronFileName();
+
+    protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
+
+    protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
 }

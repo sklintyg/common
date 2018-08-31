@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_parent.codes;
 
+import java.util.stream.Stream;
+
 public enum KorkortsbehorighetKod {
 
     C1("VAR1", "C1"),
@@ -54,4 +56,10 @@ public enum KorkortsbehorighetKod {
     public String getDescription() {
         return description;
     }
+
+    public static KorkortsbehorighetKod fromCode(String code) {
+        return Stream.of(KorkortsbehorighetKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
+    }
+
 }
