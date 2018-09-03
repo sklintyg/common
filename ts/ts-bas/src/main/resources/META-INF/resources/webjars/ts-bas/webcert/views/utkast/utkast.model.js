@@ -30,7 +30,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
             var frontendObject = {
                 korkortstyp: korkortstyp,
                 lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
-            }
+            };
 
             return frontendObject;
         };
@@ -39,7 +39,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
 
             var transformedFrontendObject = angular.copy(frontendObject);
             var index = u.findIndexWithPropertyValue(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
-            var kanInteTaStallning = undefined;
+            var kanInteTaStallning;
             if(index !== -1) {
                 kanInteTaStallning = transformedFrontendObject.korkortstyp[index].selected;
                 transformedFrontendObject.korkortstyp.splice(index);
@@ -172,8 +172,8 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
                     },
                     bedomning: new ModelAttr('bedomning', {
                         toTransform: bedomningToTransform,
-                        fromTransform: bedomningFromTransform,
-                    }),
+                        fromTransform: bedomningFromTransform
+                    })
                 });
             },
             update: function update(content, parent) {

@@ -42,27 +42,6 @@ angular.module('common').factory('common.domain.ModelTransformService',
                 }
                 return modelInternal;
             },
-            toTypeTransform: function(fromApp) {
-
-                var transportModel = [];
-
-                angular.forEach(fromApp, function(value, key) {
-                    if(value === true) {
-                        transportModel.push({val: parseInt(key, 10)});
-                    }
-                }, fromApp);
-
-                return transportModel;
-            },
-            fromTypeTransform: function(fromBackend) {
-
-                var modelInternal = {};
-
-                for(var backendPropIndex = 0; backendPropIndex < fromBackend.length; backendPropIndex++) {
-                    modelInternal[fromBackend[backendPropIndex].val] = true;
-                }
-                return modelInternal;
-            },
             enumToTransform: function(fromApp, propName) {
 
                 if(!propName) {

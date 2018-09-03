@@ -51,7 +51,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
-                var patient = ueTSFactoryTemplates.patient(viewState);
 
                 function korkortHogreBehorighet(scope) {
                     if (!scope.model.intygAvser || !scope.model.intygAvser.korkortstyp) {
@@ -541,6 +540,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 type: '$watch',
                                 watchDeep: true,
                                 expression: 'model.bedomning.korkortstyp',
+                                /*jshint maxcomplexity:11*/
                                 listener: function(newValue, oldValue, scope) {
                                     if (oldValue && newValue !== oldValue) {
 
@@ -559,11 +559,11 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                                         // deselect all checks from the group not selected if something was selected
                                         var index = u.findIndexWithPropertyValue(newValue, 'type', 'KAN_INTE_TA_STALLNING');
-                                        if (index != -1) {
+                                        if (index !== -1) {
                                             if(kanInteTaStallningActivated) {
-                                                for(var i = 0; i < scope.model.bedomning.korkortstyp.length; i++){
-                                                    if(index != i){
-                                                        scope.model.bedomning.korkortstyp[i].selected = false;
+                                                for(var j = 0; j < scope.model.bedomning.korkortstyp.length; j++){
+                                                    if(index !== j){
+                                                        scope.model.bedomning.korkortstyp[j].selected = false;
                                                     }
                                                 }
                                             } else if(otherActivated) {
