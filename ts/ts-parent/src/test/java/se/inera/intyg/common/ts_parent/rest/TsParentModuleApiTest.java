@@ -37,6 +37,8 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.ri
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
+import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
+import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -46,6 +48,7 @@ import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -60,11 +63,21 @@ import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 
 import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.reflect.Field;
@@ -77,6 +90,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
@@ -92,6 +106,7 @@ public class TsParentModuleApiTest {
     private final String LOGICAL_ADDRESS = "logicalAddress";
 
     private static ClassPathResource getCertificateFile;
+    private static ClassPathResource registerCertificateFile;
     private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
@@ -108,6 +123,10 @@ public class TsParentModuleApiTest {
     @Mock
     private ModelCompareUtil<Utlatande> modelCompareUtil;
     @Mock
+    private GetCertificateResponderInterface getCertificateResponderInterface;
+    @Mock
+    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+    @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
@@ -115,6 +134,7 @@ public class TsParentModuleApiTest {
     @BeforeClass
     public static void set() throws Exception {
         getCertificateFile = new ClassPathResource("getCertificate.xml");
+        registerCertificateFile = new ClassPathResource("registerCertificate.xml");
         revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
         json = Resources.toString(new ClassPathResource("utlatande.json").getURL(), Charsets.UTF_8);
         utlatande = new CustomObjectMapper().readValue(json, TestUtlatande.class);
@@ -386,6 +406,135 @@ public class TsParentModuleApiTest {
         assertNotNull(resultObject);
         assertEquals(meddelande, resultObject.getRevoke().getMeddelande());
         assertEquals(INTYG_ID, resultObject.getRevoke().getLakarutlatande().getLakarutlatandeId());
+    }
+
+    @Test
+    public void testRegisterCertificate() throws Exception {
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
+        doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
+        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+        response.setResult(ResultTypeUtil.okResult());
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
+
+        moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+    }
+
+    @Test(expected = ModuleConverterException.class)
+    public void testRegisterCertificateConverterException() throws Exception {
+        doThrow(new ConverterException()).when(moduleApi).internalToTransport(any(Utlatande.class));
+
+        moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+    }
+
+    @Test
+    public void testGetCertificate() throws Exception {
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
+        doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
+        doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
+
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        assertNotNull(res);
+        assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
+        assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
+        assertFalse(res.isRevoked());
+        ArgumentCaptor<GetCertificateType> parametersCaptor = ArgumentCaptor.forClass(GetCertificateType.class);
+        verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
+        assertEquals(INTYG_ID, parametersCaptor.getValue().getIntygsId().getExtension());
+        assertNotNull(parametersCaptor.getValue().getIntygsId().getRoot());
+    }
+
+    @Test
+    public void testGetCertificateRevoked() throws Exception {
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
+        IntygsStatus revokedStatus = new IntygsStatus();
+        revokedStatus.setPart(new Part());
+        revokedStatus.getPart().setCode("HSVARD");
+        revokedStatus.setStatus(new Statuskod());
+        revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
+        getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
+        doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
+        doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
+
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        assertNotNull(res);
+        assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
+        assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
+        assertTrue(res.isRevoked());
+        verify(getCertificateResponderInterface).getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class));
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testGetCertificateConvertException() throws Exception {
+        GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenReturn(getCertificateResponse);
+        doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
+
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+    }
+
+    @Test(expected = ModuleException.class)
+    public void testGetCertificateSoapFault() throws Exception {
+        when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
+                .thenThrow(mock(SOAPFaultException.class));
+
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+    }
+
+    @Test
+    public void testRegisterCertificateResponseError() throws Exception {
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
+        doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
+        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+        response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
+
+        try {
+            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+            fail("should throw");
+        } catch (ExternalServiceCallException e) {
+            assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
+        }
+    }
+
+    @Test
+    public void testRegisterCertificateAlreadyExists() throws Exception {
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
+        doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
+        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+        response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
+
+        try {
+            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+            fail("should throw");
+        } catch (ExternalServiceCallException e) {
+            assertEquals(ExternalServiceCallException.ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
+        }
+    }
+
+    @Test
+    public void testRegisterCertificateOtherInfoResult() throws Exception {
+        RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
+        doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
+        RegisterCertificateResponseType response = new RegisterCertificateResponseType();
+        response.setResult(ResultTypeUtil.infoResult("Other info"));
+        when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
+                .thenReturn(response);
+
+        try {
+            moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+            fail("should throw");
+        } catch (ExternalServiceCallException e) {
+            assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
+        }
     }
 
     public static class TestUtlatande implements Utlatande {

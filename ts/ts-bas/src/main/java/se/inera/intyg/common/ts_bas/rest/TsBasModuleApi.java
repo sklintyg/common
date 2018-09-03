@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.ts_bas.rest;
 
-
-import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -31,7 +29,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_bas.model.converter.InternalToTransport;
@@ -41,9 +38,6 @@ import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -56,9 +50,6 @@ import java.io.StringReader;
 public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
-
-    @Autowired(required = false)
-    private GetTSBasResponderInterface getTSBasResponderInterface;
 
     @Autowired(required = false)
     @Qualifier("tsBasSendCertificateClient")
@@ -89,30 +80,6 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
-        GetTSBasType request = new GetTSBasType();
-        request.setIntygsId(certificateId);
-
-        GetTSBasResponseType response = getTSBasResponderInterface.getTSBas(logicalAddress, request);
-
-        switch (response.getResultat().getResultCode()) {
-        case INFO:
-        case OK:
-            return convert(response, false);
-        case ERROR:
-            switch (response.getResultat().getErrorId()) {
-            case REVOKED:
-                return convert(response, true);
-            case VALIDATION_ERROR:
-                throw new ModuleException("getTSBas WS call: VALIDATION_ERROR :" + response.getResultat().getResultText());
-            default:
-                throw new ModuleException("getTSBas WS call: ERROR :" + response.getResultat().getResultText());
-            }
-        }
-        throw new ModuleException("getTSBas WS call: ERROR :" + response.getResultat().getResultText());
-    }
-
-    @Override
     public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
@@ -120,19 +87,6 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
-    }
-
-    private CertificateResponse convert(GetTSBasResponseType response, boolean revoked) throws ModuleException {
-        throw new NotSupportedException();
-/*        try {
-            TsBasUtlatande utlatande = TransportToInternal.convert(response.getIntyg());
-            String internalModel = toInternalModelResponse(utlatande);
-
-            CertificateMetaData metaData = TsBasMetaDataConverter.toCertificateMetaData(response.getMeta(), response.getIntyg());
-            return new CertificateResponse(internalModel, utlatande, metaData, revoked);
-        } catch (Exception e) {
-            throw new ModuleException(e);
-        }*/
     }
 
     @Override

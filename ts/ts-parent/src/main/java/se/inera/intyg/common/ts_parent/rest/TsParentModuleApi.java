@@ -30,6 +30,7 @@ import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateres
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -41,6 +42,8 @@ import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -55,10 +58,15 @@ import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -66,6 +74,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import javax.xml.bind.JAXB;
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -75,6 +84,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
@@ -98,6 +108,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private ObjectMapper objectMapper;
 
     @Autowired(required = false)
+    private GetCertificateResponderInterface getCertificateResponderInterface;
+
+    @Autowired(required = false)
     @Qualifier("registerCertificateClient")
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
@@ -108,6 +121,22 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     public TsParentModuleApi(Class<T> type) {
         this.type = type;
+    }
+
+    @Override
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+        GetCertificateType request = new GetCertificateType();
+        request.setIntygsId(getIntygsId(certificateId));
+        request.setPart(getPart(recipientId));
+
+        try {
+            return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
+        } catch (SOAPFaultException e) {
+            String error = String.format("Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
+                    certificateId, e.getMessage());
+            LOG.error(error);
+            throw new ModuleException(error);
+        }
     }
 
     @Override
@@ -343,4 +372,31 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
 
     protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
+
+    private IntygId getIntygsId(String certificateId) {
+        IntygId intygId = new IntygId();
+        intygId.setRoot("SE5565594230-B31");
+        intygId.setExtension(certificateId);
+        return intygId;
+    }
+
+    private Part getPart(String recipientId) {
+        Part part = new Part();
+        part.setCode(recipientId);
+        part.setCodeSystem(KV_PART_CODE_SYSTEM);
+        return part;
+    }
+
+    private CertificateResponse convert(GetCertificateResponseType response) throws ModuleException {
+        try {
+            T utlatande = transportToInternal(response.getIntyg());
+            String internalModel = toInternalModelResponse(utlatande);
+            CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
+            boolean revoked = response.getIntyg().getStatus().stream()
+                    .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
+            return new CertificateResponse(internalModel, utlatande, metaData, revoked);
+        } catch (Exception e) {
+            throw new ModuleException(e);
+        }
+    }
 }

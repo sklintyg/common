@@ -18,14 +18,12 @@
  */
 package se.inera.intyg.common.ts_bas.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -37,11 +35,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
-import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
@@ -50,18 +45,11 @@ import se.inera.intyg.common.ts_bas.pdf.PdfGeneratorImpl;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
-import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponderInterface;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponseType;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
 import se.inera.intygstjanster.ts.services.v1.IntygMeta;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -75,16 +63,12 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -104,12 +88,6 @@ public class TsBasModuleApiTest {
 
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
-
-    @Mock
-    private RegisterTSBasResponderInterface registerTSBasResponderInterface;
-
-    @Mock
-    private GetTSBasResponderInterface getTSBasResponderInterface;
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
@@ -164,110 +142,6 @@ public class TsBasModuleApiTest {
 
         assertNotNull(response);
     }
-/*
-    @Test
-    public void testRegisterCertificate() throws JsonProcessingException, ScenarioNotFoundException {
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(registerTSBasResponderInterface.registerTSBas(eq("OK"), Mockito.any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
-        String logicalAddress = "OK";
-        List<String> failResults = new ArrayList<>();
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            String internalModel = objectMapper.writeValueAsString(scenario.asInternalModel());
-            try {
-                moduleApi.registerCertificate(internalModel, logicalAddress);
-            } catch (ModuleException me) {
-                failResults.add(me.getMessage());
-            }
-        }
-        assertTrue(failResults.isEmpty());
-    }
-
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRegisterCertificateError() throws Exception {
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        Mockito.when(registerTSBasResponderInterface.registerTSBas(Mockito.anyString(), Mockito.any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
-        String internalModel = objectMapper.writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
-        moduleApi.registerCertificate(internalModel, "logicalAddress");
-    }
-
-    @Test
-    public void testRegisterCertificateAlreadyExists() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = objectMapper
-                .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
-
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.infoResult(RegisterTSBasResponderImpl.CERTIFICATE_ALREADY_EXISTS));
-        when(registerTSBasResponderInterface.registerTSBas(eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
-        try {
-            moduleApi.registerCertificate(internalModel, logicalAddress);
-            fail();
-        } catch (ExternalServiceCallException e) {
-            assertEquals(ErrorIdEnum.VALIDATION_ERROR, e.getErroIdEnum());
-            assertEquals(RegisterTSBasResponderImpl.CERTIFICATE_ALREADY_EXISTS, e.getMessage());
-        }
-    }
-
-    @Test
-    public void testRegisterCertificateGenericInfoResult() throws Exception {
-        final String logicalAddress = "logicalAddress";
-        final String internalModel = objectMapper
-                .writeValueAsString(ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel());
-
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.infoResult("INFO"));
-        when(registerTSBasResponderInterface.registerTSBas(eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
-        try {
-            moduleApi.registerCertificate(internalModel, logicalAddress);
-            fail();
-        } catch (ExternalServiceCallException e) {
-            assertEquals(ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
-            assertEquals("INFO", e.getMessage());
-        }
-    }
-
-    @Test
-    public void testRegisterCertificateConvert() throws JsonProcessingException, ScenarioNotFoundException {
-        String logicalAddress = "FAIL";
-        String failResult = "";
-        Scenario scenario = ScenarioFinder.getInternalScenario("invalid-missing-identitet");
-        String internalModel = objectMapper.writeValueAsString(scenario.asInternalModel());
-        try {
-            moduleApi.registerCertificate(internalModel, logicalAddress);
-        } catch (ModuleException me) {
-            failResult = me.getMessage();
-        }
-        assertFalse(failResult.isEmpty());
-    }
-
-    @Test
-    public void testRegisterCertificateFailed() throws JsonProcessingException, ScenarioNotFoundException {
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "failed"));
-        when(registerTSBasResponderInterface.registerTSBas(eq("FAIL"), any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
-        String logicalAddress = "FAIL";
-        String failResult = "";
-        Scenario scenario = ScenarioFinder.getInternalScenario("valid-maximal");
-        String internalModel = objectMapper.writeValueAsString(scenario.asInternalModel());
-        try {
-            moduleApi.registerCertificate(internalModel, logicalAddress);
-        } catch (ModuleException me) {
-            failResult = me.getMessage();
-        }
-        assertFalse(failResult.isEmpty());
-    }
 
     @Test
     public void testSendCertificateToRecipient() throws Exception {
@@ -307,63 +181,11 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testGetCertificate() throws ModuleException, ScenarioNotFoundException {
-        GetTSBasResponseType result = new GetTSBasResponseType();
-        result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
-        result.setMeta(createMeta());
-        result.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
-                .thenReturn(result);
-
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
-        assertNotNull(internal);
-    }
-
-    @Test
-    public void testGetCertificateRevokedReturnsCertificate() throws Exception {
-        GetTSBasResponseType result = new GetTSBasResponseType();
-        result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
-        result.setMeta(createMeta());
-        result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
-                .thenReturn(result);
-
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
-        assertNotNull(internal);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testGetCertificateRevokedValidationError() throws Exception {
-        GetTSBasResponseType result = new GetTSBasResponseType();
-        result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
-                .thenReturn(result);
-
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testGetCertificateRevokedApplicationError() throws Exception {
-        GetTSBasResponseType result = new GetTSBasResponseType();
-        result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
-                .thenReturn(result);
-
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
-    }
-
-    @Test
     public void testGetUtlatandeFromXml() throws Exception {
-        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
+        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
         TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
 
         assertNotNull(res);
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testGetUtlatandeFromXmlConverterException() throws Exception {
-        String xml = xmlToString(new RegisterTSBasType());
-        moduleApi.getUtlatandeFromXml(xml);
     }
 
     @Test
@@ -456,7 +278,7 @@ public class TsBasModuleApiTest {
         String result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
     }
-*/
+
     private IntygMeta createMeta() throws ScenarioNotFoundException {
         IntygMeta meta = new IntygMeta();
         meta.setAdditionalInfo("C");
@@ -495,9 +317,9 @@ public class TsBasModuleApiTest {
         return vardenhet;
     }
 
-    private String xmlToString(RegisterTSBasType registerTsBas) throws JAXBException {
+    private String xmlToString(RegisterCertificateType registerCertificateType) throws JAXBException {
         StringWriter stringWriter = new StringWriter();
-        JAXB.marshal(registerTsBas, stringWriter);
+        JAXB.marshal(registerCertificateType, stringWriter);
         return stringWriter.toString();
     }
 }

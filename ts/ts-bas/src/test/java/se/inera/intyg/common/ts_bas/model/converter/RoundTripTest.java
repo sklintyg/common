@@ -33,19 +33,14 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.skyscreamer.jsonassert.JSONAssert;
-import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.*;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.ObjectFactory;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(Parameterized.class)
 public class RoundTripTest {
