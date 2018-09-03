@@ -18,21 +18,13 @@
  */
 package se.inera.intyg.common.af00213.pdf;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -45,6 +37,12 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 public class PdfGenerator {
 
     private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens medicinska utlåtande";
@@ -53,15 +51,16 @@ public class PdfGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
-    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
+    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
+            + "elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-     + "skickas till Arbetsförmedlingen.";
+            + "skickas till Arbetsförmedlingen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-                                   ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
