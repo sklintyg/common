@@ -45,10 +45,15 @@ angular.module('common').factory('common.moduleService', function() {
         moduleArray = modules;
     }
 
+    function _getModules(modules) {
+        return moduleArray;
+    }
+
     return {
         getModule: _findModuleById,
         getModuleName: _getModuleName,
-        setModules: _setModules
+        setModules: _setModules,
+        getModules: _getModules
     };
 });
 
