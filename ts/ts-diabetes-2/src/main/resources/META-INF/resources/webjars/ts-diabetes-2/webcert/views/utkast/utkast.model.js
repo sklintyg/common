@@ -25,31 +25,81 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
             var TsDiabetes2Model = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
-                    init._super.call(this, 'Ts-diabetes-2Model', {
+                    init._super.call(this, 'IntygModel', {
 
-                        'id': undefined,
-                        'typ': undefined,
-                        'textVersion': undefined,
-                        'grundData': grundData,
+                        id: undefined,
+                        typ: undefined,
+                        textVersion: undefined,
+                        grundData: grundData,
 
                         // Kategori 1
-                        'harFunktionsnedsattning': undefined,
-                        'funktionsnedsattning': undefined,
+                        intygetAvserBehorighet: undefined,
 
                         // Kategori 2
-                        'harAktivitetsbegransning': undefined,
-                        'aktivitetsbegransning': undefined,
+                        identitetStyrktGenom: undefined,
 
                         // Kategori 3
-                        'harUtredningBehandling': undefined,
-                        'utredningBehandling': undefined,
+                        allmant: {
+                            diabetesDiagnosAr: undefined,
+                            typAvDiabetes: undefined,
+                            beskrivningAnnanTypAvDiabetes: undefined,
+                            endastKost: undefined,
+                            tabletter: undefined,
+                            tablettRiskHypoglykemi: undefined,
+                            insulin: undefined,
+                            insulinSedanAr: undefined,
+                            annanBehandling: undefined,
+                            annanBehandlingBeskrivning: undefined
+                        },
 
                         // Kategori 4
-                        'harArbetetsPaverkan': undefined,
-                        'arbetetsPaverkan': undefined,
+                        hypoglykemier: {
+                            sjukdomenUnderkontroll: undefined,
+                            nedsattHjarnfunktion: undefined,
+                            forstarRisker: undefined,
+                            fortrogenMedSymptom: undefined,
+                            saknarFormagaVarningstecken: undefined,
+                            kunskapLampligaAtgarder: undefined,
+                            egenkontrollBlodsocker: undefined,
+                            aterkommandeSenasteAret: undefined,
+                            aterkommandeSenasteTidpunkt: undefined,
+                            aterkommandeSenasteKvartalet: undefined,
+                            senasteTidpunktVaken: undefined,
+                            forekomstTrafikTidpunkt: undefined
+                        },
 
                         // Kategori 5
-                        'ovrigt': undefined
+                        synfunktion: {
+                            misstankeOgonsjukdom: undefined,
+                            ogonbottenFotoSaknas: undefined,
+                            hoger: new ModelAttr('hoger', {
+                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
+                            }}),
+                            vanster: new ModelAttr('vanster', {
+                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
+                                }}),
+                            binokulart: new ModelAttr('binokulart', {
+                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
+                                }}),
+                            fortrogenMedSymptom: undefined,
+                            saknarFormagaVarningstecken: undefined,
+                            kunskapLampligaAtgarder: undefined,
+                            egenkontrollBlodsocker: undefined,
+                            aterkommandeSenasteAret: undefined,
+                            aterkommandeSenasteTidpunkt: undefined,
+                            aterkommandeSenasteKvartalet: undefined,
+                            senasteTidpunktVaken: undefined,
+                            forekomstTrafikTidpunkt: undefined
+                        },
+                        // Kategori 6
+                        ovrigt: undefined,
+
+                        // Kategori 7
+                        bedomning: {
+                            uppfyllerBehorighetskrav: undefined,
+                            lampligtInnehav: undefined,
+                            borUndersokas: undefined
+                        }
                     });
                 },
                 update: function update(content, parent) {

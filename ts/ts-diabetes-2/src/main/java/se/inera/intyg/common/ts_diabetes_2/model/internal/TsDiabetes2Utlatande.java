@@ -20,19 +20,19 @@ package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
 // CHECKSTYLE:OFF LineLength
 
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ID_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.INTYGETAVSER_SVAR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_DELSVAR_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SIGNATURE;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.TEXTVERSION_JSON_ID;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
+
+import java.util.Set;
 
 import javax.annotation.Nullable;
 
@@ -42,6 +42,8 @@ import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIntygAvser;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
 
 // CHECKSTYLE:ON LineLength
@@ -68,47 +70,40 @@ public abstract class TsDiabetes2Utlatande implements Utlatande {
     @Nullable
     public abstract String getSignature();
 
-    // Kategori 1 - Sjukdomens konsekvenser
+    // Kategori 1 - Intyget avser
 
-    // Fråga 1 - Funktionsnedsättning
-    // Fråga 1.1
+    // Fråga 1 - Intyget avser behörighet
+    // Fråga 1.1 - Intyget avser behörighet
     @Nullable
-    public abstract Boolean getHarFunktionsnedsattning();
+    public abstract Set<KvIntygAvser> getIntygetAvserBehorighet();
 
-    // Fråga 1.2
+    // Kategori 2 - Identitet
+    // Fråga 2 - Identitet Styrkt genom
+    // Fråga 2.1 - Identitet Styrkt genom
     @Nullable
-    public abstract String getFunktionsnedsattning();
+    public abstract KvIdKontroll getIdentitetStyrktGenom();
 
-    // Kategori 2 - Aktivitetsbegränsning
-    // Fråga 2 Aktivitetsbegränsning
-    // Fråga 2.1
+
+    // Kategori 3 - Allmänt (Fråga 35, 18, 109)
     @Nullable
-    public abstract Boolean getHarAktivitetsbegransning();
+    public abstract Allmant getAllmant();
 
+    // Kategori 4 - Hypoglykemier (Fråga 100, 37, 101, 102, 38, 36, 105, 106, 107, 108)
     @Nullable
-    public abstract String getAktivitetsbegransning();
+    public abstract Hypoglykemier getHypoglykemier();
 
-    // Kategori 3 - Utredning och behandling
-    // Fråga 3 -Pågående medicinska behandlingar
-    // Fråga 3.1 - Typ av pågående medicinska behandlingar
+    // Kategori 5 - Synfunktion (Fråga 103, 104, 8)
     @Nullable
-    public abstract Boolean getHarUtredningBehandling();
+    public abstract Synfunktion getSynfunktion();
 
-    @Nullable
-    public abstract String getUtredningBehandling();
-
-    // Fråga 4 - Planerad medicinsk behandling
-    // Fråga 4.1
-    @Nullable
-    public abstract Boolean getHarArbetetsPaverkan();
-
-    @Nullable
-    public abstract String getArbetetsPaverkan();
-
-    // Kategori 5 - Övrigt
-    // Fråga 5
+    // Kategori 6 - Övrigt (Fråga 32)
     @Nullable
     public abstract String getOvrigt();
+
+    // Kategori 7 - Bedomning (Fråga 33, 45, 34)
+    @Nullable
+    public abstract Bedomning getBedomning();
+
 
     /*
      * Retrieve a builder from an existing TsDiabetes2Utlatande object. The builder can then be used
@@ -135,35 +130,31 @@ public abstract class TsDiabetes2Utlatande implements Utlatande {
         @JsonProperty(TEXTVERSION_JSON_ID)
         public abstract Builder setTextVersion(String textVersion);
 
-        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11)
-        public abstract Builder setHarFunktionsnedsattning(Boolean harFunktionsnedsattning);
-
-        @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12)
-        public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);
-
-        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21)
-        public abstract Builder setHarAktivitetsbegransning(Boolean harAktivitetsbegransning);
-
-        @JsonProperty(AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22)
-        public abstract Builder setAktivitetsbegransning(String aktivitetsbegransning);
-
-        @JsonProperty(UTREDNING_BEHANDLING_SVAR_JSON_ID_31)
-        public abstract Builder setHarUtredningBehandling(Boolean harUtredningBehandling);
-
-        @JsonProperty(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
-        public abstract Builder setUtredningBehandling(String utredningBehandling);
-
-        @JsonProperty(ARBETETS_PAVERKAN_SVAR_JSON_ID_41)
-        public abstract Builder setHarArbetetsPaverkan(Boolean harArbetetsPaverkan);
-
-        @JsonProperty(ARBETETS_PAVERKAN_SVAR_JSON_ID_42)
-        public abstract Builder setArbetetsPaverkan(String arbetetsPaverkan);
-
-        @JsonProperty(OVRIGT_SVAR_JSON_ID_5)
-        public abstract Builder setOvrigt(String ovrigt);
-
         @JsonProperty(SIGNATURE)
         public abstract Builder setSignature(String signature);
+
+        @JsonProperty(INTYGETAVSER_SVAR_JSON_ID)
+        public abstract Builder setIntygetAvserBehorighet(Set<KvIntygAvser> intygetAvserBehorighet);
+
+        @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)
+        public abstract Builder setIdentitetStyrktGenom(KvIdKontroll identitetStyrktGenom);
+
+        @JsonProperty(ALLMANT_JSON_ID)
+        public abstract Builder setAllmant(Allmant allmant);
+
+        @JsonProperty(HYPOGLYKEMIER_JSON_ID)
+        public abstract Builder setHypoglykemier(Hypoglykemier hypoglykemier);
+
+        @JsonProperty(SYNFUNKTION_JSON_ID)
+        public abstract Builder setSynfunktion(Synfunktion synfunktion);
+
+        @JsonProperty(OVRIGT_DELSVAR_JSON_ID)
+        public abstract Builder setOvrigt(String ovrigt);
+
+        @JsonProperty(BEDOMNING_JSON_ID)
+        public abstract Builder setBedomning(Bedomning bedomning);
+
+
     }
 
 }

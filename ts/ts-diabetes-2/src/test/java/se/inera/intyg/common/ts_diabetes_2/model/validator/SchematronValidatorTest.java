@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_diabetes_2.model.validator;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
+import org.junit.Ignore;
 import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -33,6 +34,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@Ignore
 public class SchematronValidatorTest {
 
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsDiabetes2EntryPoint.SCHEMATRON_FILE);

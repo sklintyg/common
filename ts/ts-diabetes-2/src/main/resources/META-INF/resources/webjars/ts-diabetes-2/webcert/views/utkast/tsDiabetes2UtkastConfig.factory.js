@@ -24,11 +24,13 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
 
             function _getCategoryIds() {
                 return {
-                    1: 'funktionsnedsattning',
-                    2: 'aktivitetsbegransning',
-                    3: 'utredningBehandling',
-                    4: 'arbetetsPaverkan',
-                    5: 'ovrigt'
+                    1: 'intygetAvserBehorighet',
+                    2: 'identitetStyrktGenom',
+                    3: 'allmant',
+                    4: 'hypoglykemier',
+                    5: 'synfunktion',
+                    6: 'ovrigt',
+                    7: 'bedomning'
                 };
             }
 
@@ -54,7 +56,71 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                                 required: true,
                                 requiredProp: 'funktionsnedsattning'
                             }
-                        }])
+                        }]),
+                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
+                            type: 'ue-alert',
+                            alertType: 'info',
+                            key: 'ts-diabetes.helptext.synfunktioner.synskarpa'
+                        },
+                            {
+                                type: 'ue-grid',
+                                components: [
+                                    // Row 1
+                                    [{}, {
+                                        type: 'ue-form-label',
+                                        key: 'ts-diabetes.label.syn.utankorrektion',
+                                        helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
+                                        required: true,
+                                        requiredMode: 'AND',
+                                        requiredProp: ['synfunktion.hoger.utanKorrektion', 'synfunktion.vanster.utanKorrektion',
+                                            'synfunktion.binokulart.utanKorrektion']
+                                    }, {
+                                        type: 'ue-form-label',
+                                        key: 'ts-diabetes.label.syn.medkorrektion',
+                                        helpKey: 'ts-diabetes.helptext.synfunktioner.med-korrektion'
+                                    }],
+                                    // Row 2
+                                    [{
+                                        type: 'ue-text',
+                                        label: {
+                                            key: 'ts-diabetes.label.syn.hogeroga'
+                                        }
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.hoger.utanKorrektion'
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.hoger.medKorrektion'
+                                    }],
+                                    // Row 3
+                                    [{
+                                        type: 'ue-text',
+                                        label: {
+                                            key: 'ts-diabetes.label.syn.vansteroga'
+                                        }
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.vanster.utanKorrektion'
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.vanster.medKorrektion'
+                                    }],
+                                    // Row 4
+                                    [{
+                                        type: 'ue-text',
+                                        label: {
+                                            key: 'ts-diabetes.label.syn.binokulart'
+                                        }
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.binokulart.utanKorrektion'
+                                    }, {
+                                        type: 'ue-synskarpa',
+                                        modelProp: 'synfunktion.binokulart.medKorrektion'
+                                    }]
+                                ]
+
+                            }])
                     ]),
 
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', { hideExpression: '!model.harFunktionsnedsattning' }, [

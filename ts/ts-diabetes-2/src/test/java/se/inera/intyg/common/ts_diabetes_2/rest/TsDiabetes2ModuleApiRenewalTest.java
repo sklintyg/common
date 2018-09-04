@@ -76,11 +76,8 @@ public class TsDiabetes2ModuleApiRenewalTest {
         assertNull(renewCopy.getSignature());
 
         // Retained values
-        assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
-        assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
+        //TODO: only tests ovrigt for now
         assertEquals(original.getOvrigt(), renewCopy.getOvrigt());
-        assertEquals(original.getUtredningBehandling(), renewCopy.getUtredningBehandling());
-        assertEquals(original.getArbetetsPaverkan(), renewCopy.getArbetetsPaverkan());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
     }

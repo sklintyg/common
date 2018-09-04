@@ -23,7 +23,10 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Behandling;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public class TransportToInternalTest {
@@ -33,17 +36,6 @@ public class TransportToInternalTest {
         utlatande.setId("1234567");
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
-        utlatande.setHarFunktionsnedsattning(true);
-        utlatande.setFunktionsnedsattning("Funktionsnedsättning");
-
-        utlatande.setHarAktivitetsbegransning(true);
-        utlatande.setAktivitetsbegransning("Väldigt sjuk");
-
-        utlatande.setHarUtredningBehandling(true);
-        utlatande.setUtredningBehandling("Medicin");
-
-        utlatande.setHarArbetetsPaverkan(true);
-        utlatande.setArbetetsPaverkan("Halt");
 
         utlatande.setOvrigt("Trevlig kille");
         return utlatande.build();
