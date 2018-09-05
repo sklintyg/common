@@ -93,6 +93,7 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID = "senasteTidpunktVaken";
     public static final String HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID = "108";
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID = "108.1";
+    public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID = "forekomstTrafik";
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID = "108.2";
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
 

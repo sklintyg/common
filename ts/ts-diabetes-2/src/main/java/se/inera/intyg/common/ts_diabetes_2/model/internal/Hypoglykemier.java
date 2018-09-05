@@ -26,6 +26,20 @@ import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.support.model.InternalDate;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID;
+
 /**
  * Created by marced on 2018-09-03.
  */
@@ -33,21 +47,22 @@ import se.inera.intyg.common.support.model.InternalDate;
 public abstract class Hypoglykemier {
 
     @JsonCreator
-    public static Hypoglykemier create(@JsonProperty("sjukdomenUnderkontroll") Boolean sjukdomenUnderkontroll,
-            @JsonProperty("nedsattHjarnfunktion") Boolean nedsattHjarnfunktion,
-            @JsonProperty("forstarRisker") Boolean forstarRisker,
-            @JsonProperty("fortrogenMedSymptom") Boolean fortrogenMedSymptom,
-            @JsonProperty("saknarFormagaVarningstecken") Boolean saknarFormagaVarningstecken,
-            @JsonProperty("kunskapLampligaAtgarder") Boolean kunskapLampligaAtgarder,
-            @JsonProperty("egenkontrollBlodsocker") Boolean egenkontrollBlodsocker,
-            @JsonProperty("aterkommandeSenasteAret") Boolean aterkommandeSenasteAret,
-            @JsonProperty("aterkommandeSenasteTidpunkt") InternalDate aterkommandeSenasteTidpunkt,
-            @JsonProperty("aterkommandeSenasteKvartalet") Boolean aterkommandeSenasteKvartalet,
-            @JsonProperty("senasteTidpunktVaken") InternalDate senasteTidpunktVaken,
-            @JsonProperty("forekomstTrafikTidpunkt") InternalDate forekomstTrafikTidpunkt) {
+    public static Hypoglykemier create(@JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID) Boolean sjukdomenUnderkontroll,
+            @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID) Boolean nedsattHjarnfunktion,
+            @JsonProperty(HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID) Boolean forstarRisker,
+            @JsonProperty(HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID) Boolean fortrogenMedSymptom,
+            @JsonProperty(HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID) Boolean saknarFormagaVarningstecken,
+            @JsonProperty(HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID) Boolean kunskapLampligaAtgarder,
+            @JsonProperty(HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID) Boolean egenkontrollBlodsocker,
+            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID) Boolean aterkommandeSenasteAret,
+            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID) InternalDate aterkommandeSenasteTidpunkt,
+            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID) Boolean aterkommandeSenasteKvartalet,
+            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID) InternalDate senasteTidpunktVaken,
+            @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID) Boolean forekomstTrafik,
+            @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID) InternalDate forekomstTrafikTidpunkt) {
         return new AutoValue_Hypoglykemier(sjukdomenUnderkontroll, nedsattHjarnfunktion, forstarRisker, fortrogenMedSymptom,
                 saknarFormagaVarningstecken, kunskapLampligaAtgarder, egenkontrollBlodsocker, aterkommandeSenasteAret,
-                aterkommandeSenasteTidpunkt, aterkommandeSenasteKvartalet, senasteTidpunktVaken, forekomstTrafikTidpunkt);
+                aterkommandeSenasteTidpunkt, aterkommandeSenasteKvartalet, senasteTidpunktVaken, forekomstTrafik, forekomstTrafikTidpunkt);
     }
 
     @Nullable
@@ -82,6 +97,9 @@ public abstract class Hypoglykemier {
 
     @Nullable
     public abstract InternalDate getSenasteTidpunktVaken();
+
+    @Nullable
+    public abstract Boolean getForekomstTrafik();
 
     @Nullable
     public abstract InternalDate getForekomstTrafikTidpunkt();

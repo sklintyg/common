@@ -18,19 +18,93 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.converter;
 
+import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getYearContent;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_SVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIntygAvser;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvKorkortsbehorighet;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -57,15 +131,173 @@ public final class UtlatandeToIntyg {
     }
 
     private static List<Svar> getSvar(TsDiabetes2Utlatande source) {
-        // TODO: Only handles Ovrigt field for now
         List<Svar> svars = new ArrayList<>();
 
+        // Kat 1 - Intyget avser
+        if (source.getIntygetAvserBehorighet() != null) {
+            int intygAvserInstans = 1;
+            for (KvIntygAvser intygAvser : source.getIntygetAvserBehorighet()) {
+                svars.add(aSvar(INTYGETAVSER_SVAR_ID, intygAvserInstans++)
+                        .withDelsvar(INTYGETAVSER_DELSVAR_ID,
+                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                        .build());
+            }
+        }
+
+        // Kat 2 - Identitet
+        if (source.getIdentitetStyrktGenom() != null) {
+            svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
+                    .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
+                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getCode(), source.getIdentitetStyrktGenom().getDescription()))
+                    .build());
+        }
+
+        // Kat 3 - Allmänt
+        if (source.getAllmant() != null) {
+            buildAllmant(source.getAllmant(), svars);
+        }
+
+        //Kat 4 - Hypoglykemier
+        if (source.getHypoglykemier() != null) {
+            buildHypoglykemier(source.getHypoglykemier(), svars);
+        }
+
+        //Kat 5 - Synfunktion
+        if (source.getSynfunktion() != null) {
+            buildSynfunktion(source.getSynfunktion(), svars);
+        }
+
+        //Kat 6 - Övrigt
         if (source.getOvrigt() != null) {
             addIfNotBlank(svars, OVRIGT_SVAR_ID, OVRIGT_DELSVAR_ID, buildOvrigaUpplysningar(source));
 
         }
 
+        //Kat 7 - Bedömning
+        if (source.getBedomning() != null)  {
+            buildBedomning(source.getBedomning(), svars);
+        }
+
         return svars;
+    }
+
+    private static void buildAllmant(Allmant allmant, List<Svar> svars) {
+        if (allmant.getDiabetesDiagnosAr() != null) {
+            Svar svar = aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
+                    // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the delsvar will not be added.
+                    .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYearContent(allmant.getDiabetesDiagnosAr())))
+                    .build();
+
+            if (!svar.getDelsvar().isEmpty()) {
+                svars.add(svar);
+            }
+        }
+
+        if (allmant.getTypAvDiabetes() != null || allmant.getBeskrivningAnnanTypAvDiabetes() != null) {
+            // Here we rely on withDelsvar not adding a delsvar if content is null
+            svars.add(aSvar(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
+                    .withDelsvar(ALLMANT_TYP_AV_DIABETES_DELSVAR_ID,
+                            allmant.getTypAvDiabetes() != null ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(),
+                                    allmant.getTypAvDiabetes().getCode(), allmant.getTypAvDiabetes().getDescription()) : null)
+                    .withDelsvar(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
+                            allmant.getBeskrivningAnnanTypAvDiabetes())
+                    .build());
+        }
+
+        if (allmant.getBehandling() != null) {
+            // Here we rely on withDelsvar not adding a delsvar if content is null
+            svars.add(aSvar(ALLMANT_BEHANDLING_SVAR_ID)
+                    .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
+                            allmant.getBehandling().getEndastKost())
+                    .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
+                            allmant.getBehandling().getTabletter())
+                    .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID,
+                            allmant.getBehandling().getTablettRiskHypoglykemi())
+                    .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
+                            allmant.getBehandling().getInsulin())
+                    // If getInsulinSedanAr can not be converted to year getYearContent will return null and the delsvar will not be added.
+                    .withDelsvar(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYearContent(allmant.getBehandling().getInsulinSedanAr())))
+                    .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID,
+                            allmant.getBehandling().getAnnanBehandling())
+                    .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
+                            allmant.getBehandling().getAnnanBehandlingBeskrivning())
+                    .build());
+        }
+    }
+
+    private static void buildHypoglykemier(Hypoglykemier hypoglykemier, List<Svar> svars) {
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SVAR_ID,
+                HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderkontroll());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID,
+                HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID, hypoglykemier.getNedsattHjarnfunktion());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID,
+                HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID, hypoglykemier.getForstarRisker());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID,
+                HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID, hypoglykemier.getFortrogenMedSymptom());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID,
+                HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID, hypoglykemier.getSaknarFormagaVarningstecken());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID,
+                HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID, hypoglykemier.getKunskapLampligaAtgarder());
+
+        InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID,
+                HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
+
+        svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
+                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID, hypoglykemier.getAterkommandeSenasteAret())
+                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()))
+                .build());
+
+        svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
+                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID, hypoglykemier.getAterkommandeSenasteKvartalet())
+                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()))
+                .build());
+
+        svars.add(aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
+                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID, hypoglykemier.getForekomstTrafik())
+                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()))
+                .build());
+    }
+
+    private static void buildSynfunktion(Synfunktion synfunktion, List<Svar> svars) {
+        InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_SVAR_ID, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID,
+                synfunktion.getMisstankeOgonsjukdom());
+
+        InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID, SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID,
+                synfunktion.getOgonbottenFotoSaknas());
+
+        InternalConverterUtil.SvarBuilder synskarpa = aSvar(SYNFUNKTION_SYNSKARPA_SVAR_ID);
+
+        final Synskarpevarden hoger = synfunktion.getHoger();
+        if (hoger != null) {
+            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString())
+                    .withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString());
+        }
+
+        final Synskarpevarden vanster = synfunktion.getVanster();
+        if (vanster != null) {
+            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString())
+                    .withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString());
+        }
+
+        final Synskarpevarden binokulart = synfunktion.getBinokulart();
+        if (binokulart != null) {
+            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID, binokulart.getUtanKorrektion().toString())
+                    .withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID, binokulart.getUtanKorrektion().toString());
+        }
+
+        if (!synskarpa.delSvars.isEmpty()) {
+            svars.add(synskarpa.build());
+        }
     }
 
     private static String buildOvrigaUpplysningar(TsDiabetes2Utlatande source) {
@@ -75,6 +307,24 @@ public final class UtlatandeToIntyg {
             ovrigt = source.getOvrigt();
         }
         return ovrigt;
+    }
+
+    private static void buildBedomning(Bedomning bedomning, List<Svar> svars) {
+        if (bedomning.getUppfyllerBehorighetskrav() != null) {
+            int behorighetskravInstans = 1;
+            for (KvKorkortsbehorighet korkortsbehorighet : bedomning.getUppfyllerBehorighetskrav()) {
+                svars.add(aSvar(BEDOMNING_SVAR_ID, behorighetskravInstans++)
+                        .withDelsvar(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID,
+                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                        .build());
+            }
+        }
+
+        InternalConverterUtil.addIfNotNull(svars, BEDOMNING_LAMPLIGHET_SVAR_ID, BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID,
+                bedomning.getLampligtInnehav());
+
+        InternalConverterUtil.addIfNotBlank(svars, BEDOMNING_BOR_UNDERSOKAS_SVAR_ID, BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID,
+                bedomning.getBorUndersokasBeskrivning());
     }
 
 }
