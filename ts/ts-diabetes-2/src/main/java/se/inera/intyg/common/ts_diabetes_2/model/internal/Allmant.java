@@ -25,8 +25,8 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
@@ -35,16 +35,8 @@ import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
  * Created by marced on 2018-09-03.
  */
 @AutoValue
+@JsonDeserialize(builder = AutoValue_Allmant.Builder.class)
 public abstract class Allmant {
-
-    @JsonCreator
-    public static Allmant create(
-            @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11) String diabetesDiagnosAr,
-            @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID) KvTypAvDiabetes typAvDiabetes,
-            @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID) String beskrivningAnnanTypAvDiabetes,
-            @JsonProperty(ALLMANT_BEHANDLING_JSON_ID) Behandling behandling) {
-        return new AutoValue_Allmant(diabetesDiagnosAr, typAvDiabetes, beskrivningAnnanTypAvDiabetes, behandling);
-    }
 
     // TO DO: Is there a better representation of a distinct year (yyyy) ?
     @Nullable
@@ -59,4 +51,20 @@ public abstract class Allmant {
     @Nullable
     public abstract Behandling getBehandling();
 
+    public static Builder builder() {
+        return new AutoValue_Allmant.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Allmant build();
+        @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11)
+        public abstract Builder setDiabetesDiagnosAr(String value);
+        @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID)
+        public abstract Builder setTypAvDiabetes(KvTypAvDiabetes value);
+        @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
+        public abstract Builder setBeskrivningAnnanTypAvDiabetes(String value);
+        @JsonProperty(ALLMANT_BEHANDLING_JSON_ID)
+        public abstract Builder setBehandling(Behandling value);
+    }
 }

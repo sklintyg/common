@@ -26,26 +26,16 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 /**
  * Created by marced on 2018-09-03.
  */
 @AutoValue
+@JsonDeserialize(builder = AutoValue_Synfunktion.Builder.class)
 public abstract class Synfunktion {
-
-    @JsonCreator
-    public static Synfunktion create(
-            @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID) Boolean misstankeOgonsjukdom,
-            @JsonProperty(SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID) Boolean ogonbottenFotoSaknas,
-            @JsonProperty(SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID) Synskarpevarden vanster,
-            @JsonProperty(SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID) Synskarpevarden hoger,
-            @JsonProperty(SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID) Synskarpevarden binokulart) {
-        return new AutoValue_Synfunktion(misstankeOgonsjukdom, ogonbottenFotoSaknas, vanster, hoger,
-                binokulart);
-    }
 
     @Nullable
     public abstract Boolean getMisstankeOgonsjukdom();
@@ -61,4 +51,28 @@ public abstract class Synfunktion {
 
     @Nullable
     public abstract Synskarpevarden getBinokulart();
+
+    public static Builder builder() {
+        return new AutoValue_Synfunktion.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Synfunktion build();
+
+        @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID)
+        public abstract Builder setMisstankeOgonsjukdom(Boolean value);
+
+        @JsonProperty(SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID)
+        public abstract Builder setOgonbottenFotoSaknas(Boolean value);
+
+        @JsonProperty(SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID)
+        public abstract Builder setVanster(Synskarpevarden value);
+
+        @JsonProperty(SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID)
+        public abstract Builder setHoger(Synskarpevarden value);
+
+        @JsonProperty(SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID)
+        public abstract Builder setBinokulart(Synskarpevarden value);
+    }
 }

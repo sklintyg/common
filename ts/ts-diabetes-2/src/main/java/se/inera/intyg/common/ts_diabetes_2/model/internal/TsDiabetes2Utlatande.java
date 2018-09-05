@@ -40,10 +40,7 @@ import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
-
-import java.util.EnumSet;
 
 // CHECKSTYLE:ON LineLength
 

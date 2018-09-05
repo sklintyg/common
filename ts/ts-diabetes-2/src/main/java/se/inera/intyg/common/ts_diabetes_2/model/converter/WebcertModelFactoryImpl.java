@@ -37,7 +37,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
-import se.inera.intyg.common.ts_diabetes_2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
@@ -75,8 +74,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetes2U
         template.setSignature(null);
         //initialize otherwise empty utlatande
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
-        template.setAllmant(Allmant.create(null, null, null, null));
-        template.setBedomning(Bedomning.create(EnumSet.noneOf(BedomningKorkortstyp.class), null, null));
+        template.setAllmant(Allmant.builder().build());
+        template.setBedomning(Bedomning.builder().build());
 
 
         // Default to latest version available of intyg

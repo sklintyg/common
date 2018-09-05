@@ -35,8 +35,16 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "harFunktionsnedsattning": true,
-  "funktionsnedsattning": "Haltar när han dansar",
-  "harAktivitetsbegransning": false,
-  "harArbetetsPaverkan": false
+
+  "intygAvser" : {
+    "kategorier" : [
+      {"type": "C1", "selected": true}
+    ]
+  },
+  "identitetStyrktGenom": {
+    "typ": "ID_KORT"
+  },
+  "allmant": {
+    "diabetesDiagnosAr": "2000"
+  }
 }

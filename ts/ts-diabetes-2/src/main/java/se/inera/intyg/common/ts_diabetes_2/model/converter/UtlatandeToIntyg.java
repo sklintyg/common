@@ -103,7 +103,6 @@ import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
-import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
@@ -140,7 +139,7 @@ public final class UtlatandeToIntyg {
         if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier().size() > 0) {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
-                IntygAvserKod intygAvserKod= IntygAvserKod.valueOf(intygAvserKategori.name());
+                IntygAvserKod intygAvserKod = IntygAvserKod.valueOf(intygAvserKategori.name());
                 svars.add(aSvar(INTYGETAVSER_SVAR_ID, intygAvserInstans++)
                         .withDelsvar(INTYGETAVSER_DELSVAR_ID,
                                 aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvserKod.getCode(), intygAvserKod.getDescription()))
@@ -188,8 +187,8 @@ public final class UtlatandeToIntyg {
 
     private static void buildAllmant(Allmant allmant, List<Svar> svars) {
         if (allmant.getDiabetesDiagnosAr() != null) {
+            // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the delsvar will not be added.
             Svar svar = aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
-                    // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the delsvar will not be added.
                     .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
                             aPartialDate(PartialDateTypeFormatEnum.YYYY, getYearContent(allmant.getDiabetesDiagnosAr())))
                     .build();
@@ -321,7 +320,8 @@ public final class UtlatandeToIntyg {
                 KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.valueOf(bedomningKorkortstyp.name());
                 svars.add(aSvar(BEDOMNING_SVAR_ID, behorighetskravInstans++)
                         .withDelsvar(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(), korkortsbehorighetKod.getDescription()))
+                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
+                                        korkortsbehorighetKod.getDescription()))
                         .build());
             }
         }

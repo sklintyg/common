@@ -34,8 +34,8 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.support.model.InternalDate;
@@ -44,27 +44,8 @@ import se.inera.intyg.common.support.model.InternalDate;
  * Created by marced on 2018-09-03.
  */
 @AutoValue
+@JsonDeserialize(builder = AutoValue_Hypoglykemier.Builder.class)
 public abstract class Hypoglykemier {
-
-    @JsonCreator
-    public static Hypoglykemier create(
-            @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID) Boolean sjukdomenUnderkontroll,
-            @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID) Boolean nedsattHjarnfunktion,
-            @JsonProperty(HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID) Boolean forstarRisker,
-            @JsonProperty(HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID) Boolean fortrogenMedSymptom,
-            @JsonProperty(HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID) Boolean saknarFormagaVarningstecken,
-            @JsonProperty(HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID) Boolean kunskapLampligaAtgarder,
-            @JsonProperty(HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID) Boolean egenkontrollBlodsocker,
-            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID) Boolean aterkommandeSenasteAret,
-            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID) InternalDate aterkommandeSenasteTidpunkt,
-            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID) Boolean aterkommandeSenasteKvartalet,
-            @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID) InternalDate senasteTidpunktVaken,
-            @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID) Boolean forekomstTrafik,
-            @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID) InternalDate forekomstTrafikTidpunkt) {
-        return new AutoValue_Hypoglykemier(sjukdomenUnderkontroll, nedsattHjarnfunktion, forstarRisker, fortrogenMedSymptom,
-                saknarFormagaVarningstecken, kunskapLampligaAtgarder, egenkontrollBlodsocker, aterkommandeSenasteAret,
-                aterkommandeSenasteTidpunkt, aterkommandeSenasteKvartalet, senasteTidpunktVaken, forekomstTrafik, forekomstTrafikTidpunkt);
-    }
 
     @Nullable
     public abstract Boolean getSjukdomenUnderkontroll();
@@ -104,4 +85,51 @@ public abstract class Hypoglykemier {
 
     @Nullable
     public abstract InternalDate getForekomstTrafikTidpunkt();
+
+    public static Builder builder() {
+        return new AutoValue_Hypoglykemier.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Hypoglykemier build();
+        @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID)
+        public abstract Builder setSjukdomenUnderkontroll(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID)
+        public abstract Builder setNedsattHjarnfunktion(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID)
+        public abstract Builder setForstarRisker(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID)
+        public abstract Builder setFortrogenMedSymptom(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID)
+        public abstract Builder setSaknarFormagaVarningstecken(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID)
+        public abstract Builder setKunskapLampligaAtgarder(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID)
+        public abstract Builder setEgenkontrollBlodsocker(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID)
+        public abstract Builder setAterkommandeSenasteAret(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID)
+        public abstract Builder setAterkommandeSenasteTidpunkt(InternalDate value);
+
+        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID)
+        public abstract Builder setAterkommandeSenasteKvartalet(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID)
+        public abstract Builder setSenasteTidpunktVaken(InternalDate value);
+
+        @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID)
+        public abstract Builder setForekomstTrafik(Boolean value);
+
+        @JsonProperty(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID)
+        public abstract Builder setForekomstTrafikTidpunkt(InternalDate value);
+    }
 }

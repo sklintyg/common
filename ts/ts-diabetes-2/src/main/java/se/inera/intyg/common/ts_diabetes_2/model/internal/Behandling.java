@@ -28,28 +28,16 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 /**
  * Created by marced on 2018-09-03.
  */
 @AutoValue
+@JsonDeserialize(builder = AutoValue_Behandling.Builder.class)
 public abstract class Behandling {
-
-    @JsonCreator
-    public static Behandling create(
-            @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID) Boolean endastKost,
-            @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID) Boolean tabletter,
-            @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID) Boolean tablettRiskHypoglykemi,
-            @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID) Boolean insulin,
-            @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID) String insulinSedanAr,
-            @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID) Boolean annanBehandling,
-            @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID) String annanBehandlingBeskrivning) {
-        return new AutoValue_Behandling(endastKost, tabletter, tablettRiskHypoglykemi, insulin, insulinSedanAr, annanBehandling,
-                annanBehandlingBeskrivning);
-    }
 
     @Nullable
     public abstract Boolean getEndastKost();
@@ -71,5 +59,28 @@ public abstract class Behandling {
 
     @Nullable
     public abstract String getAnnanBehandlingBeskrivning();
+
+    public static Builder builder() {
+        return new AutoValue_Behandling.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Behandling build();
+        @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)
+        public abstract Builder setEndastKost(Boolean value);
+        @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
+        public abstract Builder setTabletter(Boolean value);
+        @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID)
+        public abstract Builder setTablettRiskHypoglykemi(Boolean value);
+        @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
+        public abstract Builder setInsulin(Boolean value);
+        @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID)
+        public abstract Builder setInsulinSedanAr(String value);
+        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID)
+        public abstract Builder setAnnanBehandling(Boolean value);
+        @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID)
+        public abstract Builder setAnnanBehandlingBeskrivning(String value);
+    }
 
 }

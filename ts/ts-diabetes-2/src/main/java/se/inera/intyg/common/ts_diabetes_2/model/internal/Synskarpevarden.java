@@ -23,8 +23,8 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 
 import javax.annotation.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 /**
@@ -34,19 +34,28 @@ import com.google.auto.value.AutoValue;
  *
  */
 @AutoValue
+@JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
 public abstract class Synskarpevarden {
-
-    @JsonCreator
-    public static Synskarpevarden create(
-            @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID) Double utanKorrektion,
-            @JsonProperty(SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID) Double medKorrektion) {
-        return new AutoValue_Synskarpevarden(utanKorrektion, medKorrektion);
-    }
 
     @Nullable
     public abstract Double getUtanKorrektion();
 
     @Nullable
     public abstract Double getMedKorrektion();
+
+    public static Builder builder() {
+        return new AutoValue_Synskarpevarden.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Synskarpevarden build();
+
+        @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID)
+        public abstract Builder setUtanKorrektion(Double utanKorrektion);
+
+        @JsonProperty(SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID)
+        public abstract Builder setMedKorrektion(Double medKorrektion);
+    }
 
 }
