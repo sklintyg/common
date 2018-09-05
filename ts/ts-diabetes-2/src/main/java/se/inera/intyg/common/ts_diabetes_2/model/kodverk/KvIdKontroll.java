@@ -20,6 +20,10 @@ package se.inera.intyg.common.ts_diabetes_2.model.kodverk;
 
 import java.util.stream.Stream;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum KvIdKontroll {
 
     ID_KORT("IDK1", "ID-kort"),
@@ -37,16 +41,32 @@ public enum KvIdKontroll {
         this.description = description;
     }
 
+    @JsonCreator
+    public static KvIdKontroll fromId(@JsonProperty("id") String id) {
+        String normId = id != null ? id.trim() : null;
+        for (KvIdKontroll typ : values()) {
+            if (typ.name().equals(normId)) {
+                return typ;
+            }
+        }
+        throw new IllegalArgumentException(id);
+    }
+
+    public static KvIdKontroll fromCode(String code) {
+        return Stream.of(KvIdKontroll.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
+    }
+
+    @JsonValue
+    public String getId() {
+        return this.name();
+    }
+
     public String getCode() {
         return code;
     }
 
     public String getDescription() {
         return description;
-    }
-
-    public static KvIdKontroll fromCode(String code) {
-        return Stream.of(KvIdKontroll.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 }

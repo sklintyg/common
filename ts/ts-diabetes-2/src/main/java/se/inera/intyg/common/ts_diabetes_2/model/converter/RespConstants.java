@@ -23,7 +23,7 @@ public final class RespConstants {
     // Kat 1 - Intyget avser
     public static final String INTYGETAVSER_SVAR_ID = "1";
     public static final String INTYGETAVSER_DELSVAR_ID = "1.1";
-    public static final String INTYGETAVSER_SVAR_JSON_ID = "intygetAvserBehorighet";
+    public static final String INTYGETAVSER_SVAR_JSON_ID = "intygAvser";
 
     // Kat 2 - Identitet
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";

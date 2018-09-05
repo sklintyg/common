@@ -32,8 +32,6 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
-import java.util.Set;
-
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -43,8 +41,9 @@ import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
-import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIntygAvser;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
+
+import java.util.EnumSet;
 
 // CHECKSTYLE:ON LineLength
 
@@ -75,13 +74,13 @@ public abstract class TsDiabetes2Utlatande implements Utlatande {
     // Fråga 1 - Intyget avser behörighet
     // Fråga 1.1 - Intyget avser behörighet
     @Nullable
-    public abstract Set<KvIntygAvser> getIntygetAvserBehorighet();
+    public abstract IntygAvser getIntygAvser();
 
     // Kategori 2 - Identitet
     // Fråga 2 - Identitet Styrkt genom
     // Fråga 2.1 - Identitet Styrkt genom
     @Nullable
-    public abstract KvIdKontroll getIdentitetStyrktGenom();
+    public abstract IdKontroll getIdentitetStyrktGenom();
 
 
     // Kategori 3 - Allmänt (Fråga 35, 18, 109)
@@ -134,10 +133,10 @@ public abstract class TsDiabetes2Utlatande implements Utlatande {
         public abstract Builder setSignature(String signature);
 
         @JsonProperty(INTYGETAVSER_SVAR_JSON_ID)
-        public abstract Builder setIntygetAvserBehorighet(Set<KvIntygAvser> intygetAvserBehorighet);
+        public abstract Builder setIntygAvser(IntygAvser intygAvser);
 
         @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)
-        public abstract Builder setIdentitetStyrktGenom(KvIdKontroll identitetStyrktGenom);
+        public abstract Builder setIdentitetStyrktGenom(IdKontroll identitetStyrktGenom);
 
         @JsonProperty(ALLMANT_JSON_ID)
         public abstract Builder setAllmant(Allmant allmant);

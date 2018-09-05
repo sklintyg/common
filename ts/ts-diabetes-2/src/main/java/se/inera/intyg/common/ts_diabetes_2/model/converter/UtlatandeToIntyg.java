@@ -97,13 +97,16 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
-import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIntygAvser;
-import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvKorkortsbehorighet;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -134,21 +137,23 @@ public final class UtlatandeToIntyg {
         List<Svar> svars = new ArrayList<>();
 
         // Kat 1 - Intyget avser
-        if (source.getIntygetAvserBehorighet() != null) {
+        if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier() != null) {
             int intygAvserInstans = 1;
-            for (KvIntygAvser intygAvser : source.getIntygetAvserBehorighet()) {
+            for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
+                IntygAvserKod intygAvserKod= IntygAvserKod.valueOf(intygAvserKategori.name());
                 svars.add(aSvar(INTYGETAVSER_SVAR_ID, intygAvserInstans++)
                         .withDelsvar(INTYGETAVSER_DELSVAR_ID,
-                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvserKod.getCode(), intygAvserKod.getDescription()))
                         .build());
             }
         }
 
         // Kat 2 - Identitet
-        if (source.getIdentitetStyrktGenom() != null) {
+        if (source.getIdentitetStyrktGenom() != null && source.getIdentitetStyrktGenom().getTyp() != null) {
             svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
                     .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
-                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getCode(), source.getIdentitetStyrktGenom().getDescription()))
+                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getTyp().getCode(),
+                                    source.getIdentitetStyrktGenom().getTyp().getDescription()))
                     .build());
         }
 
@@ -312,10 +317,11 @@ public final class UtlatandeToIntyg {
     private static void buildBedomning(Bedomning bedomning, List<Svar> svars) {
         if (bedomning.getUppfyllerBehorighetskrav() != null) {
             int behorighetskravInstans = 1;
-            for (KvKorkortsbehorighet korkortsbehorighet : bedomning.getUppfyllerBehorighetskrav()) {
+            for (BedomningKorkortstyp bedomningKorkortstyp : bedomning.getUppfyllerBehorighetskrav()) {
+                KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.valueOf(bedomningKorkortstyp.name());
                 svars.add(aSvar(BEDOMNING_SVAR_ID, behorighetskravInstans++)
                         .withDelsvar(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(), korkortsbehorighetKod.getDescription()))
                         .build());
             }
         }

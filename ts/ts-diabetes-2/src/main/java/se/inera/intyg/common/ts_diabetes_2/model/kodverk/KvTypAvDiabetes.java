@@ -18,10 +18,20 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.kodverk;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.stream.Stream;
+
+/**
+ * Created by marced on 2018-09-05.
+ */
 public enum KvTypAvDiabetes {
 
     DIABETES_TYP_1("E10", "Diabetes mellitus typ 1"),
-    DIABETES_TYP_2("E11", "Diabetes mellitus typ 2");
+    DIABETES_TYP_2("E11", "Diabetes mellitus typ 2"),
+    DIABETES_TYP_ANNAN("", "Annan typ av diabetes");
 
     final String code;
     final String description;
@@ -29,6 +39,27 @@ public enum KvTypAvDiabetes {
     KvTypAvDiabetes(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    @JsonCreator
+    public static KvTypAvDiabetes fromId(@JsonProperty("id") String id) {
+        String normId = id != null ? id.trim() : null;
+        for (KvTypAvDiabetes typ : values()) {
+            if (typ.name().equals(normId)) {
+                return typ;
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public static KvTypAvDiabetes fromCode(String code) {
+        return Stream.of(KvTypAvDiabetes.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
+    }
+
+    @JsonValue
+    public String getId() {
+        return this.name();
     }
 
     public String getCode() {

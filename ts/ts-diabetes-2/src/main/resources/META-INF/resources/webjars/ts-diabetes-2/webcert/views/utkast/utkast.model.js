@@ -33,7 +33,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                         grundData: grundData,
 
                         // Kategori 1
-                        intygetAvserBehorighet: undefined,
+                        intygAvser: {
+                            kategorier: undefined
+                        },
 
                         // Kategori 2
                         identitetStyrktGenom: undefined,
@@ -43,13 +45,15 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                             diabetesDiagnosAr: undefined,
                             typAvDiabetes: undefined,
                             beskrivningAnnanTypAvDiabetes: undefined,
-                            endastKost: undefined,
-                            tabletter: undefined,
-                            tablettRiskHypoglykemi: undefined,
-                            insulin: undefined,
-                            insulinSedanAr: undefined,
-                            annanBehandling: undefined,
-                            annanBehandlingBeskrivning: undefined
+                            behandling: {
+                                endastKost: undefined,
+                                tabletter: undefined,
+                                tablettRiskHypoglykemi: undefined,
+                                insulin: undefined,
+                                insulinSedanAr: undefined,
+                                annanBehandling: undefined,
+                                annanBehandlingBeskrivning: undefined
+                            }
                         },
 
                         // Kategori 4
@@ -65,6 +69,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                             aterkommandeSenasteTidpunkt: undefined,
                             aterkommandeSenasteKvartalet: undefined,
                             senasteTidpunktVaken: undefined,
+                            forekomstTrafik: undefined,
                             forekomstTrafikTidpunkt: undefined
                         },
 
@@ -80,16 +85,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                                 }}),
                             binokulart: new ModelAttr('binokulart', {
                                 defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
-                                }}),
-                            fortrogenMedSymptom: undefined,
-                            saknarFormagaVarningstecken: undefined,
-                            kunskapLampligaAtgarder: undefined,
-                            egenkontrollBlodsocker: undefined,
-                            aterkommandeSenasteAret: undefined,
-                            aterkommandeSenasteTidpunkt: undefined,
-                            aterkommandeSenasteKvartalet: undefined,
-                            senasteTidpunktVaken: undefined,
-                            forekomstTrafikTidpunkt: undefined
+                                }})
                         },
                         // Kategori 6
                         ovrigt: undefined,

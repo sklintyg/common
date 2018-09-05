@@ -16,14 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* jshint maxlen: false */
-'use strict';
+package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
-angular.module('ts-diabetes-2').constant('ts-diabetes-2.messages', {
-    'sv': {
-
-    },
-    'en': {
-        'ts-diabetes-2.label.pagetitle': 'Show Certificate'
-    }
-});
+public enum BedomningKorkortstyp {
+    AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI;
+}

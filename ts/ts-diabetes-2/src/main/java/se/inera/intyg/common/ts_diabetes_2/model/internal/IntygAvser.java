@@ -31,39 +31,28 @@ import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-/**
- * Created by marced on 2018-09-03.
- */
 @AutoValue
-public abstract class Bedomning {
+public abstract class IntygAvser {
 
     @JsonCreator
-    public static Bedomning create(@JsonProperty("uppfyllerBehorighetskrav") Set<BedomningKorkortstyp> uppfyllerBehorighetskrav,
-            @JsonProperty("lampligtInnehav") Boolean lampligtInnehav,
-            @JsonProperty("borUndersokasBeskrivning") String borUndersokasBeskrivning) {
-        return new AutoValue_Bedomning(uppfyllerBehorighetskrav, lampligtInnehav, borUndersokasBeskrivning);
+    public static IntygAvser create(@JsonProperty("kategorier") Set<IntygAvserKategori> kategorier) {
+        return new AutoValue_IntygAvser(kategorier);
     }
 
     @Nullable
-    @JsonSerialize(using = Bedomning.BedomningKorkortstypSetEnumSetSerializer.class)
-    @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
-    public abstract Set<BedomningKorkortstyp> getUppfyllerBehorighetskrav();
+    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+    public abstract Set<IntygAvserKategori> getKategorier();
 
-    @Nullable
-    public abstract Boolean getLampligtInnehav();
-
-    @Nullable
-    public abstract String getBorUndersokasBeskrivning();
-
-    public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
-        protected BedomningKorkortstypSetEnumSetSerializer() {
-            super(BedomningKorkortstyp.class);
+    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
+        protected IntygAvserEnumSetSerializer() {
+            super(IntygAvserKategori.class);
         }
     }
 
-    public static class BedomningKorkortstypSetDeserializer extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
-        protected BedomningKorkortstypSetDeserializer() {
-            super(BedomningKorkortstyp.class);
+    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
+        protected IntygAvserEnumSetDeserializer() {
+            super(IntygAvserKategori.class);
         }
     }
 }

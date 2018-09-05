@@ -16,14 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/* jshint maxlen: false */
-'use strict';
+package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
-angular.module('ts-diabetes-2').constant('ts-diabetes-2.messages', {
-    'sv': {
+import javax.annotation.Nullable;
 
-    },
-    'en': {
-        'ts-diabetes-2.label.pagetitle': 'Show Certificate'
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
+
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
+
+/**
+ * Created by marced on 2018-09-05.
+ */
+@AutoValue
+public abstract class IdKontroll {
+
+    @JsonCreator
+    public static IdKontroll create(@JsonProperty("typ") KvIdKontroll typ) {
+        return new AutoValue_IdKontroll(typ);
     }
-});
+
+    @Nullable
+    public abstract KvIdKontroll getTyp();
+
+}
