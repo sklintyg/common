@@ -41,6 +41,11 @@ angular.module('db').factory('db.UtkastConfigFactory',
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
                 var patient = ueSOSFactoryTemplates.patient(viewState);
+                var beginningOfLastYear = moment()
+                    .subtract(1, 'year')
+                    .dayOfYear(1)
+                    .format('YYYY-MM-DD');
+
 
                 var config = [
 
@@ -90,6 +95,7 @@ angular.module('db').factory('db.UtkastConfigFactory',
                             }
                         }, {
                             type: 'ue-date',
+                            minDate: beginningOfLastYear,
                             modelProp: 'undersokningDatum',
                             hideExpression: 'model.undersokningYttre != "UNDERSOKNING_GJORT_KORT_FORE_DODEN"',
                             label: {

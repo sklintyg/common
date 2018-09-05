@@ -22,12 +22,19 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.cglib.core.Local;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.doi.utils.ScenarioFinder;
 import se.inera.intyg.common.doi.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,6 +46,15 @@ public class InternalValidatorTest {
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().size();
+    }
+
+    private DoiUtlatande setupBarnSomAvliditDates(DoiUtlatande utlatande, int daysLived) {
+        LocalDate date = LocalDate.now().minusDays(30);
+        Personnummer personnummer = Personnummer.createPersonnummer(
+                date.format(DateTimeFormatter.ISO_LOCAL_DATE).replace("-", "") + "-4321").get();
+        utlatande.getGrundData().getPatient().setPersonId(personnummer);
+        utlatande.getDodsdatum().setDate(date.plusDays(daysLived).format(DateTimeFormatter.ISO_LOCAL_DATE));
+        return utlatande;
     }
 
     @Test
@@ -231,7 +247,8 @@ public class InternalValidatorTest {
 
     @Test
     public void testR20_1() throws ScenarioNotFoundException {
-        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel();
+        DoiUtlatande utlatandeFromJson = setupBarnSomAvliditDates(
+                ScenarioFinder.getInternalScenario("fail-R20-1").asInternalModel(), 29);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -241,7 +258,8 @@ public class InternalValidatorTest {
 
     @Test
     public void testR20_2() throws ScenarioNotFoundException {
-        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel();
+        DoiUtlatande utlatandeFromJson = setupBarnSomAvliditDates(
+                ScenarioFinder.getInternalScenario("fail-R20-2").asInternalModel(), 10);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -252,7 +270,8 @@ public class InternalValidatorTest {
     @Test
     public void testR20_3() throws ScenarioNotFoundException {
         // Same as R20_1 but with samordningsnummer
-        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel();
+        DoiUtlatande utlatandeFromJson = setupBarnSomAvliditDates(
+                ScenarioFinder.getInternalScenario("fail-R20-3").asInternalModel(), 29);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
@@ -263,7 +282,8 @@ public class InternalValidatorTest {
     @Test
     public void testR20_4() throws ScenarioNotFoundException {
         // Same as R20_2 but with samordningsnummer
-        DoiUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel();
+        DoiUtlatande utlatandeFromJson = setupBarnSomAvliditDates(
+                ScenarioFinder.getInternalScenario("fail-R20-4").asInternalModel(), 10);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());

@@ -109,6 +109,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                         .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                                 ValidationMessageType.INCORRECT_COMBINATION,
                                 "db.validation.undersokningDatum.after.antraffatDodDatum");
+            } else if (utlatande.getUndersokningDatum().isBeforeBeginningOfLastYear()) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
+                                ValidationMessageType.OTHER,
+                                "db.validation.undersokningDatum.before.beginningOflastYear");
             }
         }
     }

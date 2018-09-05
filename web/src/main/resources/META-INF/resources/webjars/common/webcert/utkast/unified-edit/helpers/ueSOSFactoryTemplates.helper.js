@@ -26,6 +26,10 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
         var fraga = ueFactoryTemplates.fraga;
         var today = moment().format('YYYY-MM-DD');
 
+        var beginningOfLastYear = moment()
+            .subtract(1, 'year')
+            .dayOfYear(1)
+            .format('YYYY-MM-DD');
 
         function _patient(viewState) {
             function _shouldDisableAddressInputWhen(model) {
@@ -87,6 +91,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'dodsdatum',
                             type: 'ue-date',
+                            minDate: beginningOfLastYear,
                             maxDate: today,
                             hideExpression: 'model.dodsdatumSakert !== true',
                             label: {key: 'DFR_2.2.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'dodsdatum'}
@@ -102,6 +107,7 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                         {
                             modelProp: 'antraffatDodDatum',
                             type: 'ue-date',
+                            minDate: beginningOfLastYear,
                             maxDate: today,
                             hideExpression: 'model.dodsdatumSakert !== false',
                             label: {key: 'DFR_2.3.RBK', helpKey: 'DFR_2.2.HLP', required: true, requiredProp: 'antraffatDodDatum'}

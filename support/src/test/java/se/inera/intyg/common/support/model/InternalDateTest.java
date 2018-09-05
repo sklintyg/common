@@ -156,4 +156,18 @@ public class InternalDateTest {
         return number;
     }
 
+    @Test
+    public void testIsBeforeBeginningOfLastYearTrue() {
+        int year = LocalDate.now().getYear() - 2;
+        InternalDate date = new InternalDate(year + "-12-31");
+        assertTrue(date.isBeforeBeginningOfLastYear());
+    }
+
+    @Test
+    public void testIsBeforeBeginningOfLastYearFalse() {
+        int year = LocalDate.now().getYear() - 1;
+        InternalDate date = new InternalDate(year + "-01-01");
+        assertFalse(date.isBeforeBeginningOfLastYear());
+    }
+
 }

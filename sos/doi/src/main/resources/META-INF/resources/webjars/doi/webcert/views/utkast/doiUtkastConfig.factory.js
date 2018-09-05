@@ -24,7 +24,11 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
             'use strict';
 
             var today = moment().format('YYYY-MM-DD');
-            
+            var beginningOfLastYear = moment()
+                .subtract(1, 'year')
+                .dayOfYear(1)
+                .format('YYYY-MM-DD');
+
             function _getCategoryIds() {
                 // Validation category names matched with backend message strings from InternalDraftValidator
                 return {
@@ -135,6 +139,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                             {
                                 modelProp: 'operationDatum',
                                 type: 'ue-date',
+                                minDate: beginningOfLastYear,
                                 label: {key: 'DFR_11.2.RBK', required: true, requiredProp: 'operationDatum'}
                             }]),
                         fraga(11, '', '', { hideExpression: 'model.operation !== "JA"' /* R13 */ }, [

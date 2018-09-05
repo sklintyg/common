@@ -79,7 +79,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
-        DbUtlatande utlatandeFromJson = scenario.asInternalModel();
+        DbUtlatande utlatandeFromJson = fail ?
+                scenario.asInternalModel() :
+                InternalValidatorTest.setupUtlatandeDates(scenario.asInternalModel());
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
 

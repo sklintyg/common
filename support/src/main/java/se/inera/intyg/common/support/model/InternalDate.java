@@ -200,6 +200,11 @@ public class InternalDate {
         return this.asLocalDate().isAfter(MIN_DATE.asLocalDate()) && this.asLocalDate().isBefore(MAX_DATE.asLocalDate());
     }
 
+    public boolean isBeforeBeginningOfLastYear() {
+        return date != null
+                && this.asLocalDate().isBefore(LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1));
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null) {

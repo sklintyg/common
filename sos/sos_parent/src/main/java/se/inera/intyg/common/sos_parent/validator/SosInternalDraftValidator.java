@@ -77,6 +77,9 @@ public final class SosInternalDraftValidator {
             } else if (!utlatande.getDodsdatum().isBeforeNumDays(-1)) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
+            } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum().isBeforeBeginningOfLastYear()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.OTHER, "common.validation.date.beforeLastYear");
             }
         } else {
             if (!utlatande.getDodsdatum().isYearCorrectFormat()) {
@@ -91,6 +94,9 @@ public final class SosInternalDraftValidator {
             } else if (utlatande.getDodsdatum().vagueDateInFuture()) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
+            } else if (utlatande.getDodsdatum().isValidDate() && utlatande.getDodsdatum().isBeforeBeginningOfLastYear()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.OTHER, "common.validation.date.beforeLastYear");
             }
         }
 
@@ -112,6 +118,9 @@ public final class SosInternalDraftValidator {
                     .vagueDateAfterDate(utlatande.getAntraffatDodDatum().asLocalDate())) {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.datum.innanDodsdatum");
+            } else if (utlatande.getAntraffatDodDatum().isBeforeBeginningOfLastYear()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
+                        ValidationMessageType.OTHER, "common.validation.date.beforeLastYear");
             }
         } else {
             if (utlatande.getAntraffatDodDatum() != null) {
