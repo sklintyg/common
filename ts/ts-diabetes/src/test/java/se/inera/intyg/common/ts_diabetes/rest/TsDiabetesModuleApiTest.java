@@ -18,19 +18,55 @@
  */
 package se.inera.intyg.common.ts_diabetes.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
+
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBException;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+import org.w3.wsaddressing10.AttributedURIType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
+import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
@@ -68,34 +104,17 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBException;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
  * response headers and response statuses etc are correct.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TsDiabetesModuleApiTest {
+
+    private final String INTYG_ID = "test-id";
+    private final String LOGICAL_ADDRESS = "logicalAddress";
+
+    private static ClassPathResource revokeCertificateFile;
 
     @InjectMocks
     private TsDiabetesModuleApi moduleApi;
@@ -124,8 +143,12 @@ public class TsDiabetesModuleApiTest {
     @Mock
     private SendTSClient sendTsDiabetesClient;
 
+    @Mock
+    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+
     @Before
     public void setup() throws Exception {
+        revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
         // use reflection to set IntygTextsService mock in webcertModelFactory
         Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
         field.setAccessible(true);
@@ -404,6 +427,49 @@ public class TsDiabetesModuleApiTest {
     public void testGetUtlatandeFromXmlConverterException() throws Exception {
         String xml = xmlToString(new RegisterTSDiabetesType());
         moduleApi.getUtlatandeFromXml(xml);
+    }
+
+    @Test
+    public void testRevokeCertificate() throws Exception {
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
+        revokeResponse.setResult(ResultOfCallUtil.okResult());
+        when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
+                .thenReturn(revokeResponse);
+
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
+        ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
+                .forClass(RevokeMedicalCertificateRequestType.class);
+        verify(revokeCertificateClient).revokeMedicalCertificate(attributedUriCaptor.capture(), parametersCaptor.capture());
+        assertNotNull(parametersCaptor.getValue());
+        assertEquals(LOGICAL_ADDRESS, attributedUriCaptor.getValue().getValue());
+        assertEquals(INTYG_ID, parametersCaptor.getValue().getRevoke().getLakarutlatande().getLakarutlatandeId());
+    }
+
+    @Test(expected = ExternalServiceCallException.class)
+    public void testRevokeCertificateResponseError() throws Exception {
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
+        revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
+        when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
+                .thenReturn(revokeResponse);
+
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+    }
+
+    @Test
+    public void testCreateRevokeRequest() throws Exception {
+        final String meddelande = "meddelande";
+
+        TsDiabetesUtlatande utlatande = ScenarioFinder.getTransportScenario("valid-minimal").asInternalModel();
+        utlatande.setId(INTYG_ID);
+
+        String res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
+        RevokeMedicalCertificateRequestType resultObject = JAXB.unmarshal(new StringReader(res), RevokeMedicalCertificateRequestType.class);
+        assertNotNull(resultObject);
+        assertEquals(meddelande, resultObject.getRevoke().getMeddelande());
+        assertEquals(INTYG_ID, resultObject.getRevoke().getLakarutlatande().getLakarutlatandeId());
     }
 
     private CreateNewDraftHolder createNewDraftHolder() {

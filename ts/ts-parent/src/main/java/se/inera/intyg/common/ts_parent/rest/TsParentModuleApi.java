@@ -23,12 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.w3.wsaddressing10.AttributedURIType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
-import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -39,6 +33,7 @@ import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
+import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -64,6 +59,9 @@ import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertif
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
@@ -73,7 +71,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import javax.xml.bind.JAXB;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.io.StringReader;
@@ -115,7 +112,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
     @Autowired(required = false)
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    private RevokeCertificateResponderInterface revokeCertificateClient;
 
     private Class<T> type;
 
@@ -302,14 +299,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        AttributedURIType uri = new AttributedURIType();
-        uri.setValue(logicalAddress);
-
-        StringBuffer sb = new StringBuffer(xmlBody);
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(sb.toString())),
-                RevokeMedicalCertificateRequestType.class);
-        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
-        if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
+        RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
+        RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
+        if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
             LOG.error(message);
             throw new ExternalServiceCallException(message);
@@ -318,12 +310,13 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
-        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
-        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
-
-        StringWriter writer = new StringWriter();
-        JAXB.marshal(request, writer);
-        return writer.toString();
+        try {
+            StringWriter writer = new StringWriter();
+            JAXB.marshal(InternalToRevoke.convert(utlatande, skapatAv, meddelande), writer);
+            return writer.toString();
+        } catch (ConverterException e) {
+            throw new ModuleException(e.getMessage());
+        }
     }
 
     @Override

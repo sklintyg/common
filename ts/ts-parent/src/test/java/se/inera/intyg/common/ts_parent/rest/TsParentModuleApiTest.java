@@ -69,6 +69,9 @@ import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertif
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
@@ -127,7 +130,7 @@ public class TsParentModuleApiTest {
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
     @Mock
-    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
+    private RevokeCertificateResponderInterface revokeCertificateClient;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
@@ -369,46 +372,6 @@ public class TsParentModuleApiTest {
     }
 
     @Test
-    public void testRevokeCertificate() throws Exception {
-        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
-        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
-        revokeResponse.setResult(ResultOfCallUtil.okResult());
-        when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
-                .thenReturn(revokeResponse);
-
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
-        ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
-        ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
-                .forClass(RevokeMedicalCertificateRequestType.class);
-        verify(revokeCertificateClient).revokeMedicalCertificate(attributedUriCaptor.capture(), parametersCaptor.capture());
-        assertNotNull(parametersCaptor.getValue());
-        assertEquals(LOGICAL_ADDRESS, attributedUriCaptor.getValue().getValue());
-        assertEquals(INTYG_ID, parametersCaptor.getValue().getRevoke().getLakarutlatande().getLakarutlatandeId());
-    }
-
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRevokeCertificateResponseError() throws Exception {
-        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
-        RevokeMedicalCertificateResponseType revokeResponse = new RevokeMedicalCertificateResponseType();
-        revokeResponse.setResult(ResultOfCallUtil.failResult("error"));
-        when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
-                .thenReturn(revokeResponse);
-
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
-    }
-
-    @Test
-    public void testCreateRevokeRequest() throws Exception {
-        final String meddelande = "meddelande";
-
-        String res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
-        RevokeMedicalCertificateRequestType resultObject = JAXB.unmarshal(new StringReader(res), RevokeMedicalCertificateRequestType.class);
-        assertNotNull(resultObject);
-        assertEquals(meddelande, resultObject.getRevoke().getMeddelande());
-        assertEquals(INTYG_ID, resultObject.getRevoke().getLakarutlatande().getLakarutlatandeId());
-    }
-
-    @Test
     public void testRegisterCertificate() throws Exception {
         RegisterCertificateType registerCertificateType = JAXB.unmarshal(registerCertificateFile.getFile(), RegisterCertificateType.class);
         doReturn(registerCertificateType).when(moduleApi).internalToTransport(any(Utlatande.class));
@@ -535,6 +498,41 @@ public class TsParentModuleApiTest {
         } catch (ExternalServiceCallException e) {
             assertEquals(ExternalServiceCallException.ErrorIdEnum.APPLICATION_ERROR, e.getErroIdEnum());
         }
+    }
+
+    @Test
+    public void testRevokeCertificate() throws Exception {
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
+        revokeResponse.setResult(ResultTypeUtil.okResult());
+        when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
+
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        ArgumentCaptor<RevokeCertificateType> parametersCaptor = ArgumentCaptor.forClass(RevokeCertificateType.class);
+        verify(revokeCertificateClient).revokeCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
+        assertNotNull(parametersCaptor.getValue());
+        assertEquals(INTYG_ID, parametersCaptor.getValue().getIntygsId().getExtension());
+    }
+
+    @Test(expected = ExternalServiceCallException.class)
+    public void testRevokeCertificateResponseError() throws Exception {
+        String xmlBody = Resources.toString(revokeCertificateFile.getURL(), Charsets.UTF_8);
+        RevokeCertificateResponseType revokeResponse = new RevokeCertificateResponseType();
+        revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
+        when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
+
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+    }
+
+    @Test
+    public void testCreateRevokeRequest() throws Exception {
+        final String meddelande = "meddelande";
+
+        String res = moduleApi.createRevokeRequest(utlatande, utlatande.getGrundData().getSkapadAv(), meddelande);
+        RevokeCertificateType resultObject = JAXB.unmarshal(new StringReader(res), RevokeCertificateType.class);
+        assertNotNull(resultObject);
+        assertEquals(meddelande, resultObject.getMeddelande());
+        assertEquals(INTYG_ID, resultObject.getIntygsId().getExtension());
     }
 
     public static class TestUtlatande implements Utlatande {

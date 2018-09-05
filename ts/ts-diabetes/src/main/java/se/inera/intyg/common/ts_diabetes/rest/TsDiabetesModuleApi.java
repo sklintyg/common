@@ -19,32 +19,48 @@
 package se.inera.intyg.common.ts_diabetes.rest;
 
 import java.io.StringReader;
+import java.io.StringWriter;
 
 import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.w3.wsaddressing10.AttributedURIType;
 
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
+import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_diabetes.integration.RegisterTSDiabetesResponderImpl;
-import se.inera.intyg.common.ts_diabetes.model.converter.*;
+import se.inera.intyg.common.ts_diabetes.model.converter.InternalToTransportConverter;
+import se.inera.intyg.common.ts_diabetes.model.converter.TransportToInternalConverter;
+import se.inera.intyg.common.ts_diabetes.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
-import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.*;
-import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.*;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -69,6 +85,9 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     @Autowired(required = false)
     @Qualifier("diabetesRegisterClient")
     private RegisterTSDiabetesResponderInterface diabetesRegisterClient;
+
+    @Autowired(required = false)
+    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     @Autowired(required = false)
     @Qualifier("tsDiabetesXslTransformer")
@@ -135,6 +154,32 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
             }
         }
         throw new ModuleException("GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+    }
+
+    @Override
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+        AttributedURIType uri = new AttributedURIType();
+        uri.setValue(logicalAddress);
+
+        StringBuffer sb = new StringBuffer(xmlBody);
+        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(sb.toString())),
+                RevokeMedicalCertificateRequestType.class);
+        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
+        if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
+            String message = "Could not send revoke to " + logicalAddress;
+            LOG.error(message);
+            throw new ExternalServiceCallException(message);
+        }
+    }
+
+    @Override
+    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
+        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
+        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
+
+        StringWriter writer = new StringWriter();
+        JAXB.marshal(request, writer);
+        return writer.toString();
     }
 
     @Override
