@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_BOR_UNDERSOKAS_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID;
+
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -38,9 +42,10 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 public abstract class Bedomning {
 
     @JsonCreator
-    public static Bedomning create(@JsonProperty("uppfyllerBehorighetskrav") Set<BedomningKorkortstyp> uppfyllerBehorighetskrav,
-            @JsonProperty("lampligtInnehav") Boolean lampligtInnehav,
-            @JsonProperty("borUndersokasBeskrivning") String borUndersokasBeskrivning) {
+    public static Bedomning create(
+            @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID) Set<BedomningKorkortstyp> uppfyllerBehorighetskrav,
+            @JsonProperty(BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID) Boolean lampligtInnehav,
+            @JsonProperty(BEDOMNING_BOR_UNDERSOKAS_JSON_ID) String borUndersokasBeskrivning) {
         return new AutoValue_Bedomning(uppfyllerBehorighetskrav, lampligtInnehav, borUndersokasBeskrivning);
     }
 

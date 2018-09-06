@@ -18,6 +18,14 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,15 +39,18 @@ import com.google.auto.value.AutoValue;
 public abstract class Behandling {
 
     @JsonCreator
-    public static Behandling create(@JsonProperty("endastKost") Boolean endastKost,
-            @JsonProperty("tabletter") Boolean tabletter,
-            @JsonProperty("tablettRiskHypoglykemi") Boolean tablettRiskHypoglykemi,
-            @JsonProperty("insulin") Boolean insulin,
-            @JsonProperty("insulinSedanAr") String insulinSedanAr,
-            @JsonProperty("annanBehandling") Boolean annanBehandling,
-           @JsonProperty("annanBehandlingBeskrivning") String annanBehandlingBeskrivning) {
-        return new AutoValue_Behandling(endastKost, tabletter, tablettRiskHypoglykemi, insulin, insulinSedanAr, annanBehandling, annanBehandlingBeskrivning);
+    public static Behandling create(
+            @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID) Boolean endastKost,
+            @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID) Boolean tabletter,
+            @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID) Boolean tablettRiskHypoglykemi,
+            @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID) Boolean insulin,
+            @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID) String insulinSedanAr,
+            @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID) Boolean annanBehandling,
+            @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID) String annanBehandlingBeskrivning) {
+        return new AutoValue_Behandling(endastKost, tabletter, tablettRiskHypoglykemi, insulin, insulinSedanAr, annanBehandling,
+                annanBehandlingBeskrivning);
     }
+
     @Nullable
     public abstract Boolean getEndastKost();
 
@@ -60,6 +71,5 @@ public abstract class Behandling {
 
     @Nullable
     public abstract String getAnnanBehandlingBeskrivning();
-
 
 }

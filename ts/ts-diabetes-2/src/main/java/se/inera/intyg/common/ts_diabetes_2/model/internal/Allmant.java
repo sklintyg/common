@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_TYP_AV_DIABETES_JSON_ID;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -33,14 +38,15 @@ import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 public abstract class Allmant {
 
     @JsonCreator
-    public static Allmant create(@JsonProperty("diabetesDiagnosAr") String diabetesDiagnosAr,
-            @JsonProperty("typAvDiabetes") KvTypAvDiabetes typAvDiabetes,
-            @JsonProperty("beskrivningAnnanTypAvDiabetes") String beskrivningAnnanTypAvDiabetes,
-            @JsonProperty("behandling") Behandling behandling) {
+    public static Allmant create(
+            @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11) String diabetesDiagnosAr,
+            @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID) KvTypAvDiabetes typAvDiabetes,
+            @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID) String beskrivningAnnanTypAvDiabetes,
+            @JsonProperty(ALLMANT_BEHANDLING_JSON_ID) Behandling behandling) {
         return new AutoValue_Allmant(diabetesDiagnosAr, typAvDiabetes, beskrivningAnnanTypAvDiabetes, behandling);
     }
 
-    //TO DO: Is there a better representation of a distinct year (yyyy) ?
+    // TO DO: Is there a better representation of a distinct year (yyyy) ?
     @Nullable
     public abstract String getDiabetesDiagnosAr();
 

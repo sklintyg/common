@@ -137,7 +137,7 @@ public final class UtlatandeToIntyg {
         List<Svar> svars = new ArrayList<>();
 
         // Kat 1 - Intyget avser
-        if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier() != null) {
+        if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier().size() > 0) {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
                 IntygAvserKod intygAvserKod= IntygAvserKod.valueOf(intygAvserKategori.name());

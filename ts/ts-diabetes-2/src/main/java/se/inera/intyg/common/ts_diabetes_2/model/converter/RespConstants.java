@@ -43,6 +43,7 @@ public final class RespConstants {
     public static final String ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID = "beskrivningAnnanTypAvDiabetes";
 
     public static final String ALLMANT_BEHANDLING_SVAR_ID = "109";
+    public static final String ALLMANT_BEHANDLING_JSON_ID = "behandling";
     public static final String ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID = "109.1";
     public static final String ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID = "endastKost";
     public static final String ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID = "109.2";
@@ -110,6 +111,8 @@ public final class RespConstants {
     public static final String SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID = "hoger";
     public static final String SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID = "vanster";
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID = "binokulart";
+    public static final String SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
+    public static final String SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID = "medKorrektion";
 
     public static final String SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID = "8.1";
     public static final String SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID = "8.2";
@@ -135,7 +138,7 @@ public final class RespConstants {
     public static final String BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID = "lampligtInnehav";
     public static final String BEDOMNING_BOR_UNDERSOKAS_SVAR_ID = "34";
     public static final String BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID = "34.1";
-    public static final String BEDOMNING_BOR_UNDERSOKAS_JSON_ID = "borUndersokas";
+    public static final String BEDOMNING_BOR_UNDERSOKAS_JSON_ID = "borUndersokasBeskrivning";
 
 
 

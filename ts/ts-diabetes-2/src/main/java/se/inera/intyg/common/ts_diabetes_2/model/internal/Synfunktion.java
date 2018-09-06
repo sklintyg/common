@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -31,11 +37,12 @@ import com.google.auto.value.AutoValue;
 public abstract class Synfunktion {
 
     @JsonCreator
-    public static Synfunktion create(@JsonProperty("misstankeOgonsjukdom") Boolean misstankeOgonsjukdom,
-            @JsonProperty("ogonbottenFotoSaknas") Boolean ogonbottenFotoSaknas,
-            @JsonProperty("vanster") Synskarpevarden vanster,
-            @JsonProperty("hoger") Synskarpevarden hoger,
-            @JsonProperty("binokulart") Synskarpevarden binokulart) {
+    public static Synfunktion create(
+            @JsonProperty(SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID) Boolean misstankeOgonsjukdom,
+            @JsonProperty(SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID) Boolean ogonbottenFotoSaknas,
+            @JsonProperty(SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID) Synskarpevarden vanster,
+            @JsonProperty(SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID) Synskarpevarden hoger,
+            @JsonProperty(SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID) Synskarpevarden binokulart) {
         return new AutoValue_Synfunktion(misstankeOgonsjukdom, ogonbottenFotoSaknas, vanster, hoger,
                 binokulart);
     }

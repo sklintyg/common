@@ -18,6 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -34,8 +37,9 @@ import com.google.auto.value.AutoValue;
 public abstract class Synskarpevarden {
 
     @JsonCreator
-    public static Synskarpevarden create(@JsonProperty("utanKorrektion") Double utanKorrektion,
-            @JsonProperty("medKorrektion") Double medKorrektion) {
+    public static Synskarpevarden create(
+            @JsonProperty(SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID) Double utanKorrektion,
+            @JsonProperty(SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID) Double medKorrektion) {
         return new AutoValue_Synskarpevarden(utanKorrektion, medKorrektion);
     }
 

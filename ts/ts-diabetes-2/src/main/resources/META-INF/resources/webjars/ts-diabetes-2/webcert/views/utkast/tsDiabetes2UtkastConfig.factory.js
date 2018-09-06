@@ -84,7 +84,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                             {
                                 type: 'ue-textfield',
                                 modelProp: 'allmant.beskrivningAnnanTypAvDiabetes',
-                                hideExpression: function(scope) {return scope.model.allmant.typAvDiabetes !== 'DIABETES_TYP_ANNAN'},
+                                hideExpression: function(scope) {return scope.model.allmant.typAvDiabetes !== 'DIABETES_TYP_ANNAN';},
                                 htmlMaxlength: '160',
                                 label: {
                                     key: 'DFR_18.2.RBK',
@@ -107,6 +107,15 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                                 modelProp: 'allmant.behandling.tabletter',
                                 label: {
                                     key: 'DFR_109.2.RBK'
+                                },
+                                paddingBottom: true
+                            },
+                            {
+                                type: 'ue-radio',
+                                modelProp: 'allmant.behandling.tablettRiskHypoglykemi',
+                                hideExpression: '!model.allmant.behandling.tabletter',
+                                label: {
+                                    key: 'DFR_109.3.RBK'
                                 },
                                 paddingBottom: true
                             }])

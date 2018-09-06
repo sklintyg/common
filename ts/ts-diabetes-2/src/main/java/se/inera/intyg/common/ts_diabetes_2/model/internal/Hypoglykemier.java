@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.internal;
 
-import javax.annotation.Nullable;
-
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.auto.value.AutoValue;
-
-import se.inera.intyg.common.support.model.InternalDate;
-
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID;
@@ -40,6 +32,14 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID;
 
+import javax.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
+
+import se.inera.intyg.common.support.model.InternalDate;
+
 /**
  * Created by marced on 2018-09-03.
  */
@@ -47,7 +47,8 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 public abstract class Hypoglykemier {
 
     @JsonCreator
-    public static Hypoglykemier create(@JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID) Boolean sjukdomenUnderkontroll,
+    public static Hypoglykemier create(
+            @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID) Boolean sjukdomenUnderkontroll,
             @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID) Boolean nedsattHjarnfunktion,
             @JsonProperty(HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID) Boolean forstarRisker,
             @JsonProperty(HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID) Boolean fortrogenMedSymptom,

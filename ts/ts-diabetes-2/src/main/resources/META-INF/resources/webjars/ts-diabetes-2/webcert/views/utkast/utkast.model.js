@@ -94,7 +94,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                         bedomning: {
                             uppfyllerBehorighetskrav: undefined,
                             lampligtInnehav: undefined,
-                            borUndersokas: undefined
+                            borUndersokasBeskrivning: undefined
                         }
                     });
                 },

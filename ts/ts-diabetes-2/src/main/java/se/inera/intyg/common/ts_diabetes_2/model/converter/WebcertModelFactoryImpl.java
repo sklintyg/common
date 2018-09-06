@@ -18,14 +18,24 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.model.converter;
 
+import java.util.EnumSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvser;
@@ -33,15 +43,6 @@ import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande.Builder;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-
-import java.util.EnumSet;
 
 /**
  * Factory for creating an editable model.
@@ -72,8 +73,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetes2U
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);
         template.setSignature(null);
-        //initialize körkortsval to empty sets
+        //initialize otherwise empty utlatande
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
+        template.setAllmant(Allmant.create(null, null, null, null));
         template.setBedomning(Bedomning.create(EnumSet.noneOf(BedomningKorkortstyp.class), null, null));
 
 
