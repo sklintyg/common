@@ -690,11 +690,11 @@
             'common.error.intyg.status.failed.load': 'Intygsstatus kunde inte hämtas.',
 
             // FMB texts
-            'fmb.symptom_prognos_behandling': 'Symtom, prognos och behandling',
+            'fmb.symptom_prognos_behandling': 'Symtom, prognos, behandling',
             'fmb.generell_info': 'Försäkringsmedicinsk information',
-            'fmb.funktionsnedsattning': 'Om funktionsnedsättning',
-            'fmb.aktivitetsbegransning': 'Om aktivitetsbegränsning',
-            'fmb.beslutsunderlag_textuellt': 'Sjukskrivningsrekommendation',
+            'fmb.funktionsnedsattning': 'Funktionsnedsättning',
+            'fmb.aktivitetsbegransning': 'Aktivitetsbegränsning',
+            'fmb.beslutsunderlag_textuellt': 'Vägledning för sjukskrivning',
             'fmb.warn.no-diagnose-set': 'Ange minst en diagnos för att få FMB-stöd.',
             'fmb.info.single-diagnose-no-data': 'För den angivna diagnosen finns för tillfället inget FMB-stöd.',
             'fmb.info.multiple-diagnose-no-data': 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.',
