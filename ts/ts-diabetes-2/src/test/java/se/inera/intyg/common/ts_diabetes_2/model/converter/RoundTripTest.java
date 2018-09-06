@@ -35,6 +35,7 @@ import se.inera.intyg.common.ts_diabetes_2.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -75,12 +76,15 @@ public class RoundTripTest {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
+
+System.out.println(expected.toString());
+System.out.println(actual.toString());
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);
@@ -107,7 +111,7 @@ public class RoundTripTest {
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
         JSONAssert.assertEquals(expectedTree.toString(), tree.toString(), false);
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();

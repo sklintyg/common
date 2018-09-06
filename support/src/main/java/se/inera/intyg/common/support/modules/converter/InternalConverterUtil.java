@@ -177,6 +177,10 @@ public final class InternalConverterUtil {
         return hsaId;
     }
 
+    public static String getBooleanContent(Boolean value) {
+        return value == null ? null : value.toString();
+    }
+
     /**
      * Returns an internalDate as a String.
      *
@@ -184,7 +188,7 @@ public final class InternalConverterUtil {
      * @return a safe String to use as a date in transport
      */
     public static String getInternalDateContent(InternalDate internalDate) {
-        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
+        return internalDate == null ? null : internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
     }
     /**
      * Returns an internalDate as a String where unfilled information is completed with zeros.

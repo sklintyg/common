@@ -20,10 +20,11 @@ package se.inera.intyg.common.ts_diabetes_2.model.converter;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPartialDateContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID;
-import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.ALLMANT_BEHANDLING_SVAR_ID;
@@ -80,20 +81,24 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Behandling;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Hypoglykemier;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvIdKontroll;
 import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
@@ -118,10 +123,10 @@ public final class TransportToInternal {
 
     private static void setSvar(TsDiabetes2Utlatande.Builder utlatande, Intyg source) throws ConverterException {
 
-        Allmant.Builder allmant = null;
-        Bedomning.Builder bedomning = null;
-        Hypoglykemier.Builder hypoglykemier = null;
-        Synfunktion.Builder synfunktion = null;
+        Allmant.Builder allmant = Allmant.builder();
+        Bedomning.Builder bedomning = Bedomning.builder();
+        Hypoglykemier.Builder hypoglykemier = Hypoglykemier.builder();
+        Synfunktion.Builder synfunktion = Synfunktion.builder();
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
@@ -234,37 +239,37 @@ public final class TransportToInternal {
                 if (bedomning == null) {
                     bedomning = Bedomning.builder();
                 }
-                handleBedomning(utlatande, svar);
+                handleBedomning(bedomning, svar);
                 break;
             case BEDOMNING_LAMPLIGHET_SVAR_ID:
                 if (bedomning == null) {
                     bedomning = Bedomning.builder();
                 }
-                handleBedomningLamplighet(utlatande, svar);
+                handleBedomningLamplighet(bedomning, svar);
                 break;
             case BEDOMNING_BOR_UNDERSOKAS_SVAR_ID:
                 if (bedomning == null) {
                     bedomning = Bedomning.builder();
                 }
-                handleBedomningBorUndersokas(utlatande, svar);
+                handleBedomningBorUndersokas(bedomning, svar);
                 break;
             default:
                 break;
             }
         }
 
-        if (allmant != null) {
+//        if (allmant != null) {
             utlatande.setAllmant(allmant.build());
-        }
-        if (bedomning != null) {
+/*        }
+        if (bedomning != null) {*/
             utlatande.setBedomning(bedomning.build());
-        }
-        if (hypoglykemier != null) {
+/*        }
+        if (hypoglykemier != null) {*/
             utlatande.setHypoglykemier(hypoglykemier.build());
-        }
-        if (synfunktion != null) {
+/*        }
+        if (synfunktion != null) {*/
             utlatande.setSynfunktion(synfunktion.build());
-        }
+/*        }*/
     }
 
     private static void handleIntygAvser(TsDiabetes2Utlatande.Builder utlatande, Svar svar) throws ConverterException {
@@ -293,11 +298,11 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleAllmantDiabetesDiagnosAr(Allmant.Builder allmant, Svar svar) {
+    private static void handleAllmantDiabetesDiagnosAr(Allmant.Builder allmant, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID:
-                    allmant.setDiabetesDiagnosAr(getStringContent(delsvar));
+                    allmant.setDiabetesDiagnosAr(getPartialDateContent(delsvar).getValue().toString());
                 break;
                 default:
                     throw new IllegalArgumentException();
@@ -309,7 +314,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case ALLMANT_TYP_AV_DIABETES_DELSVAR_ID:
-                    allmant.setTypAvDiabetes(KvTypAvDiabetes.valueOf(getCVSvarContent(delsvar).getCode()));
+                    allmant.setTypAvDiabetes(KvTypAvDiabetes.fromCode(getCVSvarContent(delsvar).getCode()));
                     break;
                 case ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID:
                     allmant.setBeskrivningAnnanTypAvDiabetes(getStringContent(delsvar));
@@ -320,11 +325,11 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleAllmantBehandling(Allmant.Builder allmant, Svar svar) {
+    private static void handleAllmantBehandling(Allmant.Builder allmant, Svar svar) throws ConverterException {
         Behandling.Builder behandling = Behandling.builder();
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID:
+                case ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID:
                     behandling.setEndastKost(getBooleanContent(delsvar));
                     break;
                 case ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID:
@@ -337,7 +342,7 @@ public final class TransportToInternal {
                     behandling.setInsulin(getBooleanContent(delsvar));
                     break;
                 case ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID:
-                    behandling.setInsulinSedanAr(getStringContent(delsvar));
+                    behandling.setInsulinSedanAr(getPartialDateContent(delsvar).getValue().toString());
                     break;
                 case ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID:
                     behandling.setAnnanBehandling(getBooleanContent(delsvar));
@@ -356,6 +361,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID:
+                    hypoglykemier.setSjukdomenUnderkontroll(getBooleanContent(delsvar));
                 break;
                 default:
                     throw new IllegalArgumentException();
@@ -367,7 +373,8 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID:
-                break;
+                    hypoglykemier.setNedsattHjarnfunktion(getBooleanContent(delsvar));
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
@@ -378,6 +385,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID:
+                    hypoglykemier.setForstarRisker(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -389,6 +397,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID:
+                    hypoglykemier.setFortrogenMedSymptom(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -400,6 +409,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID:
+                    hypoglykemier.setSaknarFormagaVarningstecken(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -411,6 +421,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID:
+                    hypoglykemier.setKunskapLampligaAtgarder(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -422,6 +433,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID:
+                    hypoglykemier.setEgenkontrollBlodsocker(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -433,8 +445,10 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID:
+                    hypoglykemier.setAterkommandeSenasteAret(getBooleanContent(delsvar));
                     break;
                 case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID:
+                    hypoglykemier.setAterkommandeSenasteTidpunkt(new InternalDate(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -446,8 +460,10 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID:
+                    hypoglykemier.setAterkommandeSenasteKvartalet(getBooleanContent(delsvar));
                     break;
                 case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID:
+                    hypoglykemier.setSenasteTidpunktVaken(new InternalDate(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -459,8 +475,10 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID:
+                    hypoglykemier.setForekomstTrafik(getBooleanContent(delsvar));
                     break;
                 case HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID:
+                    hypoglykemier.setForekomstTrafikTidpunkt(new InternalDate(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -472,6 +490,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID:
+                    synfunktion.setMisstankeOgonsjukdom(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -483,6 +502,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID:
+                    synfunktion.setOgonbottenFotoSaknas(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -491,24 +511,36 @@ public final class TransportToInternal {
     }
 
     private static void handleSynfunktionSynskarpa(Synfunktion.Builder synfunktion, Svar svar) {
+        Synskarpevarden.Builder hoger = Synskarpevarden.builder();
+        Synskarpevarden.Builder vanster = Synskarpevarden.builder();
+        Synskarpevarden.Builder binokulart = Synskarpevarden.builder();
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID:
+                    hoger.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 case SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID:
+                    vanster.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 case SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID:
+                    binokulart.setUtanKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 case SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID:
+                    hoger.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 case SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID:
+                    vanster.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 case SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID:
+                    binokulart.setMedKorrektion(Double.valueOf(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        synfunktion.setHoger(hoger.build());
+        synfunktion.setVanster(vanster.build());
+        synfunktion.setBinokulart(binokulart.build());
     }
 
     private static void handleOvrigt(TsDiabetes2Utlatande.Builder utlatande, Svar svar) {
@@ -522,21 +554,26 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBedomning(TsDiabetes2Utlatande.Builder utlatande, Svar svar) {
+    private static void handleBedomning(Bedomning.Builder bedomning, Svar svar) throws ConverterException {
+        Set<BedomningKorkortstyp> uppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID:
+                    uppfyllerBehorighetskrav.add(BedomningKorkortstyp.valueOf(KorkortsbehorighetKod.fromCode(
+                            getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        bedomning.setUppfyllerBehorighetskrav(uppfyllerBehorighetskrav);
     }
 
-    private static void handleBedomningLamplighet(TsDiabetes2Utlatande.Builder utlatande, Svar svar) {
+    private static void handleBedomningLamplighet(Bedomning.Builder bedomning, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID:
+                    bedomning.setLampligtInnehav(getBooleanContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -544,10 +581,11 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBedomningBorUndersokas(TsDiabetes2Utlatande.Builder utlatande, Svar svar) {
+    private static void handleBedomningBorUndersokas(Bedomning.Builder bedomning, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID:
+                    bedomning.setBorUndersokasBeskrivning(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();

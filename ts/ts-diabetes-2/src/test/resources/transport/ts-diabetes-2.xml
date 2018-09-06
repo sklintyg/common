@@ -68,23 +68,46 @@
     </skapadAv>
 
     <svar id="1">
-      <delsvar id="1.1">true</delsvar>
-      <delsvar id="1.2">Haltar när han dansar</delsvar>
+      <instans>1</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>IAV3</ns3:code>
+          <ns3:codeSystem>24c41b8d-258a-46bf-a08a-b90738b28770</ns3:codeSystem>
+          <ns3:displayName>C</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
     </svar>
     <svar id="2">
-      <delsvar id="2.1">true</delsvar>
-      <delsvar id="2.2">Detta är aktivitetsbegränsning</delsvar>
+      <delsvar id="2.1">
+        <ns3:cv>
+          <ns3:code>IDK1</ns3:code>
+          <ns3:codeSystem>e7cc8f30-a353-4c42-b17a-a189b6876647</ns3:codeSystem>
+          <ns3:displayName>ID-kort</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
     </svar>
-    <svar id="3">
-      <delsvar id="3.1">true</delsvar>
-      <delsvar id="3.2">Detta är utredning behandling</delsvar>
+    <svar id="35">
+      <delsvar id="35.1">
+        <ns3:partialDate>
+          <ns3:format>YYYY</ns3:format>
+          <ns3:value>2000</ns3:value>
+        </ns3:partialDate>
+      </delsvar>
     </svar>
-    <svar id="4">
-      <delsvar id="4.1">true</delsvar>
-      <delsvar id="4.2">Detta är arbetets påverkan</delsvar>
+    <svar id="18">
+      <delsvar id="18.1">
+        <ns3:cv>
+          <ns3:code>E10</ns3:code>
+          <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
+          <ns3:displayName>Diabetes mellitus typ 1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
     </svar>
-    <svar id="5">
-      <delsvar id="5.1">Detta är övrigt</delsvar>
+    <svar id="109">
+      <delsvar id="109.1">true</delsvar>
+    </svar>
+    <svar id="32">
+      <delsvar id="32.1">Övrigt</delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>

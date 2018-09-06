@@ -55,6 +55,8 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+
 @Ignore
 @RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {
@@ -113,7 +115,7 @@ public class ConverterTest {
 
     private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
         StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class);
         ObjectFactory objectFactory = new ObjectFactory();
         JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
         jaxbContext.createMarshaller().marshal(requestElement, sw);

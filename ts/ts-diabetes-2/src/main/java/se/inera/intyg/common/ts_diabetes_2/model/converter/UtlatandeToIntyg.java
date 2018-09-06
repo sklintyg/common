@@ -88,6 +88,7 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,10 +107,13 @@ import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import javax.xml.bind.JAXBElement;
 
 public final class UtlatandeToIntyg {
 
@@ -187,14 +191,13 @@ public final class UtlatandeToIntyg {
 
     private static void buildAllmant(Allmant allmant, List<Svar> svars) {
         if (allmant.getDiabetesDiagnosAr() != null) {
-            // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the delsvar will not be added.
-            Svar svar = aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
-                    .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYearContent(allmant.getDiabetesDiagnosAr())))
-                    .build();
-
-            if (!svar.getDelsvar().isEmpty()) {
-                svars.add(svar);
+            // If getDiabetesDiagnosAr can not be converted to year getYearContent will return null and the svar will not be added.
+            Year diabetesDiagnosAr = getYearContent(allmant.getDiabetesDiagnosAr());
+            if (diabetesDiagnosAr != null) {
+                svars.add(aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
+                        .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
+                                aPartialDate(PartialDateTypeFormatEnum.YYYY, diabetesDiagnosAr))
+                        .build());
             }
         }
 
@@ -210,21 +213,28 @@ public final class UtlatandeToIntyg {
         }
 
         if (allmant.getBehandling() != null) {
+
+            // If getInsulinSedanAr can not be converted to year getYearContent will return null and the delsvar will not be added.
+            JAXBElement<PartialDateType> insulinSedanArContent = null;
+            Year insulinSedanAr = getYearContent(allmant.getBehandling().getInsulinSedanAr());
+            if (insulinSedanAr != null) {
+                insulinSedanArContent = aPartialDate(PartialDateTypeFormatEnum.YYYY, insulinSedanAr);
+            }
+
             // Here we rely on withDelsvar not adding a delsvar if content is null
             svars.add(aSvar(ALLMANT_BEHANDLING_SVAR_ID)
                     .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
-                            allmant.getBehandling().getEndastKost())
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getEndastKost()))
                     .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
-                            allmant.getBehandling().getTabletter())
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTabletter()))
                     .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID,
-                            allmant.getBehandling().getTablettRiskHypoglykemi())
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTablettRiskHypoglykemi()))
                     .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
-                            allmant.getBehandling().getInsulin())
-                    // If getInsulinSedanAr can not be converted to year getYearContent will return null and the delsvar will not be added.
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getInsulin()))
                     .withDelsvar(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYearContent(allmant.getBehandling().getInsulinSedanAr())))
+                            insulinSedanArContent)
                     .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID,
-                            allmant.getBehandling().getAnnanBehandling())
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnanBehandling()))
                     .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
                             allmant.getBehandling().getAnnanBehandlingBeskrivning())
                     .build());
@@ -253,23 +263,32 @@ public final class UtlatandeToIntyg {
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID,
                 HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
 
-        svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID, hypoglykemier.getAterkommandeSenasteAret())
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
-                        getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()))
-                .build());
+        if (hypoglykemier.getAterkommandeSenasteAret() != null) {
+            svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()))
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
+                            getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()))
+                    .build());
+        }
 
-        svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID, hypoglykemier.getAterkommandeSenasteKvartalet())
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
-                        getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()))
-                .build());
+        if (hypoglykemier.getAterkommandeSenasteKvartalet() != null) {
+            svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()))
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
+                            getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()))
+                    .build());
+        }
 
-        svars.add(aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID, hypoglykemier.getForekomstTrafik())
-                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
-                        getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()))
-                .build());
+        if (hypoglykemier.getForekomstTrafik() != null) {
+            svars.add(aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
+                    .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()))
+                    .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
+                            getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()))
+                    .build());
+        }
     }
 
     private static void buildSynfunktion(Synfunktion synfunktion, List<Svar> svars) {
@@ -283,20 +302,34 @@ public final class UtlatandeToIntyg {
 
         final Synskarpevarden hoger = synfunktion.getHoger();
         if (hoger != null) {
-            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString())
-                    .withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString());
+            if (hoger.getUtanKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID, hoger.getUtanKorrektion().toString());
+            }
+            if (hoger.getMedKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_HOGER_MED_KORREKTION_DELSVAR_ID, hoger.getMedKorrektion().toString());
+            }
         }
 
         final Synskarpevarden vanster = synfunktion.getVanster();
         if (vanster != null) {
-            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString())
-                    .withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString());
+            if (vanster.getUtanKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID, vanster.getUtanKorrektion().toString());
+            }
+            if (vanster.getMedKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID, vanster.getMedKorrektion().toString());
+            }
         }
 
         final Synskarpevarden binokulart = synfunktion.getBinokulart();
         if (binokulart != null) {
-            synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID, binokulart.getUtanKorrektion().toString())
-                    .withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID, binokulart.getUtanKorrektion().toString());
+            if (binokulart.getUtanKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID,
+                        binokulart.getUtanKorrektion().toString());
+            }
+            if (binokulart.getMedKorrektion() != null) {
+                synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID,
+                        binokulart.getMedKorrektion().toString());
+            }
         }
 
         if (!synskarpa.delSvars.isEmpty()) {

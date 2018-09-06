@@ -24,7 +24,10 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -36,6 +39,11 @@ public class TransportToInternalTest {
         utlatande.setId("1234567");
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
+
+        utlatande.setAllmant(Allmant.builder().build());
+        utlatande.setBedomning(Bedomning.builder().build());
+        utlatande.setHypoglykemier(Hypoglykemier.builder().build());
+        utlatande.setSynfunktion(Synfunktion.builder().build());
 
         utlatande.setOvrigt("Trevlig kille");
         return utlatande.build();
