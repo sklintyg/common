@@ -9,6 +9,23 @@
 
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid edit-form">
 
+    <div ng-if="!editEnabled">
+      <div ng-if="viewState.common.previousIntyg[viewState.common.intyg.type] && !viewState.common.previousUtkast[viewState.common.intyg.type]">
+        <wc-alert-message alert-id="intyg-previousintyg-warning-{{viewState.common.intyg.type}}" alert-severity="info" ng-switch="viewState.common.previousIntyg[viewState.common.intyg.type].sameVardgivare">
+          <span ng-switch-when="true" dynamic-label key="{{viewState.common.intyg.type}}.warn.previouscertificate.samevg"></span>
+          <span ng-switch-when="false" dynamic-label key="{{viewState.common.intyg.type}}.warn.previouscertificate.differentvg"></span>
+        </wc-alert-message>
+      </div>
+
+      <div ng-if="viewState.common.previousUtkast[viewState.common.intyg.type]">
+        <wc-alert-message alert-id="intyg-previousutkast-warning-{{viewState.common.intyg.type}}" alert-severity="info" ng-switch="viewState.common.previousUtkast[viewState.common.intyg.type].sameVardgivare">
+          <span ng-switch-when="true" dynamic-label key="{{viewState.common.intyg.type}}.warn.previousdraft.samevg"></span>
+          <span ng-switch-when="false" dynamic-label key="{{viewState.common.intyg.type}}.warn.previousdraft.differentvg"></span>
+        </wc-alert-message>
+      </div>
+    </div>
+
+
     <form name="certForm" novalidate autocomplete="off" wc-auto-save="editEnabled" class="ng-animate-disabled">
       <fieldset ng-disabled="!editEnabled">
         <div ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">

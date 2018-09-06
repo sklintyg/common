@@ -61,6 +61,8 @@ angular.module('common').controller('smi.EditCertCtrl',
                 if (!viewState.draftModel.isLocked()) {
                     $scope.editEnabled = true;
                 }
+
+                UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId);
             });
 
             $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering) {

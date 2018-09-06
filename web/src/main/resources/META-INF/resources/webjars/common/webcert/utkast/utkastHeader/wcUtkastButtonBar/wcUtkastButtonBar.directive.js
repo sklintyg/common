@@ -161,6 +161,14 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                 return !CommonViewState.isRevoked() && CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
             };
 
+            $scope.disabledCopyBtn = function() {
+                if (CommonViewState.previousIntyg[CommonViewState.intyg.type] || CommonViewState.previousUtkast[CommonViewState.intyg.type]) {
+                    return true;
+                }
+
+                return false;
+            };
+
             $scope.showDeleteBtn = function() {
                 return !CommonViewState.isLocked;
             };

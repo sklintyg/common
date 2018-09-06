@@ -17,8 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.UtkastHeaderViewState', [
-    'common.featureService', 'common.moduleService', 'common.messageService',
-        function(featureService, moduleService, messageService) {
+        function() {
             'use strict';
 
             /*
@@ -31,7 +30,6 @@ angular.module('common').service('common.UtkastHeaderViewState', [
                 this.intygViewState = intygViewState;
                 this.intygType = intygType;
             };
-
         }
     ]
 );

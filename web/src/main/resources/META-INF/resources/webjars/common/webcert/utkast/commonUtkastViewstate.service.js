@@ -55,6 +55,9 @@ angular.module('common').service('common.UtkastViewStateService',
             this.validation = utkastValidationViewState;
             this.validation.reset();
 
+            this.previousIntyg = {};
+            this.previousUtkast = {};
+
             IntygHeaderViewState.reset();
         };
 
@@ -137,6 +140,11 @@ angular.module('common').service('common.UtkastViewStateService',
         this.setShowComplete = function(showComplete) {
             this.showComplete = showComplete;
             return this.showComplete;
+        };
+
+        this.setPreviousIntygUtkast = function(prevIntyg, prevUtkast){
+            this.previousIntyg = prevIntyg;
+            this.previousUtkast = prevUtkast;
         };
 
         this.reset();

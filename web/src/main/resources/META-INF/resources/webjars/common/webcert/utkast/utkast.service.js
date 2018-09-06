@@ -54,6 +54,14 @@ angular.module('common').factory('common.UtkastService',
                 }, 10);
             }
 
+            function _updatePreviousIntygUtkast(personId) {
+                UtkastProxy.getPrevious(personId, function(existing) {
+                    CommonViewState.setPreviousIntygUtkast(existing.intyg, existing.utkast);
+                }, function() {
+
+                });
+            }
+
 
             /**
              * Load draft to webcert
@@ -294,6 +302,7 @@ angular.module('common').factory('common.UtkastService',
             // Return public API for the service
             return {
                 load: _load,
-                save: _save
+                save: _save,
+                updatePreviousIntygUtkast: _updatePreviousIntygUtkast
             };
         }]);
