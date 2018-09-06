@@ -162,7 +162,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             };
 
             $scope.disabledCopyBtn = function() {
-                if (CommonViewState.previousIntyg[CommonViewState.intyg.type] || CommonViewState.previousUtkast[CommonViewState.intyg.type]) {
+                if (angular.isFunction($scope.viewState.getLockedDraftAlert) && $scope.viewState.getLockedDraftAlert().length > 0) {
                     return true;
                 }
 

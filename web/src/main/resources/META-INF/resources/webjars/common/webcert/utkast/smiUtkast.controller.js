@@ -39,6 +39,7 @@ angular.module('common').controller('smi.EditCertCtrl',
             $scope.categoryIds = utkastConfigFactory.getCategoryIds();
 
             $scope.editEnabled = false;
+            $scope.lockedAlerts = [];
 
             /**************************************************************************
              * Load certificate and setup form / Constructor ...
@@ -60,9 +61,13 @@ angular.module('common').controller('smi.EditCertCtrl',
 
                 if (!viewState.draftModel.isLocked()) {
                     $scope.editEnabled = true;
+                } else {
+                    if (angular.isFunction(viewState.getLockedDraftAlert)) {
+                        UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
+                            $scope.lockedAlerts = viewState.getLockedDraftAlert();
+                        });
+                    }
                 }
-
-                UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId);
             });
 
             $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering) {

@@ -43,5 +43,60 @@ angular.module('db').service('db.EditCertCtrl.ViewStateService',
                 this.draftModel = undefined;
             };
 
+            this.getLockedDraftAlert = function() {
+                var intygsTyp = 'db';
+
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
+
+                if (previousUtkast && previousUtkast.sameVardgivare) {
+                    if (!previousUtkast.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousutkast-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
+                            params: {
+                                enhetName: previousUtkast.enhetName
+                            }
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousutkast-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previousdraft.samevg'
+                    }];
+                }
+
+                if (previousIntyg) {
+                    if (previousIntyg.sameVardgivare) {
+                        if (!previousIntyg.sameEnhet) {
+                            return [{
+                                severity: 'info',
+                                id: 'intyg-previousintyg-warning-' + intygsTyp,
+                                text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
+                                params: {
+                                    enhetName: previousIntyg.enhetName
+                                }
+                            }];
+                        }
+
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousintyg-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previouscertificate.samevg'
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousintyg-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previouscertificate.differentvg'
+                    }];
+                }
+
+                return [];
+            };
+
             this.reset();
         }]);

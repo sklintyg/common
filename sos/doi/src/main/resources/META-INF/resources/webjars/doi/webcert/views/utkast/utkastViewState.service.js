@@ -58,5 +58,52 @@ angular.module('doi').service('doi.EditCertCtrl.ViewStateService',
                 this.draftModel = undefined;
             };
 
+            this.getLockedDraftAlert = function() {
+                var intygsTyp = 'doi';
+
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
+
+                if (previousUtkast && previousUtkast.sameVardgivare) {
+                    if (!previousUtkast.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousutkast-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
+                            params: {
+                                enhetName: previousUtkast.enhetName
+                            }
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousutkast-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previousdraft.samevg'
+                    }];
+                }
+
+                if (previousIntyg && previousIntyg.sameVardgivare) {
+                    if (!previousIntyg.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousintyg-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
+                            params: {
+                                enhetName: previousIntyg.enhetName
+                            }
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousintyg-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previouscertificate.samevg'
+                    }];
+                }
+
+                return [];
+            };
+
             this.reset();
         }]);

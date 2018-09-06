@@ -25,6 +25,7 @@ angular.module('common').directive('dynamicLabel',
                 restrict: 'EA',
                 scope: {
                     'key': '@',
+                    'params': '<',
                     'fallbackValue': '@'
                 },
                 replace: true,
@@ -38,7 +39,7 @@ angular.module('common').directive('dynamicLabel',
                         if (!result) {
                             result = dynamicLabelService.getProperty(interpolatedKey);
                         } else {
-                            result = messageService.getProperty(angular.lowercase(interpolatedKey));
+                            result = messageService.getProperty(angular.lowercase(interpolatedKey), scope.params);
                         }
 
                         if (!result && scope.fallbackValue) {
