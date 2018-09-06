@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.utils;
+package se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.v1.utils;
 
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;

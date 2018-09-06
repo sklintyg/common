@@ -9,7 +9,7 @@ dependencies {
     compile "com.helger:ph-schematron:${phSchematronVersion}"
     compile "org.springframework:spring-tx:${springVersion}"
 
-    compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygCertificateSchemasVersion}"
+    compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schemas:${intygClinicalprocessSchemasVersion}"
     compile "se.skltp.adapterservices.insuranceprocess.healthreporting:FkEintygAdapterIC-validator:${fkEIntygAdapterVersion}"
     compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"
 
