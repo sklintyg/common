@@ -68,11 +68,18 @@ public class MarginTexts implements IEventHandler {
                 millimetersToPoints(PAGE_MARGIN_LEFT / 2),
                 millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
 
-        // Right margin, visas endast för signerat intyg
-        if (!printConfig.isUtkast() && !printConfig.isLockedUtkast()) {
+        // Right margin, visas endast för signerat intyg, ej heller på sista sidan om det är ett informationsblad.
+        if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && renderIntygsId(pdf, page)) {
             canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
                     pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
                     millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
         }
+    }
+
+    private boolean renderIntygsId(PdfDocument pdf, PdfPage page) {
+        if (printConfig.isHasSummaryPage()) {
+            return pdf.getPageNumber(page) != pdf.getNumberOfPages();
+        }
+        return true;
     }
 }

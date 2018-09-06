@@ -79,6 +79,7 @@ public class PdfGenerator {
                     .withIntygsKod(Af00213EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
+                    .withHasSummaryPage(true)
                     .withSummaryHeader(PDF_SUMMARY_HEADER)
                     .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
                     .withLeftMarginTypText(Af00213EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")

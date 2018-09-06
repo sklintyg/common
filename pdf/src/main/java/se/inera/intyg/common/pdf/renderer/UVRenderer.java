@@ -168,7 +168,9 @@ public class UVRenderer {
             document.add(rootDiv);
 
             // Final page.
-            renderSummaryPage(printConfig, document);
+            if (printConfig.isHasSummaryPage()) {
+                renderSummaryPage(printConfig, document);
+            }
 
             pageNumberEvent.writeTotal(pdf);
 

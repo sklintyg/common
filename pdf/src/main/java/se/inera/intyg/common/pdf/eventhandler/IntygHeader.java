@@ -103,7 +103,7 @@ public class IntygHeader implements IEventHandler {
         renderUtskriftsDatum(pageSize, canvas);
 
         // Personnummer, do not add to last page.
-        if (pdf.getPageNumber(page) != pdf.getNumberOfPages()) {
+        if (isNotSummaryPage(pdf, page)) {
             renderPersonnummer(pageSize, canvas);
         }
 
@@ -114,11 +114,18 @@ public class IntygHeader implements IEventHandler {
         renderHorizontalLine(pageSize, pdfCanvas);
 
         // Röda rutan. Do not render on last "info" page.
-        if (pdf.getPageNumber(page) != pdf.getNumberOfPages()) {
+        if (isNotSummaryPage(pdf, page)) {
             renderRedSquare(page, pageSize, canvas);
         }
 
         pdfCanvas.release();
+    }
+
+    private boolean isNotSummaryPage(PdfDocument pdf, PdfPage page) {
+        if (printConfig.isHasSummaryPage()) {
+            return pdf.getPageNumber(page) != pdf.getNumberOfPages();
+        }
+        return true;
     }
 
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {

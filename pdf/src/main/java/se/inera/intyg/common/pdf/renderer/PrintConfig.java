@@ -39,6 +39,7 @@ public class PrintConfig {
     private String intygsId;
     private String leftMarginTypText;
 
+    private boolean hasSummaryPage = false;
     private String summaryHeader;
     private String summaryText;
 
@@ -84,6 +85,10 @@ public class PrintConfig {
         return leftMarginTypText;
     }
 
+    public boolean isHasSummaryPage() {
+        return hasSummaryPage;
+    }
+
     public String getSummaryHeader() {
         return summaryHeader;
     }
@@ -108,6 +113,7 @@ public class PrintConfig {
         return applicationOrigin;
     }
 
+
     public static final class PrintConfigBuilder {
         private String intygJsonModel;
         private String upJsModel;
@@ -118,6 +124,7 @@ public class PrintConfig {
         private String infoText;
         private String intygsId;
         private String leftMarginTypText;
+        private boolean hasSummaryPage = false;
         private String summaryHeader;
         private String summaryText;
         private boolean isUtkast;
@@ -177,6 +184,11 @@ public class PrintConfig {
             return this;
         }
 
+        public PrintConfigBuilder withHasSummaryPage(boolean hasSummaryPage) {
+            this.hasSummaryPage = hasSummaryPage;
+            return this;
+        }
+
         public PrintConfigBuilder withSummaryHeader(String summaryHeader) {
             this.summaryHeader = summaryHeader;
             return this;
@@ -209,21 +221,22 @@ public class PrintConfig {
 
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
-            printConfig.utfardarLogotyp = this.utfardarLogotyp;
-            printConfig.summaryHeader = this.summaryHeader;
-            printConfig.intygJsonModel = this.intygJsonModel;
-            printConfig.upJsModel = this.upJsModel;
-            printConfig.personnummer = this.personnummer;
-            printConfig.intygsNamn = this.intygsNamn;
-            printConfig.applicationOrigin = this.applicationOrigin;
             printConfig.isUtkast = this.isUtkast;
-            printConfig.infoText = this.infoText;
-            printConfig.summaryText = this.summaryText;
-            printConfig.intygsId = this.intygsId;
+            printConfig.utfardarLogotyp = this.utfardarLogotyp;
+            printConfig.personnummer = this.personnummer;
             printConfig.leftMarginTypText = this.leftMarginTypText;
+            printConfig.intygJsonModel = this.intygJsonModel;
             printConfig.isMakulerad = this.isMakulerad;
-            printConfig.isLockedUtkast = this.isLockedUtkast;
+            printConfig.upJsModel = this.upJsModel;
+            printConfig.infoText = this.infoText;
             printConfig.intygsKod = this.intygsKod;
+            printConfig.summaryText = this.summaryText;
+            printConfig.summaryHeader = this.summaryHeader;
+            printConfig.applicationOrigin = this.applicationOrigin;
+            printConfig.intygsNamn = this.intygsNamn;
+            printConfig.intygsId = this.intygsId;
+            printConfig.hasSummaryPage = this.hasSummaryPage;
+            printConfig.isLockedUtkast = this.isLockedUtkast;
             return printConfig;
         }
     }
