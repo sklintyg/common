@@ -206,7 +206,15 @@ angular.module('common').factory('common.IntygCopyActions',
                 ersattDialogModel.intygTyp = intygErsattRequest.intygType;
                 ersattDialogModel.ersattningsUtkastFinns = !!viewState.common.intygProperties.latestChildRelations.replacedByUtkast;
 
-                var infoMessageKey = ersattDialogModel.intygTyp + '.modal.ersatt.text.info';
+                var ersattDialogText = 'intyg.modal.ersatt.utkast.finns.text';
+                var infoMessageKey = 'intyg.modal.ersatt.utkast.finns.text.info';
+
+                if (!ersattDialogModel.ersattningsUtkastFinns &&
+                    (ersattDialogModel.intygTyp === 'db' || ersattDialogModel.intygTyp === 'doi')) {
+                    ersattDialogText = ersattDialogModel.intygTyp + '.modal.ersatt.text';
+                    infoMessageKey = ersattDialogModel.intygTyp + '.modal.ersatt.text.info';
+                }
+
 
                 ersattDialogModel.infoMessage = undefined;
 
@@ -241,7 +249,7 @@ angular.module('common').factory('common.IntygCopyActions',
                         button1text: 'common.ersatt',
                         button2text: 'common.ersatt.resume',
                         button3text: 'common.ersatt.cancel',
-                        bodyText: ersattDialogModel.intygTyp + '.modal.ersatt.text',
+                        bodyText: ersattDialogText,
                         autoClose: false
                     });
 
