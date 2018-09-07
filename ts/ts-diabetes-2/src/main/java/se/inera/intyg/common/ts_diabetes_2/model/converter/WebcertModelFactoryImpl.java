@@ -37,8 +37,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Allmant;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande.Builder;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
@@ -75,7 +77,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetes2U
         //initialize otherwise empty utlatande
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvserKategori.class)));
         template.setAllmant(Allmant.builder().build());
-        template.setBedomning(Bedomning.builder().build());
+        template.setSynfunktion(Synfunktion.builder().build());
+        template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
 
 
         // Default to latest version available of intyg

@@ -34,10 +34,13 @@ import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
 
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetes2Utlatande> {
 
-    private static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygetAvserBehorighet";
+    private static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
+    private static final String CATEGORY_IDENTITET_STYRKT_GENOM = "'identitetStyrktGenom'";
     private static final String CATEGORY_ALLMANT = "allmant";
     private static final String CATEGORY_HYPOGLYKEMIER = "hypoglykemier";
+    private static final String CATEGORY_SYNFUNKTION = "synfunktion";
     private static final String CATEGORY_OVRIGT = "ovrigt";
+    private static final String CATEGORY_BEDOMNING = "bedomning";
 
     private static <T> boolean containsUnique(List<T> list) {
         Set<T> set = new HashSet<>();

@@ -77,15 +77,18 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
                         synfunktion: {
                             misstankeOgonsjukdom: undefined,
                             ogonbottenFotoSaknas: undefined,
-                            hoger: new ModelAttr('hoger', {
-                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
-                            }}),
-                            vanster: new ModelAttr('vanster', {
-                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
-                                }}),
-                            binokulart: new ModelAttr('binokulart', {
-                                defaultValue: { utanKorrektion: undefined, medKorrektion: undefined
-                                }})
+                            hoger: {
+                                utanKorrektion: undefined,
+                                medKorrektion: undefined
+                            },
+                            vanster: {
+                                 utanKorrektion: undefined,
+                                medKorrektion: undefined
+                                },
+                            binokulart: {
+                                utanKorrektion: undefined,
+                                medKorrektion: undefined
+                                }
                         },
                         // Kategori 6
                         ovrigt: undefined,
