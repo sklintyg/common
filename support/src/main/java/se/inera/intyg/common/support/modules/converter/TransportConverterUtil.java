@@ -60,7 +60,6 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.time.Year;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Comparator;

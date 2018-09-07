@@ -51,7 +51,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     public ValidateDraftResponse validateDraft(TsDiabetes2Utlatande utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        // TODO: Only handles ovrigt category for now
         // Kategori 6 – Övrigt
         validateBlanksForOptionalFields(utlatande, validationMessages);
 

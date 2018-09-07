@@ -22,7 +22,8 @@ package se.inera.intyg.common.ts_diabetes_2.model.internal;
  * This is a subset (IAV1-IAV9, IAV11-IAV17) of "Kv intyget avser"
  * {@link se.inera.intyg.common.ts_parent.codes.IntygAvserKod}.
  * The subset is in specified in
- * https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/459374755/Informationsspecifikation+TS+Diabetes+-+nytt+intygsformat+ppen+info
+ * https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/459374755/
+ * Informationsspecifikation+TS+Diabetes+-+nytt+intygsformat+ppen+info
  */
 public enum IntygAvserKategori {
     AM,
