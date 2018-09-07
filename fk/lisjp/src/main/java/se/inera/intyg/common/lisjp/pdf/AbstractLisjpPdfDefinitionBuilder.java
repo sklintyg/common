@@ -95,8 +95,8 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
     private static final float CHECKBOXROW_DEFAULT_HEIGHT = 9f;
     private static final float CHECKBOX_DEFAULT_WIDTH = 60f;
 
-    abstract void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses,
-            ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
+    abstract void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, boolean isLockedUtkast,
+                            List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException;
 
     public FkPdfDefinition buildPdfDefinition(LisjpUtlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
             IntygTexts intygTexts, UtkastStatus utkastStatus)
@@ -125,7 +125,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarintyg", "för sjukpenning"));
 
-            fillIntyg(def, intyg, isUtkast, statuses, applicationOrigin);
+            fillIntyg(def, intyg, isUtkast, isLockedUtkast, statuses, applicationOrigin);
 
             // Always add the overflow page last, as it will scan the model for overflowing content and must therefore
             // also be renderad last.

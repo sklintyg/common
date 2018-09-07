@@ -47,8 +47,8 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     }
 
     @Override
-    void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses,
-            ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+    void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, boolean isLockedUtkast,
+                   List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
         pdfDefinition.addChild(createPage1(intyg, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));

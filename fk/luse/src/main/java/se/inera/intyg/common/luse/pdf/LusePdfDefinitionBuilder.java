@@ -114,7 +114,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addPageEvent(new FkLogoEventHandler(5, 99));
             def.addPageEvent(new FkDynamicPageDecoratorEventHandler(5, def.getPageMargins(), "Läkarutlåtande", "för sjukersättning"));
 
-            def.addChild(createPage1(intyg, isUtkast, statuses, applicationOrigin));
+            def.addChild(createPage1(intyg, isUtkast, isLocked, statuses, applicationOrigin));
             def.addChild(createPage2(intyg));
             def.addChild(createPage3(intyg));
             def.addChild(createPage4(intyg));
@@ -135,7 +135,8 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     }
 
-    private FkPage createPage1(LuseUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    private FkPage createPage1(LuseUtlatande intyg, boolean isUtkast, boolean isLocked, List<Status> statuses,
+                               ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
@@ -146,7 +147,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         } else {
             showFkAddress = !isSentToFk(statuses);
         }
-        addPage1MiscFields(intyg, isUtkast, showFkAddress, allElements);
+        addPage1MiscFields(intyg, isUtkast, isLocked, showFkAddress, allElements);
 
         // START KATEGORI 1. (Utlåtandet är baserat på....)
         FkFieldGroup fraga1 = new FkFieldGroup("1. " + getText("FRG_1.RBK"))
@@ -295,10 +296,11 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         return thisPage;
     }
 
-    private void addPage1MiscFields(LuseUtlatande intyg, boolean isUtkast, boolean showFkAddress, List<PdfComponent> allElements)
+    private void addPage1MiscFields(LuseUtlatande intyg, boolean isUtkast, boolean isLocked, boolean showFkAddress,
+                                    List<PdfComponent> allElements)
             throws IOException {
         // Meta information text(s) etc.
-        if (!isUtkast) {
+        if (!isUtkast && !isLocked) {
             FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
                     .offset(20f, 60f)
                     .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)

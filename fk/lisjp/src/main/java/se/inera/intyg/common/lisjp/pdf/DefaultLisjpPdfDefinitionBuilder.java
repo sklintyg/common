@@ -38,10 +38,10 @@ import java.util.List;
 public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
 
     @Override
-    void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses,
-            ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+    void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatande intyg, boolean isUtkast, boolean isLockedUtkast,
+                   List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
 
-        pdfDefinition.addChild(createPage1(intyg, isUtkast, statuses, applicationOrigin));
+        pdfDefinition.addChild(createPage1(intyg, isUtkast, isLockedUtkast, statuses, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
         pdfDefinition.addChild(createPage4(intyg));
@@ -54,7 +54,8 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
         }
     }
 
-    private FkPage createPage1(LisjpUtlatande intyg, boolean isUtkast, List<Status> statuses, ApplicationOrigin applicationOrigin)
+    private FkPage createPage1(LisjpUtlatande intyg, boolean isUtkast, boolean isLockedUtkast, List<Status> statuses,
+                               ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
         List<PdfComponent> allElements = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
             showFkAddress = !isSentToFk(statuses);
         }
 
-        if (!isUtkast) {
+        if (!isUtkast && !isLockedUtkast) {
             printElectronicCopy(allElements);
         }
 
