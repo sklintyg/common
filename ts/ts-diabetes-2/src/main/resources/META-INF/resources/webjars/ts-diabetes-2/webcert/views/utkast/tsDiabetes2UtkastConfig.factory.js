@@ -22,24 +22,59 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
         function ($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates) {
             'use strict';
 
+            function _hasAnyOfIntygAvserBehorighet(model, targetKategorier) {
+                var valueArray = model.intygAvser.kategorier || [];
 
-            function R1(scope) {
-                var valueArray = ObjectHelper.deepGet(scope, 'model.intygAvser.kategorier') || [];
-                var targetTypes = ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI'];
                 for (var i = 0; i < valueArray.length; i++) {
-                    for (var j = 0; j < targetTypes.length; j++) {
-                        if (valueArray[i].type === targetTypes[j] && valueArray[i].selected) {
+                    for (var j = 0; j < targetKategorier.length; j++) {
+                        if (valueArray[i].type === targetKategorier[j] && valueArray[i].selected) {
                             return true;
                         }
                     }
                 }
-                //None of targetTypes selected
+                //None of targetKategorier selected in intygAvser
                 return false;
+
             }
 
+            function R1(scope) {
+                return _hasAnyOfIntygAvserBehorighet(scope.model, ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI']);
+            }
+
+            /**
+             * @return {boolean}
+             */
             function R11(scope) {
-                return (ObjectHelper.deepGet(scope, 'model.synfunktion.ogonbottenFotoSaknas') === true) ||
-                    (ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true);
+                return ObjectHelper.deepGet(scope, 'model.synfunktion.ogonbottenFotoSaknas') === true ||
+                    ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
+            }
+
+            function _synvarde(model, synProperty, elseValue) {
+                return ObjectHelper.getFloatOr(ObjectHelper.deepGet(model, synProperty), elseValue);
+            }
+
+            function R13(model) {
+                var binokulartUtanKorr = _synvarde(model, 'synfunktion.binokulart.utanKorrektion', 99);
+                return (binokulartUtanKorr < 0.5) && _hasAnyOfIntygAvserBehorighet(model, ['AM', 'A1', 'A2', 'A', 'B', 'BE', 'TRAKTOR']);
+            }
+
+            function R14(model) {
+                var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
+                var vansterUtanKorr =_synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
+                return (hogerUtanKorr < 0.8 && vansterUtanKorr < 0.8) && _hasAnyOfIntygAvserBehorighet(model, ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI']);
+            }
+            function R15(model) {
+                var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
+                var vansterUtanKorr = _synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
+                return (hogerUtanKorr < 0.1 || vansterUtanKorr < 0.1) && _hasAnyOfIntygAvserBehorighet(model, ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI']);
+            }
+
+
+            function medKorrigeringRequired(model) {
+                var answeredAll = (_synvarde(model, 'synfunktion.hoger.medKorrektion', -1) > -1) &&
+                                    (_synvarde(model, 'synfunktion.vanster.medKorrektion', -1) > -1) &&
+                                    (_synvarde(model, 'synfunktion.binokulart.medKorrektion', -1) > -1);
+                return !answeredAll && (R13(model) || R14(model) || R15(model));
             }
 
             function R6_OR_R17(model) {
@@ -375,12 +410,18 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                                         helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
                                         required: true,
                                         requiredMode: 'AND',
-                                        requiredProp: ['synfunktion.hoger.utanKorrektion', 'synfunktion.vanster.utanKorrektion',
+                                        requiredProp: [
+                                            'synfunktion.hoger.utanKorrektion',
+                                            'synfunktion.vanster.utanKorrektion',
                                             'synfunktion.binokulart.utanKorrektion']
                                     }, {
                                         type: 'ue-form-label',
                                         key: 'ts-diabetes.label.syn.medkorrektion',
-                                        helpKey: 'ts-diabetes.helptext.synfunktioner.med-korrektion'
+                                        helpKey: 'ts-diabetes.helptext.synfunktioner.med-korrektion',
+                                        required: true,
+                                        requiredProp: function(model) {
+                                            return medKorrigeringRequired(model);
+                                        }
                                     }],
                                     // Row 2
                                     [{
