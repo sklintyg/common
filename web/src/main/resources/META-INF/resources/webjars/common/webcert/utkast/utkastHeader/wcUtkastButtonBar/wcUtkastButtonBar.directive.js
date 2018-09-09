@@ -198,6 +198,10 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                     bodytext = 'common.modal.copy.body_go';
                 }
 
+                if (angular.isFunction($scope.viewState.getCopyDraftAlert)) {
+                    dialogModel.infoMessage = $scope.viewState.getCopyDraftAlert();
+                }
+
                 dialogService.showDialog({
                     dialogId: 'confirm-draft-copy',
                     titleId: 'common.modal.copy.title',

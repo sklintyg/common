@@ -43,6 +43,18 @@ angular.module('db').service('db.EditCertCtrl.ViewStateService',
                 this.draftModel = undefined;
             };
 
+            this.getCopyDraftAlert = function() {
+                var intygsTyp = 'db';
+
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
+
+                if (previousUtkast && !previousUtkast.sameVardgivare) {
+                    return intygsTyp + '.warn.previousdraft.differentvg';
+                }
+
+                return null;
+            };
+
             this.getLockedDraftAlert = function() {
                 var intygsTyp = 'db';
 

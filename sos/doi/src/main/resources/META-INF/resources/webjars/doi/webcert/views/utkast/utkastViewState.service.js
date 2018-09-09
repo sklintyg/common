@@ -58,6 +58,23 @@ angular.module('doi').service('doi.EditCertCtrl.ViewStateService',
                 this.draftModel = undefined;
             };
 
+            this.getCopyDraftAlert = function() {
+                var intygsTyp = 'doi';
+
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
+
+                if (previousUtkast && !previousUtkast.sameVardgivare) {
+                    return intygsTyp + '.warn.previousdraft.differentvg';
+                }
+
+                if (previousIntyg && !previousIntyg.sameVardgivare) {
+                    return intygsTyp + '.warn.previouscertificate.differentvg';
+                }
+
+                return null;
+            };
+
             this.getLockedDraftAlert = function() {
                 var intygsTyp = 'doi';
 
