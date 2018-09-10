@@ -91,7 +91,7 @@ public class InternalToTransportTest {
     @Test
     @Ignore("Disabled until schematron is complete") // TODO
     public void doSchematronValidationTsDiabetes2() throws Exception {
-        String xmlContents = Resources.toString(getResource("transport/ts-diabetes-2.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("transport/scenarios/ts-diabetes-2-pass-complete.xml"), Charsets.UTF_8);
 
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));

@@ -34,7 +34,6 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@Ignore
 public class SchematronValidatorTest {
 
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsDiabetes2EntryPoint.SCHEMATRON_FILE);
@@ -53,7 +52,7 @@ public class SchematronValidatorTest {
 
     @Test
     public void validXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("transport/ts-diabetes-2.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("transport/scenarios/ts-diabetes-2-pass-complete.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(response.getValidationErrors().stream().collect(Collectors.joining("\n")), response.getValidationErrors().isEmpty());
     }
