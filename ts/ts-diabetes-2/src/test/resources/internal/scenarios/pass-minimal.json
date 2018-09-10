@@ -38,23 +38,33 @@
   "intygAvser": {
     "kategorier": [
       {
-        "type": "C",
+        "type": "A",
         "selected": true
       }
     ]
   },
-  "identitetStyrktGenom": {
-    "typ": "ID_KORT"
+  "identitetStyrktGenom":{
+    "typ":"PASS"
   },
-  "allmant": {
-    "diabetesDiagnosAr": "2000",
-    "typAvDiabetes": "DIABETES_TYP_1",
-    "behandling": {
-      "endastKost": true
+  "allmant":{
+    "diabetesDiagnosAr":"1990",
+    "typAvDiabetes":"DIABETES_TYP_1",
+    "behandling":{
+      "endastKost":true
     }
   },
-  "hypoglykemier":{},
-  "synfunktion":{},
-  "ovrigt":"Övrigt",
-  "bedomning":{}
+  "hypoglykemier":{
+  },
+  "synfunktion":{
+    "misstankeOgonsjukdom":false,
+    "ogonbottenFotoSaknas":true
+  },
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
+      {
+        "type":"KANINTETASTALLNING",
+        "selected":true
+      }
+    ]
+  }
 }

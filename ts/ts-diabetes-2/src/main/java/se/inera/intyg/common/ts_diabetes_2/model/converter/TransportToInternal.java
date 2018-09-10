@@ -71,6 +71,7 @@ import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.OVRIGT_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID;
+import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SVAR_ID;
 import static se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID;
@@ -123,134 +124,79 @@ public final class TransportToInternal {
 
     private static void setSvar(TsDiabetes2Utlatande.Builder utlatande, Intyg source) throws ConverterException {
 
+        Set<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
         Allmant.Builder allmant = Allmant.builder();
         Bedomning.Builder bedomning = Bedomning.builder();
+        Set<BedomningKorkortstyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
         Hypoglykemier.Builder hypoglykemier = Hypoglykemier.builder();
         Synfunktion.Builder synfunktion = Synfunktion.builder();
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
             case INTYGETAVSER_SVAR_ID:
-                handleIntygAvser(utlatande, svar);
+                handleIntygAvser(intygAvserSet, svar);
                 break;
             case IDENTITET_STYRKT_GENOM_SVAR_ID:
                 handleIdentitetStyrkt(utlatande, svar);
                 break;
             case ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID:
-                if (allmant == null) {
-                    allmant = Allmant.builder();
-                }
                 handleAllmantDiabetesDiagnosAr(allmant, svar);
                 break;
             case ALLMANT_TYP_AV_DIABETES_SVAR_ID:
-                if (allmant == null) {
-                    allmant = Allmant.builder();
-                }
                 handleAllmantTypAvDiabetes(allmant, svar);
                 break;
             case ALLMANT_BEHANDLING_SVAR_ID:
-                if (allmant == null) {
-                    allmant = Allmant.builder();
-                }
                 handleAllmantBehandling(allmant, svar);
                 break;
             case HYPOGLYKEMIER_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemier(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierNedsattHjarnfunktion(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierForstarRisker(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierFortrogenMedSymptom(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierSaknarFormagaVarningstecken(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierKunskapLampligaAtgarder(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierEgenkontrollBlodsocker(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierAterkommandeSenasteAret(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierAterkommandeSenasteKvartalet(hypoglykemier, svar);
                 break;
             case HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID:
-                if (hypoglykemier == null) {
-                    hypoglykemier = Hypoglykemier.builder();
-                }
                 handleHypoglykemierForekomstSenasteTrafik(hypoglykemier, svar);
                 break;
             case SYNFUNKTION_SVAR_ID:
-                if (synfunktion == null) {
-                    synfunktion = Synfunktion.builder();
-                }
                 handleSynfunktion(synfunktion, svar);
                 break;
             case SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID:
-                if (synfunktion == null) {
-                    synfunktion = Synfunktion.builder();
-                }
                 handleSynfunktionOgonbottenfotoSaknas(synfunktion, svar);
                 break;
             case SYNFUNKTION_SYNSKARPA_SVAR_ID:
-                if (synfunktion == null) {
-                    synfunktion = Synfunktion.builder();
-                }
                 handleSynfunktionSynskarpa(synfunktion, svar);
                 break;
             case OVRIGT_SVAR_ID:
                 handleOvrigt(utlatande, svar);
                 break;
             case BEDOMNING_SVAR_ID:
-                if (bedomning == null) {
-                    bedomning = Bedomning.builder();
-                }
-                handleBedomning(bedomning, svar);
+                handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
                 break;
             case BEDOMNING_LAMPLIGHET_SVAR_ID:
-                if (bedomning == null) {
-                    bedomning = Bedomning.builder();
-                }
                 handleBedomningLamplighet(bedomning, svar);
                 break;
             case BEDOMNING_BOR_UNDERSOKAS_SVAR_ID:
-                if (bedomning == null) {
-                    bedomning = Bedomning.builder();
-                }
                 handleBedomningBorUndersokas(bedomning, svar);
                 break;
             default:
@@ -258,22 +204,19 @@ public final class TransportToInternal {
             }
         }
 
-//        if (allmant != null) {
-            utlatande.setAllmant(allmant.build());
-/*        }
-        if (bedomning != null) {*/
-            utlatande.setBedomning(bedomning.build());
-/*        }
-        if (hypoglykemier != null) {*/
-            utlatande.setHypoglykemier(hypoglykemier.build());
-/*        }
-        if (synfunktion != null) {*/
-            utlatande.setSynfunktion(synfunktion.build());
-/*        }*/
+        if (!intygAvserSet.isEmpty()) {
+            utlatande.setIntygAvser(IntygAvser.create(intygAvserSet));
+        }
+        utlatande.setAllmant(allmant.build());
+        if (!bedomningUppfyllerBehorighetskrav.isEmpty()) {
+            bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
+        }
+        utlatande.setBedomning(bedomning.build());
+        utlatande.setHypoglykemier(hypoglykemier.build());
+        utlatande.setSynfunktion(synfunktion.build());
     }
 
-    private static void handleIntygAvser(TsDiabetes2Utlatande.Builder utlatande, Svar svar) throws ConverterException {
-        Set<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
+    private static void handleIntygAvser(Set<IntygAvserKategori> intygAvserSet, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYGETAVSER_DELSVAR_ID:
@@ -283,7 +226,6 @@ public final class TransportToInternal {
                     throw new IllegalArgumentException();
             }
         }
-        utlatande.setIntygAvser(IntygAvser.create(intygAvserSet));
     }
 
     private static void handleIdentitetStyrkt(TsDiabetes2Utlatande.Builder utlatande, Svar svar) throws ConverterException {
@@ -317,6 +259,7 @@ public final class TransportToInternal {
                     allmant.setTypAvDiabetes(KvTypAvDiabetes.fromCode(getCVSvarContent(delsvar).getCode()));
                     break;
                 case ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID:
+                    allmant.setTypAvDiabetes(KvTypAvDiabetes.DIABETES_TYP_ANNAN);
                     allmant.setBeskrivningAnnanTypAvDiabetes(getStringContent(delsvar));
                     break;
                 default:
@@ -501,7 +444,7 @@ public final class TransportToInternal {
     private static void handleSynfunktionOgonbottenfotoSaknas(Synfunktion.Builder synfunktion, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID:
+                case SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID:
                     synfunktion.setOgonbottenFotoSaknas(getBooleanContent(delsvar));
                     break;
                 default:
@@ -554,19 +497,17 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBedomning(Bedomning.Builder bedomning, Svar svar) throws ConverterException {
-        Set<BedomningKorkortstyp> uppfyllerBehorighetskrav = EnumSet.noneOf(BedomningKorkortstyp.class);
+    private static void handleBedomning(Set<BedomningKorkortstyp> bedomningUppfyllerBehorighetskrav, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID:
-                    uppfyllerBehorighetskrav.add(BedomningKorkortstyp.valueOf(KorkortsbehorighetKod.fromCode(
+                    bedomningUppfyllerBehorighetskrav.add(BedomningKorkortstyp.valueOf(KorkortsbehorighetKod.fromCode(
                             getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
             }
         }
-        bedomning.setUppfyllerBehorighetskrav(uppfyllerBehorighetskrav);
     }
 
     private static void handleBedomningLamplighet(Bedomning.Builder bedomning, Svar svar) {

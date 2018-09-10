@@ -104,6 +104,7 @@ import se.inera.intyg.common.ts_diabetes_2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
+import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 import se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
@@ -205,8 +206,11 @@ public final class UtlatandeToIntyg {
             // Here we rely on withDelsvar not adding a delsvar if content is null
             svars.add(aSvar(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
                     .withDelsvar(ALLMANT_TYP_AV_DIABETES_DELSVAR_ID,
-                            allmant.getTypAvDiabetes() != null ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(),
-                                    allmant.getTypAvDiabetes().getCode(), allmant.getTypAvDiabetes().getDescription()) : null)
+                            // https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/652083265/Utformning+TS-diabetes+-+version+2
+                            // "Svar annan leder inte till något svar utan bara till att 18.2 bli obligatorisk att fylla i."
+                            allmant.getTypAvDiabetes() != null && allmant.getTypAvDiabetes() != KvTypAvDiabetes.DIABETES_TYP_ANNAN
+                                    ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), allmant.getTypAvDiabetes().getCode(),
+                                    allmant.getTypAvDiabetes().getDescription()) : null)
                     .withDelsvar(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
                             allmant.getBeskrivningAnnanTypAvDiabetes())
                     .build());

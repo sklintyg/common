@@ -131,7 +131,7 @@ public final class RespConstants {
     //Kat 7 - Bedömning
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_JSON_ID = "bedomning";
-    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "32.1";
+    public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID = "uppfyllerBehorighetskrav";
     public static final String BEDOMNING_LAMPLIGHET_SVAR_ID = "45";
     public static final String BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID = "45.1";

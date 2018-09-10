@@ -46,7 +46,7 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertTrue;
-@Ignore("Disabled until Utlatandemodel is complete")
+
 @RunWith(Parameterized.class)
 public class RoundTripTest {
 
@@ -82,9 +82,6 @@ public class RoundTripTest {
         StringWriter actual = new StringWriter();
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
-
-System.out.println(expected.toString());
-System.out.println(actual.toString());
 
         XMLUnit.setIgnoreWhitespace(true);
         XMLUnit.setIgnoreAttributeOrder(true);

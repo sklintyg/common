@@ -32,7 +32,7 @@ public enum KorkortsbehorighetKod {
     DE("VAR8", "DE"),
     TAXI("VAR9", "Taxi"),
     ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)"),
-    KANINTETEASTALLNING("VAR11", "Kan inte ta ställning"),
+    KANINTETASTALLNING("VAR11", "Kan inte ta ställning"),
     AM("VAR12", "AM"),
     A1("VAR13", "A1"),
     A2("VAR14", "A2"),
