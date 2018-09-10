@@ -280,11 +280,11 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                         components: [
                             {
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.aterkommandeSenasteKvartalet'
+                                modelProp: 'hypoglykemier.forekomstTrafik'
                             },
                             {
                                 type: 'uv-del-fraga',
-                                labelKey: 'DFR_107.2.RBK',
+                                labelKey: 'DFR_108.2.RBK',
                                 components: [{
                                     type: 'uv-simple-value',
                                     modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
@@ -298,30 +298,30 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
         },
         {
             type: 'uv-kategori',
-            labelKey: 'KAT_3.RBK',
+            labelKey: 'KAT_5.RBK',
             components: [
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_43.RBK',
+                    labelKey: 'FRG_103.RBK',
                     components: [{
                         type: 'uv-del-fraga',
                         components: [
                             {
                                 type: 'uv-boolean-value',
-                                modelProp: 'syn.separatOgonlakarintyg'
+                                modelProp: 'synfunktion.misstankeOgonsjukdom'
                             }
                         ]
                     }]
                 },
                 {
                     type: 'uv-fraga',
-                    labelKey: 'FRG_44.RBK',
+                    labelKey: 'FRG_104.RBK',
                     components: [{
                         type: 'uv-del-fraga',
                         components: [
                             {
                                 type: 'uv-boolean-value',
-                                modelProp: 'syn.synfaltsprovningUtanAnmarkning'
+                                modelProp: 'synfunktion.ogonbottenFotoSaknas'
                             }
                         ]
                     }]
@@ -335,7 +335,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                             components: [{
                                 type: 'uv-table',
                                 contentUrl: 'ts',
-                                modelProp: 'syn',
+                                modelProp: 'synfunktion',
                                 headers: ['', 'ts-diabetes.label.syn.utankorrektion',
                                     'ts-diabetes.label.syn.medkorrektion'],
                                 colProps: ['hoger', 'vanster', 'binokulart'],
@@ -345,9 +345,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                         var message = 'ts-diabetes.label.syn.';
                                         switch (rowIndex){
                                             case 0:
-                                                message += 'hogeroga'; break;
+                                                message += 'hoger'; break;
                                             case 1:
-                                                message += 'vansteroga'; break;
+                                                message += 'vanster'; break;
                                             case 2:
                                                 message += 'binokulart'; break;
                                         }
@@ -363,23 +363,27 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                             }]
                         }
                     ]
-                },
-                {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_6.RBK',
-                    components: [{
-                        type: 'uv-del-fraga',
-                        components: [{
-                            type: 'uv-boolean-value',
-                            modelProp: 'syn.diplopi'
-                        }]
-                    }]
                 }
             ]
         },
         {
             type: 'uv-kategori',
-            labelKey: 'KAT_4.RBK',
+            labelKey: 'KAT_6.RBK',
+            components: [
+                {
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_32.RBK',
+                    components: [
+                        {
+                            type: 'uv-simple-value',
+                            modelProp: 'ovrigt'
+                        }
+                    ]
+                }]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'KAT_7.RBK',
             components: [
                 {
                     type: 'uv-fraga',
