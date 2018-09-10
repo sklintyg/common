@@ -392,8 +392,12 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                             }
                         ]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {
-                            required: true,
-                            requiredProp: ['synfunktion.misstankeOgonsjukdom', 'synfunktion.ogonbottenFotoSaknas']}, [
+                                required: true,
+                                requiredMode: 'AND',
+                                requiredProp: [
+                                    'synfunktion.hoger.utanKorrektion',
+                                    'synfunktion.vanster.utanKorrektion',
+                                    'synfunktion.binokulart.utanKorrektion']}, [
                             {
                                 type: 'ue-alert',
                                 alertType: 'warning',
