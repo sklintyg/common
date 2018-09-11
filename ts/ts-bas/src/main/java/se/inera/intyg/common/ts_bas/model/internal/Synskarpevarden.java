@@ -18,39 +18,49 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+
+import javax.annotation.Nullable;
+
 /**
  * Class encapsulating the values for synskarpa for a single eye.
  *
  * @author erik
  *
  */
-public class Synskarpevarden {
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
+public abstract class Synskarpevarden {
 
-    private Double utanKorrektion;
-    private Double medKorrektion;
-    private Boolean kontaktlins;
+    public abstract Builder toBuilder();
 
-    public Double getUtanKorrektion() {
-        return utanKorrektion;
+    public static Builder builder() {
+        return new AutoValue_Synskarpevarden.Builder();
     }
 
-    public void setUtanKorrektion(Double utanKorrektion) {
-        this.utanKorrektion = utanKorrektion;
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Synskarpevarden build();
+
+        @JsonProperty("utanKorrektion")
+        public abstract Builder setUtanKorrektion(Double utanKorrektion);
+
+        @JsonProperty("medKorrektion")
+        public abstract Builder setMedKorrektion(Double medKorrektion);
+
+        @JsonProperty("kontaktlins")
+        public abstract Builder setKontaktlins(Boolean kontaktlins);
     }
 
-    public Double getMedKorrektion() {
-        return medKorrektion;
-    }
+    @Nullable
+    public abstract Double getUtanKorrektion();
 
-    public void setMedKorrektion(Double medKorrektion) {
-        this.medKorrektion = medKorrektion;
-    }
+    @Nullable
+    public abstract Double getMedKorrektion();
 
-    public Boolean getKontaktlins() {
-        return kontaktlins;
-    }
+    @Nullable
+    public abstract Boolean getKontaktlins();
 
-    public void setKontaktlins(Boolean kontaktlins) {
-        this.kontaktlins = kontaktlins;
-    }
 }

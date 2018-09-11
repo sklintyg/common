@@ -18,123 +18,79 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Syn {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean synfaltsdefekter;
+import javax.annotation.Nullable;
 
-    private Boolean nattblindhet;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Syn.Builder.class)
+public abstract class Syn {
 
-    private Boolean progressivOgonsjukdom;
+    @Nullable
+    public abstract Boolean getSynfaltsdefekter();
 
-    private Boolean diplopi;
+    @Nullable
+    public abstract Boolean getNattblindhet();
 
-    private Boolean nystagmus;
+    @Nullable
+    public abstract Boolean getProgressivOgonsjukdom();
 
-    private Synskarpevarden hogerOga;
+    @Nullable
+    public abstract Boolean getDiplopi();
 
-    private Synskarpevarden vansterOga;
+    @Nullable
+    public abstract Boolean getNystagmus();
 
-    private Synskarpevarden binokulart;
+    @Nullable
+    public abstract Boolean getKorrektionsglasensStyrka();
 
-    private Boolean korrektionsglasensStyrka;
+    @Nullable
+    public abstract Synskarpevarden getHogerOga();
 
-    public Boolean getSynfaltsdefekter() {
-        return synfaltsdefekter;
+    @Nullable
+    public abstract Synskarpevarden getVansterOga();
+
+    @Nullable
+    public abstract Synskarpevarden getBinokulart();
+
+    public abstract Builder toBuilder();
+
+    public static Builder builder() {
+        return new AutoValue_Syn.Builder();
     }
 
-    public void setSynfaltsdefekter(Boolean synfaltsdefekter) {
-        this.synfaltsdefekter = synfaltsdefekter;
-    }
+    @AutoValue.Builder
+    public abstract static class Builder {
 
-    public Boolean getNattblindhet() {
-        return nattblindhet;
-    }
+        public abstract Syn build();
 
-    public void setNattblindhet(Boolean nattblindhet) {
-        this.nattblindhet = nattblindhet;
-    }
+        @JsonProperty("hogerOga")
+        public abstract Builder setHogerOga(Synskarpevarden hogerOga);
 
-    public Boolean getProgressivOgonsjukdom() {
-        return progressivOgonsjukdom;
-    }
+        @JsonProperty("vansterOga")
+        public abstract Builder setVansterOga(Synskarpevarden vansterOga);
 
-    public void setProgressivOgonsjukdom(Boolean progressivOgonsjukdom) {
-        this.progressivOgonsjukdom = progressivOgonsjukdom;
-    }
+        @JsonProperty("binokulart")
+        public abstract Builder setBinokulart(Synskarpevarden binokulart);
 
-    public Boolean getDiplopi() {
-        return diplopi;
-    }
+        @JsonProperty("synfaltsdefekter")
+        public abstract Builder setSynfaltsdefekter(Boolean synfaltsdefekter);
 
-    public void setDiplopi(Boolean diplopi) {
-        this.diplopi = diplopi;
-    }
+        @JsonProperty("nattblindhet")
+        public abstract Builder setNattblindhet(Boolean nattblindhet);
 
-    public Boolean getNystagmus() {
-        return nystagmus;
-    }
+        @JsonProperty("progressivOgonsjukdom")
+        public abstract Builder setProgressivOgonsjukdom(Boolean progressivOgonsjukdom);
 
-    public void setNystagmus(Boolean nystagmus) {
-        this.nystagmus = nystagmus;
-    }
+        @JsonProperty("diplopi")
+        public abstract Builder setDiplopi(Boolean diplopi);
 
-    public void setSynskarpaHoger(Double utanKorr, Double medKorr, Boolean kontaktlins) {
-        if (hogerOga == null) {
-            hogerOga = new Synskarpevarden();
-        }
-        hogerOga.setUtanKorrektion(utanKorr);
-        hogerOga.setMedKorrektion(medKorr);
-        hogerOga.setKontaktlins(kontaktlins);
-    }
+        @JsonProperty("nystagmus")
+        public abstract Builder setNystagmus(Boolean nystagmus);
 
-    public void setSynskarpaVanster(Double utanKorr, Double medKorr, Boolean kontaktlins) {
-        if (vansterOga == null) {
-            vansterOga = new Synskarpevarden();
-        }
-        vansterOga.setUtanKorrektion(utanKorr);
-        vansterOga.setMedKorrektion(medKorr);
-        vansterOga.setKontaktlins(kontaktlins);
+        @JsonProperty("korrektionsglasensStyrka")
+        public abstract Builder setKorrektionsglasensStyrka(Boolean korrektionsglasensStyrka);
     }
-
-    public void setSynskarpaBinokulart(Double utanKorr, Double medKorr) {
-        if (binokulart == null) {
-            binokulart = new Synskarpevarden();
-        }
-        binokulart.setUtanKorrektion(utanKorr);
-        binokulart.setMedKorrektion(medKorr);
-        binokulart.setKontaktlins(null);
-    }
-
-    public Boolean getKorrektionsglasensStyrka() {
-        return korrektionsglasensStyrka;
-    }
-
-    public void setKorrektionsglasensStyrka(Boolean korrektionsglasensStyrka) {
-        this.korrektionsglasensStyrka = korrektionsglasensStyrka;
-    }
-
-    public Synskarpevarden getHogerOga() {
-        return hogerOga;
-    }
-
-    public void setHogerOga(Synskarpevarden hogerOga) {
-        this.hogerOga = hogerOga;
-    }
-
-    public Synskarpevarden getVansterOga() {
-        return vansterOga;
-    }
-
-    public void setVansterOga(Synskarpevarden vansterOga) {
-        this.vansterOga = vansterOga;
-    }
-
-    public Synskarpevarden getBinokulart() {
-        return binokulart;
-    }
-
-    public void setBinokulart(Synskarpevarden binokulart) {
-        this.binokulart = binokulart;
-    }
-
 }

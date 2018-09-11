@@ -18,57 +18,56 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class NarkotikaLakemedel {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean teckenMissbruk;
+import javax.annotation.Nullable;
 
-    private Boolean foremalForVardinsats;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_NarkotikaLakemedel.Builder.class)
+public abstract class NarkotikaLakemedel {
 
-    private Boolean provtagningBehovs;
-
-    private Boolean lakarordineratLakemedelsbruk;
-
-    private String lakemedelOchDos;
-
-    public Boolean getTeckenMissbruk() {
-        return teckenMissbruk;
+    public static Builder builder() {
+        return new AutoValue_NarkotikaLakemedel.Builder();
     }
 
-    public void setTeckenMissbruk(Boolean teckenMissbruk) {
-        this.teckenMissbruk = teckenMissbruk;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract NarkotikaLakemedel build();
+
+        @JsonProperty("teckenMissbruk")
+        public abstract Builder setTeckenMissbruk(Boolean teckenMissbruk);
+
+        @JsonProperty("foremalForVardinsats")
+        public abstract Builder setForemalForVardinsats(Boolean foremalForVardinsats);
+
+        @JsonProperty("provtagningBehovs")
+        public abstract Builder setProvtagningBehovs(Boolean provtagningBehovs);
+
+        @JsonProperty("lakarordineratLakemedelsbruk")
+        public abstract Builder setLakarordineratLakemedelsbruk(Boolean lakarordineratLakemedelsbruk);
+
+        @JsonProperty("lakemedelOchDos")
+        public abstract Builder setLakemedelOchDos(String lakemedelOchDos);
+
     }
 
-    public Boolean getForemalForVardinsats() {
-        return foremalForVardinsats;
-    }
+    @Nullable
+    public abstract Boolean getTeckenMissbruk();
 
-    public void setForemalForVardinsats(Boolean foremalForVardinsats) {
-        this.foremalForVardinsats = foremalForVardinsats;
-    }
+    @Nullable
+    public abstract Boolean getForemalForVardinsats();
 
-    public Boolean getProvtagningBehovs() {
-        return provtagningBehovs;
-    }
+    @Nullable
+    public abstract Boolean getProvtagningBehovs();
 
-    public void setProvtagningBehovs(Boolean provtagningBehovs) {
-        this.provtagningBehovs = provtagningBehovs;
-    }
+    @Nullable
+    public abstract Boolean getLakarordineratLakemedelsbruk();
 
-    public Boolean getLakarordineratLakemedelsbruk() {
-        return lakarordineratLakemedelsbruk;
-    }
-
-    public void setLakarordineratLakemedelsbruk(Boolean lakarordineratLakemedelsbruk) {
-        this.lakarordineratLakemedelsbruk = lakarordineratLakemedelsbruk;
-    }
-
-    public String getLakemedelOchDos() {
-        return lakemedelOchDos;
-    }
-
-    public void setLakemedelOchDos(String lakemedelOchDos) {
-        this.lakemedelOchDos = lakemedelOchDos;
-    }
-
+    @Nullable
+    public abstract String getLakemedelOchDos();
 
 }

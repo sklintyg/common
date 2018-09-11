@@ -18,47 +18,50 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class HjartKarl {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 
-    private Boolean hjartKarlSjukdom;
+import javax.annotation.Nullable;
 
-    private Boolean hjarnskadaEfterTrauma;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_HjartKarl.Builder.class)
+public abstract class HjartKarl {
 
-    private Boolean riskfaktorerStroke;
-
-    private String beskrivningRiskfaktorer;
-
-    public Boolean getHjartKarlSjukdom() {
-        return hjartKarlSjukdom;
+    public static Builder builder() {
+        return new AutoValue_HjartKarl.Builder();
     }
 
-    public void setHjartKarlSjukdom(Boolean hjartKarlSjukdom) {
-        this.hjartKarlSjukdom = hjartKarlSjukdom;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract HjartKarl build();
+
+        @JsonProperty("hjartKarlSjukdom")
+        public abstract Builder setHjartKarlSjukdom(Boolean hjartKarlSjukdom);
+
+        @JsonProperty("hjarnskadaEfterTrauma")
+        public abstract Builder setHjarnskadaEfterTrauma(Boolean hjarnskadaEfterTrauma);
+
+        @JsonProperty("riskfaktorerStroke")
+        public abstract Builder setRiskfaktorerStroke(Boolean riskfaktorerStroke);
+
+        @JsonProperty("beskrivningRiskfaktorer")
+        public abstract Builder setBeskrivningRiskfaktorer(String beskrivningRiskfaktorer);
     }
 
-    public Boolean getHjarnskadaEfterTrauma() {
-        return hjarnskadaEfterTrauma;
-    }
+    @Nullable
+    public abstract Boolean getHjartKarlSjukdom();
 
-    public void setHjarnskadaEfterTrauma(Boolean hjarnskadaEfterTrauma) {
-        this.hjarnskadaEfterTrauma = hjarnskadaEfterTrauma;
-    }
+    @Nullable
+    public abstract Boolean getHjarnskadaEfterTrauma();
 
-    public Boolean getRiskfaktorerStroke() {
-        return riskfaktorerStroke;
-    }
+    @Nullable
+    public abstract Boolean getRiskfaktorerStroke();
 
-    public void setRiskfaktorerStroke(Boolean riskfaktorerStroke) {
-        this.riskfaktorerStroke = riskfaktorerStroke;
-    }
-
-    public String getBeskrivningRiskfaktorer() {
-        return beskrivningRiskfaktorer;
-    }
-
-    public void setBeskrivningRiskfaktorer(String beskrivningRiskfaktorer) {
-        this.beskrivningRiskfaktorer = beskrivningRiskfaktorer;
-    }
-
-
+    @Nullable
+    public abstract String getBeskrivningRiskfaktorer();
 }

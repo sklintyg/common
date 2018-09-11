@@ -18,15 +18,20 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Njurar {
-    private Boolean nedsattNjurfunktion;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-    public Boolean getNedsattNjurfunktion() {
-        return nedsattNjurfunktion;
+import javax.annotation.Nullable;
+
+@AutoValue
+public abstract class Njurar {
+
+    @JsonCreator
+    public static Njurar create(@JsonProperty("nedsattNjurfunktion") Boolean nedsattNjurfunktion) {
+        return new AutoValue_Njurar(nedsattNjurfunktion);
     }
 
-    public void setNedsattNjurfunktion(Boolean nedsattNjurfunktion) {
-        this.nedsattNjurfunktion = nedsattNjurfunktion;
-    }
-
+    @Nullable
+    public abstract Boolean getNedsattNjurfunktion();
 }

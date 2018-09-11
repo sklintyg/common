@@ -18,16 +18,21 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Neurologi {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-    private Boolean neurologiskSjukdom;
+import javax.annotation.Nullable;
 
-    public Boolean getNeurologiskSjukdom() {
-        return neurologiskSjukdom;
+@AutoValue
+public abstract class Neurologi {
+
+    @JsonCreator
+    public static Neurologi create(@JsonProperty("neurologiskSjukdom") Boolean neurologiskSjukdom) {
+        return new AutoValue_Neurologi(neurologiskSjukdom);
     }
 
-    public void setNeurologiskSjukdom(Boolean neurologiskSjukdom) {
-        this.neurologiskSjukdom = neurologiskSjukdom;
-    }
+    @Nullable
+    public abstract Boolean getNeurologiskSjukdom();
 
 }

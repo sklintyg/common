@@ -30,6 +30,7 @@ import com.google.common.base.Joiner;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.ts_bas.model.internal.Sjukhusvard;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
@@ -115,9 +116,10 @@ public class InternalValidatorTest {
     @Test
     public void testSjukhusvardValidationOrder() throws ScenarioNotFoundException {
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-sjukhusvard").asInternalModel();
-        utlatande.getSjukhusvard().setAnledning(null);
-        utlatande.getSjukhusvard().setVardinrattning(null);
-        utlatande.getSjukhusvard().setTidpunkt(null);
+        Boolean sjukhusEllerLakar = utlatande.getSjukhusvard().getSjukhusEllerLakarkontakt();
+        Sjukhusvard.Builder sjukhusvard = Sjukhusvard.builder();
+        sjukhusvard.setSjukhusEllerLakarkontakt(sjukhusEllerLakar);
+        utlatande = utlatande.toBuilder().setSjukhusvard(sjukhusvard.build()).build();
 
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
         int index = 0;

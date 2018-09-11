@@ -18,16 +18,20 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Kognitivt {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-    private Boolean sviktandeKognitivFunktion;
+import javax.annotation.Nullable;
 
-    public Boolean getSviktandeKognitivFunktion() {
-        return sviktandeKognitivFunktion;
+@AutoValue
+public abstract class Kognitivt {
+
+    @JsonCreator
+    public static Kognitivt create(@JsonProperty("sviktandeKognitivFunktion") Boolean sviktandeKognitivFunktion) {
+        return new AutoValue_Kognitivt(sviktandeKognitivFunktion);
     }
 
-    public void setSviktandeKognitivFunktion(Boolean sviktandeKognitivFunktion) {
-        this.sviktandeKognitivFunktion = sviktandeKognitivFunktion;
-    }
-
+    @Nullable
+    public abstract Boolean getSviktandeKognitivFunktion();
 }

@@ -21,8 +21,7 @@ package se.inera.intyg.common.ts_bas.model.converter;
 import org.junit.Test;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -30,6 +29,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
+import java.util.EnumSet;
 
 import static org.junit.Assert.*;
 
@@ -125,8 +125,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void testAddIntygAvserSvar() {
         TsBasUtlatande utlatande = buildUtlatande();
-        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.C1);
-        utlatande.getIntygAvser().getKorkortstyp().add(IntygAvserKategori.TAXI);
+        EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
+        utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(2, intyg.getSvar().size());
@@ -177,7 +177,7 @@ public class UtlatandeToIntygTest {
     public void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "7.8";
         TsBasUtlatande utlatande = buildUtlatande();
-        utlatande.setTextVersion(textVersion);
+        utlatande = utlatande.toBuilder().setTextVersion(textVersion).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(textVersion, intyg.getVersion());
@@ -187,12 +187,12 @@ public class UtlatandeToIntygTest {
     public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "6.7";
         TsBasUtlatande utlatande = buildUtlatande();
-        utlatande.setTextVersion(null);
+        utlatande = utlatande.toBuilder().setTextVersion(null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(defaultVersion, intyg.getVersion());
 
-        utlatande.setTextVersion("");
+        utlatande = utlatande.toBuilder().setTextVersion("").build();
         intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(defaultVersion, intyg.getVersion());
     }
@@ -221,8 +221,9 @@ public class UtlatandeToIntygTest {
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
-        TsBasUtlatande utlatande = new TsBasUtlatande();
-        utlatande.setId(intygsId);
+        TsBasUtlatande.Builder utlatandeBuilder = TsBasUtlatande.builder();
+        utlatandeBuilder.setId(intygsId);
+        utlatandeBuilder.setBedomning(Bedomning.builder().build());
 
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();
@@ -269,7 +270,7 @@ public class UtlatandeToIntygTest {
             grundData.setRelation(relation);
         }
 
-        utlatande.setGrundData(grundData);
+        TsBasUtlatande utlatande = utlatandeBuilder.setGrundData(grundData).build();
         return utlatande;
     }
 }

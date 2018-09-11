@@ -18,20 +18,25 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-public class SomnVakenhet {
+import javax.annotation.Nullable;
 
+@AutoValue
+public abstract class SomnVakenhet {
+
+    @JsonCreator
+    public static SomnVakenhet create(@JsonProperty("teckenSomnstorningar") Boolean teckenSomnstorningar) {
+        return new AutoValue_SomnVakenhet(teckenSomnstorningar);
+    }
+
+    @AutoValue.CopyAnnotations
     @JsonInclude(Include.NON_EMPTY)
-    private Boolean teckenSomnstorningar;
-
-    public Boolean getTeckenSomnstorningar() {
-        return teckenSomnstorningar;
-    }
-
-    public void setTeckenSomnstorningar(Boolean teckenSomnstorningar) {
-        this.teckenSomnstorningar = teckenSomnstorningar;
-    }
+    @Nullable
+    public abstract Boolean getTeckenSomnstorningar();
 
 }

@@ -199,7 +199,7 @@ public class InternalToTransportTest {
         final String version = "07";
         final String utgava = "08";
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.setTextVersion(version + "." + utgava);
+        utlatande = utlatande.toBuilder().setTextVersion(version + "." + utgava).build();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         assertEquals(version + "." + utgava, res.getIntyg().getVersion());
     }
@@ -209,11 +209,11 @@ public class InternalToTransportTest {
         final String defaultVersion = "6";
         final String defaultUtgava = "7";
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.setTextVersion(null);
+        utlatande = utlatande.toBuilder().setTextVersion(null).build();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
 
-        utlatande.setTextVersion("");
+        utlatande = utlatande.toBuilder().setTextVersion("").build();
         res = InternalToTransport.convert(utlatande);
         assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
     }

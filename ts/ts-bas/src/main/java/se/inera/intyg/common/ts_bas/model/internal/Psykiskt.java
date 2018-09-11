@@ -18,17 +18,21 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Psykiskt {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-    private Boolean psykiskSjukdom;
+import javax.annotation.Nullable;
 
-    public Boolean getPsykiskSjukdom() {
-        return psykiskSjukdom;
+@AutoValue
+public abstract class Psykiskt {
+
+    @JsonCreator
+    public static Psykiskt create(@JsonProperty("psykiskSjukdom") Boolean psykiskSjukdom) {
+        return new AutoValue_Psykiskt(psykiskSjukdom);
     }
 
-    public void setPsykiskSjukdom(Boolean psykiskSjukdom) {
-        this.psykiskSjukdom = psykiskSjukdom;
-    }
-
+    @Nullable
+    public abstract Boolean getPsykiskSjukdom();
 
 }

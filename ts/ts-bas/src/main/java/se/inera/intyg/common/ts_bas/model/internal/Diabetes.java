@@ -18,56 +18,54 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Diabetes {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean harDiabetes;
+import javax.annotation.Nullable;
 
-    private String diabetesTyp;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Diabetes.Builder.class)
+public abstract class Diabetes {
 
-    private Boolean kost;
-
-    private Boolean insulin;
-
-    private Boolean tabletter;
-
-    public Boolean getHarDiabetes() {
-        return harDiabetes;
+    public static Builder builder() {
+        return new AutoValue_Diabetes.Builder();
     }
 
-    public void setHarDiabetes(Boolean harDiabetes) {
-        this.harDiabetes = harDiabetes;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract Diabetes build();
+
+        @JsonProperty("harDiabetes")
+        public abstract Builder setHarDiabetes(Boolean harDiabetes);
+
+        @JsonProperty("diabetesTyp")
+        public abstract Builder setDiabetesTyp(String diabetesTyp);
+
+        @JsonProperty("kost")
+        public abstract Builder setKost(Boolean kost);
+
+        @JsonProperty("insulin")
+        public abstract Builder setInsulin(Boolean insulin);
+
+        @JsonProperty("tabletter")
+        public abstract Builder setTabletter(Boolean tabletter);
     }
 
-    public String getDiabetesTyp() {
-        return diabetesTyp;
-    }
+    @Nullable
+    public abstract Boolean getHarDiabetes();
 
-    public void setDiabetesTyp(String diabetesTyp) {
-        this.diabetesTyp = diabetesTyp;
-    }
+    @Nullable
+    public abstract String getDiabetesTyp();
 
-    public Boolean getKost() {
-        return kost;
-    }
+    @Nullable
+    public abstract Boolean getKost();
 
-    public void setKost(Boolean kost) {
-        this.kost = kost;
-    }
+    @Nullable
+    public abstract Boolean getInsulin();
 
-    public Boolean getInsulin() {
-        return insulin;
-    }
-
-    public void setInsulin(Boolean insulin) {
-        this.insulin = insulin;
-    }
-
-    public Boolean getTabletter() {
-        return tabletter;
-    }
-
-    public void setTabletter(Boolean tabletter) {
-        this.tabletter = tabletter;
-    }
-
+    @Nullable
+    public abstract Boolean getTabletter();
 }

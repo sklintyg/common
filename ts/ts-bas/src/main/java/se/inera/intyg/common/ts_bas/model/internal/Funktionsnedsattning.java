@@ -18,38 +18,44 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Funktionsnedsattning {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean funktionsnedsattning;
+import javax.annotation.Nullable;
 
-    private String beskrivning;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Funktionsnedsattning.Builder.class)
+public abstract class Funktionsnedsattning {
 
-    //För att hjälpa passagerare in och ut samt med säkerhetsbälte
-    private Boolean otillrackligRorelseformaga;
+    public abstract Builder toBuilder();
 
-    public Boolean getFunktionsnedsattning() {
-        return funktionsnedsattning;
+    public static Builder builder() {
+        return new AutoValue_Funktionsnedsattning.Builder();
     }
 
-    public void setFunktionsnedsattning(Boolean funktionsnedsattning) {
-        this.funktionsnedsattning = funktionsnedsattning;
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract Funktionsnedsattning build();
+
+        @JsonProperty("funktionsnedsattning")
+        public abstract Builder setFunktionsnedsattning(Boolean funktionsnedsattning);
+
+        @JsonProperty("beskrivning")
+        public abstract Builder setBeskrivning(String beskrivning);
+
+        @JsonProperty("otillrackligRorelseformaga")
+        public abstract Builder setOtillrackligRorelseformaga(Boolean otillrackligRorelseformaga);
     }
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+    @Nullable
+    public abstract Boolean getFunktionsnedsattning();
 
-    public void setBeskrivning(String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
+    @Nullable
+    public abstract String getBeskrivning();
 
-    public Boolean getOtillrackligRorelseformaga() {
-        return otillrackligRorelseformaga;
-    }
-
-    public void setOtillrackligRorelseformaga(Boolean otillrackligRorelseformaga) {
-        this.otillrackligRorelseformaga = otillrackligRorelseformaga;
-    }
-
+    @Nullable
+    public abstract Boolean getOtillrackligRorelseformaga();
 
 }

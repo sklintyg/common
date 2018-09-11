@@ -18,236 +18,183 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
-public class TsBasUtlatande implements Utlatande {
+import javax.annotation.Nullable;
+import java.util.EnumSet;
 
-    private String id;
-
-    private String typ = TsBasEntryPoint.MODULE_ID;
-
-    private GrundData grundData = new GrundData();
-
-    private String textVersion;
-
-    private String signature;
-
-    private String kommentar;
-
-    private Vardkontakt vardkontakt;
-
-    private IntygAvser intygAvser;
-
-    private Syn syn;
-
-    private HorselBalans horselBalans;
-
-    private Funktionsnedsattning funktionsnedsattning;
-
-    private HjartKarl hjartKarl;
-
-    private Diabetes diabetes;
-
-    private Neurologi neurologi;
-
-    private Medvetandestorning medvetandestorning;
-
-    private Njurar njurar;
-
-    private Kognitivt kognitivt;
-
-    private SomnVakenhet somnVakenhet;
-
-    private NarkotikaLakemedel narkotikaLakemedel;
-
-    private Psykiskt psykiskt;
-
-    private Utvecklingsstorning utvecklingsstorning;
-
-    private Sjukhusvard sjukhusvard;
-
-    private Medicinering medicinering;
-
-    private Bedomning bedomning;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_TsBasUtlatande.Builder.class)
+public abstract class TsBasUtlatande implements Utlatande {
 
     @Override
     public String getTyp() {
-        return typ;
-    }
-
-    public void setTyp(String typAvUtlatande) {
-        this.typ = typAvUtlatande;
-    }
-
-    public String getKommentar() {
-        return kommentar;
-    }
-
-    public void setKommentar(String kommentar) {
-        this.kommentar = kommentar;
-    }
-
-    public Syn getSyn() {
-        if (syn == null) {
-            syn = new Syn();
-        }
-        return syn;
+        return TsBasEntryPoint.MODULE_ID;
     }
 
     @Override
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public HorselBalans getHorselBalans() {
-        if (horselBalans == null) {
-            horselBalans = new HorselBalans();
-        }
-        return horselBalans;
-    }
-
-    public Funktionsnedsattning getFunktionsnedsattning() {
-        if (funktionsnedsattning == null) {
-            funktionsnedsattning = new Funktionsnedsattning();
-        }
-        return funktionsnedsattning;
-    }
-
-    public HjartKarl getHjartKarl() {
-        if (hjartKarl == null) {
-            hjartKarl = new HjartKarl();
-        }
-        return hjartKarl;
-    }
-
-    public Diabetes getDiabetes() {
-        if (diabetes == null) {
-            diabetes = new Diabetes();
-        }
-        return diabetes;
-    }
-
-    public Neurologi getNeurologi() {
-        if (neurologi == null) {
-            neurologi = new Neurologi();
-        }
-        return neurologi;
-    }
-
-    public Medvetandestorning getMedvetandestorning() {
-        if (medvetandestorning == null) {
-            medvetandestorning = new Medvetandestorning();
-        }
-        return medvetandestorning;
-    }
-
-    public Njurar getNjurar() {
-        if (njurar == null) {
-            njurar = new Njurar();
-        }
-        return njurar;
-    }
-
-    public Kognitivt getKognitivt() {
-        if (kognitivt == null) {
-            kognitivt = new Kognitivt();
-        }
-        return kognitivt;
-    }
-
-    public SomnVakenhet getSomnVakenhet() {
-        if (somnVakenhet == null) {
-            somnVakenhet = new SomnVakenhet();
-        }
-        return somnVakenhet;
-    }
-
-    public NarkotikaLakemedel getNarkotikaLakemedel() {
-        if (narkotikaLakemedel == null) {
-            narkotikaLakemedel = new NarkotikaLakemedel();
-        }
-        return narkotikaLakemedel;
-    }
-
-    public Psykiskt getPsykiskt() {
-        if (psykiskt == null) {
-            psykiskt = new Psykiskt();
-        }
-        return psykiskt;
-    }
-
-    public Utvecklingsstorning getUtvecklingsstorning() {
-        if (utvecklingsstorning == null) {
-            utvecklingsstorning = new Utvecklingsstorning();
-        }
-        return utvecklingsstorning;
-    }
-
-    public Sjukhusvard getSjukhusvard() {
-        if (sjukhusvard == null) {
-            sjukhusvard = new Sjukhusvard();
-        }
-        return sjukhusvard;
-    }
-
-    public Medicinering getMedicinering() {
-        if (medicinering == null) {
-            medicinering = new Medicinering();
-        }
-        return medicinering;
-    }
-
-    public Bedomning getBedomning() {
-        if (bedomning == null) {
-            bedomning = new Bedomning();
-        }
-        return bedomning;
-    }
-
-    public Vardkontakt getVardkontakt() {
-        if (vardkontakt == null) {
-            vardkontakt = new Vardkontakt();
-        }
-        return vardkontakt;
-    }
-
-    public IntygAvser getIntygAvser() {
-        if (intygAvser == null) {
-            intygAvser = new IntygAvser();
-        }
-        return intygAvser;
-    }
+    @Nullable
+    public abstract String getId();
 
     @Override
-    public GrundData getGrundData() {
-        return grundData;
-    }
-
-    public void setGrundData(GrundData grundData) {
-        this.grundData = grundData;
-    }
+    @Nullable
+    public abstract GrundData getGrundData();
 
     @Override
-    public String getTextVersion() {
-        return textVersion;
-    }
-
-    public void setTextVersion(String textVersion) {
-        this.textVersion = textVersion;
-    }
+    @Nullable
+    public abstract String getTextVersion();
 
     @Override
-    public String getSignature() {
-        return signature;
+    @Nullable
+    public abstract String getSignature();
+
+    @Nullable
+    public abstract String getKommentar();
+
+    @Nullable
+    public abstract Vardkontakt getVardkontakt();
+
+    @Nullable
+    public abstract IntygAvser getIntygAvser();
+
+    @Nullable
+    public abstract Syn getSyn();
+
+    @Nullable
+    public abstract HorselBalans getHorselBalans();
+
+    @Nullable
+    public abstract Funktionsnedsattning getFunktionsnedsattning();
+
+    @Nullable
+    public abstract HjartKarl getHjartKarl();
+
+    @Nullable
+    public abstract Diabetes getDiabetes();
+
+    @Nullable
+    public abstract Neurologi getNeurologi();
+
+    @Nullable
+    public abstract Medvetandestorning getMedvetandestorning();
+
+    @Nullable
+    public abstract Njurar getNjurar();
+
+    @Nullable
+    public abstract Kognitivt getKognitivt();
+
+    @Nullable
+    public abstract SomnVakenhet getSomnVakenhet();
+
+    @Nullable
+    public abstract NarkotikaLakemedel getNarkotikaLakemedel();
+
+    @Nullable
+    public abstract Psykiskt getPsykiskt();
+
+    @Nullable
+    public abstract Utvecklingsstorning getUtvecklingsstorning();
+
+    @Nullable
+    public abstract Sjukhusvard getSjukhusvard();
+
+    @Nullable
+    public abstract Medicinering getMedicinering();
+
+    @Nullable
+    public abstract Bedomning getBedomning();
+
+    public abstract Builder toBuilder();
+
+    public static Builder builder() {
+        return new AutoValue_TsBasUtlatande.Builder()
+                .setPsykiskt(Psykiskt.create(null))
+                .setKognitivt(Kognitivt.create(null))
+                .setNjurar(Njurar.create(null))
+                .setSomnVakenhet(SomnVakenhet.create(null))
+                .setNeurologi(Neurologi.create(null))
+                .setUtvecklingsstorning(Utvecklingsstorning.builder().build())
+                .setSignature(null);
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract TsBasUtlatande build();
+
+        @JsonProperty("id")
+        public abstract Builder setId(String id);
+
+        @JsonProperty("grundData")
+        public abstract Builder setGrundData(GrundData grundData);
+
+        @JsonProperty("textVersion")
+        public abstract Builder setTextVersion(String textVersion);
+
+        @JsonProperty("signature")
+        public abstract Builder setSignature(String signature);
+
+        @JsonProperty("kommentar")
+        public abstract Builder setKommentar(String kommentar);
+
+        @JsonProperty("vardkontakt")
+        public abstract Builder setVardkontakt(Vardkontakt vardkontakt);
+
+        @JsonProperty("intygAvser")
+        public abstract Builder setIntygAvser(IntygAvser intygAvser);
+
+        @JsonProperty("syn")
+        public abstract Builder setSyn(Syn syn);
+
+        @JsonProperty("horselBalans")
+        public abstract Builder setHorselBalans(HorselBalans horselBalans);
+
+        @JsonProperty("funktionsnedsattning")
+        public abstract Builder setFunktionsnedsattning(Funktionsnedsattning funktionsnedsattning);
+
+        @JsonProperty("hjartKarl")
+        public abstract Builder setHjartKarl(HjartKarl hjartKarl);
+
+        @JsonProperty("diabetes")
+        public abstract Builder setDiabetes(Diabetes diabetes);
+
+        @JsonProperty("neurologi")
+        public abstract Builder setNeurologi(Neurologi neurologi);
+
+        @JsonProperty("medvetandestorning")
+        public abstract Builder setMedvetandestorning(Medvetandestorning medvetandestorning);
+
+        @JsonProperty("njurar")
+        public abstract Builder setNjurar(Njurar njurar);
+
+        @JsonProperty("kognitivt")
+        public abstract Builder setKognitivt(Kognitivt kognitivt);
+
+        @JsonProperty("somnVakenhet")
+        public abstract Builder setSomnVakenhet(SomnVakenhet somnVakenhet);
+
+        @JsonProperty("narkotikaLakemedel")
+        public abstract Builder setNarkotikaLakemedel(NarkotikaLakemedel narkotikaLakemedel);
+
+        @JsonProperty("psykiskt")
+        public abstract Builder setPsykiskt(Psykiskt psykiskt);
+
+        @JsonProperty("utvecklingsstorning")
+        public abstract Builder setUtvecklingsstorning(Utvecklingsstorning utvecklingsstorning);
+
+        @JsonProperty("sjukhusvard")
+        public abstract Builder setSjukhusvard(Sjukhusvard sjukhusvard);
+
+        @JsonProperty("medicinering")
+        public abstract Builder setMedicinering(Medicinering medicinering);
+
+        @JsonProperty("bedomning")
+        public abstract Builder setBedomning(Bedomning bedomning);
     }
 }

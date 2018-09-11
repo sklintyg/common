@@ -24,10 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -58,7 +55,7 @@ public class WebcertModelFactoryTest {
 
         assertNotNull(utlatande);
         assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
-        assertNotNull(utlatande.getGrundData().getSkapadAv());
+    assertNotNull(utlatande.getGrundData().getSkapadAv());
         assertNotNull(utlatande.getGrundData().getPatient());
 
         /** Just verify some stuff from the json to make sure all is well.. */
@@ -79,20 +76,22 @@ public class WebcertModelFactoryTest {
 
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), new TsBasUtlatande());
+        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatande.builder().build());
     }
 
     @Test
     public void testCreateCopyRemovesSigneringsdatumIntyg4576() throws Exception {
         //Given
-        final TsBasUtlatande tsBasUtlatande = new TsBasUtlatande();
-        tsBasUtlatande.getGrundData().setSigneringsdatum(LocalDateTime.now());
+        GrundData grundData = new GrundData();
+        grundData.setSigneringsdatum(LocalDateTime.now());
         final HoSPersonal hoSPersonal = new HoSPersonal();
         final Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("1234");
         hoSPersonal.setVardenhet(vardenhet);
-        tsBasUtlatande.getGrundData().setSkapadAv(hoSPersonal);
-        tsBasUtlatande.getGrundData().setPatient(new Patient());
+        grundData.setSkapadAv(hoSPersonal);
+        grundData.setPatient(new Patient());
+
+        final TsBasUtlatande tsBasUtlatande = TsBasUtlatande.builder().setGrundData(grundData).build();
 
         //When
         TsBasUtlatande utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);

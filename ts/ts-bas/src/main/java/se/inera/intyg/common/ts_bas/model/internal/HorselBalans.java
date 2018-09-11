@@ -18,26 +18,37 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class HorselBalans {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean balansrubbningar;
+import javax.annotation.Nullable;
 
-    private Boolean svartUppfattaSamtal4Meter;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_HorselBalans.Builder.class)
+public abstract class HorselBalans {
 
-    public Boolean getBalansrubbningar() {
-        return balansrubbningar;
+    public abstract Builder toBuilder();
+
+    public static Builder builder() {
+        return new AutoValue_HorselBalans.Builder();
     }
 
-    public void setBalansrubbningar(Boolean balansrubbningar) {
-        this.balansrubbningar = balansrubbningar;
+    @AutoValue.Builder
+    public abstract static class Builder {
+        public abstract HorselBalans build();
+
+        @JsonProperty("balansrubbningar")
+        public abstract Builder setBalansrubbningar(Boolean balansrubbningar);
+
+        @JsonProperty("svartUppfattaSamtal4Meter")
+        public abstract Builder setSvartUppfattaSamtal4Meter(Boolean svartUppfattaSamtal4Meter);
     }
 
-    public Boolean getSvartUppfattaSamtal4Meter() {
-        return svartUppfattaSamtal4Meter;
-    }
+    @Nullable
+    public abstract Boolean getBalansrubbningar();
 
-    public void setSvartUppfattaSamtal4Meter(Boolean svartUppfattaSamtal4Meter) {
-        this.svartUppfattaSamtal4Meter = svartUppfattaSamtal4Meter;
-    }
-
+    @Nullable
+    public abstract Boolean getSvartUppfattaSamtal4Meter();
 }

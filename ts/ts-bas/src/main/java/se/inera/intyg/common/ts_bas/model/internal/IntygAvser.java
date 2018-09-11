@@ -21,29 +21,37 @@ package se.inera.intyg.common.ts_bas.model.internal;
 import java.util.EnumSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.annotation.Nullable;
+
 /**
  * The Korkortstyp[er] a specific Utlatande concerns.
  *
  * @author erik
  */
-public class IntygAvser {
+@AutoValue
+public abstract class IntygAvser {
 
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    private EnumSet<IntygAvserKategori> korkortstyp;
-
-    public Set<IntygAvserKategori> getKorkortstyp() {
+    @JsonCreator
+    public static IntygAvser create(@JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
         if (korkortstyp == null) {
             korkortstyp = EnumSet.noneOf(IntygAvserKategori.class);
         }
-        return korkortstyp;
+        return new AutoValue_IntygAvser(korkortstyp);
     }
+
+    @Nullable
+    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+    public abstract Set<IntygAvserKategori> getKorkortstyp();
 
     public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
         protected IntygAvserEnumSetSerializer() {

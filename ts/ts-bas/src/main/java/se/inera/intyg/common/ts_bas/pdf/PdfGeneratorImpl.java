@@ -284,13 +284,16 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populateIntygAvser(IntygAvser intygAvser, AcroFields fields) throws IOException, DocumentException {
+        if (intygAvser == null) {
+            return;
+        }
         for (IntygAvserKategori kategori : intygAvser.getKorkortstyp()) {
             INTYG_AVSER.setField(fields, kategori);
         }
     }
 
     private void populateIdkontroll(Vardkontakt vardkontakt, AcroFields fields) throws IOException, DocumentException {
-        if (vardkontakt.getIdkontroll() == null) {
+        if (vardkontakt == null || vardkontakt.getIdkontroll() == null) {
             return;
         }
 
@@ -332,18 +335,27 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     private void populateHorselBalansFields(HorselBalans horselBalans, AcroFields fields) throws IOException,
             DocumentException {
+        if (horselBalans == null) {
+            return;
+        }
         ANFALL_BALANSRUBBNING_YRSEL.setField(fields, horselBalans.getBalansrubbningar());
         SVARIGHET_SAMTAL_4M.setField(fields, horselBalans.getSvartUppfattaSamtal4Meter());
     }
 
     private void populateFunktionsnedsattning(Funktionsnedsattning funktionsnedsattning, AcroFields fields)
             throws IOException, DocumentException {
+        if (funktionsnedsattning == null) {
+            return;
+        }
         FORSAMRAD_RORLIGHET_FRAMFORA_FORDON.setField(fields, funktionsnedsattning.getFunktionsnedsattning());
         FORSAMRAD_RORLIGHET_FRAMFORA_FORDON_BESKRIVNING.setField(fields, funktionsnedsattning.getBeskrivning());
         FORSAMRAD_RORLIGHET_HJALPA_PASSAGERARE.setField(fields, funktionsnedsattning.getOtillrackligRorelseformaga());
     }
 
     private void populateHjartKarl(HjartKarl hjartKarl, AcroFields fields) throws IOException, DocumentException {
+        if (hjartKarl == null) {
+            return;
+        }
         HJART_KARLSJUKDOM_TRAFIKSAKERHETSRISK.setField(fields, hjartKarl.getHjartKarlSjukdom());
         TECKEN_PA_HJARNSKADA.setField(fields, hjartKarl.getHjarnskadaEfterTrauma());
         RISKFAKTORER_STROKE.setField(fields, hjartKarl.getRiskfaktorerStroke());
@@ -351,6 +363,9 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populateDiabetes(Diabetes diabetes, AcroFields fields) throws IOException, DocumentException {
+        if (diabetes == null) {
+            return;
+        }
         HAR_DIABETES.setField(fields, diabetes.getHarDiabetes());
         if (diabetes.getDiabetesTyp() != null) {
             if (diabetes.getDiabetesTyp().equals(DiabetesKod.DIABETES_TYP_1.name())) {
@@ -365,30 +380,48 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populateNeurologi(Neurologi neurologi, AcroFields fields) throws IOException, DocumentException {
+        if (neurologi == null) {
+            return;
+        }
         TECKEN_PA_NEUROLOGISK_SJUKDOM.setField(fields, neurologi.getNeurologiskSjukdom());
     }
 
     private void populateMedvetandestorning(Medvetandestorning medvetandestorning, AcroFields fields)
             throws IOException, DocumentException {
+        if (medvetandestorning == null) {
+            return;
+        }
         MEDVETANDESTORNING.setField(fields, medvetandestorning.getMedvetandestorning());
         MEDVETANDESTORNING_BESKRIVNING.setField(fields, medvetandestorning.getBeskrivning());
     }
 
     private void populateNjurar(Njurar njurar, AcroFields fields) throws IOException, DocumentException {
+        if (njurar == null) {
+            return;
+        }
         NEDSATT_NJURFUNKTION_TRAFIKSAKERHETSRISK.setField(fields, njurar.getNedsattNjurfunktion());
     }
 
     private void populateKognitivt(Kognitivt kognitivt, AcroFields fields) throws IOException, DocumentException {
+        if (kognitivt == null) {
+            return;
+        }
         SVIKTANDE_KOGNITIV_FUNKTION.setField(fields, kognitivt.getSviktandeKognitivFunktion());
     }
 
     private void populateSomnVakenhet(SomnVakenhet somnVakenhet, AcroFields fields) throws IOException,
             DocumentException {
+        if (somnVakenhet == null) {
+            return;
+        }
         SOMN_VAKENHETSSTORNING.setField(fields, somnVakenhet.getTeckenSomnstorningar());
     }
 
     private void populateNarkotikaLakemedel(NarkotikaLakemedel narkotikaLakemedel, AcroFields fields)
             throws IOException, DocumentException {
+        if (narkotikaLakemedel == null) {
+            return;
+        }
         TECKEN_PA_MISSBRUK.setField(fields, narkotikaLakemedel.getTeckenMissbruk());
         VARDINSATS_MISSBRUK_BEROENDE.setField(fields, narkotikaLakemedel.getForemalForVardinsats());
         BEHOV_AV_PROVTAGNING_MISSBRUK.setField(fields, narkotikaLakemedel.getProvtagningBehovs());
@@ -397,16 +430,25 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populatePsykiskt(Psykiskt psykiskt, AcroFields fields) throws IOException, DocumentException {
+        if (psykiskt == null) {
+            return;
+        }
         PSYKISK_SJUKDOM.setField(fields, psykiskt.getPsykiskSjukdom());
     }
 
     private void populateUtvecklingsstorning(Utvecklingsstorning utvecklingsstorning, AcroFields fields)
             throws IOException, DocumentException {
+        if (utvecklingsstorning == null) {
+            return;
+        }
         PSYKISK_UTVECKLINGSSTORNING.setField(fields, utvecklingsstorning.getPsykiskUtvecklingsstorning());
         ADHD_DAMP_MM.setField(fields, utvecklingsstorning.getHarSyndrom());
     }
 
     private void populateSjukhusvard(Sjukhusvard sjukhusvard, AcroFields fields) throws IOException, DocumentException {
+        if (sjukhusvard == null) {
+            return;
+        }
         VARD_PA_SJUKHUS.setField(fields, sjukhusvard.getSjukhusEllerLakarkontakt());
         VARD_PA_SJUKHUS_TID.setField(fields, sjukhusvard.getTidpunkt());
         VARD_PA_SJUKHUS_VARDINRATTNING.setField(fields, sjukhusvard.getVardinrattning());
@@ -415,6 +457,9 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     private void populateMedicinering(Medicinering medicinering, AcroFields fields) throws IOException,
             DocumentException {
+        if (medicinering == null) {
+            return;
+        }
         STADIGVARANDE_MEDICINERING.setField(fields, medicinering.getStadigvarandeMedicinering());
         STADIGVARANDE_MEDICINERING_BESKRIVNING.setField(fields, medicinering.getBeskrivning());
     }
@@ -424,8 +469,13 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
     }
 
     private void populateBedomning(Bedomning bedomning, AcroFields fields) throws IOException, DocumentException {
-        for (BedomningKorkortstyp korkortstyp : bedomning.getKorkortstyp()) {
-            BEDOMNING.setField(fields, korkortstyp);
+        if (bedomning == null) {
+            return;
+        }
+        if (bedomning.getKorkortstyp() != null) {
+            for (BedomningKorkortstyp korkortstyp : bedomning.getKorkortstyp()) {
+                BEDOMNING.setField(fields, korkortstyp);
+            }
         }
         BEDOMNING_INTE_TA_STALLNING.setField(fields, bedomning.getKanInteTaStallning());
         BEDOMNING_BOR_UNDERSOKAS_SPECIALIST.setField(fields, bedomning.getLakareSpecialKompetens());

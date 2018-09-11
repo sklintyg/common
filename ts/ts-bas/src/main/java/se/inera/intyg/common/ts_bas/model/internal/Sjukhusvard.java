@@ -18,46 +18,49 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Sjukhusvard {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+
+import javax.annotation.Nullable;
+
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Sjukhusvard.Builder.class)
+public abstract class Sjukhusvard {
     //har patienten vårdats på sjukhus eller haft kontakt med läkare med anledning av punkterna 1-13
-    private Boolean sjukhusEllerLakarkontakt;
 
-    private String tidpunkt;
-
-    private String vardinrattning;
-
-    private String anledning;
-
-    public Boolean getSjukhusEllerLakarkontakt() {
-        return sjukhusEllerLakarkontakt;
+    public static Builder builder() {
+        return new AutoValue_Sjukhusvard.Builder();
     }
 
-    public void setSjukhusEllerLakarkontakt(Boolean sjukhusEllerLakarkontakt) {
-        this.sjukhusEllerLakarkontakt = sjukhusEllerLakarkontakt;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract Sjukhusvard build();
+
+        @JsonProperty("tidpunkt")
+        public abstract Builder setTidpunkt(String tidpunkt);
+
+        @JsonProperty("vardinrattning")
+        public abstract Builder setVardinrattning(String vardinrattning);
+
+        @JsonProperty("anledning")
+        public abstract Builder setAnledning(String anledning);
+
+        @JsonProperty("sjukhusEllerLakarkontakt")
+        public abstract Builder setSjukhusEllerLakarkontakt(Boolean sjukhusEllerLakarkontakt);
     }
 
-    public String getTidpunkt() {
-        return tidpunkt;
-    }
+    @Nullable
+    public abstract String getTidpunkt();
 
-    public void setTidpunkt(String tidpunkt) {
-        this.tidpunkt = tidpunkt;
-    }
+    @Nullable
+    public abstract String getVardinrattning();
 
-    public String getVardinrattning() {
-        return vardinrattning;
-    }
+    @Nullable
+    public abstract String getAnledning();
 
-    public void setVardinrattning(String vardinrattning) {
-        this.vardinrattning = vardinrattning;
-    }
-
-    public String getAnledning() {
-        return anledning;
-    }
-
-    public void setAnledning(String anledning) {
-        this.anledning = anledning;
-    }
-
+    @Nullable
+    public abstract Boolean getSjukhusEllerLakarkontakt();
 }

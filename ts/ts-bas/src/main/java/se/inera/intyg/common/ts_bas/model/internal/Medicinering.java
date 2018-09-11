@@ -18,27 +18,38 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Medicinering {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean stadigvarandeMedicinering;
+import javax.annotation.Nullable;
 
-    private String beskrivning;
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Medicinering.Builder.class)
+public abstract class Medicinering {
 
-    public Boolean getStadigvarandeMedicinering() {
-        return stadigvarandeMedicinering;
+    public static Builder builder() {
+        return new AutoValue_Medicinering.Builder();
     }
 
-    public void setStadigvarandeMedicinering(Boolean stadigvarandeMedicinering) {
-        this.stadigvarandeMedicinering = stadigvarandeMedicinering;
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract Medicinering build();
+
+        @JsonProperty("stadigvarandeMedicinering")
+        public abstract Builder setStadigvarandeMedicinering(Boolean stadigvarandeMedicinering);
+
+        @JsonProperty("beskrivning")
+        public abstract Builder setBeskrivning(String beskrivning);
+
     }
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
+    @Nullable
+    public abstract Boolean getStadigvarandeMedicinering();
 
-    public void setBeskrivning(String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
-
+    @Nullable
+    public abstract String getBeskrivning();
 
 }

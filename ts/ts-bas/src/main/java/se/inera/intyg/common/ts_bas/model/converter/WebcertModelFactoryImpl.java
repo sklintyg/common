@@ -26,14 +26,17 @@ import com.google.common.base.Strings;
 
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.model.internal.*;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
+
+import java.util.EnumSet;
 
 /**
  * Factory for creating a editable model.
@@ -59,15 +62,29 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
     @Override
     public TsBasUtlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
-        TsBasUtlatande template = new TsBasUtlatande();
+        TsBasUtlatande.Builder template = TsBasUtlatande.builder();
+        GrundData grundData = new GrundData();
 
         template.setId(newDraftData.getCertificateId());
-        template.setTyp(TsBasEntryPoint.MODULE_ID);
         template.setTextVersion(intygTexts.getLatestVersion(TsBasEntryPoint.MODULE_ID));
 
-        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
+        WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+        template.setGrundData(grundData);
 
-        return template;
+        template.setBedomning(Bedomning.builder().setKorkortstyp(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
+        template.setDiabetes(Diabetes.builder().build());
+        template.setFunktionsnedsattning(Funktionsnedsattning.builder().build());
+        template.setHjartKarl(HjartKarl.builder().build());
+        template.setHorselBalans(HorselBalans.builder().build());
+        template.setIntygAvser(IntygAvser.create(null));
+        template.setMedicinering(Medicinering.builder().build());
+        template.setMedvetandestorning(Medvetandestorning.builder().build());
+        template.setNarkotikaLakemedel(NarkotikaLakemedel.builder().build());
+        template.setSjukhusvard(Sjukhusvard.builder().build());
+        template.setSyn(Syn.builder().build());
+        template.setVardkontakt(Vardkontakt.create(null, null));
+
+        return template.build();
     }
 
     @Override
@@ -78,24 +95,34 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         TsBasUtlatande tsBasUtlatande = (TsBasUtlatande) template;
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsBasUtlatande.getId());
 
-        populateWithId(tsBasUtlatande, copyData.getCertificateId());
+        TsBasUtlatande.Builder templateBuilder = tsBasUtlatande.toBuilder();
+
+        populateWithId(templateBuilder, copyData.getCertificateId());
         GrundData grundData = tsBasUtlatande.getGrundData();
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
         resetDataInCopy(grundData);
-        tsBasUtlatande.setSignature(null);
-        return tsBasUtlatande;
+        templateBuilder.setSignature(null);
+        return templateBuilder.build();
     }
 
     private void resetDataInCopy(GrundData grundData) {
         grundData.setSigneringsdatum(null);
     }
 
-    private void populateWithId(TsBasUtlatande utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(TsBasUtlatande.Builder utlatande, String utlatandeId) throws ConverterException {
         if (Strings.isNullOrEmpty(utlatandeId)) {
             throw new ConverterException("No certificateID found");
         }
 
         utlatande.setId(utlatandeId);
+    }
+
+    private void resetDataInGrundData(GrundData grundData) {
+        Patient patient = new Patient();
+        patient.setPersonId(grundData.getPatient().getPersonId());
+        grundData.setPatient(patient);
+
+        grundData.setSigneringsdatum(null);
     }
 
 }

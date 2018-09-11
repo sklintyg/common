@@ -21,47 +21,54 @@ package se.inera.intyg.common.ts_bas.model.internal;
 import java.util.EnumSet;
 import java.util.Set;
 
-
-
-
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class Bedomning {
+import javax.annotation.Nullable;
 
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
+public abstract class Bedomning {
+
+    public static Builder builder() {
+        return new AutoValue_Bedomning.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        abstract Bedomning autoBuild();
+
+        public Bedomning build() {
+            return autoBuild();
+        };
+
+        @JsonProperty("korkortstyp")
+        @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
+        public abstract Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp);
+
+        @JsonProperty("kanInteTaStallning")
+        public abstract Builder setKanInteTaStallning(Boolean kanInteTaStallning);
+
+        @JsonProperty("lakareSpecialKompetens")
+        public abstract Builder setLakareSpecialKompetens(String lakareSpecialKompetens);
+
+    }
+
+    @Nullable
     @JsonSerialize(using = BedomningKorkortstypEnumSetSerializer.class)
-    @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
-    private EnumSet<BedomningKorkortstyp> korkortstyp;
+    public abstract Set<BedomningKorkortstyp> getKorkortstyp();
 
-    private Boolean kanInteTaStallning;
+    @Nullable
+    public abstract Boolean getKanInteTaStallning();
 
-    private String lakareSpecialKompetens;
-
-    public Set<BedomningKorkortstyp> getKorkortstyp() {
-        if (korkortstyp == null) {
-            korkortstyp = EnumSet.noneOf(BedomningKorkortstyp.class);
-        }
-        return korkortstyp;
-    }
-
-    public Boolean getKanInteTaStallning() {
-        return kanInteTaStallning;
-    }
-
-    public void setKanInteTaStallning(Boolean kanInteTaStallning) {
-        this.kanInteTaStallning = kanInteTaStallning;
-    }
-
-    public String getLakareSpecialKompetens() {
-        return lakareSpecialKompetens;
-    }
-
-    public void setLakareSpecialKompetens(String lakareSpecialKompetens) {
-        this.lakareSpecialKompetens = lakareSpecialKompetens;
-    }
+    @Nullable
+    public abstract String getLakareSpecialKompetens();
 
     public static class BedomningKorkortstypEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
         protected BedomningKorkortstypEnumSetSerializer() {

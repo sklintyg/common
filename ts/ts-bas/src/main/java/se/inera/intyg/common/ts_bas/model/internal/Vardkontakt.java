@@ -18,25 +18,24 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Vardkontakt {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 
-    private String typ;
-    private String idkontroll;
+import javax.annotation.Nullable;
 
-    public String getTyp() {
-        return typ;
+@AutoValue
+public abstract class Vardkontakt {
+
+    @JsonCreator
+    public static Vardkontakt create(@JsonProperty("typ") String typ,
+                                     @JsonProperty("idkontroll") String idkontroll) {
+        return new AutoValue_Vardkontakt(typ, idkontroll);
     }
 
-    public void setTyp(String typ) {
-        this.typ = typ;
-    }
+    @Nullable
+    public abstract String getTyp();
 
-    public String getIdkontroll() {
-        return idkontroll;
-    }
-
-    public void setIdkontroll(String idkontroll) {
-        this.idkontroll = idkontroll;
-    }
-
+    @Nullable
+    public abstract String getIdkontroll();
 }

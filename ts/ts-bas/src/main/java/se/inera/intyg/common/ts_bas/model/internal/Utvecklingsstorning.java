@@ -18,27 +18,39 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-public class Utvecklingsstorning {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
 
-    private Boolean psykiskUtvecklingsstorning;
+import javax.annotation.Nullable;
+
+@AutoValue
+@JsonDeserialize(builder = AutoValue_Utvecklingsstorning.Builder.class)
+public abstract class Utvecklingsstorning {
+
+    public static Builder builder() {
+        return new AutoValue_Utvecklingsstorning.Builder();
+    }
+
+    @AutoValue.Builder
+    public abstract static class Builder {
+
+        public abstract Utvecklingsstorning build();
+
+        @JsonProperty("psykiskUtvecklingsstorning")
+        public abstract Builder setPsykiskUtvecklingsstorning(Boolean psykiskUtvecklingsstorning);
+
+        @JsonProperty("harSyndrom")
+        public abstract Builder setHarSyndrom(Boolean harSyndrom);
+    }
+
+
+    @Nullable
+    public abstract Boolean getPsykiskUtvecklingsstorning();
 
     // ADHD, Aspergers syndrom, DAMP etc.
-    private Boolean harSyndrom;
-
-    public Boolean getPsykiskUtvecklingsstorning() {
-        return psykiskUtvecklingsstorning;
-    }
-
-    public void setPsykiskUtvecklingsstorning(Boolean psykiskUtvecklingsstorning) {
-        this.psykiskUtvecklingsstorning = psykiskUtvecklingsstorning;
-    }
-
-    public Boolean getHarSyndrom() {
-        return harSyndrom;
-    }
-
-    public void setHarSyndrom(Boolean harSyndrom) {
-        this.harSyndrom = harSyndrom;
-    }
+    @Nullable
+    public abstract Boolean getHarSyndrom();
 
 }
