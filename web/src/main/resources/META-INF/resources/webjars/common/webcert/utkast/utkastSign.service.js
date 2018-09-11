@@ -421,7 +421,8 @@ angular.module('common').factory('common.UtkastSignService',
                 signModel.signingWithSITHSInProgress = false;
 
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true).search('approvereceivers', needsReceiverApproval(intygsTyp));
+                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true);
+                receiverService.getData().showApproveDialog = needsReceiverApproval(intygsTyp);
                 statService.refreshStat();
             }
 

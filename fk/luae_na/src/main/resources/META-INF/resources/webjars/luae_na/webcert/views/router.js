@@ -64,7 +64,7 @@ angular.module('luae_na').config(function($stateProvider) {
         }).
         state('webcert.intyg.luae_na', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url:'/intyg/luae_na/:certificateId/:focusOn?:signed?:approvereceivers?',
+            url:'/intyg/luae_na/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

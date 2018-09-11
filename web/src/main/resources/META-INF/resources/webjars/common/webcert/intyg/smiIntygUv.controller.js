@@ -47,7 +47,8 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, false);
 
             //Did we just sign this intyg, and was it determined that we need to show approve receivers dialog for it?
-            if ($stateParams.signed && $stateParams.approvereceivers === 'true') {
+            if ($stateParams.signed && receiverService.getData().showApproveDialog) {
+                receiverService.getData().showApproveDialog = false;
                 receiverService.openConfigDialogForIntyg(ViewState.common.intygProperties.type, $stateParams.certificateId, false);
             } else if (authorityService.isAuthorityActive({
                         authority: UserModel.privileges.GODKANNA_MOTTAGARE,

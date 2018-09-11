@@ -25,7 +25,8 @@ angular.module('common').service('common.receiverService', [
             intygtyp: undefined,
             intygid: undefined,
             possibleReceivers: [],
-            approvedReceivers: []
+            approvedReceivers: [],
+            showApproveDialog: false
         };
 
         this.reset = function() {
@@ -33,6 +34,7 @@ angular.module('common').service('common.receiverService', [
             state.intygid = undefined;
             state.possibleReceivers = [];
             state.approvedReceivers = [];
+            state.showApproveDialog = false;
         };
 
         this.updatePossibleReceivers = function(intygtyp) {

@@ -64,7 +64,7 @@ angular.module('luse').config(function($stateProvider) {
         }).
         state('webcert.intyg.luse', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url:'/intyg/luse/:certificateId/:focusOn?:signed?:approvereceivers?',
+            url:'/intyg/luse/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
