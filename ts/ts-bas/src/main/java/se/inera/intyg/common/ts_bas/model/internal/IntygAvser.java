@@ -42,10 +42,13 @@ public abstract class IntygAvser {
 
     @JsonCreator
     public static IntygAvser create(@JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
+        EnumSet<IntygAvserKategori> korkortstyper;
         if (korkortstyp == null) {
-            korkortstyp = EnumSet.noneOf(IntygAvserKategori.class);
+            korkortstyper = EnumSet.noneOf(IntygAvserKategori.class);
+        } else {
+            korkortstyper = korkortstyp;
         }
-        return new AutoValue_IntygAvser(korkortstyp);
+        return new AutoValue_IntygAvser(korkortstyper);
     }
 
     @Nullable

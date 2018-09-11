@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
-import java.util.EnumSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;

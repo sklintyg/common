@@ -26,7 +26,6 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 import javax.annotation.Nullable;
-import java.util.EnumSet;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsBasUtlatande.Builder.class)
