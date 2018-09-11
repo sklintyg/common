@@ -105,6 +105,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
 
             function _getConfig() {
                 var categoryIds = _getCategoryIds();
+                var thisYear = moment().format('YYYY');
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
@@ -137,8 +138,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
                         fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {required: true, requiredProp: 'allmant.diabetesDiagnosAr'}, [{
-                            type: 'ue-year',
-                            modelProp: 'allmant.diabetesDiagnosAr'
+                            type: 'ue-year-picker',
+                            modelProp: 'allmant.diabetesDiagnosAr',
+                            maxYear: thisYear
                         }]),
                         fraga(18, 'FRG_18.RBK', '', {required: true, requiredProp: 'allmant.typAvDiabetes'}, [{
                             type: 'ue-radiogroup',
@@ -202,8 +204,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                                 }
                             },
                             {
-                                type: 'ue-year',
+                                type: 'ue-year-picker',
                                 modelProp: 'allmant.behandling.insulinSedanAr',
+                                maxYear: thisYear,
                                 hideExpression: '!model.allmant.behandling.insulin',
                                 label: {
                                     key: 'DFR_109.5.RBK',

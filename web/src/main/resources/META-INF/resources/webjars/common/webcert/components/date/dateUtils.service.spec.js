@@ -46,6 +46,24 @@ describe('DateUtilsService', function() {
 
     });
 
+    describe('#isYear', function() {
+
+        it ('check that isYear on "2015" true', function () {
+            var dateString = '2015';
+            expect(DateUtilsService.isYear(dateString)).toBeTruthy();
+        });
+
+        it ('check that isYear on undefined is false', function () {
+            var dateString = undefined;
+            expect(DateUtilsService.isYear(dateString)).toBeFalsy();
+        });
+        it ('check that isYear on "aaa" is false', function () {
+            var dateString = 'aaa';
+            expect(DateUtilsService.isYear(dateString)).toBeFalsy();
+        });
+
+    });
+
     describe('#toMoment', function() {
 
         it ('check that a date can be converted to a moment date', function () {
