@@ -52,6 +52,7 @@ import se.inera.intyg.common.ts_diabetes.model.converter.InternalToTransportConv
 import se.inera.intyg.common.ts_diabetes.model.converter.TransportToInternalConverter;
 import se.inera.intyg.common.ts_diabetes.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.util.TSDiabetesCertificateMetaTypeConverter;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -213,7 +214,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
 
     @Override
     protected String getSchematronFileName() {
-        throw new NotSupportedException();
+        return TsDiabetesEntryPoint.SCHEMATRON_FILE;
     }
 
     @Override

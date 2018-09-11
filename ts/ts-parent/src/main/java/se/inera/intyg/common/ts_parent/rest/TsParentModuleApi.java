@@ -44,11 +44,12 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
@@ -119,6 +120,8 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     public TsParentModuleApi(Class<T> type) {
         this.type = type;
     }
+
+    private RegisterCertificateValidator xmlValidator = new RegisterCertificateValidator(getSchematronFileName());
 
     @Override
     public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
@@ -247,7 +250,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());
+        return XmlValidator.validate(xmlValidator, inputXml);
     }
 
     @Override
