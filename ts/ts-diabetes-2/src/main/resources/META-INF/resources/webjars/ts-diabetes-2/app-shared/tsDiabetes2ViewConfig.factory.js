@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvUtil', function (uvUtil) {
+angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['$filter','uvUtil', function ($filter, uvUtil) {
     'use strict';
 
     var viewConfig = [
@@ -35,7 +35,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                 return model.selected ? model.type : null;
                             },
                             separator: ', ',
-                            modelProp: 'intygetAvserBehorighet'
+                            modelProp: 'intygAvser.kategorier'
                         }]
                     }]
                 }
@@ -48,7 +48,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                 type: 'uv-fraga',
                 components: [{
                     type: 'uv-kodverk-value',
-                    kvModelProps: ['identitetStyrktGenom'],
+                    kvModelProps: ['identitetStyrktGenom.typ'],
                     kvLabelKeys: ['IDENTITET_{var}.RBK']
                 }]
             }]
@@ -76,7 +76,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                         components: [{
                             type: 'uv-kodverk-value',
                             kvModelProps: ['allmant.typAvDiabetes'],
-                            kvLabelKeys: ['SVAR_.{var}.RBK']
+                            kvLabelKeys: ['SVAR_{var}.RBK']
                         }]
                     }]
                 },
@@ -93,15 +93,15 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                     return model ? index+1 : null; // return index for {var} if true, otherwise null -> list item will not be shown
                                 },
                                 separator: ', ',
-                                modelProp: ['allmant.endastKost', 'allmant.tabletter',
-                                    'allmant.insulin']
+                                modelProp: ['allmant.behandling.endastKost', 'allmant.behandling.tabletter',
+                                    'allmant.behandling.insulin']
                             },
                             {
                                 type: 'uv-del-fraga',
                                 labelKey: 'DFR_109.3.RBK',
                                 components: [{
                                     type: 'uv-boolean-value',
-                                    modelProp: 'allmant.tablettRiskHypoglykemi'
+                                    modelProp: 'allmant.behandling.tablettRiskHypoglykemi'
                                 }]
                             },
                             {
@@ -109,7 +109,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                 labelKey: 'DFR_109.5.RBK',
                                 components: [{
                                     type: 'uv-simple-value',
-                                    modelProp: 'allmant.insulinSedanAr'
+                                    modelProp: 'allmant.behandling.insulinSedanAr'
                                 }]
                             },
                             {
@@ -117,7 +117,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                 labelKey: 'DFR_109.6.RBK',
                                 components: [{
                                     type: 'uv-boolean-value',
-                                    modelProp: 'allmant.annanBehandling'
+                                    modelProp: 'allmant.behandling.annanBehandling'
                                 }]
                             },
                             {
@@ -125,7 +125,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                 labelKey: 'DFR_109.7.RBK',
                                 components: [{
                                     type: 'uv-simple-value',
-                                    modelProp: 'allmant.annanBehandlingBeskrivning'
+                                    modelProp: 'allmant.behandling.annanBehandlingBeskrivning'
                                 }]
                             }
                         ]
@@ -345,9 +345,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                         var message = 'ts-diabetes.label.syn.';
                                         switch (rowIndex){
                                             case 0:
-                                                message += 'hoger'; break;
+                                                message += 'hogeroga'; break;
                                             case 1:
-                                                message += 'vanster'; break;
+                                                message += 'vansteroga'; break;
                                             case 2:
                                                 message += 'binokulart'; break;
                                         }
@@ -399,7 +399,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                                     return model.selected ? model.type : null;
                                 },
                                 separator: ', ',
-                                modelProp: 'bedomning.korkortstyp',
+                                modelProp: 'bedomning.uppfyllerBehorighetskrav',
                                 noValue: 'DFR_33.2.RBK'
                             }]
                         }
@@ -411,7 +411,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                     components: [
                         {
                             type: 'uv-simple-value',
-                            modelProp: 'bedomning.lakareSpecialKompetens'
+                            modelProp: 'bedomning.borUndersokasBeskrivning'
                         }
                     ]
                 },
@@ -421,7 +421,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'bedomning.lamplighetInnehaBehorighet'
+                            modelProp: 'bedomning.lampligtInnehav'
                         }
                     ]
                 }
@@ -436,7 +436,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['uvU
                     components: [
                         {
                             type: 'uv-simple-value',
-                            modelProp: 'kommentar'
+                            modelProp: 'ovrigt'
                         }
                     ]
                 }

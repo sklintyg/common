@@ -29,9 +29,9 @@ import java.util.stream.Stream;
  */
 public enum KvTypAvDiabetes {
 
-    DIABETES_TYP_1("E10", "Diabetes mellitus typ 1"),
-    DIABETES_TYP_2("E11", "Diabetes mellitus typ 2"),
-    DIABETES_TYP_ANNAN("", "Annan typ av diabetes");
+    TYP1("E10", "Diabetes mellitus typ 1"),
+    TYP2("E11", "Diabetes mellitus typ 2"),
+    ANNAN("", "Annan typ av diabetes");
 
     final String code;
     final String description;

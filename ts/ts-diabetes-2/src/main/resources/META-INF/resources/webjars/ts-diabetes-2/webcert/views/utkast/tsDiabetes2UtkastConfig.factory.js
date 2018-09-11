@@ -146,9 +146,9 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                             type: 'ue-radiogroup',
                             modelProp: 'allmant.typAvDiabetes',
                             choices: [
-                                {label: 'SVAR_TYP1.RBK', id: 'DIABETES_TYP_1'},
-                                {label: 'SVAR_TYP2.RBK', id: 'DIABETES_TYP_2'},
-                                {label: 'SVAR_ANNAN.RBK', id: 'DIABETES_TYP_ANNAN'}
+                                {label: 'SVAR_TYP1.RBK', id: 'TYP1'},
+                                {label: 'SVAR_TYP2.RBK', id: 'TYP2'},
+                                {label: 'SVAR_ANNAN.RBK', id: 'ANNAN'}
                             ]
                         },
                             {
