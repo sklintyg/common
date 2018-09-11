@@ -37,7 +37,7 @@ public class TsDiabetes2EntryPoint implements ModuleEntryPoint {
     public static final String MODULE_NAME = "Läkarintyg Diabetes avseende lämpligheten att inneha körkort m.m.";
     public static final String DEFAULT_RECIPIENT_ID = "TS";
     public static final String MODULE_DESCRIPTION = "Beskrivning av ts-diabetes-2";
-    public static final String SCHEMATRON_FILE = "ts_diabetes_2.sch";
+    public static final String SCHEMATRON_FILE = "tstrk1031.sch";
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
