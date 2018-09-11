@@ -109,7 +109,7 @@
   },
   "allmant":{
     "diabetesDiagnosAr":"2000",
-    "typAvDiabetes":"DIABETES_TYP_ANNAN",
+    "typAvDiabetes":"ANNAN",
     "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
     "behandling":{
       "endastKost":true,

@@ -208,7 +208,7 @@ public final class UtlatandeToIntyg {
                     .withDelsvar(ALLMANT_TYP_AV_DIABETES_DELSVAR_ID,
                             // https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/652083265/Utformning+TS-diabetes+-+version+2
                             // "Svar annan leder inte till något svar utan bara till att 18.2 bli obligatorisk att fylla i."
-                            allmant.getTypAvDiabetes() != null && allmant.getTypAvDiabetes() != KvTypAvDiabetes.DIABETES_TYP_ANNAN
+                            allmant.getTypAvDiabetes() != null && allmant.getTypAvDiabetes() != KvTypAvDiabetes.ANNAN
                                     ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), allmant.getTypAvDiabetes().getCode(),
                                     allmant.getTypAvDiabetes().getDescription()) : null)
                     .withDelsvar(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,

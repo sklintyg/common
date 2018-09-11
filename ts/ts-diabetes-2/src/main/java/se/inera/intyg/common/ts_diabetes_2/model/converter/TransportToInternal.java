@@ -259,7 +259,7 @@ public final class TransportToInternal {
                     allmant.setTypAvDiabetes(KvTypAvDiabetes.fromCode(getCVSvarContent(delsvar).getCode()));
                     break;
                 case ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID:
-                    allmant.setTypAvDiabetes(KvTypAvDiabetes.DIABETES_TYP_ANNAN);
+                    allmant.setTypAvDiabetes(KvTypAvDiabetes.ANNAN);
                     allmant.setBeskrivningAnnanTypAvDiabetes(getStringContent(delsvar));
                     break;
                 default:
