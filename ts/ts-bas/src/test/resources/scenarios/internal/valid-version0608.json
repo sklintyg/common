@@ -21,7 +21,13 @@
             }
         },
         "patient": {
-            "personId": "19121212-1212"
+            "personId": "19121212-1212",
+            "fullstandigtNamn": "Johnny Appleseed",
+            "fornamn": "Johnny",
+            "efternamn": "Appleseed",
+            "postadress": "Testvägen 12",
+            "postnummer": "12345",
+            "postort": "Testort"
         }
     },
     "vardkontakt" : {

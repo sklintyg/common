@@ -24,6 +24,7 @@ import java.util.List;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_bas.model.internal.Bedomning;
 import se.inera.intyg.common.ts_bas.model.internal.Diabetes;
@@ -100,6 +101,7 @@ public class InternalValidatorInstance {
             context = new ValidationContext(utlatande);
 
             // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
+            PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdentitetStyrkt(utlatande.getVardkontakt());
             validateSyn(utlatande.getSyn()); // 1.
