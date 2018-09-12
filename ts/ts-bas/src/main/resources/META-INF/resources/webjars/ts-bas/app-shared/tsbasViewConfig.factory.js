@@ -679,7 +679,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config, true);
+                    config = uvUtil.convertToWebcert(config);
                 }
 
                 return config;
