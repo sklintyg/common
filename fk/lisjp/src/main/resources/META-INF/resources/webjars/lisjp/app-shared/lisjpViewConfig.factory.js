@@ -221,7 +221,7 @@ angular.module('lisjp').factory('lisjp.viewConfigFactory', [ 'uvUtil', function(
                 labelKey: 'FRG_33.RBK',
                 components: [
                     {
-                        type: 'uv-boolean-statement',
+                        type: 'uv-boolean-value',
                         modelProp: 'arbetstidsforlaggning'
                     },
                     {

@@ -84,8 +84,8 @@ describe('uvBooleanStatement Directive', function() {
         $scope.viewDataMock.property1.isRelevant = false;
 
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Nej');
-        expect($(element).find('span').text()).toContain('Nej');
+        expect(element.isolateScope().getValue()).toEqual('Ej angivet');
+        expect($(element).find('span').text()).toContain('Ej angivet');
     });
 
     it('should by default display "Ej angivet" when value is undefined', function() {

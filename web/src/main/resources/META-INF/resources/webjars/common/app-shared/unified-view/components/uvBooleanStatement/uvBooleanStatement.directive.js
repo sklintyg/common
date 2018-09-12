@@ -30,14 +30,7 @@ angular.module('common').directive('uvBooleanStatement', ['uvUtil', function(uvU
 
             $scope.getValue = function() {
                 var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-
-                if (!angular.isUndefined(value) && (value === 'false' || value === false)) {
-                    return 'Nej';
-                } else if (!angular.isUndefined(value) && (value === 'true' || value === true)) {
-                    return 'Ja';
-                } else {
-                    return 'Ej angivet';
-                }
+                return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Ej angivet' : 'Ja';
             };
         }
     };
