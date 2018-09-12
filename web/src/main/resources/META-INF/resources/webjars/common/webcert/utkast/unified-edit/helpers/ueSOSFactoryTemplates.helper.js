@@ -159,27 +159,25 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                             watcher: {
                                 expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
                                 listener: function _barnDodsDatumListener(newValue, oldValue, scope) {
-                                    if (newValue !== oldValue) {
-                                        var birthDate = dateUtils.toMomentStrict(PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
-                                        if (!birthDate) {
-                                            $log.error('Invalid personnummer in _barnDodsDatumListener');
-                                        }
-                                        else {
-                                            var barn28DagarDate = birthDate.add(28, 'days');
-                                            var dodsDatum = dateUtils.toMomentStrict(newValue);
-                                            if (dodsDatum && dodsDatum.isValid() &&
-                                                (dodsDatum.isBefore(barn28DagarDate) ||
-                                                    dodsDatum.isSame(barn28DagarDate))) {
-                                                scope.model.barn = true;
-                                                scope.form.formState.barnForced = true;
-                                            } else if (dodsDatum && dodsDatum.isValid() &&
-                                                dodsDatum.isAfter(barn28DagarDate)) {
-                                                scope.model.barn = false;
-                                                scope.form.formState.barnForced = true;
-                                            } else {
-                                                scope.model.barn = undefined;
-                                                scope.form.formState.barnForced = false;
-                                            }
+                                    var birthDate = dateUtils.toMomentStrict(PersonIdValidator.getBirthDate(scope.model.grundData.patient.personId));
+                                    if (!birthDate) {
+                                        $log.error('Invalid personnummer in _barnDodsDatumListener');
+                                    }
+                                    else {
+                                        var barn28DagarDate = birthDate.add(28, 'days');
+                                        var dodsDatum = dateUtils.toMomentStrict(newValue);
+                                        if (dodsDatum && dodsDatum.isValid() &&
+                                            (dodsDatum.isBefore(barn28DagarDate) ||
+                                                dodsDatum.isSame(barn28DagarDate))) {
+                                            scope.model.barn = true;
+                                            scope.form.formState.barnForced = true;
+                                        } else if (dodsDatum && dodsDatum.isValid() &&
+                                            dodsDatum.isAfter(barn28DagarDate)) {
+                                            scope.model.barn = false;
+                                            scope.form.formState.barnForced = true;
+                                        } else {
+                                            scope.model.barn = undefined;
+                                            scope.form.formState.barnForced = false;
                                         }
                                     }
                                 }
