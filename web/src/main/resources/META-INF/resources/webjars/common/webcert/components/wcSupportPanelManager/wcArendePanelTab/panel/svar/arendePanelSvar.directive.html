@@ -49,7 +49,7 @@
   </div>
 
   <!-- Svarsdelen -->
-  <div ng-if="showAnswer()" class="arende-svar">
+  <div ng-if="showAnswer()" class="arende-svar card">
     <div class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
              'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
@@ -66,5 +66,6 @@
       </div>
     </div>
   </div>
+  <div ng-if="showAnswer()" class="card-divider"></div>
 
 </div>
