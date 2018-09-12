@@ -125,7 +125,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                         // Visa infodialog för vanlig utskrift där patienten är sekretessmarkerad.
                         dialogService.showDialog({
                             dialogId: 'print-patient-sekretessmarkerad',
-                            titleId: 'common.modal.label.print.sekretessmarkerad.title',
+                            titleId: 'common.modal.label.print.sekretessmarkerad.title.draft',
                             templateUrl: '/app/partials/sekretessmarkerad-print-dialog.html',
                             model: {patient: patient},
                             button1click: function (modalInstance) {

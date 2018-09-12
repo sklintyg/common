@@ -133,6 +133,7 @@
 
 
             'common.modal.label.print.sekretessmarkerad.title': 'Skriv ut intyg',
+            'common.modal.label.print.sekretessmarkerad.title.draft': 'Skriv ut utkast',
             'common.modal.label.print.sekretessmarkerad.yes':  'Skriv ut',
             'common.modal.label.employee.title': 'Skriv ut minimalt intyg',
             'common.modal.label.employee.yes': 'Skriv ut',
