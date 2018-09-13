@@ -18,27 +18,23 @@
  */
 package se.inera.intyg.common.ts_diabetes_2.validator;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDateTime;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.ts_diabetes_2.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes_2.model.internal.TsDiabetes2Utlatande;
-import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intyg.common.ts_diabetes_2.utils.ScenarioFinder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -46,62 +42,264 @@ public class InternalDraftValidatorTest {
     @InjectMocks
     InternalDraftValidatorImpl validator;
 
-    TsDiabetes2Utlatande.Builder builderTemplate;
-
     @Mock
     WebcertModuleService moduleService;
 
-    @Before
-    public void setUp() throws Exception {
-        builderTemplate = TsDiabetes2Utlatande.builder()
-                .setId("intygsId")
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .setOvrigt("ovrigt")
-                .setTextVersion("");
+    @Test
+    public void validateMinimalValidUtkast() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertFalse(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
     }
 
     @Test
-    public void validateDraft() throws Exception {
-        TsDiabetes2Utlatande utlatande = builderTemplate.build();
+    public void validateCompleteValidUtkast() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("pass-complete").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertFalse(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+    }
+
+    @Test
+    public void failureDueToRule1() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R1").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertTrue(res.hasErrorMessages());
-        assertTrue(!res.getValidationErrors().isEmpty());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.BEDOMNING_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
+    @Test
+    public void failureDueToRule2() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R2").asInternalModel();
 
-    private GrundData buildGrundData(LocalDateTime timeStamp) {
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid("vardgivareId");
-        vardgivare.setVardgivarnamn("vardgivareNamn");
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        Vardenhet vardenhet = new Vardenhet();
-        vardenhet.setEnhetsid("enhetId");
-        vardenhet.setEnhetsnamn("enhetNamn");
-        vardenhet.setVardgivare(vardgivare);
-        vardenhet.setPostadress("postadress");
-        vardenhet.setPostnummer("11111");
-        vardenhet.setPostort("postort");
-        vardenhet.setTelefonnummer("0112312313");
-
-        HoSPersonal skapadAv = new HoSPersonal();
-        skapadAv.setVardenhet(vardenhet);
-        skapadAv.setPersonId("HSAID_123");
-        skapadAv.setFullstandigtNamn("Torsten Ericsson");
-
-        Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("postadress");
-        patient.setPostnummer("11111");
-        patient.setPostort("postort");
-
-        GrundData grundData = new GrundData();
-        grundData.setSkapadAv(skapadAv);
-        grundData.setPatient(patient);
-        grundData.setSigneringsdatum(timeStamp);
-
-        return grundData;
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
+    @Test
+    public void failureDueToRule3() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R3").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule4() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R4").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BEHANDLING_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule5() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R5").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule6() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R6").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(10, res.getValidationErrors().size());
+        // TODO:
+        // Override ValidationMessage.equals(), and use List.contains()?
+        // Use assertj?
+    }
+
+    @Test
+    public void failureDueToRule7() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R7").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule8() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R8").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.HYPOGLYKEMIER_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule9() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R9").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.HYPOGLYKEMIER_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule10() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R10").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.HYPOGLYKEMIER_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule12() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R12").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(3, res.getValidationErrors().size());
+        // TODO: Kolla att det är rätt objekt
+    }
+
+    @Test
+    public void failureDueToRule13() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R13").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(3, res.getValidationErrors().size());
+        // TODO: Kolla att det är rätt objekt
+    }
+
+    @Test
+    public void failureDueToRule14() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R14").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(3, res.getValidationErrors().size());
+        // TODO: Kolla att det är rätt objekt
+    }
+
+    @Test
+    public void failureDueToRule15() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R15").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(3, res.getValidationErrors().size());
+        // TODO: Kolla att det är rätt objekt
+    }
+
+    @Test
+    public void failureDueToRule16() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R16").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToRule17() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R17").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(10, res.getValidationErrors().size());
+    }
+
+    @Test
+    public void failureDueToRule18() throws Exception {
+        TsDiabetes2Utlatande utlatande = ScenarioFinder.getInternalScenario("fail-R18").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(RespConstants.ALLMANT_JSON_ID, error.getCategory());
+        assertEquals(RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
 }
