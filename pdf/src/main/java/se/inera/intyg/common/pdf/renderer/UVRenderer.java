@@ -275,6 +275,7 @@ public class UVRenderer {
         try {
             return intygTexts.getTexter().get(labelKey);
         } catch (Exception e) {
+            LOG.debug("Missing text for labelKey {}", labelKey);
             return null; // "missing key: " + labelKey;
         }
     }

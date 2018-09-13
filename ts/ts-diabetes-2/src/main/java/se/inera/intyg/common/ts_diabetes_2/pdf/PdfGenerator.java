@@ -47,18 +47,18 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class PdfGenerator {
 
-    private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens medicinska utlåtande";
-    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "Af_logo_rgb_270px@2x.png";
+    private static final String PDF_SUMMARY_HEADER = "Läkarintyg Diabetes avseende lämpligheten att inneha körkort m.m.";
+    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "transportstyrelsens_logotyp_rgb.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-diabetes-2-uv-viewmodel.js";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-     + "skickas till Arbetsförmedlingen.";
-    private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
+     + "skickas till Transportstyrelsen.";
+    private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
+    private static final String CERTIFICATE_FILE_PREFIX = "ts_diabetes_2_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
                                    ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
@@ -82,7 +82,7 @@ public class PdfGenerator {
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummaryHeader(PDF_SUMMARY_HEADER)
                     .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
-                    .withLeftMarginTypText(TsDiabetes2EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
+                    .withLeftMarginTypText(TsDiabetes2EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
                     .withIsLockedUtkast(isLockedUtkast)

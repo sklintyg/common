@@ -26,6 +26,8 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import jdk.nashorn.internal.runtime.ECMAException;
+import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 import java.util.ArrayList;
@@ -105,8 +107,13 @@ public class UVTable extends UVComponent {
 
                     ScriptObjectMirror som = (ScriptObjectMirror) o;
                     ScriptObjectMirror function = (ScriptObjectMirror) valueProp;
-                    Object result = function.call(null, som, row, col++, colProp);
-                    if (result != null) {
+                    Object result;
+                    try {
+                        result = function.call(null, som, row, col++, colProp);
+                    } catch (ECMAException e) {
+                        result = EJ_ANGIVET_STR;
+                    }
+                    if (result != null && !(result instanceof Undefined)) {
                         String text = renderer.getText(result.toString());
                         if (text != null) {
                             columnValues.add(text);

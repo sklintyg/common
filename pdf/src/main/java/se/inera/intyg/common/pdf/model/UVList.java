@@ -113,7 +113,9 @@ public class UVList extends UVComponent {
     }
 
     private void renderListResult(Div parent, List<String> results, String separator) {
-        if (!Strings.isNullOrEmpty(separator)) {
+        if (results.isEmpty()) {
+            renderEjAngivet(parent);
+        } else if (!Strings.isNullOrEmpty(separator)) {
             // If there's a separator, render as signle value with separator.
             renderListResultWithSeparator(parent, results, separator);
         } else {
@@ -160,17 +162,21 @@ public class UVList extends UVComponent {
                         Object result = listKey.call(null, evaluatedValue, index++);
 
                         if (result != null) {
-                            if (result instanceof Double) {
-                                Integer i = ((Double) result).intValue();
-                                String textKey = labelKey.replaceAll("\\{var\\}", "" + i);
-                                String value = renderer.getText(textKey);
-                                results.add(value);
+                            Integer i;
+                            if (result instanceof Integer) {
+                                i = ((Integer) result);
+                            } else if (result instanceof Double) {
+                                i = ((Double) result).intValue();
                             } else {
                                 throw new IllegalStateException("UNHANDLED result type from list call: " + result.getClass().getName());
                             }
+                            String textKey = labelKey.replaceAll("\\{var\\}", "" + i);
+                            String value = renderer.getText(textKey);
+                            results.add(value);
                         }
                     }
-                } else {
+                    // Skip null values, if no results will lead to EJ_ANGIVET
+                } else if (evaluatedValue != null) {
                     throw new IllegalStateException("UNHANDLED evaluated value type in uv-list: " + evaluatedValue.getClass().getName());
                 }
             } else {

@@ -47,17 +47,23 @@ public class UVKodverkValue extends UVComponent {
             String currentLabelKey = kvLabelKeys.get(a);
 
             String nestedValue = (String) renderer.evalValueFromModel(currentModelProp);
-            String textKey = currentLabelKey.replaceAll("\\{var\\}", nestedValue);
-            String value = renderer.getText(textKey);
-            kvParts.add(value);
+            if (nestedValue != null) {
+                String textKey = currentLabelKey.replaceAll("\\{var\\}", nestedValue);
+                String value = renderer.getText(textKey);
+                kvParts.add(value);
+            }
         }
 
-        parent.add(new Paragraph(kvParts.stream().collect(Collectors.joining(" ")))
-                .setItalic()
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+        if (kvParts.isEmpty()) {
+            renderEjAngivet(parent);
+        } else {
+            parent.add(new Paragraph(kvParts.stream().collect(Collectors.joining(" ")))
+                    .setItalic()
+                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE)
+                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+        }
     }
 }
