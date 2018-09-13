@@ -74,7 +74,7 @@ public class SendTSClient {
     public SOAPMessage registerCertificate(String message, String logicalAddress) {
         try {
 
-            LOGGER.debug("Creating SoapMessage in sendTsBasClient");
+            LOGGER.debug("Creating SoapMessage in sendTsClient");
             SOAPMessage soapReq1 = messageFactory.createMessage();
             soapReq1.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "true");
 
