@@ -38,7 +38,7 @@
     </cxf:bus>
 
   <bean id="tsBasXslTransformer" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
-    <constructor-arg value="xsl/transform-ts-bas.xsl"/>
+    <constructor-arg value="xsl/V3toV1.xsl"/>
   </bean>
 
   <bean id="tsBasSendCertificateClient" class="se.inera.intyg.common.ts_parent.integration.SendTSClient">
