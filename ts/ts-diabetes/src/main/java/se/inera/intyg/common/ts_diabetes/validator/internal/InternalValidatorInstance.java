@@ -214,17 +214,10 @@ public class InternalValidatorInstance {
                         ValidationMessageType.INVALID_FORMAT,
                         "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
             } else {
-                try {
-                    if (ValidatorUtil.isYearBeforeBirth(diabetes.getObservationsperiod(), patient.getPersonId())) {
-                        ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes.observationsperiod",
-                                ValidationMessageType.INVALID_FORMAT,
-                                "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
-                    }
-                } catch (InvalidPersonNummerException e) {
-                    LOG.warn(
-                            "Personnummer validation exception. Personnummer should never be invalid here, "
-                            + "if it is we can't compare with birthdate anyway.");
-                    // Personnummer should never be invalid here, if it is we can't compare with birthdate anyway
+                if (ValidatorUtil.isYearBeforeBirth(diabetes.getObservationsperiod(), patient.getPersonId())) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIABETES, "diabetes.observationsperiod",
+                            ValidationMessageType.INVALID_FORMAT,
+                            "ts-diabetes.validation.diabetes.observationsperiod.incorrect-format");
                 }
             }
         }

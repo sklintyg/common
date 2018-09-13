@@ -67,18 +67,25 @@ public abstract class Behandling {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Behandling build();
+
         @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)
         public abstract Builder setEndastKost(Boolean value);
+
         @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_JSON_ID)
         public abstract Builder setTabletter(Boolean value);
+
         @JsonProperty(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID)
         public abstract Builder setTablettRiskHypoglykemi(Boolean value);
+
         @JsonProperty(ALLMANT_BEHANDLING_INSULIN_JSON_ID)
         public abstract Builder setInsulin(Boolean value);
+
         @JsonProperty(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID)
         public abstract Builder setInsulinSedanAr(String value);
+
         @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_JSON_ID)
         public abstract Builder setAnnanBehandling(Boolean value);
+
         @JsonProperty(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID)
         public abstract Builder setAnnanBehandlingBeskrivning(String value);
     }

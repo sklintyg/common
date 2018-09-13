@@ -58,7 +58,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.Domain.IntygModel',
 
                         // Kategori 4
                         hypoglykemier: {
-                            sjukdomenUnderkontroll: undefined,
+                            sjukdomenUnderKontroll: undefined,
                             nedsattHjarnfunktion: undefined,
                             forstarRisker: undefined,
                             fortrogenMedSymptom: undefined,

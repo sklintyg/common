@@ -140,24 +140,17 @@ public final class SosInternalDraftValidator {
         } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
                 && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()) {
             // R20
-            try {
+            LocalDate patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(
+                    utlatande.getGrundData().getPatient().getPersonId());
 
-                LocalDate patientBirthDate = ValidatorUtil.getBirthDateFromPersonnummer(
-                        utlatande.getGrundData().getPatient().getPersonId());
-
-                if (utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isAfter(
-                        patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR, ChronoUnit.DAYS))) {
-                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION);
-                } else if (!utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isBefore(
-                        patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR + 1, ChronoUnit.DAYS))) {
-                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
-                            ValidationMessageType.INCORRECT_COMBINATION);
-                }
-
-            } catch (InvalidPersonNummerException e) {
-                LOG.warn("Personnummer validation exception. Personnummer should never be invalid here, "
-                        + "if it is we can't compare with birthdate anyway.");
+            if (utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isAfter(
+                    patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR, ChronoUnit.DAYS))) {
+                ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
+                        ValidationMessageType.INCORRECT_COMBINATION);
+            } else if (!utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isBefore(
+                    patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR + 1, ChronoUnit.DAYS))) {
+                ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
+                        ValidationMessageType.INCORRECT_COMBINATION);
             }
         }
     }

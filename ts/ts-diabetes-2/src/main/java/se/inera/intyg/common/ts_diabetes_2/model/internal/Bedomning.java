@@ -71,11 +71,14 @@ public abstract class Bedomning {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Bedomning build();
+
         @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)
         @JsonDeserialize(using = Bedomning.BedomningKorkortstypSetDeserializer.class)
         public abstract Builder setUppfyllerBehorighetskrav(Set<BedomningKorkortstyp> uppfyllerBehorighetskrav);
+
         @JsonProperty(BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID)
         public abstract Builder setLampligtInnehav(Boolean lampligtInnehav);
+
         @JsonProperty(BEDOMNING_BOR_UNDERSOKAS_JSON_ID)
         public abstract Builder setBorUndersokasBeskrivning(String borUndersokasBeskrivning);
     }

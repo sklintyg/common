@@ -59,7 +59,7 @@ public final class RespConstants {
     public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID = "109.7";
     public static final String ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID = "annanBehandlingBeskrivning";
 
-    //Kat 4 - Hypoglykemier
+    // Kat 4 - Hypoglykemier
     public static final String HYPOGLYKEMIER_SVAR_ID = "100";
     public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
     public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID = "100.1";
@@ -98,7 +98,7 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID = "108.2";
     public static final String HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID = "forekomstTrafikTidpunkt";
 
-    //Kat 5 - Synfunktion
+    // Kat 5 - Synfunktion
     public static final String SYNFUNKTION_SVAR_ID = "103";
     public static final String SYNFUNKTION_JSON_ID = "synfunktion";
     public static final String SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID = "103.1";
@@ -114,6 +114,8 @@ public final class RespConstants {
     public static final String SYNFUNKTION_SYNSKARPA_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
     public static final String SYNFUNKTION_SYNSKARPA_MED_KORREKTION_JSON_ID = "medKorrektion";
 
+    public static final String SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID = "utanKorrektion";
+    public static final String SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID = "medKorrektion";
     public static final String SYNFUNKTION_SYNSKARPA_HOGER_UTAN_KORREKTION_DELSVAR_ID = "8.1";
     public static final String SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID = "8.2";
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID = "8.3";
@@ -121,14 +123,12 @@ public final class RespConstants {
     public static final String SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID = "8.5";
     public static final String SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID = "8.6";
 
-
-    //Kat 6 - Övrigt
+    // Kat 6 - Övrigt
     public static final String OVRIGT_SVAR_ID = "32";
     public static final String OVRIGT_DELSVAR_ID = "32.1";
     public static final String OVRIGT_DELSVAR_JSON_ID = "ovrigt";
 
-
-    //Kat 7 - Bedömning
+    // Kat 7 - Bedömning
     public static final String BEDOMNING_SVAR_ID = "33";
     public static final String BEDOMNING_JSON_ID = "bedomning";
     public static final String BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID = "33.1";
@@ -139,8 +139,6 @@ public final class RespConstants {
     public static final String BEDOMNING_BOR_UNDERSOKAS_SVAR_ID = "34";
     public static final String BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID = "34.1";
     public static final String BEDOMNING_BOR_UNDERSOKAS_JSON_ID = "borUndersokasBeskrivning";
-
-
 
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
     public static final String TEXTVERSION_JSON_ID = "textVersion";

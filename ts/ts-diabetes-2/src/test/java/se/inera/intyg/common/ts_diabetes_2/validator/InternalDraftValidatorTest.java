@@ -66,8 +66,8 @@ public class InternalDraftValidatorTest {
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertFalse(res.hasErrorMessages());
-        assertTrue(res.getValidationErrors().isEmpty());
+        assertTrue(res.hasErrorMessages());
+        assertTrue(!res.getValidationErrors().isEmpty());
     }
 
 

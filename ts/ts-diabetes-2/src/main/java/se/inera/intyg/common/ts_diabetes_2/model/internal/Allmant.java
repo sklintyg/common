@@ -58,12 +58,16 @@ public abstract class Allmant {
     @AutoValue.Builder
     public abstract static class Builder {
         public abstract Allmant build();
+
         @JsonProperty(ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11)
         public abstract Builder setDiabetesDiagnosAr(String value);
+
         @JsonProperty(ALLMANT_TYP_AV_DIABETES_JSON_ID)
         public abstract Builder setTypAvDiabetes(KvTypAvDiabetes value);
+
         @JsonProperty(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID)
         public abstract Builder setBeskrivningAnnanTypAvDiabetes(String value);
+
         @JsonProperty(ALLMANT_BEHANDLING_JSON_ID)
         public abstract Builder setBehandling(Behandling value);
     }
