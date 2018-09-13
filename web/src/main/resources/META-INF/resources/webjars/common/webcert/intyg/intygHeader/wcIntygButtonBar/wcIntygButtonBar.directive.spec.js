@@ -101,6 +101,7 @@ describe('wcIntygButtonBar', function() {
         CommonIntygViewState = _IntygViewStateService_;
         $compile = _$compile_;
         IntygHeaderViewStateService = _IntygHeaderViewStateService_;
+        $scope.viewState = {};
 
         // Fake that intyg is already loaded so following tests only test the other requirements for buttons to show
         IntygHeaderViewStateService.intygLoaded =  true;

@@ -53,6 +53,14 @@ angular.module('lisjp').service('lisjp.IntygController.ViewStateService',
                 return areCriteraForObservandumMet;
             };
 
+            this.showEmployerPrintBtn = function() {
+                if (this.intygModel.avstangningSmittskydd) {
+                    return false;
+                }
+
+                return true;
+            };
+
             this.calculateSjukskrivningDuration = function () {
 
                 if(!this.intygModel.sjukskrivningar){
