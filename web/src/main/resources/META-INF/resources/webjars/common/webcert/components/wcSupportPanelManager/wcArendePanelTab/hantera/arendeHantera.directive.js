@@ -52,9 +52,9 @@ angular.module('common').directive('arendeHantera',
                             return false;
                         }
 
-                        //Rule 2: Handled komplettering answered with new intyg can not be toggled back to unhandled (See INTYG-3792)
-                        if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'CLOSED' &&
-                                angular.isObject(arendeModel.arende.answeredWithIntyg)) {
+                        //Rule 2: A closed komplettering (answered with new intyg or text message) isn't allowed to be toggled back to
+                        // unhandled (See INTYG-6460, INTYG-3792)
+                        if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'CLOSED') {
                             return false;
                         }
 
