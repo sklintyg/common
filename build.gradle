@@ -29,6 +29,7 @@ ext {
     mockitoVersion = "2.16.0"
     unitilsCoreVersion = "3.3"
     xmlUnitVersion = "1.4"
+    equalsVerifierVersion = "2.5.2"
 }
 
 allprojects {
@@ -50,6 +51,7 @@ allprojects {
         testCompile "org.springframework:spring-test:${springVersion}"
         testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
         testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
+        testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
     }
 
     group = 'se.inera.intyg.common'

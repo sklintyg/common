@@ -20,7 +20,9 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import org.springframework.util.Assert;
 
-public class ValidationMessage {
+import com.google.common.base.Objects;
+
+public final class ValidationMessage {
 
     private final String category;
 
@@ -89,7 +91,34 @@ public class ValidationMessage {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ValidationMessage that = (ValidationMessage) o;
+        return Objects.equal(category, that.category)
+                && Objects.equal(field, that.field)
+                && Objects.equal(message, that.message)
+                && type == that.type
+                && Objects.equal(dynamicKey, that.dynamicKey);
+    }
+
+    @Override
     public String toString() {
-        return field + ":" + type.toString() + " " + message;
+        return "ValidationMessage{"
+                + "category='" + category + '\''
+                + ", field='" + field + '\''
+                + ", message='" + message + '\''
+                + ", type=" + type
+                + ", dynamicKey='" + dynamicKey + '\''
+                + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(category, field, message, type, dynamicKey);
     }
 }
