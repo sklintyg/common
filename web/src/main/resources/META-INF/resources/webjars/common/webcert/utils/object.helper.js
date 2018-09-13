@@ -60,6 +60,10 @@ angular.module('common').factory('common.ObjectHelper',
                     return item;
                 };
                 return getNestedProperty(obj);
+            },
+            getFloatOr: function(value, valueIfNotFloat) {
+                var result = parseFloat(value);
+                return (isNaN(result)) ? valueIfNotFloat : result;
             }
 
 

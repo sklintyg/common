@@ -329,7 +329,7 @@ public class TsDiabetesTransformerXpathTest {
         if (utlatande.getBedomning().isKanInteTaStallning() != null) {
             assertTrue("Rekommendationsvärde Kan inte ta ställning (VAR11)",
                     xPath.evaluate(booleanXPath(REKOMMENDATION_VARDE_CODE_TEMPLATE,
-                            KorkortsbehorighetKod.KANINTETEASTALLNING.getCode())));
+                            KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
         }
 
         if (utlatande.getBedomning().getBehovAvLakareSpecialistKompetens() != null) {

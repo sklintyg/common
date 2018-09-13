@@ -1,0 +1,79 @@
+/*!
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+ue-year-picker {
+
+  @extend %field-set-disabled-ie11-fix;
+  .wc-datepicker-wrapper {
+    width: 90px;
+  }
+  input.form-control {
+
+    &:disabled, fieldset[disabled] & {
+      background-color: $wc-color-20;
+      color: $wc-color-09;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.ue-year-picker-popup-wrapper {
+  .uib-datepicker-popup.dropdown-menu {
+    padding: 20px;
+
+    .btn-default {
+
+      border-color: $wc-color-15;
+      &:disabled, fieldset[disabled] & {
+        background-color: $wc-color-20;
+        color: $wc-color-09;
+      }
+      &.active {
+        .text-info {
+          color: $wc-color-20;
+        }
+      }
+    }
+
+    .btn {
+      padding: 6px 5px;
+    }
+    .border {
+      border: $wc-color-21 !important;
+      box-shadow: 2px 2px 4px 0 $black_12;
+    }
+    td {
+      &:first-child {
+        padding: 1px 1px 2px 2px;
+      }
+      padding: 1px 1px 2px 2px;
+    }
+
+    .text-invalid, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date, INPUT.ng-invalid-date {
+      border-color: $wc-color-11;
+      & + SPAN.input-group-btn {
+        button {
+          border-right-color: $wc-color-11;
+          border-top-color: $wc-color-11;
+          border-bottom-color: $wc-color-11;
+        }
+      }
+    }
+  }
+}

@@ -68,6 +68,18 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
 
         return moment(date, _format, true).isValid();
     }
+    /**
+     * Does supplied date look like an iso date XXXX
+     * @param date
+     * @returns {*}
+     */
+    function _isYear(date) {
+        if (date === undefined || date === null) {
+            return false;
+        }
+
+        return moment(date, 'YYYY', true).isValid();
+    }
 
     /**
      * Convert date to a moment date
@@ -352,6 +364,7 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
 
     return {
         isDate: _isDate,
+        isYear: _isYear,
         toMoment: _toMoment,
         toMomentStrict: _toMomentStrict,
         convertDateToISOString : _convertDateToISOString,

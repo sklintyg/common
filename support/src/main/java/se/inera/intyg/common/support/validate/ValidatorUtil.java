@@ -18,11 +18,20 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Strings;
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -30,14 +39,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Common utils used for validation.
@@ -311,13 +313,13 @@ public final class ValidatorUtil {
         return tjanstgoringstid != null && (Ints.tryParse(tjanstgoringstid) == null && Doubles.tryParse(tjanstgoringstid) == null);
     }
 
-    public static boolean isYearBeforeBirth(String year, Personnummer personnummer) throws InvalidPersonNummerException {
+    public static boolean isYearBeforeBirth(String year, Personnummer personnummer) {
         // CHECKSTYLE:OFF MagicNumber
-        return personnummer.getPersonnummer().substring(0, 4).compareTo(year) > 0;
+        return Year.parse(year).isBefore(Year.from(getBirthDateFromPersonnummer(personnummer)));
         // CHECKSTYLE:ON MagicNumber
     }
 
-    public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) throws InvalidPersonNummerException {
+    public static LocalDate getBirthDateFromPersonnummer(Personnummer personnummer) {
         SamordningsnummerValidator samordningsnummerValidator = new SamordningsnummerValidator();
         PersonnummerValidator personnummerValidator = new PersonnummerValidator();
 

@@ -42,6 +42,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.UnderskriftType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
@@ -57,6 +59,7 @@ import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Comparator;
@@ -195,6 +198,51 @@ public final class TransportConverterUtil {
             }
         }
         throw new ConverterException("Unexpected outcome while converting DatePeriodType");
+    }
+
+    /**
+     * Attempt to parse a {@link PartialDateType} from a {@link Delsvar}.
+     *
+     * @param delsvar the delsvar to be converted
+     * @throws ConverterException if the conversion was not successful
+     */
+    public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
+        for (Object o : delsvar.getContent()) {
+            if (o instanceof Node) {
+                PartialDateType partialDateType = new PartialDateType();
+                Node node = (Node) o;
+                NodeList list = node.getChildNodes();
+                String partialDateValue = null;
+                for (int i = 0; i < list.getLength(); i++) {
+                    String textContent = list.item(i).getTextContent();
+                    if (list.item(i).getLocalName() != null) {
+                        switch (list.item(i).getLocalName()) {
+                            case "format":
+                                partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(textContent));
+                                break;
+                            case "value":
+                                partialDateValue = textContent;
+                                break;
+                        }
+                    }
+                }
+                switch (partialDateType.getFormat()) {
+                    case YYYY:
+                        break;
+                    default:
+                        throw new ConverterException("Unexpected format while converting PartialDateType");
+                }
+                if (partialDateValue != null) {
+                    partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
+                }
+                return partialDateType;
+            }
+            if (o instanceof JAXBElement) {
+                JAXBElement<PartialDateType> jaxbType = (JAXBElement<PartialDateType>) o;
+                return jaxbType.getValue();
+            }
+        }
+        throw new ConverterException("Unexpected outcome while converting PartialDateType");
     }
 
     /**

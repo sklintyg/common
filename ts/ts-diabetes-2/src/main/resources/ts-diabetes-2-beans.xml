@@ -1,0 +1,15 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean class="se.inera.intyg.common.ts_diabetes_2.model.converter.WebcertModelFactoryImpl" />
+
+  <bean class="se.inera.intyg.common.ts_diabetes_2.rest.TsDiabetes2ModuleApi" />
+
+  <bean class="se.inera.intyg.common.ts_diabetes_2.validator.InternalDraftValidatorImpl" />
+  
+  <bean class="se.inera.intyg.common.ts_diabetes_2.model.util.TsDiabetes2ModelCompareUtil" />
+
+  <bean id="tsDiabetes2UtokadEntryPoint" class="se.inera.intyg.common.ts_diabetes_2.support.TsDiabetes2EntryPoint" />
+
+</beans>
