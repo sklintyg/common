@@ -51,6 +51,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
+                var patient = ueTSFactoryTemplates.patient(viewState);
 
                 function korkortHogreBehorighet(scope) {
                     if (!scope.model.intygAvser || !scope.model.intygAvser.korkortstyp) {
