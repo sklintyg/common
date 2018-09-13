@@ -91,6 +91,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     private static final String CATEGORY_SYNFUNKTION = "synfunktion";
     private static final String CATEGORY_OVRIGT = "ovrigt";
     private static final String CATEGORY_BEDOMNING = "bedomning";
+    public static final double RULE_13_CUTOFF = 0.5;
+    public static final double RULE_14_CUTOFF = 0.8;
+    public static final double RULE_15_CUTOFF = 0.1;
 
     private static <T> boolean containsUnique(List<T> list) {
         Set<T> set = new HashSet<>();
@@ -241,8 +244,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 }
 
                 // R7: Årtal för 'insulinbehandling sedan' måste vara efter patienten är född
-                if (eligibleForRule7(utlatande) &&
-                        ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString, utlatande.getGrundData().getPatient().getPersonId())
+                if (eligibleForRule7(utlatande)
+                        && ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString, utlatande.getGrundData().getPatient().getPersonId())
                         || parsedYear.isAfter(Year.now())) {
                     addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
                             ValidationMessageType.OTHER);
@@ -501,7 +504,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     // R3
     private static boolean eligibleForRule3(TsDiabetes2Utlatande utlatande) {
         return utlatande.getAllmant() != null
-                && utlatande.getAllmant().getTypAvDiabetes() == KvTypAvDiabetes.DIABETES_TYP_ANNAN;
+                && utlatande.getAllmant().getTypAvDiabetes() == KvTypAvDiabetes.ANNAN;
     }
 
     // R4: Minst 1 behandling behöver vara markerad.
@@ -511,8 +514,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     // R5
     private static boolean eligibleForRule5(TsDiabetes2Utlatande utlatande) {
-        return utlatande != null && utlatande.getAllmant() != null && utlatande.getAllmant().getBehandling() != null &&
-                nullToFalse(utlatande.getAllmant().getBehandling().getInsulin());
+        return utlatande != null && utlatande.getAllmant() != null && utlatande.getAllmant().getBehandling() != null
+                && nullToFalse(utlatande.getAllmant().getBehandling().getInsulin());
     }
 
     // R6
@@ -560,7 +563,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         boolean conditionKorkortstyp = !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
         boolean conditionBinokulartDaligSyn = utlatande.getSynfunktion() != null && utlatande.getSynfunktion().getBinokulart() != null
                 && utlatande.getSynfunktion().getBinokulart().getUtanKorrektion() != null
-                && utlatande.getSynfunktion().getBinokulart().getUtanKorrektion() < 0.5;
+                && utlatande.getSynfunktion().getBinokulart().getUtanKorrektion() < RULE_13_CUTOFF;
         return conditionKorkortstyp && conditionBinokulartDaligSyn;
     }
 
@@ -576,10 +579,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         boolean conditionKorkortstyp = !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
         boolean conditionVansterOgaDaligSyn = utlatande.getSynfunktion() != null && utlatande.getSynfunktion().getVanster() != null
                 && utlatande.getSynfunktion().getVanster().getUtanKorrektion() != null
-                && utlatande.getSynfunktion().getVanster().getUtanKorrektion() < 0.8;
+                && utlatande.getSynfunktion().getVanster().getUtanKorrektion() < RULE_14_CUTOFF;
         boolean conditionHogerOgaDaligSyn = utlatande.getSynfunktion() != null && utlatande.getSynfunktion().getHoger() != null
                 && utlatande.getSynfunktion().getHoger().getUtanKorrektion() != null
-                && utlatande.getSynfunktion().getHoger().getUtanKorrektion() < 0.8;
+                && utlatande.getSynfunktion().getHoger().getUtanKorrektion() < RULE_14_CUTOFF;
 
         return conditionKorkortstyp && (conditionVansterOgaDaligSyn || conditionHogerOgaDaligSyn);
     }
@@ -597,10 +600,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         boolean conditionKorkortstyp = !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
         boolean conditionVansterOgaDaligSyn = utlatande.getSynfunktion() != null && utlatande.getSynfunktion().getVanster() != null
                 && utlatande.getSynfunktion().getVanster().getUtanKorrektion() != null
-                && utlatande.getSynfunktion().getVanster().getUtanKorrektion() < 0.1;
+                && utlatande.getSynfunktion().getVanster().getUtanKorrektion() < RULE_15_CUTOFF;
         boolean conditionHogerOgaDaligSyn = utlatande.getSynfunktion() != null && utlatande.getSynfunktion().getHoger() != null
                 && utlatande.getSynfunktion().getHoger().getUtanKorrektion() != null
-                && utlatande.getSynfunktion().getHoger().getUtanKorrektion() < 0.1;
+                && utlatande.getSynfunktion().getHoger().getUtanKorrektion() < RULE_15_CUTOFF;
 
         return conditionKorkortstyp && (conditionVansterOgaDaligSyn || conditionHogerOgaDaligSyn);
     }

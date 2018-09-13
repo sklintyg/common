@@ -48,7 +48,7 @@
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
-    "typAvDiabetes":"DIABETES_TYP_ANNAN",
+    "typAvDiabetes":"ANNAN",
     "behandling":{
       "endastKost":true
     }

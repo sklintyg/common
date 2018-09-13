@@ -48,7 +48,7 @@
   },
   "allmant":{
     "diabetesDiagnosAr":"1990",
-    "typAvDiabetes":"DIABETES_TYP_1",
+    "typAvDiabetes":"TYP1",
     "behandling":{
       "insulin":true,
       "insulinSedanAr":"1926"

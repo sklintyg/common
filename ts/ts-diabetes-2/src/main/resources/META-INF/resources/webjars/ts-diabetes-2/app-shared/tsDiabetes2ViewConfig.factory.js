@@ -247,7 +247,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['$fi
                                     type: 'uv-simple-value',
                                     modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
                                 }]
-                            },
+                            }
 
                         ]
                     }]
@@ -269,7 +269,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['$fi
                                     type: 'uv-simple-value',
                                     modelProp: 'hypoglykemier.senasteTidpunktVaken'
                                 }]
-                            },
+                            }
 
                         ]
                     }]
@@ -291,7 +291,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['$fi
                                     type: 'uv-simple-value',
                                     modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
                                 }]
-                            },
+                            }
 
                         ]
                     }]

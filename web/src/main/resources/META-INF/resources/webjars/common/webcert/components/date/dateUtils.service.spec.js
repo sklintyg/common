@@ -54,7 +54,7 @@ describe('DateUtilsService', function() {
         });
 
         it ('check that isYear on undefined is false', function () {
-            var dateString = undefined;
+            var dateString;
             expect(DateUtilsService.isYear(dateString)).toBeFalsy();
         });
         it ('check that isYear on "aaa" is false', function () {

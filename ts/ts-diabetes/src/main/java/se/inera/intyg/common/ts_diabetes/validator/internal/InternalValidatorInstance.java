@@ -39,7 +39,6 @@ import se.inera.intyg.common.ts_diabetes.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.model.internal.Syn;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.model.internal.Vardkontakt;
-import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 
 /**
  * Class for validating drafts of the internal model.
