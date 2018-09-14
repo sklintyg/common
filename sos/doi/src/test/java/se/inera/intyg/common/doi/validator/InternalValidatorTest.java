@@ -54,6 +54,7 @@ public class InternalValidatorTest {
                 date.format(DateTimeFormatter.ISO_LOCAL_DATE).replace("-", "") + "-4321").get();
         utlatande.getGrundData().getPatient().setPersonId(personnummer);
         utlatande.getDodsdatum().setDate(date.plusDays(daysLived).format(DateTimeFormatter.ISO_LOCAL_DATE));
+        utlatande.getOperationDatum().setDate(date.plusDays(5).format(DateTimeFormatter.ISO_LOCAL_DATE));
         return utlatande;
     }
 

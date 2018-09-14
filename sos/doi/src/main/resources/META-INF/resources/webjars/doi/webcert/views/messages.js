@@ -33,6 +33,7 @@ angular.module('doi').constant('doi.messages', {
         'operation.operationAnledning.operationNejUppgiftSaknas': 'Beskrivning om tillstånd får inte anges om val anges som Nej eller Uppgift Saknas.',
         'operation.operationDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
         'operation.operationDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
+        'operation.operationDatum.fyraVeckorForeDodDatum': 'Datumet får inte vara tidigare än fyra veckor före döden.',
         'forgiftning.forgiftningDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än  "Dödsdatum".',
         'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'doi.validation.terminalDodsorsak.datum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
