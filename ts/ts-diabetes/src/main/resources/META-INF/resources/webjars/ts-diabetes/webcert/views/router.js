@@ -28,7 +28,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     $stateProvider.
         state('ts-diabetes-edit', {
             data: { defaultActive : 'index', intygType: 'ts-diabetes' },
-            url: '/ts-diabetes/edit/:certificateId/:focusOn',
+            url: '/ts-diabetes/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -69,7 +69,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
         }).
         state('webcert.intyg.ts-diabetes', {
             data: { defaultActive: 'index', intygType: 'ts-diabetes' },
-            url: '/intyg/ts-diabetes/:certificateId/:focusOn?:signed',
+            url: '/intyg/ts-diabetes/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

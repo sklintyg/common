@@ -24,14 +24,16 @@ angular.module('af00213').config(function($stateProvider) {
     $stateProvider.
         state('af00213-edit', {
             data: { defaultActive : 'index', intygType: 'af00213', useFmb: true },
-            url : '/af00213/edit/:certificateId/:focusOn',
+            url : '/af00213/:intygTypeVersion/edit/:certificateId/:focusOn',
                 views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'af00213.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'af00213.UtkastConfigFactory',
+                        UtkastConfigFactory: function(factoryResolverHelper, $stateParams) {
+                            return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
+                        },
                         supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
                     }
                 },
@@ -58,20 +60,24 @@ angular.module('af00213').config(function($stateProvider) {
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'af00213.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'af00213.UtkastConfigFactory'
+                        UtkastConfigFactory: function(factoryResolverHelper, $stateParams) {
+                            return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
+                        }
                     }
                  }
             }
         }).state('webcert.intyg.af00213', {
             data: { defaultActive : 'index', intygType: 'af00213' },
-            url:'/intyg/af00213/:certificateId/:focusOn?:signed',
+            url:'/intyg/af00213/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'af00213.IntygController.ViewStateService',
-                        ViewConfigFactory: 'af00213.viewConfigFactory',
+                        ViewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                            return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
+                        },
                         supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
                     }
                 },
@@ -83,25 +89,5 @@ angular.module('af00213').config(function($stateProvider) {
                     }
                 }
             }
-        }).
-        state('af00213-readonly', {
-        url: '/intyg-read-only/af00213/:certificateId',
-        views: {
-            'content@': {
-                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
-                controller: 'common.wcIntygReadOnlyViewController',
-                resolve: {
-                    intygsType: function() {
-                        return 'af00213';
-                    },
-                    ViewConfigFactory: 'af00213.viewConfigFactory',
-                    DiagnosExtractor: function() {
-                        return function (af00213Model) {
-                            return af00213Model.diagnoser[0].diagnosKod;
-                        };
-                    }
-                }
-            }
-        }
-    });
+        });
 });

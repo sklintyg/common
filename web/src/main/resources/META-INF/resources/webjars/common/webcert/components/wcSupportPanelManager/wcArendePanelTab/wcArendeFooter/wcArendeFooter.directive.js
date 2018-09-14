@@ -113,13 +113,14 @@ angular.module('common').directive('wcArendeFooter',
 
                             statService.refreshStat();
 
-                            function goToDraft(type, intygId) {
+                            function goToDraft(type, intygTypeVersion, intygId) {
                                 $state.go(type + '-edit', {
-                                    certificateId: intygId
+                                    certificateId: intygId,
+                                    intygTypeVersion: intygTypeVersion
                                 });
                             }
 
-                            goToDraft(ArendeListViewState.intygProperties.type, result.intygsUtkastId);
+                            goToDraft(result.intygsTyp, result.intygTypeVersion, result.intygsUtkastId);
 
                         }, function(error) {
                             $log.error(error);

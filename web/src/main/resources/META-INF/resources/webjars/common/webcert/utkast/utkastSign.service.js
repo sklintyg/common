@@ -419,9 +419,11 @@ angular.module('common').factory('common.UtkastSignService',
             }
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
                 signModel.signingWithSITHSInProgress = false;
-
+                //TODO: either use stateParams for ALL context properties (intygstyp, intygTypeVersion and intygsId) instead of having to pass them
+                // around in all these function signatures?
+                var intygTypeVersion = $stateParams.intygTypeVersion;
                 $location.replace();
-                $location.path('/intyg/' + intygsTyp + '/' + intygsId + '/').search('signed', true);
+                $location.path('/intyg/' + intygsTyp + '/' + intygTypeVersion + '/' + intygsId + '/').search('signed', true);
                 receiverService.getData().showApproveDialog = needsReceiverApproval(intygsTyp);
                 statService.refreshStat();
             }

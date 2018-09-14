@@ -87,13 +87,14 @@ describe('UtkastSignService', function() {
         }]));
 
     describe('#signera server', function() {
-        var intygId = 123, biljettId = 12345, version = 5;
+        var intygId = 123, biljettId = 12345, version = 5, intygTypeVersion = '1.0';
         var signModel;
 
         beforeEach(function() {
             User.getUser().authenticationScheme = 'urn:inera:webcert:fake';
 
             $stateParams.certificateId = intygId;
+            $stateParams.intygTypeVersion = intygTypeVersion;
 
             signModel = {
                 dialog: {
@@ -121,7 +122,7 @@ describe('UtkastSignService', function() {
             UtkastSignService.__test__.confirmSignera(signModel, 'fk7263', intygId, version, $q.defer());
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygTypeVersion + '/' + intygId + '/');
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
@@ -140,7 +141,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygTypeVersion + '/' + intygId + '/');
         });
 
         it('should show an error if the server refuses the request to sign', function() {
@@ -169,13 +170,14 @@ describe('UtkastSignService', function() {
     });
 
     describe('Signera bankid', function() {
-        var intygId = 123, biljettId = 12345, version = 5;
+        var intygId = 123, biljettId = 12345, version = 5, intygTypeVersion = '1.0';
 
         beforeEach(function() {
             User.getUser().authenticationScheme = 'urn:oasis:names:tc:SAML:2.0:ac:classes:TLSClient';
             User.getUser().authenticationMethod = 'BANKID';
 
             $stateParams.certificateId = intygId;
+            $stateParams.intygTypeVersion = intygTypeVersion;
 
             UserModel.hasAuthenticationMethod = function() {
                 return false;
@@ -228,7 +230,7 @@ describe('UtkastSignService', function() {
 
             // expect(dialogState.model.bodyTextId).toBe('common.modal.bankid.signed');
             // expect(dialogState.model.signState).toBe('SIGNERAD');
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygTypeVersion + '/' + intygId + '/');
             expect(signResult).toEqual({newVersion: 111});
         });
 
@@ -250,7 +252,7 @@ describe('UtkastSignService', function() {
     });
 
     describe('#signera client', function() {
-        var intygId = 123, biljettId = 12345, version = 5;
+        var intygId = 123, biljettId = 12345, version = 5, intygTypeVersion = '1.0';
 
         beforeEach(function() {
             iid_GetProperty = jasmine.createSpy('iid_GetProperty'); // jshint ignore:line
@@ -262,6 +264,7 @@ describe('UtkastSignService', function() {
             User.getUser().authenticationMethod = 'NET_ID';
 
             $stateParams.certificateId = intygId;
+            $stateParams.intygTypeVersion = intygTypeVersion;
         });
 
         afterEach(function() {
@@ -287,7 +290,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygTypeVersion + '/' + intygId + '/');
         });
 
         it('should redirect to "visa intyg" if the request to sign was successful, even if delayed', function() {
@@ -314,7 +317,7 @@ describe('UtkastSignService', function() {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygId + '/');
+            expect($location.path).toHaveBeenCalledWith('/intyg/fk7263/' + intygTypeVersion + '/' + intygId + '/');
         });
 
         it('should show error if unable to get hash', function() {

@@ -24,7 +24,7 @@ angular.module('luae_fs').config(function($stateProvider) {
     $stateProvider.
         state('luae_fs-edit', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/edit/:certificateId/:focusOn',
+            url : '/luae_fs/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -64,7 +64,7 @@ angular.module('luae_fs').config(function($stateProvider) {
         }).
         state('webcert.intyg.luae_fs', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url:'/intyg/luae_fs/:certificateId/:focusOn?:signed',
+            url:'/intyg/luae_fs/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -86,7 +86,7 @@ angular.module('luae_fs').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.luae_fs', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luae_fs'  },
-            url: '/fragasvar/luae_fs/:certificateId',
+            url: '/fragasvar/luae_fs/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

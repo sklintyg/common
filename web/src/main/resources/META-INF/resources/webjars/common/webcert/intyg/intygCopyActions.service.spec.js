@@ -104,13 +104,13 @@ describe('IntygCopyService', function() {
             UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, true);
 
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
-                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263', 'intygTypeVersion': '1.0'}
             );
             IntygCopyActions.fornya($scope.viewState, intyg);
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
-            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
+            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
 
             UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, false);
         });
@@ -119,7 +119,7 @@ describe('IntygCopyService', function() {
 
             UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, false);
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/fornya/').respond(
-                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263' }
             );
             IntygCopyActions.fornya($scope.viewState, intyg);
             $httpBackend.flush();
@@ -214,12 +214,12 @@ describe('IntygCopyService', function() {
             });
 
             $httpBackend.expectPOST('/moduleapi/intyg/' + intyg.intygType + '/' + intyg.intygId +'/' + intyg.newIntygType + '/create/').respond(
-                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263'}
+                {'intygsUtkastId':'nytt-utkast-id','intygsTyp':'fk7263', 'intygTypeVersion': '1.0'}
             );
             IntygCopyActions.createFromTemplate($scope.viewState, intyg);
             dialogOptions.button1click();
             $httpBackend.flush();
-            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id' });
+            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
         });
     });
 

@@ -24,7 +24,7 @@ angular.module('luse').config(function($stateProvider) {
     $stateProvider.
         state('luse-edit', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url : '/luse/edit/:certificateId/:focusOn',
+            url : '/luse/edit/:intygTypeVersion/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -64,7 +64,7 @@ angular.module('luse').config(function($stateProvider) {
         }).
         state('webcert.intyg.luse', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url:'/intyg/luse/:certificateId/:focusOn?:signed',
+            url:'/intyg/luse/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -86,7 +86,7 @@ angular.module('luse').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.luse', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luse' },
-            url: '/fragasvar/luse/:certificateId',
+            url: '/fragasvar/luse/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

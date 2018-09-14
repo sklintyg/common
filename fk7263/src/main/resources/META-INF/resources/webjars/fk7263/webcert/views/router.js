@@ -28,7 +28,7 @@ angular.module('fk7263').config(function($stateProvider) {
     $stateProvider.
     state('fk7263-edit', {
         data: { defaultActive : 'index', intygType: 'fk7263'},
-        url : '/fk7263/edit/:certificateId/:focusOn',
+        url : '/fk7263/:intygTypeVersion/edit/:certificateId/:focusOn',
         views : {
             'header@': {
                 templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
@@ -49,7 +49,7 @@ angular.module('fk7263').config(function($stateProvider) {
     }).
         state('webcert.intyg.fk7263', {
             data: { defaultActive : 'index', intygType: 'fk7263' },
-            url:'/intyg/fk7263/:certificateId/:focusOn?:signed',
+            url:'/intyg/fk7263/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
@@ -69,7 +69,7 @@ angular.module('fk7263').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.fk7263', {
             data: { defaultActive : 'enhet-arenden', intygType: 'fk7263' },
-            url: '/fragasvar/fk7263/:certificateId',
+            url: '/fragasvar/fk7263/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
@@ -87,7 +87,7 @@ angular.module('fk7263').config(function($stateProvider) {
                 }
             }
         }).state('fk7263-readonly', {
-        url: '/intyg-read-only/fk7263/:certificateId',
+        url: '/intyg-read-only/fk7263/:intygTypeVersion/:certificateId',
         views: {
             'content@': {
                 templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',

@@ -24,7 +24,7 @@ angular.module('luae_na').config(function($stateProvider) {
     $stateProvider.
         state('luae_na-edit', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url : '/luae_na/edit/:certificateId/:focusOn',
+            url : '/luae_na/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -64,7 +64,7 @@ angular.module('luae_na').config(function($stateProvider) {
         }).
         state('webcert.intyg.luae_na', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url:'/intyg/luae_na/:certificateId/:focusOn?:signed',
+            url:'/intyg/luae_na/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -86,7 +86,7 @@ angular.module('luae_na').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.luae_na', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luae_na' },
-            url: '/fragasvar/luae_na/:certificateId',
+            url: '/fragasvar/luae_na/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

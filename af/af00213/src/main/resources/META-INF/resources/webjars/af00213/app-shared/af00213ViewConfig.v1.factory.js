@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00213').factory('af00213.viewConfigFactory', ['uvUtil', function (uvUtil) {
+angular.module('af00213').factory('af00213.viewConfigFactory.v1', ['uvUtil', function (uvUtil) {
     'use strict';
 
     var viewConfig = [{

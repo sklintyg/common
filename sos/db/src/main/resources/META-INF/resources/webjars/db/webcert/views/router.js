@@ -24,7 +24,7 @@ angular.module('db').config(function($stateProvider) {
     $stateProvider.
         state('db-edit', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/db/edit/:certificateId/:focusOn',
+            url : '/db/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -65,7 +65,7 @@ angular.module('db').config(function($stateProvider) {
         }).
         state('webcert.intyg.db', {
             data: { defaultActive : 'index', intygType: 'db' },
-            url:'/intyg/db/:certificateId/:focusOn',
+            url:'/intyg/db/:intygTypeVersion/:certificateId/:focusOn',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -87,7 +87,7 @@ angular.module('db').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.db', {
             data: { defaultActive : 'enhet-arenden', intygType: 'db'  },
-            url: '/fragasvar/db/:certificateId',
+            url: '/fragasvar/db/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

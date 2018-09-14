@@ -24,7 +24,7 @@ angular.module('doi').config(function($stateProvider) {
     $stateProvider.
         state('doi-edit', {
             data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/doi/edit/:certificateId/:focusOn',
+            url : '/doi/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -65,7 +65,7 @@ angular.module('doi').config(function($stateProvider) {
         }).
         state('webcert.intyg.doi', {
             data: { defaultActive : 'index', intygType: 'doi' },
-            url:'/intyg/doi/:certificateId/',
+            url:'/intyg/:intygTypeVersion/doi/:certificateId/',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',

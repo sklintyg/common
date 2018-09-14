@@ -24,7 +24,7 @@ angular.module('lisjp').config(function($stateProvider) {
     $stateProvider.
         state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/edit/:certificateId/:focusOn',
+            url : '/lisjp/:intygTypeVersion/edit/:certificateId/:focusOn',
                 views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -64,7 +64,7 @@ angular.module('lisjp').config(function($stateProvider) {
             }
         }).state('webcert.intyg.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
-            url:'/intyg/lisjp/:certificateId/:focusOn?:signed',
+            url:'/intyg/lisjp/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -86,7 +86,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }).
         state('webcert.fragasvar.lisjp', {
             data: { defaultActive : 'enhet-arenden', intygType: 'lisjp'  },
-            url: '/fragasvar/lisjp/:certificateId',
+            url: '/fragasvar/lisjp/:intygTypeVersion/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
@@ -107,7 +107,7 @@ angular.module('lisjp').config(function($stateProvider) {
             }
         }).
         state('lisjp-readonly', {
-        url: '/intyg-read-only/lisjp/:certificateId',
+        url: '/intyg-read-only/lisjp/:intygTypeVersion/:certificateId',
         views: {
             'content@': {
                 templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',

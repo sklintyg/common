@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('af00213').factory('af00213.UtkastConfigFactory',
+angular.module('af00213').factory('af00213.UtkastConfigFactory.v1',
     ['$log', '$timeout', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
         function ($log, $timeout, DateUtils, ueFactoryTemplates) {
             'use strict';

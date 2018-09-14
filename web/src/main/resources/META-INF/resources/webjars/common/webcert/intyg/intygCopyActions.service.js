@@ -92,7 +92,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     dialogModel.showerror = false;
 
                     var end = function() {
-                        IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
+                        IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygTypeVersion, draftResponse.intygsUtkastId);
                     };
 
                     closeDialog({direct:end});
@@ -131,7 +131,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     $log.debug('fornya intyg without dialog' + intygFornyaRequest);
                     resetViewStateErrorKeys(viewState);
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
-                        IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygsUtkastId);
+                        IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygTypeVersion, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
                         //The copy actions service is used both in an viewIntyg context as well as in patient list view.
                         //The viewStates they provide to this service are actually 2 different structures. We really should look at refactoring this..

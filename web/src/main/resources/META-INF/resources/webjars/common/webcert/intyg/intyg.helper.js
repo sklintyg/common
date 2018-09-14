@@ -21,9 +21,10 @@ angular.module('common').factory('common.IntygHelper',
         function($log, $state) {
             'use strict';
 
-            function _goToDraft(type, intygId) {
+            function _goToDraft(type, intygTypeVersion, intygId) {
                 $state.go(type + '-edit', {
-                    certificateId: intygId
+                    certificateId: intygId,
+                    intygTypeVersion: intygTypeVersion
                 });
             }
 

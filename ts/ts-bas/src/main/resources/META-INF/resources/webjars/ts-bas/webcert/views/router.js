@@ -28,7 +28,7 @@ angular.module('ts-bas').config(function($stateProvider) {
     $stateProvider.
         state('ts-bas-edit', {
             data: { defaultActive : 'index', intygType: 'ts-bas' },
-            url: '/ts-bas/edit/:certificateId/:focusOn',
+            url: '/ts-bas/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -69,7 +69,7 @@ angular.module('ts-bas').config(function($stateProvider) {
         }).
         state('webcert.intyg.ts-bas', {
             data: { defaultActive: 'index', intygType: 'ts-bas' },
-            url: '/intyg/ts-bas/:certificateId/:focusOn?:signed',
+            url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',

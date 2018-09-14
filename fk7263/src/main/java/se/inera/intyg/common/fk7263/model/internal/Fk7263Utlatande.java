@@ -529,7 +529,7 @@ public class Fk7263Utlatande implements Utlatande {
         this.grundData = grundData;
     }
 
-    // Not used for this certificate
+    // Fk7263 will always be 1.0
     @Override
     public String getTextVersion() {
         return null;
