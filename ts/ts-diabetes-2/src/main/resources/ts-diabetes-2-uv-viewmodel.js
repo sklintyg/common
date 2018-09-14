@@ -144,7 +144,7 @@ var viewConfig = [
                     components: [
                         {
                             type: 'uv-boolean-value',
-                            modelProp: 'hypoglykemier.sjukdomenUnderkontroll'
+                            modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
                         }
                     ]
                 }]

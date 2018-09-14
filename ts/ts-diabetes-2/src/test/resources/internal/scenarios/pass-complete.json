@@ -122,7 +122,7 @@
     }
   },
   "hypoglykemier":{
-    "sjukdomenUnderkontroll":true,
+    "sjukdomenUnderKontroll":true,
     "nedsattHjarnfunktion":true,
     "forstarRisker":true,
     "fortrogenMedSymptom":true,

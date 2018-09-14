@@ -63,7 +63,7 @@ public final class RespConstants {
     public static final String HYPOGLYKEMIER_SVAR_ID = "100";
     public static final String HYPOGLYKEMIER_JSON_ID = "hypoglykemier";
     public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID = "100.1";
-    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID = "sjukdomenUnderkontroll";
+    public static final String HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID = "sjukdomenUnderKontroll";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID = "37";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID = "37.1";
     public static final String HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID = "nedsattHjarnfunktion";

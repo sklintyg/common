@@ -147,7 +147,7 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.viewConfigFactory', ['$fi
                         components: [
                             {
                                 type: 'uv-boolean-value',
-                                modelProp: 'hypoglykemier.sjukdomenUnderkontroll'
+                                modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
                             }
                         ]
                     }]

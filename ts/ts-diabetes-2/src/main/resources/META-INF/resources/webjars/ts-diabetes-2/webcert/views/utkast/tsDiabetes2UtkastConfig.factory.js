@@ -239,13 +239,13 @@ angular.module('ts-diabetes-2').factory('ts-diabetes-2.UtkastConfigFactory',
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {
                         hideExpression: function (scope) { return !R6_OR_R17(scope.model);}}, [
                         fraga(100, 'FRG_100.RBK', 'FRG_100.HLP', {
-                            required: true, requiredProp: 'hypoglykemier.sjukdomenUnderkontroll'
+                            required: true, requiredProp: 'hypoglykemier.sjukdomenUnderKontroll'
                         }, [
                              {
                                  type: 'ue-radio',
                                  yesLabel: 'SVAR_JA.RBK',
                                  noLabel: 'SVAR_NEJ.RBK',
-                                 modelProp: 'hypoglykemier.sjukdomenUnderkontroll'
+                                 modelProp: 'hypoglykemier.sjukdomenUnderKontroll'
                             }
                         ]),
                         fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', {
