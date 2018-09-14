@@ -1,5 +1,6 @@
 dependencies {
   compile project(':ts-parent')
+  compile project(":common-pdf")
 
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
   apt "com.google.auto.value:auto-value:${autovalueVersion}"

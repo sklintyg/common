@@ -193,11 +193,15 @@ public class UVList extends UVComponent {
             // This is weird, but we need to invoke the function one time per evalValueFromModel.
             ScriptObjectMirror evaluatedModelProp = (ScriptObjectMirror) eval;
 
-            int index = 0;
-            for (Object o : evaluatedModelProp.values()) {
-                Object result = listKey.call(null, o, index++);
-                if (result != null) {
-                    results.add((String) result);
+            if (evaluatedModelProp == null) {
+                results.add(EJ_ANGIVET_STR);
+            } else {
+                int index = 0;
+                for (Object o : evaluatedModelProp.values()) {
+                    Object result = listKey.call(null, o, index++);
+                    if (result != null) {
+                        results.add((String) result);
+                    }
                 }
             }
         } else {
