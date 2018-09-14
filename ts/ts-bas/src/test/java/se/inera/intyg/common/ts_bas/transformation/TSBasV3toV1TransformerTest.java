@@ -108,7 +108,6 @@ public class TSBasV3toV1TransformerTest {
 
             List v1Results = validate(v1Schema, result);
             if (!v1Results.isEmpty()) {
-                System.out.println(result);
                 fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results.toString());
             }
         }
