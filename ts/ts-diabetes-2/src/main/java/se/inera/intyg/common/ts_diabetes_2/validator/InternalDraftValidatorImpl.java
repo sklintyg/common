@@ -268,7 +268,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     }
 
     private void validateSjukdomenUnderKontroll(TsDiabetes2Utlatande utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getSjukdomenUnderkontroll() == null) {
+        if (utlatande.getHypoglykemier().getSjukdomenUnderKontroll() == null) {
             addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
                     ValidationMessageType.EMPTY);
         }

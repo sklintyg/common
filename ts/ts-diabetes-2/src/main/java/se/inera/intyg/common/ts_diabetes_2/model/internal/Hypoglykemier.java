@@ -48,7 +48,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 public abstract class Hypoglykemier {
 
     @Nullable
-    public abstract Boolean getSjukdomenUnderkontroll();
+    public abstract Boolean getSjukdomenUnderKontroll();
 
     @Nullable
     public abstract Boolean getNedsattHjarnfunktion();
@@ -95,7 +95,7 @@ public abstract class Hypoglykemier {
         public abstract Hypoglykemier build();
 
         @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID)
-        public abstract Builder setSjukdomenUnderkontroll(Boolean value);
+        public abstract Builder setSjukdomenUnderKontroll(Boolean value);
 
         @JsonProperty(HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID)
         public abstract Builder setNedsattHjarnfunktion(Boolean value);

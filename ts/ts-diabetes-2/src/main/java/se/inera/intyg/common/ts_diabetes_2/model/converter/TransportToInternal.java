@@ -304,7 +304,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID:
-                    hypoglykemier.setSjukdomenUnderkontroll(getBooleanContent(delsvar));
+                    hypoglykemier.setSjukdomenUnderKontroll(getBooleanContent(delsvar));
                 break;
                 default:
                     throw new IllegalArgumentException();

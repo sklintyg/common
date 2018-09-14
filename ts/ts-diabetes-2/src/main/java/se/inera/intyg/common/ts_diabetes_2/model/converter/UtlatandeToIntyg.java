@@ -247,7 +247,7 @@ public final class UtlatandeToIntyg {
 
     private static void buildHypoglykemier(Hypoglykemier hypoglykemier, List<Svar> svars) {
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SVAR_ID,
-                HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderkontroll());
+                HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderKontroll());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID,
                 HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID, hypoglykemier.getNedsattHjarnfunktion());
