@@ -60,7 +60,6 @@ import java.time.Year;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -84,7 +83,6 @@ import se.inera.intyg.common.ts_diabetes_2.model.kodverk.KvTypAvDiabetes;
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetes2Utlatande> {
 
     private static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
-    private static final String CATEGORY_IDENTITET_STYRKT_GENOM = "'identitetStyrktGenom'";
     private static final String CATEGORY_ALLMANT = "allmant";
     private static final String CATEGORY_IDENTITET = "identitet";
     private static final String CATEGORY_HYPOGLYKEMIER = "hypoglykemier";
@@ -94,11 +92,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
     public static final double RULE_13_CUTOFF = 0.5;
     public static final double RULE_14_CUTOFF = 0.8;
     public static final double RULE_15_CUTOFF = 0.1;
-
-    private static <T> boolean containsUnique(List<T> list) {
-        Set<T> set = new HashSet<>();
-        return list.stream().allMatch(set::add);
-    }
 
     @Override
     public ValidateDraftResponse validateDraft(TsDiabetes2Utlatande utlatande) {
