@@ -45,4 +45,10 @@ wc-intyg-button-bar {
       cursor: not-allowed;
     }
   }
+  div.white-space-no-wrap {
+    display: flex;
+    > * {
+      margin-left: 9px;
+    }
+  }
 }
