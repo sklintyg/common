@@ -113,9 +113,9 @@ public class InternalValidatorTest {
     @Test
     public void testR3_2() throws ScenarioNotFoundException {
         DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
-        utlatandeFromJson.getAntraffatDodDatum().setDate(LocalDate.now().minusDays(14).format(DateTimeFormatter.ISO_LOCAL_DATE));
-        utlatandeFromJson.getDodsdatum().setDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        utlatandeFromJson.getUndersokningDatum().setDate(LocalDate.now().minusDays(28).format(DateTimeFormatter.ISO_LOCAL_DATE));
+        utlatandeFromJson.getAntraffatDodDatum().setDate(LocalDate.now().minusMonths(2).minusDays(14).format(DateTimeFormatter.ISO_LOCAL_DATE));
+        utlatandeFromJson.getDodsdatum().setDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-00")));
+        utlatandeFromJson.getUndersokningDatum().setDate(LocalDate.now().minusMonths(2).minusDays(28).format(DateTimeFormatter.ISO_LOCAL_DATE));
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, internalValidationResponse.getValidationErrors().get(0).getType());
