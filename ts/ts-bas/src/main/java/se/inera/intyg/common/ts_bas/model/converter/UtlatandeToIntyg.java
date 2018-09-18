@@ -382,8 +382,8 @@ public final class UtlatandeToIntyg {
         if (source.getKanInteTaStallning() != null && source.getKanInteTaStallning()) {
             svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans)
                     .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
-                            aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, KorkortsbehorighetKod.KANINTETEASTALLNING.getCode(),
-                                    KorkortsbehorighetKod.KANINTETEASTALLNING.getDescription()))
+                            aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, KorkortsbehorighetKod.KANINTETASTALLNING.getCode(),
+                                    KorkortsbehorighetKod.KANINTETASTALLNING.getDescription()))
                     .build());
         }
         addIfNotBlank(svars, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34,

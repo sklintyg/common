@@ -423,7 +423,7 @@ public class TsBasTransformerXpathTest {
         }
         if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
             assertTrue("Rekommendationsvärde Kan inte ta ställning (VAR11)",
-                    xPath.evaluate(booleanXPath(REKOMMENDATION_VARDE_TEMPLATE, KorkortsbehorighetKod.KANINTETEASTALLNING.getCode())));
+                    xPath.evaluate(booleanXPath(REKOMMENDATION_VARDE_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
         }
 
         if (utlatande.getBedomning().getBehovAvLakareSpecialistKompetens() != null) {

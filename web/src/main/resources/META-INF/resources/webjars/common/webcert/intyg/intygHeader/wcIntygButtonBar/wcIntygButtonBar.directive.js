@@ -82,6 +82,12 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
             };
 
             $scope.showEmployerPrintBtn = function() {
+                // Default true, if showEmployerPrintBtn exists use that value
+                // function added for special case for smittskydd that shouldn't allow to print minimal. INTYG-
+                if (angular.isFunction($scope.viewState.showEmployerPrintBtn) && !$scope.viewState.showEmployerPrintBtn()) {
+                    return false;
+                }
+
                 return IntygHeaderViewState.intygLoaded && $scope.arbetsgivarUtskrift && !CommonIntygViewState.isRevoked();
             };
 

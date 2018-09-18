@@ -41,7 +41,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
-import se.inera.intyg.common.ts_bas.pdf.PdfGeneratorImpl;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
@@ -93,9 +92,6 @@ public class TsBasModuleApiTest {
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
     @Mock
-    private PdfGeneratorImpl pdfGenerator;
-
-    @Mock
     private IntygTextsService intygTexts;
 
     @Mock
@@ -110,18 +106,6 @@ public class TsBasModuleApiTest {
         Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
         field.setAccessible(true);
         field.set(webcertModelFactory, intygTexts);
-    }
-
-    @Test
-    public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
-                .thenReturn(new byte[] {});
-        when(pdfGenerator.generatePdfFilename(any(TsBasUtlatande.class))).thenReturn("filename");
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi
-                    .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
-                            UtkastStatus.SIGNED);
-        }
     }
 
     @Test

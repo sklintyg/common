@@ -21,6 +21,7 @@ package se.inera.intyg.common.pdf.model;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -114,6 +115,16 @@ public abstract class UVComponent {
             render = handleShowExpression(obj);
         }
         return render;
+    }
+
+    void renderEjAngivet(Div parent) {
+        parent.add(new Paragraph(EJ_ANGIVET_STR)
+                .setItalic()
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE)
+                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
     }
 
     private boolean isNotEligibleForCheck(ScriptObjectMirror obj) {

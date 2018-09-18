@@ -18,115 +18,64 @@
  */
 package se.inera.intyg.common.ts_bas.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.Status;
+
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
-import se.inera.intyg.common.ts_bas.utils.Scenario;
-import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertNotNull;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {
 
-    private static final String TRANSP_RECIPIENT_ID = "TRANSP";
-    private static final String HSVARD_RECIPIENT_ID = "HSVARD";
-    @Mock
-    private IntygTextsService intygTexts;
+    private PdfGenerator testee = new PdfGenerator();
 
-    @InjectMocks
-    private PdfGeneratorImpl pdfGen = new PdfGeneratorImpl(true);
-
-    private ObjectMapper objectMapper = new CustomObjectMapper();
-    private List<Status> defaultStatuses;
+    private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
     @Test
-    public void testGeneratePdf() throws Exception {
-        for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            byte[] pdf = pdfGen.generatePDF(scenario.asInternalModel(), defaultStatuses, ApplicationOrigin.MINA_INTYG, UtkastStatus.SIGNED);
-            assertNotNull("Error in scenario " + scenario.getName(), pdf);
-            writePdfToFile(pdf, scenario);
-        }
-    }
+    public void testGeneratePdf() throws IOException, ModuleException {
+        IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsTsBasRepositoryTestHelper();
+        intygsTextRepositoryHelper.update();
+        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-    @Test
-    public void testGenerateWebcertPdf() throws Exception {
-        Scenario s = ScenarioFinder.getInternalScenario("valid-maximal");
-        byte[] pdf = pdfGen.generatePDF(s.asInternalModel(), defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
-        writePdfToFile(pdf, "webcert-default");
+        String jsonModel = IOUtils.toString(new ClassPathResource("PdfGenerator/utlatande.json").getInputStream(),
+                Charset.forName("UTF-8"));
+        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+        assertNotNull(pdfResponse);
+        Pattern p = Pattern.compile("^ts_bas_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
     }
 
     @Test
-    public void testGenerateWebcertDraftPdf() throws Exception {
-        final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utkast_utlatande.json").getFile(),
-                TsBasUtlatande.class);
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE);
-        writePdfToFile(pdf, "webcert-utkast");
-    }
+    public void testGeneratePdfUtkast() throws IOException, ModuleException {
+        IntygTextsTsBasRepositoryTestHelper intygsTextRepositoryHelper = new IntygTextsTsBasRepositoryTestHelper();
+        intygsTextRepositoryHelper.update();
+        IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-    @Test
-    public void testGenerateWebcertMakuleratPdf() throws Exception {
-        final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utlatande.json").getFile(),
-                TsBasUtlatande.class);
-        List<Status> statuses = new ArrayList<>();
-        statuses.add(new Status(CertificateState.SENT, TRANSP_RECIPIENT_ID, LocalDateTime.now()));
-        // generate makulerat version
-        statuses.add(new Status(CertificateState.CANCELLED, HSVARD_RECIPIENT_ID, LocalDateTime.now()));
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
-        writePdfToFile(pdf, "webcert-makulerat");
-    }
-
-    @Test
-    public void testGenerateWebcertLockedPdf() throws Exception {
-        final TsBasUtlatande tsBasUtlatande = objectMapper.readValue(new ClassPathResource("PdfGenerator/utlatande.json").getFile(),
-                TsBasUtlatande.class);
-        List<Status> statuses = new ArrayList<>();
-        byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, statuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED);
-        writePdfToFile(pdf, "webcert-locked");
-    }
-
-    private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
-        String dir = "build/tmp";
-        File file = new File(
-                String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
-        FileOutputStream fop = new FileOutputStream(file);
-
-        file.createNewFile();
-
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
-    }
-
-    private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
-        String dir = "build/tmp";
-        File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
-        FileOutputStream fop = new FileOutputStream(file);
-
-        file.createNewFile();
-
-        fop.write(pdf);
-        fop.flush();
-        fop.close();
+        String jsonModel = IOUtils.toString(new ClassPathResource("PdfGenerator/utkast_utlatande.json").getInputStream(),
+                Charset.forName("UTF-8"));
+        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+                new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
+        assertNotNull(pdfResponse);
+        Pattern p = Pattern.compile("^ts_bas_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
     }
 }

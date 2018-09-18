@@ -23,6 +23,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -114,6 +116,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Autowired(required = false)
     private RevokeCertificateResponderInterface revokeCertificateClient;
+
+    @Autowired(required = false)
+    private IntygTextsService intygTexts;
 
     private Class<T> type;
 
@@ -361,6 +366,13 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
             throw new ModuleException("Failed to update internal model with patient", e);
         }
         return toInternalModelResponse(utlatande);
+    }
+
+    protected IntygTexts getTexts(String intygsTyp, String version) {
+        if (intygTexts == null) {
+            throw new IllegalStateException("intygTextsService not available in this context");
+        }
+        return intygTexts.getIntygTextsPojo(intygsTyp, version);
     }
 
     protected abstract String getSchematronFileName();

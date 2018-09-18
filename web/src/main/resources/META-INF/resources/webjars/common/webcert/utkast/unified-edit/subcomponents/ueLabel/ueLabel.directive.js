@@ -68,6 +68,9 @@ angular.module('common').directive('ueLabel',
                                         }
                                     };
                                     template += ' ng-if="required()"';
+                                } else if (angular.isFunction(scope.config.requiredProp)) {
+                                    scope.required = scope.config.requiredProp;
+                                    template += ' ng-if="required(model)"';
                                 } else {
                                     template += ' ng-if="model.' + scope.config.requiredProp + ' === undefined || model.' +
                                     scope.config.requiredProp + ' === \'\' || model.' + scope.config.requiredProp + ' === null "';

@@ -18,8 +18,16 @@
  */
 package se.inera.intyg.common.lisjp.rest;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -51,13 +59,6 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApi.class);
@@ -75,16 +76,24 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
-        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, internalModel, applicationOrigin, CERTIFICATE_FILE_PREFIX,
+        LisjpUtlatande luseIntyg = getInternal(internalModel);
+        return generatePdf(new DefaultLisjpPdfDefinitionBuilder(), statuses, luseIntyg, applicationOrigin, CERTIFICATE_FILE_PREFIX,
                 utkastStatus);
     }
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+
+        LisjpUtlatande luseIntyg = getInternal(internalModel);
+
+        if (luseIntyg.getAvstangningSmittskydd() != null && luseIntyg.getAvstangningSmittskydd()) {
+            throw new ModuleSystemException("Not allowed for smittskydd.");
+        }
+
         final EmployeeLisjpPdfDefinitionBuilder builder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
         String fileNamePrefix = getEmployerCopyFilePrefix(builder, applicationOrigin);
-        return generatePdf(builder, statuses, internalModel, applicationOrigin,
+        return generatePdf(builder, statuses, luseIntyg, applicationOrigin,
                 fileNamePrefix, utkastStatus);
     }
 
@@ -194,10 +203,9 @@ public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
         }
     }
 
-    private PdfResponse generatePdf(AbstractLisjpPdfDefinitionBuilder builder, List<Status> statuses, String internalModel,
+    private PdfResponse generatePdf(AbstractLisjpPdfDefinitionBuilder builder, List<Status> statuses, LisjpUtlatande luseIntyg,
             ApplicationOrigin applicationOrigin, String filePrefix, UtkastStatus utkastStatus) throws ModuleException {
         try {
-            LisjpUtlatande luseIntyg = getInternal(internalModel);
             IntygTexts texts = getTexts(LisjpEntryPoint.MODULE_ID, luseIntyg.getTextVersion());
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);

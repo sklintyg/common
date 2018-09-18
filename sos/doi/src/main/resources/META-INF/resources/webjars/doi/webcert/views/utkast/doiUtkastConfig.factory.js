@@ -140,6 +140,13 @@ angular.module('doi').factory('doi.UtkastConfigFactory',
                                 modelProp: 'operationDatum',
                                 type: 'ue-date',
                                 minDate: beginningOfLastYear,
+                                watcher: {
+                                    expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
+                                    listener: function _operationsMinDateListener(newValue, oldValue, scope) {
+                                        var minDate = (newValue ? moment(newValue).subtract(4, 'week').format('YYYY-MM-DD') : beginningOfLastYear);
+                                        scope.config.minDate = minDate;
+                                    }
+                                },
                                 label: {key: 'DFR_11.2.RBK', required: true, requiredProp: 'operationDatum'}
                             }]),
                         fraga(11, '', '', { hideExpression: 'model.operation !== "JA"' /* R13 */ }, [

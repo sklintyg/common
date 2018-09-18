@@ -61,6 +61,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -176,6 +177,10 @@ public final class InternalConverterUtil {
         return hsaId;
     }
 
+    public static String getBooleanContent(Boolean value) {
+        return value == null ? null : value.toString();
+    }
+
     /**
      * Returns an internalDate as a String.
      *
@@ -183,7 +188,7 @@ public final class InternalConverterUtil {
      * @return a safe String to use as a date in transport
      */
     public static String getInternalDateContent(InternalDate internalDate) {
-        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
+        return internalDate == null ? null : internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
     }
     /**
      * Returns an internalDate as a String where unfilled information is completed with zeros.
@@ -193,6 +198,19 @@ public final class InternalConverterUtil {
      */
     public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
         return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
+    }
+
+    public static Year getYearContent(String yearString) {
+        try {
+            return Year.of(Integer.parseInt(yearString));
+        } catch (IllegalArgumentException e) {
+            /*
+             * During conversion for CertificateStatusUpdateForCare v3
+             * the utlatande might still be an utkast, meaning dates might
+             * be invalid - in that case conversion skips them.
+             */
+            return null;
+        }
     }
 
     /**

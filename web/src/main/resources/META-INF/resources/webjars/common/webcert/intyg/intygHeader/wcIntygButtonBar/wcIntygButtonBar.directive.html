@@ -65,8 +65,8 @@
           popover-placement="auto top">
     <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span>
   </button>
-  <div id="downloadprintemployer" intygType="{{intygType}}" style="display:inline;">
-    <div class="btn-group" ng-if="showEmployerPrintBtn()">
+  <div id="downloadprintemployer" ng-if="showEmployerPrintBtn()" intygType="{{intygType}}" style="display:inline;">
+    <div class="btn-group" >
       <button type="button"
               id="intyg-header-dropdown-select-pdf-type"
               class="btn btn-primary dropdown-toggle"

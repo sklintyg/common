@@ -155,4 +155,16 @@ describe('ObjectHelper', function() {
         expect(objectHelper.deepGet(testObject, 'nestedProp.arrayObjectProp[1].svar[0]')).toEqual(
             'primitiveArrayValue');
     });
+
+    //getFloatOr tests
+    it('should should handle getFloatOr numeric values', function() {
+        expect(objectHelper.getFloatOr(0.5, 'x')).toEqual(0.5);
+        expect(objectHelper.getFloatOr(1, 'x')).toEqual(1);
+        expect(objectHelper.getFloatOr(1.5, 'x')).toEqual(1.5);
+        expect(objectHelper.getFloatOr('1.5', 'x')).toEqual(1.5);
+        expect(objectHelper.getFloatOr(undefined, 'x')).toEqual('x');
+        expect(objectHelper.getFloatOr(null, 'x')).toEqual('x');
+        expect(objectHelper.getFloatOr('', 'x')).toEqual('x');
+        expect(objectHelper.getFloatOr('string', 'x')).toEqual('x');
+    });
 });

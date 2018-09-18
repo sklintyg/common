@@ -769,7 +769,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
                     KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
-                    if (korkortsbehorighetKod == KorkortsbehorighetKod.KANINTETEASTALLNING) {
+                    if (korkortsbehorighetKod == KorkortsbehorighetKod.KANINTETASTALLNING) {
                         bedomning.setKanInteTaStallning(true);
                     } else {
                         Korkortsbehorighet korkortsbehorighet = Korkortsbehorighet.fromValue(korkortsbehorighetKod.name());

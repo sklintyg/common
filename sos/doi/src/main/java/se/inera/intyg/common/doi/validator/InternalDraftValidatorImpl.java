@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.DoiUtlatande;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -56,6 +57,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
     private static final int MAX_GRUNDER = 5;
     private static final int MAX_BIDRAGANDE_SJUKDOMAR = 8;
     private static final int MAX_FOLJD = 3;
+    public static final int FOUR_WEEKS_IN_DAYS = 28;
 
     @Override
     public ValidateDraftResponse validateDraft(DoiUtlatande utlatande) {
@@ -191,6 +193,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                 ValidatorUtil
                         .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
                                 ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.efterAntraffatDodDatum");
+            } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
+                    && ValidatorUtil.isDateAfter(utlatande.getDodsdatum(),
+                        new InternalDate(utlatande.getOperationDatum().asLocalDate().plusDays(FOUR_WEEKS_IN_DAYS)))) {
+                ValidatorUtil
+                        .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                                ValidationMessageType.INCORRECT_COMBINATION, "operation.operationDatum.fyraVeckorForeDodDatum");
             }
             if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, "operation", OPERATION_ANLEDNING_JSON_ID, ValidationMessageType.EMPTY);

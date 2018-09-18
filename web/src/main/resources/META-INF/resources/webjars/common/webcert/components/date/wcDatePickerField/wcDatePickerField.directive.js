@@ -70,8 +70,18 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                     $scope.dateOptions.maxDate = new Date($scope.maxDate);
                 }
 
-                if($scope.format === undefined){
+                if ($scope.format === undefined) {
                     $scope.format = 'yyyy-MM-dd';
+                }
+
+                function updateOptions() {
+                    if ($scope.minDate !== undefined) {
+                        $scope.dateOptions.minDate = new Date($scope.minDate);
+                    }
+    
+                    if ($scope.maxDate !== undefined) {
+                        $scope.dateOptions.maxDate = new Date($scope.maxDate);
+                    }
                 }
 
                 var PickerState = {
@@ -82,6 +92,7 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 $scope.toggleOpen = function($event) {
                     $event.preventDefault();
                     $event.stopPropagation();
+                    updateOptions();
                     $timeout(function() {
                         $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
                         datePickerOpen.update($scope.pickerState);
