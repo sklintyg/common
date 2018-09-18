@@ -38,6 +38,7 @@ public final class ConverterUtil {
         certificateHolder.setCivicRegistrationNumber(utlatande.getGrundData().getPatient().getPersonId());
         certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
         certificateHolder.setType(Fk7263EntryPoint.MODULE_ID);
+        certificateHolder.setTypeVersion(Fk7263EntryPoint.DEFAULT_LOCKED_TYPE_VERSION);
         certificateHolder.setValidFromDate(utlatande.getGiltighet().getFrom().toString());
         certificateHolder.setValidToDate(utlatande.getGiltighet().getTom().toString());
         certificateHolder

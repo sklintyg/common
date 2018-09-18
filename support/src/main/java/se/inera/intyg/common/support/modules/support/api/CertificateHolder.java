@@ -42,6 +42,11 @@ public class CertificateHolder {
     private String type;
 
     /**
+     * Version of the certificate type.
+     */
+    private String typeVersion;
+
+    /**
      * Name of the doctor that signed the certificate.
      */
     private String signingDoctorName;
@@ -137,6 +142,14 @@ public class CertificateHolder {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTypeVersion() {
+        return typeVersion;
+    }
+
+    public void setTypeVersion(String typeVersion) {
+        this.typeVersion = typeVersion;
     }
 
     public String getSigningDoctorName() {
@@ -253,7 +266,8 @@ public class CertificateHolder {
 
     @Override
     public String toString() {
-        return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type
+        return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type + ", typeVersion="
+                + typeVersion
                 + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
                 + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
                 + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
@@ -280,6 +294,7 @@ public class CertificateHolder {
         result = prime * result + ((signedDate == null) ? 0 : signedDate.hashCode());
         result = prime * result + ((signingDoctorName == null) ? 0 : signingDoctorName.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
+        result = prime * result + ((typeVersion == null) ? 0 : typeVersion.hashCode());
         result = prime * result + ((validFromDate == null) ? 0 : validFromDate.hashCode());
         result = prime * result + ((validToDate == null) ? 0 : validToDate.hashCode());
         result = prime * result + ((certificateRelation == null) ? 0 : certificateRelation.hashCode());
@@ -385,6 +400,13 @@ public class CertificateHolder {
         } else if (!type.equals(other.type)) {
             return false;
         }
+        if (typeVersion == null) {
+            if (other.typeVersion != null) {
+                return false;
+            }
+        } else if (!typeVersion.equals(other.typeVersion)) {
+            return false;
+        }
         if (validFromDate == null) {
             if (other.validFromDate != null) {
                 return false;
@@ -408,5 +430,4 @@ public class CertificateHolder {
         }
         return true;
     }
-
 }

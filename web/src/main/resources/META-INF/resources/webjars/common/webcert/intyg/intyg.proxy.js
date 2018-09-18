@@ -45,6 +45,17 @@ angular.module('common').factory('common.IntygProxy',
                 onError(response.data);
             });
         }
+        function _getIntygTypeInfo(intygsId, onSuccess, onError) {
+            $log.debug('_getIntygTypeInfo id:' + intygsId );
+            var restPath = '/api/intyg/intygTypeVersion/' + intygsId;
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getIntygTypeInfo data:' + response.data);
+                onSuccess(response.data);
+            },function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
+            });
+        }
 
         function _sendIntyg(intygsId, intygsTyp, recipientId, onSuccess, onError) {
             $log.debug('_sendSigneratIntyg: ' + intygsId);
@@ -153,6 +164,7 @@ angular.module('common').factory('common.IntygProxy',
         // Return public API for the service
         return {
             getIntyg: _getIntyg,
+            getIntygTypeInfo: _getIntygTypeInfo,
             makuleraIntyg: _makuleraIntyg,
             sendIntyg: _sendIntyg,
             copyIntyg: _createIntygCopyActionType('copy'),

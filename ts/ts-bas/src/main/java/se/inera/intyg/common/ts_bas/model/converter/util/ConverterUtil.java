@@ -40,6 +40,7 @@ public final class ConverterUtil {
         certificateHolder.setCivicRegistrationNumber(utlatande.getGrundData().getPatient().getPersonId());
         certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
         certificateHolder.setType(TsBasEntryPoint.MODULE_ID);
+        certificateHolder.setTypeVersion(utlatande.getTextVersion());
         certificateHolder.setAdditionalInfo(Joiner.on(", ").join(utlatande.getIntygAvser().getKorkortstyp()));
         return certificateHolder;
     }
