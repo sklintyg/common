@@ -118,7 +118,7 @@ public class PageNumberingEventHandler extends PdfPageEventHelper {
         // CHECKSTYLE:OFF MagicNumber
         ColumnText.showTextAligned(total,
                 Element.ALIGN_LEFT,
-                new Phrase("(" + Integer.toString(writer.getPageNumber() - 1) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0,
+                new Phrase("(" + Integer.toString(writer.getPageNumber()) + ")", PdfConstants.FONT_PAGE_NUMBERING), 0,
                 Utilities.millimetersToPoints(1f),
                 0);
     }
