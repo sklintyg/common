@@ -27,7 +27,7 @@ angular.module('common').factory('factoryResolverHelper', [ '$injector', '$log',
         if (angular.isDefined(version)) {
             majorVersion = version.split('.')[0];
         }
-        $log.debug('version "' + version + "' resolved majorversion '" + majorVersion + '"');
+        //$log.debug('version "' + version + "' resolved majorversion '" + majorVersion + '"');
         return majorVersion;
     }
 
