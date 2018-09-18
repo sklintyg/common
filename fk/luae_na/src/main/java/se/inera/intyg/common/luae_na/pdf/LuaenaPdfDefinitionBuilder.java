@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.luae_na.pdf;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
@@ -55,11 +60,6 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Contructs a object graph of PdfComponents that represents a LUAENA intyg.
  * Created by eriklup on 11/01/17.
@@ -96,7 +96,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         try {
             FkPdfDefinition def = new FkPdfDefinition();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             // Add page envent handlers

@@ -18,6 +18,14 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
@@ -39,14 +47,6 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author andreaskaltenbach
@@ -317,12 +317,12 @@ public abstract class PdfAbstractGenerator {
     public void addIntygStateWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
         Phrase watermark;
 
-        if (isUtkast) {
+        if (isLocked) {
+            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT, INTYG_STATEWATERMARK_FONT);
+        } else if (isUtkast) {
             watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
-        } else if (isLocked) {
-            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_UTKAST_TEXT, INTYG_STATEWATERMARK_FONT);
         } else {
             return;
 

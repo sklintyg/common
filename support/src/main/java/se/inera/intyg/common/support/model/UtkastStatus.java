@@ -18,6 +18,9 @@
  */
 package se.inera.intyg.common.support.model;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Possible statuses for a Utkast entity in Webcert.
  *
@@ -44,4 +47,8 @@ public enum UtkastStatus {
      * Signed and valid.
      */
     SIGNED;
+
+    public static List<UtkastStatus> getDraftStatuses() {
+        return Arrays.asList(DRAFT_INCOMPLETE, DRAFT_COMPLETE, DRAFT_LOCKED);
+    }
 }

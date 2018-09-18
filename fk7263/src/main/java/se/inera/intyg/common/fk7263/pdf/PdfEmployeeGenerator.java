@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.util.List;
+
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.io.ByteArrayOutputStream;
-import java.util.List;
 
 /**
  * Created by marced on 18/08/16.
@@ -66,7 +66,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             PdfReader pdfReader = new PdfReader(PDF_TEMPLATE);
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             switch (applicationOrigin) {

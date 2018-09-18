@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.luse.pdf;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
@@ -55,11 +60,6 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Contructs a object graph of PdfComponents that represents a LUSE intyg.
  * Created by marced on 18/08/16.
@@ -92,7 +92,7 @@ public class LusePdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         try {
             FkPdfDefinition def = new FkPdfDefinition();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             // Add page envent handlers

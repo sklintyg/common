@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.ts_parent.pdf;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -33,10 +37,6 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by marced on 2017-02-23.
@@ -65,12 +65,12 @@ public abstract class BasePdfGenerator<T extends Utlatande> {
     public void addWatermark(PdfStamper stamper, int nrPages, boolean isUtkast, boolean isMakulerad, boolean isLocked) {
         Phrase watermark;
 
-        if (isUtkast) {
+        if (isLocked) {
+            watermark = new Phrase(LOCKED_WATERMARK_TEXT, FONT);
+        } else if (isUtkast) {
             watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
-        } else if (isLocked) {
-            watermark = new Phrase(LOCKED_WATERMARK_TEXT, FONT);
         } else {
             return;
         }

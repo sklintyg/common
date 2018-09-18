@@ -18,6 +18,16 @@
  */
 package se.inera.intyg.common.sos_parent.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -32,8 +42,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -43,13 +51,6 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Created by marced on 2017-10-16.
@@ -203,12 +204,12 @@ public abstract class AbstractSoSPdfGenerator {
                                           boolean isLocked) {
         Phrase watermark;
 
-        if (isUtkast) {
+        if (isLocked) {
+            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_TEXT, INTYG_STATEWATERMARK_FONT);
+        } else if (isUtkast) {
             watermark = new Phrase(INTYG_STATEWATERMARK_DRAFT_TEXT, INTYG_STATEWATERMARK_FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(INTYG_STATEWATERMARK_CANCELLED_TEXT, INTYG_STATEWATERMARK_FONT);
-        } else if (isLocked) {
-            watermark = new Phrase(INTYG_STATEWATERMARK_LOCKED_TEXT, INTYG_STATEWATERMARK_FONT);
         } else {
             return;
 

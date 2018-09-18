@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.doi.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
@@ -33,10 +37,6 @@ import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by marced on 2017-10-18.
@@ -187,7 +187,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
             pdfReader.removeUsageRights();
             PdfStamper pdfStamper = new PdfStamper(pdfReader, this.outputStream);
             fields = pdfStamper.getAcroFields();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             fillAcroformFields();

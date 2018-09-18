@@ -68,7 +68,7 @@ public class PdfGenerator {
             String upJsModel = loadUvViewConfig();
             byte[] logoData = loadLogotype();
 
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
             boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
