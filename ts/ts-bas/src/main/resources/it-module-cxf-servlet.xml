@@ -45,4 +45,8 @@
     <constructor-arg value="${registercertificatev1.endpoint.url}"/>
   </bean>
 
+  <bean id="tsBasTransformBeforeSending" class="java.lang.Boolean">
+    <constructor-arg value="${tsbas.send.certificate.to.recipient.transform.v3.to.v1}"/>
+  </bean>
+
 </beans>

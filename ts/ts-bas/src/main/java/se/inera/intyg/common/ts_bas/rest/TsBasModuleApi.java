@@ -18,6 +18,9 @@
  */
 package se.inera.intyg.common.ts_bas.rest;
 
+import java.io.StringReader;
+import java.util.List;
+
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -48,9 +51,6 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-import java.io.StringReader;
-import java.util.List;
-
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
  *
@@ -66,6 +66,10 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     @Autowired(required = false)
     @Qualifier("tsBasXslTransformer")
     private XslTransformer xslTransformer;
+
+    @Autowired(required = false)
+    @Qualifier("tsBasTransformBeforeSending")
+    private Boolean transformXmlBeforeSendingToRecipient;
 
     public TsBasModuleApi() {
         super(TsBasUtlatande.class);
@@ -84,10 +88,10 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        String transformedPayload = xslTransformer.transform(xmlBody);
+        String payload = transformXmlBeforeSendingToRecipient ? xslTransformer.transform(xmlBody) : xmlBody;
 
         try {
-            SOAPMessage response = sendTsBasClient.registerCertificate(transformedPayload, logicalAddress);
+            SOAPMessage response = sendTsBasClient.registerCertificate(payload, logicalAddress);
             SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
             if (contents.getBody().hasFault()) {
                 throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
