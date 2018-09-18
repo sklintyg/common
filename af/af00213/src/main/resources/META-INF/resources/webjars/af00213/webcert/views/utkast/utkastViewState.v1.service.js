@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00213').service('af00213.EditCertCtrl.ViewStateService',
-    ['$log', '$state', 'common.UtkastViewStateService', 'af00213.Domain.IntygModel',
+angular.module('af00213').service('af00213.EditCertCtrl.ViewStateService.v1',
+    ['$log', '$state', 'common.UtkastViewStateService', 'af00213.Domain.IntygModel.v1',
         function($log, $state, CommonViewState, IntygModel) {
             'use strict';
 

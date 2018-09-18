@@ -21,19 +21,29 @@ angular.module('af00213').config(function($stateProvider) {
 
     var commonPath = '/web/webjars/common/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('af00213.EditCertCtrl.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
+    };
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('af00213-edit', {
-            data: { defaultActive : 'index', intygType: 'af00213', useFmb: true },
+            data: { defaultActive : 'index', intygType: 'af00213', useFmb: false },
             url : '/af00213/:intygTypeVersion/edit/:certificateId/:focusOn',
                 views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'af00213.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: function(factoryResolverHelper, $stateParams) {
-                            return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
-                        },
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
                     }
                 },
@@ -46,7 +56,7 @@ angular.module('af00213').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'af00213.EditCertCtrl.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -59,10 +69,8 @@ angular.module('af00213').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'af00213.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: function(factoryResolverHelper, $stateParams) {
-                            return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
-                        }
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                  }
             }
@@ -75,9 +83,7 @@ angular.module('af00213').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'af00213.IntygController.ViewStateService',
-                        ViewConfigFactory: function(factoryResolverHelper, $stateParams) {
-                            return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
-                        },
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
                     }
                 },

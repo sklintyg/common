@@ -16,16 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00213').factory('af00213.Domain.IntygModel',
+angular.module('af00213').factory('af00213.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
         'common.domain.BaseAtticModel',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
             'use strict';
 
-            var Af00213Model = BaseAtticModel._extend({
+            var Af00213Modelv1 = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
-                    init._super.call(this, 'af00213Model', {
+                    init._super.call(this, 'af00213Modelv1', {
 
                         'id': undefined,
                         'typ': undefined,
@@ -61,13 +61,13 @@ angular.module('af00213').factory('af00213.Domain.IntygModel',
 
             }, {
                 build : function(){
-                    return new DraftModel(new Af00213Model());
+                    return new DraftModel(new Af00213Modelv1());
                 }
             });
 
             /**
              * Return the constructor function IntygModel
              */
-            return Af00213Model;
+            return Af00213Modelv1;
 
         }]);
