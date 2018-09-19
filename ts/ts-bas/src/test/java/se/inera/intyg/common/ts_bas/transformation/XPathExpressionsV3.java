@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (httns3://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <httns3://www.gnu.org/licenses/>.
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package se.inera.intyg.common.ts_bas.transformation;
 
@@ -22,9 +22,6 @@ import se.inera.intyg.common.ts_parent.transformation.test.BooleanXPathExpressio
 import se.inera.intyg.common.ts_parent.transformation.test.DateXPathExpression;
 import se.inera.intyg.common.ts_parent.transformation.test.StringXPathExpression;
 
-/**
- * Defines xPath expressions and templates used to create all expressions needed by Transportstyrelsen.
- */
 public final class XPathExpressionsV3 {
     private XPathExpressionsV3() {
     }
