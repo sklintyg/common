@@ -40,7 +40,7 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory',
 
                 var config = [
 
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: 'harFunktionsnedsattning'}, [{
                             type: 'ue-radio',
                             modelProp: 'harFunktionsnedsattning'
