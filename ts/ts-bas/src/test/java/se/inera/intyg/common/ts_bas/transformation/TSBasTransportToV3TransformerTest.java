@@ -40,7 +40,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.fail;
 
-public class TSBasV3toV1TransformerTest {
+public class TSBasTransportToV3TransformerTest {
 
     private static final String V3_UTLATANDE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2.xsd";
 
@@ -52,17 +52,15 @@ public class TSBasV3toV1TransformerTest {
 
     private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
 
-    private static final String V1_TS_BAS_SCHEMA = "specializations/TS-Bas/ts-bas_model.xsd";
+    private static final String INTYGSTJANSTER_UTLATANDE_SCHEMA = "core_components/se_intygstjanster_services_1.0.xsd";
 
-    private static final String V1_CORE_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_1.0.xsd";
+    private static final String INTYGSTJANSTER_UTLATANDE_TYPES_SCHEMA = "core_components/se_intygstjanster_services_types_1.0.xsd";
 
-    private static final String V1_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_1.0.xsd";
-
-    private static final String V1_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_1.0.xsd";
+    private static final String INTYGSTJANSTER_REGISTER_SCHEMA = "interactions/RegisterTSBasInteraction/RegisterTSBasResponder_1.0.xsd";
 
     private static Schema v3Schema;
 
-    private static Schema v1Schema;
+    private static Schema intygstjansterSchema;
 
     @BeforeClass
     public static void initV3Schema() throws Exception {
@@ -72,18 +70,18 @@ public class TSBasV3toV1TransformerTest {
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_SCHEMA);
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_TYPES_EXT_SCHEMA);
         schemaValidatorBuilder.registerResource(V3_UTLATANDE_SIG_SCHEMA);
+
         v3Schema = schemaValidatorBuilder.build(rootSource);
     }
 
     @BeforeClass
-    public static void initV1Schema() throws Exception {
+    public static void initIntygstjansterSchema() throws Exception {
         SchemaValidatorBuilder schemaValidatorBuilder = new SchemaValidatorBuilder();
-        Source rootSource = schemaValidatorBuilder.registerResource(V1_REGISTER_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_CORE_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_TYPES_SCHEMA);
-        schemaValidatorBuilder.registerResource(V1_TS_BAS_SCHEMA);
+        Source rootSource = schemaValidatorBuilder.registerResource(INTYGSTJANSTER_REGISTER_SCHEMA);
+        schemaValidatorBuilder.registerResource(INTYGSTJANSTER_UTLATANDE_SCHEMA);
+        schemaValidatorBuilder.registerResource(INTYGSTJANSTER_UTLATANDE_TYPES_SCHEMA);
 
-        v1Schema = schemaValidatorBuilder.build(rootSource);
+        intygstjansterSchema = schemaValidatorBuilder.build(rootSource);
     }
 
     @Test
@@ -92,20 +90,22 @@ public class TSBasV3toV1TransformerTest {
                 "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
                 "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
 
-        XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
+        XslTransformer transformer = new XslTransformer("xsl/transportToV3.xsl");
 
         for (String xmlFile : testFiles) {
-            String xmlContents = Resources.toString(getResource("scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
-            List v3Result = validate(v3Schema, xmlContents);
-            if (!v3Result.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result.toString());
+            System.out.println("xmlFile = " + xmlFile);
+            String xmlContents = Resources.toString(getResource("scenarios/transport/" + xmlFile), Charsets.UTF_8);
+            List intygstjansterResult = validate(intygstjansterSchema, xmlContents);
+            if (!intygstjansterResult.isEmpty()) {
+                fail(xmlFile + " failed to validate against transport schema with errors " + intygstjansterResult.toString());
             }
 
             String result = transformer.transform(xmlContents);
 
-            List v1Results = validate(v1Schema, result);
-            if (!v1Results.isEmpty()) {
-                fail(xmlFile + " failed to validate against schema v1 with errors " + v1Results.toString());
+            List v3Results = validate(v3Schema, result);
+            if (!v3Results.isEmpty()) {
+                System.err.println(result);
+                fail(xmlFile + " failed to validate against schema v3 with errors " + v3Results.toString());
             }
         }
     }
@@ -125,8 +125,8 @@ public class TSBasV3toV1TransformerTest {
         return exceptions;
     }
 
-    private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v1Schema) {
-        Validator validator = v1Schema.newValidator();
+    private static Pair<Validator, ArrayList<SAXParseException>> setupValidator(Schema v3Schema) {
+        Validator validator = v3Schema.newValidator();
         final ArrayList<SAXParseException> exceptions = new ArrayList<>();
         Pair<Validator, ArrayList<SAXParseException>> ret = new Pair<>(validator, exceptions);
         validator.setErrorHandler(new ErrorHandler()

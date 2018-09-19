@@ -37,16 +37,22 @@
         </cxf:features>
     </cxf:bus>
 
-  <bean id="tsBasXslTransformer" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
-    <constructor-arg value="xsl/V3toV1.xsl"/>
+  <bean id="tsBasXslTransformerTransportToV1" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
+    <constructor-arg value="xsl/transportToV1.xsl"/>
+  </bean>
+  <bean id="tsBasXslTransformerTransportToV3" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
+    <constructor-arg value="xsl/transportToV3.xsl"/>
+  </bean>
+  <bean id="tsBasXslTransformerV3ToV1" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
+    <constructor-arg value="xsl/V3ToV1.xsl"/>
   </bean>
 
   <bean id="tsBasSendCertificateClient" class="se.inera.intyg.common.ts_parent.integration.SendTSClient">
     <constructor-arg value="${registercertificatev1.endpoint.url}"/>
   </bean>
 
-  <bean id="tsBasTransformBeforeSending" class="java.lang.Boolean">
-    <constructor-arg value="${tsbas.send.certificate.to.recipient.transform.v3.to.v1}"/>
+  <bean id="tsBasRegisterCertificateVersion" class="java.lang.String">
+    <constructor-arg value="${tsbas.registercertificate.version}"/>
   </bean>
 
 </beans>

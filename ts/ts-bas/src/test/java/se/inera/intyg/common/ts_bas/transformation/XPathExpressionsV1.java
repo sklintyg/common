@@ -25,8 +25,8 @@ import se.inera.intyg.common.ts_parent.transformation.test.StringXPathExpression
 /**
  * Defines xPath expressions and templates used to create all expressions needed by Transportstyrelsen.
  */
-public final class XPathExpressions {
-    private XPathExpressions() {
+public final class XPathExpressionsV1 {
+    private XPathExpressionsV1() {
     }
 
     private static final String TIDSTAMPEL_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
@@ -48,7 +48,7 @@ public final class XPathExpressions {
     public static final StringXPathExpression INVANARE_POSTORT_XPATH = new StringXPathExpression("utlatande/p:patient/p:postort/text()");
 
     public static final StringXPathExpression INVANARE_PERSONNUMMER_XPATH = new StringXPathExpression("utlatande/p:patient/p:person-id/@extension");
-    
+
     public static final DateXPathExpression SIGNERINGSDATUM_XPATH = new DateXPathExpression(
             "utlatande/p:signeringsdatum", TIDSTAMPEL_FORMAT);
 
@@ -72,19 +72,19 @@ public final class XPathExpressions {
 
     public static final StringXPathExpression SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH = new StringXPathExpression(
             "/utlatande/p:skapadAv/p:fullstandigtNamn");
-    
+
     public static final StringXPathExpression SKAPAD_AV_HSAID_XPATH = new StringXPathExpression(
             "/utlatande/p:skapadAv/p:personal-id/@extension");
-    
+
     public static final BooleanXPathExpression SKAPAD_AV_SPECIALISTKOMPETENS_CHECK_XPATH = new BooleanXPathExpression(
             "/utlatande/p:skapadAv/p2:specialitet/@code");
-    
+
     public static final StringXPathExpression SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH = new StringXPathExpression(
             "/utlatande/p:skapadAv/p2:specialitet/@code");
-    
+
     public static final StringXPathExpression SKAPAD_AV_BEFATTNING_XPATH = new StringXPathExpression(
             "utlatande/p:skapadAv/p:befattning/text()");
-    
+
     public static final StringXPathExpression VARD_PA_SJUKHUS_TID_XPATH = new StringXPathExpression(
             "utlatande/p:aktivitet/p2:ostruktureradtid[(parent::p:aktivitet/p:aktivitetskod/@code='AKT19')]/text()");
 
@@ -141,7 +141,7 @@ public final class XPathExpressions {
     public static StringXPathExpression stringXPath(String template, Object... args) {
         return new StringXPathExpression(String.format(template, args));
     }
-    
+
     public static DateXPathExpression dateXPath(String template, String dateFormat, Object... args) {
         return new DateXPathExpression(String.format(template, args), dateFormat);
     }

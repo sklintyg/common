@@ -66,7 +66,7 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asTransformedTransportModel()
+    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
             throws ScenarioNotFoundException;
 
     /**

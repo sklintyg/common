@@ -18,19 +18,18 @@
  */
 package se.inera.intyg.common.support.validate;
 
+import com.helger.schematron.xslt.SchematronResourceSCH;
+import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
-
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-
-import com.helger.schematron.xslt.SchematronResourceSCH;
-
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
 public class RegisterCertificateValidator {
     private SchematronResourceSCH schematronResource;
 
     public RegisterCertificateValidator(@Nonnull final String location) {
+        //AbstractSchematronXSLTBasedResource
         schematronResource = SchematronResourceSCH.fromClassPath(location);
         if (!schematronResource.isValidSchematron()) {
             throw new IllegalArgumentException("Invalid Schematron!");
