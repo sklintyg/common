@@ -83,7 +83,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     }
 
     node {
-        version = '6.11.3'
+        version = '10.10.0'
         download = true
         distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
         workDir = rootProject.projectDir
@@ -101,7 +101,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
         outputs.dir(webappOutputDir)
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--outputDir=${webappOutputDir}", "--npmDir=${rootProject.projectDir}", 'default']
     }
 
@@ -119,7 +119,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
         outputs.upToDateWhen { false }
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--npmDir=${rootProject.projectDir}", 'lint']
     }
 
@@ -166,7 +166,7 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes
         outputs.dir(webappTestOutputDir)
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
     }
 

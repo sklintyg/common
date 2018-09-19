@@ -13,12 +13,14 @@ module.exports = function(grunt) {
 
     process.chdir(cwd);
 
+    var sass = require('node-sass');
+
     var SRC_DIR = 'src/main/resources/META-INF/resources/';
     var TEST_DIR = 'src/test/js/';
     var DEST_DIR = (grunt.option('outputDir') || 'build/') +  'resources/main/META-INF/resources/';
     var TEST_OUTPUT_DIR = (grunt.option('outputDir') || 'build/karma/');
     var RUN_COVERAGE = grunt.option('run-coverage') !== undefined ? grunt.option('run-coverage') : false;
-    var MODULE = grunt.option('module');
+    var MODULE = grunt.option('intygModule');
 
     var minaintyg = grunt.file.expand(
         {cwd:SRC_DIR},
@@ -115,6 +117,7 @@ module.exports = function(grunt) {
         // Compiles Sass to CSS
         sass: {
             options: {
+                implementation: sass
             },
             dist: {
                 files: [
