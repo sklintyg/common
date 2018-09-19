@@ -50,14 +50,12 @@ import se.inera.intyg.common.fkparent.pdf.model.FkOverflowPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkOverflowableValueField;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
-import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
 import se.inera.intyg.common.fkparent.pdf.model.FkValueField;
 import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 /**
@@ -126,8 +124,9 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             def.addChild(createPage4(intyg));
 
             // Only add tillaggsfragor page if there are some
-            if (intyg.getTillaggsfragor() != null && intyg.getTillaggsfragor().size() > 0) {
-                def.addChild(createPage5(intyg));
+            FkPage page5 = createPage5(intyg);
+            if (page5 != null) {
+                def.addChild(page5);
             }
 
             // Always add the overflow page last, as it will scan the model for overflowing content and must therefore
@@ -831,20 +830,8 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
         return thisPage;
     }
 
-    private FkPage createPage5(LuaenaUtlatande intyg) throws IOException, DocumentException {
-
-        List<PdfComponent> allElements = new ArrayList<>();
-
-        // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
-        for (int i = 0; i < intyg.getTillaggsfragor().size(); i++) {
-            Tillaggsfraga tillaggsfraga = intyg.getTillaggsfragor().get(i);
-            allElements
-                    .add(new FkTillaggsFraga((i + 1) + ". " + getText("DFR_" + tillaggsfraga.getId() + ".1.RBK"), tillaggsfraga.getSvar()));
-        }
-
-        FkPage thisPage = new FkPage("Tilläggsfrågor");
-        thisPage.getChildren().addAll(allElements);
-        return thisPage;
+    private FkPage createPage5(LuaenaUtlatande intyg) {
+        return buildTillagsfragorPage(intyg.getTillaggsfragor());
     }
 
 }
