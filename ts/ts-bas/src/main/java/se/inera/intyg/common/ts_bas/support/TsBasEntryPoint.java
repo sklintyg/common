@@ -19,9 +19,9 @@
 package se.inera.intyg.common.ts_bas.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.ts_bas.rest.TsBasModuleApi;
 
 public class TsBasEntryPoint implements ModuleEntryPoint {
@@ -58,11 +58,6 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     @Override
     public String getDetailedModuleDescription() {
         return MODULE_DETAILED_DESCRIPTION;
-    }
-
-    @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
     }
 
     @Override

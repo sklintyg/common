@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.doi.support;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.intyg.common.doi.rest.DoiModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-
-import java.util.Optional;
 
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
@@ -86,11 +86,6 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public String getDefaultRecipient() {
         return DEFAULT_RECIPIENT_ID;
-    }
-
-    @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
     }
 
     @Override

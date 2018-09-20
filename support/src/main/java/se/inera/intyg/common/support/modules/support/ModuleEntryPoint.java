@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.modules.support;
 
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -73,13 +71,6 @@ public interface ModuleEntryPoint {
      * @return the identifier of the default recipient or null if none is specified
      */
     String getDefaultRecipient();
-
-    /**
-     * Returns the module specific implementation of the module API.
-     *
-     * @return the module API implementation
-     */
-    ModuleApi getModuleApi();
 
     /**
      * Returns the module css path.

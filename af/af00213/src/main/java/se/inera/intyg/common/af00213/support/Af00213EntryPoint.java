@@ -20,10 +20,9 @@ package se.inera.intyg.common.af00213.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
 import se.inera.intyg.common.af00213.rest.Af00213ModuleApiV1;
+import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
 
@@ -54,11 +53,6 @@ public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
     @Override
     public String getIssuerTypeId() {
         return ISSUER_TYPE_ID;
-    }
-
-    @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
     }
 
     @Override

@@ -19,10 +19,10 @@
 package se.inera.intyg.common.fk7263.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
@@ -64,11 +64,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public String getDetailedModuleDescription() {
         return MODULE_DETAILED_DESCRIPTION;
-    }
-
-    @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
     }
 
     @Override
