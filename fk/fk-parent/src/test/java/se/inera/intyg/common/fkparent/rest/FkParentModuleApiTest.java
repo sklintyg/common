@@ -463,7 +463,7 @@ public class FkParentModuleApiTest {
     public void testGetUtlatandeFromXml() throws Exception {
         String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
-        Utlatande res = moduleApi.getUtlatandeFromXml(xmlBody);
+        Utlatande res = moduleApi.getUtlatandeFromXml(xmlBody, INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(utlatande, res);
     }
@@ -472,7 +472,7 @@ public class FkParentModuleApiTest {
     public void testGetUtlatandeFromXmlConverterException() throws Exception {
         String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
-        moduleApi.getUtlatandeFromXml(xmlBody);
+        moduleApi.getUtlatandeFromXml(xmlBody, INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -493,7 +493,7 @@ public class FkParentModuleApiTest {
     @Test
     public void testTransformToStatisticsService() throws Exception {
         final String inputString = "input string";
-        String res = moduleApi.transformToStatisticsService(inputString);
+        String res = moduleApi.transformToStatisticsService(inputString, INTYG_TYPE_VERSION_1);
         assertEquals(inputString, res);
     }
 
@@ -501,7 +501,7 @@ public class FkParentModuleApiTest {
     public void testvalidateXml() throws Exception {
         String xmlBody = Resources.toString(registerCertificateFile.getURL(), Charsets.UTF_8);
         when(validator.validateSchematron(any(Source.class))).thenReturn(new SchematronOutputType());
-        ValidateXmlResponse res = moduleApi.validateXml(xmlBody);
+        ValidateXmlResponse res = moduleApi.validateXml(xmlBody, INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(ValidationStatus.VALID, res.getStatus());
     }
@@ -533,7 +533,7 @@ public class FkParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.okResult());
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
         ArgumentCaptor<RevokeCertificateType> parametersCaptor = ArgumentCaptor.forClass(RevokeCertificateType.class);
         verify(revokeCertificateClient).revokeCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
@@ -547,7 +547,7 @@ public class FkParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
     }
 
     @Test

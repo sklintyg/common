@@ -286,7 +286,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
         RegisterCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class);
         try {
             return transportToInternal(jaxbObject.getIntyg());
@@ -307,12 +307,12 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
+    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
         return inputXml;
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
         return XmlValidator.validate(validator, inputXml);
     }
 
@@ -326,7 +326,7 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
         RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {

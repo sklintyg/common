@@ -51,6 +51,12 @@ public class ModuleApiVersionWrapper implements ModuleApi {
     private final String intygType;
     private final ModuleApiVersionResolver moduleApiVersionResolver;
 
+    /**
+     * Constructor for an instance of the wrapper for a specific intygType.
+     * We also get a {@link ModuleApiVersionResolver} that will do actual resolving of versions and beans.
+     * @param intygType
+     * @param moduleApiVersionResolver
+     */
     public ModuleApiVersionWrapper(String intygType, ModuleApiVersionResolver moduleApiVersionResolver) {
         this.intygType = intygType;
         this.moduleApiVersionResolver = moduleApiVersionResolver;
@@ -108,18 +114,14 @@ public class ModuleApiVersionWrapper implements ModuleApi {
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        // TODO:
-        // Verkar endast användas av CertificateRevokeProcessor i notificationsender.
-        // CertificateSenderService verkar vara den som skapar meddelandet (RevokeCertificateMessageCreator) som
-        // CertificateRevokeProcessor plockar upp och anropar modulapiet med.
-        // Vi borde kunna lägga till version i meddelandet + i denna moduleapi metod signaturen.
-        moduleApiVersionResolver.getVersionedModuleApi(this.intygType, "1.0")
-                .revokeCertificate(xmlBody, logicalAddress);
+    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
+        moduleApiVersionResolver.getVersionedModuleApi(this.intygType, intygTypeVersion)
+                .revokeCertificate(xmlBody, logicalAddress, intygTypeVersion);
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion)
+            throws ModuleException {
         return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, intygTypeVersion)
                 .getCertificate(certificateId, logicalAddress, recipientId, intygTypeVersion);
     }
@@ -167,38 +169,21 @@ public class ModuleApiVersionWrapper implements ModuleApi {
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        /*
-         * TODO: Lagga till intygTypVersion som parameter:
-         * UtkastBootstrapBean (WC) - Vid bootstapping bör vi veta vilken version av xml'er vi laddar in, alltså kan vi skicka
-         * med version hit.
-         * ListCertificateForCareImpl (IT) - Har Certificate entitet med IntygTypVersion, alltså kan vi skicka med version hit.
-         * SjukfallCertificateServiceImpl (IT) - Har Certificate entitet med IntygTypVersion, alltså kan vi skicka med version
-         * hit.
-         * IntygBootstrapBean (IT) - Vid bootstapping bör vi veta vilken version av xml'er vi laddar in, alltså kan vi skicka
-         * med version hit.
-         */
-        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, "1.0")
-                .getUtlatandeFromXml(xml);
+    public Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
+        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, intygTypeVersion)
+                .getUtlatandeFromXml(xml, intygTypeVersion);
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
-        // TODO:
-        // Här kan vi ändra signaturen till att inkludera version eftersom den bara används av
-        // se/inera/intyg/intygstjanst/web/service/impl/CertificateServiceImpl.java:277 som har en CertificateHolder
-        // tillgängligt, som i sin tur innehåller typeVersion (från IT databas Certificate entity).
-        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, "1.0")
-                .transformToStatisticsService(inputXml);
+    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
+        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, intygTypeVersion)
+                .transformToStatisticsService(inputXml, intygTypeVersion);
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
-        // TODO:
-        // Här borde vi kunna lägga till intygTypeVersion som in-metod-parameter eftersom denna endast
-        // verkar användas av RegisterCertificateResponder (IT), som får in en RegisterCertificateType -> Intyg - >version
-        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, "1.0")
-                .validateXml(inputXml);
+    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
+        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, intygTypeVersion)
+                .validateXml(inputXml, intygTypeVersion);
     }
 
     @Override

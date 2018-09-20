@@ -339,7 +339,7 @@ public class LuaefsModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -351,7 +351,7 @@ public class LuaefsModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
         fail();
     }
 
@@ -501,7 +501,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
         String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
-        Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
+        Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents, INTYG_TYPE_VERSION_1);
         Intyg intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
 
         intyg.getStatus().add(createStatus(statusKod.name(), part));

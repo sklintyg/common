@@ -334,7 +334,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testTransformToStatisticsService() throws Exception {
         final String inputString = "input string";
-        String res = moduleApi.transformToStatisticsService(inputString);
+        String res = moduleApi.transformToStatisticsService(inputString, INTYG_TYPE_VERSION_1);
         assertEquals(inputString, res);
     }
 /*
@@ -504,7 +504,7 @@ public class TsParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.okResult());
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
         ArgumentCaptor<RevokeCertificateType> parametersCaptor = ArgumentCaptor.forClass(RevokeCertificateType.class);
         verify(revokeCertificateClient).revokeCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
@@ -518,7 +518,7 @@ public class TsParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
     }
 
     @Test

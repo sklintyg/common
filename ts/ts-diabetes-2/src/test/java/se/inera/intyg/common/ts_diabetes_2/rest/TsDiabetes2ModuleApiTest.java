@@ -379,7 +379,7 @@ public class TsDiabetes2ModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -391,7 +391,7 @@ public class TsDiabetes2ModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
         fail();
     }
 

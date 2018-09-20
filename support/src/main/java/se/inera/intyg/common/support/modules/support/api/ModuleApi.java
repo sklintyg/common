@@ -190,10 +190,13 @@ public interface ModuleApi {
      *            the request
      * @param logicalAddress
      *            the logical address of receiving system, i.e Intygstjansten
+     * @param intygTypeVersion
+     *             The version of the information model in the xml.
+     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use.
      * @throws ModuleException
      *             if the receiving system could not handle the revoke request
      */
-    void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException;
+    void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException;
 
     /**
      * Fetch a certificate from Intygstjansten.
@@ -297,11 +300,14 @@ public interface ModuleApi {
      *
      * @param xml
      *            the model represented as XML (transport)
+     * @param intygTypeVersion
+     *             The version of the information model in the xml.
+     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use.
      * @return the converted utlatande
      * @throws ModuleException
      *             if there was an error in the conversion
      */
-    Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
+    Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException;
 
     /**
      * Converts the XML in inputXml to be of correct version.
@@ -314,22 +320,28 @@ public interface ModuleApi {
      *
      * @param inputXml
      *            the transport model to be converted
+     * @param intygTypeVersion
+     *             The version of the information model in the inputXml.
+     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use
      * @return the XML representation as RegisterCertificate 3.0
      * @throws ModuleException
      *             if the conversion threw an exception
      */
-    String transformToStatisticsService(String inputXml) throws ModuleException;
+    String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException;
 
     /**
      * Perform module specific xml validation.
      *
      * @param inputXml
      *            the XML to be validated
+     * @param intygTypeVersion
+     *            The version of the information model in the inputXml.
+     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use
      * @return the result of the validation
      * @throws ModuleException
      *             if the validator failed
      */
-    ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
+    ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException;
 
     /**
      * Get Arende parameters specific to module such as parameters belonging to a certain frage id.

@@ -62,6 +62,7 @@ public class Fk7263TransformerTest {
     private static final String XMLDSIG_SCHEMA = "core_components/xmldsig-core-schema_0.1.xsd";
 
     private static final String CLINICAL_UTLATANDE_TYPES_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd";
+    private static final String INTYG_TYPE_VERSION = "1.0";
 
     private static Schema lakarutlatandeInputSchema;
     private static Schema fk7263sitOutputSchema;
@@ -102,7 +103,7 @@ public class Fk7263TransformerTest {
             if (!validateIntygstjansterXSD(xmlContentsInput)) {
                 fail();
             }
-            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput);
+            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput, INTYG_TYPE_VERSION);
 
             if (!validateIntygstjansterOutputXSD(result)) {
                 fail();
@@ -126,7 +127,7 @@ public class Fk7263TransformerTest {
             if (!validateIntygstjansterXSD(xmlContentsInput)) {
                 fail();
             }
-            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput);
+            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput, INTYG_TYPE_VERSION);
 
             if (!validateIntygstjansterOutputXSD(result)) {
                 fail();
@@ -152,7 +153,7 @@ public class Fk7263TransformerTest {
             if (!validateIntygstjansterXSD(xmlContentsInput)) {
                 fail();
             }
-            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput);
+            String result = fk7263ModuleApi.transformToStatisticsService(xmlContentsInput, INTYG_TYPE_VERSION);
 
             if (!validateIntygstjansterOutputXSD(result)) {
                 fail();

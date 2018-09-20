@@ -101,7 +101,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public TsBasUtlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
         try {
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {

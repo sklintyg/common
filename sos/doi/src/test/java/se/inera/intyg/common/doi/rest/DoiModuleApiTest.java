@@ -319,7 +319,7 @@ public class DoiModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -331,7 +331,7 @@ public class DoiModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -365,7 +365,7 @@ public class DoiModuleApiTest {
     public void tesGetUtlatandeFromXml() {
         try {
             String xmlContents = Resources.toString(Resources.getResource("doi.xml"), Charsets.UTF_8);
-            DoiUtlatande res = (DoiUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
+            DoiUtlatande res = (DoiUtlatande) moduleApi.getUtlatandeFromXml(xmlContents, INTYG_TYPE_VERSION_1);
 
             assertEquals("1234567", res.getId());
             assertEquals("körkort", res.getIdentitetStyrkt());

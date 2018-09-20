@@ -249,12 +249,12 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
+    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
         return inputXml;
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
         return XmlValidator.validate(xmlValidator, inputXml);
     }
 
@@ -306,7 +306,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
         RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {

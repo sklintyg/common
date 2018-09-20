@@ -45,6 +45,7 @@ public class ModuleApiVersionResolverImpl implements ModuleApiVersionResolver, A
     public static final String MODULE_API_BEAN_PREFIX = "moduleapi.";
     private static final Logger LOG = LoggerFactory.getLogger(ModuleApiVersionResolverImpl.class);
     private static final String VERSIONED_MODULE_API_BEANID_TEMPLATE = MODULE_API_BEAN_PREFIX + "%s.v%s";
+    private static final String JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME = "textVersion";
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -53,14 +54,15 @@ public class ModuleApiVersionResolverImpl implements ModuleApiVersionResolver, A
     public String resolveVersionFromUtlatandeJson(String internalModel) throws ModuleException {
         try {
             final JsonNode jsonNode = new ObjectMapper().readTree(internalModel);
-            final String version = jsonNode.get("textVersion").asText();
+            final JsonNode textVersionNode = jsonNode.get(JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME);
+            final String version = textVersionNode != null ? textVersionNode.asText() : null;
             if (Strings.isNullOrEmpty(version)) {
-                throw new ModuleException("Could not extract textVersion from utlatande json model string");
+                throw new ModuleException("Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME + "' from utlatande json model string");
             }
 
             return getMajorVersion(version);
         } catch (IOException e) {
-            throw new ModuleException("Could not extract textVersion from utlatande json model string");
+            throw new ModuleException("Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME  + "' from utlatande json model string");
         }
     }
 

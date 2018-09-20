@@ -532,7 +532,7 @@ public class Fk7263Utlatande implements Utlatande {
     // Fk7263 will always be 1.0
     @Override
     public String getTextVersion() {
-        return null;
+        return "1.0";
     }
 
     // Not used for this certificate

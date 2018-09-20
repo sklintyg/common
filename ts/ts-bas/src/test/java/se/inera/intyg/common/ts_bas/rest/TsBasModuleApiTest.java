@@ -164,7 +164,7 @@ public class TsBasModuleApiTest {
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
-        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
+        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_6_8);
 
         assertNotNull(res);
     }

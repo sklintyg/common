@@ -418,7 +418,7 @@ public class TsDiabetesModuleApiTest {
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        TsDiabetesUtlatande res = moduleApi.getUtlatandeFromXml(xml);
+        TsDiabetesUtlatande res = moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_2_7);
 
         assertNotNull(res);
     }
@@ -426,7 +426,7 @@ public class TsDiabetesModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetUtlatandeFromXmlConverterException() throws Exception {
         String xml = xmlToString(new RegisterTSDiabetesType());
-        moduleApi.getUtlatandeFromXml(xml);
+        moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_2_7);
     }
 
     @Test
@@ -437,7 +437,7 @@ public class TsDiabetesModuleApiTest {
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
                 .thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_2_7);
         ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
         ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
                 .forClass(RevokeMedicalCertificateRequestType.class);
@@ -455,7 +455,7 @@ public class TsDiabetesModuleApiTest {
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
                 .thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_2_7);
     }
 
     @Test

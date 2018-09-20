@@ -318,7 +318,7 @@ public class DbModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -330,7 +330,7 @@ public class DbModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION);
     }
 
     @Test
@@ -363,7 +363,7 @@ public class DbModuleApiTest {
     public void tesGetUtlatandeFromXml() {
         try {
             String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
-            DbUtlatande res = (DbUtlatande) moduleApi.getUtlatandeFromXml(xmlContents);
+            DbUtlatande res = (DbUtlatande) moduleApi.getUtlatandeFromXml(xmlContents, INTYG_TYPE_VERSION);
 
             assertEquals("1234567", res.getId());
             assertEquals("körkort", res.getIdentitetStyrkt());

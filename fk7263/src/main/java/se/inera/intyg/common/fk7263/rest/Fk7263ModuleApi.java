@@ -301,8 +301,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml) throws ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml);
+    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
+        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml, intygTypeVersion);
         Intyg intyg = getIntygFromUtlatande(utlatande);
         RegisterCertificateType type = new RegisterCertificateType();
         type.setIntyg(intyg);
@@ -427,7 +427,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public Fk7263Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
         RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterMedicalCertificateType.class);
         try {
@@ -568,7 +568,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 
@@ -655,7 +655,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 
