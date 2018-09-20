@@ -57,13 +57,14 @@ import java.util.regex.Pattern;
  */
 public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
+    public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
+    public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
+
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
     private static final String TRANSPORT_REGEX = "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
     private static final String RIVTAV3_REGEX = "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']";
 
-    static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
-    static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
 
     @Autowired(required = false)
     @Qualifier("tsBasSendCertificateClient")
@@ -146,7 +147,8 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     String transformPayload(String xmlBody) throws ModuleException {
-        // Ta reda på om versionen är på formatet konkret eller V3
+        // Ta reda på om innehållet är på formatet
+        // 'RegisterTsBas' eller 'RegisterCertificate V3'
         if (isTransportVersion(xmlBody)) {
             if (shouldTransformToV1()) {
                 return xslTransformerTransportToV1.transform(xmlBody);
