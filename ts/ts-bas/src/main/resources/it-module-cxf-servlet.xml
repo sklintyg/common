@@ -52,7 +52,7 @@
   </bean>
 
   <bean id="tsBasRegisterCertificateVersion" class="java.lang.String">
-    <constructor-arg value="${tsbas.registercertificate.version}"/>
+    <constructor-arg value="${tsbas.send.certificate.to.recipient.registercertificate.version}"/>
   </bean>
 
 </beans>

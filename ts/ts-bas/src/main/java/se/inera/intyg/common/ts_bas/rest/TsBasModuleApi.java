@@ -62,8 +62,11 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
-    private static final String TRANSPORT_REGEX = "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
-    private static final String RIVTAV3_REGEX = "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']";
+    private static final String TRANSPORT_REGEX =
+            "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
+
+    private static final String RIVTAV3_REGEX =
+            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']";
 
 
     @Autowired(required = false)
@@ -83,7 +86,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     private XslTransformer xslTransformerV3ToV1;
 
     @Autowired(required = false)
-    @Qualifier("tsBasregistercertificateVersion")
+    @Qualifier("tsBasRegisterCertificateVersion")
     private String registerCertificateVersion;
 
     public TsBasModuleApi() {
@@ -156,7 +159,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
                 return xslTransformerTransportToV3.transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
-                        + "Property registercertificate.version = '{}'", registerCertificateVersion);
+                        + "Property registercertificate.version = '%s'", registerCertificateVersion);
                 throw new ModuleException(msg);
             }
         } else if (isRivtav3Version(xmlBody)) {
@@ -169,6 +172,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
         // Input is already at V3 format and doesn't, we don't need to transform
         return xmlBody;
     }
+
 
     boolean isTransportVersion(String xml) {
         Pattern pattern = Pattern.compile(TRANSPORT_REGEX);
