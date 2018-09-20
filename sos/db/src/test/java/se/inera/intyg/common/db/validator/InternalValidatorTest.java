@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.db.validator;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -112,7 +111,6 @@ public class InternalValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testR3_2() throws ScenarioNotFoundException {
         DbUtlatande utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
         utlatandeFromJson.getAntraffatDodDatum().setDate(LocalDate.now().minusMonths(2).minusDays(14).format(DateTimeFormatter.ISO_LOCAL_DATE));
