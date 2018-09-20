@@ -27,15 +27,19 @@ public class CreateNewDraftHolder {
 
     private final String certificateId;
 
+    private final String intygTypeVersion;
+
     private final HoSPersonal skapadAv;
 
     private final Patient patient;
 
-    public CreateNewDraftHolder(String certificateId, HoSPersonal skapadAv, Patient patient) {
+    public CreateNewDraftHolder(String certificateId, String intygTypeVersion, HoSPersonal skapadAv, Patient patient) {
         notNull(certificateId, "'certificateId' must not be null");
+        notNull(intygTypeVersion, "'intygTypeVersion' must not be null");
         notNull(skapadAv, "'skapadAv' must not be null");
         notNull(patient, "'patient' must not be null");
         this.certificateId = certificateId;
+        this.intygTypeVersion = intygTypeVersion;
         this.skapadAv = skapadAv;
         this.patient = patient;
     }
@@ -50,5 +54,9 @@ public class CreateNewDraftHolder {
 
     public Patient getPatient() {
         return patient;
+    }
+
+    public String getIntygTypeVersion() {
+        return intygTypeVersion;
     }
 }

@@ -21,6 +21,7 @@ package se.inera.intyg.common.luae_fs.rest;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -46,7 +47,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component(value = "moduleapi.luae_fs.v1")
 public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
     private static final Logger LOG = LoggerFactory.getLogger(LuaefsModuleApi.class);
 

@@ -21,7 +21,7 @@ package se.inera.intyg.common.af00213.support;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
-import se.inera.intyg.common.af00213.rest.Af00213ModuleApi;
+import se.inera.intyg.common.af00213.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
@@ -34,7 +34,7 @@ public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
     public static final String SCHEMATRON_FILE = "af00213.sch";
 
     @Autowired
-    private Af00213ModuleApi moduleApi;
+    private Af00213ModuleApiV1 moduleApi;
 
     @Override
     public String getModuleId() {

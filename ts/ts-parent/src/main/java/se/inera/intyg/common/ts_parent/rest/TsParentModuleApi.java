@@ -129,7 +129,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private RegisterCertificateValidator xmlValidator = new RegisterCertificateValidator(getSchematronFileName());
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
         request.setPart(getPart(recipientId));
@@ -236,7 +236,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
+    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, type);
     }
 

@@ -4,7 +4,8 @@
 
   <bean class="se.inera.intyg.common.af00213.model.converter.WebcertModelFactoryImpl" />
 
-  <bean class="se.inera.intyg.common.af00213.rest.Af00213ModuleApi" />
+  <bean name="moduleapi.af00213.v1" class="se.inera.intyg.common.af00213.rest.Af00213ModuleApiV1" />
+  <bean name="moduleapi.af00213.v2" class="se.inera.intyg.common.af00213.rest.Af00213ModuleApiV2" />
 
   <bean class="se.inera.intyg.common.af00213.validator.InternalDraftValidatorImpl" />
   

@@ -35,6 +35,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionWrapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IntygModuleRegistryImplTest {
@@ -115,10 +116,11 @@ public class IntygModuleRegistryImplTest {
 
     @Test
     public void testGetModuleApi() throws Exception {
-        when(entryPointMock1.getModuleApi()).thenReturn(mock(ModuleApi.class));
+
         ModuleApi res = registry.getModuleApi(MODULE_ID_1);
 
         assertNotNull(res);
+        assertTrue(res instanceof ModuleApiVersionWrapper);
     }
 
     @Test(expected = ModuleNotFoundException.class)

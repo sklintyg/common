@@ -6,7 +6,7 @@
 
   <bean class="se.inera.intyg.common.lisjp.model.converter.SvarIdHelperImpl" />
 
-  <bean class="se.inera.intyg.common.lisjp.rest.LisjpModuleApi" />
+  <bean name="moduleapi.lisjp.v1" class="se.inera.intyg.common.lisjp.rest.LisjpModuleApi" />
 
   <bean class="se.inera.intyg.common.lisjp.validator.InternalDraftValidatorImpl" />
   

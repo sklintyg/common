@@ -40,6 +40,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -90,7 +91,7 @@ import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.Revoke
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
-
+@Component(value = "moduleapi.ts-diabetes-2.v1")
 public class TsDiabetes2ModuleApi implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetes2ModuleApi.class);
@@ -228,7 +229,7 @@ public class TsDiabetes2ModuleApi implements ModuleApi {
     }
 
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
@@ -255,7 +256,7 @@ public class TsDiabetes2ModuleApi implements ModuleApi {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
         request.setPart(getPart(recipientId));
@@ -310,7 +311,7 @@ public class TsDiabetes2ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
+    public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, TsDiabetes2Utlatande.class);
     }
 

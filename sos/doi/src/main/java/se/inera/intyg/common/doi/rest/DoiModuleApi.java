@@ -20,6 +20,7 @@ package se.inera.intyg.common.doi.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.model.converter.TransportToInternal;
 import se.inera.intyg.common.doi.model.converter.UtlatandeToIntyg;
@@ -40,7 +41,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import java.util.List;
-
+@Component(value = "moduleapi.doi.v1")
 public class DoiModuleApi extends SosParentModuleApi<DoiUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApi.class);

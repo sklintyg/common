@@ -66,7 +66,6 @@ import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
@@ -111,6 +110,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 @RunWith(MockitoJUnitRunner.class)
 public class TsDiabetesModuleApiTest {
 
+    private static final String INTYG_TYPE_VERSION_2_7 = "2.7";
     private final String INTYG_ID = "test-id";
     private final String LOGICAL_ADDRESS = "logicalAddress";
 
@@ -346,7 +346,7 @@ public class TsDiabetesModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
         when(sendTsDiabetesClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_2_7);
 
         verify(xslTransformer).transform(xmlBody);
         verify(sendTsDiabetesClient).registerCertificate(transformedXml, logicalAddress);
@@ -366,7 +366,7 @@ public class TsDiabetesModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsDiabetesClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_2_7);
     }
 
     @Test
@@ -378,7 +378,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
         assertNotNull(internal);
     }
 
@@ -391,7 +391,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
         assertNotNull(internal);
     }
 
@@ -402,7 +402,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
     }
 
     @Test(expected = ModuleException.class)
@@ -412,7 +412,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", "INVANA");
+        moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
     }
 
     @Test
@@ -478,7 +478,7 @@ public class TsDiabetesModuleApiTest {
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        return new CreateNewDraftHolder("Id1", hosPersonal, patient);
+        return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_2_7, hosPersonal, patient);
     }
 
     private CreateDraftCopyHolder createNewDraftCopyHolder() {

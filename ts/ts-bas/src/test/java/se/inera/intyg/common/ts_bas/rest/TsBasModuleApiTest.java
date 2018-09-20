@@ -27,13 +27,11 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -62,8 +60,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.util.Collections;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -82,6 +78,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 @RunWith(MockitoJUnitRunner.class)
 public class TsBasModuleApiTest {
 
+    private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
     @InjectMocks
     private TsBasModuleApi moduleApi;
 
@@ -141,7 +138,7 @@ public class TsBasModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
         when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_6_8);
 
         verify(xslTransformer).transform(xmlBody);
         verify(sendTsBasClient).registerCertificate(transformedXml, logicalAddress);
@@ -161,7 +158,7 @@ public class TsBasModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_6_8);
     }
 
     @Test
@@ -276,7 +273,7 @@ public class TsBasModuleApiTest {
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        return new CreateNewDraftHolder("Id1", hosPersonal, patient);
+        return new CreateNewDraftHolder("Id1", INTYG_TYPE_VERSION_6_8, hosPersonal, patient);
     }
 
     private CreateDraftCopyHolder createNewDraftCopyHolder() {

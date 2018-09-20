@@ -144,7 +144,7 @@ public class WebcertModelFactoryTest {
         patient.setPostadress("Testvägen 12");
         patient.setPostnummer("13337");
         patient.setPostort("Huddinge");
-        return new CreateNewDraftHolder(intygId, createHosPersonal(), patient);
+        return new CreateNewDraftHolder(intygId, "1.0", createHosPersonal(), patient);
     }
 
     private HoSPersonal createHosPersonal() {

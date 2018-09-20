@@ -18,7 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.registry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -29,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
+import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionResolver;
+import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionWrapper;
 
 public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
@@ -40,6 +46,9 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
      */
     @Autowired
     private List<ModuleEntryPoint> moduleEntryPoints;
+
+    @Autowired
+    private ModuleApiVersionResolver moduleApiVersionResolver;
 
     private Map<String, ModuleEntryPoint> moduleApiMap = new HashMap<>();
 
@@ -76,11 +85,15 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
 
     @Override
     public ModuleApi getModuleApi(String id) throws ModuleNotFoundException {
+
+        //Make sure we at least have the module before return a wrapper for it..
         ModuleEntryPoint api = moduleApiMap.get(id);
         if (api == null) {
             throw new ModuleNotFoundException("Could not find module " + id);
         }
-        return api.getModuleApi();
+
+        return new ModuleApiVersionWrapper(id, moduleApiVersionResolver);
+
     }
 
     @Override

@@ -111,6 +111,7 @@ public class LuaefsModuleApiTest {
     private static final String LOGICAL_ADDRESS = "logical address";
     private static final String TEST_HSA_ID = "hsaId";
     private static final String TEST_PATIENT_PERSONNR = "191212121212";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -152,7 +153,7 @@ public class LuaefsModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -163,7 +164,7 @@ public class LuaefsModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientFailsWithoutXmlModel() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ExternalServiceCallException.class)
@@ -171,7 +172,7 @@ public class LuaefsModuleApiTest {
         String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
-        moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+        moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -180,7 +181,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertFalse(response.isRevoked());
     }
 
@@ -190,7 +191,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertTrue(response.isRevoked());
     }
 
@@ -200,7 +201,7 @@ public class LuaefsModuleApiTest {
         doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
                 any());
 
-        moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
+        moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -289,7 +290,7 @@ public class LuaefsModuleApiTest {
     public void testCreateNewInternal() throws Exception {
 
         CreateNewDraftHolder createNewDraftHolder =
-                new CreateNewDraftHolder("1", createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
+                new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 

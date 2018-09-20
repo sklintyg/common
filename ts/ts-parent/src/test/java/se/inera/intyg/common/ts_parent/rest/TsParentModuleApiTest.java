@@ -32,11 +32,6 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-import org.w3.wsaddressing10.AttributedURIType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
-import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
-import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -105,6 +100,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TsParentModuleApiTest {
 
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
+
     private final String INTYG_ID = "test-id";
     private final String LOGICAL_ADDRESS = "logicalAddress";
 
@@ -164,7 +161,7 @@ public class TsParentModuleApiTest {
 
     @Test
     public void testCreateNewInternal() throws Exception {
-        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, new HoSPersonal(), new Patient());
+        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient());
         String res = moduleApi.createNewInternal(draftCertificateHolder);
 
         assertNotNull(res);
@@ -174,7 +171,7 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateNewInternalConverterException() throws Exception {
         when(webcertModelFactory.createNewWebcertDraft(any(CreateNewDraftHolder.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, new HoSPersonal(), new Patient()));
+        moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient()));
     }
 
     @Test
@@ -398,7 +395,7 @@ public class TsParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -423,7 +420,7 @@ public class TsParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -438,7 +435,7 @@ public class TsParentModuleApiTest {
                 .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ModuleException.class)
@@ -446,7 +443,7 @@ public class TsParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
     }
 
     @Test

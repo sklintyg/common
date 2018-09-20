@@ -88,7 +88,7 @@ public class WebcertModelFactoryTest {
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        return new CreateNewDraftHolder(intygId, buildHosPersonal(), buildPatient());
+        return new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
     }
 
     private Patient buildPatient() {

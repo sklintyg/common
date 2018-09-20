@@ -18,15 +18,19 @@
  */
 package se.inera.intyg.common.af00213.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
+import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.af00213.model.converter.InternalToTransport;
 import se.inera.intyg.common.af00213.model.converter.TransportToInternal;
 import se.inera.intyg.common.af00213.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00213.model.internal.Af00213Utlatande;
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
+import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -42,13 +46,12 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-import java.util.List;
+@Component(value = "moduleapi.af00213.v2")
+public class Af00213ModuleApiV2 extends AfParentModuleApi<Af00213Utlatande> {
 
-public class Af00213ModuleApi extends AfParentModuleApi<Af00213Utlatande> {
+    private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApiV2.class);
 
-    private static final Logger LOG = LoggerFactory.getLogger(Af00213ModuleApi.class);
-
-    public Af00213ModuleApi() {
+    public Af00213ModuleApiV2() {
         super(Af00213Utlatande.class);
     }
 

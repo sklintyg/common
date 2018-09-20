@@ -4,7 +4,7 @@
 
     <bean class="se.inera.intyg.common.db.model.converter.WebcertModelFactoryImpl"/>
 
-    <bean class="se.inera.intyg.common.db.rest.DbModuleApi"/>
+    <bean name="moduleapi.db.v1" class="se.inera.intyg.common.db.rest.DbModuleApi"/>
 
     <bean class="se.inera.intyg.common.db.validator.InternalDraftValidatorImpl"/>
 

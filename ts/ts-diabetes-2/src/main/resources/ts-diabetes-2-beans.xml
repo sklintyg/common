@@ -4,7 +4,7 @@
 
   <bean class="se.inera.intyg.common.ts_diabetes_2.model.converter.WebcertModelFactoryImpl" />
 
-  <bean class="se.inera.intyg.common.ts_diabetes_2.rest.TsDiabetes2ModuleApi" />
+  <bean name="moduleapi.ts-diabetes-2.v1" class="se.inera.intyg.common.ts_diabetes_2.rest.TsDiabetes2ModuleApi" />
 
   <bean class="se.inera.intyg.common.ts_diabetes_2.validator.InternalDraftValidatorImpl" />
   

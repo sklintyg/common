@@ -22,7 +22,7 @@
 
   <bean class="se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl" />
 
-  <bean class="se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi" />
+  <bean name="moduleapi.fk7263.v1" class="se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi" />
 
   <bean class="se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil" />
 

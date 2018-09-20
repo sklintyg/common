@@ -20,7 +20,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean class="se.inera.intyg.common.ts_bas.rest.TsBasModuleApi"/>
+  <bean name="moduleapi.ts-bas.v6" class="se.inera.intyg.common.ts_bas.rest.TsBasModuleApi"/>
 
   <bean class="se.inera.intyg.common.ts_bas.model.converter.TransportToInternal"/>
 

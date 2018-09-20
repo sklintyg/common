@@ -86,6 +86,7 @@ public class FkParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";
     private static final String LOGICAL_ADDRESS = "logicalAddress";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
     private static ClassPathResource registerCertificateFile;
     private static ClassPathResource getCertificateFile;
     private static ClassPathResource revokeCertificateFile;
@@ -146,7 +147,7 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testCreateNewInternal() throws Exception {
-        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, new HoSPersonal(), new Patient());
+        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient());
         String res = moduleApi.createNewInternal(draftCertificateHolder);
 
         assertNotNull(res);
@@ -156,7 +157,7 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleConverterException.class)
     public void testCreateNewInternalConverterException() throws Exception {
         when(webcertModelFactory.createNewWebcertDraft(any(CreateNewDraftHolder.class))).thenThrow(new ConverterException());
-        moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, new HoSPersonal(), new Patient()));
+        moduleApi.createNewInternal(new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient()));
     }
 
     @Test
@@ -197,7 +198,7 @@ public class FkParentModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.TECHNICAL_ERROR, "error"));
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenReturn(response);
-        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
+        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId", INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ExternalServiceCallException.class)
@@ -206,7 +207,7 @@ public class FkParentModuleApiTest {
 
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
-        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
+        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId", INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -215,7 +216,7 @@ public class FkParentModuleApiTest {
 
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenReturn(new RegisterCertificateResponseType());
-        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
+        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId", INTYG_TYPE_VERSION_1);
         verify(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class));
     }
 
@@ -227,18 +228,18 @@ public class FkParentModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
                 .thenReturn(response);
-        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId");
+        moduleApi.sendCertificateToRecipient(xmlBody, LOGICAL_ADDRESS, "recipientId", INTYG_TYPE_VERSION_1);
         verify(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class));
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientXmlBodyMissing() throws Exception {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, "recipientId");
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, "recipientId", INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientLogicalAddressMissing() throws Exception {
-        moduleApi.sendCertificateToRecipient("xml", "", "recipientId");
+        moduleApi.sendCertificateToRecipient("xml", "", "recipientId", INTYG_TYPE_VERSION_1);
     }
 
     @Test
@@ -265,7 +266,7 @@ public class FkParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -290,7 +291,7 @@ public class FkParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -305,7 +306,7 @@ public class FkParentModuleApiTest {
                 .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ModuleException.class)
@@ -313,7 +314,7 @@ public class FkParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
     }
 
     @Test

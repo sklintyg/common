@@ -6,7 +6,7 @@
 
   <bean class="se.inera.intyg.common.luse.model.converter.SvarIdHelperImpl" />
 
-  <bean class="se.inera.intyg.common.luse.rest.LuseModuleApi" />
+  <bean name="moduleapi.luse.v1" class="se.inera.intyg.common.luse.rest.LuseModuleApi" />
 
   <bean class="se.inera.intyg.common.luse.validator.InternalDraftValidatorImpl" />
 

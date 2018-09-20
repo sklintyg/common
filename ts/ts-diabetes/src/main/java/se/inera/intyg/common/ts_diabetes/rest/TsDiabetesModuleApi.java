@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
@@ -71,6 +72,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
  *
  * @author Gustav Norbäcker, R2M
  */
+@Component(value = "moduleapi.ts-diabetes.v2")
 public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApi.class);
@@ -116,7 +118,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         String transformedPayload = xslTransformer.transform(xmlBody);
 
         try {
@@ -132,7 +134,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         GetTSDiabetesType type = new GetTSDiabetesType();
         type.setIntygsId(certificateId);
 

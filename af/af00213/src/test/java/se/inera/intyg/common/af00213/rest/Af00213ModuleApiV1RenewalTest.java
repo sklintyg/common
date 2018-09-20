@@ -46,7 +46,7 @@ import static org.junit.Assert.assertNull;
  * Specifically tests the renewal of LISJP where certain fields are nulled out.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class Af00213ModuleApiRenewalTest {
+public class Af00213ModuleApiV1RenewalTest {
 
     public static final String TESTFILE_UTLATANDE = "Af00213ModelCompareUtil/utlatande.json";
 
@@ -57,7 +57,7 @@ public class Af00213ModuleApiRenewalTest {
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @InjectMocks
-    private Af00213ModuleApi moduleApi;
+    private Af00213ModuleApiV1 moduleApi;
 
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {

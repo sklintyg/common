@@ -175,10 +175,13 @@ public interface ModuleApi {
      *            The recipient's logical address
      * @param recipientId
      *            The recipient's identifier
+     * @param intygTypeVersion
+     *            Version of the certificate model type
      * @throws ModuleException
      *             if the certificate could not be sent to recipient
      */
-    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException;
+    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion)
+            throws ModuleException;
 
     /**
      * Sends the revoke request to Intygstjänsten.
@@ -201,11 +204,12 @@ public interface ModuleApi {
      *            the logical address of system from the certificate is requested, i.e Intygstjansten
      * @param recipientId
      *            the recipient id for the requester, used to determine which statuses which should be returned
+     * @param intygTypeVersion
      * @return internal model of the certificate
      * @throws ModuleException
      *             if the producer did not respond or responded with ERROR
      */
-    CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException;
 
     /**
      * Determine whether a notification about changed state in a certificate should be sent,
@@ -283,10 +287,10 @@ public interface ModuleApi {
      * @param utlatandeJson
      *            the model represented as JSON (internal)
      * @return the converted utlatande
-     * @throws IOException
+     * @throws ModuleException
      *             if the mapper could not read the Utlatande
      */
-    Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException;
+    Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException;
 
     /**
      * Returns an instance of the implementation of Utlatande that this module handles.
@@ -335,8 +339,10 @@ public interface ModuleApi {
      * @param frageIds
      *            the ids of the questions in transport format requested
      * @return a mapping from frage id to a list of property handles in the JSON-representation of the certificate
+     * @throws ModuleException
+     *             if the version module api could not be found
      */
-    Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds);
+    Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds) throws ModuleException;
 
     /**
      * Creates a new internal representation, which is meant to be used as a renewal of a certificate based on template.

@@ -40,6 +40,7 @@ import static org.junit.Assert.*;
 public class WebcertModelFactoryTest {
 
     private static final String INTYG_ID = "intyg-123";
+    private static final String INTYG_TYPE_VERSION = "1.0";
 
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
@@ -78,7 +79,7 @@ public class WebcertModelFactoryTest {
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, buildHosPersonal(), buildPatient());
+        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, INTYG_TYPE_VERSION, buildHosPersonal(), buildPatient());
         return draftHolder;
     }
 

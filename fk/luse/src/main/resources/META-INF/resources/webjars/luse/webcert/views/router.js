@@ -24,7 +24,7 @@ angular.module('luse').config(function($stateProvider) {
     $stateProvider.
         state('luse-edit', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url : '/luse/edit/:intygTypeVersion/:certificateId/:focusOn',
+            url : '/luse/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',

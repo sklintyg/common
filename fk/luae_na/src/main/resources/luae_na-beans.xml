@@ -6,7 +6,7 @@
 
   <bean class="se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl" />
 
-  <bean class="se.inera.intyg.common.luae_na.rest.LuaenaModuleApi" />
+  <bean name="moduleapi.luae_na.v1" class="se.inera.intyg.common.luae_na.rest.LuaenaModuleApi" />
 
   <bean class="se.inera.intyg.common.luae_na.validator.InternalDraftValidatorImpl" />
 

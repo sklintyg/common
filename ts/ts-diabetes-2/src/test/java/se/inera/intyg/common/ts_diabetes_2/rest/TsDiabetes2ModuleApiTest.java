@@ -89,6 +89,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 public class TsDiabetes2ModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-minimal.json";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     private final String LOGICAL_ADDRESS = "logical address";
     private final String PNR_TOLVAN = "19121212-1212";
@@ -122,7 +123,7 @@ public class TsDiabetes2ModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("transport/ts-diabetes-2.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -137,7 +138,7 @@ public class TsDiabetes2ModuleApiTest {
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("transport/ts-diabetes-2.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
         } catch (IOException e) {
             fail();
         }
@@ -145,17 +146,21 @@ public class TsDiabetes2ModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", null, null);
+        moduleApi.sendCertificateToRecipient("blaha", null, null, INTYG_TYPE_VERSION_1);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", "", null);
+        moduleApi.sendCertificateToRecipient("blaha", "", null, INTYG_TYPE_VERSION_1);
+    }
+    @Test(expected = ModuleException.class)
+    public void testSendCertificateShouldFailOnMissingIntygTypeVersion() throws ModuleException {
+        moduleApi.sendCertificateToRecipient("blaha", "", null, null);
     }
 
     @Test
@@ -206,7 +211,7 @@ public class TsDiabetes2ModuleApiTest {
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any())).thenReturn(createGetCertificateResponseType());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
+        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION_1);
 
         ArgumentCaptor<GetCertificateType> captor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
@@ -221,7 +226,7 @@ public class TsDiabetes2ModuleApiTest {
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
                 .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
-        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
+        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION_1);
         fail();
     }
 
@@ -420,7 +425,7 @@ public class TsDiabetes2ModuleApiTest {
     }
 
     private CreateNewDraftHolder createDraftHolder() {
-        return new CreateNewDraftHolder("certificateId", createHosPersonal(), createPatient());
+        return new CreateNewDraftHolder("certificateId", "1.0", createHosPersonal(), createPatient());
     }
 
     private HoSPersonal createHosPersonal() {

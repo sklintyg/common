@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
@@ -110,6 +111,7 @@ import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHO
 /**
  * @author andreaskaltenbach, marced
  */
+@Component(value = "moduleapi.fk7263.v1")
 public class Fk7263ModuleApi implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(Fk7263ModuleApi.class);
@@ -233,7 +235,7 @@ public class Fk7263ModuleApi implements ModuleApi {
      * {@inheritDoc}
      */
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
 
         // Check that we got any data at all
         if (xmlBody == null) {
@@ -249,7 +251,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
         GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
         request.setCertificateId(certificateId);
         request.setPart(recipientId);
@@ -413,7 +415,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws IOException {
+    public Fk7263Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         // return objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);
 
         Fk7263Utlatande utlatande = objectMapper.readValue(utlatandeJson, Fk7263Utlatande.class);

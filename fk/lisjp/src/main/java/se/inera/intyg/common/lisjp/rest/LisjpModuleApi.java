@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -58,7 +59,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemE
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
+@Component(value = "moduleapi.lisjp.v1")
 public class LisjpModuleApi extends FkParentModuleApi<LisjpUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApi.class);

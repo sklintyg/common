@@ -71,6 +71,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class DbModuleApiTest {
     private static final String LOGICAL_ADDRESS = "logical address";
+    private static final String INTYG_TYPE_VERSION = "1.0";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -98,22 +99,22 @@ public class DbModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", null, null);
+        moduleApi.sendCertificateToRecipient("blaha", null, null, INTYG_TYPE_VERSION);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", "", null);
+        moduleApi.sendCertificateToRecipient("blaha", "", null, INTYG_TYPE_VERSION);
     }
 
     @Test
@@ -155,7 +156,7 @@ public class DbModuleApiTest {
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any())).thenReturn(createGetCertificateResponseType());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
+        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION);
 
         ArgumentCaptor<GetCertificateType> captor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
@@ -199,7 +200,7 @@ public class DbModuleApiTest {
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION);
         } catch (IOException e) {
             fail();
         }
@@ -210,7 +211,7 @@ public class DbModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("db.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -306,7 +307,7 @@ public class DbModuleApiTest {
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
                 .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
-        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
+        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION);
     }
 
     @Test
@@ -398,7 +399,7 @@ public class DbModuleApiTest {
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        return new CreateNewDraftHolder("certificateId", createHosPersonal(), patient);
+        return new CreateNewDraftHolder("certificateId", "1.0", createHosPersonal(), patient);
     }
 
     private HoSPersonal createHosPersonal() {
