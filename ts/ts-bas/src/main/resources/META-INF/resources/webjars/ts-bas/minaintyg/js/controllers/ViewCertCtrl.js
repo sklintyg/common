@@ -29,12 +29,12 @@ angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/ts-bas/' + $stateParams.certificateId + '/TRANSP');
+                $location.path('/send/ts-bas/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            IntygService.getCertificate('ts-bas', $stateParams.certificateId, function(result) {
+            IntygService.getCertificate('ts-bas', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

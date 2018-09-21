@@ -23,7 +23,7 @@ angular.module('luse').config(function($stateProvider) {
 
     $stateProvider.
         state('luse-view', {
-            url :'/luse/view/:certificateId',
+            url :'/luse/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luse/minaintyg/views/view-cert.html',
             controller: 'luse.ViewCertCtrl',
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,

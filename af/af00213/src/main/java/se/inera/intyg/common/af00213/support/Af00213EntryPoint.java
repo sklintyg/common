@@ -32,9 +32,6 @@ public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
     public static final String MODULE_DESCRIPTION = "Arbetsförmedlingens medicinska utlåtande";
     public static final String SCHEMATRON_FILE = "af00213.sch";
 
-    @Autowired
-    private Af00213ModuleApiV1 moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

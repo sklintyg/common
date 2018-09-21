@@ -23,7 +23,7 @@ angular.module('luae_na').config(function($stateProvider) {
 
     $stateProvider.
         state('luae_na-view', {
-            url :'/luae_na/view/:certificateId',
+            url :'/luae_na/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luae_na/minaintyg/views/view-cert.html',
             controller: 'luae_na.ViewCertCtrl',
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,

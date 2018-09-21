@@ -32,9 +32,6 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_DESCRIPTION = "Läkarutlåtande för aktivitetsersättning vid förlängd skolgång";
     public static final String SCHEMATRON_FILE = "luae_fs.sch";
 
-    @Autowired
-    private LuaefsModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

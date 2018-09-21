@@ -18,19 +18,19 @@
  */
 angular.module('af00213').controller(
         'af00213.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'af00213.viewConfigFactory',
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory',
                 function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
                     'use strict';
                     $scope.certificateId = $stateParams.certificateId;
                     $scope.cert = undefined;
 
                     $scope.send = function() {
-                        $location.path('/send/af00213/' + $stateParams.certificateId + '/AF');
+                        $location.path('/send/af00213/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF');
                     };
 
                     $scope.errorMessage = null;
                     $scope.doneLoading = false;
-                    certificateService.getCertificate('af00213', $stateParams.certificateId, function(result) {
+                    certificateService.getCertificate('af00213', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                         $scope.doneLoading = true;
                         if (result !== null) {
                             $scope.cert = result.utlatande;

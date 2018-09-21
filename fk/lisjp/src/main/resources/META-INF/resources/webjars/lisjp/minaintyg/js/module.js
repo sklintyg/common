@@ -22,7 +22,7 @@ angular.module('lisjp').config(function($stateProvider) {
     'use strict';
 
     $stateProvider.state('lisjp-view', {
-        url: '/lisjp/view/:certificateId',
+        url: '/lisjp/:intygTypeVersion/view/:certificateId',
         templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
         controller: 'lisjp.ViewCertCtrl',
         data: {
@@ -32,7 +32,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }
     }).state('lisjp-customize', {
         abstract: true, // jshint ignore:line
-        url: '/:type/customize/:certificateId',
+        url: '/:type/:intygTypeVersion/customize/:certificateId',
         templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
         controller: 'lisjp.CustomizePdfCtrl',
         data: {

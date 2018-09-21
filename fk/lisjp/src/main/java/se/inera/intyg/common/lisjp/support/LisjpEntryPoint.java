@@ -32,9 +32,6 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
     public static final String SCHEMATRON_FILE = "lisjp.sch";
 
-    @Autowired
-    private LisjpModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

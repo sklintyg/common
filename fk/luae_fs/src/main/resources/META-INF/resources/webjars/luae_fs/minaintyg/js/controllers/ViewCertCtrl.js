@@ -26,12 +26,12 @@ angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
             $scope.cert = undefined;
 
             $scope.send = function() {
-                $location.path('/send/luae_fs/' + $stateParams.certificateId + '/FKASSA');
+                $location.path('/send/luae_fs/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            certificateService.getCertificate('luae_fs', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('luae_fs', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

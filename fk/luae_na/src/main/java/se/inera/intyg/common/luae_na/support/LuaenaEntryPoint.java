@@ -32,9 +32,6 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
     public static final String SCHEMATRON_FILE = "luae_na.sch";
 
-    @Autowired
-    private LuaenaModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

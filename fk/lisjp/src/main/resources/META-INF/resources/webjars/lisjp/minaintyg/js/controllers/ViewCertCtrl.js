@@ -25,7 +25,7 @@ angular.module('lisjp').controller(
                     $scope.cert = undefined;
 
                     $scope.send = function() {
-                        $location.path('/send/lisjp/' + $stateParams.certificateId + '/FKASSA');
+                        $location.path('/send/lisjp/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
                     };
 
                     $scope.customizeCertificate = function() {
@@ -35,7 +35,7 @@ angular.module('lisjp').controller(
 
                     $scope.errorMessage = null;
                     $scope.doneLoading = false;
-                    certificateService.getCertificate('lisjp', $stateParams.certificateId, function(result) {
+                    certificateService.getCertificate('lisjp', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                         $scope.doneLoading = true;
                         if (result !== null) {
                             $scope.cert = result.utlatande;

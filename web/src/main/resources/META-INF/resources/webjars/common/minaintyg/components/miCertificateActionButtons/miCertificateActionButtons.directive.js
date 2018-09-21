@@ -40,7 +40,7 @@ angular.module('common').directive('miCertificateActionButtons',
                     //pdf download link requires the certificate to be present
                     function buildPdfLink() {
                         if ($scope.certModel) {
-                            return '/moduleapi/certificate/' + $scope.certModel.typ + '/' + $scope.certModel.id + '/pdf';
+                            return '/moduleapi/certificate/' + $scope.certModel.typ + '/' + $scope.certModel.textVersion + '/' + $scope.certModel.id + '/pdf';
                         } else {
                             return undefined;
                         }

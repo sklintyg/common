@@ -28,12 +28,12 @@ angular.module('luse').controller('luse.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/luse/' + $stateParams.certificateId + '/FKASSA');
+                $location.path('/send/luse/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            certificateService.getCertificate('luse', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('luse', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

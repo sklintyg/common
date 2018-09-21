@@ -26,9 +26,9 @@ angular.module('common').factory('common.IntygService',
         /*
          * Load certificate details from the server.
          */
-        function _getCertificate(type, id, onSuccess, onError) {
-            $log.debug('_getCertificate id:' + id + 'of type:' + type);
-            var restPath = '/moduleapi/certificate/' + type + '/' + id;
+        function _getCertificate(type, intygTypeVersion, id, onSuccess, onError) {
+            $log.debug('_getCertificate id:' + id + 'of type:' + type + '(' + intygTypeVersion + ')');
+            var restPath = '/moduleapi/certificate/' + type + '/' + intygTypeVersion + '/' + id;
             $http.get(restPath).then(function(response) {
                 $log.debug('_getCertificate data:' + response.data);
                 if (response.data.meta.archived) {

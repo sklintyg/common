@@ -23,7 +23,7 @@ angular.module('ts-bas').config(function($stateProvider) {
     'use strict';
     $stateProvider.
         state('ts-bas-view', {
-            url :'/ts-bas/view/:certificateId',
+            url :'/ts-bas/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
             controller: 'ts-bas.ViewCertCtrl',
             data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,

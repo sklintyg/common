@@ -38,9 +38,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     private static final boolean DEPRECATED = true;
     public static final String DEFAULT_LOCKED_TYPE_VERSION = "1.0";
 
-    @Autowired
-    private Fk7263ModuleApi moduleApi;
-
     @Override
     public String getDefaultRecipient() {
         return DEFAULT_RECIPIENT_ID;

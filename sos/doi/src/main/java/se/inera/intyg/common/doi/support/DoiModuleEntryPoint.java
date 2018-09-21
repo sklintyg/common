@@ -43,9 +43,6 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     @Autowired(required = false)
     private Optional<IntygTextsRepository> repo;
 
-    @Autowired
-    private DoiModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

@@ -42,9 +42,6 @@ public class TsDiabetes2EntryPoint implements ModuleEntryPoint {
     @Autowired(required = false)
     private Optional<IntygTextsRepository> repo;
 
-    @Autowired
-    private TsDiabetes2ModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

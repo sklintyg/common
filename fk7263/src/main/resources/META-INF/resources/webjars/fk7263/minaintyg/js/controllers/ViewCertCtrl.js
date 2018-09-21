@@ -25,7 +25,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             $scope.cert = undefined;
 
             $scope.send = function() {
-                $location.path('/send/fk7263/' + $stateParams.certificateId + '/FKASSA');
+                $location.path('/send/fk7263/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.customizeCertificate = function() {
@@ -35,7 +35,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            certificateService.getCertificate('fk7263', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('fk7263', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

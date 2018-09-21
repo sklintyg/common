@@ -29,12 +29,12 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/ts-diabetes/' + $stateParams.certificateId + '/TRANSP');
+                $location.path('/send/ts-diabetes/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + + '/TRANSP');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            IntygService.getCertificate('ts-diabetes', $stateParams.certificateId, function(result) {
+            IntygService.getCertificate('ts-diabetes', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

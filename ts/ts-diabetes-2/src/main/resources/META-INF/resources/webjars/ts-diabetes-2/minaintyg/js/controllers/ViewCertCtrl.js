@@ -25,12 +25,12 @@ angular.module('ts-diabetes-2').controller(
                     $scope.cert = undefined;
 
                     $scope.send = function() {
-                        $location.path('/send/ts-diabetes-2/' + $stateParams.certificateId + '/');
+                        $location.path('/send/ts-diabetes-2/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/');
                     };
 
                     $scope.errorMessage = null;
                     $scope.doneLoading = false;
-                    certificateService.getCertificate('ts-diabetes-2', $stateParams.certificateId, function(result) {
+                    certificateService.getCertificate('ts-diabetes-2', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                         $scope.doneLoading = true;
                         if (result !== null) {
                             $scope.cert = result.utlatande;

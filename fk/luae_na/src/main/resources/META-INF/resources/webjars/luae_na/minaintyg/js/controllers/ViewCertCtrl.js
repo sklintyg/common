@@ -29,12 +29,12 @@ angular.module('luae_na').controller('luae_na.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/luae_na/' + $stateParams.certificateId + '/FKASSA');
+                $location.path('/send/luae_na/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            certificateService.getCertificate('luae_na', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('luae_na', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

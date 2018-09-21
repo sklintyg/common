@@ -22,7 +22,7 @@ angular.module('ts-diabetes-2').config(function($stateProvider) {
     'use strict';
 
     $stateProvider.state('ts-diabetes-2-view', {
-        url: '/ts-diabetes-2/view/:certificateId',
+        url: '/ts-diabetes-2/:intygTypeVersion/view/:certificateId',
         templateUrl: '/web/webjars/ts-diabetes-2/minaintyg/views/view-cert.html',
         controller: 'ts-diabetes-2.ViewCertCtrl',
         data: {

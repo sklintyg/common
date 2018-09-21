@@ -37,9 +37,6 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg ska användas vid förlängd giltighet av högre behörighet från 45 år, ansökan om körkortstillstånd för grupp II och III och vid ansökan om taxiförarlegitimation. Transportstyrelsens läkarintyg kan även användas när Transportstyrelsen i annat fall begärt ett allmänt läkarintyg avseende lämplighet att inneha körkort.</p>Specialistintyg finns bl.a. för alkohol, läkemedel, synfunktion, Alkolås m.m. Se <LINK:transportstyrelsen>."; //<!-- <a href="http://www.transportstyrelsen.se" target="_blank">www.transportstyrelsen.se</a>
     // CHECKSTYLE:ON LineLength
 
-    @Autowired
-    private TsBasModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

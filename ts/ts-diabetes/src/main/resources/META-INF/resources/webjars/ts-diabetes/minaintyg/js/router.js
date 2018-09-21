@@ -23,7 +23,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     'use strict';
     $stateProvider.
         state('ts-diabetes-view', {
-            url :'/ts-diabetes/view/:certificateId',
+            url :'/ts-diabetes/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/view-cert.html',
             controller: 'ts-diabetes.ViewCertCtrl',
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,

@@ -43,9 +43,6 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     @Autowired(required = false)
     private Optional<IntygTextsRepository> repo;
 
-    @Autowired
-    private DbModuleApi moduleApi;
-
     @Override
     public String getModuleId() {
         return MODULE_ID;

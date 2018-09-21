@@ -23,14 +23,14 @@ angular.module('fk7263').config(function($stateProvider) {
 
     $stateProvider.
         state('fk7263-view', {
-            url :'/fk7263/view/:certificateId',
+            url :'/fk7263/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/view-cert.html',
             controller: 'fk7263.ViewCertCtrl',
             data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
     }).state('fk7263-customize', {
         abstract: true, // jshint ignore:line
-        url: '/:type/customizepdf/:certificateId',
+        url: '/:type/:intygTypeVersion/customizepdf/:certificateId',
         templateUrl: '/web/webjars/fk7263/minaintyg/views/customize-pdf.html',
         controller: 'fk7263.CustomizePdfCtrl',
         data: {
