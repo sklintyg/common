@@ -50,6 +50,7 @@ import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.inera.intygstjanster.ts.services.v1.IntygMeta;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
@@ -58,7 +59,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -71,6 +71,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -220,13 +221,21 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testGetUtlatandeFromXml() throws Exception {
-        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
-        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
+    public void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
+        final String originalXml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
+        final String transformedXml = getXmlContentAsString(new ClassPathResource("scenarios/rivtav3/valid-minimal.xml"));
 
+        when(xslTransformerTransportToV3.transform(any(String.class))).thenReturn(transformedXml);
+        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(originalXml);
         assertNotNull(res);
     }
 
+    @Test
+    public void testGetUtlatandeWhenXmlIsInV3Format() throws Exception {
+        String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
+        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
+        assertNotNull(res);
+    }
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
         TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
@@ -364,7 +373,13 @@ public class TsBasModuleApiTest {
         ReflectionTestUtils.setField(moduleApi, "registerCertificateVersion", version);
     }
 
-    private String xmlToString(RegisterCertificateType registerCertificateType) throws JAXBException {
+    private String xmlToString(RegisterTSBasType registerCertificateType) {
+        StringWriter stringWriter = new StringWriter();
+        JAXB.marshal(registerCertificateType, stringWriter);
+        return stringWriter.toString();
+    }
+
+    private String xmlToString(RegisterCertificateType registerCertificateType) {
         StringWriter stringWriter = new StringWriter();
         JAXB.marshal(registerCertificateType, stringWriter);
         return stringWriter.toString();

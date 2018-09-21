@@ -122,6 +122,10 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     @Override
     public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
+            if (isTransportVersion(xml)) {
+                xml = xslTransformerTransportToV3.transform(xml);
+            }
+
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
