@@ -100,6 +100,13 @@ public class ModuleApiVersionWrapper implements ModuleApi {
     }
 
     @Override
+    public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+            throws ModuleException {
+        return moduleApiVersionResolver.getVersionedModuleApi(this.intygType, template.getTextVersion())
+                .createCompletionFromTemplate(draftCopyHolder, template, comment);
+    }
+
+    @Override
     public void registerCertificate(String internalModel, String logicalAddress) throws ModuleException {
         moduleApiVersionResolver
                 .getVersionedModuleApi(this.intygType, moduleApiVersionResolver.resolveVersionFromUtlatandeJson(internalModel))
