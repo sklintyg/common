@@ -156,9 +156,9 @@ angular.module('common').factory('common.UtkastProxy',
          * @param onError
          * @private
          */
-        function _startSigningProcess(intygsId, intygsTyp, version, onSuccess, onError) {
+        function _startSigningProcess(intygsId, intygsTyp, version, signMethod, onSuccess, onError) {
             $log.debug('_startSigningProcess. intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-            var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
+            var restPath = '/api/signature/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash/' + signMethod;
             $http.post(restPath).
             then(function(response) {
                 onSuccess(response.data);
