@@ -76,11 +76,11 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                     data: null
                 }, {
                     formId: 'DIAGNOS',
-                    heading: 'SYMPTOM_PROGNOS_BEHANDLING',
+                    heading: 'GENERELL_INFO',
                     data: null
                 }, {
                     formId: 'DIAGNOS',
-                    heading: 'GENERELL_INFO',
+                    heading: 'SYMPTOM_PROGNOS_BEHANDLING',
                     data: null
                 } ];
 
