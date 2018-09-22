@@ -45,7 +45,7 @@ angular.module('af00213').factory('af00213.Domain.IntygModel.v2',
                         'utredningBehandling': undefined,
 
                         // Kategori 4
-                        'skipparBalte': undefined,
+                        'harSkipparBalte': undefined,
                         'skipparBalteMotivering': undefined,
 
                         // Kategori 5

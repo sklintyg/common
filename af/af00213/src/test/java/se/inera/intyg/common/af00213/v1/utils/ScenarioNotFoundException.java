@@ -16,26 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.af00213.model.internal;
-
-import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
+package se.inera.intyg.common.af00213.v1.utils;
 
 /**
- * Shared fields between ALL versions of AF200123 intyg.
+ * Thrown when an expected scenario wasn't found.
  */
-public interface Af00213Utlatande extends AfUtlatande {
+public class ScenarioNotFoundException extends Exception {
 
-    Boolean getHarFunktionsnedsattning();
+    private static final long serialVersionUID = 2092187161098644931L;
 
-    String getFunktionsnedsattning();
+    public ScenarioNotFoundException(String scenario, String model) {
+        super(String.format("Could not find %s model scenario %s", model, scenario));
+    }
 
-    Boolean getHarAktivitetsbegransning();
-
-    String getAktivitetsbegransning();
-
-    Boolean getHarUtredningBehandling();
-
-    String getUtredningBehandling();
-
-    String getOvrigt();
+    public ScenarioNotFoundException(String scenario, String model, Throwable cause) {
+        super(String.format("Could not find %s model scenario %s", model, scenario), cause);
+    }
 }

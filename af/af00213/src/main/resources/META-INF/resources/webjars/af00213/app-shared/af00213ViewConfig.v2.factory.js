@@ -87,11 +87,11 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v2', ['uvUtil', fun
             labelKey: 'FRG_42.RBK',
             components: [{
                 type: 'uv-boolean-value',
-                modelProp: 'skipparBalte'
+                modelProp: 'harSkipparBalte'
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_42.2.RBK',
-                hideExpression: '!skipparBalte',
+                hideExpression: '!harSkipparBalte',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'skipparBalteMotivering'

@@ -47,7 +47,7 @@ public class PdfGenerator {
 
     private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens medicinska utlåtande";
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "Af_logo_rgb_270px@2x.png";
-    private static final String PDF_UP_MODEL_CLASSPATH_URI = "af00213-uv-viewmodel.js";
+    private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "af00213-uv-viewmodel.v%s.js";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
@@ -59,12 +59,12 @@ public class PdfGenerator {
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
 
-    public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
+    public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
             ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
-            String upJsModel = loadUvViewConfig();
+            String upJsModel = loadUvViewConfig(majorVersion);
             byte[] logoData = loadLogotype();
 
             boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
@@ -121,11 +121,12 @@ public class PdfGenerator {
         return cleanedJson;
     }
 
-    private String loadUvViewConfig() throws IOException {
-        String upJsModel = IOUtils.toString(new ClassPathResource(PDF_UP_MODEL_CLASSPATH_URI).getInputStream(),
+    private String loadUvViewConfig(String majorVersion) throws IOException {
+        String templateUriPath = String.format(PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE, majorVersion);
+        String upJsModel = IOUtils.toString(new ClassPathResource(templateUriPath).getInputStream(),
                 Charset.forName("UTF-8"));
         if (Strings.isNullOrEmpty(upJsModel)) {
-            throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + PDF_UP_MODEL_CLASSPATH_URI);
+            throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + templateUriPath);
         }
         return upJsModel;
     }

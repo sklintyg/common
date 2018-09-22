@@ -18,19 +18,18 @@
  */
 package se.inera.intyg.common.af00213.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import se.inera.intyg.common.af00213.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.af_parent.support.AfAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
+@Component("Af00213EntryPoint")
 public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
 
     public static final String ISSUER_TYPE_ID = "AF00213";
     public static final String MODULE_ID = "af00213";
     public static final String MODULE_NAME = "Arbetsförmedlingens medicinska utlåtande";
     public static final String MODULE_DESCRIPTION = "Arbetsförmedlingens medicinska utlåtande";
-    public static final String SCHEMATRON_FILE = "af00213.sch";
 
     @Override
     public String getModuleId() {

@@ -27,7 +27,7 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory.v2',
                     1: 'funktionsnedsattning',
                     2: 'aktivitetsbegransning',
                     3: 'utredningBehandling',
-                    4: 'arbetetsPaverkan',
+                    4: 'trafikbeteende',
                     5: 'ovrigt'
                 };
             }
@@ -92,13 +92,13 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory.v2',
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
-                        fraga(4, 'FRG_42.RBK', 'FRG_42.HLP', {required: true, requiredProp: 'skipparBalte'}, [{
+                        fraga(4, 'FRG_42.RBK', 'FRG_42.HLP', {required: true, requiredProp: 'harSkipparBalte'}, [{
                             type: 'ue-radio',
-                            modelProp: 'skipparBalte'
+                            modelProp: 'harSkipparBalte'
                         }, {
                             type: 'ue-textarea',
                             modelProp: 'skipparBalteMotivering',
-                            hideExpression: '!model.skipparBalte',
+                            hideExpression: '!model.harSkipparBalte',
                             label: {
                                 key: 'DFR_42.2.RBK',
                                 helpKey: 'DFR_42.2.HLP',

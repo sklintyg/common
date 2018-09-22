@@ -16,26 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.af00213.model.internal;
+package se.inera.intyg.common.af00213.v1.model.util;
 
-import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
+import org.springframework.stereotype.Component;
 
-/**
- * Shared fields between ALL versions of AF200123 intyg.
- */
-public interface Af00213Utlatande extends AfUtlatande {
+import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 
-    Boolean getHarFunktionsnedsattning();
+@Component("af00213.v1.Af00213ModelCompareUtilV2")
+public class Af00213ModelCompareUtilV1 implements ModelCompareUtil<Af00213UtlatandeV1> {
 
-    String getFunktionsnedsattning();
-
-    Boolean getHarAktivitetsbegransning();
-
-    String getAktivitetsbegransning();
-
-    Boolean getHarUtredningBehandling();
-
-    String getUtredningBehandling();
-
-    String getOvrigt();
+    @Override
+    public boolean isValidForNotification(Af00213UtlatandeV1 utlatande) {
+        return true;
+    }
 }

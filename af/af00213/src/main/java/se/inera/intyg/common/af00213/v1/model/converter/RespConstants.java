@@ -16,26 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.af00213.model.internal;
-
-import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
+package se.inera.intyg.common.af00213.v1.model.converter;
 
 /**
- * Shared fields between ALL versions of AF200123 intyg.
+ * Constants specific to AF200123 intyg version 1.
  */
-public interface Af00213Utlatande extends AfUtlatande {
+public final class RespConstants {
 
-    Boolean getHarFunktionsnedsattning();
+    public static final String ARBETETS_PAVERKAN_SVAR_ID_4 = "4";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_ID_41 = "4.1";
+    public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_41 = "harArbetetsPaverkan";
+    public static final String ARBETETS_PAVERKAN_DELSVAR_ID_42 = "4.2";
+    public static final String ARBETETS_PAVERKAN_SVAR_JSON_ID_42 = "arbetetsPaverkan";
 
-    String getFunktionsnedsattning();
 
-    Boolean getHarAktivitetsbegransning();
+    private RespConstants() {
+    }
 
-    String getAktivitetsbegransning();
-
-    Boolean getHarUtredningBehandling();
-
-    String getUtredningBehandling();
-
-    String getOvrigt();
 }

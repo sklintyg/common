@@ -78,6 +78,10 @@ import java.util.Map;
 
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
+/**
+ * Defines common traits for all Af intyg ModuleApi.
+ * @param <T>
+ */
 public abstract class AfParentModuleApi<T extends AfUtlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(AfParentModuleApi.class);
