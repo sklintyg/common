@@ -25,10 +25,10 @@ public final class RespConstants {
 
 
     public static final String SKIPPAR_BALTE_SVAR_ID_4 = "4";
-    public static final String SKIPPAR_BALTE_DELSVAR_ID_41 = "4.1";
-    public static final String SKIPPAR_BALTE_SVAR_JSON_ID_41 = "harSkipparBalte";
-    public static final String SKIPPAR_BALTE_DELSVAR_ID_42 = "4.2";
-    public static final String SKIPPAR_BALTE_SVAR_JSON_ID_42 = "skipparBalteMotivering";
+    public static final String SKIPPAR_BALTE_DELSVAR_ID_4_1 = "4.1";
+    public static final String SKIPPAR_BALTE_DELSVAR_JSON_ID_4_1 = "harSkipparBalte";
+    public static final String SKIPPAR_BALTE_DELSVAR_ID_4_2 = "4.2";
+    public static final String SKIPPAR_BALTE_SVAR_JSON_ID_4_2 = "skipparBalteMotivering";
 
     private RespConstants() {
     }

@@ -92,7 +92,7 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory.v2',
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
-                        fraga(4, 'FRG_42.RBK', 'FRG_42.HLP', {required: true, requiredProp: 'harSkipparBalte'}, [{
+                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', {required: true, requiredProp: 'harSkipparBalte'}, [{
                             type: 'ue-radio',
                             modelProp: 'harSkipparBalte'
                         }, {
@@ -100,8 +100,8 @@ angular.module('af00213').factory('af00213.UtkastConfigFactory.v2',
                             modelProp: 'skipparBalteMotivering',
                             hideExpression: '!model.harSkipparBalte',
                             label: {
-                                key: 'DFR_42.2.RBK',
-                                helpKey: 'DFR_42.2.HLP',
+                                key: 'DFR_4.2.RBK',
+                                helpKey: 'DFR_4.2.HLP',
                                 required: true,
                                 requiredProp: 'skipparBalteMotivering'
                             }

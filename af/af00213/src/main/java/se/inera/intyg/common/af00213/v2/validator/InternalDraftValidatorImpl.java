@@ -18,8 +18,8 @@
  */
 package se.inera.intyg.common.af00213.v2.validator;
 
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_JSON_ID_4_1;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_4_2;
 import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateAktivitetsbegransning;
 import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateBlanksForOptionalFields;
 import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateFunktionsnedsattning;
@@ -58,7 +58,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         // Kategori 3 - Behandling / Utredning
         validateUtredningBehandling(utlatande, validationMessages);
 
-        // Kategori 4 - arbetetsPaverkan
+        // Kategori 4 - trafikbeteende
         validateSkipparBalte(utlatande, validationMessages);
 
         // Kategori 5 – Övrigt
@@ -73,12 +73,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
     private void validateSkipparBalte(Af00213UtlatandeV2 utlatande, List<ValidationMessage> validationMessages) {
         // Yes or no must be specified.
         if (utlatande.getHarSkipparBalte() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_TRAFIK_BETEENDE, SKIPPAR_BALTE_SVAR_JSON_ID_41,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_TRAFIK_BETEENDE, SKIPPAR_BALTE_DELSVAR_JSON_ID_4_1,
                     ValidationMessageType.EMPTY);
         }
 
         if (isSetToTrue(utlatande.getHarSkipparBalte()) && Strings.nullToEmpty(utlatande.getSkipparBalteMotivering()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_TRAFIK_BETEENDE, SKIPPAR_BALTE_SVAR_JSON_ID_42,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_TRAFIK_BETEENDE, SKIPPAR_BALTE_SVAR_JSON_ID_4_2,
                     ValidationMessageType.EMPTY);
         }
     }

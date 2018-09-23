@@ -29,8 +29,8 @@ import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_41;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_42;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_1;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_2;
 import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_ID_4;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
@@ -95,8 +95,8 @@ public final class UtlatandeToIntyg {
 
         if (source.getHarSkipparBalte() != null) {
             svars.add(aSvar(SKIPPAR_BALTE_SVAR_ID_4)
-                    .withDelsvar(SKIPPAR_BALTE_DELSVAR_ID_41, source.getHarSkipparBalte().toString())
-                    .withDelsvar(SKIPPAR_BALTE_DELSVAR_ID_42, source.getSkipparBalteMotivering())
+                    .withDelsvar(SKIPPAR_BALTE_DELSVAR_ID_4_1, source.getHarSkipparBalte().toString())
+                    .withDelsvar(SKIPPAR_BALTE_DELSVAR_ID_4_2, source.getSkipparBalteMotivering())
                     .build());
         }
 

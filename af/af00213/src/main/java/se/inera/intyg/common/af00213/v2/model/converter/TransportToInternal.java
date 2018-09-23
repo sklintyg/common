@@ -29,9 +29,10 @@ import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_41;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_42;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_1;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_2;
 import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_ID_4;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_4_2;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import se.inera.intyg.common.af00213.v2.model.internal.Af00213UtlatandeV2;
@@ -131,10 +132,10 @@ public final class TransportToInternal {
     private static void handleBeteendeTrafiken(Af00213UtlatandeV2.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case SKIPPAR_BALTE_DELSVAR_ID_41:
+            case SKIPPAR_BALTE_DELSVAR_ID_4_1:
                 utlatande.setHarSkipparBalte(Boolean.valueOf(getStringContent(delsvar)));
                 break;
-            case SKIPPAR_BALTE_DELSVAR_ID_42:
+            case SKIPPAR_BALTE_DELSVAR_ID_4_2:
                 utlatande.setSkipparBalteMotivering(getStringContent(delsvar));
                 break;
             default:

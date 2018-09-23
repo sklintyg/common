@@ -84,13 +84,13 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v2', ['uvUtil', fun
         labelKey: 'KAT_4.RBK',
         components: [{
             type: 'uv-fraga',
-            labelKey: 'FRG_42.RBK',
+            labelKey: 'FRG_4.RBK',
             components: [{
                 type: 'uv-boolean-value',
                 modelProp: 'harSkipparBalte'
             }, {
                 type: 'uv-del-fraga',
-                labelKey: 'DFR_42.2.RBK',
+                labelKey: 'DFR_4.2.RBK',
                 hideExpression: '!harSkipparBalte',
                 components: [{
                     type: 'uv-simple-value',

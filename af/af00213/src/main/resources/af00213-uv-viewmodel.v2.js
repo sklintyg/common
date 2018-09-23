@@ -84,14 +84,14 @@ var viewConfig = [{
         labelKey: 'FRG_4.RBK',
         components: [{
             type: 'uv-boolean-value',
-            modelProp: 'harArbetetsPaverkan'
+            modelProp: 'harSkipparBalte'
         },{
             type: 'uv-del-fraga',
             labelKey: 'DFR_4.2.RBK',
-            hideExpression: '!harArbetetsPaverkan',
+            hideExpression: '!harSkipparBalte',
             components: [{
                 type: 'uv-simple-value',
-                modelProp: 'arbetetsPaverkan'
+                modelProp: 'skipparBalteMotivering'
             }]
         }]
     }

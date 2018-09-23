@@ -31,8 +31,8 @@ import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_JSON_ID_4_1;
+import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_4_2;
 
 import javax.annotation.Nullable;
 
@@ -160,10 +160,10 @@ public abstract class Af00213UtlatandeV2 implements Af00213Utlatande {
         @JsonProperty(UTREDNING_BEHANDLING_SVAR_JSON_ID_32)
         public abstract Builder setUtredningBehandling(String utredningBehandling);
 
-        @JsonProperty(SKIPPAR_BALTE_SVAR_JSON_ID_41)
+        @JsonProperty(SKIPPAR_BALTE_DELSVAR_JSON_ID_4_1)
         public abstract Builder setHarSkipparBalte(Boolean harSkipparBalte);
 
-        @JsonProperty(SKIPPAR_BALTE_SVAR_JSON_ID_42)
+        @JsonProperty(SKIPPAR_BALTE_SVAR_JSON_ID_4_2)
         public abstract Builder setSkipparBalteMotivering(String skipparBalteMotivering);
 
         @JsonProperty(OVRIGT_SVAR_JSON_ID_5)
