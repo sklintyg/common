@@ -36,6 +36,7 @@ angular.module('common').service('common.IntygViewStateService',
 
                 // IMPORTANT NOTE: needs to be this way so intygProperties object reference is not overwritten. intygProperties = {} will decouple reference in wcIntygRelatedRevokedMessage
                 this.intygProperties.type = undefined;
+                this.intygProperties.intygTypeVersion = undefined;
                 this.intygProperties.isSent = false;
                 this.intygProperties.sentTimestamp = undefined;
                 this.intygProperties.isRevoked = false;
@@ -95,6 +96,7 @@ angular.module('common').service('common.IntygViewStateService',
 
                 var targetName = moduleService.getModule(this.intygProperties.type).defaultRecipient;
 
+                this.intygProperties.intygTypeVersion = result.contents.textVersion;
                 this.intygProperties.pdfUrl = '/moduleapi/intyg/'+ this.intygProperties.type +'/' + intygId + '/pdf';
 
                 this.intygProperties.signeringsdatum = result.contents.grundData.signeringsdatum;

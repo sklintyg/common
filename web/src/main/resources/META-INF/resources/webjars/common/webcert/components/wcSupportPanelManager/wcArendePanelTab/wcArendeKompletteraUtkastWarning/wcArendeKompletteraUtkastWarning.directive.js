@@ -39,6 +39,8 @@ angular.module('common').directive('wcArendeKompletteraUtkastWarning',
                         if(ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations)) {
                             if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
                                 $scope.intygType = ArendeListViewState.intygProperties.type;
+                                //WE only allow propagation to same version, so use this version.
+                                $scope.intygTypeVersion = intyg.textVersion;
                                 $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
                                 $scope.kompletteringConfig.redirectToExistingUtkast = true;
                             }

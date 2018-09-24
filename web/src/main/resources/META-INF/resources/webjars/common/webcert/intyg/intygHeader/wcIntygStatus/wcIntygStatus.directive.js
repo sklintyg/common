@@ -98,7 +98,8 @@ angular.module('common').directive('wcIntygStatus', [
                             CommonIntygViewState.intygProperties.latestChildRelations.complementedByUtkast.skapad,
                             {
                                 intygstyp: IntygHeaderViewState.intygType,
-                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId,
+                                intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                             });
                     }
 
@@ -107,7 +108,8 @@ angular.module('common').directive('wcIntygStatus', [
                             CommonIntygViewState.intygProperties.latestChildRelations.replacedByUtkast.skapad,
                             {
                             intygstyp: IntygHeaderViewState.intygType,
-                            intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByUtkast.intygsId
+                            intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByUtkast.intygsId,
+                                intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                         });
                     }
 
@@ -122,7 +124,8 @@ angular.module('common').directive('wcIntygStatus', [
                             CommonIntygViewState.intygProperties.latestChildRelations.complementedByIntyg.skapad,
                             {
                                 intygstyp: IntygHeaderViewState.intygType,
-                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId,
+                                intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                             });
                     }
 
@@ -135,7 +138,8 @@ angular.module('common').directive('wcIntygStatus', [
                             CommonIntygViewState.intygProperties.latestChildRelations.replacedByIntyg.skapad,
                             {
                                 intygstyp: IntygHeaderViewState.intygType,
-                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByIntyg.intygsId
+                                intygsid: CommonIntygViewState.intygProperties.latestChildRelations.replacedByIntyg.intygsId,
+                                intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                             });
                     }
 
@@ -161,7 +165,8 @@ angular.module('common').directive('wcIntygStatus', [
                                 CommonIntygViewState.intygProperties.revokedTimestamp,
                                 {
                                     intygstyp: IntygHeaderViewState.intygType,
-                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId,
+                                    intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                                 });
                         }
                         else if (CommonIntygViewState.isRenewing()) {
@@ -169,7 +174,8 @@ angular.module('common').directive('wcIntygStatus', [
                                 CommonIntygViewState.intygProperties.revokedTimestamp,
                                 {
                                     intygstyp: IntygHeaderViewState.intygType,
-                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId,
+                                    intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                                 });
                         }
                         else if (CommonIntygViewState.isComplementing()) {
@@ -177,7 +183,8 @@ angular.module('common').directive('wcIntygStatus', [
                                 CommonIntygViewState.intygProperties.revokedTimestamp,
                                 {
                                     intygstyp: IntygHeaderViewState.intygType,
-                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId
+                                    intygsid: CommonIntygViewState.intygProperties.parent.intygsId,
+                                    intygTypeVersion: CommonIntygViewState.intygProperties.intygTypeVersion
                                 });
                         }
                     }

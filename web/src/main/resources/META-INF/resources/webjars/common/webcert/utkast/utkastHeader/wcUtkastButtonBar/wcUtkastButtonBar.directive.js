@@ -214,7 +214,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                         if (isCopied) {
                             modalInstance.close();
 
-                            $location.url('/' + CommonViewState.intyg.type + '/edit/' + CommonViewState.getCopyUtkastId() + '/', true);
+                            $location.url('/' + CommonViewState.intyg.type + '/' + $scope.viewState.draftModel.content.textVersion + '/edit/' + CommonViewState.getCopyUtkastId() + '/', true);
                         } else {
                             dialogModel.acceptprogressdone = false;
 
@@ -225,7 +225,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                                     dialogModel.acceptprogressdone = true;
                                     modalInstance.close();
 
-                                    $location.url('/' + data.intygsTyp + '/edit/' + data.intygsUtkastId + '/', true);
+                                    $location.url('/' + data.intygsTyp + '/' + intygTypeVersion + '/edit/' + data.intygsUtkastId + '/', true);
                                 },
                                 function(error) {
                                     dialogModel.acceptprogressdone = true;
