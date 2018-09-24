@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.model.converter;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
@@ -26,7 +27,6 @@ import java.util.stream.Collectors;
 
 import javax.xml.bind.*;
 
-import org.custommonkey.xmlunit.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,6 +36,11 @@ import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
@@ -91,11 +96,15 @@ public class RoundTripTest {
         marshaller.marshal(objectFactory.createRegisterTSDiabetes(scenario.asTransportModel()), expected);
         marshaller.marshal(objectFactory.createRegisterTSDiabetes(transport), actual);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -113,11 +122,15 @@ public class RoundTripTest {
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actualSw.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(name + " " + diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actualSw.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -129,25 +142,14 @@ public class RoundTripTest {
         StringWriter expected = new StringWriter();
         marshaller.marshal(transformedObjectFactory.createRegisterCertificate(scenario.asTransformedTransportModel()), expected);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual);
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        diff.overrideDifferenceListener(new IgnoreNamespacePrefixDifferenceListener());
-        assertTrue(name + " " + diff.toString(), diff.similar());
-    }
-
-    private class IgnoreNamespacePrefixDifferenceListener implements DifferenceListener {
-        @Override
-        public int differenceFound(Difference difference) {
-            if (difference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID) {
-                return DifferenceListener.RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
-            }
-            return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
-        }
-
-        @Override
-        public void skippedComparison(Node control, Node test) {
-        }
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 }

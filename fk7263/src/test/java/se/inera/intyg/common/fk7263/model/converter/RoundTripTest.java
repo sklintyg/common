@@ -19,12 +19,6 @@
 package se.inera.intyg.common.fk7263.model.converter;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.Difference;
-import org.custommonkey.xmlunit.DifferenceConstants;
-import org.custommonkey.xmlunit.DifferenceListener;
-import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -36,6 +30,11 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.JSONCompareResult;
 import org.skyscreamer.jsonassert.comparator.DefaultComparator;
 import org.w3c.dom.Node;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -56,6 +55,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
@@ -104,11 +104,15 @@ public class RoundTripTest {
         marshaller.marshal(objectFactory.createRegisterMedicalCertificate(scenario.asTransportModel()), expected);
         marshaller.marshal(objectFactory.createRegisterMedicalCertificate(transport), actual);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -126,26 +130,15 @@ public class RoundTripTest {
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(scenario.asRivtaV3TransportModel()), expected);
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actualSw.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        diff.overrideDifferenceListener(new IgnoreNamespacePrexifDifferenceListener());
-        assertTrue(name + " " + diff.toString(), diff.similar());
-    }
-
-    private class IgnoreNamespacePrexifDifferenceListener implements DifferenceListener {
-        @Override
-        public int differenceFound(Difference difference) {
-            if (difference.getId() == DifferenceConstants.NAMESPACE_PREFIX_ID) {
-                return DifferenceListener.RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
-            }
-            return DifferenceListener.RETURN_ACCEPT_DIFFERENCE;
-        }
-
-        @Override
-        public void skippedComparison(Node control, Node test) {
-        }
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actualSw.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
     private class IgnoreCertainValuesComparator extends DefaultComparator {

@@ -21,14 +21,14 @@ ext {
     jacksonVersion = "2.8.1"
     logbackVersion = "1.2.3"
     phSchematronVersion = "3.0.1"
-    saxonVersion = "9.6.0-4"
+    saxonVersion = "9.8.0-10"
     servletApiVersion = "2.5"
     springVersion = "4.3.16.RELEASE"
 
     jsonAssertVersion = "1.2.0"
     mockitoVersion = "2.16.0"
     unitilsCoreVersion = "3.3"
-    xmlUnitVersion = "1.4"
+    xmlUnitVersion = "2.6.2"
     equalsVerifierVersion = "2.5.2"
 }
 
@@ -50,7 +50,7 @@ allprojects {
         testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
         testCompile "org.springframework:spring-test:${springVersion}"
         testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
-        testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
+        testCompile "org.xmlunit:xmlunit-core:${xmlUnitVersion}"
         testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
     }
 

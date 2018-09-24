@@ -21,11 +21,15 @@ package se.inera.intyg.common.fk7263.model.converter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import org.custommonkey.xmlunit.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -47,6 +51,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -85,12 +90,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        diff.overrideElementQualifier(new ElementNameAndTextQualifier());
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expectation.toString()))
+                .withTest(Input.fromString(stringWriter.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
    @Test
@@ -111,12 +119,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        diff.overrideElementQualifier(new ElementNameAndTextQualifier());
-        assertTrue(diff.toString(), diff.similar());
+       Diff diff = DiffBuilder
+               .compare(Input.fromString(expectation.toString()))
+               .withTest(Input.fromString(stringWriter.toString()))
+               .ignoreComments()
+               .ignoreWhitespace()
+               .checkForSimilar()
+               .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+               .build();
+       assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -137,12 +148,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        diff.overrideElementQualifier(new ElementNameAndTextQualifier());
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expectation.toString()))
+                .withTest(Input.fromString(stringWriter.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -163,10 +177,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        Diff diff = new Diff(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expectation.toString()))
+                .withTest(Input.fromString(stringWriter.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -200,10 +219,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        Diff diff = new Diff(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expectation.toString()))
+                .withTest(Input.fromString(stringWriter.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -224,10 +248,15 @@ public class InternalToTransportConverterTest {
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
                 .getURL(), Charsets.UTF_8);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        Diff diff = new Diff(expectation, stringWriter.toString());
-        diff.overrideDifferenceListener(new NamespacePrefixNameIgnoringListener());
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expectation.toString()))
+                .withTest(Input.fromString(stringWriter.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -279,20 +308,4 @@ public class InternalToTransportConverterTest {
         return jaxbElement;
     }
 
-    private class NamespacePrefixNameIgnoringListener implements DifferenceListener {
-        @Override
-        public int differenceFound(Difference difference) {
-            if (DifferenceConstants.NAMESPACE_PREFIX_ID == difference.getId()) {
-                // differences in namespace prefix IDs are ok (eg. 'ns1' vs 'ns2'), as long as the namespace URI is the
-                // same
-                return RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
-            } else {
-                return RETURN_ACCEPT_DIFFERENCE;
-            }
-        }
-
-        @Override
-        public void skippedComparison(Node control, Node test) {
-        }
-    }
 }
