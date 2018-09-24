@@ -120,8 +120,9 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
+    public TsBasUtlatande getUtlatandeFromXml(String xmlBody) throws ModuleException {
         try {
+            String xml = xmlBody;
             if (isTransportVersion(xml)) {
                 xml = xslTransformerTransportToV3.transform(xml);
             }
