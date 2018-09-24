@@ -598,6 +598,7 @@
             'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Du måste välja minst ett alternativ.',
             'common.validation.ue-radio.empty': 'Du måste välja ett alternativ.',
+            'common.validation.ue-radio.incorrect_combination': 'Du måste välja ett alternativ.',
             'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-textarea.empty': 'Fältet får inte vara tomt.',
             'common.validation.ue-textfield.empty': 'Fältet får inte vara tomt.',
