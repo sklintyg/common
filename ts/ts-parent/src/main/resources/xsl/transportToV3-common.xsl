@@ -26,43 +26,43 @@
   <xsl:output method="xml" indent="yes"/>
 
   <xsl:variable name="intygAvser">
-    <mapping key="C1" value="IAV1"/>
-    <mapping key="C1E" value="IAV2"/>
-    <mapping key="C" value="IAV3"/>
-    <mapping key="CE" value="IAV4"/>
-    <mapping key="D1" value="IAV5"/>
-    <mapping key="D1E" value="IAV6"/>
-    <mapping key="D" value="IAV7"/>
-    <mapping key="DE" value="IAV8"/>
-    <mapping key="TAXI" value="IAV9"/>
-    <mapping key="ANNAT" value="IAV10"/>
-    <mapping key="AM" value="IAV11"/>
-    <mapping key="A1" value="IAV12"/>
-    <mapping key="A2" value="IAV13"/>
-    <mapping key="A" value="IAV14"/>
-    <mapping key="B" value="IAV15"/>
-    <mapping key="BE" value="IAV16"/>
-    <mapping key="TRAKTOR" value="IAV17"/>
+    <mapping key="C1" value="IAV1" displayname="C1"/>
+    <mapping key="C1E" value="IAV2" displayname="C1E"/>
+    <mapping key="C" value="IAV3" displayname="C"/>
+    <mapping key="CE" value="IAV4" displayname="CE"/>
+    <mapping key="D1" value="IAV5" displayname="D1"/>
+    <mapping key="D1E" value="IAV6" displayname="D1E"/>
+    <mapping key="D" value="IAV7" displayname="D"/>
+    <mapping key="DE" value="IAV8" displayname="DE"/>
+    <mapping key="TAXI" value="IAV9" displayname="Taxi"/>
+    <mapping key="ANNAT" value="IAV10" displayname="Annat"/>
+    <mapping key="AM" value="IAV11" displayname="AM"/>
+    <mapping key="A1" value="IAV12" displayname="A1"/>
+    <mapping key="A2" value="IAV13" displayname="A2"/>
+    <mapping key="A" value="IAV14" displayname="A"/>
+    <mapping key="B" value="IAV15" displayname="B"/>
+    <mapping key="BE" value="IAV16" displayname="BE"/>
+    <mapping key="TRAKTOR" value="IAV17" displayname="Traktor"/>
   </xsl:variable>
 
   <xsl:variable name="korkortsTyp">
-    <mapping key="C1" value="VAR1"/>
-    <mapping key="C1E" value="VAR2"/>
-    <mapping key="C" value="VAR3"/>
-    <mapping key="CE" value="VAR4"/>
-    <mapping key="D1" value="VAR5"/>
-    <mapping key="D1E" value="VAR6"/>
-    <mapping key="D" value="VAR7"/>
-    <mapping key="DE" value="VAR8"/>
-    <mapping key="TAXI" value="VAR9"/>
-    <mapping key="ANNAT" value="VAR10"/>
-    <mapping key="AM" value="VAR12"/>
-    <mapping key="A1" value="VAR13"/>
-    <mapping key="A2" value="VAR14"/>
-    <mapping key="A" value="VAR15"/>
-    <mapping key="B" value="VAR16"/>
-    <mapping key="BE" value="VAR17"/>
-    <mapping key="TRAKTOR" value="VAR18"/>
+    <mapping key="C1" value="VAR1" displayname="C1"/>
+    <mapping key="C1E" value="VAR2" displayname="C1E"/>
+    <mapping key="C" value="VAR3" displayname="C"/>
+    <mapping key="CE" value="VAR4" displayname="CE"/>
+    <mapping key="D1" value="VAR5" displayname="D1"/>
+    <mapping key="D1E" value="VAR6" displayname="D1E"/>
+    <mapping key="D" value="VAR7" displayname="D"/>
+    <mapping key="DE" value="VAR8" displayname="DE"/>
+    <mapping key="TAXI" value="VAR9" displayname="Taxi"/>
+    <mapping key="ANNAT" value="VAR10" displayname="Annat (AM, A1, A2, A, B, BE eller Traktor)"/>
+    <mapping key="AM" value="VAR12" displayname="AM"/>
+    <mapping key="A1" value="VAR13" displayname="A1"/>
+    <mapping key="A2" value="VAR14" displayname="A2"/>
+    <mapping key="A" value="VAR15" displayname="A"/>
+    <mapping key="B" value="VAR16" displayname="B"/>
+    <mapping key="BE" value="VAR17" displayname="BE"/>
+    <mapping key="TRAKTOR" value="VAR18" displayname="Traktor"/>
   </xsl:variable>
 
   <xsl:variable name="idKontrollKod">

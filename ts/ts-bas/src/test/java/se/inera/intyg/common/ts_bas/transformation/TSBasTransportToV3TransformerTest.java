@@ -25,6 +25,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.DOMDifferenceEngine;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.DifferenceEngine;
+import org.xmlunit.diff.ElementSelector;
+import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
@@ -38,6 +46,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TSBasTransportToV3TransformerTest {
@@ -107,6 +118,19 @@ public class TSBasTransportToV3TransformerTest {
                 System.err.println(result);
                 fail(xmlFile + " failed to validate against schema v3 with errors " + v3Results.toString());
             }
+
+            String expectedXmlContents = Resources.toString(getResource("scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+
+            Diff diff = DiffBuilder
+                    .compare(Input.fromString(expectedXmlContents))
+                    .withTest(Input.fromString(result))
+                    .ignoreComments()
+                    .ignoreWhitespace()
+                    .checkForSimilar()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                    .withNodeFilter(node -> !node.getNodeName().equals("skickatTidpunkt"))
+                    .build();
+            assertFalse(diff.toString(), diff.hasDifferences());
         }
     }
 

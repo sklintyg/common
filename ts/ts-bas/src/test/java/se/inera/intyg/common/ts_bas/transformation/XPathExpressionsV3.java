@@ -78,7 +78,7 @@ public final class XPathExpressionsV3 {
             "intyg/ns3:skapadAv/ns3:personal-id/ns2:extension");
 
     public static final StringXPathExpression SKAPAD_AV_SPECIALISTKOMPETENS_XPATH = new StringXPathExpression(
-            "intyg/ns3:skapadAv/ns3:specialistkompetens/ns2:code");
+            "intyg/ns3:skapadAv/ns3:specialistkompetens/ns2:displayName");
 
     public static final StringXPathExpression SKAPAD_AV_BEFATTNING_XPATH = new StringXPathExpression(
             "intyg/ns3:skapadAv/ns3:befattning/ns2:code");

@@ -64,7 +64,7 @@
   <xsl:template match="ns1:intygsId">
     <xsl:call-template name="id">
       <xsl:with-param name="elemName" select="'p1:intygs-id'"/>
-      <xsl:with-param name="root" select="''"/>
+      <xsl:with-param name="root" select="../ns1:grundData/ns1:skapadAv/ns1:vardenhet/ns1:enhetsId/ns2:extension"/>
       <xsl:with-param name="extension" select="."/>
     </xsl:call-template>
   </xsl:template>
@@ -72,7 +72,7 @@
   <xsl:template match="ns1:version">
     <p1:version>
       <xsl:if test="string(.)">
-        <xsl:value-of select="."/>
+        <xsl:value-of select="substring(.,2)"/>.<xsl:value-of select="substring(../ns1:utgava,2)"/>
       </xsl:if>
       <xsl:if test="not(string(.))">
         <xsl:value-of select="$default-version"/>
@@ -187,9 +187,10 @@
   <xsl:template match="ns1:specialiteter">
     <xsl:if test="string(.)">
       <p1:specialistkompetens>
-        <p2:code>
+        <p2:code>N/A</p2:code>
+        <p2:displayName>
           <xsl:value-of select="."/>
-        </p2:code>
+        </p2:displayName>
       </p1:specialistkompetens>
     </xsl:if>
   </xsl:template>
@@ -294,37 +295,43 @@
   <xsl:template match="ns1:synskarpaUtanKorrektion">
     <xsl:call-template name="endastDelsvar">
       <xsl:with-param name="delsvarsId" select="'8.1'"/>
-      <xsl:with-param name="value" select="ns1:hogerOga"/>
+      <xsl:with-param name="value" select="format-number(ns1:hogerOga, '0.0')"/>
     </xsl:call-template>
     <xsl:call-template name="endastDelsvar">
       <xsl:with-param name="delsvarsId" select="'8.2'"/>
-      <xsl:with-param name="value" select="ns1:vansterOga"/>
+      <xsl:with-param name="value" select="format-number(ns1:vansterOga, '0.0')"/>
     </xsl:call-template>
     <xsl:call-template name="endastDelsvar">
       <xsl:with-param name="delsvarsId" select="'8.3'"/>
-      <xsl:with-param name="value" select="ns1:binokulart"/>
+      <xsl:with-param name="value" select="format-number(ns1:binokulart, '0.0')"/>
     </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="ns1:synskarpaMedKorrektion">
-    <xsl:call-template name="endastDelsvar">
-      <xsl:with-param name="delsvarsId" select="'8.5'"/>
-      <xsl:with-param name="value" select="ns1:hogerOga"/>
-    </xsl:call-template>
-    <xsl:call-template name="endastDelsvar">
-      <xsl:with-param name="delsvarsId" select="'8.6'"/>
-      <xsl:with-param name="value" select="ns1:vansterOga"/>
-    </xsl:call-template>
+    <xsl:if test="ns1:hogerOga">
+      <xsl:call-template name="endastDelsvar">
+        <xsl:with-param name="delsvarsId" select="'8.4'"/>
+        <xsl:with-param name="value" select="format-number(ns1:hogerOga, '0.0')"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="ns1:vansterOga">
+      <xsl:call-template name="endastDelsvar">
+        <xsl:with-param name="delsvarsId" select="'8.5'"/>
+        <xsl:with-param name="value" select="format-number(ns1:vansterOga, '0.0')"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="ns1:binokulart">
+      <xsl:call-template name="endastDelsvar">
+        <xsl:with-param name="delsvarsId" select="'8.6'"/>
+        <xsl:with-param name="value" select="format-number(ns1:binokulart, '0.0')"/>
+      </xsl:call-template>
+    </xsl:if>
     <xsl:call-template name="endastDelsvar">
       <xsl:with-param name="delsvarsId" select="'8.7'"/>
-      <xsl:with-param name="value" select="ns1:binokulart"/>
-    </xsl:call-template>
-    <xsl:call-template name="endastDelsvar">
-      <xsl:with-param name="delsvarsId" select="'8.8'"/>
       <xsl:with-param name="value" select="ns1:harKontaktlinsHogerOga"/>
     </xsl:call-template>
     <xsl:call-template name="endastDelsvar">
-      <xsl:with-param name="delsvarsId" select="'8.9'"/>
+      <xsl:with-param name="delsvarsId" select="'8.8'"/>
       <xsl:with-param name="value" select="ns1:harKontaktlinsVansterOga"/>
     </xsl:call-template>
   </xsl:template>
@@ -541,11 +548,11 @@
   <xsl:template match="ns1:ovrigMedicinering">
     <p1:svar id="31">
       <xsl:call-template name="endastDelsvar">
-        <xsl:with-param name="delsvarsId" select="'30.1'"/>
+        <xsl:with-param name="delsvarsId" select="'31.1'"/>
         <xsl:with-param name="value" select="ns1:harStadigvarandeMedicinering"/>
       </xsl:call-template>
       <xsl:call-template name="endastDelsvar">
-        <xsl:with-param name="delsvarsId" select="'30.2'"/>
+        <xsl:with-param name="delsvarsId" select="'31.2'"/>
         <xsl:with-param name="value" select="ns1:stadigvarandeMedicineringBeskrivning"/>
       </xsl:call-template>
     </p1:svar>
@@ -600,7 +607,7 @@
         <xsl:call-template name="cv">
           <xsl:with-param name="code" select="ext:node-set($mappingNode)/mapping[@key = current()]/@value"/>
           <xsl:with-param name="codeSystem" select="$codeSystem"/>
-          <xsl:with-param name="displayName" select="current()"/>
+          <xsl:with-param name="displayName" select="ext:node-set($mappingNode)/mapping[@key = current()]/@displayname"/>
         </xsl:call-template>
       </p1:delsvar>
     </p1:svar>

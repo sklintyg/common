@@ -97,7 +97,7 @@ public class TsBasTransportToV3TransformerXpathTest {
         // Check intyg against xpath
         assertEquals("Intyg - typ", "TSTRK1007", xPath.evaluate(XPathExpressionsV3.TYP_AV_INTYG_XPATH));
 
-        assertEquals("Intyg - version", utlatande.getVersion(), xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH));
+        assertEquals("Intyg - version", Integer.parseInt(utlatande.getVersion())+"."+Integer.parseInt(utlatande.getUtgava()), xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH));
 
         // Patient
         Patient patient = utlatande.getGrundData().getPatient();
