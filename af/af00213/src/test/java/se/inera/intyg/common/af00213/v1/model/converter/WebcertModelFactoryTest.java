@@ -21,10 +21,12 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -47,20 +49,30 @@ import se.inera.intyg.schemas.contract.Personnummer;
 public class WebcertModelFactoryTest {
 
     private static final String INTYG_ID = "intyg-123";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String INTYG_TYPE_VERSION_1_2 = "1.2";
+
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
+
     @Mock
     private IntygTextsService intygTextsService;
 
+    @Before
+    public void setUp() {
+        when(intygTextsService.getLatestVersionForSameMajorVersion(eq(Af00213EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+                .thenReturn(INTYG_TYPE_VERSION_1_2);
+    }
+
     @Test
     public void testHappyPath() throws ConverterException {
-        when(intygTextsService.getLatestVersion(Af00213EntryPoint.MODULE_ID)).thenReturn("1.0");
         Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertNotNull(draft);
         assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
         assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
         assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -75,20 +87,18 @@ public class WebcertModelFactoryTest {
 
     @Test
     public void testUpdateSkapadAv() throws ConverterException {
-        when(intygTextsService.getLatestVersion(Af00213EntryPoint.MODULE_ID)).thenReturn("1.0");
         Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
     }
 
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
-        when(intygTextsService.getLatestVersion(Af00213EntryPoint.MODULE_ID)).thenReturn("1.0");
         Af00213UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
+        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, INTYG_TYPE_VERSION_1, buildHosPersonal(), buildPatient());
         return draftHolder;
     }
 

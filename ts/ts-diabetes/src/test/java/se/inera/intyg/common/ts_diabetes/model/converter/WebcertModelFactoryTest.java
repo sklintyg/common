@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_diabetes.model.converter;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -49,6 +50,8 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
 
     @Mock
     private IntygTextsService intygTexts;
@@ -56,10 +59,15 @@ public class WebcertModelFactoryTest {
     @InjectMocks
     private WebcertModelFactoryImpl factory;
 
+    @Before
+    public void setUp() {
+        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+                .thenReturn(INTYG_TYPE_VERSION_1_1);
+    }
+
+
     @Test
     public void testCreateEditableModel() throws JsonParseException, JsonMappingException, IOException, ConverterException {
-        when(intygTexts.getLatestVersion(eq(TsDiabetesEntryPoint.MODULE_ID))).thenReturn("version");
-
         TsDiabetesUtlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
         assertNotNull(utlatande);
@@ -73,7 +81,7 @@ public class WebcertModelFactoryTest {
         assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
         assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
         assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
-        assertEquals("version", utlatande.getTextVersion());
+        assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
     }
 
     @Test

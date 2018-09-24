@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.model.converter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,21 +42,28 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
 
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
     @Mock
     private IntygTextsService intygTexts;
 
     @InjectMocks
     private WebcertModelFactoryImpl factory;
 
+    @Before
+    public void setUp() {
+        when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsBasEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+                .thenReturn(INTYG_TYPE_VERSION_1_1);
+    }
+
     @Test
     public void testCreateEditableModel() throws Exception {
-        when(intygTexts.getLatestVersion(eq(TsBasEntryPoint.MODULE_ID))).thenReturn("version");
 
         TsBasUtlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
         assertNotNull(utlatande);
         assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
-    assertNotNull(utlatande.getGrundData().getSkapadAv());
+        assertNotNull(utlatande.getGrundData().getSkapadAv());
         assertNotNull(utlatande.getGrundData().getPatient());
 
         /** Just verify some stuff from the json to make sure all is well.. */
@@ -64,7 +72,7 @@ public class WebcertModelFactoryTest {
         assertEquals("Testvägen 12", utlatande.getGrundData().getPatient().getPostadress());
         assertEquals("13337", utlatande.getGrundData().getPatient().getPostnummer());
         assertEquals("Huddinge", utlatande.getGrundData().getPatient().getPostort());
-        assertEquals("version", utlatande.getTextVersion());
+        assertEquals(INTYG_TYPE_VERSION_1_1, utlatande.getTextVersion());
     }
 
     @Test

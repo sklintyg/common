@@ -65,8 +65,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         resetDataInGrundData(grundData);
 
-        // Default to latest version available of intyg
-        template.setTextVersion(intygTexts.getLatestVersion(LuaenaEntryPoint.MODULE_ID));
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(LuaenaEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

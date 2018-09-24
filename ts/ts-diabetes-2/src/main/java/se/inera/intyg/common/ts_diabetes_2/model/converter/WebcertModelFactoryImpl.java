@@ -80,9 +80,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetes2U
         template.setSynfunktion(Synfunktion.builder().build());
         template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(BedomningKorkortstyp.class)).build());
 
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(TsDiabetes2EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
-        // Default to latest version available of intyg
-        template.setTextVersion(intygTexts.getLatestVersion(TsDiabetes2EntryPoint.MODULE_ID));
 
         return template.setGrundData(grundData).build();
     }

@@ -66,7 +66,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         GrundData grundData = new GrundData();
 
         template.setId(newDraftData.getCertificateId());
-        template.setTextVersion(intygTexts.getLatestVersion(TsBasEntryPoint.MODULE_ID));
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);

@@ -67,8 +67,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         resetDataInGrundData(grundData);
         template.setSignature(null);
 
-        // Default to latest version available of intyg
-        template.setTextVersion(intygTexts.getLatestVersion(LisjpEntryPoint.MODULE_ID));
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(LisjpEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

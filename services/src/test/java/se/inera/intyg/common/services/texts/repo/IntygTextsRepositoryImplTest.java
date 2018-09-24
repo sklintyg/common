@@ -76,6 +76,27 @@ public class IntygTextsRepositoryImplTest {
     }
 
     @Test
+    public void testGetLatestVersionWithingMajorVersion() {
+        repo.intygTexts = new HashSet<IntygTexts>() {
+            {
+                //2 valid minorversions in 1.x
+                add(new IntygTexts("1.0", DEFAULT_INTYGSTYP, null, null, null, null, null));
+                add(new IntygTexts("1.1", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
+                //latest valid in of 1.x versions
+                add(new IntygTexts("1.2", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
+                //Not valid due to invalid validfrom
+                add(new IntygTexts("1.3", DEFAULT_INTYGSTYP,  LocalDate.now().plusDays(5), null, null, null, null));
+                //Next major, only 2.0 is valid
+                add(new IntygTexts("2.0", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
+                add(new IntygTexts("2.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
+            }
+        };
+        assertEquals("1.2", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"1.1"));
+        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"2"));
+        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"2.0"));
+    }
+
+    @Test
     public void testGetLatestVersionTypeFilter() {
         repo.intygTexts = new HashSet<IntygTexts>() {
             {

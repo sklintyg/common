@@ -59,8 +59,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
 
         template.setId(newDraftData.getCertificateId());
         template.setTyp(TsDiabetesEntryPoint.MODULE_ID);
-        template.setTextVersion(intygTexts.getLatestVersion(TsDiabetesEntryPoint.MODULE_ID));
-
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
 
         return template;

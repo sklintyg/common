@@ -56,6 +56,11 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     }
 
     @Override
+    public String getLatestVersionForSameMajorVersion(String intygsTyp, String version) {
+        return repo.getLatestVersionForSameMajorVersion(intygsTyp, version);
+    }
+
+    @Override
     public IntygTexts getIntygTextsPojo(String intygsTyp, String version) {
         return repo.getTexts(intygsTyp, version);
     }

@@ -55,4 +55,13 @@ public interface IntygTextsService {
      * @return the latest version
      */
     String getLatestVersion(String intygsTyp);
+
+    /**
+     * Returns the latest minor version for <code>intygsTyp</code> and <code>major</code>.
+     *
+     * @param intygsTyp
+     *            the type
+     * @return the latest version
+     */
+    String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
 }

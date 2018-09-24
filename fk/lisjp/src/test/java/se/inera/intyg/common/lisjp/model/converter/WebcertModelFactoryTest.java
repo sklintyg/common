@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.lisjp.model.converter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -40,26 +41,36 @@ import java.time.LocalDateTime;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
 
     private static final String INTYG_ID = "intyg-123";
+    private static final String INTYG_TYPE_VERSION_1 = "1.0";
+    private static final String INTYG_TYPE_VERSION_1_2 = "1.2";
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
     @Mock
     private IntygTextsService intygTextsService;
 
+
+    @Before
+    public void setUp() {
+        when(intygTextsService.getLatestVersionForSameMajorVersion(eq(LisjpEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
+                .thenReturn(INTYG_TYPE_VERSION_1_2);
+    }
+
     @Test
     public void testHappyPath() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LisjpEntryPoint.MODULE_ID)).thenReturn("1.0");
         LisjpUtlatande draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertNotNull(draft);
         assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
         assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
         assertEquals("TST12345678", draft.getGrundData().getSkapadAv().getPersonId());
         assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -74,7 +85,6 @@ public class WebcertModelFactoryTest {
 
     @Test
     public void testUpdateSkapadAv() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LisjpEntryPoint.MODULE_ID)).thenReturn("1.0");
         LisjpUtlatande draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
     }
@@ -82,13 +92,12 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        when(intygTextsService.getLatestVersion(LisjpEntryPoint.MODULE_ID)).thenReturn("1.0");
         LisjpUtlatande draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {
-        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, "1.0", buildHosPersonal(), buildPatient());
+        CreateNewDraftHolder draftHolder = new CreateNewDraftHolder(intygId, INTYG_TYPE_VERSION_1, buildHosPersonal(), buildPatient());
         return draftHolder;
     }
 

@@ -69,8 +69,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
         resetDataInGrundData(grundData);
         template.setSignature(null);
 
-        // Default to latest version available of intyg
-        template.setTextVersion(intygTexts.getLatestVersion(Af00213EntryPoint.MODULE_ID));
+        // Default to latest minor version available for major version of intygtype
+        template.setTextVersion(
+                intygTexts.getLatestVersionForSameMajorVersion(Af00213EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

@@ -54,6 +54,8 @@ import com.google.common.base.Strings;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 @Repository
 public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
@@ -199,6 +201,24 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
                 .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
                 .max(IntygTexts::compareVersions).orElse(null);
         return res == null ? null : res.getVersion();
+    }
+
+    @Override
+    public String getLatestVersionForSameMajorVersion(String intygsTyp, String version) {
+        checkArgument(!Strings.isNullOrEmpty(intygsTyp), "Missing required parameter intygsTyp.");
+        checkArgument(!Strings.isNullOrEmpty(version), "Missing required parameter version.");
+        String majorVersion = getMajorVersion(version);
+
+        IntygTexts res = intygTexts.stream()
+                .filter(s -> s.getIntygsTyp().equals(intygsTyp))
+                .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
+                .filter(s -> majorVersion.equals(getMajorVersion(s.getVersion())))
+                .max(IntygTexts::compareVersions).orElse(null);
+        return res == null ? null : res.getVersion();
+    }
+
+    private String getMajorVersion(String version) {
+        return version.split("\\.", 0)[0];
     }
 
     @Override

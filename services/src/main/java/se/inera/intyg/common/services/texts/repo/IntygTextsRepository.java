@@ -35,6 +35,16 @@ public interface IntygTextsRepository {
     String getLatestVersion(String intygsTyp);
 
     /**
+     * Returns the latest version for intyg of type <code>intygsType</code> having the same majorVersion as
+     * expressed by <code>version</code>.
+     *
+     * @param intygsTyp
+     *            the type of intyg
+     * @return the latest version
+     */
+    String getLatestVersionForSameMajorVersion(String intygsTyp, String version);
+
+    /**
      * Returns a map of format Key -> Text for the intyg of specified type and version.
      *
      * @param intygsTyp

@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.luae_fs.model.converter;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -53,9 +54,14 @@ public class WebcertModelFactoryTest {
     @InjectMocks
     WebcertModelFactoryImpl testee;
 
+
+    @Before
+    public void setupMocks() {
+        when(intygTextsService.getLatestVersionForSameMajorVersion(LuaefsEntryPoint.MODULE_ID, "1.0")).thenReturn("1.0");
+    }
+
     @Test
     public void testHappyPath() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LuaefsEntryPoint.MODULE_ID)).thenReturn("1.0");
         LuaefsUtlatande draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertNotNull(draft);
         assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
@@ -76,7 +82,6 @@ public class WebcertModelFactoryTest {
 
     @Test
     public void testUpdateSkapadAv() throws ConverterException {
-        when(intygTextsService.getLatestVersion(LuaefsEntryPoint.MODULE_ID)).thenReturn("1.0");
         LuaefsUtlatande draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         WebcertModelFactoryUtil.updateSkapadAv(draft, buildHosPersonal(), LocalDateTime.now());
     }
@@ -84,7 +89,6 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        when(intygTextsService.getLatestVersion(LuaefsEntryPoint.MODULE_ID)).thenReturn("1.0");
         LuaefsUtlatande draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
     }
