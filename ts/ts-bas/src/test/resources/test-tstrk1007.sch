@@ -319,13 +319,10 @@
   </iso:pattern>
 
   <iso:pattern id="q8-R33">
-    <iso:rule context="//gn:svar[@id='8']">
-      <iso:assert test="(count(../gn:svar[@id='1']/gn:delsvar[@id='1.1']) gt 1)
-      or
-      (count(../gn:svar[@id='1']/gn:delsvar[@id='1.1']) = 1
-      and matches(normalize-space(../gn:svar[@id='1']/gn:delsvar[@id='1.1']/tp:cv/tp:code), 'IAV10')
-      and abs(gn:delsvar[@id='8.3']) lt 0.5
-      and (count(gn:delsvar[@id='8.4']) = 1 and count(gn:delsvar[@id='8.5']) = 1 and count(gn:delsvar[@id='8.6']) = 1))">
+    <iso:rule context="//gn:delsvar[@id='1.1' and matches(normalize-space(.), 'IAV10')]">
+      <iso:assert test="(number(../../gn:svar[@id='8']/gn:delsvar[@id='8.3']) lt 0.5 and count(../../gn:svar[@id='8']/gn:delsvar[@id='8.4']) = 1
+      and count(../../gn:svar[@id='8']/gn:delsvar[@id='8.5']) = 1 and count(../../gn:svar[@id='8']/gn:delsvar[@id='8.6']) = 1)
+      or number(../../gn:svar[@id='8']/gn:delsvar[@id='8.3']) gt 0.5">
         Om frågan 'Intyget avser behörighet (Delsvar 1.1)' besvarats med 'Annat'
         OCH frågan 'Binokulärt utan korrektion (Delsvar 8.3)' har besvarats med ett värde som är mindre än 0,5
         är (DFR 8.4), (DFR 8.5) och (DFR 8.6) obligatoriska att besvara.
@@ -335,12 +332,9 @@
 
   <iso:pattern id="q8-R34">
     <iso:rule context="//gn:svar[@id='8']">
-      <iso:assert test="(count(../gn:svar[@id='1']/gn:delsvar[@id='1.1']) = 1
-      and matches(normalize-space(../gn:svar[@id='1']/gn:delsvar[@id='1.1']/tp:cv/tp:code), 'IAV10'))
-      or
-      (count(../gn:svar[@id='1']/gn:delsvar[@id='1.1']) gt 1
-      and abs(gn:delsvar[@id='8.1']) lt 0.8 and abs(gn:delsvar[@id='8.2']) lt 0.8
-      and (count(gn:delsvar[@id='8.4']) = 1 and count(gn:delsvar[@id='8.5']) = 1 and count(gn:delsvar[@id='8.6']) = 1))">
+      <iso:assert test="(number(gn:delsvar[@id='8.1']) gt 0.8 and number(gn:delsvar[@id='8.2']) gt 0.8)
+      or (number(gn:delsvar[@id='8.1']) lt 0.8 and number(gn:delsvar[@id='8.2']) lt 0.8
+      and count(gn:delsvar[@id='8.4']) = 1 and count(gn:delsvar[@id='8.5']) = 1 and count(gn:delsvar[@id='8.6']) = 1)">
         Om DFR 1.1 besvarats med något av valen 'C1, C1E, C, CE, D1, D1E, D, DE eller Taxi'
         OCH frågan DFR 8.1 har besvarats med ett värde som är mindre än 0,8
         OCH frågan DFR 8.2 har besvarats med ett värde som är mindre än 0,8

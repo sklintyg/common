@@ -139,7 +139,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="24028007"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -148,7 +148,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="7771000"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -157,34 +157,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
-         <p2:lateralitet code="51440002"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="24028007"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="7771000"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="51440002"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>

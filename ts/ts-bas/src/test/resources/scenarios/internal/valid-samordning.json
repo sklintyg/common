@@ -57,17 +57,17 @@
         "diplopi" : false,
         "nystagmus" : false,
         "hogerOga" : {
-        	"utanKorrektion" : 0.0,
+        	"utanKorrektion" : 1.0,
         	"kontaktlins" : false
         },
         
         "vansterOga" : {
-        	"utanKorrektion" : 0.0,
+        	"utanKorrektion" : 1.0,
         	"kontaktlins" : false
         },
 
         "binokulart" : {
-        	"utanKorrektion" : 0.0
+        	"utanKorrektion" : 1.0
         }
     },
     
