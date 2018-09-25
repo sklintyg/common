@@ -26,15 +26,16 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.ts_bas.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType;
 import se.inera.intyg.common.ts_bas.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
@@ -48,8 +49,9 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import java.io.StringReader;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
+import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -62,28 +64,14 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
-    private static final String TRANSPORT_REGEX =
-            "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
-
-    private static final String RIVTAV3_REGEX =
-            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']";
-
 
     @Autowired(required = false)
     @Qualifier("tsBasSendCertificateClient")
     private SendTSClient sendTsBasClient;
 
     @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerTransportToV1")
-    private XslTransformer xslTransformerTransportToV1;
-
-    @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerTransportToV3")
-    private XslTransformer xslTransformerTransportToV3;
-
-    @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerV3ToV1")
-    private XslTransformer xslTransformerV3ToV1;
+    @Qualifier("tsBasXslTransformerFactory")
+    private XslTransformerFactory xslTransformerFactory;
 
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
@@ -123,8 +111,8 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     public TsBasUtlatande getUtlatandeFromXml(String xmlBody) throws ModuleException {
         try {
             String xml = xmlBody;
-            if (isTransportVersion(xml)) {
-                xml = xslTransformerTransportToV3.transform(xml);
+            if (isRegisterTsBas(xml)) {
+                xml = xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xml);
             }
 
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
@@ -157,38 +145,26 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     String transformPayload(String xmlBody) throws ModuleException {
         // Ta reda på om innehållet är på formatet
         // 'RegisterTsBas' eller 'RegisterCertificate V3'
-        if (isTransportVersion(xmlBody)) {
+        if (isRegisterTsBas(xmlBody)) {
             if (shouldTransformToV1()) {
-                return xslTransformerTransportToV1.transform(xmlBody);
+                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V1).transform(xmlBody);
+                //return xslTransformerTransportToV1.transform(xmlBody);
             } else if (shouldTransformToV3()) {
-                return xslTransformerTransportToV3.transform(xmlBody);
+                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
                         + "Property registercertificate.version = '%s'", registerCertificateVersion);
                 throw new ModuleException(msg);
             }
-        } else if (isRivtav3Version(xmlBody)) {
+        } else if (isRegisterCertificateV3(xmlBody)) {
             if (shouldTransformToV1()) {
                 // Here we need to transform from V3 to V1
-                return xslTransformerV3ToV1.transform(xmlBody);
+                return xslTransformerFactory.get(TsBasTransformerType.V3_TO_V1).transform(xmlBody);
             }
         }
 
         // Input is already at V3 format and doesn't, we don't need to transform
         return xmlBody;
-    }
-
-
-    boolean isTransportVersion(String xml) {
-        Pattern pattern = Pattern.compile(TRANSPORT_REGEX);
-        Matcher matcher = pattern.matcher(xml);
-        return matcher.find();
-    }
-
-    boolean isRivtav3Version(String xml) {
-        Pattern pattern = Pattern.compile(RIVTAV3_REGEX);
-        Matcher matcher = pattern.matcher(xml);
-        return matcher.find();
     }
 
     private boolean shouldTransformToV1() {
