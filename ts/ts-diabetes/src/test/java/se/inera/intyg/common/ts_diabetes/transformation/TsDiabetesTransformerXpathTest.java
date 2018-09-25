@@ -68,7 +68,7 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.transformation.test.BooleanXPathExpression;

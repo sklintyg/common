@@ -41,7 +41,7 @@ import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;

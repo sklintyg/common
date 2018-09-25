@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 import javax.xml.transform.Source;

@@ -26,7 +26,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.transformation.test.BooleanXPathExpression;

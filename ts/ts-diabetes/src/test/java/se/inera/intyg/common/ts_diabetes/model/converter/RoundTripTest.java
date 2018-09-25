@@ -36,12 +36,12 @@ import org.w3c.dom.Node;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_diabetes.model.internal.TsDiabetesUtlatande;
 import se.inera.intyg.common.ts_diabetes.utils.*;

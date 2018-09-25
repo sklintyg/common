@@ -22,7 +22,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 import javax.xml.transform.Source;
