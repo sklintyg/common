@@ -143,7 +143,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 90
+                htmlMaxlength: 209
             }]),
             _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
