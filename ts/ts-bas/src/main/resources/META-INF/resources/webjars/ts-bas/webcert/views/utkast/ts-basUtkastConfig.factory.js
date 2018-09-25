@@ -70,7 +70,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 }
 
                 function requiredKorkortProperties(field, extraproperty) {
-                    var antalKorkort = 10;
+                    var antalKorkort = 11;
                     var korkortsarray = [];
                     for (var i = 0; i < antalKorkort; i++) {
                         korkortsarray.push( field + '.korkortstyp[' + i + '].selected');
