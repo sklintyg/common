@@ -44,7 +44,8 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS'
+                    || UserModel.user.authenticationMethod === 'EFOS') {
 
                     // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
                     if (iid_IsExplorer()) { // jshint ignore:line
@@ -146,8 +147,7 @@ angular.module('common').factory('common.UtkastSignService',
                 // Anropa server, starta signering med GRP
                 UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
 
-                    // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
-                    var templateUrl = templates[UserModel.authenticationMethod()];
+                    var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
                     _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
 
                 }, function(error) {
@@ -293,29 +293,6 @@ angular.module('common').factory('common.UtkastSignService',
                 getSigneringsstatus();
 
             }
-
-            // OLD
-            // function _openNetIdPlugin(hash, onSuccess, onError) {
-            //     $timeout(function() {
-            //         iid_SetProperty('Base64', 'true'); // jshint ignore:line
-            //         iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
-            //         iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
-            //         if (UserModel.user.authenticationMethod === 'NET_ID') {
-            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-            //         } else if  (UserModel.user.authenticationMethod === 'SITHS') {
-            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
-            //         }
-            //         var resultCode = iid_Invoke('Sign'); // jshint ignore:line
-            //
-            //         if (resultCode === 0) {
-            //             onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
-            //         } else {
-            //             var messageAbort = 'Signeringen avbröts med kod: ' + resultCode;
-            //             $log.info(messageAbort);
-            //             onError({ errorCode: 'SIGN_NETID_ERROR'});
-            //         }
-            //     });
-            // }
 
             function _openNetIdPlugin(hash, onSuccess, onError) {
                 $timeout(function() {
