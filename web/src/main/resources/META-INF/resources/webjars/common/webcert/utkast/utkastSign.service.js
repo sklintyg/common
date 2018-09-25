@@ -44,8 +44,7 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS'
-                    || UserModel.user.authenticationMethod === 'EFOS') {
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
 
                     // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
                     if (iid_IsExplorer()) { // jshint ignore:line
@@ -139,10 +138,6 @@ angular.module('common').factory('common.UtkastSignService',
 
             // EFOS / NetiD Access Server
             function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
-
-                var templates = {
-                    'EFOS': '/app/views/signeraNiasDialog/signera.nias.dialog.html'
-                };
 
                 // Anropa server, starta signering med GRP
                 UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
