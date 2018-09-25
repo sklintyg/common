@@ -630,7 +630,7 @@
             'common.validation.date_invalid': 'Ogiltigt datum.',
             'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
             'common.validation.date.today.or.earlier': 'Datumet får inte vara senare än dagens datum.',
-            'common.validation.date.beforeLastYear': 'Datumet får inte vara tidigare än början på förra året',
+            'common.validation.date.beforeLastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
             'common.validation.diagnos.missing': 'Minst en diagnos måste anges.',
             'common.validation.diagnos0.missing': 'Diagnoskod måste anges.',
             'common.validation.diagnos0.invalid': 'Diagnoskod är ej giltig.',
