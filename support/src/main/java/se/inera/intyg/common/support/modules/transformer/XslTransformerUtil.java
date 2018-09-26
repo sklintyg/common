@@ -27,6 +27,10 @@ import java.util.regex.Pattern;
  */
 public final class XslTransformerUtil {
 
+    private XslTransformerUtil() {
+        // It's a utility class, make constructor private
+    }
+
     private static final String REGISTER_TSBAS_REGEX =
             "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
 

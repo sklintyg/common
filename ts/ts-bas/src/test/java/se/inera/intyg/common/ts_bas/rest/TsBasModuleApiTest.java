@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -76,12 +75,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.ts_bas.rest.TsBasModuleApi.REGISTER_CERTIFICATE_VERSION1;
-import static se.inera.intyg.common.ts_bas.rest.TsBasModuleApi.REGISTER_CERTIFICATE_VERSION3;
+import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
+import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
@@ -101,26 +101,25 @@ public class TsBasModuleApiTest {
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
     @Mock
-    private IntygTextsService intygTexts;
+    private XslTransformerFactory xslTransformerFactory;
 
     @Mock
-    private XslTransformerFactory xslTransformerFactory;
+    private IntygTextsService intygTexts;
 
     @Mock
     private SendTSClient sendTsBasClient;
 
     @Before
     public void setup() throws Exception {
+        // Init the default beahviour
+        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
+
         // use reflection to set IntygTextsService mock in webcertModelFactory
         Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
         field.setAccessible(true);
         field.set(webcertModelFactory, intygTexts);
 
-        when(xslTransformerFactory.get(any(XslTransformerType.class))).thenReturn(Mockito.mock(XslTransformer.class));
-
-        //when(xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V1)).thenReturn(new XslTransformer("xsl/transportToV1"));
-        //when(xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3)).thenReturn(new XslTransformer("xsl/transportToV3"));
-        //when(xslTransformerFactory.get(TsBasTransformerType.V3_TO_V1)).thenReturn(new XslTransformer("xsl/V3ToV1.xsl"));
+        when(xslTransformerFactory.get(any(XslTransformerType.class))).thenReturn(mock(XslTransformer.class));
     }
 
     @Test
@@ -155,18 +154,18 @@ public class TsBasModuleApiTest {
         // the transformaPayload method
         final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
 
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
 
     @Test
     public void testTransformPayload_TransportToV3() throws Exception {
+        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION3);
+
         // We don't test the actual transformation, only the logic within
         // the transformaPayload method
         final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
 
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION3);
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
@@ -177,7 +176,6 @@ public class TsBasModuleApiTest {
         // the transformaPayload method
         final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/rivtav3/valid-minimal.xml"));
 
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
@@ -189,16 +187,16 @@ public class TsBasModuleApiTest {
         final String recipientId = "recipient";
         final String transformedXml = "transformedXml";
 
-        Mockito.doReturn(transformedXml).when(moduleApi).transformPayload(xmlBody);
+        doReturn(transformedXml).when(moduleApi).transformPayload(xmlBody);
 
         SOAPMessage response = mock(SOAPMessage.class);
         when(response.getSOAPPart()).thenReturn(mock(SOAPPart.class));
         when(response.getSOAPPart().getEnvelope()).thenReturn(mock(SOAPEnvelope.class));
         when(response.getSOAPPart().getEnvelope().getBody()).thenReturn(mock(SOAPBody.class));
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
+
         when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        setRegisterCertificateVersion(REGISTER_CERTIFICATE_VERSION1);
         moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
 
         verify(moduleApi).transformPayload(xmlBody);

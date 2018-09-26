@@ -51,4 +51,12 @@
     <constructor-arg value="${tsbas.send.certificate.to.recipient.registercertificate.version}"/>
   </bean>
 
+  <bean id="tsBasRegisterCertificateV1Client" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV1Client">
+    <constructor-arg value="${registercertificatev1.endpoint.url}"/>
+  </bean>
+
+  <bean id="tsBasRegisterCertificateV3Client" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV3Client">
+    <constructor-arg value="${registercertificatev3.endpoint.url}"/>
+  </bean>
+
 </beans>

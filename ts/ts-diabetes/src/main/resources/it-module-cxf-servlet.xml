@@ -69,7 +69,7 @@
     <constructor-arg value="xsl/transform-ts-diabetes.xsl"/>
   </bean>
 
-  <bean id="sendTsDiabetesClient" class="se.inera.intyg.common.ts_parent.integration.SendTSClient">
+  <bean id="sendTsDiabetesClient" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV1Client">
     <constructor-arg value="${registercertificatev1.endpoint.url}"/>
   </bean>
 

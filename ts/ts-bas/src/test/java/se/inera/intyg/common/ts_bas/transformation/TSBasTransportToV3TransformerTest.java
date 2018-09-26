@@ -25,15 +25,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
-import org.xmlunit.diff.DOMDifferenceEngine;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
-import org.xmlunit.diff.DifferenceEngine;
-import org.xmlunit.diff.ElementSelector;
 import org.xmlunit.diff.ElementSelectors;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 import javax.xml.transform.Source;
@@ -46,9 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class TSBasTransportToV3TransformerTest {

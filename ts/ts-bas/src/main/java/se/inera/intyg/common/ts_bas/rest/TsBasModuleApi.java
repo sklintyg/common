@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -59,15 +60,8 @@ import static se.inera.intyg.common.support.modules.transformer.XslTransformerUt
  */
 public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
-    public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
-    public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
-
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
-
-    @Autowired(required = false)
-    @Qualifier("tsBasSendCertificateClient")
-    private SendTSClient sendTsBasClient;
 
     @Autowired(required = false)
     @Qualifier("tsBasXslTransformerFactory")
@@ -76,6 +70,10 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
     private String registerCertificateVersion;
+
+    @Value("#{tsBasRegisterCertificateVersion == 'v1' ? tsBasRegisterCertificateV1Client : tsBasRegisterCertificateV3Client}")
+    private SendTSClient sendTsBasClient;
+
 
     public TsBasModuleApi() {
         super(TsBasUtlatande.class);
@@ -148,7 +146,6 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
         if (isRegisterTsBas(xmlBody)) {
             if (shouldTransformToV1()) {
                 return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V1).transform(xmlBody);
-                //return xslTransformerTransportToV1.transform(xmlBody);
             } else if (shouldTransformToV3()) {
                 return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xmlBody);
             } else {

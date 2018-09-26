@@ -19,7 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
+
   <bean class="se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi" />
 
   <bean class="se.inera.intyg.common.ts_diabetes.validator.Validator" />
@@ -32,7 +32,6 @@
 
   <bean class="se.inera.intyg.common.ts_diabetes.model.converter.WebcertModelFactoryImpl" />
 
-  <bean id="tsDiabetesEntryPoint"
-    class="se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint" />
+  <bean class="se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint" />
 
 </beans>
