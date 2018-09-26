@@ -232,7 +232,7 @@ public abstract class LisjpUtlatande implements Utlatande {
                 .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
                 .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
                 .setFunktionsKategorier(ImmutableList.<String> of())
-                .setAktivitetsKategorier(ImmutableList.<String> of());
+                .setAktivitetsKategorier(ImmutableList.<String> of())
                 .setSignature(null);
     }
 
