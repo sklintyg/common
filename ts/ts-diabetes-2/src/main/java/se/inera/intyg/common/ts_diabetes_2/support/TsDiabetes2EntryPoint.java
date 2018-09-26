@@ -35,7 +35,7 @@ public class TsDiabetes2EntryPoint implements ModuleEntryPoint {
     public static final String ISSUER_TYPE_ID = "TSTRK1031-002";
     public static final String MODULE_ID = "ts-diabetes-2";
     public static final String MODULE_NAME = "Läkarintyg Diabetes avseende lämpligheten att inneha körkort m.m.";
-    public static final String DEFAULT_RECIPIENT_ID = "TS";
+    public static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     public static final String MODULE_DESCRIPTION = "Beskrivning av ts-diabetes-2";
     public static final String SCHEMATRON_FILE = "tstrk1031.sch";
 

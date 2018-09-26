@@ -25,7 +25,7 @@ angular.module('ts-diabetes-2').controller(
                     $scope.cert = undefined;
 
                     $scope.send = function() {
-                        $location.path('/send/ts-diabetes-2/' + $stateParams.certificateId + '/');
+                        $location.path('/send/ts-diabetes-2/' + $stateParams.certificateId + '/TRANSP');
                     };
 
                     $scope.errorMessage = null;
