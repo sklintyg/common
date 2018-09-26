@@ -127,10 +127,10 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         List<Object[]> retList = ScenarioFinder.getInternalScenarios("fail-forMangaSysselsattningar").stream()
                 .map(u -> new Object[] { u.getName(), u, true })
                 .collect(Collectors.toList());
-        //retList.addAll(
-                //ScenarioFinder.getInternalScenarios("pass-*").stream()
-                        //.map(u -> new Object[] { u.getName(), u, false })
-                        //.collect(Collectors.toList()));
+        retList.addAll(
+                ScenarioFinder.getInternalScenarios("pass-*").stream()
+                        .map(u -> new Object[] { u.getName(), u, false })
+                        .collect(Collectors.toList()));
         return retList;
     }
 
