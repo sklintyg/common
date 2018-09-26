@@ -6,7 +6,7 @@
       cert-form="certForm"></wc-utkast-footer-sign>
 
   <!-- Vårdadmin -->
-  <div wc-authority="!SIGNERA_INTYG">
+  <div wc-authority="!SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}">
     <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
     <wc-utkast-footer-notify
         wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"

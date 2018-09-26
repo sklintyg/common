@@ -1,7 +1,8 @@
 <div>
   <div class="card"
        ng-if="showFortsattUtkastWarning()"
-       wc-authority="BESVARA_KOMPLETTERINGSFRAGA">
+       wc-authority="BESVARA_KOMPLETTERINGSFRAGA"
+       intygstyp="{{intygType}}">
     <wc-alert-message
         alert-severity="warning">Det finns redan en påbörjad komplettering. <a id="komplettera-open-utkast"
          ng-href="#/{{intygType}}/edit/{{intygId}}/">Öppna utkastet</a>

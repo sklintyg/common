@@ -25,7 +25,8 @@ angular.module('common').directive('wcUtkastPatientAddressUpdater',
         restrict: 'E',
         scope: {
           patientModel: '=',
-          form: '='
+          form: '=',
+          intygstyp: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.html',
         controller: function ($scope) {
