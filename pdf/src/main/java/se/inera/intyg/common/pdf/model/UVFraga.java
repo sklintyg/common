@@ -48,7 +48,8 @@ public class UVFraga extends UVComponent {
                 .setFont(renderer.fragaDelFragaFont)
                 .setFontColor(wcColor07)
                 .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
+                .setKeepTogether(true)
         );
-        parent.setKeepTogether(true);
+        parent.setKeepTogether(false);
     }
 }

@@ -128,6 +128,7 @@ public class UVList extends UVComponent {
         com.itextpdf.layout.element.List list = new com.itextpdf.layout.element.List();
         list.setMarginLeft(ELEM_MARGIN_LEFT_POINTS);
         list.setMarginRight(ELEM_MARGIN_RIGHT_POINTS);
+        list.setKeepTogether(true);
         results.stream().forEach(result -> {
             ListItem listItem = new ListItem(result);
             listItem.setFont(renderer.svarFont);
@@ -139,12 +140,14 @@ public class UVList extends UVComponent {
 
     private void renderListResultWithSeparator(Div parent, List<String> results, String separator) {
         // If there's a separator specified, render as comma-separated string
+        parent.setKeepTogether(true);
         parent.add(new Paragraph(results.stream().collect(Collectors.joining(separator))).setItalic()
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
                 .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
                 .setFont(renderer.svarFont)
                 .setFontSize(SVAR_FONT_SIZE)
                 .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+        parent.setKeepTogether(false);
     }
 
     private void buildListResultFromArray(List<String> results, String labelKey, ScriptObjectMirror listKey,
