@@ -22,15 +22,10 @@ angular.module('common').directive('wcAuthority',
             'use strict';
             return {
                 restrict: 'A',
-/*                compile: function($element, $attr) {
-                    if ($attr.intygstyp === undefined && ($attr.wcAuthority || $attr.feature)) {
-                        throw "wcAuthority: Missing required attribute intygstyp at";
-                    }
-                },*/
                 link: function($scope, $element, $attr) {
 
                     if ($attr.intygstyp === undefined && ($attr.wcAuthority || $attr.feature)) {
-                        $log.error("wcAuthority: Missing required attribute intygstyp at", $element);
+                        $log.error('wcAuthority: Missing required attribute intygstyp at', $element);
                     }
 
                     function _checkAuthority() {
