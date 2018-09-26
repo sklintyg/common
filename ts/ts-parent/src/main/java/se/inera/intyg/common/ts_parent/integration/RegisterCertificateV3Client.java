@@ -41,10 +41,12 @@ public class RegisterCertificateV3Client extends SendTSClient {
         super(url);
     }
 
+    @Override
     protected void setupService() {
         setupService(new RegisterCertificateResponderService(), REGISTER_V3_PORT_NAME);
     }
 
+    @Override
     protected Dispatch<SOAPMessage> createDispatchMessage() {
         return createDispatchMessage(REGISTER_V3_NAMESPACE, REGISTER_V3_PORT_NAME);
     }
