@@ -71,7 +71,7 @@ angular.module('common').factory('common.fmbService', [
             $q.all(promises).then(function(formDatas){
                 var j;
                 for(j = 0; j < formDatas.length; j++){
-                    fmbViewState.setState(fmbDiagnosRequest[j].type, formDatas[j], fmbDiagnosRequest[j].code);
+                    fmbViewState.setState(fmbDiagnosRequest[j].type, formDatas[j], fmbDiagnosRequest[j].code, diagnoser[j].diagnosBeskrivning);
                 }
             }, function(errors) {
                 var j;
@@ -84,7 +84,7 @@ angular.module('common').factory('common.fmbService', [
             return true;
         }
 
-        function _updateFmbText(diagnosType, originalDiagnosKod, kodSystem) {
+        function _updateFmbText(diagnosType, originalDiagnosKod, kodSystem, originalDiagnosBeskrivning) {
             if (!ObjectHelper.isDefined(originalDiagnosKod) || originalDiagnosKod.length === 0) {
                 fmbViewState.reset(diagnosType);
                 return false;
@@ -94,7 +94,7 @@ angular.module('common').factory('common.fmbService', [
 
                     if (kodSystem === 'ICD_10_SE') {
                         var fmbSuccess = function fmbSuccess(formData) {
-                            fmbViewState.setState(diagnosType, formData, originalDiagnosKod);
+                            fmbViewState.setState(diagnosType, formData, originalDiagnosKod, originalDiagnosBeskrivning);
                         };
                         var fmbReject = function fmbReject(data) {
                             $log.debug('Error searching fmb help text for diagnostype ' + diagnosType);

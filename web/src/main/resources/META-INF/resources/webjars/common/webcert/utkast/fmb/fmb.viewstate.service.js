@@ -43,13 +43,13 @@ angular.module('common').service('common.fmbViewState', [
         };
         this.activeDiagnos = 1;
 
-        this.setState = function(diagnosType, formData, originalDiagnosKod) {
+        this.setState = function(diagnosType, formData, originalDiagnosKod, originalDiagnosBeskrivning) {
 
             if(!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])){
                 this.diagnoses[diagnosType] = fmbModel.build();
             }
 
-            this.diagnoses[diagnosType].setState(formData, originalDiagnosKod);
+            this.diagnoses[diagnosType].setState(formData, originalDiagnosKod, originalDiagnosBeskrivning);
         };
 
         this.reset = function(diagnosType) {

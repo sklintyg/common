@@ -38,6 +38,9 @@ wc-fmb-panel-tab {
             color: $wc-color-22;
             cursor: not-allowed;
           }
+          span {
+            display: inline-block;
+          }
         }
       }
     }

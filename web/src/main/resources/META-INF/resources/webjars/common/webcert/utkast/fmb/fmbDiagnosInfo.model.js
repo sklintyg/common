@@ -30,17 +30,19 @@ angular.module('common').service('common.fmbDiagnosInfoModel',
 
             var transformFormData = function transformFormData(formData) {
                 var transformedFormData = {};
-                formData.forms.forEach(function(item) {
-                    transformedFormData[item.name] = item.content;
-                });
+                if (formData.forms) {
+                    formData.forms.forEach(function(item) {
+                        transformedFormData[item.name] = item.content;
+                    });
+                }
 
                 return transformedFormData;
             };
 
-            FmbDiagnosInfoModel.prototype.setState = function(formData, originalDiagnosKod){
+            FmbDiagnosInfoModel.prototype.setState = function(formData, originalDiagnosKod, originalDiagnosBeskrivning){
                 this.formData = transformFormData(formData);
                 this.diagnosKod = formData.icd10Code;
-                this.diagnosBeskrivning = formData.icd10Description;
+                this.diagnosBeskrivning = formData.icd10Description || originalDiagnosBeskrivning;
                 this.originalDiagnosKod = originalDiagnosKod;
                 this.hasInfo = Object.keys(this.formData).length > 0;
             };
