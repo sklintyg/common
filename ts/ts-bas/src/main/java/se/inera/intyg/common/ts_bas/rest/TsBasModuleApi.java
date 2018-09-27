@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -40,11 +39,13 @@ import se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType;
 import se.inera.intyg.common.ts_bas.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
+import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
@@ -62,6 +63,9 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsBasModuleApi.class);
 
+    @Autowired(required = false)
+    @Qualifier("sendTSClientFactory")
+    private SendTSClientFactory sendTSClientFactory;
 
     @Autowired(required = false)
     @Qualifier("tsBasXslTransformerFactory")
@@ -71,12 +75,32 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     @Qualifier("tsBasRegisterCertificateVersion")
     private String registerCertificateVersion;
 
-    @Value("#{tsBasRegisterCertificateVersion == 'v1' ? tsBasRegisterCertificateV1Client : tsBasRegisterCertificateV3Client}")
     private SendTSClient sendTsBasClient;
-
 
     public TsBasModuleApi() {
         super(TsBasUtlatande.class);
+    }
+
+    @PostConstruct
+    public void init() {
+        /*
+        Map<RegisterCertificateVersionType, SendTSClient> map = Stream.of(
+                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V1, new RegisterCertificateV1Client()),
+                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V3, new RegisterCertificateV3Client()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+
+        SendTSClientFactory sendTSClientFactory = new SendTSClientFactory();
+        */
+        if (registerCertificateVersion == null) {
+            registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
+        }
+
+        if (sendTSClientFactory != null) {
+            sendTsBasClient = sendTSClientFactory.get(registerCertificateVersion);
+        } else {
+            LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
+        }
     }
 
     @Override

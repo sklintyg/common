@@ -37,15 +37,6 @@
       </cxf:features>
   </cxf:bus>
 
-  <util:map id="xslHrefMap">
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V1 }" value="xsl/transportToV1.xsl" />
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V3 }" value="xsl/transportToV3.xsl" />
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).V3_TO_V1 }" value="xsl/V3ToV1.xsl" />
-  </util:map>
-
-  <bean id="tsBasXslTransformerFactory" class=" se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerFactory">
-    <constructor-arg ref="xslHrefMap"/>
-  </bean>
 
   <bean id="tsBasRegisterCertificateVersion" class="java.lang.String">
     <constructor-arg value="${tsbas.send.certificate.to.recipient.registercertificate.version}"/>
@@ -58,5 +49,27 @@
   <bean id="tsBasRegisterCertificateV3Client" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV3Client">
     <constructor-arg value="${registercertificatev3.endpoint.url}"/>
   </bean>
+
+
+  <util:map id="registerCertificateClientMap">
+    <entry key="v1" value-ref="tsBasRegisterCertificateV1Client" />
+    <entry key="v3" value-ref="tsBasRegisterCertificateV3Client" />
+  </util:map>
+
+  <bean id="sendTSClientFactory" class=" se.inera.intyg.common.ts_parent.integration.SendTSClientFactory">
+    <constructor-arg ref="registerCertificateClientMap"/>
+  </bean>
+
+
+  <util:map id="xslHrefMap">
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V1 }" value="xsl/transportToV1.xsl" />
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V3 }" value="xsl/transportToV3.xsl" />
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).V3_TO_V1 }" value="xsl/V3ToV1.xsl" />
+  </util:map>
+
+  <bean id="tsBasXslTransformerFactory" class=" se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerFactory">
+    <constructor-arg ref="xslHrefMap"/>
+  </bean>
+
 
 </beans>
