@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.validator.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -32,6 +33,7 @@ import se.inera.intyg.common.ts_bas.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.model.internal.Kognitivt;
 import se.inera.intyg.common.ts_bas.model.internal.Medicinering;
 import se.inera.intyg.common.ts_bas.model.internal.Medvetandestorning;
@@ -88,7 +90,7 @@ public class InternalValidatorInstance {
      *
      * @param utlatande
      *            an internal {@link TsBasUtlatande}
-     * @return a {@link ValidateDraftResponseHolder} with a status and a list of validationErrors
+     * @return a ValidateDraftResponseHolder with a status and a list of validationErrors
      */
     public ValidateDraftResponse validate(TsBasUtlatande utlatande) {
 
@@ -104,7 +106,7 @@ public class InternalValidatorInstance {
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdentitetStyrkt(utlatande.getVardkontakt());
-            validateSyn(utlatande.getSyn()); // 1.
+            validateSyn(utlatande); // 1.
             validateHorselBalans(utlatande.getHorselBalans()); // 2.
             validateFunktionsnedsattning(utlatande.getFunktionsnedsattning()); // 3.
             validateHjartKarl(utlatande.getHjartKarl()); // 4.
@@ -422,7 +424,6 @@ public class InternalValidatorInstance {
         if (narkotikaLakemedel.getLakarordineratLakemedelsbruk() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_NARKOTIKA_LAKEMEDEL,
                     "narkotikaLakemedel.lakarordineratLakemedelsbruk", ValidationMessageType.EMPTY);
-            return;
 
         } else if (narkotikaLakemedel.getLakarordineratLakemedelsbruk()) {
             ValidatorUtil.assertDescriptionNotEmpty(validationMessages, narkotikaLakemedel.getLakemedelOchDos(),
@@ -444,7 +445,8 @@ public class InternalValidatorInstance {
         }
     }
 
-    private void validateSyn(final Syn syn) {
+    private void validateSyn(final TsBasUtlatande utlatande) {
+        final Syn syn = utlatande.getSyn();
 
         if (syn == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn", ValidationMessageType.EMPTY,
@@ -540,5 +542,36 @@ public class InternalValidatorInstance {
                 }
             }
         }
+        // CHECKSTYLE:OFF MagicNumber
+        // R33
+        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                && utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
+                && syn.getBinokulart() != null && syn.getBinokulart().getUtanKorrektion() != null
+                && syn.getBinokulart().getUtanKorrektion() < 0.5
+                && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null)) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r33");
+        }
+
+        // R34
+        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
+                && (syn.getHogerOga().getMedKorrektion() == null ||  syn.getVansterOga().getMedKorrektion() == null
+                || syn.getBinokulart().getMedKorrektion() == null)) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r34");
+        }
+
+        // R35
+        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)
+                && (syn.getHogerOga().getMedKorrektion() == null ||  syn.getVansterOga().getMedKorrektion() == null
+                || syn.getBinokulart().getMedKorrektion() == null)) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r35");
+        }
+        // CHECKSTYLE:ON MagicNumber
     }
 }

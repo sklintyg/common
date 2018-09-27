@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_bas.validator;
 
 import static com.google.common.io.Resources.getResource;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -93,16 +94,23 @@ public class SchematronValidatorTest {
 
     @Test
     public void invalidMinimalTestFails() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/invalid-minimal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
 
     @Test
     public void invalidAnnatFelsynskarpaTestFails() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/invalid-annat-felsynskarpa.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertFalse(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
+    @Test
+    public void invalidMinalR35TestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
 
     private void doTest(String inputXml) throws ModuleException {
