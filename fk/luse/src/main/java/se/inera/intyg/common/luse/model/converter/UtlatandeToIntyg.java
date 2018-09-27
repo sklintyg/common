@@ -175,10 +175,10 @@ public final class UtlatandeToIntyg {
         int underlagInstans = 1;
         for (Underlag underlag : source.getUnderlag()) {
             svars.add(
-                    aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++).withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4,
-                            aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
-                            .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4,
-                                    underlag.getDatum() != null ? underlag.getDatum().asLocalDate().toString() : null)
+                    aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
+                            .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
+                                    : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
+                            .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
                             .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
         }
 

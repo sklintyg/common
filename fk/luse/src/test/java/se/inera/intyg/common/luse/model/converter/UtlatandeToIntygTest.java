@@ -18,15 +18,20 @@
  */
 package se.inera.intyg.common.luse.model.converter;
 
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luse.model.internal.LuseUtlatande;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -136,6 +141,29 @@ public class UtlatandeToIntygTest {
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
                 intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+    }
+
+    @Test
+    public void testConvertUnderlagEmptyUnderlagsTyp() {
+        LuseUtlatande utlatande = buildUtlatande().toBuilder()
+                .setUnderlagFinns(true)
+                .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
+                .build();
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        assertEquals(2, intyg.getSvar().size());
+        assertEquals("2018-01-01", intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0));
+    }
+
+    @Test
+    public void testConvertUnderlagUnfinishedDate() {
+        LuseUtlatande utlatande = buildUtlatande().toBuilder()
+                .setUnderlagFinns(true)
+                .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
+                .build();
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        assertEquals(2, intyg.getSvar().size());
+        assertEquals(Underlag.UnderlagsTyp.OVRIGT.getId(), ((CVType)((JAXBElement)intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0)).getValue()).getCode());
+        assertEquals("2018-", intyg.getSvar().get(1).getDelsvar().get(1).getContent().get(0));
     }
 
     private LuseUtlatande buildUtlatande() {
