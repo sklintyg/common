@@ -58,7 +58,7 @@ public class PdfGenerator {
      + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "ts_bas_";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
                                    ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
@@ -133,7 +133,7 @@ public class PdfGenerator {
     // af_medicinskt_utlatande_åå_mm_dd_ttmm
     private String buildFilename() {
         LocalDateTime now = LocalDateTime.now();
-        return CERTIFICATE_FILE_PREFIX + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
+        return CERTIFICATE_FILE_PREFIX + now.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
     }
 
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {
