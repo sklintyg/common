@@ -184,8 +184,6 @@
             'intyg.status.patient.ps-008.modalheader': 'Ingen adress angavs av journalsystemet',
             'intyg.status.patient.ps-008.modalbody': 'Journalsystemet angav inga adressuppgifter för patienten, därför har en slagning i den nationella personuppgiftstjänsten genomförts. Det är adressen som finns registrerad där som nu visas i intyget.',
 
-            'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
-
             // common intyg replacement text
             'intyg.modal.ersatt.utkast.finns.text.info': 'Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.',
             'intyg.modal.ersatt.utkast.finns.text': 'Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan du signerar intyget.',
