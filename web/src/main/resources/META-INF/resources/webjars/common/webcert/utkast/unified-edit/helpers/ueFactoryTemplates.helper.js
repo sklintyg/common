@@ -169,7 +169,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     requiredProp: 'grundData.skapadAv.vardenhet.postort',
                     whitespaceBreak: false
                 },
-                size: 'full',
+                size: '20',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 30
