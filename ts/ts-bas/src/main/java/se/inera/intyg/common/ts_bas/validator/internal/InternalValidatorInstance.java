@@ -555,7 +555,7 @@ public class InternalValidatorInstance {
                     && syn.getBinokulart().getUtanKorrektion() < 0.5
                     && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null)) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r33");
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
             }
 
             // R34
@@ -566,7 +566,7 @@ public class InternalValidatorInstance {
                     && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
                     || syn.getBinokulart().getMedKorrektion() == null)) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r34");
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
             }
 
             // R35
@@ -577,7 +577,7 @@ public class InternalValidatorInstance {
                     && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
                     || syn.getBinokulart().getMedKorrektion() == null)) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r35");
+                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
             }
         }
         // CHECKSTYLE:ON MagicNumber
