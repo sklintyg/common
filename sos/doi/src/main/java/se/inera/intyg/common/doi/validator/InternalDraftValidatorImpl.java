@@ -65,10 +65,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
-        validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
+        validateIdentitetStyrkt(utlatande, validationMessages);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
-        validateDodsplats(utlatande, validationMessages, MODULE_ID);
-        validateBarn(utlatande, validationMessages, MODULE_ID);
+        validateDodsplats(utlatande, validationMessages);
+        validateBarn(utlatande, validationMessages);
         validateDodsorsak(utlatande, validationMessages);
         validateFoljd(utlatande, validationMessages);
         validateBidragandeSjukdomar(utlatande, validationMessages);

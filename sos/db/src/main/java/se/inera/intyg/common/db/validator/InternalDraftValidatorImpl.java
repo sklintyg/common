@@ -50,10 +50,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
-        validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
+        validateIdentitetStyrkt(utlatande, validationMessages);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
-        validateDodsplats(utlatande, validationMessages, MODULE_ID);
-        validateBarn(utlatande, validationMessages, MODULE_ID);
+        validateDodsplats(utlatande, validationMessages);
+        validateBarn(utlatande, validationMessages);
         validateExplosivtImplantat(utlatande, validationMessages);
         validateUndersokning(utlatande, validationMessages);
         validatePolisanmalan(utlatande, validationMessages);

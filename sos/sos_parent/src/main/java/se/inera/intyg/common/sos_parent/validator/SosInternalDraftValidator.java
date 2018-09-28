@@ -30,9 +30,6 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
@@ -42,13 +39,12 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 public final class SosInternalDraftValidator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SosInternalDraftValidator.class);
     private static final int BARN_SOM_AVLIDIT_INOM_28_DAGAR = 28;
 
     private SosInternalDraftValidator() {
     }
 
-    public static void validateIdentitetStyrkt(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
+    public static void validateIdentitetStyrkt(SosUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getIdentitetStyrkt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "personuppgifter", IDENTITET_STYRKT_JSON_ID,
                     ValidationMessageType.EMPTY);
@@ -132,7 +128,7 @@ public final class SosInternalDraftValidator {
         }
     }
 
-    public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
+    public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getDodsplatsKommun()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSPLATS_KOMMUN_JSON_ID,
                     ValidationMessageType.EMPTY);
@@ -145,7 +141,7 @@ public final class SosInternalDraftValidator {
         }
     }
 
-    public static void validateBarn(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
+    public static void validateBarn(SosUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getBarn() == null) {
             ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID, ValidationMessageType.EMPTY);
         } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
