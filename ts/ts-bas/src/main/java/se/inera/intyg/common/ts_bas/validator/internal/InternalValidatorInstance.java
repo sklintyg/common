@@ -446,6 +446,10 @@ public class InternalValidatorInstance {
     }
 
     private void validateSyn(final TsBasUtlatande utlatande) {
+        if (utlatande.getSyn() == null) {
+            return;
+        }
+
         final Syn syn = utlatande.getSyn();
 
         if (syn == null) {
@@ -543,34 +547,38 @@ public class InternalValidatorInstance {
             }
         }
         // CHECKSTYLE:OFF MagicNumber
-        // R33
-        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                && utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
-                && syn.getBinokulart() != null && syn.getBinokulart().getUtanKorrektion() != null
-                && syn.getBinokulart().getUtanKorrektion() < 0.5
-                && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r33");
-        }
+        if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null) {
+            // R33
+            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                    && utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
+                    && syn.getBinokulart().getUtanKorrektion() != null
+                    && syn.getBinokulart().getUtanKorrektion() < 0.5
+                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r33");
+            }
 
-        // R34
-        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
-                && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
-                && (syn.getHogerOga().getMedKorrektion() == null ||  syn.getVansterOga().getMedKorrektion() == null
-                || syn.getBinokulart().getMedKorrektion() == null)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r34");
-        }
+            // R34
+            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                    && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                    && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
+                    && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
+                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
+                    || syn.getBinokulart().getMedKorrektion() == null)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r34");
+            }
 
-        // R35
-        if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
-                && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)
-                && (syn.getHogerOga().getMedKorrektion() == null ||  syn.getVansterOga().getMedKorrektion() == null
-                || syn.getBinokulart().getMedKorrektion() == null)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                    ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r35");
+            // R35
+            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
+                    && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                    && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
+                    && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)
+                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
+                    || syn.getBinokulart().getMedKorrektion() == null)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
+                        ValidationMessageType.INVALID_FORMAT, "ts-bas.validation.syn.r35");
+            }
         }
         // CHECKSTYLE:ON MagicNumber
     }
