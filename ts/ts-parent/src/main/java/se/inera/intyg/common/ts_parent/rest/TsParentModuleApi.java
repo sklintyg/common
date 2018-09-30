@@ -129,7 +129,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     private RegisterCertificateValidator xmlValidator = new RegisterCertificateValidator(getSchematronFileName());
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
         request.setPart(getPart(recipientId));
@@ -249,12 +249,12 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
+    public String transformToStatisticsService(String inputXml) throws ModuleException {
         return inputXml;
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
         return XmlValidator.validate(xmlValidator, inputXml);
     }
 
@@ -306,7 +306,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
         RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {

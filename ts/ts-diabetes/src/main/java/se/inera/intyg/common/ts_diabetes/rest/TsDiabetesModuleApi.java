@@ -118,7 +118,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
         String transformedPayload = xslTransformer.transform(xmlBody);
 
         try {
@@ -134,7 +134,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetTSDiabetesType type = new GetTSDiabetesType();
         type.setIntygsId(certificateId);
 
@@ -160,7 +160,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 
@@ -186,7 +186,7 @@ public class TsDiabetesModuleApi extends TsParentModuleApi<TsDiabetesUtlatande> 
     }
 
     @Override
-    public TsDiabetesUtlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
+    public TsDiabetesUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterTSDiabetesType.class);
         try {

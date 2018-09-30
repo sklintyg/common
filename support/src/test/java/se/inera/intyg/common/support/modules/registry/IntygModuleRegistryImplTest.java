@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.modules.registry;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,12 +31,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionWrapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class IntygModuleRegistryImplTest {
@@ -57,6 +60,7 @@ public class IntygModuleRegistryImplTest {
     private static final String MODULE_CSS_PATH_2 = "moduleCssPath2";
     private static final String MODULE_SCRIPT_PATH_2 = "moduleScriptPath2";
     private static final String MODULE_DEPENDENCY_DEFINITION_PATH_2 = "moduleDependencyDefinitionPath2";
+    private static final String INTYG_VERSION = "1.0";
 
 
     @Mock
@@ -64,6 +68,12 @@ public class IntygModuleRegistryImplTest {
 
     @Mock
     private ModuleEntryPoint entryPointMock2;
+
+    @Mock
+    private ModuleApi moduleAPiMockBean;
+
+    @Mock
+    private ApplicationContext applicationContext;
 
     private IntygModuleRegistryImpl registry;
 
@@ -86,9 +96,12 @@ public class IntygModuleRegistryImplTest {
         when(entryPointMock2.getModuleScriptPath(ORIGIN)).thenReturn(MODULE_SCRIPT_PATH_2);
         when(entryPointMock2.getModuleDependencyDefinitionPath(ORIGIN)).thenReturn(MODULE_DEPENDENCY_DEFINITION_PATH_2);
 
+        when(applicationContext.getBean(anyString())).thenReturn(moduleAPiMockBean);
+
         registry = new IntygModuleRegistryImpl();
         registry.setOrigin(ORIGIN);
         ReflectionTestUtils.setField(registry, "moduleEntryPoints", Arrays.asList(entryPointMock1, entryPointMock2));
+        registry.setApplicationContext(applicationContext);
         registry.initModulesList();
     }
 
@@ -117,15 +130,30 @@ public class IntygModuleRegistryImplTest {
     @Test
     public void testGetModuleApi() throws Exception {
 
-        ModuleApi res = registry.getModuleApi(MODULE_ID_1);
+        ModuleApi res = registry.getModuleApi(MODULE_ID_1, INTYG_VERSION);
 
         assertNotNull(res);
-        assertTrue(res instanceof ModuleApiVersionWrapper);
+        assertTrue(res instanceof ModuleApi);
     }
 
     @Test(expected = ModuleNotFoundException.class)
     public void testGetModuleApiNotFound() throws Exception {
-        registry.getModuleApi("nonExistentModule");
+        registry.getModuleApi("nonExistentModule", "1.0");
+    }
+
+    @Test(expected = ModuleNotFoundException.class)
+    public void testGetModuleApiNotFoundMissingIntygTypeParameter() throws Exception {
+        registry.getModuleApi("", "1.0");
+    }
+
+    @Test(expected = ModuleNotFoundException.class)
+    public void testGetModuleApiNotFoundMissingIntygTypeVersionParameter() throws Exception {
+        registry.getModuleApi(MODULE_ID_1, null);
+    }
+    @Test(expected = ModuleNotFoundException.class)
+    public void testGetModuleApiNotFoundBeanNotFoundInAppContext() throws Exception {
+        when(applicationContext.getBean(anyString())).thenThrow(new NoSuchBeanDefinitionException("error"));
+        registry.getModuleApi(MODULE_ID_1, INTYG_VERSION);
     }
 
     @Test

@@ -76,7 +76,6 @@ public class Fk7263ModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "Fk7263ModuleApiTest/utlatande.json";
     public static final String TESTFILE_UTLATANDE_MINIMAL = "Fk7263ModuleApiTest/utlatande-minimal.json";
-    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     @Mock
     private RegisterMedicalCertificateResponderInterface registerMedicalCertificateClient;
@@ -208,7 +207,7 @@ public class Fk7263ModuleApiTest {
                 any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null, INTYG_TYPE_VERSION_1);
+        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null);
 
         // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address), Mockito.any(RegisterMedicalCertificateType.class));
@@ -228,7 +227,7 @@ public class Fk7263ModuleApiTest {
                 any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK", INTYG_TYPE_VERSION_1);
+        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
 
         // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(Mockito.eq(address), any(RegisterMedicalCertificateType.class));
@@ -248,7 +247,7 @@ public class Fk7263ModuleApiTest {
                 any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA", INTYG_TYPE_VERSION_1);
+        fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
 
         // Verify
         verify(registerMedicalCertificateClient).registerMedicalCertificate(eq(address), any(RegisterMedicalCertificateType.class));
@@ -261,7 +260,7 @@ public class Fk7263ModuleApiTest {
         address.setValue("logicalAddress");
 
         // Then
-        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA", INTYG_TYPE_VERSION_1);
+        fk7263ModuleApi.sendCertificateToRecipient(null, "logicalAddress", "FKASSA");
     }
 
     @Test

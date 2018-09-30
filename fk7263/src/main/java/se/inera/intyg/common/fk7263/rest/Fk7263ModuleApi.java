@@ -235,7 +235,7 @@ public class Fk7263ModuleApi implements ModuleApi {
      * {@inheritDoc}
      */
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
 
         // Check that we got any data at all
         if (xmlBody == null) {
@@ -251,7 +251,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetMedicalCertificateRequestType request = new GetMedicalCertificateRequestType();
         request.setCertificateId(certificateId);
         request.setPart(recipientId);
@@ -301,8 +301,8 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
-        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml, intygTypeVersion);
+    public String transformToStatisticsService(String inputXml) throws ModuleException {
+        Fk7263Utlatande utlatande = getUtlatandeFromXml(inputXml);
         Intyg intyg = getIntygFromUtlatande(utlatande);
         RegisterCertificateType type = new RegisterCertificateType();
         type.setIntyg(intyg);
@@ -427,7 +427,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public Fk7263Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
+    public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                 RegisterMedicalCertificateType.class);
         try {
@@ -568,7 +568,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
         throw new UnsupportedOperationException();
     }
 
@@ -655,7 +655,7 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 

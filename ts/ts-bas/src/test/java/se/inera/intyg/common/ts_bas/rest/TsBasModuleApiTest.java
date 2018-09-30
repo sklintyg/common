@@ -138,7 +138,7 @@ public class TsBasModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
         when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_6_8);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
 
         verify(xslTransformer).transform(xmlBody);
         verify(sendTsBasClient).registerCertificate(transformedXml, logicalAddress);
@@ -158,13 +158,13 @@ public class TsBasModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsBasClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_6_8);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
     }
 
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
-        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_6_8);
+        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
 
         assertNotNull(res);
     }

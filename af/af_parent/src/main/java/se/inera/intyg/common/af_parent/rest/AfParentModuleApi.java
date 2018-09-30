@@ -158,7 +158,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
@@ -185,7 +185,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
         GetCertificateType request = new GetCertificateType();
         request.setIntygsId(getIntygsId(certificateId));
         request.setPart(getPart(recipientId));
@@ -245,7 +245,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
+    public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {
@@ -265,12 +265,12 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException {
+    public String transformToStatisticsService(String inputXml) throws ModuleException {
         return inputXml;
     }
 
     @Override
-    public ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException {
+    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
         return XmlValidator.validate(validator, inputXml);
     }
 
@@ -280,7 +280,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
     }
 
     @Override
-    public void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException {
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
         RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {

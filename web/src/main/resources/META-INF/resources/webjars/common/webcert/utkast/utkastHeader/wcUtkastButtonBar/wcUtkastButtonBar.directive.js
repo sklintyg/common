@@ -225,7 +225,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                                     dialogModel.acceptprogressdone = true;
                                     modalInstance.close();
 
-                                    $location.url('/' + data.intygsTyp + '/' + intygTypeVersion + '/edit/' + data.intygsUtkastId + '/', true);
+                                    $location.url('/' + data.intygsTyp + '/' + data.intygTypeVersion + '/edit/' + data.intygsUtkastId + '/', true);
                                 },
                                 function(error) {
                                     dialogModel.acceptprogressdone = true;

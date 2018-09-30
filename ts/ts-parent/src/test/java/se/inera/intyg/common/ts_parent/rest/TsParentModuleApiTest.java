@@ -334,7 +334,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testTransformToStatisticsService() throws Exception {
         final String inputString = "input string";
-        String res = moduleApi.transformToStatisticsService(inputString, INTYG_TYPE_VERSION_1);
+        String res = moduleApi.transformToStatisticsService(inputString);
         assertEquals(inputString, res);
     }
 /*
@@ -395,7 +395,7 @@ public class TsParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -420,7 +420,7 @@ public class TsParentModuleApiTest {
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        CertificateResponse res = moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
         assertNotNull(res);
         assertEquals(INTYG_ID, res.getMetaData().getCertificateId());
         assertEquals("additionalInfo", res.getMetaData().getAdditionalInfo());
@@ -435,7 +435,7 @@ public class TsParentModuleApiTest {
                 .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test(expected = ModuleException.class)
@@ -443,7 +443,7 @@ public class TsParentModuleApiTest {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
                 .thenThrow(mock(SOAPFaultException.class));
 
-        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test
@@ -504,7 +504,7 @@ public class TsParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.okResult());
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
         ArgumentCaptor<RevokeCertificateType> parametersCaptor = ArgumentCaptor.forClass(RevokeCertificateType.class);
         verify(revokeCertificateClient).revokeCertificate(eq(LOGICAL_ADDRESS), parametersCaptor.capture());
         assertNotNull(parametersCaptor.getValue());
@@ -518,7 +518,7 @@ public class TsParentModuleApiTest {
         revokeResponse.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(revokeCertificateClient.revokeCertificate(eq(LOGICAL_ADDRESS), any(RevokeCertificateType.class))).thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
     }
 
     @Test

@@ -157,7 +157,7 @@ public class LuaefsModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -168,7 +168,7 @@ public class LuaefsModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientFailsWithoutXmlModel() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
     @Test(expected = ExternalServiceCallException.class)
@@ -176,7 +176,7 @@ public class LuaefsModuleApiTest {
         String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
-        moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     }
 
     @Test
@@ -185,7 +185,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
         assertFalse(response.isRevoked());
     }
 
@@ -195,7 +195,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
-        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        final CertificateResponse response = moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
         assertTrue(response.isRevoked());
     }
 
@@ -205,7 +205,7 @@ public class LuaefsModuleApiTest {
         doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
                 any());
 
-        moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA", INTYG_TYPE_VERSION_1);
+        moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test
@@ -343,7 +343,7 @@ public class LuaefsModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -355,7 +355,7 @@ public class LuaefsModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         fail();
     }
 
@@ -505,7 +505,7 @@ public class LuaefsModuleApiTest {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
         String xmlContents = Resources.toString(Resources.getResource("luae_fs-simple-valid.xml"), Charsets.UTF_8);
-        Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents, INTYG_TYPE_VERSION_1);
+        Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
         Intyg intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
 
         intyg.getStatus().add(createStatus(statusKod.name(), part));

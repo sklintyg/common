@@ -346,7 +346,7 @@ public class TsDiabetesModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(false);
         when(sendTsDiabetesClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_2_7);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
 
         verify(xslTransformer).transform(xmlBody);
         verify(sendTsDiabetesClient).registerCertificate(transformedXml, logicalAddress);
@@ -366,7 +366,7 @@ public class TsDiabetesModuleApiTest {
         when(response.getSOAPPart().getEnvelope().getBody().hasFault()).thenReturn(true);
         when(sendTsDiabetesClient.registerCertificate(transformedXml, logicalAddress)).thenReturn(response);
 
-        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId, INTYG_TYPE_VERSION_2_7);
+        moduleApi.sendCertificateToRecipient(xmlBody, logicalAddress, recipientId);
     }
 
     @Test
@@ -378,7 +378,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
@@ -391,7 +391,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
+        CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
         assertNotNull(internal);
     }
 
@@ -402,7 +402,7 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
+        moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
 
     @Test(expected = ModuleException.class)
@@ -412,13 +412,13 @@ public class TsDiabetesModuleApiTest {
         Mockito.when(getTSDiabetesResponderInterface.getTSDiabetes(eq("TS"), Mockito.any(GetTSDiabetesType.class)))
                 .thenReturn(result);
 
-        moduleApi.getCertificate("cert-id", "TS", "INVANA", INTYG_TYPE_VERSION_2_7);
+        moduleApi.getCertificate("cert-id", "TS", "INVANA");
     }
 
     @Test
     public void testGetUtlatandeFromXml() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        TsDiabetesUtlatande res = moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_2_7);
+        TsDiabetesUtlatande res = moduleApi.getUtlatandeFromXml(xml);
 
         assertNotNull(res);
     }
@@ -426,7 +426,7 @@ public class TsDiabetesModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetUtlatandeFromXmlConverterException() throws Exception {
         String xml = xmlToString(new RegisterTSDiabetesType());
-        moduleApi.getUtlatandeFromXml(xml, INTYG_TYPE_VERSION_2_7);
+        moduleApi.getUtlatandeFromXml(xml);
     }
 
     @Test
@@ -437,7 +437,7 @@ public class TsDiabetesModuleApiTest {
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
                 .thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_2_7);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
         ArgumentCaptor<AttributedURIType> attributedUriCaptor = ArgumentCaptor.forClass(AttributedURIType.class);
         ArgumentCaptor<RevokeMedicalCertificateRequestType> parametersCaptor = ArgumentCaptor
                 .forClass(RevokeMedicalCertificateRequestType.class);
@@ -455,7 +455,7 @@ public class TsDiabetesModuleApiTest {
         when(revokeCertificateClient.revokeMedicalCertificate(any(AttributedURIType.class), any(RevokeMedicalCertificateRequestType.class)))
                 .thenReturn(revokeResponse);
 
-        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS, INTYG_TYPE_VERSION_2_7);
+        moduleApi.revokeCertificate(xmlBody, LOGICAL_ADDRESS);
     }
 
     @Test

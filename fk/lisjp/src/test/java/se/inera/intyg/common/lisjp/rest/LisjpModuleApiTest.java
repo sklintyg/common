@@ -157,7 +157,7 @@ public class LisjpModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("transport/lisjp.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -172,7 +172,7 @@ public class LisjpModuleApiTest {
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("transport/lisjp.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
         }
@@ -180,17 +180,17 @@ public class LisjpModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", null, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient("blaha", null, null);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", "", null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient("blaha", "", null);
     }
 
     @Test
@@ -241,7 +241,7 @@ public class LisjpModuleApiTest {
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any())).thenReturn(createGetCertificateResponseType());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
 
-        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION_1);
+        CertificateResponse certificate = moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
 
         ArgumentCaptor<GetCertificateType> captor = ArgumentCaptor.forClass(GetCertificateType.class);
         verify(getCertificateResponder, times(1)).getCertificate(eq(logicalAddress), captor.capture());
@@ -256,7 +256,7 @@ public class LisjpModuleApiTest {
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
                 .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
-        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA", INTYG_TYPE_VERSION_1);
+        moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
 
@@ -409,7 +409,7 @@ public class LisjpModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -421,7 +421,7 @@ public class LisjpModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         fail();
     }
 

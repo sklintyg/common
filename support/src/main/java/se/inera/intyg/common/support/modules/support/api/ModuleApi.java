@@ -175,12 +175,10 @@ public interface ModuleApi {
      *            The recipient's logical address
      * @param recipientId
      *            The recipient's identifier
-     * @param intygTypeVersion
-     *            Version of the certificate model type
      * @throws ModuleException
      *             if the certificate could not be sent to recipient
      */
-    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion)
+    void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId)
             throws ModuleException;
 
     /**
@@ -190,13 +188,10 @@ public interface ModuleApi {
      *            the request
      * @param logicalAddress
      *            the logical address of receiving system, i.e Intygstjansten
-     * @param intygTypeVersion
-     *             The version of the information model in the xml.
-     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use.
      * @throws ModuleException
      *             if the receiving system could not handle the revoke request
      */
-    void revokeCertificate(String xmlBody, String logicalAddress, String intygTypeVersion) throws ModuleException;
+    void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException;
 
     /**
      * Fetch a certificate from Intygstjansten.
@@ -207,12 +202,11 @@ public interface ModuleApi {
      *            the logical address of system from the certificate is requested, i.e Intygstjansten
      * @param recipientId
      *            the recipient id for the requester, used to determine which statuses which should be returned
-     * @param intygTypeVersion
      * @return internal model of the certificate
      * @throws ModuleException
      *             if the producer did not respond or responded with ERROR
      */
-    CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException;
+    CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException;
 
     /**
      * Determine whether a notification about changed state in a certificate should be sent,
@@ -300,14 +294,11 @@ public interface ModuleApi {
      *
      * @param xml
      *            the model represented as XML (transport)
-     * @param intygTypeVersion
-     *             The version of the information model in the xml.
-     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use.
      * @return the converted utlatande
      * @throws ModuleException
      *             if there was an error in the conversion
      */
-    Utlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException;
+    Utlatande getUtlatandeFromXml(String xml) throws ModuleException;
 
     /**
      * Converts the XML in inputXml to be of correct version.
@@ -320,28 +311,22 @@ public interface ModuleApi {
      *
      * @param inputXml
      *            the transport model to be converted
-     * @param intygTypeVersion
-     *             The version of the information model in the inputXml.
-     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use
      * @return the XML representation as RegisterCertificate 3.0
      * @throws ModuleException
      *             if the conversion threw an exception
      */
-    String transformToStatisticsService(String inputXml, String intygTypeVersion) throws ModuleException;
+    String transformToStatisticsService(String inputXml) throws ModuleException;
 
     /**
      * Perform module specific xml validation.
      *
      * @param inputXml
      *            the XML to be validated
-     * @param intygTypeVersion
-     *            The version of the information model in the inputXml.
-     *             It's needed for the ModuleApi framework to be able to choose moduleAPi version to use
      * @return the result of the validation
      * @throws ModuleException
      *             if the validator failed
      */
-    ValidateXmlResponse validateXml(String inputXml, String intygTypeVersion) throws ModuleException;
+    ValidateXmlResponse validateXml(String inputXml) throws ModuleException;
 
     /**
      * Get Arende parameters specific to module such as parameters belonging to a certain frage id.

@@ -19,6 +19,7 @@
 package se.inera.intyg.common.fk7263.model.internal;
 
 import static java.lang.String.join;
+import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.DEFAULT_LOCKED_TYPE_VERSION;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -529,10 +530,10 @@ public class Fk7263Utlatande implements Utlatande {
         this.grundData = grundData;
     }
 
-    // Fk7263 will always be 1.0
+    // INTYG-7211 - With versioned intyg - All Utlatanden must have an textVersion - Fk7263 will always be 1.0
     @Override
     public String getTextVersion() {
-        return "1.0";
+        return DEFAULT_LOCKED_TYPE_VERSION;
     }
 
     // Not used for this certificate

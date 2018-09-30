@@ -85,7 +85,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId, String intygTypeVersion) throws ModuleException {
+    public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
         String transformedPayload = xslTransformer.transform(xmlBody);
 
         try {
@@ -101,7 +101,7 @@ public class TsBasModuleApi extends TsParentModuleApi<TsBasUtlatande> {
     }
 
     @Override
-    public TsBasUtlatande getUtlatandeFromXml(String xml, String intygTypeVersion) throws ModuleException {
+    public TsBasUtlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {

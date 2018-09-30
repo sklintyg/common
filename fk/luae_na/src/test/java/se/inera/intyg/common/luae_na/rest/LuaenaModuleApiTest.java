@@ -87,7 +87,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 public class LuaenaModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
-    private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     private final String PNR_TOLVAN = "19121212-1212";
 
@@ -117,7 +116,7 @@ public class LuaenaModuleApiTest {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
             String xmlContents = Resources.toString(Resources.getResource("luae_na.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
 
@@ -132,7 +131,7 @@ public class LuaenaModuleApiTest {
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("luae_na.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();
         }
@@ -140,22 +139,22 @@ public class LuaenaModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyXml() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", null, null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient("blaha", null, null);
     }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
-        moduleApi.sendCertificateToRecipient("blaha", "", null, INTYG_TYPE_VERSION_1);
+        moduleApi.sendCertificateToRecipient("blaha", "", null);
     }
 
     @Test
@@ -166,7 +165,7 @@ public class LuaenaModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
     }
 
@@ -178,7 +177,7 @@ public class LuaenaModuleApiTest {
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
         when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-        moduleApi.revokeCertificate(xmlContents, logicalAddress, INTYG_TYPE_VERSION_1);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
         fail();
     }
 

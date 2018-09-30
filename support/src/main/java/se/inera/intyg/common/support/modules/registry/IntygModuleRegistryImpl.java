@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.modules.registry;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,27 +29,35 @@ import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionResolver;
-import se.inera.intyg.common.support.modules.support.api.versions.ModuleApiVersionWrapper;
 
-public class IntygModuleRegistryImpl implements IntygModuleRegistry {
+public class IntygModuleRegistryImpl implements IntygModuleRegistry, ApplicationContextAware {
+
+    public static final String MODULE_API_BEAN_PREFIX = "moduleapi.";
+    private static final String VERSIONED_MODULE_API_BEANID_TEMPLATE = MODULE_API_BEAN_PREFIX + "%s.v%s";
+    private static final String JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME = "textVersion";
 
     private static final Logger LOG = LoggerFactory.getLogger(IntygModuleRegistryImpl.class);
 
+    @Autowired
+    private ApplicationContext applicationContext;
     /*
      * The Autowired annotation will automagically pickup all registered beans with type ModuleEntryPoint and
      * insert into the moduleEntryPoints list.
      */
     @Autowired
     private List<ModuleEntryPoint> moduleEntryPoints;
-
-    @Autowired
-    private ModuleApiVersionResolver moduleApiVersionResolver;
 
     private Map<String, ModuleEntryPoint> moduleApiMap = new HashMap<>();
 
@@ -84,15 +93,19 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
     }
 
     @Override
-    public ModuleApi getModuleApi(String id) throws ModuleNotFoundException {
+    public ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException {
 
-        //Make sure we at least have the module before return a wrapper for it..
-        ModuleEntryPoint api = moduleApiMap.get(id);
+        if (Strings.isNullOrEmpty(intygType) || Strings.isNullOrEmpty(intygTypeVersion))  {
+            throw new ModuleNotFoundException(
+                    "intygType and intygTypeVersion is required, got '" + intygType + "' and '" + intygTypeVersion + "'");
+        }
+        // Make sure this is a known intygType before return a wrapper for it..
+        ModuleEntryPoint api = moduleApiMap.get(intygType);
         if (api == null) {
-            throw new ModuleNotFoundException("Could not find module " + id);
+            throw new ModuleNotFoundException("Could not find module " + intygType);
         }
 
-        return new ModuleApiVersionWrapper(id, moduleApiVersionResolver);
+        return getVersionedModuleApiBean(intygType, intygTypeVersion);
 
     }
 
@@ -123,16 +136,72 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry {
         return moduleApiMap.containsKey(moduleId);
     }
 
-    public void setOrigin(ApplicationOrigin origin) {
-        this.origin = origin;
-    }
-
     public ApplicationOrigin getOrigin() {
         return origin;
+    }
+
+    public void setOrigin(ApplicationOrigin origin) {
+        this.origin = origin;
     }
 
     @Override
     public String getModuleIdFromExternalId(String externalId) {
         return externalIdToModuleId.get(externalId);
     }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public String resolveVersionFromUtlatandeJson(String internalModel) throws ModuleNotFoundException {
+        try {
+            final JsonNode jsonNode = new ObjectMapper().readTree(internalModel);
+            final JsonNode textVersionNode = jsonNode.get(JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME);
+            final String version = textVersionNode != null ? textVersionNode.asText() : null;
+            if (Strings.isNullOrEmpty(version)) {
+                throw new ModuleNotFoundException(
+                        "Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME + "' from utlatande json model string");
+            }
+
+            return version;
+        } catch (IOException e) {
+            throw new ModuleNotFoundException(
+                    "Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME + "' from utlatande json model string", e);
+        }
+    }
+
+    private ModuleApi getVersionedModuleApiBean(String intygType, String intygTypeVersion) throws ModuleNotFoundException {
+
+        try {
+            // Majorversion defines model version, we dont really care about the minor (text) version in this context.
+            if (Strings.isNullOrEmpty(intygTypeVersion)) {
+                throw new ModuleNotFoundException(
+                        "Can not resolve ModuleApiBean without intygTypeVersion - got '" + intygTypeVersion + "'");
+            }
+
+            final String majorVersion = getMajorVersion(intygTypeVersion);
+
+            // Construct bean name using formal name convention "moduleapi.<type>.<majorversion>"
+            final String beanName = String.format(VERSIONED_MODULE_API_BEANID_TEMPLATE, intygType, majorVersion);
+
+            final Object bean = applicationContext
+                    .getBean(beanName);
+            if (bean instanceof ModuleApi) {
+                LOG.debug(String.format("Resolved bean named '%s' as instance of %s", beanName, bean.getClass().getName()));
+                return (ModuleApi) bean;
+            } else {
+                throw new ModuleNotFoundException("Resolved bean (" + beanName + ") was not an instance of ModuleApi bean?");
+            }
+        } catch (BeansException e) {
+            throw new ModuleNotFoundException("Exception while trying to look up ModuleApi bean with for intygType '" + intygType
+                    + "', intygTypeVersion '" + intygTypeVersion + "'", e);
+        }
+    }
+
+    private String getMajorVersion(String version) {
+        return version.split("\\.", 0)[0];
+    }
+
 }
