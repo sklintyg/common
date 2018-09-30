@@ -92,6 +92,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private static final Logger LOG = LoggerFactory.getLogger(TsParentModuleApi.class);
 
+    public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
+    public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
+
     @Autowired
     private ModelCompareUtil<T> modelCompareUtil;
 

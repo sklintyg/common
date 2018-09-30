@@ -55,15 +55,15 @@
         "diplopi" : false,
         "nystagmus" : false,
         "hogerOga" : {
-        	"utanKorrektion" : 0.0
+        	"utanKorrektion" : 1.0
         },
         
         "vansterOga" : {
-        	"utanKorrektion" : 0.0
+        	"utanKorrektion" : 1.0
         },
 
         "binokulart" : {
-        	"utanKorrektion" : 0.0
+        	"utanKorrektion" : 1.0
         }
     },
     

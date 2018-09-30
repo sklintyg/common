@@ -19,6 +19,8 @@
 package se.inera.intyg.common.ts_bas.validator;
 
 import static com.google.common.io.Resources.getResource;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.stream.Collectors;
@@ -29,17 +31,91 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("test-tstrk1007.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("tstrk1007.sch");
 
     @Test
-    public void validXmlPassesTest() throws Exception {
+    public void validMaximalXmlPassesTest() throws Exception {
         String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-maximal.xml"), Charsets.UTF_8);
-        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
+        doTest(inputXml);
     }
 
+    @Test
+    public void validMinimalXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validPersontransportXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-persontransport.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validSamordningXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-samordning.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validDiabetesTyp2XmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-diabetes-typ2-kost.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validKorrigeradSynskarpaXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-korrigerad-synskarpa.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validSjukhusvardXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-sjukhusvard.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validUtanSynskarpaXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-utan-korrigerad-synskarpa.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void validVersion0608XmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-version0608.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
+    public void invalidMinimalTestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
+    @Test
+    public void invalidAnnatFelsynskarpaTestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
+    @Test
+    public void invalidMinalR35TestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
+    private void doTest(String inputXml) throws ModuleException {
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertTrue(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
+
+    }
 }

@@ -29,6 +29,8 @@ module.exports = function(grunt) {
     var cwd = process.cwd();
     process.chdir(npmDir);
 
+    var sass = require('node-sass');
+
     var autoprefixer = require('autoprefixer')({
         browsers: [ 'last 2 versions' ]
     });
@@ -191,6 +193,7 @@ module.exports = function(grunt) {
         // Compiles Sass to CSS
         sass: {
             options: {
+                implementation: sass,
                 sourceMap: true
             },
             dist: {

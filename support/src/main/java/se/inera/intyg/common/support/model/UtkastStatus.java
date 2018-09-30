@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.support.model;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Possible statuses for a Utkast entity in Webcert.
  *
@@ -44,4 +48,12 @@ public enum UtkastStatus {
      * Signed and valid.
      */
     SIGNED;
+
+    public static Set<UtkastStatus> getDraftStatuses() {
+        return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE, DRAFT_LOCKED).collect(Collectors.toSet());
+    }
+
+    public static Set<UtkastStatus> getEditableDraftStatuses() {
+        return Stream.of(DRAFT_INCOMPLETE, DRAFT_COMPLETE).collect(Collectors.toSet());
+    }
 }

@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.model.converter.util;
+package se.inera.intyg.common.support.modules.transformer;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
+import com.google.common.base.Throwables;
+import net.sf.saxon.TransformerFactoryImpl;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -37,14 +37,11 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import net.sf.saxon.TransformerFactoryImpl;
-
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import com.google.common.base.Throwables;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 public class XslTransformer {
 
@@ -52,8 +49,11 @@ public class XslTransformer {
 
     private DocumentBuilderFactory documentBuilderFactory;
 
+    private String xslHref;
+
     public XslTransformer(String xslHref) {
-        initializeTransformerFactory(xslHref);
+        this.xslHref = xslHref;
+        initializeTransformerFactory();
         initializeDocumentBuilder();
     }
 
@@ -70,7 +70,20 @@ public class XslTransformer {
         }
     }
 
-    private void initializeTransformerFactory(String xslHref) {
+    public String getXslHref() {
+        return xslHref;
+    }
+
+    private Document getDocument(String incomingXML) throws ParserConfigurationException, IOException, SAXException {
+        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+        return documentBuilder.parse(new InputSource(new StringReader(incomingXML)));
+    }
+
+    private InputStream getResourceAsStream(String href) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(href);
+    }
+
+    private void initializeTransformerFactory() {
         TransformerFactory factory = new TransformerFactoryImpl();
         factory.setURIResolver(new URIResolver() {
             @Override
@@ -90,15 +103,6 @@ public class XslTransformer {
         documentBuilderFactory.setNamespaceAware(true);
         documentBuilderFactory.setIgnoringComments(true);
         documentBuilderFactory.setIgnoringElementContentWhitespace(true);
-    }
-
-    private InputStream getResourceAsStream(String href) {
-        return Thread.currentThread().getContextClassLoader().getResourceAsStream(href);
-    }
-
-    private Document getDocument(String incomingXML) throws ParserConfigurationException, IOException, SAXException {
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        return documentBuilder.parse(new InputSource(new StringReader(incomingXML)));
     }
 
 }

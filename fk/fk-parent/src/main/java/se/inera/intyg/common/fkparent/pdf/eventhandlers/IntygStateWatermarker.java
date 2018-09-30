@@ -46,12 +46,12 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
      private Phrase watermark;
 
     public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad, boolean isLocked) {
-        if (isUtkast) {
+        if (isLocked) {
+            watermark = new Phrase(LOCKED_DRAFT_WATERMARK_TEXT, FONT);
+        } else if (isUtkast) {
             watermark = new Phrase(DRAFT_WATERMARK_TEXT, FONT);
         } else if (isMakulerad) {
             watermark = new Phrase(CANCELLED_WATERMARK_TEXT, FONT);
-        } else if (isLocked) {
-            watermark = new Phrase(LOCKED_DRAFT_WATERMARK_TEXT, FONT);
         }
     }
 

@@ -18,6 +18,13 @@
  */
 package se.inera.intyg.common.lisjp.pdf;
 
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
 import com.google.common.base.Strings;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
@@ -60,13 +67,6 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 // CHECKSTYLE:OFF MagicNumber
 // CHECKSTYLE:OFF MethodLength
 public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
@@ -105,7 +105,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
         try {
             FkPdfDefinition def = new FkPdfDefinition();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             // Add page envent handlers

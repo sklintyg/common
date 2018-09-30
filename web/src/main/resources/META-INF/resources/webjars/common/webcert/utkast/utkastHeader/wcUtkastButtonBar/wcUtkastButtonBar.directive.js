@@ -40,6 +40,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             $scope.makuleraBtnTooltipText = messageService.getProperty('common.makulera.tooltip');
 
             var utskriftFeature = authorityService.isAuthorityActive({ feature: featureService.features.UTSKRIFT, intygstyp: CommonViewState.intyg.type });
+            var utkastAvlidenFeature = authorityService.isAuthorityActive({ feature: featureService.features.HANTERA_INTYGSUTKAST_AVLIDEN, intygstyp: CommonViewState.intyg.type });
 
             /**
              * Action to discard the certificate draft and return to WebCert again.
@@ -158,7 +159,15 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
             };
 
             $scope.showCopyBtn = function() {
-                return !CommonViewState.isRevoked() && CommonViewState.isSameCareUnit() && CommonViewState.isLocked;
+
+                var avlidenAndFeatureOrAlive = utkastAvlidenFeature || !$scope.viewState.draftModel.avliden;
+
+                return !CommonViewState.isRevoked() && // Not Revoked
+                    CommonViewState.isSameCareUnit() && // Same unit
+                    CommonViewState.isLocked && // isLocked
+                    avlidenAndFeatureOrAlive && // Alive patient
+                    !UserModel.getIntegrationParam('inactiveUnit') && // Active unit
+                    UserModel.getIntegrationParam('copyOk') !== false; // 'journalsystem has allowed copy
             };
 
             $scope.disabledCopyBtn = function() {

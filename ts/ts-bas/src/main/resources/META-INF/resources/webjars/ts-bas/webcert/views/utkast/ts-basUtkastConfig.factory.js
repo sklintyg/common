@@ -70,13 +70,48 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                 }
 
                 function requiredKorkortProperties(field, extraproperty) {
-                    var antalKorkort = 10;
+                    var antalKorkort = 11;
                     var korkortsarray = [];
                     for (var i = 0; i < antalKorkort; i++) {
                         korkortsarray.push( field + '.korkortstyp[' + i + '].selected');
                     }
                     korkortsarray.push(extraproperty);
                     return korkortsarray;
+                }
+
+                function getNumberOfSelectedKortkortstyper(model) {
+                    var numberOfSelected = 0;
+                    for (var i = 0; i < model.intygAvser.korkortstyp.length; i++) {
+                        if(model.intygAvser.korkortstyp[i].selected) {
+                            numberOfSelected++;
+                        }
+                    }
+                    return numberOfSelected;
+                }
+                function isAnnatSelected(model) {
+                    for (var i = 0; i < model.intygAvser.korkortstyp.length; i++) {
+                        if (model.intygAvser.korkortstyp[i].type === 'ANNAT' && model.intygAvser.korkortstyp[i].selected) {
+                            return true;
+                        }
+                    }
+                    return false;
+                } 
+
+                function korrektionRequired(model) {
+                    var antalIntyg = getNumberOfSelectedKortkortstyper(model);
+
+                    if((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
+                        (model.syn.hogerOga.utanKorrektion < '0.8' &&
+                        model.syn.vansterOga.utanKorrektion < '0.8')) ||
+                        (antalIntyg > 0 && isAnnatSelected(model) &&
+                        model.syn.binokulart.utanKorrektion < '0.5')) {
+                        if (!model.syn.hogerOga.medKorrektion ||
+                            !model.syn.vansterOga.medKorrektion ||
+                            !model.syn.binokulart.medKorrektion ) {
+                                return true;
+                            }
+                    }
+                    return false;
                 }
 
                 var noKravYtterligareUnderlagFieldsFilledExpression = '!(' +
@@ -182,7 +217,9 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                     requiredProp: ['syn.hogerOga.utanKorrektion', 'syn.vansterOga.utanKorrektion', 'syn.binokulart.utanKorrektion']
                                 },{
                                     type: 'ue-form-label',
-                                    key: 'ts-bas.label.syn.medkorrektion'
+                                    key: 'ts-bas.label.syn.medkorrektion',
+                                    required: true,
+                                    requiredProp: korrektionRequired
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.kontaktlinster'

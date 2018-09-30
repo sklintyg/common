@@ -184,8 +184,6 @@
             'intyg.status.patient.ps-008.modalheader': 'Ingen adress angavs av journalsystemet',
             'intyg.status.patient.ps-008.modalbody': 'Journalsystemet angav inga adressuppgifter för patienten, därför har en slagning i den nationella personuppgiftstjänsten genomförts. Det är adressen som finns registrerad där som nu visas i intyget.',
 
-            'intyg.status.replacement.utkast.exists': '<strong>OBS!</strong> Det finns redan ett intygsutkast påbörjat som skall ersätta detta intyg.',
-
             // common intyg replacement text
             'intyg.modal.ersatt.utkast.finns.text.info': 'Om intyget innehåller ett allvarligt fel, till exempel om det är utfärdat på fel patient, bör du istället makulera intyget.',
             'intyg.modal.ersatt.utkast.finns.text': 'Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt skapas ett utkast, med samma information som i det ursprungliga intyget, som du kan redigera innan du signerar intyget.',
@@ -598,6 +596,7 @@
             'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Du måste välja minst ett alternativ.',
             'common.validation.ue-radio.empty': 'Du måste välja ett alternativ.',
+            'common.validation.ue-radio.incorrect_combination': 'Du måste välja ett alternativ.',
             'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-textarea.empty': 'Fältet får inte vara tomt.',
             'common.validation.ue-textfield.empty': 'Fältet får inte vara tomt.',
@@ -629,7 +628,7 @@
             'common.validation.date_invalid': 'Ogiltigt datum.',
             'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
             'common.validation.date.today.or.earlier': 'Datumet får inte vara senare än dagens datum.',
-            'common.validation.date.beforeLastYear': 'Datumet får inte vara tidigare än början på förra året',
+            'common.validation.date.beforeLastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
             'common.validation.diagnos.missing': 'Minst en diagnos måste anges.',
             'common.validation.diagnos0.missing': 'Diagnoskod måste anges.',
             'common.validation.diagnos0.invalid': 'Diagnoskod är ej giltig.',

@@ -5,8 +5,8 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "0-SNAPSHOT"//"1.0.30-beta2"
-    intygClinicalprocessSchemasVersion = "0-SNAPSHOT" //"1.0.14"
+    intygClinicalprocessSchematronVersion =  "0-SNAPSHOT"//"1.0.30-beta4"
+    intygClinicalprocessSchemasVersion = "0-SNAPSHOT"//"1.0.15"
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "3.2.0-RC3"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
@@ -21,14 +21,14 @@ ext {
     jacksonVersion = "2.8.1"
     logbackVersion = "1.2.3"
     phSchematronVersion = "3.0.1"
-    saxonVersion = "9.6.0-4"
+    saxonVersion = "9.8.0-10"
     servletApiVersion = "2.5"
     springVersion = "4.3.16.RELEASE"
 
     jsonAssertVersion = "1.2.0"
     mockitoVersion = "2.16.0"
     unitilsCoreVersion = "3.3"
-    xmlUnitVersion = "1.4"
+    xmlUnitVersion = "2.6.2"
     equalsVerifierVersion = "2.5.2"
 }
 
@@ -50,7 +50,7 @@ allprojects {
         testCompile "org.skyscreamer:jsonassert:${jsonAssertVersion}"
         testCompile "org.springframework:spring-test:${springVersion}"
         testCompile "org.unitils:unitils-core:${unitilsCoreVersion}"
-        testCompile "xmlunit:xmlunit:${xmlUnitVersion}"
+        testCompile "org.xmlunit:xmlunit-core:${xmlUnitVersion}"
         testCompile "nl.jqno.equalsverifier:equalsverifier:${equalsVerifierVersion}"
     }
 
@@ -83,7 +83,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     }
 
     node {
-        version = '6.11.3'
+        version = '10.10.0'
         download = true
         distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
         workDir = rootProject.projectDir
@@ -101,7 +101,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
         outputs.dir(webappOutputDir)
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--outputDir=${webappOutputDir}", "--npmDir=${rootProject.projectDir}", 'default']
     }
 
@@ -119,7 +119,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
         outputs.upToDateWhen { false }
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--npmDir=${rootProject.projectDir}", 'lint']
     }
 
@@ -166,7 +166,7 @@ configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes
         outputs.dir(webappTestOutputDir)
 
         script = file("${rootProject.projectDir}/node_modules/grunt-cli/bin/grunt")
-        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--module=${project.name}",
+        args = ["--gruntfile=${rootProject.projectDir}/Gruntfile.js", "--base=${projectDir}", "--intygModule=${project.name}",
                 "--outputDir=${webappTestOutputDir}", "--npmDir=${rootProject.projectDir}", 'test']
     }
 

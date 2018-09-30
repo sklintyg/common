@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_bas.model.converter;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 import javax.xml.bind.*;
 import javax.xml.namespace.QName;
 
-import org.custommonkey.xmlunit.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -36,6 +36,9 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.Diff;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.utils.*;
@@ -77,14 +80,14 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
 
-        System.out.println(expected);
-        System.out.println(actual);
-
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(actual.toString()))
+                .withTest(Input.fromString(expected.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -112,11 +115,14 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(actual.toString()))
+                .withTest(Input.fromString(expected.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {

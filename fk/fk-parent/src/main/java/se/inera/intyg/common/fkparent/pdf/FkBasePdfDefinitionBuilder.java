@@ -18,18 +18,23 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringJoiner;
+
 import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.pdf.model.FkPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;
+import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.util.List;
-import java.util.StringJoiner;
 
 /**
  * Base class with common methods used by SMI type PDF definition construction.
@@ -57,8 +62,12 @@ public class FkBasePdfDefinitionBuilder {
     }
 
     protected String getText(String key) {
+        return getText(key, false);
+    }
+
+    protected String getText(String key, boolean allowMissing) {
         String text = intygTexts.getTexter().get(key);
-        if (text == null) {
+        if (text == null && !allowMissing) {
             // Not finding a text is considered fatal
             throw new IllegalArgumentException(
                     intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
@@ -116,5 +125,34 @@ public class FkBasePdfDefinitionBuilder {
 
         return sb.toString();
 
+    }
+
+    protected FkPage buildTillagsfragorPage(ImmutableList<Tillaggsfraga> tillaggsfragor) {
+        // Check if tillaggsfragor exists
+        if (tillaggsfragor == null || tillaggsfragor.isEmpty()) {
+            return null;
+        }
+
+        List<PdfComponent> allElements = new ArrayList<>();
+
+        // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
+        for (int i = 0; i < tillaggsfragor.size(); i++) {
+            Tillaggsfraga tillaggsfraga = tillaggsfragor.get(i);
+
+            String text = getText("DFR_" + tillaggsfraga.getId() + ".1.RBK", true);
+
+            if (text != null) {
+                allElements
+                        .add(new FkTillaggsFraga((i + 1) + ". " + text, tillaggsfraga.getSvar()));
+            }
+        }
+
+        if (allElements.isEmpty()) {
+            return null;
+        }
+
+        FkPage thisPage = new FkPage("Tilläggsfrågor");
+        thisPage.getChildren().addAll(allElements);
+        return thisPage;
     }
 }

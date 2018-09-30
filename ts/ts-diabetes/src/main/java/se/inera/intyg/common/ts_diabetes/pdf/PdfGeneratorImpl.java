@@ -18,6 +18,17 @@
  */
 package se.inera.intyg.common.ts_diabetes.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.BaseFont;
@@ -27,7 +38,6 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -51,15 +61,6 @@ import se.inera.intyg.common.ts_parent.pdf.BasePdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatande> {
 
@@ -183,7 +184,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
             PdfStamper pdfStamper = new PdfStamper(pdfReader, outputStream);
             pdfStamper.setFormFlattening(formFlattening);
             AcroFields fields = pdfStamper.getAcroFields();
-            boolean isUtkast = UtkastStatus.DRAFT_COMPLETE == utkastStatus || UtkastStatus.DRAFT_INCOMPLETE == utkastStatus;
+            boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             populatePdfFields(utlatande, fields);

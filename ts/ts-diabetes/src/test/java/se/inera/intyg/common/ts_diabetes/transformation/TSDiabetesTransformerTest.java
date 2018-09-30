@@ -32,7 +32,7 @@ import javax.xml.validation.Schema;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 import com.google.common.base.Charsets;

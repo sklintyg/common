@@ -62,7 +62,8 @@ public class UVAlertValue extends UVComponent {
 
             Table table = new Table(2)
                     .setPadding(millimetersToPoints(ALERT_TABLE_PADDING))
-                    .setMargin(millimetersToPoints(ALERT_TABLE_MARGIN));
+                    .setMargin(millimetersToPoints(ALERT_TABLE_MARGIN))
+                    .setKeepTogether(true);
             table.setBackgroundColor(wcColor02);
 
             Cell iconCell = new Cell();

@@ -143,7 +143,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: 'full',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265
+                htmlMaxlength: 209
             }]),
             _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
@@ -169,10 +169,10 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     requiredProp: 'grundData.skapadAv.vardenhet.postort',
                     whitespaceBreak: false
                 },
-                size: 'full',
+                size: '20',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265
+                htmlMaxlength: 30
             }]),
             _fraga(null, '', '', {}, [{
                 type: 'ue-textfield',
@@ -186,7 +186,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 size: '20',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
-                htmlMaxlength: 265,
+                htmlMaxlength: 20,
                 numbersOnly: true,
                 placeholder: 'Telefon'
             }])])

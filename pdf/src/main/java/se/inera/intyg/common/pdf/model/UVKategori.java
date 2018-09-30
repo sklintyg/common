@@ -51,7 +51,8 @@ public class UVKategori extends UVComponent {
                 .setFontSize(KATEGORI_FONT_SIZE)
                 .setFontColor(wcColor07)
                 .setPaddingTop(1f)
-                .setPaddingBottom(1f));
+                .setPaddingBottom(1f))
+                .setKeepTogether(true);
         borderDiv.setBorderBottom(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH));
         parent.setKeepTogether(true);
         parent.add(borderDiv);

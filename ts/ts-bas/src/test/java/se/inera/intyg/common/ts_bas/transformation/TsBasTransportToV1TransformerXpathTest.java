@@ -18,55 +18,15 @@
  */
 package se.inera.intyg.common.ts_bas.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.AKTIVITET_BESKRIVNING_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.AKTIVITET_FOREKOMST_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.ENHET_ID_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.ENHET_POSTADRESS_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.ENHET_POSTNUMMER_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.ENHET_VARDINRATTNINGENS_NAMN_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.ID_KONTROLL_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.INTYG_AVSER_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.OBSERVATION_BESKRIVNING_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.OBSERVATION_FOREKOMST_CODE_LATERALITET;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.OBSERVATION_FOREKOMST_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.OBSERVATION_VARDE_CODE_LATERALITET;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.REKOMMENDATION_BESKRIVNING_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.REKOMMENDATION_VARDE_TEMPLATE;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.VARDGIVARE_ID_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.VARDGIVARE_NAMN_XPATH;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.booleanXPath;
-import static se.inera.intyg.common.ts_bas.transformation.XPathExpressions.stringXPath;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.transformation.test.BooleanXPathExpression;
@@ -90,13 +50,50 @@ import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 
-public class TsBasTransformerXpathTest {
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.AKTIVITET_BESKRIVNING_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.ENHET_ID_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.ENHET_POSTADRESS_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.ENHET_POSTNUMMER_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.ENHET_VARDINRATTNINGENS_NAMN_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.ID_KONTROLL_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.INTYG_AVSER_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.REKOMMENDATION_BESKRIVNING_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.REKOMMENDATION_VARDE_TEMPLATE;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.VARDGIVARE_ID_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.VARDGIVARE_NAMN_XPATH;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.booleanXPath;
+import static se.inera.intyg.common.ts_bas.transformation.XPathExpressionsV1.stringXPath;
+
+public class TsBasTransportToV1TransformerXpathTest {
 
     private static XslTransformer transformer;
 
     @BeforeClass
     public static void setup() {
-        transformer = new XslTransformer("xsl/transform-ts-bas.xsl");
+        transformer = new XslTransformer("xsl/transportToV1.xsl");
     }
 
     @Test
@@ -122,46 +119,46 @@ public class TsBasTransformerXpathTest {
         XPathEvaluator xPath = createXPathEvaluator(transformed);
 
         // Check utlatande against xpath
-        assertEquals("UtlatandeTyp", "TSTRK1007", xPath.evaluate(XPathExpressions.TYP_AV_UTLATANDE_XPATH));
+        assertEquals("UtlatandeTyp", "TSTRK1007", xPath.evaluate(XPathExpressionsV1.TYP_AV_UTLATANDE_XPATH));
 
-        assertEquals("Utlatande-utgåva", utlatande.getUtgava(), xPath.evaluate(XPathExpressions.TS_UTGAVA_XPATH));
+        assertEquals("Utlatande-utgåva", utlatande.getUtgava(), xPath.evaluate(XPathExpressionsV1.TS_UTGAVA_XPATH));
 
-        assertEquals("Utlatande-utgåva", utlatande.getVersion(), xPath.evaluate(XPathExpressions.TS_VERSION_XPATH));
+        assertEquals("Utlatande-utgåva", utlatande.getVersion(), xPath.evaluate(XPathExpressionsV1.TS_VERSION_XPATH));
 
         // Patient
         Patient patient = utlatande.getGrundData().getPatient();
 
-        assertEquals("Patient förnamn", patient.getFornamn(), xPath.evaluate(XPathExpressions.INVANARE_FORNAMN_XPATH));
+        assertEquals("Patient förnamn", patient.getFornamn(), xPath.evaluate(XPathExpressionsV1.INVANARE_FORNAMN_XPATH));
 
-        assertEquals("Patient efternamn", patient.getEfternamn(), xPath.evaluate(XPathExpressions.INVANARE_EFTERNAMN_XPATH));
+        assertEquals("Patient efternamn", patient.getEfternamn(), xPath.evaluate(XPathExpressionsV1.INVANARE_EFTERNAMN_XPATH));
 
-        assertEquals("Patient personnummer", patient.getPersonId().getExtension(), xPath.evaluate(XPathExpressions.INVANARE_PERSONNUMMER_XPATH));
+        assertEquals("Patient personnummer", patient.getPersonId().getExtension(), xPath.evaluate(XPathExpressionsV1.INVANARE_PERSONNUMMER_XPATH));
 
-        assertEquals("Patient postadress", patient.getPostadress(), xPath.evaluate(XPathExpressions.INVANARE_POSTADRESS_XPATH));
+        assertEquals("Patient postadress", patient.getPostadress(), xPath.evaluate(XPathExpressionsV1.INVANARE_POSTADRESS_XPATH));
 
-        assertEquals("Patient postnummer", patient.getPostnummer(), xPath.evaluate(XPathExpressions.INVANARE_POSTNUMMER_XPATH));
+        assertEquals("Patient postnummer", patient.getPostnummer(), xPath.evaluate(XPathExpressionsV1.INVANARE_POSTNUMMER_XPATH));
 
-        assertEquals("Patient postnummer", patient.getPostort(), xPath.evaluate(XPathExpressions.INVANARE_POSTORT_XPATH));
+        assertEquals("Patient postort", patient.getPostort(), xPath.evaluate(XPathExpressionsV1.INVANARE_POSTORT_XPATH));
 
         // Signeringsdatum
-        assertEquals("Signeringsdatum", utlatande.getGrundData().getSigneringsTidstampel(), xPath.evaluate(XPathExpressions.SIGNERINGSDATUM_XPATH));
+        assertEquals("Signeringsdatum", utlatande.getGrundData().getSigneringsTidstampel(), xPath.evaluate(XPathExpressionsV1.SIGNERINGSDATUM_XPATH));
 
         // Skapad Av
         SkapadAv skapadAv = utlatande.getGrundData().getSkapadAv();
 
         if (!skapadAv.getBefattningar().isEmpty()) {
             assertEquals("Skapad av - befattningar", skapadAv.getBefattningar().get(0),
-                xPath.evaluate(XPathExpressions.SKAPAD_AV_BEFATTNING_XPATH));
+                xPath.evaluate(XPathExpressionsV1.SKAPAD_AV_BEFATTNING_XPATH));
         }
 
         assertEquals("Skapad av - fullständigt namn", skapadAv.getFullstandigtNamn(),
-                xPath.evaluate(XPathExpressions.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
+                xPath.evaluate(XPathExpressionsV1.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
 
-        assertEquals("Skapad av - hsa-id", skapadAv.getPersonId().getExtension(), xPath.evaluate(XPathExpressions.SKAPAD_AV_HSAID_XPATH));
+        assertEquals("Skapad av - hsa-id", skapadAv.getPersonId().getExtension(), xPath.evaluate(XPathExpressionsV1.SKAPAD_AV_HSAID_XPATH));
 
         if (!skapadAv.getSpecialiteter().isEmpty()) {
             assertEquals("Skapad av - specialitet", skapadAv.getSpecialiteter().get(0),
-                    xPath.evaluate(XPathExpressions.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH));
+                    xPath.evaluate(XPathExpressionsV1.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH));
         }
 
         // Vardenhet
@@ -174,9 +171,9 @@ public class TsBasTransformerXpathTest {
 
         assertEquals("Enhet - postnummer", vardenhet.getPostnummer(), xPath.evaluate(ENHET_POSTNUMMER_XPATH));
 
-        assertEquals("Enhet - postort", vardenhet.getPostort(), xPath.evaluate(XPathExpressions.ENHET_POSTORT_XPATH));
+        assertEquals("Enhet - postort", vardenhet.getPostort(), xPath.evaluate(XPathExpressionsV1.ENHET_POSTORT_XPATH));
 
-        assertEquals("Enhet - postort", vardenhet.getTelefonnummer(), xPath.evaluate(XPathExpressions.ENHET_TELEFONNUMMER_XPATH));
+        assertEquals("Enhet - postort", vardenhet.getTelefonnummer(), xPath.evaluate(XPathExpressionsV1.ENHET_TELEFONNUMMER_XPATH));
 
         // Vardgivare
         assertEquals("Enhet - vardgivare - id", vardenhet.getVardgivare().getVardgivarid().getExtension(),
@@ -214,12 +211,12 @@ public class TsBasTransformerXpathTest {
 
         if (utlatande.getSjukhusvard().getSjukhusvardEllerLakarkontaktDatum() != null) {
             assertEquals("Sjukhusvård eller läkarkontakt - datum", utlatande.getSjukhusvard().getSjukhusvardEllerLakarkontaktDatum(),
-                    xPath.evaluate(XPathExpressions.VARD_PA_SJUKHUS_TID_XPATH));
+                    xPath.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_TID_XPATH));
         }
 
         if (utlatande.getSjukhusvard().getSjukhusvardEllerLakarkontaktVardinrattning() != null) {
             assertEquals("Sjukhusvård eller läkarkontakt - plats", utlatande.getSjukhusvard().getSjukhusvardEllerLakarkontaktVardinrattning(),
-                    xPath.evaluate(XPathExpressions.VARD_PA_SJUKHUS_VARDINRATTNING_XPATH));
+                    xPath.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_VARDINRATTNING_XPATH));
         }
 
         if (utlatande.getSjukhusvard().getSjukhusvardEllerLakarkontaktAnledning() != null) {

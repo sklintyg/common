@@ -41,7 +41,6 @@
       <p:skapadAv>
          <p:personal-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1333"/>
          <p:fullstandigtNamn>Doktor Thompson</p:fullstandigtNamn>
-         <p:befattning>ST_LAKARE</p:befattning>
          <p:enhet>
             <p:enhets-id root="1.2.752.129.2.1.4.1" extension="SE0000000000-1337"/>
             <p:enhetsnamn>Vårdenhet Väst</p:enhetsnamn>
@@ -54,9 +53,6 @@
                <p:vardgivarnamn>Vårdgivarnamn</p:vardgivarnamn>
             </p:vardgivare>
          </p:enhet>
-         <p2:specialitet code="SPECIALITET"
-                         codeSystem="coming_soon"
-                         codeSystemName="kv_intyg_specialitet"/>
       </p:skapadAv>
       <p:vardkontakt>
          <p:vardkontakttyp code="5880005"
@@ -91,18 +87,15 @@
          <p:aktivitetskod code="AKT19"
                           codeSystem="8040b4d1-67dc-42e1-a938-de5374e9526a"
                           codeSystemName="kv_aktiviteter_intyg"/>
-         <p:beskrivning>Spontan självantändning</p:beskrivning>
-         <p:forekomst>true</p:forekomst>
-         <p2:plats>Vårdcentralen i Trollhättan</p2:plats>
-         <p2:ostruktureradtid>2012-12-12</p2:ostruktureradtid>
+         <p:forekomst>false</p:forekomst>
       </p:aktivitet>
       <p:rekommendation>
          <p:rekommendationskod code="REK8"
                                codeSystem="5a931b99-bda8-4f1e-8a6d-6f8a3f40a459"
                                codeSystemName="kv_rekommendation_intyg"/>
-         <p2:varde codeSystem="e889fa20-1dee-4f79-8b37-03853e75a9f8"
-                   codeSystemName="kv_körkortsbehörighet"
-                   code="VAR3"/>
+         <p2:varde code="VAR11"
+                   codeSystem="e889fa20-1dee-4f79-8b37-03853e75a9f8"
+                   codeSystemName="kv_körkortsbehörighet"/>
       </p:rekommendation>
       <p:observation>
          <p:observations-id root="1.2.752.129.2.1.2.1" extension="3"/>
@@ -140,7 +133,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="24028007"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -149,7 +142,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="7771000"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -158,34 +151,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
-         <p2:lateralitet code="51440002"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="24028007"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="7771000"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="51440002"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -325,4 +291,3 @@
       <p2:version>06</p2:version>
    </reg:utlatande>
 </reg:RegisterCertificate>
-

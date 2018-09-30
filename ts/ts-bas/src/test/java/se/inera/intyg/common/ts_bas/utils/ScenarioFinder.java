@@ -18,20 +18,18 @@
  */
 package se.inera.intyg.common.ts_bas.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.JAXB;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+
+import javax.xml.bind.JAXB;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Finds and creates scenarios based on scenario files placed in src/test/resources.
@@ -45,7 +43,7 @@ public final class ScenarioFinder {
 
     private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav3/";
 
-    private static final String TRANSFORMED_TRANSPORT_MODEL_PATH = "classpath:/scenarios/transformed/";
+    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav1/";
 
     private static final String INTERNAL_MODEL_PATH = "classpath:/scenarios/internal/";
 
@@ -185,10 +183,10 @@ public final class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asTransformedTransportModel()
+        public se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
                 throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSFORMED_TRANSPORT_MODEL_PATH),
+                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V1_TRANSPORT_MODEL_PATH),
                         se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "transformed transport", e);

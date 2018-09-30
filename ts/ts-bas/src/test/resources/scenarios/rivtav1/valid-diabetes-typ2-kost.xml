@@ -53,6 +53,9 @@
                <p:vardgivarnamn>Vårdgivarnamn</p:vardgivarnamn>
             </p:vardgivare>
          </p:enhet>
+         <p2:specialitet code="SPECIALITET"
+                         codeSystem="coming_soon"
+                         codeSystemName="kv_intyg_specialitet"/>
       </p:skapadAv>
       <p:vardkontakt>
          <p:vardkontakttyp code="5880005"
@@ -93,9 +96,9 @@
          <p:rekommendationskod code="REK8"
                                codeSystem="5a931b99-bda8-4f1e-8a6d-6f8a3f40a459"
                                codeSystemName="kv_rekommendation_intyg"/>
-         <p2:varde code="VAR11"
-                   codeSystem="e889fa20-1dee-4f79-8b37-03853e75a9f8"
-                   codeSystemName="kv_körkortsbehörighet"/>
+         <p2:varde codeSystem="e889fa20-1dee-4f79-8b37-03853e75a9f8"
+                   codeSystemName="kv_körkortsbehörighet"
+                   code="VAR3"/>
       </p:rekommendation>
       <p:observation>
          <p:observations-id root="1.2.752.129.2.1.2.1" extension="3"/>
@@ -133,7 +136,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="24028007"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -142,7 +145,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="7771000"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -151,34 +154,7 @@
          <p:observationskod code="420050001"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:varde value="0.0"/>
-         <p2:lateralitet code="51440002"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="24028007"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
-         <p2:lateralitet code="7771000"
-                         codeSystem="1.2.752.116.2.1.1.1"
-                         codeSystemName="SNOMED-CT"/>
-      </p:observation>
-      <p:observation>
-         <p:observationskod code="397535007"
-                            codeSystem="1.2.752.116.2.1.1.1"
-                            codeSystemName="SNOMED-CT"/>
-         <p:varde value=""/>
+         <p:varde value="1.0"/>
          <p2:lateralitet code="51440002"
                          codeSystem="1.2.752.116.2.1.1.1"
                          codeSystemName="SNOMED-CT"/>
@@ -235,7 +211,19 @@
          <p:observationskod code="73211009"
                             codeSystem="1.2.752.116.2.1.1.1"
                             codeSystemName="SNOMED-CT"/>
-         <p:forekomst>false</p:forekomst>
+         <p:forekomst>true</p:forekomst>
+      </p:observation>
+      <p:observation>
+         <p:observationskod code="E11"
+                            codeSystem="1.2.752.116.1.1.1.1.1"
+                            codeSystemName="ICD-10"/>
+         <p:forekomst>true</p:forekomst>
+      </p:observation>
+      <p:observation>
+         <p:observationskod code="OBS9"
+                            codeSystem="335d4bed-7e1d-4f81-ae7d-b39b266ef1a3"
+                            codeSystemName="kv_observationer_intyg"/>
+         <p:forekomst>true</p:forekomst>
       </p:observation>
       <p:observation>
          <p:observationskod code="407624006"

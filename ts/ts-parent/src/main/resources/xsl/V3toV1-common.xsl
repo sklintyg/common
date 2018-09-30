@@ -80,7 +80,7 @@
   <xsl:variable name="id_kv_intyget_avser" select="'24c41b8d-258a-46bf-a08a-b90738b28770'"/>
   <xsl:variable name="id_kv_korkortsbehorighet" select="'e889fa20-1dee-4f79-8b37-03853e75a9f8'"/>
   <xsl:variable name="id_snomed-ct" select="'1.2.752.116.2.1.1.1'"/>
-  <xsl:variable name="id_icd-10" select="'1.2.752.116.1.1.1.1.1'"/>
+  <xsl:variable name="id_icd-10" select="'1.2.752.116.1.1.1.1.3'"/>
 
   <xsl:template name="utlatandeHeader">
     <xsl:param name="displayName"/>

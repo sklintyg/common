@@ -53,7 +53,8 @@ public class UVTable extends UVComponent {
         Table table = new Table(headerLabels.size())
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
                 .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM));
+                .setWidth(millimetersToPoints(DEFAULT_TABLE_WIDTH_MM))
+                .setKeepTogether(true);
 
         // Render headers with tabs
         renderHeaders(headerLabels, table);

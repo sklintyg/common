@@ -44,10 +44,14 @@ angular.module('common').factory('common.UtkastSignService',
                 var deferred = $q.defer();
                 if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServerFake(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
-                    _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
-                } else if (UserModel.user.authenticationMethod === 'EFOS') {
-                    _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
+                } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
+
+                    // Use iid_IsExplorer() to determine whether to use NetiD Plugin or NetiD Access
+                    if (iid_IsExplorer()) { // jshint ignore:line
+                        _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                    } else {
+                        _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
+                    }
                 } else {
                     _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
@@ -90,7 +94,7 @@ angular.module('common').factory('common.UtkastSignService',
                 };
 
                 // Anropa server, starta signering med GRP
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'GRP', function(ticket) {
 
                     // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
                     var templateUrl = templates[UserModel.authenticationMethod()];
@@ -135,15 +139,10 @@ angular.module('common').factory('common.UtkastSignService',
             // EFOS / NetiD Access Server
             function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
 
-                var templates = {
-                    'EFOS': '/app/views/signeraNiasDialog/signera.nias.dialog.html'
-                };
-
                 // Anropa server, starta signering med GRP
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_ACCESS', function(ticket) {
 
-                    // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
-                    var templateUrl = templates[UserModel.authenticationMethod()];
+                    var templateUrl = '/app/views/signeraNiasDialog/signera.nias.dialog.html';
                     _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
 
                 }, function(error) {
@@ -188,7 +187,7 @@ angular.module('common').factory('common.UtkastSignService',
                 var signModel = {
                     signingWithSITHSInProgress : true
                 };
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_PLUGIN', function(ticket) {
                     _openNetIdPlugin(ticket.hash, function(signatur, certifikat) {
                         UtkastProxy.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, certifikat, function(ticket) {
 
@@ -220,7 +219,7 @@ angular.module('common').factory('common.UtkastSignService',
             function _confirmSigneraMedFake(signModel, intygsTyp, intygsId, version, deferred) {
 
                 // Anropa server, starta signering med GRP
-                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, function(ticket) {
+                UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'FAKE', function(ticket) {
 
                     // Kick off the poller
                     _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred);
@@ -290,29 +289,6 @@ angular.module('common').factory('common.UtkastSignService',
 
             }
 
-            // OLD
-            // function _openNetIdPlugin(hash, onSuccess, onError) {
-            //     $timeout(function() {
-            //         iid_SetProperty('Base64', 'true'); // jshint ignore:line
-            //         iid_SetProperty('DataToBeSigned', hash); // jshint ignore:line
-            //         iid_SetProperty('URLEncode', 'false'); // jshint ignore:line
-            //         if (UserModel.user.authenticationMethod === 'NET_ID') {
-            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-            //         } else if  (UserModel.user.authenticationMethod === 'SITHS') {
-            //             iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
-            //         }
-            //         var resultCode = iid_Invoke('Sign'); // jshint ignore:line
-            //
-            //         if (resultCode === 0) {
-            //             onSuccess(iid_GetProperty('Signature')); // jshint ignore:line
-            //         } else {
-            //             var messageAbort = 'Signeringen avbröts med kod: ' + resultCode;
-            //             $log.info(messageAbort);
-            //             onError({ errorCode: 'SIGN_NETID_ERROR'});
-            //         }
-            //     });
-            // }
-
             function _openNetIdPlugin(hash, onSuccess, onError) {
                 $timeout(function() {
                     iid_SetProperty('Algorithm', '1.2.840.113549.1.1.11'); // jshint ignore:line
@@ -323,7 +299,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                     if (UserModel.user.authenticationMethod === 'NET_ID') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.personId); // jshint ignore:line
-                    } else if (UserModel.user.authenticationMethod === 'SITHS') {
+                    } else if (UserModel.user.authenticationMethod === 'SITHS' || UserModel.user.authenticationMethod === 'EFOS') {
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
 

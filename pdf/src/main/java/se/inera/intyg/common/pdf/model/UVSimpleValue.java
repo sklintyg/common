@@ -49,6 +49,7 @@ public class UVSimpleValue extends UVComponent {
                 .setFont(renderer.svarFont)
                 .setFontSize(SVAR_FONT_SIZE)
                 .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
+                .setKeepTogether(true)
                 );
 
     }

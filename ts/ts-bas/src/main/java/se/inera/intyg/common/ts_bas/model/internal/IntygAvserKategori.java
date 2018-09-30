@@ -18,6 +18,14 @@
  */
 package se.inera.intyg.common.ts_bas.model.internal;
 
+import com.google.common.collect.ImmutableSet;
+
+import java.util.Set;
+
 public enum IntygAvserKategori {
     C1, C1E, C, CE, D1, D1E, D, DE, TAXI, ANNAT;
+
+    public static Set<IntygAvserKategori> getNormalCategories() {
+        return ImmutableSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+    }
 }

@@ -18,30 +18,27 @@
  */
 package se.inera.intyg.common.ts_bas.transformation;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
-
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.helger.commons.collection.pair.Pair;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXParseException;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
+import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.helger.commons.collection.pair.Pair;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXParseException;
-import se.inera.intyg.common.support.model.converter.util.XslTransformer;
-import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.fail;
 
 public class TSBasV3toV1TransformerTest {
 
@@ -95,7 +92,7 @@ public class TSBasV3toV1TransformerTest {
                 "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
                 "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
 
-        XslTransformer transformer = new XslTransformer("xsl/V3toV1.xsl");
+        XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
 
         for (String xmlFile : testFiles) {
             String xmlContents = Resources.toString(getResource("scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);

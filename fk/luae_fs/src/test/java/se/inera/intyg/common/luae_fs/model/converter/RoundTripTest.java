@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.luae_fs.model.converter;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringWriter;
@@ -29,9 +30,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.ElementNameAndAttributeQualifier;
-import org.custommonkey.xmlunit.XMLUnit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,6 +38,11 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.xmlunit.builder.DiffBuilder;
+import org.xmlunit.builder.Input;
+import org.xmlunit.diff.DefaultNodeMatcher;
+import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.luae_fs.model.internal.LuaefsUtlatande;
 import se.inera.intyg.common.luae_fs.utils.Scenario;
 import se.inera.intyg.common.luae_fs.utils.ScenarioFinder;
@@ -84,11 +87,15 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -116,11 +123,15 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
-        XMLUnit.setIgnoreWhitespace(true);
-        XMLUnit.setIgnoreAttributeOrder(true);
-        Diff diff = XMLUnit.compareXML(expected.toString(), actual.toString());
-        diff.overrideElementQualifier(new ElementNameAndAttributeQualifier("id"));
-        assertTrue(diff.toString(), diff.similar());
+        Diff diff = DiffBuilder
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
+        assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {

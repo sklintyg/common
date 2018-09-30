@@ -37,7 +37,7 @@
       <cxf:logging/>
     </cxf:features>
   </cxf:bus>
-  
+
   <!-- ws endpoints -->
   <jaxws:endpoint address="/get-ts-diabetes/v1.0"
                   implementor="se.inera.intyg.common.ts_diabetes.integration.GetTSDiabetesResponderImpl">
@@ -64,12 +64,12 @@
             <jaxws:schemaLocation>classpath:/interactions/RegisterTSDiabetesInteraction/RegisterTSDiabetesResponder_1.0.xsd</jaxws:schemaLocation>
         </jaxws:schemaLocations>
   </jaxws:endpoint>
-  
-  <bean id="tsDiabetesXslTransformer" class="se.inera.intyg.common.support.model.converter.util.XslTransformer">
+
+  <bean id="tsDiabetesXslTransformer" class="se.inera.intyg.common.support.modules.transformer.XslTransformer">
     <constructor-arg value="xsl/transform-ts-diabetes.xsl"/>
   </bean>
 
-  <bean id="sendTsDiabetesClient" class="se.inera.intyg.common.ts_parent.integration.SendTSClient">
+  <bean id="sendTsDiabetesClient" class="se.inera.intyg.common.ts_parent.integration.RegisterCertificateV1Client">
     <constructor-arg value="${registercertificatev1.endpoint.url}"/>
   </bean>
 

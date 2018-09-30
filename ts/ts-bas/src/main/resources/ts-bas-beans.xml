@@ -32,6 +32,6 @@
 
   <bean class="se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl"/>
 
-  <bean id="tsBasEntryPoint" class="se.inera.intyg.common.ts_bas.support.TsBasEntryPoint"/>
+  <bean class="se.inera.intyg.common.ts_bas.support.TsBasEntryPoint"/>
 
 </beans>

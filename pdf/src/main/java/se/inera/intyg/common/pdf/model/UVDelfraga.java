@@ -52,6 +52,7 @@ public class UVDelfraga extends UVComponent {
                         .setPadding(0f)
                         .setMarginTop(0f)
                         .setMarginBottom(0f)
+                        .setKeepTogether(true)
                 );
             }
         }

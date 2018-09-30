@@ -17,14 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcAuthority',
-    [ '$timeout', 'common.authorityService',
-        function($timeout, authorityService) {
+    [ '$log', '$timeout', 'common.authorityService',
+        function($log, $timeout, authorityService) {
             'use strict';
             return {
                 restrict: 'A',
                 link: function($scope, $element, $attr) {
 
-                    if ($attr.timeout) {
+                    if ($attr.intygstyp === undefined && ($attr.wcAuthority || $attr.feature)) {
+                        $log.error('wcAuthority: Missing required attribute intygstyp at', $element);
+                    }
+
+                    function _checkAuthority() {
                         var options = {
                             authority: $attr.wcAuthority,
                             feature: $attr.feature,
@@ -36,20 +40,12 @@ angular.module('common').directive('wcAuthority',
                             $element.remove();
                         }
                     }
-                    else {
-                        $timeout(function(){
 
-                            var options = {
-                                authority: $attr.wcAuthority,
-                                feature: $attr.feature,
-                                role: $attr.role,
-                                intygstyp: $attr.intygstyp,
-                                requestOrigin: $attr.requestOrigin
-                            };
-                            if (!authorityService.isAuthorityActive(options)) {
-                                $element.remove();
-                            }
-                        });
+                    if ($attr.timeout) {
+                        _checkAuthority();
+                    }
+                    else {
+                        $timeout(_checkAuthority);
                     }
                 }
             };
