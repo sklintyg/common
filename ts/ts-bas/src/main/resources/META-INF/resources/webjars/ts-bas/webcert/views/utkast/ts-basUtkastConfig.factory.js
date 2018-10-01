@@ -220,7 +220,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.medkorrektion',
-                                    required: true,
+                                    required: false, //Avaktiverar R33-35 tills vidare
                                     requiredProp: korrektionRequired
                                 },{
                                     type: 'ue-form-label',
