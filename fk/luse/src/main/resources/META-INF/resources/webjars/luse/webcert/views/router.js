@@ -34,18 +34,24 @@ angular.module('luse').config(function($stateProvider) {
     };
 
     $stateProvider.
+        state('luse', {
+            url: '/luse'
+        }).
         state('luse-edit', {
             data: { defaultActive : 'index', intygType: 'luse' },
             url : '/luse/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
@@ -54,10 +60,7 @@ angular.module('luse').config(function($stateProvider) {
 
                 'header@luse-edit' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
                 'footer@luse-edit' : {
@@ -66,55 +69,50 @@ angular.module('luse').config(function($stateProvider) {
                 },
                 'utkast@luse-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).
         state('webcert.intyg.luse', {
             data: { defaultActive : 'index', intygType: 'luse' },
             url:'/intyg/luse/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'luse.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luse.supportPanelConfigFactory',
+                IntygViewState: 'luse.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.luse' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).
         state('webcert.fragasvar.luse', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luse' },
             url: '/fragasvar/luse/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'luse.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luse.supportPanelConfigFactory',
+                IntygViewState: 'luse.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.fragasvar.luse' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

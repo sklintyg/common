@@ -38,18 +38,24 @@ angular.module('ts-bas').config(function($stateProvider) {
     };
 
     $stateProvider.
+        state('ts-bas', {
+            url: '/ts-bas'
+        }).
         state('ts-bas-edit', {
             data: { defaultActive : 'index', intygType: 'ts-bas' },
             url: '/ts-bas/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
@@ -58,10 +64,7 @@ angular.module('ts-bas').config(function($stateProvider) {
 
                 'header@ts-bas-edit' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
                 'footer@ts-bas-edit' : {
@@ -71,33 +74,30 @@ angular.module('ts-bas').config(function($stateProvider) {
 
                 'utkast@ts-bas-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).
         state('webcert.intyg.ts-bas', {
             data: { defaultActive: 'index', intygType: 'ts-bas' },
             url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'ts-bas.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory',
+                IntygViewState: 'ts-bas.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'ts-bas.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.ts-bas': {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'ts-bas.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

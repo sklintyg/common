@@ -34,18 +34,24 @@ angular.module('luae_na').config(function($stateProvider) {
     };
 
     $stateProvider.
+        state('luae_na', {
+            url: '/luae_na'
+        }).
         state('luae_na-edit', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
             url : '/luae_na/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
@@ -54,10 +60,7 @@ angular.module('luae_na').config(function($stateProvider) {
 
                 'header@luae_na-edit' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
                 'footer@luae_na-edit' : {
@@ -66,55 +69,50 @@ angular.module('luae_na').config(function($stateProvider) {
                 },
                 'utkast@luae_na-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).
         state('webcert.intyg.luae_na', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
             url:'/intyg/luae_na/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'luae_na.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory',
+                IntygViewState: 'luae_na.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.luae_na' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luae_na.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).
         state('webcert.fragasvar.luae_na', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luae_na' },
             url: '/fragasvar/luae_na/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'luae_na.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory',
+                IntygViewState: 'luae_na.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.fragasvar.luae_na' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luae_na.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });
