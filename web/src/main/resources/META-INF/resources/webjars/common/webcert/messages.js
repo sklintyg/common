@@ -112,6 +112,8 @@
 
             // labels for common modal dialogs
             'common.title.sign': 'Signera intyget',
+            'common.modal.title.sign.error': 'Signering misslyckad',
+            'common.modal.title.error': 'Tekniskt fel',
 
             'common.modal.copy.title': 'Kopiera låst utkast',
             'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>' +

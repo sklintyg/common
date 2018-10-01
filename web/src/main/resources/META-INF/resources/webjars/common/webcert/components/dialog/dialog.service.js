@@ -23,15 +23,23 @@ angular.module('common').factory('common.dialogService',
     function($uibModal, $timeout, $window, $rootScope) {
         'use strict';
 
-        function _showErrorMessageDialog(message, callback) {
+        function _showErrorMessageDialog(message, callback, customTitleId) {
+
+            if (!angular.isDefined(customTitleId)) {
+                customTitleId = 'common.modal.title.error';
+            }
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/components/dialog/dialogError.template.html',
-                controller: function($scope, $uibModalInstance, bodyText) {
+                controller: function($scope, $uibModalInstance, bodyText, customTitleId) {
                     $scope.bodyText = bodyText;
+                    $scope.customTitleId = customTitleId;
                 },
                 resolve: {
                     bodyText: function() {
                         return angular.copy(message);
+                    },
+                    customTitleId: function() {
+                        return angular.copy(customTitleId);
                     }
                 }
             });
