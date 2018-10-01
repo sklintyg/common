@@ -318,6 +318,7 @@
     </iso:rule>
   </iso:pattern>
 
+  <!--
   <iso:pattern id="q8-R33">
     <iso:rule context="//gn:delsvar[@id='1.1' and matches(normalize-space(./tp:cv/tp:code), 'IAV10') and (number(../../gn:svar[@id='8']/gn:delsvar[@id='8.3']) &lt; 0.5)]">
       <iso:assert test="
@@ -359,6 +360,7 @@
       </iso:assert>
     </iso:rule>
   </iso:pattern>
+-->
 
   <iso:pattern id="q9">
     <iso:rule context="//gn:svar[@id='9']">

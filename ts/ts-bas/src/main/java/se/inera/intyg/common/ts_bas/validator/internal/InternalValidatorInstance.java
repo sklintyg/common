@@ -21,7 +21,6 @@ package se.inera.intyg.common.ts_bas.validator.internal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -33,7 +32,6 @@ import se.inera.intyg.common.ts_bas.model.internal.Funktionsnedsattning;
 import se.inera.intyg.common.ts_bas.model.internal.HjartKarl;
 import se.inera.intyg.common.ts_bas.model.internal.HorselBalans;
 import se.inera.intyg.common.ts_bas.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_bas.model.internal.Kognitivt;
 import se.inera.intyg.common.ts_bas.model.internal.Medicinering;
 import se.inera.intyg.common.ts_bas.model.internal.Medvetandestorning;
@@ -106,7 +104,7 @@ public class InternalValidatorInstance {
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdentitetStyrkt(utlatande.getVardkontakt());
-            validateSyn(utlatande); // 1.
+            validateSyn(utlatande.getSyn()); // 1.
             validateHorselBalans(utlatande.getHorselBalans()); // 2.
             validateFunktionsnedsattning(utlatande.getFunktionsnedsattning()); // 3.
             validateHjartKarl(utlatande.getHjartKarl()); // 4.
@@ -445,13 +443,7 @@ public class InternalValidatorInstance {
         }
     }
 
-    private void validateSyn(final TsBasUtlatande utlatande) {
-        if (utlatande.getSyn() == null) {
-            return;
-        }
-
-        final Syn syn = utlatande.getSyn();
-
+    private void validateSyn(final Syn syn) {
         if (syn == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn", ValidationMessageType.EMPTY,
                     "ts-bas.validation.syn.missing");
@@ -546,40 +538,58 @@ public class InternalValidatorInstance {
                 }
             }
         }
+        /* Uncomment this when a new version of TSTRK1007 (ts-bas) is made, sync with new release of schematron
         // CHECKSTYLE:OFF MagicNumber
-        if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null) {
+        if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null
+                && utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null) {
             // R33
-            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                    && utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
+            if (utlatande.getIntygAvser().getKorkortstyp().contains(IntygAvserKategori.ANNAT)
                     && syn.getBinokulart().getUtanKorrektion() != null
-                    && syn.getBinokulart().getUtanKorrektion() < 0.5
-                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null)) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
+                    && syn.getBinokulart().getUtanKorrektion() < 0.5) {
+                if (syn.getHogerOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.hoger.r33");
+                }
+                if (syn.getVansterOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.vanster.r33");
+                }
             }
-
             // R34
-            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                    && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+            if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
                     && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
-                    && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
-                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
-                    || syn.getBinokulart().getMedKorrektion() == null)) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
+                    && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)) {
+                if (syn.getHogerOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.hoger.r34");
+                }
+                if (syn.getVansterOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.vanster.r34");
+                }
+                if (syn.getBinokulart().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.bin.r34");
+                }
             }
-
             // R35
-            if (utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null
-                    && CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+            if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
                     && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
-                    && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)
-                    && (syn.getHogerOga().getMedKorrektion() == null || syn.getVansterOga().getMedKorrektion() == null
-                    || syn.getBinokulart().getMedKorrektion() == null)) {
-                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.synskarpa",
-                        ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                    && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)) {
+                if (syn.getHogerOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                }
+                if (syn.getVansterOga().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                }
+                if (syn.getBinokulart().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r35");
+                }
             }
         }
-        // CHECKSTYLE:ON MagicNumber
+        // CHECKSTYLE:ON MagicNumber*/
     }
 }
