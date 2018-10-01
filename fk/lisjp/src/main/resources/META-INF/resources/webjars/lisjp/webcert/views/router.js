@@ -37,9 +37,9 @@ angular.module('lisjp').config(function($stateProvider) {
         state('lisjp', {
             url: '/lisjp'
         }).
-        state('lisjp-edit', {
+        state('lisjp.utkast', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -58,17 +58,17 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@lisjp-edit' : {
+                'header@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@lisjp-edit' : {
+                'footer@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@lisjp-edit' : {
+                'utkast@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                  }

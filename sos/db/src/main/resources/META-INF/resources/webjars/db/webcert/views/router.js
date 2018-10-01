@@ -38,9 +38,9 @@ angular.module('db').config(function($stateProvider) {
         state('db', {
             url: '/db'
         }).
-        state('db-edit', {
+        state('db.utkast', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/db/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -59,17 +59,17 @@ angular.module('db').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@db-edit' : {
+                'header@db.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@db-edit' : {
+                'footer@db.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@db-edit' : {
+                'utkast@db.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

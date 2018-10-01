@@ -29,7 +29,7 @@ angular.module('fk7263').config(function($stateProvider) {
     state('fk7263', {
         url: '/fk7263'
     }).
-    state('fk7263-edit', {
+    state('fk7263.utkast', {
         data: { defaultActive : 'index', intygType: 'fk7263'},
         url : '/fk7263/:intygTypeVersion/edit/:certificateId/:focusOn',
         params: {
@@ -47,7 +47,7 @@ angular.module('fk7263').config(function($stateProvider) {
                 controller: 'fk7263.EditCertCtrl'
             },
 
-            'header@fk7263-edit': {
+            'header@fk7263.utkast': {
                 templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                 controller: 'common.UtkastHeader'
             }

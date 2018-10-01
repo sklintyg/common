@@ -37,9 +37,9 @@ angular.module('luae_na').config(function($stateProvider) {
         state('luae_na', {
             url: '/luae_na'
         }).
-        state('luae_na-edit', {
+        state('luae_na.utkast', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
-            url : '/luae_na/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -58,16 +58,16 @@ angular.module('luae_na').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@luae_na-edit' : {
+                'header@luae_na.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@luae_na-edit' : {
+                'footer@luae_na.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'utkast@luae_na-edit' : {
+                'utkast@luae_na.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

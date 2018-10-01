@@ -41,9 +41,9 @@ angular.module('ts-bas').config(function($stateProvider) {
         state('ts-bas', {
             url: '/ts-bas'
         }).
-        state('ts-bas-edit', {
+        state('ts-bas.utkast', {
             data: { defaultActive : 'index', intygType: 'ts-bas' },
-            url: '/ts-bas/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -62,17 +62,17 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@ts-bas-edit' : {
+                'header@ts-bas.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@ts-bas-edit' : {
+                'footer@ts-bas.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@ts-bas-edit' : {
+                'utkast@ts-bas.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

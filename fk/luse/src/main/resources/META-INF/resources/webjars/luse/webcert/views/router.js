@@ -37,9 +37,9 @@ angular.module('luse').config(function($stateProvider) {
         state('luse', {
             url: '/luse'
         }).
-        state('luse-edit', {
+        state('luse.utkast', {
             data: { defaultActive : 'index', intygType: 'luse' },
-            url : '/luse/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -58,16 +58,16 @@ angular.module('luse').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@luse-edit' : {
+                'header@luse.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@luse-edit' : {
+                'footer@luse.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'utkast@luse-edit' : {
+                'utkast@luse.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

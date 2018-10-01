@@ -36,7 +36,7 @@ describe('IntygHelper', function() {
     it('should go to draft if all mandatory parameters are present', function() {
 
         IntygHelper.goToDraft('type', '1.2', 'abc123');
-        expect($stateSpy.go).toHaveBeenCalledWith('type-edit', {
+        expect($stateSpy.go).toHaveBeenCalledWith('type.utkast', {
             certificateId: 'abc123',
             intygTypeVersion: '1.2'
         });

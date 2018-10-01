@@ -38,9 +38,9 @@ angular.module('doi').config(function($stateProvider) {
         state('doi', {
             url: '/doi'
         }).
-        state('doi-edit', {
+        state('doi.utkast', {
             data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/doi/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -59,17 +59,17 @@ angular.module('doi').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
     
-                'header@doi-edit' : {
+                'header@doi.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
     
-                'footer@doi-edit' : {
+                'footer@doi.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
     
-                'utkast@doi-edit' : {
+                'utkast@doi.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

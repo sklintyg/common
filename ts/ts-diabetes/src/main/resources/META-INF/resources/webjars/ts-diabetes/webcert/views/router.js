@@ -45,9 +45,9 @@ angular.module('ts-diabetes').config(function($stateProvider) {
         state('ts-diabetes', {
             url: '/ts-diabetes'
         }).
-        state('ts-diabetes-edit', {
+        state('ts-diabetes.utkast', {
             data: { defaultActive : 'index', intygType: 'ts-diabetes' },
-            url: '/ts-diabetes/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -66,17 +66,17 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@ts-diabetes-edit' : {
+                'header@ts-diabetes.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@ts-diabetes-edit' : {
+                'footer@ts-diabetes.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@ts-diabetes-edit' : {
+                'utkast@ts-diabetes.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

@@ -37,9 +37,9 @@ angular.module('luae_fs').config(function($stateProvider) {
         state('luae_fs', {
             url: '/luae_fs'
         }).
-        state('luae_fs-edit', {
+        state('luae_fs.utkast', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -58,16 +58,16 @@ angular.module('luae_fs').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@luae_fs-edit' : {
+                'header@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@luae_fs-edit' : {
+                'footer@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'utkast@luae_fs-edit' : {
+                'utkast@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

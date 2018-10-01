@@ -37,8 +37,9 @@ angular.module('common').factory('common.IntygHelper',
                     stateParams = angular.extend(stateParams, extraStateParams);
                 }
 
-                $state.go(type + '-edit', stateParams);
+                $state.go(type + '.utkast', stateParams);
             }
+
             function _goToIntyg(type, intygTypeVersion, intygId) {
                 if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
                     $log.error('goToIntyg: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
