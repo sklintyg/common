@@ -32,7 +32,9 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
             //Set initial viewmodel state
             $scope.vm = {
                 activeDiagnose: null,
-                noDataMessage: null
+                noDataMessage: null,
+                referensDescr: null,
+                referensLink: null
             };
 
              /**
@@ -86,6 +88,11 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
 
                 angular.forEach($scope.vm.sections, function(section) {
                     section.data = activeDiagnose ? activeDiagnose.getFormData(section.formId, section.heading) : null;
+                    var reference = activeDiagnose ? activeDiagnose.getReference() : null;
+                    if (reference) {
+                        $scope.vm.referensDescr = reference.desc;
+                        $scope.vm.referensLink = reference.link;
+                    }
                 });
             }
 
