@@ -183,7 +183,7 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     requiredProp: 'grundData.skapadAv.vardenhet.telefonnummer',
                     whitespaceBreak: false
                 },
-                size: '20',
+                size: '15',
                 labelColSize: labelColSize,
                 formType: 'horizontal',
                 htmlMaxlength: 20,
