@@ -18,10 +18,7 @@
  */
 package se.inera.intyg.common.luae_fs.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
-import se.inera.intyg.common.luae_fs.rest.LuaefsModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {

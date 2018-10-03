@@ -58,8 +58,9 @@ public class PdfGenerator {
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_medicinskt_utlatande_";
-
-    public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
+    // CHECKSTYLE:OFF ParameterNumber
+    public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
+            List<Status> statuses,
             ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
@@ -97,6 +98,7 @@ public class PdfGenerator {
             throw new ModuleException("Error generating PDF for AF00213: " + e.getMessage());
         }
     }
+    // CHECKSTYLE:ON ParameterNumber
 
     private String buildInfoText(boolean isUtkast, List<Status> statuses) {
         StringBuilder buf = new StringBuilder();

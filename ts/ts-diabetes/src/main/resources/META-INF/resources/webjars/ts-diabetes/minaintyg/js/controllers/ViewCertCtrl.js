@@ -29,7 +29,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/ts-diabetes/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + + '/TRANSP');
+                $location.path('/send/ts-diabetes/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP');
             };
 
             $scope.errorMessage = null;

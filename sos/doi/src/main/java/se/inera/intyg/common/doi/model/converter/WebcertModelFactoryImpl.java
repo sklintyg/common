@@ -81,7 +81,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatande
             resetDataInCopy(grundData);
 
             builder.setGrundData(grundData);
-            //TODO: which version to set here?
+            //NOTE: See INTYG-7212 - which version to set here?
             builder.setTextVersion("1.0");
 
             builder.setIdentitetStyrkt(sosUtlatande.getIdentitetStyrkt());

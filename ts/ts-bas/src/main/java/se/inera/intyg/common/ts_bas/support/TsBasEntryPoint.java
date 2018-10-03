@@ -18,11 +18,8 @@
  */
 package se.inera.intyg.common.ts_bas.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.ts_bas.rest.TsBasModuleApi;
 
 public class TsBasEntryPoint implements ModuleEntryPoint {
 

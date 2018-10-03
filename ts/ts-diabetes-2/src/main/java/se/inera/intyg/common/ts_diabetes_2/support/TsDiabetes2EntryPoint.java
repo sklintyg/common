@@ -26,7 +26,6 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.ts_diabetes_2.rest.TsDiabetes2ModuleApi;
 
 public class TsDiabetes2EntryPoint implements ModuleEntryPoint {
 

@@ -101,9 +101,9 @@ public final class UtlatandeToIntyg {
 
     public static Intyg convert(Fk7263Utlatande source) {
         Intyg intyg = getIntyg(source, false);
-        //TODO: Ugly hack: versionerade intyg kräver att alla utlatanden har en textVersion (används för att resolva modulApi versionböna), så Fk7263Utlatande har fått hårdkodad "1.0" istf null.
-        //Fk7263 Roundtriptester däremot kräver idag (av en god anledning?) empty versionstag för fk7263 - what to do...
-        //intyg.setVersion("");
+        // NOTE: See INTYG-7211: versionerade intyg kräver att alla intyg har en version (textVersion) så Fk7263Utlatande har
+        // fått hårdkodad "1.0" istf null. Fk7263 Roundtriptester däremot kräver idag (av en god anledning?) empty versionstag
+        // för fk7263 - what to do...
         intyg.setTyp(getTypAvIntyg(source));
         intyg.getSvar().addAll(getSvar(source));
         return intyg;

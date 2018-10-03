@@ -18,11 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi;
 
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 

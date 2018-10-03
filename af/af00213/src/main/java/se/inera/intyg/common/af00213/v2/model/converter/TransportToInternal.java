@@ -32,7 +32,6 @@ import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants
 import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_1;
 import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_DELSVAR_ID_4_2;
 import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_ID_4;
-import static se.inera.intyg.common.af00213.v2.model.converter.RespConstants.SKIPPAR_BALTE_SVAR_JSON_ID_4_2;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import se.inera.intyg.common.af00213.v2.model.internal.Af00213UtlatandeV2;

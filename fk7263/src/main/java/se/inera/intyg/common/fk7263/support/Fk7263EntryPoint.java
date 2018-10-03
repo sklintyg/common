@@ -18,9 +18,6 @@
  */
 package se.inera.intyg.common.fk7263.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
