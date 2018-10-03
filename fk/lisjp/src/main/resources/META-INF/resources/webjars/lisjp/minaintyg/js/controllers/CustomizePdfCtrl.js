@@ -24,9 +24,9 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
 
             $scope.messageService = messageService;
             $scope.customizeViewstate = customizeViewstate;
-            $scope.downloadAsPdfLink = '/moduleapi/certificate/lisjp' + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
+            $scope.downloadAsPdfLink = '/moduleapi/certificate/lisjp/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 
-            certificateService.getCertificate('lisjp', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('lisjp', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;

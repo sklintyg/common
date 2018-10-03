@@ -24,9 +24,9 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
 
             $scope.messageService = messageService;
             $scope.customizeViewstate = customizeViewstate;
-            $scope.downloadAsPdfLink = '/moduleapi/certificate/fk7263' + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
+            $scope.downloadAsPdfLink = '/moduleapi/certificate/fk7263/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 
-            certificateService.getCertificate('fk7263', $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('fk7263', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
