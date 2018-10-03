@@ -50,7 +50,7 @@ public class TSBasV3toV1TransformerTest {
 
     private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
 
-    private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
+    private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
 
     private static final String V1_TS_BAS_SCHEMA = "specializations/TS-Bas/ts-bas_model.xsd";
 
