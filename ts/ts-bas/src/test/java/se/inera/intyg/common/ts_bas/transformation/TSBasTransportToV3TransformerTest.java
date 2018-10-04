@@ -56,7 +56,7 @@ public class TSBasTransportToV3TransformerTest {
 
     private static final String V3_UTLATANDE_TYPES_EXT_SCHEMA = "core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd";
 
-    private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.0.xsd";
+    private static final String V3_REGISTER_SCHEMA = "interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd";
 
     private static final String INTYGSTJANSTER_UTLATANDE_SCHEMA = "core_components/se_intygstjanster_services_1.0.xsd";
 

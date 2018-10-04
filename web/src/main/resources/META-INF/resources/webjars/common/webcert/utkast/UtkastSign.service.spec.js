@@ -276,7 +276,7 @@ describe('UtkastSignService', function () {
             $timeout.flush();
             $httpBackend.flush();
 
-            expect(dialogService.showErrorMessageDialog).toHaveBeenCalledWith('common.error.sign.grp.already_in_progress');
+            expect(dialogService.showErrorMessageDialog).toHaveBeenCalledWith('common.error.sign.grp.already_in_progress', undefined, 'common.modal.title.sign.error');
         });
     });
 

@@ -459,7 +459,7 @@ angular.module('common').factory('common.UtkastSignService',
                 if (error.errorCode === 'PU_PROBLEM') {
                     dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
                 } else {
-                    dialogService.showErrorMessageDialog(errorMessage);
+                    dialogService.showErrorMessageDialog(errorMessage, undefined, 'common.modal.title.sign.error');
                 }
                 signModel.signingWithSITHSInProgress = false;
             }

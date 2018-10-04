@@ -21,9 +21,9 @@ angular
     .module('common')
     .directive('wcUtkastFooterSign',
     ['$q', 'common.dynamicLabelService', 'common.UtkastValidationViewState', 'common.UtkastSignService', 'common.UtkastProxy', 'common.featureService', 'common.UtkastFooterService',
-        'common.messageService', 'common.moduleService',
+        'common.messageService', 'common.moduleService', 'common.dialogService',
         function($q, dynamicLabelService, utkastValidationViewState, UtkastSignService, commonUtkastProxy, featureService, UtkastFooterService,
-            messageService, moduleService) {
+            messageService, moduleService, dialogService) {
             'use strict';
 
             return {
@@ -40,7 +40,6 @@ angular
                     var previousUtkastWarnings = {};
                     var previousIntygWarnings = {};
                     var waitingForSignCompletion = $q.resolve();
-
                     var messageKey = 'common.';
 
                     if (viewState.common.intyg.isKomplettering) {
@@ -76,14 +75,11 @@ angular
                         }
 
                         utkastValidationViewState.reset();
-
-                        waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
-                            function(result) {
-                                if (result.newVersion) {
-                                    viewState.draftModel.version = result.newVersion;
-                                }
-                            }
-                        );
+                        if(viewState.common.intyg.type.toLowerCase() === 'doi'){
+                            signDoi();
+                        } else {
+                            doSignRequest();
+                        }
                     };
 
                     $scope.disableSign = function() {
@@ -100,6 +96,52 @@ angular
 
                         return previousIntyg;
                     };
+
+                    function doSignRequest() {
+                        waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
+                            function(result) {
+                                if (result.newVersion) {
+                                    viewState.draftModel.version = result.newVersion;
+                                }
+                            }
+                        );
+                    }
+
+                    function signDoi() {
+                        /*
+                        * Fetch previous intyg to see if there's an addiction to signed DOIs
+                        * */
+                        getPreviousIntyg(function() {
+
+                            // Display modal if we already have a signed doi
+                            if(previousIntygWarnings &&
+                                typeof previousIntygWarnings.doi !== 'undefined' &&
+                                !previousIntygWarnings.doi.sameVardgivare) {
+                                showDoiForceSignModal();
+                                return;
+                            }
+                            doSignRequest();
+                        });
+                    }
+
+                    function showDoiForceSignModal() {
+                        dialogService.showDialog({
+                            dialogId: 'doi-already-signed-dialog',
+                            titleText: 'doi.error.sign.intyg_of_type_exists.other_vardgivare.title',
+                            templateUrl: '/app/partials/doiInfo.dialog.html',
+                            button1click: function (modalInstance) {
+                                modalInstance.close();
+                                doSignRequest();
+                            },
+                            button2click: function (modalInstance) {
+                                modalInstance.close();
+                            },
+                            button1text: 'doi.error.sign.intyg_of_type_exists.other_vardgivare.sign',
+                            button2text: 'common.createfromtemplate.cancel',
+                            bodyText: 'doi.error.sign.intyg_of_type_exists.other_vardgivare',
+                            autoClose: false
+                        });
+                    }
 
                     function isSignAndSend() {
                         return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
@@ -123,14 +165,21 @@ angular
                         }
                     }
 
-                    $scope.$on('intyg.loaded', function() {
+                    function getPreviousIntyg(onComplete) {
+
                         previousWarningMessage = {};
+
                         commonUtkastProxy.getPrevious(viewState.intygModel.grundData.patient.personId, function(existing) {
                             previousUtkastWarnings = existing.utkast;
                             previousIntygWarnings = existing.intyg;
-
+                            if(typeof onComplete === 'function') {
+                                onComplete();
+                            }
                         });
-                    });
+                    }
+
+                    $scope.$on('intyg.loaded', getPreviousIntyg);
+
                 }
             };
         } ]);

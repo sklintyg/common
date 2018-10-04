@@ -22,11 +22,11 @@ angular.module('db').constant('db.messages', {
     'sv': {
         //Validation messages
         'db.validation.explosivAvlagsnat.explosivImplantatFalse': 'Den valda kombinationen är ogiltig.',
-        'db.validation.undersokningDatum.after.dodsdatum': 'Datumet får inte vara senare än "Dödsdatum".',
-        'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Datumet får inte vara senare än datumet för "Anträffad död".',
-        'db.validation.undersokningDatum.before.beginningOflastYear' : 'Datumet får inte vara tidigare än början på förra året.',
+        'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum"..',
+        'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
+        'db.validation.undersokningDatum.before.beginningOflastYear' : 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
 
-        'db.validation.datum.innanDodsdatum': 'Datumet får inte vara tidigare än "Dödsdatum".',
+        'db.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
         'db.makulera.body.common-header': '<p>Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på "Makulera" makulerar du dödsbeviset i Webcert, med detta kommer inte återkalla dödsbeviset hos Skatteverket.</p>Förutom att trycka på "Makulera" måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa till Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
         'db.modal.ersatt.text.info': 'Om dödsbeviset är utfärdat på fel patient ska du istället makulera dödsbeviset.',

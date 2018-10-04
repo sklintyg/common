@@ -23,15 +23,23 @@ angular.module('common').factory('common.dialogService',
     function($uibModal, $timeout, $window, $rootScope) {
         'use strict';
 
-        function _showErrorMessageDialog(message, callback) {
+        function _showErrorMessageDialog(message, callback, customTitleId) {
+
+            if (!angular.isDefined(customTitleId)) {
+                customTitleId = 'common.modal.title.error';
+            }
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/components/dialog/dialogError.template.html',
-                controller: function($scope, $uibModalInstance, bodyText) {
+                controller: function($scope, $uibModalInstance, bodyText, customTitleId) {
                     $scope.bodyText = bodyText;
+                    $scope.customTitleId = customTitleId;
                 },
                 resolve: {
                     bodyText: function() {
                         return angular.copy(message);
+                    },
+                    customTitleId: function() {
+                        return angular.copy(customTitleId);
                     }
                 }
             });
@@ -224,6 +232,7 @@ angular.module('common').factory('common.dialogService',
 
             // setup options defaults if parameters aren't included
             options.bodyText = options.bodyText === undefined ? '' : options.bodyText;
+            options.bodyTextId = options.bodyTextId || undefined;
             options.button1text = options.button1text === undefined ? 'common.ok' : options.button1text;
             options.button2text = options.button2text === undefined ? 'common.cancel' : options.button2text;
             options.button3text = options.button3text === undefined ? undefined : options.button3text;

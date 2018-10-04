@@ -197,18 +197,18 @@ angular.module('common').factory('common.UtkastProxy',
          * @param intygsTyp
          * @param signatur
          *      RAW
-         * @param certifkat
+         * @param certifikat
          *      X509, infogas sedan i XML digital signature för att signaturen skall gå att validera.
          * @param onSuccess
          * @param onError
          * @private
          */
-        function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, certifkat, onSuccess, onError) {
+        function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, certifikat, onSuccess, onError) {
             $log.debug('_signeraUtkastWithSignatur, ticketId: ' + ticketId + ' intygsTyp: ' + intygsTyp + ' sign:' + signatur);
             var restPath = '/api/signature/' + intygsTyp + '/' + ticketId + '/signeranetidplugin';
             $http.post(restPath, {
                 'signatur': signatur,
-                'certifikat': certifkat
+                'certifikat': certifikat
             }).
             then(function(response) {
                 onSuccess(response.data); // ticket

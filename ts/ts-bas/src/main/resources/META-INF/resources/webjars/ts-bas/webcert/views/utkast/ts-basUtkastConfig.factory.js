@@ -101,8 +101,10 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                     var antalIntyg = getNumberOfSelectedKortkortstyper(model);
 
                     if((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
-                        (model.syn.hogerOga.utanKorrektion < '0.8' &&
-                        model.syn.vansterOga.utanKorrektion < '0.8')) ||
+                        ((model.syn.hogerOga.utanKorrektion < '0.8' &&
+                        model.syn.vansterOga.utanKorrektion < '0.8') || 
+                        (model.syn.hogerOga.utanKorrektion < '0.1' ||
+                        model.syn.vansterOga.utanKorrektion < '0.1'))) ||
                         (antalIntyg > 0 && isAnnatSelected(model) &&
                         model.syn.binokulart.utanKorrektion < '0.5')) {
                         if (!model.syn.hogerOga.medKorrektion ||
@@ -218,7 +220,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                                 },{
                                     type: 'ue-form-label',
                                     key: 'ts-bas.label.syn.medkorrektion',
-                                    required: true,
+                                    required: false, //Avaktiverar R33-35 tills vidare
                                     requiredProp: korrektionRequired
                                 },{
                                     type: 'ue-form-label',

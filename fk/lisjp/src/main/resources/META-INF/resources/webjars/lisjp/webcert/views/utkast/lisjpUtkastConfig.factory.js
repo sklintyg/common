@@ -307,8 +307,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory',
                             code: 'KV_FKMU_0006',
                             choices: [{id: 'STOR_SANNOLIKHET', showDropDown: false},
                                 {id: 'ATER_X_ANTAL_DGR', showDropDown: true},
-                                {id: 'PROGNOS_OKLAR', showDropDown: false},
-                                {id: 'SANNOLIKT_INTE', showDropDown: false}
+                                {id: 'SANNOLIKT_INTE', showDropDown: false},
+                                {id: 'PROGNOS_OKLAR', showDropDown: false}
                             ],
                             prognosDagarTillArbeteCode: 'KV_FKMU_0007',
                             prognosDagarTillArbeteTyper: ['TRETTIO_DGR',

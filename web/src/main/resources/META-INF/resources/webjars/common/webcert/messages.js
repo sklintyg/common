@@ -112,6 +112,8 @@
 
             // labels for common modal dialogs
             'common.title.sign': 'Signera intyget',
+            'common.modal.title.sign.error': 'Signering misslyckad',
+            'common.modal.title.error': 'Tekniskt fel',
 
             'common.modal.copy.title': 'Kopiera låst utkast',
             'common.modal.copy.body_new': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>' +
@@ -517,7 +519,9 @@
             'db.error.sign.intyg_of_type_exists.same_vardgivare': '<strong>Dödsbevis har utfärdats under tiden</strong><br>Dödsbevis för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
             'db.error.sign.intyg_of_type_exists.other_vardgivare': '<strong>Dödsbevis har utfärdats under tiden hos annan vårdgivare</strong><br>Dödsbevis för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Det är inte möjligt att signera detta dödsbevis.',
             'doi.error.sign.intyg_of_type_exists.same_vardgivare': '<strong>Dödsorsaksintyg har utfärdats under tiden</strong><br>Dödsorsaksintyg för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-            //'doi.error.sign.intyg_of_type_exists.other_vardgivare': '<strong>Dödsorsaksintyg har utfärdats under tiden hos annan vårdgivare</strong><br>Dödsorsaksintyg för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.error.sign.intyg_of_type_exists.other_vardgivare': 'Dödsorsaksintyg för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.error.sign.intyg_of_type_exists.other_vardgivare.title': 'Dödsorsaksintyg har utfärdats under tiden hos annan vårdgivare',
+            'doi.error.sign.intyg_of_type_exists.other_vardgivare.sign': 'Signera',
 
             // PU down, cannot print draft
             'common.error_could_not_print_draft_no_pu': '<strong>Det går inte att skriva ut utkastet!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut utkastet. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
@@ -627,7 +631,7 @@
             'common.validation.date_out_of_range_no_future': 'Datum får inte ligga för långt tillbaka i tiden.',
             'common.validation.date_invalid': 'Ogiltigt datum.',
             'common.validation.future.datum': 'Observera att du valt ett datum framåt i tiden.',
-            'common.validation.date.today.or.earlier': 'Datumet får inte vara senare än dagens datum.',
+            'common.validation.date.today.or.earlier': 'Ange dagens eller ett tidigare datum.',
             'common.validation.date.beforeLastYear': 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
             'common.validation.diagnos.missing': 'Minst en diagnos måste anges.',
             'common.validation.diagnos0.missing': 'Diagnoskod måste anges.',
@@ -666,10 +670,11 @@
             'common.error.certificate_revoked': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare makulerat intyget medan du arbetat på samma post. Ladda om sidan och försök igen',
             'common.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Ladda om sidan och försök igen. Kontakta supporten om problemet kvarstår.',
             'common.error.invalid_state': '<strong>Operation är inte möjlig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma utkast. Ladda om sidan och försök igen',
-            'common.error.sign.general': '<strong>Intyget kunde inte signeras.</strong><br>Försök igen senare.',
-            'common.error.sign.netid': '<strong>Signering misslyckad.</strong><br>Intyget har inte signerats. Detta beror antingen på ett tekniskt fel eller att signeringen avbrutits. Försök igen senare eller kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
-            'common.error.sign.bankid': '<strong>Signering misslyckad.</strong><br>Intyget har inte signerats. Detta beror antingen på ett tekniskt fel eller att signeringen avbrutits. Försök igen senare eller kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
-            'common.error.sign.not_ready_yet': '<strong>Intyget kunde inte visas</strong><br>Intyget är signerat, men kunde inte visas, då det behandlas. Prova att ladda om sidan.<br><br> Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+
+            'common.error.sign.general': '<strong>Signering misslyckad.</strong><br>Intyget har inte signerats. Detta beror antingen på ett tekniskt fel eller att signeringen avbrutits.<br><br>Prova igen om en stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
+            'common.error.sign.netid': '<strong>Signering misslyckad.</strong><br>Intyget har inte signerats. Detta beror antingen på ett tekniskt fel eller att signeringen avbrutits.<br><br>Prova igen om en stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
+            'common.error.sign.bankid': '<strong>Signering misslyckad.</strong><br>Intyget har inte signerats. Detta beror antingen på ett tekniskt fel eller att signeringen avbrutits.<br><br>Prova igen om en stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
+            'common.error.sign.not_ready_yet': '<strong>Intyget kunde inte visas</strong><br>Intyget är signerat, men kunde inte visas, då det behandlas. Prova att ladda om sidan.<br><br> Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'common.error.sign.concurrent_modification': '<strong>Det går inte att signera utkastet.</strong><br/>Utkastet har ändrats av en annan användare sedan du började arbeta på det. Ladda om sidan, kontrollera att uppgifterna stämmer och försök signera igen.<br/>Utkastet ändrades av ${name}.',
             'common.error.sign.authorization': '<strong>Intyget kunde inte signeras.</strong><br/>Du saknar behörighet att signera detta intyg.',
             'common.error.sign.indeterminate.identity': '<strong>Intyget kunde inte signeras.</strong><br/>Det verkar som att du valt en annan identitet att signera med än den du loggade in med. Du måste identifiera dig på samma sätt som när du loggade in. Kontrollera om du har valt rätt och prova igen.',

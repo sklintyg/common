@@ -24,7 +24,7 @@ angular.module('doi').constant('doi.messages', {
         'common.validation.dodsorsak.empty': 'Beskrivning får inte vara tom.',
         'common.validation.date.incorrect_combination': 'Datumet får inte vara efter efterkommande följd eller terminal dödsorsak.',
 
-        'doi.validation.datum.innanDodsdatum': 'Datumet får inte vara tidigare än "Dödsdatum".',
+        'doi.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
         'doi.validation.forgiftning.orsak.incorrect_combination': 'Orsak får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
         'doi.validation.forgiftning.datum.incorrect_combination': 'Datum får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
@@ -33,13 +33,13 @@ angular.module('doi').constant('doi.messages', {
         'operation.operationAnledning.operationNejUppgiftSaknas': 'Beskrivning om tillstånd får inte anges om val anges som Nej eller Uppgift Saknas.',
         'operation.operationDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
         'operation.operationDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
-        'operation.operationDatum.fyraVeckorForeDodDatum': 'Datumet får inte vara tidigare än fyra veckor före döden.',
+        'operation.operationDatum.fyraVeckorForeDodDatum': 'Ange ett datum, samma som eller tidigare än fyra veckor före döden.',
         'forgiftning.forgiftningDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än  "Dödsdatum".',
         'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'doi.validation.terminalDodsorsak.datum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
-        'doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum': 'Datumet får inte vara senare än datumet för "Anträffad död".',
-        'doi.validation.foljd.datum.f.val-050': 'Datumet får inte vara senare än datumet för den terminala dödsorsaken.',
-        'doi.validation.foljd.datum.f.val-051': 'Datumet får inte vara senare än datumet för sjukdomen eller skadan som angavs under den föregående "Som var en följd av".',
+        'doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
+        'doi.validation.foljd.datum.f.val-050': 'Ange ett datum, samma som eller tidigare än den terminala dödsorsaken.',
+        'doi.validation.foljd.datum.f.val-051': 'Ange ett datum, samma som eller tidigare än datumet för sjukdomen eller skadan som angavs i föregående "Som var en följd av".',
 
         'doi.info.barn.forced.true': 'Det angivna dödsdatumet infaller inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
         'doi.info.barn.forced.false': 'Det angivna dödsdatumet infaller inte inom 28 dagar efter barnets födelsedatum. Fältet har därför förifyllts.',
