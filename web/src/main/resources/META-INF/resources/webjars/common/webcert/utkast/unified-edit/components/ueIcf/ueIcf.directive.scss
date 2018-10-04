@@ -147,10 +147,14 @@ ue-icf {
         a {
           flex: 1 0 1%;
           align-self: center;
-          padding-left: 10px;
+          padding-right: 10px;
+          text-align: right;
         }
 
         .btn {
+          &:first-child {
+            margin-left: 10px;
+          }
           height: 38px;
           margin: 10px 10px 0 0;
           flex: 0 0 auto;

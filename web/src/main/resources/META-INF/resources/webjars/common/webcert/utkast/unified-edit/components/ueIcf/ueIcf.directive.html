@@ -38,12 +38,13 @@
     <div class="fader"></div>
 
     <div class="kategori-footer">
+      <input type="button" class="btn btn-success kategori-add" ng-disabled="isInteractionDisabled()"
+               value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
+               ng-click="add(icfFunktioner)" />
+      <input type="button" class="btn btn-secondary kategori-rensa" value="Avbryt" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
+        
       <a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
         om ICF hos Socialstyrelsen <i class="external-link-icon material-icons">launch</i></a>
-      <input type="button" class="btn btn-secondary kategori-rensa" value="Rensa" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
-      <input type="button" class="btn btn-success kategori-add" ng-disabled="isInteractionDisabled()"
-             value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
-             ng-click="add(icfFunktioner)" />
     </div>
   </div>
 
