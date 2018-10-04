@@ -34,9 +34,9 @@ angular.module('common').directive('uvIcf', [ 'uvUtil', function(uvUtil) {
 
             if (kategorier.length > 0 ) {
                 if($scope.config.modelProp === 'aktivitetsbegransning') {
-                    value += 'Problem som påverkar patientens möjlighet att utföra sin sysselsättning:' + '\n';
-                } else {
                     value += 'Svårigheter som påverkar patientens sysselsättning:' + '\n';
+                } else {
+                    value += 'Problem som påverkar patientens möjlighet att utföra sin sysselsättning:' + '\n';
                 }
                 for (var i = 0; i < kategorier.length; i++) {
                     value += kategorier[i];
