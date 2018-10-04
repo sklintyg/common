@@ -68,6 +68,27 @@ wc-fmb-panel-tab {
     padding-left: 30px;
   }
 
+  .fmb-more-information-section {
+    padding: 25px 21px 25px 20px;
+    margin-left: -20px;
+    margin-right: -21px;
+    margin-bottom: -25px;
+    background-color: $wc-color-28;
+    h4 {
+      @extend %wc-typo-05;
+      padding: 8px 0;
+    }
+    div {
+      @extend %wc-typo-07;
+    }
+    section {
+      @extend %wc-typo-07;
+    }
+    .missing-info {
+      @extend %wc-typo-12;
+    }
+  }
+
   .fmb-footer {
     @extend %wc-typo-09;
     height: 50px;
@@ -76,7 +97,7 @@ wc-fmb-panel-tab {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 10px;
+    padding: 0 20px;
     .material-icons {
       font-size: inherit;
     }
