@@ -334,15 +334,16 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
         String content = intyg.getFunktionsnedsattning();
         if (intyg.getFunktionsKategorier() != null && intyg.getFunktionsKategorier().size() > 0) {
-            String icfContent = "Problem som påverkar patientens möjlighet att utföra sin sysselsättning:\n";
+            StringBuilder icfContent = new StringBuilder();
+            icfContent.append("Problem som påverkar patientens möjlighet att utföra sin sysselsättning:\n");
             for (String aktivitet : intyg.getFunktionsKategorier()) {
-                icfContent += aktivitet;
+                icfContent.append(aktivitet);
                 if (intyg.getFunktionsKategorier().indexOf(aktivitet) != intyg.getFunktionsKategorier().size() - 1) {
-                    icfContent += " - ";
+                    icfContent.append(" - ");
                 }
             }
-            icfContent += "\n\n" + content;
-            content = icfContent;
+            icfContent.append("\n\n" + content);
+            content = icfContent.toString();
         }
         fraga5.addChild(
                 new FkOverflowableValueField(shouldPrint(OPT_FUNKTIONSNADSATTNING, optionalFields) ? content : "",
@@ -363,15 +364,16 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
         String content = intyg.getAktivitetsbegransning();
         if (intyg.getAktivitetsKategorier() != null && intyg.getAktivitetsKategorier().size() > 0) {
-            String icfContent = "Svårigheter som påverkar patientens sysselsättning:\n";
+            StringBuilder icfContent = new StringBuilder();
+            icfContent.append("Svårigheter som påverkar patientens sysselsättning:\n");
             for (String aktivitet : intyg.getAktivitetsKategorier()) {
-                icfContent += aktivitet;
+                icfContent.append(aktivitet);
                 if (intyg.getAktivitetsKategorier().indexOf(aktivitet) != intyg.getAktivitetsKategorier().size() - 1) {
-                    icfContent += " - ";
+                    icfContent.append(" - ");
                 }
             }
-            icfContent += "\n\n" + content;
-            content = icfContent;
+            icfContent.append("\n\n" + content);
+            content = icfContent.toString();
         }
 
         fraga6.addChild(
