@@ -1,6 +1,7 @@
 <div class="white-space-no-wrap" ng-cloak>
 
   <wc-approve-receivers-button
+      ng-if="!CommonIntygViewState.isRevoked()"
       intygtyp="intygType"
       intygid="viewState.intygModel.id">
   </wc-approve-receivers-button>
