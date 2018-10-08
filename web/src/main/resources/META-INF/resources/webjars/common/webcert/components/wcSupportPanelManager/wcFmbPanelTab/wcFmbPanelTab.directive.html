@@ -51,6 +51,14 @@
         </div>
 
     </div>
+    <div class="fmb-more-information-section">
+      <h4 ng-if="vm.referensLink">Mer Information</h4>
+      <a href="{{vm.referensLink}}"
+        target="_blank" rel="noopener noreferrer">
+         {{vm.referensDescr}}
+        <i ng-if="vm.referensDescr" class="external-link-icon material-icons">launch</i>
+      </a>
+    </div>
   </span>
 
   <!-- in case none of the diagnoses had any info to show -->
@@ -62,21 +70,11 @@
     <div dynamic-label key="{{::vm.noDataMessage.warning}}"></div>
   </div>
 
-  <div class="fmb-more-information-section">
-    <h4>Mer Information</h4>
-    <span class="unbreakable">
-      <a href="{{vm.referensLink}}"
-          target="_blank" rel="noopener noreferrer">
-          {{vm.referensDescr}}
-        <i ng-if="vm.referensDescr" class="external-link-icon material-icons">launch</i>
-      </a>
-    </span>
-  </div>
-
 </wc-support-panel-scrollable-body>
 
 <div class="fmb-footer">
   <span dynamiclink key="fmbSoc" class="dark"></span>
-  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png" width="40"
+  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png"
+       width="40"
        height="26">
 </div>
