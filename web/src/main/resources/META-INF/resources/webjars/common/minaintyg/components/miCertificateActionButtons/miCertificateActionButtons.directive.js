@@ -89,7 +89,6 @@ angular.module('common').directive('miCertificateActionButtons',
                             button1id: 'archive-button',
                             button1text: 'modules.actionbar.archivedialog.archive.button',
                             button1icon: 'icon-box',
-                            button1tooltip: messageService.getProperty('button.modal.archive.tooltip'),
                             autoClose: false
                         });
                     };
