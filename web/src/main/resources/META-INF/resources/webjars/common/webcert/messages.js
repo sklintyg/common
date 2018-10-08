@@ -167,6 +167,8 @@
             'intyg.status.unknown': 'Okänd',
             'intyg.status.sent': 'Skickat',
             'intyg.status.received': 'Signerat',
+            'intyg.status.kompletterat_av_intyg': 'Kompletterat',
+            'intyg.status.ersatt_av_intyg': 'Ersatt',
 
             'intyg.status.patient.name.pu-intyg.changed': 'Patientens namn har ändrats',
             'intyg.status.patient.address.pu-intyg.changed': 'Patientens adress har ändrats',
