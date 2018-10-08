@@ -182,7 +182,11 @@ angular.module('common').directive('wcIntygStatus', [
                         }
                     }
 
-                    if(!CommonIntygViewState.isRevoked() && IntygHeaderViewState.intygType !== 'db' && IntygHeaderViewState.intygType !== 'doi') {
+                    if(!CommonIntygViewState.isRevoked() &&
+                        !CommonIntygViewState.isComplementedByIntyg() &&
+                        IntygHeaderViewState.intygType !== 'db' &&
+                        IntygHeaderViewState.intygType !== 'doi') {
+
                         addIntygStatus2('is-008', CommonIntygViewState.intygProperties.signeringsdatum);
                     }
 
