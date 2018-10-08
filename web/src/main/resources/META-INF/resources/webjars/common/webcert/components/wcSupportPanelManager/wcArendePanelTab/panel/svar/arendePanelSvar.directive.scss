@@ -45,4 +45,8 @@ arende-panel-svar {
       @extend %wc-typo-09;
     }
   }
+
+  .kompletterad .card {
+    padding: 20px 20px 0 !important;
+  }
 }

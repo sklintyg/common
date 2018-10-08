@@ -49,23 +49,22 @@
   </div>
 
   <!-- Svarsdelen -->
-  <div ng-if="showAnswer()" class="arende-svar card">
+  <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg" class="arende-svar card">
     <div class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
-             'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
+            'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
 
       <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
       </arende-panel-header>
 
       <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body">
         <div ng-if="arendeSvar.meddelande" class="multiline">{{arendeSvar.meddelande}}</div>
-        <div ng-if="arendeSvar.answeredWithIntyg">
-          <span class="multiline" dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
-          <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span dynamic-label key="common.arende.svar.go"></span></button>
-        </div>
       </div>
     </div>
   </div>
-  <div ng-if="showAnswer()" class="card-divider"></div>
+
+  <div ng-if="showAnswer() && arendeSvar.answeredWithIntyg" class="kompletterad">
+    <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
+  </div>
 
 </div>
