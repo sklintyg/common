@@ -47,7 +47,9 @@ angular.module('common').directive('uvIcf', [ 'uvUtil', function(uvUtil) {
                 value += '\n\n';
             }
 
-            value += text;
+            if (!angular.isUndefined(text)) {
+                value += text;
+            }
 
             $scope.value = value;
 
