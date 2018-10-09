@@ -18,8 +18,8 @@
  */
 angular.module('common').controller(
         'wcChangeActiveUnitDialogCtrl',
-        [ '$scope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.statService',
-                function($scope, $uibModalInstance, $window, $state, $location, $cookies, User, statService) {
+        [ '$scope', '$rootScope', '$uibModalInstance', '$window', '$state', '$location', '$cookies', 'common.User', 'common.statService',
+                function($scope, $rootScope, $uibModalInstance, $window, $state, $location, $cookies, User, statService) {
                     'use strict';
 
                     $scope.user = User.getUser();
@@ -180,6 +180,8 @@ angular.module('common').controller(
                             });
                             //Since we changed unit, make sure we refresh stats
                             statService.refreshStat();
+
+                            $rootScope.$broadcast('wcChangeActiveUnitDialog.vardenhetSelected');
 
                         }, function() {
                             $scope.error = true;
