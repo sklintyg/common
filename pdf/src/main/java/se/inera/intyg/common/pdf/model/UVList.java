@@ -59,6 +59,13 @@ public class UVList extends UVComponent {
             handleListKeyAsScriptObjectMirror(results, labelKey, (ScriptObjectMirror) listKeyObj, modelPropObj);
         }
 
+        if (results.isEmpty()) {
+            String noValueText = renderer.getText((String) currentUvNode.get("noValue"));
+            if (noValueText != null) {
+                results.add(noValueText);
+            }
+        }
+
         // RENDER the results.
         renderListResult(parent, results, separator);
     }
