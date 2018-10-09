@@ -197,7 +197,7 @@ public final class InternalConverterUtil {
      * @return the String representation of the date
      */
     public static String getInternalDateContentFillWithZeros(InternalDate internalDate) {
-        return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
+        return isValidDate(internalDate) ? internalDate.asLocalDate().toString() : fillWithZeros(internalDate);
     }
 
     public static Year getYearContent(String yearString) {
@@ -459,14 +459,27 @@ public final class InternalConverterUtil {
     }
 
     private static String fillWithZeros(InternalDate internalDate) {
-        StringBuilder sb = internalDate.toString().isEmpty() ? new StringBuilder("0000")
-                : new StringBuilder(internalDate.toString());
-        for (int i = 0; i < DATE_PARSE_SECTIONS; i++) {
-            if (!sb.toString().matches(GENERAL_DATE_FORMAT)) {
-                sb.append("-00");
+        StringBuilder sb;
+
+        if (isValidDate(internalDate)) {
+            sb = new StringBuilder(internalDate.toString());
+        } else {
+            if (internalDate == null || internalDate.toString().isEmpty()) {
+                sb = new StringBuilder("0000");
+            } else {
+                sb = new StringBuilder(internalDate.toString());
+            }
+            for (int i = 0; i < DATE_PARSE_SECTIONS; i++) {
+                if (!sb.toString().matches(GENERAL_DATE_FORMAT)) {
+                    sb.append("-00");
+                }
             }
         }
         return sb.toString();
+    }
+
+    private static boolean isValidDate(InternalDate internalDate) {
+        return internalDate != null && internalDate.isValidDate();
     }
 
     private static String emptyStringIfNull(String s) {

@@ -359,6 +359,12 @@ public class InternalConverterUtilTest {
     }
 
     @Test
+    public void testNullFillWithZeros() {
+        String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(null);
+        assertEquals("0000-00-00", testString);
+    }
+
+    @Test
     public void testNothingSuppliedFillWithZeros() {
        InternalDate date = new InternalDate("");
         String testString = InternalConverterUtil.getInternalDateContentFillWithZeros(date);
