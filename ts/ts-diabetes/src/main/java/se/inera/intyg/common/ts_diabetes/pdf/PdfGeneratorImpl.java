@@ -20,11 +20,11 @@ package se.inera.intyg.common.ts_diabetes.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,7 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -60,7 +61,6 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.pdf.BasePdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
 import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
-import se.inera.intyg.schemas.contract.Personnummer;
 
 public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<TsDiabetesUtlatande> {
 
@@ -169,9 +169,8 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     @Override
     public String generatePdfFilename(TsDiabetesUtlatande utlatande) {
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        String personnummerString = Optional.ofNullable(personId).isPresent() ? personId.getPersonnummerWithDash() : "NoPnr";
-        return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
+        String tidpunkt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+        return String.format("lakarintyg_transportstyrelsen_%s.pdf", tidpunkt);
     }
 
     @Override

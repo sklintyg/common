@@ -83,11 +83,13 @@ public class PdfEmployeeGeneratorTest {
         intyg.getGrundData().setPatient(patient);
         intyg.setGiltighet(new LocalDateInterval(LocalDate.parse("2016-08-15"), LocalDate.parse("2016-10-30")));
 
+        LocalDateTime tidpunkt = LocalDateTime.now();
+        String formattedTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
         // generate PDF
         final PdfEmployeeGenerator pdfEmployeeGenerator = new PdfEmployeeGenerator(intyg, new ArrayList<Status>(), ApplicationOrigin.MINA_INTYG, null, UtkastStatus.SIGNED);
 
-        assertEquals("lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(false));
-        assertEquals("anpassat_lakarintyg_fk7263_19121212-1212.pdf", pdfEmployeeGenerator.generatePdfFilename(true));
+        assertEquals("lakarintyg_fk7263_" + formattedTidpunkt + ".pdf", pdfEmployeeGenerator.generatePdfFilename(tidpunkt, false));
+        assertEquals("minimalt_lakarintyg_fk7263_" + formattedTidpunkt + ".pdf", pdfEmployeeGenerator.generatePdfFilename(tidpunkt, true));
 
         assertTrue("Pdf should be customized", pdfEmployeeGenerator.isCustomized());
     }

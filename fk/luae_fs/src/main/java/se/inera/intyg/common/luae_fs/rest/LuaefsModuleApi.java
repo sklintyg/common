@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.luae_fs.rest;
 
-import com.google.common.collect.ImmutableList;
+import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -38,12 +39,10 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,9 +68,9 @@ public class LuaefsModuleApi extends FkParentModuleApi<LuaefsUtlatande> {
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin,
                     texts, utkastStatus);
-            Personnummer personId = luaefsIntyg.getGrundData().getPatient().getPersonId();
+
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
-                    PdfGenerator.generatePdfFilename(personId, CERTIFICATE_FILE_PREFIX));
+                    PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);

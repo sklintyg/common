@@ -20,10 +20,10 @@ package se.inera.intyg.common.sos_parent.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +42,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -50,7 +51,6 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * Created by marced on 2017-10-16.
@@ -253,17 +253,13 @@ public abstract class AbstractSoSPdfGenerator {
         }
     }
 
-    public String generatePdfFilename(Personnummer personnummer, String prefix) {
-        String personnummerString = isValidPersonnummer(personnummer) ? personnummer.getPersonnummerWithDash() : "NoPnr";
-        return String.format("%s_%s.pdf", prefix, personnummerString);
+    public String generatePdfFilename(LocalDateTime tidpunkt, String prefix) {
+        String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+        return String.format("%s_%s.pdf", prefix, utskriftsTidpunkt);
     }
 
     public byte[] getBytes() {
         return outputStream.toByteArray();
-    }
-
-    private boolean isValidPersonnummer(Personnummer personnummer) {
-        return Optional.ofNullable(personnummer).isPresent();
     }
 
 }

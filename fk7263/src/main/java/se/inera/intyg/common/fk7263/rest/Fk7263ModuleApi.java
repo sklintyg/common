@@ -180,7 +180,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
             PdfDefaultGenerator pdfGenerator = new PdfDefaultGenerator(intyg, statuses, applicationOrigin, utkastStatus);
-            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(false));
+            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(), false));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -196,8 +196,10 @@ public class Fk7263ModuleApi implements ModuleApi {
             throws ModuleException {
         try {
             Fk7263Utlatande intyg = getInternal(internalModel);
-            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin, optionalFields, utkastStatus);
-            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(pdfGenerator.isCustomized()));
+            PdfEmployeeGenerator pdfGenerator = new PdfEmployeeGenerator(intyg, statuses, applicationOrigin,
+                    optionalFields, utkastStatus);
+            return new PdfResponse(pdfGenerator.getBytes(), pdfGenerator.generatePdfFilename(LocalDateTime.now(),
+                    pdfGenerator.isCustomized()));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (employer copy) PDF for certificate!", e);

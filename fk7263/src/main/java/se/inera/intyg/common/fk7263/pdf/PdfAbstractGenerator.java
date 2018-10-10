@@ -20,11 +20,11 @@ package se.inera.intyg.common.fk7263.pdf;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -41,12 +41,12 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
+
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * @author andreaskaltenbach
@@ -219,12 +219,11 @@ public abstract class PdfAbstractGenerator {
     protected ByteArrayOutputStream outputStream;
     protected AcroFields fields;
 
-    public String generatePdfFilename(boolean isCustomized) {
-        Personnummer personnummer = intyg.getGrundData().getPatient().getPersonId();
-        String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
-        String prefix = isCustomized ? "anpassat_" : "";
+    public String generatePdfFilename(LocalDateTime tidpunkt, boolean isCustomized) {
+        String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+        String prefix = isCustomized ? "minimalt_" : "";
         String intygstyp = "fk7263";
-        return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, personnummerString);
+        return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, utskriftsTidpunkt);
     }
 
     public byte[] getBytes() {

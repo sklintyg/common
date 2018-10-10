@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.db.rest;
 
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.db.model.converter.InternalToTransport;
@@ -38,7 +40,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
 import java.util.List;
 
 public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
@@ -86,7 +87,7 @@ public class DbModuleApi extends SosParentModuleApi<DbUtlatande> {
             IntygTexts texts = getTexts(DbModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
             DbPdfGenerator pdfGenerator = new DbPdfGenerator(intyg, texts, statuses, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(),
-                    pdfGenerator.generatePdfFilename(intyg.getGrundData().getPatient().getPersonId(), PDF_FILENAME_PREFIX));
+                    pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
