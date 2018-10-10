@@ -35,6 +35,7 @@ angular.module('lisjp').controller(
 
                     $scope.errorMessage = null;
                     $scope.doneLoading = false;
+
                     certificateService.getCertificate('lisjp', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                         $scope.doneLoading = true;
                         if (result !== null) {
@@ -52,4 +53,5 @@ angular.module('lisjp').controller(
 
                     $scope.pagefocus = true;
                     $scope.uvConfig = viewConfigFactory.getViewConfig();
-                } ]);
+                }
+        ]);

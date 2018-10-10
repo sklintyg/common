@@ -10,7 +10,7 @@
 
             <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced"
                                                default-message-key="af00213.label.pageingress"
-                                               replaced-message-key="af00213.label.pageingress.ersatt"></mi-certificate-header-pageingress>
+                                               replaced-message-key="af00213.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
 
             <div uib-collapse="!isCollapsed1" class="collapse">
                 <span dynamic-label key="modules.page-header.info.select-recipients-and-send"></span>
