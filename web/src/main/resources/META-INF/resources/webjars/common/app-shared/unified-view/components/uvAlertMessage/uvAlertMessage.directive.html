@@ -1,0 +1,4 @@
+<div ng-attr-id="{{alertId | uvDomIdFilter}}" class="alert alert-{{::alertSeverity}}">
+  <span dynamic-label key="{{alertMessageId}}" class="multiline"></span>
+  <ng-transclude></ng-transclude>
+</div>

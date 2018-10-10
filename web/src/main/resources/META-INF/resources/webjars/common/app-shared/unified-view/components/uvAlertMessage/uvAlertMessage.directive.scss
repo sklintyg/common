@@ -1,0 +1,49 @@
+/*!
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+uv-alert-message {
+  display: inline-block; /* so it is easier to see bounding box in inspector */
+  width: 100%;
+
+  .alert {
+    @extend %wc-typo-07;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    padding: 8px 9px 7px 38px;
+    width: 100%;
+
+    .alert-icon {
+      .material-icons, .icon-wc-ikon-alert02 {
+        position: absolute;
+        top: 5px;
+        left: 6px;
+      }
+    }
+
+    a:hover {
+      color: $wc-color-07;
+    }
+    &.alert-komplettering {
+      background-color: $wc-color-02;
+      color: $wc-color-05;
+    }
+  }
+
+}
