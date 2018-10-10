@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
@@ -25,11 +29,8 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
-import se.inera.intyg.schemas.contract.Personnummer;
 
-import java.io.ByteArrayOutputStream;
-import java.util.Optional;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 
 /**
  * Generic PDF renderer that delegates (almost) all rendering logic to a given model.
@@ -77,8 +78,8 @@ public final class PdfGenerator {
         return bos.toByteArray();
     }
 
-    public static String generatePdfFilename(Personnummer personnummer, String fileNamePrefix) {
-        final String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
-        return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
+    public static String generatePdfFilename(LocalDateTime tidpunkt, String fileNamePrefix) {
+        final String utskriftsTidpunkt = tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm"));
+        return String.format("%s_%s.pdf", fileNamePrefix, utskriftsTidpunkt);
     }
 }

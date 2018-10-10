@@ -19,6 +19,7 @@
 package se.inera.intyg.common.lisjp.v1.rest;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,8 +28,8 @@ import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
 import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
@@ -56,7 +57,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.lisjp.v1")
@@ -66,7 +66,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "anpassat_lakarintyg_sjukpenning";
+    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "minimalt_lakarintyg_sjukpenning";
 
     public LisjpModuleApiV1() {
         super(LisjpUtlatandeV1.class);
@@ -212,9 +212,8 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luseIntyg, statuses, applicationOrigin, texts, utkastStatus);
 
-            Personnummer personId = luseIntyg.getGrundData().getPatient().getPersonId();
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
-                    PdfGenerator.generatePdfFilename(personId, filePrefix));
+                    PdfGenerator.generatePdfFilename(LocalDateTime.now(), filePrefix));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);

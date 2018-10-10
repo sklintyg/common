@@ -25,6 +25,8 @@ import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -58,13 +60,11 @@ public class PdfGeneratorTest {
     @Test
     public void testGeneratePdfName() throws Exception {
         final String PREFIX = "test";
-        final String P_NR = "19121212-1212";
+        final LocalDateTime tidpunkt = LocalDateTime.now();
 
-        String expected = PREFIX + "_" + P_NR + ".pdf";
+        String expected = PREFIX + "_" + tidpunkt.format(DateTimeFormatter.ofPattern("yy-MM-dd_HHmm")) + ".pdf";
 
-        String actual = PdfGenerator.generatePdfFilename(
-                Personnummer.createPersonnummer(P_NR).get(),
-                PREFIX);
+        String actual = PdfGenerator.generatePdfFilename(tidpunkt, PREFIX);
 
         assertEquals(expected, actual);
     }
