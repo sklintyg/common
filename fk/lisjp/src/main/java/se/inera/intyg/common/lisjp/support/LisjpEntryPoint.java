@@ -18,16 +18,17 @@
  */
 package se.inera.intyg.common.lisjp.support;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
+@Component("LisjpEntryPoint")
 public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
 
     public static final String ISSUER_TYPE_ID = "FK 7804";
     public static final String MODULE_ID = "lisjp";
     public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
-    public static final String SCHEMATRON_FILE = "lisjp.sch";
 
     @Override
     public String getModuleId() {

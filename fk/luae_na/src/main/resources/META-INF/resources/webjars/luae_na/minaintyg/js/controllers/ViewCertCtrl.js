@@ -18,7 +18,7 @@
  */
 angular.module('luae_na').controller('luae_na.ViewCertCtrl',
     [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService',
-        'common.dialogService', 'common.messageService', 'luae_na.viewConfigFactory',
+        'common.dialogService', 'common.messageService', 'viewConfigFactory',
 
         function($location, $log, $stateParams, $scope, certificateService,
             dialogService, messageService, viewConfigFactory) {

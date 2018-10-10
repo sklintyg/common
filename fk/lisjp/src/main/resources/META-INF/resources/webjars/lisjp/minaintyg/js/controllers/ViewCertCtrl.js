@@ -18,7 +18,7 @@
  */
 angular.module('lisjp').controller(
         'lisjp.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'lisjp.customizeViewstate', 'lisjp.viewConfigFactory',
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'lisjp.customizeViewstate', 'viewConfigFactory',
                 function($location, $log, $stateParams, $scope, certificateService, customizeViewstate, viewConfigFactory) {
                     'use strict';
                     $scope.certificateId = $stateParams.certificateId;

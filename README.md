@@ -51,7 +51,8 @@ Som utvecklare kan det bli ganska rörigt att navigera bland kod som har många 
 För att inte behöva deklarara alla ingående beans som en intygstyp använder i en spring xml bör ```src/main/resources/<intygtyp>-beans.xml``` använda component-scan ex:
 
 ```<context:component-scan base-package="se.inera.intyg.common.af00213"/>```
-(I vissa fall kan Spring behöva qualifiers för att hitta specifik implemenation får man ev lägga till qualifiers. I så fall läggs dom till enligt liknande mönster som för ModuleAPi ovan)
+
+Alla Beans måste då annoteras med @Component (lämpligvis även med ett id)
 
 Hur mycket kod som kan delas mellan parent-projekt, intygs-rot-klasser och versionsspecifika klasser beror helt på *hur* och *hur mycket* versionernas
  innehåll skiljer sig åt mellan två major-versioner av ett intyg - är det bara 1 valideringsregel som skiljer, eller är intygen väldigt olika? Det får man 

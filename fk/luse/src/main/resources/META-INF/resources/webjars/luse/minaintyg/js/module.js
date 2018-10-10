@@ -26,6 +26,11 @@ angular.module('luse').config(function($stateProvider) {
             url :'/luse/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luse/minaintyg/views/view-cert.html',
             controller: 'luse.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
+                }
+            },
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
         }).

@@ -141,7 +141,7 @@ describe('UtkastService', function() {
             $httpBackend.flush();
             $timeout.flush();
 
-            expect($location.url).toHaveBeenCalledWith('/intyg/testIntyg/testIntygId/');
+            expect($location.url).toHaveBeenCalledWith('/intyg/testIntyg/1.0/testIntygId/');
         });
 
         it ('successful utkast load', function () {

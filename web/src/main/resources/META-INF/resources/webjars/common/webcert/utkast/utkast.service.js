@@ -85,7 +85,7 @@ angular.module('common').factory('common.UtkastService',
                     if (utkastData.status === 'SIGNED') {
                         // just change straight to the intyg
                         $animate.enabled(true);
-                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id + '/');
+                        $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.textVersion + '/' + utkastData.content.id + '/');
                     }
                     else {
 

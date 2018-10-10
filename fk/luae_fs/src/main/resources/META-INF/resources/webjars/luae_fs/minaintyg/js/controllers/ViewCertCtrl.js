@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('luae_fs').controller('luae_fs.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'luae_fs.viewConfigFactory',
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory',
 
         function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
             'use strict';

@@ -21,6 +21,18 @@ angular.module('luae_na').config(function($stateProvider) {
 
     var commonPath = '/web/webjars/common/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luae_na.EditCertCtrl.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luae_na.UtkastConfigFactory', $stateParams);
+    };
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luae_na.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('luae_na-edit', {
             data: { defaultActive : 'index', intygType: 'luae_na' },
@@ -30,8 +42,8 @@ angular.module('luae_na').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'luae_na.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },
@@ -44,7 +56,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'luae_na.EditCertCtrl.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -56,8 +68,8 @@ angular.module('luae_na').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'luae_na.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'luae_na.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                 }
             }
@@ -71,7 +83,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luae_na.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },
@@ -93,7 +105,7 @@ angular.module('luae_na').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luae_na.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luae_na.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'luae_na.supportPanelConfigFactory'
                     }
                 },

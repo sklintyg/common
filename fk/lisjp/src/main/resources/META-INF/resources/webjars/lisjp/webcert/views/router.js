@@ -21,6 +21,18 @@ angular.module('lisjp').config(function($stateProvider) {
 
     var commonPath = '/web/webjars/common/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('lisjp.EditCertCtrl.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('lisjp.UtkastConfigFactory', $stateParams);
+    };
+
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
+    };
     $stateProvider.
         state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
@@ -30,8 +42,8 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
@@ -44,7 +56,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'lisjp.EditCertCtrl.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -57,8 +69,8 @@ angular.module('lisjp').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                  }
             }
@@ -71,7 +83,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
@@ -93,7 +105,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
@@ -116,7 +128,7 @@ angular.module('lisjp').config(function($stateProvider) {
                     intygsType: function() {
                         return 'lisjp';
                     },
-                    ViewConfigFactory: 'lisjp.viewConfigFactory',
+                    ViewConfigFactory: viewConfig,
                     DiagnosExtractor: function() {
                         return function (lisjpModel) {
                             return lisjpModel.diagnoser[0].diagnosKod;

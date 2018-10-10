@@ -1,17 +1,9 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <bean class="se.inera.intyg.common.luae_na.model.converter.WebcertModelFactoryImpl" />
-
-  <bean class="se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl" />
-
-  <bean name="moduleapi.luae_na.v1" class="se.inera.intyg.common.luae_na.rest.LuaenaModuleApi" />
-
-  <bean class="se.inera.intyg.common.luae_na.validator.InternalDraftValidatorImpl" />
-
-  <bean class="se.inera.intyg.common.luae_na.model.util.LuaenaModelCompareUtil" />
-
-  <bean id="luaenaEntryPoint" class="se.inera.intyg.common.luae_na.support.LuaenaEntryPoint" />
-
+  <context:annotation-config/>
+  <context:component-scan base-package="se.inera.intyg.common.luae_na"/>
 </beans>

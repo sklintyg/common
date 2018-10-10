@@ -25,6 +25,11 @@ angular.module('lisjp').config(function($stateProvider) {
         url: '/lisjp/:intygTypeVersion/view/:certificateId',
         templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
         controller: 'lisjp.ViewCertCtrl',
+        resolve: {
+            viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
+            }
+        },
         data: {
             title: 'Läkarintyg för sjukpenning',
             keepInboxTabActive: true,

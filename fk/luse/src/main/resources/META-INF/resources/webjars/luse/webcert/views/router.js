@@ -21,6 +21,18 @@ angular.module('luse').config(function($stateProvider) {
 
     var commonPath = '/web/webjars/common/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luse.EditCertCtrl.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luse.UtkastConfigFactory', $stateParams);
+    };
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('luse-edit', {
             data: { defaultActive : 'index', intygType: 'luse' },
@@ -30,8 +42,8 @@ angular.module('luse').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'luse.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
@@ -44,7 +56,7 @@ angular.module('luse').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'luse.EditCertCtrl.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -56,8 +68,8 @@ angular.module('luse').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'luse.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                 }
             }
@@ -71,7 +83,7 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
@@ -93,7 +105,7 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },

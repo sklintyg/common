@@ -18,22 +18,18 @@
  */
 package se.inera.intyg.common.luse.support;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
-import se.inera.intyg.common.luse.rest.LuseModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
+@Component(value = "LuseEntryPoint")
 public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
 
     public static final String ISSUER_TYPE_ID = "FK 7800";
     public static final String MODULE_ID = "luse";
     public static final String MODULE_NAME = "Läkarutlåtande för sjukersättning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
-    public static final String SCHEMATRON_FILE = "luse.sch";
-
-    @Autowired
-    private LuseModuleApi moduleApi;
 
     @Override
     public String getModuleId() {
