@@ -25,6 +25,7 @@
 
   // injector
   @import '../app-shared/unified-view/components/_variables.scss';
+  @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
   @import '../app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.scss';
   @import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
