@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
-    function(ueUtil, icf, $window) {
+angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
+    function(ueUtil, $window, $http) {
     'use strict';
     return {
         restrict: 'E',
@@ -31,39 +31,66 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
         link: function(scope) {
             ueUtil.standardSetup(scope);
 
+            scope.icfFunktioner = {};
+            scope.selectedFunktioner = [];
+            
             scope.hasICFDiagnos = function() {
-               if(scope.model.diagnoser) {
-                   for(var i = 0; i < scope.model.diagnoser.length; i++) {
-                       var diagnos = scope.model.diagnoser[i];
-                       if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
-                           return diagnos;
-                       }
-                   }
-               }
-               return false;
-           };
-
-           scope.icfFunktioner = [];
+                var hasICFDiagnoser = false;
+                if (!angular.equals(scope.icfFunktioner, {}) &&
+                    (!angular.equals(scope.icfFunktioner.gemensamma, {}) || 
+                    !angular.equals(scope.icfFunktioner.unika, []))) {
+                        hasICFDiagnoser = true;
+                }
+                return hasICFDiagnoser;
+            };
 
            scope.$watch('model.diagnoser', function(newVal) {
                 if (newVal) {
                     if(scope.model.diagnoser && scope.model.diagnoser.length > 0) {
-                        for (var i = 0; i < scope.model.diagnoser.length; i++) {
-                            var diagnos = scope.model.diagnoser[i];
-                            if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
-                                if (scope.config.modelProp === 'funktionsnedsattning') {
-                                    scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].funktion);
-                                } else {
-                                    scope.icfFunktioner = angular.copy(icf[diagnos.diagnosKod.toLowerCase()].aktivitet);
-                                }
-                            }
+                        var icdKod = 0;
+                        var diagnoser = scope.model.diagnoser.filter(function(v){
+                            return !!v.diagnosKod;
+                        }).map(function(v){
+                            icdKod++;
+                            return 'icfCode' + icdKod + '=' + v.diagnosKod;
+                        }).join('&');
+                        if (diagnoser) {
+                            scope.getIcf(diagnoser);
                         }
                     }
                 }
             }, true);
 
-            scope.diagnosBeskrivningen = function() {
-                return scope.hasICFDiagnos().diagnosBeskrivning;
+            scope.getIcf = function(diagnoser) {
+                var restPath = '/api/icf?' + diagnoser;
+                $http.get(restPath).then(function(response) {
+                    if (response && response.statusText === 'OK') {
+                        scope.icfFunktioner = response.data;
+                    }
+                }, function(response) {
+                    console.log('error ' + response.statusText);
+                });
+            };
+
+            scope.diagnosBeskrivningen = function(kod) {
+                if (angular.isArray(kod)) {
+                    return scope.model.diagnoser.filter(function(v){
+                        return kod.indexOf(v.diagnosKod) > -1;
+                    }).map(function(v) {
+                        return v.diagnosBeskrivning;
+                    }).join(', ');
+                }
+                var icdKod = scope.model.diagnoser.filter(function(v){
+                        return v.diagnosKod === kod;
+                });
+                if (icdKod.length === 1) {
+                    return icdKod[0].diagnosBeskrivning;
+                }
+            };
+
+            scope.getKodTyp = function () {
+                return scope.config.kategoriProp === 'funktionsKategorier' ? 
+                'funktionsNedsattningsKoder' : 'aktivitetsBegransningsKoder';
             };
 
             scope.openPlate = function() {
@@ -88,26 +115,33 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
             };
 
             scope.rensa = function(option) {
-                for (var i = 0; i < scope.icfFunktioner.length; i++) {
-                    scope.icfFunktioner[i].vald = false;
-                }
+                iterateFunktioner(function (v) {
+                    v.vald = false;
+                });
                 scope.model[scope.config.kategoriProp] = [];
                 scope.closePlate();
             };
 
             scope.add = function(arr) {
                 scope.model[scope.config.kategoriProp] = [];
-                for (var i = 0; i < arr.length; i++) {
-                    if (arr[i].vald) {
-                        scope.model[scope.config.kategoriProp].push(arr[i].namn);
+                iterateFunktioner(function (v) {
+                    if (v.vald) {
+                        scope.model[scope.config.kategoriProp].push(v.kod);
                     }
-                }
+                });
                 scope.closePlate();
             };
 
-            scope.toggle = function(kategori) {
-                kategori.vald = !kategori.vald;
-            };
+            function iterateFunktioner(fun) {
+                if (scope.icfFunktioner.gemensamma[scope.getKodTyp()]) {
+                    scope.icfFunktioner.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
+                    scope.icfFunktioner.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                }
+                scope.icfFunktioner.unika.forEach(function(v) {
+                    v[scope.getKodTyp()].centralaKoder.forEach(fun);
+                    v[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                });
+            }
 
             function onDocumentClick(e) {
                 if (scope.funktionsDropdown) {
@@ -121,15 +155,19 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
                     }
                 }
             }
+            
+            function setVald(i) {
+                return function(v) {
+                    if (v.kod === scope.model[scope.config.kategoriProp][i]) {
+                        v.vald = true;
+                    }
+                };
+            }
 
             function setupChoices() {
                 if (scope.model[scope.config.kategoriProp].length > 0) {
                     for (var i = 0; i < scope.model[scope.config.kategoriProp].length; i++) {
-                        for (var f = 0; f < scope.icfFunktioner.length; f++) {
-                            if (scope.icfFunktioner[f].namn === scope.model[scope.config.kategoriProp][i]) {
-                                scope.icfFunktioner[f].vald = true;
-                            }
-                        }
+                        iterateFunktioner(setVald(i));
                     }
                 }
             }
@@ -160,10 +198,14 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', 'common.icf', '$window',
             };
 
             scope.isInteractionDisabled = function() {
-                for (var i = 0; i < scope.icfFunktioner.length; i++) {
-                    if (scope.icfFunktioner[i].vald) {
-                        return false;
+                var shouldDisable = true;
+                iterateFunktioner(function(v) {
+                    if (v.vald) {
+                        shouldDisable = false;
                     }
+                });
+                if (!shouldDisable) {
+                    return false;
                 }
                 if (scope.model[scope.config.kategoriProp].length === 0) {
                     return true;

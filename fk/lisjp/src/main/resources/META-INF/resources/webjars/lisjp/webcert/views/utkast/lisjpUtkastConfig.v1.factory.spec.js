@@ -25,6 +25,23 @@ describe('lisjpFormFactory', function() {
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.anchorScrollService', {scrollTo: function() {}});
     }));
+    beforeEach(module('common', function($compileProvider) {
+        $compileProvider.directive('ueIcf', function(ueUtil) {
+            return {
+                priority: 100,
+                terminal: true,
+                restrict: 'E',
+                scope: {
+                    form: '=',
+                    config: '=',
+                    model: '='
+                },
+                link: function(scope) {
+                    ueUtil.standardSetup(scope);
+                }
+            };
+        });
+    }));
     beforeEach(angular.mock.module('lisjp'));
     beforeEach(inject(['$compile', '$rootScope', 'lisjp.UtkastConfigFactory.v1', 'lisjp.Domain.IntygModel.v1',
         function($compile, $rootScope, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {

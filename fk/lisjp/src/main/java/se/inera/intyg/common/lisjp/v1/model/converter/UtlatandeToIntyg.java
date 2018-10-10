@@ -303,7 +303,7 @@ public final class UtlatandeToIntyg {
                     }
                 }
                 icfContent.append("\n\n" + content);
-                svars.add(aSvar(svarsId).withDelsvar(delsvarsId, icfContent).build());
+                svars.add(aSvar(svarsId).withDelsvar(delsvarsId, icfContent.toString()).build());
             } else {
                 svars.add(aSvar(svarsId).withDelsvar(delsvarsId, content).build());
             }

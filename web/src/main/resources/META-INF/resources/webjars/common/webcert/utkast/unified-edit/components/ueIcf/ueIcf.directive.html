@@ -19,20 +19,22 @@
           'Välj enbart de svårigheter som påverkar patientens sysselsättning.' }}</span>
     </div>
     <div class="kategori-content">
-      <span class="kategori-label">ICF-kategorier för:</span><br />
-      <strong class="medborder">{{diagnosBeskrivningen()}}</strong>
-      <div ng-repeat="urval in icfFunktioner" class="kategori">
-        <div class="kategorier">
-          <input type="checkbox" class="big-checkbox" ng-model="urval.vald" />
-          <span ng-click="toggle(urval)">{{urval.namn}}</span><span class="visamer" ng-click="visamer = !visamer">{{visamer ? 'visa mindre':'visa mer'}} <i
-            class="glyphicon" ng-class="{'glyphicon-menu-down': !visamer, 'glyphicon-menu-up': visamer}"></i></span>
-        </div>
-        <div ng-if="visamer" class="beskrivning">{{urval.beskrivning}}</div>
-        <div ng-if="visamer && urval.innefattar" class="beskrivning">
-          <strong>Innefattar</strong><br />
-          <span>{{urval.innefattar}}</span>
-        </div>
+      
+      <div ng-if="icfFunktioner.gemensamma[getKodTyp()].centralaKoder.length > 0 ||
+                  icfFunktioner.gemensamma[getKodTyp()].kompletterandeKoder.length > 0">
+        <span class="kategori-label">ICF-kategorier för:</span><br />
+        <strong class="medborder">{{diagnosBeskrivningen(icfFunktioner.gemensamma[getKodTyp()].icd10Koder)}}</strong>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in icfFunktioner.gemensamma[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in icfFunktioner.gemensamma[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
       </div>
+
+      <div ng-repeat="unika in icfFunktioner.unika">
+        <span class="kategori-label">ICF-kategorier för:</span><br />
+        <strong class="medborder">{{diagnosBeskrivningen(unika.icd10Kod)}}</strong>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
+      </div>
+
     </div>
 
     <div class="fader"></div>
