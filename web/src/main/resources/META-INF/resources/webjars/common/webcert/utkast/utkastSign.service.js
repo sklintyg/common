@@ -416,7 +416,7 @@ angular.module('common').factory('common.UtkastSignService',
                     'AUTHORIZATION_PROBLEM':      'common.error.sign.authorization',
                     'INDETERMINATE_IDENTITY':     'common.error.sign.indeterminate.identity',
                     'INTYG_FROM_OTHER_VARDGIVARE_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists.other_vardgivare',
-                    'INTYG_FORM_SAME_VARDGIVARE_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists.same_vardgivare'
+                    'INTYG_FROM_SAME_VARDGIVARE_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists.same_vardgivare'
                 };
 
                 if (error === undefined) {
