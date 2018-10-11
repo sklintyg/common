@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('miCertificateActionButtons',
-        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', 'MIUser',
-            function($log, $state, messageService, listCertService, dialogService, MIUser) {
+        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService',
+            function($log, $state, messageService, listCertService, dialogService) {
             'use strict';
 
             return {
@@ -93,7 +93,6 @@ angular.module('common').directive('miCertificateActionButtons',
                         });
                     };
                     $scope.onDownloadClicked = function() {
-                        if (MIUser.sekretessmarkering) {
                             dialogService.showDialog($scope, {
                                 dialogId: 'mi-downloadpdf-sekretess-dialog',
                                 titleId: 'pdf.sekretessmarkeringmodal.header',
@@ -109,10 +108,6 @@ angular.module('common').directive('miCertificateActionButtons',
                                 button2visible: true,
                                 autoClose: true
                             });
-                        }
-                        else {
-                            window.open(buildPdfLink(), '_blank');
-                        }
                     };
                 }
             };

@@ -111,12 +111,7 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
 
 
             //Download handling ------------------------
-
-            function _addInput(name, item) {
-                return '<input type="hidden" name="' + name + '" value="' + item + '" />';
-            }
-
-            $scope.submit = function() {
+            function _executeDownload() {
                 var inputs = '';
                 var fields = customizeViewstate.getSendModel();
 
@@ -129,6 +124,28 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                     .appendTo('body').submit().remove();
 
                 $scope.downloadSuccess = true;
+            }
+
+            function _addInput(name, item) {
+                return '<input type="hidden" name="' + name + '" value="' + item + '" />';
+            }
+
+            $scope.submit = function() {
+                dialogService.showDialog($scope, {
+                    dialogId: 'mi-downloadpdf-sekretess-dialog',
+                    titleId: 'pdf.sekretessmarkeringmodal.header',
+                    bodyTextId: 'pdf.sekretessmarkeringmodal.body',
+                    button1click: function() {
+                        _executeDownload();
+                    },
+                    button2click: function() {
+                    },
+                    button1id: 'close-fkdialog-logout-button',
+                    button1text: 'pdf.sekretessmarkeringmodal.button1',
+                    button2text: 'pdf.sekretessmarkeringmodal.button2',
+                    button2visible: true,
+                    autoClose: true
+                });
             };
 
         }]);
