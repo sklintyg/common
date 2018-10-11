@@ -52,6 +52,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     private static String name;
 
     private static InternalDraftValidatorImpl internalValidator = new InternalDraftValidatorImpl();
+    private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
 
     static {
         // avoid com.helger debug log
@@ -80,6 +81,12 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
         DoiUtlatande utlatandeFromJson = scenario.asInternalModel();
+
+        if(!fail) {
+            internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+            internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
+            internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
+        }
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
 
