@@ -33,10 +33,12 @@ angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
                         if (ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) {
                             $scope.intygType = ArendeListViewState.intygProperties.type;
                             $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId;
+                            $scope.intygTypeVersion = ArendeListViewState.intygProperties.intygTypeVersion;
                         }
                         else {
                             $scope.intygType = undefined;
                             $scope.intygId = undefined;
+                            $scope.intygTypeVersion = undefined;
                         }
                     }
 
