@@ -22,7 +22,7 @@ angular.module('db').constant('db.messages', {
     'sv': {
         //Validation messages
         'db.validation.explosivAvlagsnat.explosivImplantatFalse': 'Den valda kombinationen är ogiltig.',
-        'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
+        'db.validation.undersokningDatum.after.dodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum"..',
         'db.validation.undersokningDatum.after.antraffatDodDatum' : 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'db.validation.undersokningDatum.before.beginningOflastYear' : 'Ange ett datum, samma som eller senare än 1 januari föregående året.',
 
