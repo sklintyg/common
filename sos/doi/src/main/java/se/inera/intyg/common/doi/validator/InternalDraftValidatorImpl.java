@@ -202,6 +202,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                             .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
                                     ValidationMessageType.INCORRECT_COMBINATION,
                                     "operation.operationDatum.fyraVeckorForeDodDatum");
+                } else if (utlatande.getOperationDatum().isBeforeBeginningOfLastYear()) {
+                    ValidatorUtil
+                            .addValidationError(validationMessages, "operation", OPERATION_DATUM_JSON_ID,
+                                    ValidationMessageType.OTHER,
+                                    "common.validation.date.beforeLastYear");
                 }
             }
             if (Strings.nullToEmpty(utlatande.getOperationAnledning()).isEmpty()) {
