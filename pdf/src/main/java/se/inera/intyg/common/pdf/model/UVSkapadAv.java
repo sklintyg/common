@@ -102,13 +102,13 @@ public class UVSkapadAv extends UVComponent {
         if (befattningar.size() > 0) {
             intygsUtfardare.append(befattningar.stream()
                     .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
-                    .collect(Collectors.joining(" ,"))).append("\n");
+                    .collect(Collectors.joining(", "))).append("\n");
         }
 
         // Specialistkompetenser
         List<String> specialistkompentenser = fromStringArray(renderer.evalValueFromModel(modelProp + ".specialiteter"));
         if (specialistkompentenser.size() > 0) {
-            intygsUtfardare.append(specialistkompentenser.stream().collect(Collectors.joining(" ,"))).append("\n");
+            intygsUtfardare.append(specialistkompentenser.stream().collect(Collectors.joining(", "))).append("\n");
         }
 
         // Leg yrkesgrupp.
@@ -119,10 +119,11 @@ public class UVSkapadAv extends UVComponent {
         StringBuilder kontaktUppgifter = new StringBuilder();
         kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn").toString())
                 .append("\n");
-
+        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.postadress").toString())
+                .append("\n");
         kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer").toString())
                 .append(" ")
-                .append(renderer.evalValueFromModel(modelProp + ".vardenhet.postadress").toString())
+                .append(renderer.evalValueFromModel(modelProp + ".vardenhet.postort").toString())
                 .append("\n");
         kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer").toString())
                 .append("\n");
