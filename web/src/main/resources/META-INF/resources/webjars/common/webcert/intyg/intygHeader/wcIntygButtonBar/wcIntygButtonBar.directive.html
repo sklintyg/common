@@ -15,7 +15,7 @@
           ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
           wc-check-vardenhet
           uib-popover="{{IntygHeaderService.getCurrentCreateFromTemplate().tooltip}}"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
@@ -28,7 +28,7 @@
           class="btn btn-success"
           ng-if="IntygHeaderService.showGotoCreatedFromTemplate()"
           ng-click="IntygHeaderService.gotoRelatedFromTemplate()"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
@@ -45,7 +45,7 @@
           ng-if="showSkickaButton()"
           ng-click="send()"
           uib-popover="{{sendBtnTooltipText}}"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
@@ -59,7 +59,7 @@
           intygstyp="{{intygType}}"
           ng-click="print(viewState.intygModel, false);printPopoverOpen=false"
           uib-popover="{{normalPrintBtnTooltipText}}"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-is-open="printPopoverOpen"
@@ -75,7 +75,7 @@
               aria-haspopup="true"
               aria-expanded="false"
               uib-popover="{{selectPrintBtnTooltipText}}"
-              popover-trigger="mouseenter"
+
               popover-popup-delay="300"
               popover-append-to-body="true"
               popover-placement="auto top">
@@ -105,7 +105,7 @@
           ng-if="showFornyaButton()"
           ng-click="fornya(viewState.intygModel);fornyaBtnPopOver=false"
           uib-popover="{{fornyaBtnTooltipText}}"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top"
@@ -116,7 +116,7 @@
   <div class="button-tooltip"
        ng-class="{'disabled':ersattButtonDisabled}"
        uib-popover="{{ersattBtnTooltipText}}"
-       popover-trigger="mouseenter"
+
        popover-popup-delay="300"
        popover-append-to-body="true"
        popover-placement="auto top">
@@ -140,7 +140,7 @@
           wc-check-vardenhet
           vardenhet="{{viewState.enhetsId}}"
           uib-popover="{{makuleraBtnTooltipText}}"
-          popover-trigger="mouseenter"
+
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top"
