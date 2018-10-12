@@ -22,14 +22,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
+@Component("DoiModuleEntryPoint")
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
-    public static final String SCHEMATRON_FILE = "doi.sch";
     public static final String MODULE_ID = "doi";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
     public static final String ISSUER_TYPE_ID = "SoSB 76016";

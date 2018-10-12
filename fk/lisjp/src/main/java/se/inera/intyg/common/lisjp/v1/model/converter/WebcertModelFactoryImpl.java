@@ -79,7 +79,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
     @Override
     public LisjpUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
         if (!LisjpUtlatandeV1.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type LisjpUtlatande");
+            throw new ConverterException("Template is not of type LisjpUtlatandeV1");
         }
 
         LisjpUtlatandeV1 lisjpUtlatandeV1 = (LisjpUtlatandeV1) template;

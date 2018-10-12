@@ -21,6 +21,19 @@ angular.module('db').config(function($stateProvider) {
 
     var commonPath = '/web/webjars/common/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('db.EditCertCtrl.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('db.UtkastConfigFactory', $stateParams);
+    };
+
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('db.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('db-edit', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
@@ -30,8 +43,8 @@ angular.module('db').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'db.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'db.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
@@ -44,7 +57,7 @@ angular.module('db').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'db.EditCertCtrl.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -57,8 +70,8 @@ angular.module('db').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'db.EditCertCtrl.ViewStateService',
-                        UtkastConfigFactory: 'db.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                 }
             }
@@ -72,7 +85,7 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
@@ -81,32 +94,6 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'common.IntygHeader',
                     resolve: {
                         IntygViewState: 'db.IntygController.ViewStateService'
-                    }
-                }
-            }
-        }).
-        state('webcert.fragasvar.db', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'db'  },
-            url: '/fragasvar/db/:intygTypeVersion/:certificateId',
-            views: {
-                'intyg@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory',
-                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
-                    }
-                },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.fragasvar.db' : {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luse.IntygController.ViewStateService'
                     }
                 }
             }

@@ -22,14 +22,15 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
+@Component("DbModuleEntryPoint")
 public class DbModuleEntryPoint implements ModuleEntryPoint {
 
-    public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
     public static final String ISSUER_TYPE_ID = "SoSB 76026";
