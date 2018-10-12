@@ -73,6 +73,7 @@ public class InternalValidatorTest {
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("invalid-*")) {
 
             TsDiabetesUtlatande utlatande = scenario.asInternalModel();
+            utlatande.getDiabetes().setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
             ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
             assertEquals(String.format("Error in test: %s", scenario.getName()), ValidationStatus.INVALID, validationResponse.getStatus());
@@ -154,8 +155,8 @@ public class InternalValidatorTest {
     @Test
     public void testInvalidDiabetesInsulinperiod() throws Exception {
         TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
+        utlatande.getDiabetes().setInsulinBehandlingsperiod(String.valueOf(LocalDate.now().getYear() + 1));
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
-
         assertEquals("diabetes.insulinBehandlingsperiod",
                 getSingleElement(validationResponse.getValidationErrors()).getField());
     }
