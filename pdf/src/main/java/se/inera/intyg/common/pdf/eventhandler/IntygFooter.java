@@ -81,7 +81,7 @@ public class IntygFooter implements IEventHandler {
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera\nwww.inera.se",
+        canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera AB\nwww.inera.se",
                 millimetersToPoints(PAGE_MARGIN_LEFT),
                 millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
 
