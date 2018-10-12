@@ -206,14 +206,16 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private void validateFunktionsnedsattning(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY,
+                    "lisjp.validation.funktionsnedsattning.missing");
         }
     }
 
     private void validateAktivitetsbegransning(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY,
+                    "lisjp.validation.aktivitetsbegransning.missing");
         }
     }
 

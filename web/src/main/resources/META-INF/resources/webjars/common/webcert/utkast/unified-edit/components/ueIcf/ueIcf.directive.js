@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
-    function(ueUtil, $window, $http) {
+angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfProxy',
+    function(ueUtil, $window, IcfProxy) {
     'use strict';
     return {
         restrict: 'E',
@@ -31,46 +31,35 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
         link: function(scope) {
             ueUtil.standardSetup(scope);
 
-            scope.icfFunktioner = {};
-            scope.selectedFunktioner = [];
+            scope.kategorier = {};
+            scope.diagnoser = [];
             
             scope.hasICFDiagnos = function() {
-                var hasICFDiagnoser = false;
-                if (!angular.equals(scope.icfFunktioner, {}) &&
-                    (!angular.equals(scope.icfFunktioner.gemensamma, {}) || 
-                    !angular.equals(scope.icfFunktioner.unika, []))) {
-                        hasICFDiagnoser = true;
-                }
-                return hasICFDiagnoser;
+                return (!angular.equals(scope.kategorier, {}) &&
+                    (!angular.equals(scope.kategorier.gemensamma, {}) || 
+                    !angular.equals(scope.kategorier.unika, [])));
             };
 
            scope.$watch('model.diagnoser', function(newVal) {
                 if (newVal) {
                     if(scope.model.diagnoser && scope.model.diagnoser.length > 0) {
-                        var icdKod = 0;
                         var diagnoser = scope.model.diagnoser.filter(function(v){
                             return !!v.diagnosKod;
-                        }).map(function(v){
-                            icdKod++;
-                            return 'icfCode' + icdKod + '=' + v.diagnosKod;
-                        }).join('&');
-                        if (diagnoser) {
-                            scope.getIcf(diagnoser);
+                        });
+                        if (diagnoser.length > 0 && !angular.equals(diagnoser, scope.diagnoser)) {
+                            scope.diagnoser = diagnoser;
+                            IcfProxy.getIcf(diagnoser, function(kategorier) {
+                                scope.kategorier = kategorier;
+                            }, function() {
+                                scope.kategorier = {};
+                            });
+                        } else if (diagnoser.length === 0) {
+                            scope.kategorier = {};
+                            scope.model[scope.config.kategoriProp] = [];
                         }
                     }
                 }
             }, true);
-
-            scope.getIcf = function(diagnoser) {
-                var restPath = '/api/icf?' + diagnoser;
-                $http.get(restPath).then(function(response) {
-                    if (response && response.statusText === 'OK') {
-                        scope.icfFunktioner = response.data;
-                    }
-                }, function(response) {
-                    console.log('error ' + response.statusText);
-                });
-            };
 
             scope.diagnosBeskrivningen = function(kod) {
                 if (angular.isArray(kod)) {
@@ -95,18 +84,18 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
 
             scope.openPlate = function() {
                 $window.document.addEventListener('click', onDocumentClick, true);
-                scope.funktionsDropdown = true;
+                scope.kategoriDropdown = true;
             };
 
             scope.closePlate = function() {
-                scope.funktionsDropdown = false;
+                scope.kategoriDropdown = false;
                 $window.document.removeEventListener('click', onDocumentClick, true);
             };
 
-            scope.openFunktionsDropdown = function() {
+            scope.openKategoriDropdown = function() {
                 if (scope.hasICFDiagnos()) {
                     setupChoices();
-                    if (!scope.funktionsDropdown) {
+                    if (!scope.kategoriDropdown) {
                         scope.openPlate();
                     } else {
                         scope.closePlate();
@@ -115,16 +104,15 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
             };
 
             scope.rensa = function(option) {
-                iterateFunktioner(function (v) {
+                itereraKategorier(function (v) {
                     v.vald = false;
                 });
-                scope.model[scope.config.kategoriProp] = [];
                 scope.closePlate();
             };
 
             scope.add = function(arr) {
                 scope.model[scope.config.kategoriProp] = [];
-                iterateFunktioner(function (v) {
+                itereraKategorier(function (v) {
                     if (v.vald) {
                         scope.model[scope.config.kategoriProp].push(v.kod);
                     }
@@ -132,23 +120,23 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
                 scope.closePlate();
             };
 
-            function iterateFunktioner(fun) {
-                if (scope.icfFunktioner.gemensamma[scope.getKodTyp()]) {
-                    scope.icfFunktioner.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
-                    scope.icfFunktioner.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+            function itereraKategorier(fun) {
+                if (scope.kategorier.gemensamma[scope.getKodTyp()]) {
+                    scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
+                    scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
                 }
-                scope.icfFunktioner.unika.forEach(function(v) {
+                scope.kategorier.unika.forEach(function(v) {
                     v[scope.getKodTyp()].centralaKoder.forEach(fun);
                     v[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
                 });
             }
 
             function onDocumentClick(e) {
-                if (scope.funktionsDropdown) {
+                if (scope.kategoriDropdown) {
                     var plateElement = $window.document.getElementById(scope.model.diagnoser[0].diagnosKod +
-                        '-'+scope.config.modelProp+'-plate');
+                        '-' + scope.config.modelProp + '-plate');
                     var dropElement = $window.document.getElementById(scope.model.diagnoser[0].diagnosKod +
-                        '-'+scope.config.modelProp+'-dropdown');
+                        '-' + scope.config.modelProp + '-dropdown');
                     if (!plateElement.contains(e.target) && !dropElement.contains(e.target)) {
                         scope.closePlate();
                         scope.$digest();
@@ -167,7 +155,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
             function setupChoices() {
                 if (scope.model[scope.config.kategoriProp].length > 0) {
                     for (var i = 0; i < scope.model[scope.config.kategoriProp].length; i++) {
-                        iterateFunktioner(setVald(i));
+                        itereraKategorier(setVald(i));
                     }
                 }
             }
@@ -183,11 +171,8 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
                     return 'Ange minst en diagnos för att få ICF-stöd.';
                 }
                 if (scope.model.diagnoser) {
-                    for (var i = 0; i < scope.model.diagnoser.length; i++) {
-                        var diagnos = scope.model.diagnoser[i];
-                        if (diagnos.diagnosKod === 'F322' || diagnos.diagnosKod === 'M751') {
-                            return '';
-                        }
+                    if (scope.hasICFDiagnos()) {
+                        return '';
                     }
                     if (scope.model.diagnoser[1].diagnosKod === undefined) {
                         return 'För den angivna diagnosen finns för tillfället inget ICF-stöd.';
@@ -199,7 +184,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', '$http',
 
             scope.isInteractionDisabled = function() {
                 var shouldDisable = true;
-                iterateFunktioner(function(v) {
+                itereraKategorier(function(v) {
                     if (v.vald) {
                         shouldDisable = false;
                     }

@@ -3,15 +3,15 @@
   <ue-label config="::config.label" model="::model"></ue-label>
 
   <button type="button" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-dropdown"
-       ng-click="openFunktionsDropdown();$event.stopPropagation();" class="btn btn-default icf-button"
-       ng-class="{'disabled': !hasICFDiagnos(), 'open': funktionsDropdown}" uib-popover="{{getPopoverText()}}"
+       ng-click="openKategoriDropdown();$event.stopPropagation();" class="btn btn-default icf-button"
+       ng-class="{'disabled': !hasICFDiagnos(), 'open': kategoriDropdown}" uib-popover="{{getPopoverText()}}"
        popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
        popover-placement="auto top">
     <i class="material-icons bluetext">lightbulb_outline</i> Ta hjälp av ICF
-    <i class="material-icons">{{funktionsDropdown ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
+    <i class="material-icons">{{kategoriDropdown ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
 </button>
 
-  <div ng-if="funktionsDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-plate"
+  <div ng-if="kategoriDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-plate"
        class="funktions-dropdown-plate">
     <div class="kategori-header">
       <span>{{ config.modelProp == 'funktionsnedsattning' ?
@@ -19,22 +19,20 @@
           'Välj enbart de svårigheter som påverkar patientens sysselsättning.' }}</span>
     </div>
     <div class="kategori-content">
-      
-      <div ng-if="icfFunktioner.gemensamma[getKodTyp()].centralaKoder.length > 0 ||
-                  icfFunktioner.gemensamma[getKodTyp()].kompletterandeKoder.length > 0">
+      <div ng-if="kategorier.gemensamma[getKodTyp()].centralaKoder.length > 0 ||
+                  kategorier.gemensamma[getKodTyp()].kompletterandeKoder.length > 0">
         <span class="kategori-label">ICF-kategorier för:</span><br />
-        <strong class="medborder">{{diagnosBeskrivningen(icfFunktioner.gemensamma[getKodTyp()].icd10Koder)}}</strong>
-        <ue-icf-kategori kod="urval" ng-repeat="urval in icfFunktioner.gemensamma[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
-        <ue-icf-kategori kod="urval" ng-repeat="urval in icfFunktioner.gemensamma[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
+        <strong class="medborder">{{diagnosBeskrivningen(kategorier.gemensamma[getKodTyp()].icd10Koder)}}</strong>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
       </div>
 
-      <div ng-repeat="unika in icfFunktioner.unika">
+      <div ng-repeat="unika in kategorier.unika">
         <span class="kategori-label">ICF-kategorier för:</span><br />
         <strong class="medborder">{{diagnosBeskrivningen(unika.icd10Kod)}}</strong>
         <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
         <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
       </div>
-
     </div>
 
     <div class="fader"></div>
@@ -42,7 +40,7 @@
     <div class="kategori-footer">
       <input type="button" class="btn btn-success kategori-add" ng-disabled="isInteractionDisabled()"
                value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
-               ng-click="add(icfFunktioner)" />
+               ng-click="add(kategorier)" />
       <input type="button" class="btn btn-secondary kategori-rensa" value="Avbryt" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
         
       <a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
