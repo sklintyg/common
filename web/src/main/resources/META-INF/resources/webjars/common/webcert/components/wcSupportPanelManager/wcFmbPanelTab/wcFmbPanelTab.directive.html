@@ -9,7 +9,7 @@
        <label ng-attr-for="fmb_diagnos_radio_{{d.diagnosKod}}"
               ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}">
           <span uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
-                popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+                 popover-popup-delay="300" popover-append-to-body="true"
                 popover-placement="top">{{d.diagnosBeskrivning}}</span>
         </label>
   </wc-radio-wrapper>
