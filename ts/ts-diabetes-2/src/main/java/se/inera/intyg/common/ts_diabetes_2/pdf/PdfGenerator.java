@@ -53,7 +53,8 @@ public class PdfGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
-    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
+    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. "
+            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
      + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
