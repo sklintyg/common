@@ -56,6 +56,7 @@ public class UVDelfraga extends UVComponent {
                         .setKeepTogether(true)
                 );
             }
+            parent.setKeepTogether(true);
         }
         return render;
     }
