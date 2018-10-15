@@ -148,11 +148,9 @@ public class UVRenderer {
 
             // Fix line breaks in the actual answers, the escape-mess below transforms \n to \\n
             String json = printConfig.getIntygJsonModel().replaceAll("\\\\n", "\\\\\\\\n");
+
+            // Also fix quotation-marks, must have additional escaping.
             json = json.replaceAll("\\\"", "\\\\\\\"");
-         //   json = json.replaceAll("\\+", "\\\\+");
-         //   json = json.replaceAll("\\-", "\\\\-");
-         //   json = json.replaceAll("\\*", "\\\\*");
-         //   json = json.replaceAll("\\/", "\\\\/");
 
             // Parse JSON intyg into JS object
             jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + json + "');");
