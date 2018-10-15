@@ -238,7 +238,8 @@ public class InternalValidatorInstance {
         }
 
         if ((bedomning.getKanInteTaStallning() == null || !bedomning.getKanInteTaStallning()) && bedomning.getKorkortstyp().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning.korkortstyp", ValidationMessageType.EMPTY,
+                    "ts-bas.validation.bedomning.korkortstyp.missing");
         }
     }
 
