@@ -36,10 +36,11 @@ angular.module('common').directive('arendePanel',
                     arendeListItem: '=',
                     arendeList: '=',
                     parentViewState: '=',
-                    lastCard: '<'
+                    lastCard: '<',
+                    config: '='
                 },
                 controller: function($scope) {
-
+                    $scope.unhandledKompletteringCount = 0;
                     $scope.showAnswer = function() {
                         var ArendeSvar = $scope.arendeListItem.arende.svar;
                         // If closed and has a meddelande it is answered by message
@@ -49,6 +50,14 @@ angular.module('common').directive('arendePanel',
                                 ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
                             (ArendeSvar.status === 'ANSWERED');
                     };
+
+                    angular.forEach($scope.parentViewState.arendeList, function(arendeListItem) {
+                        if (arendeListItem.isOpen()) {
+                            if (arendeListItem.isKomplettering()) {
+                                $scope.unhandledKompletteringCount++;
+                            }
+                        }
+                    });
 
                     var arendePanelSvarController;
                     this.registerArendePanelSvar = function(controller) {
