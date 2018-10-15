@@ -347,11 +347,12 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
                 ? utlatande.getGrundData().getSigneringsdatum().format(DateTimeFormatter.ofPattern("yyMMdd")) : "");
         Vardenhet vardenhet = utlatande.getGrundData().getSkapadAv().getVardenhet();
         VARDINRATTNINGENS_NAMN.setField(fields, vardenhet.getEnhetsnamn());
-        String adressOrt = String.format("%s, %s, %s", vardenhet.getPostort(), vardenhet.getPostadress(), vardenhet.getPostnummer());
+        String adressOrt = String.format("%s, %s, %s", vardenhet.getPostadress(), vardenhet.getPostnummer(),
+                vardenhet.getPostort());
         if (ADRESS_OCH_ORT.fieldFits(fields, adressOrt)) {
             ADRESS_OCH_ORT.setField(fields, adressOrt);
         } else {
-            adressOrt = String.format("%s, %s", vardenhet.getPostort(), vardenhet.getPostadress());
+            adressOrt = String.format("%s, %s", vardenhet.getPostadress(), vardenhet.getPostort());
             ADRESS_OCH_ORT.setField(fields, adressOrt);
         }
         TELEFON.setField(fields, vardenhet.getTelefonnummer());
