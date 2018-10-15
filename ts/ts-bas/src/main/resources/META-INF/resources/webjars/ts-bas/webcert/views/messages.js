@@ -115,6 +115,7 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.validation.neurologi.neurologisksjukdom.missing': 'Du måste välja ett alternativ.',
         'ts-bas.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas.',
         'ts-bas.validation.bedomning.missing': 'Bedömning saknas.',
+        'ts-bas.validation.bedomning.korkortstyp.missing': 'Du måste välja ett alternativ.',
         'ts-bas.validation.diabetes.missing': 'Diabetes saknas.',
         'ts-bas.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas.',
         'ts-bas.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas.',
