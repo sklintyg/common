@@ -76,6 +76,11 @@ angular.module('common').directive('wcHelpChevronText',
                             $rootScope.$broadcast('wcAllAnimationsEnd');
                         }
                     };
+
+                    $scope.stopEvents = function($event) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                    }
                 }
             };
         }]);
