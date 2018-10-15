@@ -80,7 +80,7 @@ angular.module('common').directive('wcHelpChevronText',
                     $scope.stopEvents = function($event) {
                         $event.preventDefault();
                         $event.stopPropagation();
-                    }
+                    };
                 }
             };
         }]);
