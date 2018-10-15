@@ -2,9 +2,9 @@
         id="open-approve-receivers-dialog-btn"
         class="btn btn-primary ng-hide"
         ng-show="isEnabled()"
-        ng-click="openDialog()"
+        ng-click="approveReceiversTooltip=false;openDialog()"
         uib-popover="Öppnar ett fönster där du kan välja vilka intygsmottagare intyget får skickas till."
-
+        popover-is-open="approveReceiversTooltip"
         popover-popup-delay="300"
         popover-append-to-body="true"
         popover-placement="auto top">
