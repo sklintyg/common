@@ -31,7 +31,6 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v1', ['uvUtil', fun
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_1.2.RBK',
-                hideExpression: '!harFunktionsnedsattning',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'funktionsnedsattning'
@@ -51,7 +50,6 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v1', ['uvUtil', fun
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_2.2.RBK',
-                hideExpression: '!harAktivitetsbegransning',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'aktivitetsbegransning'
@@ -71,7 +69,6 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v1', ['uvUtil', fun
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_3.2.RBK',
-                hideExpression: '!harUtredningBehandling',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'utredningBehandling'
@@ -91,7 +88,6 @@ angular.module('af00213').factory('af00213.viewConfigFactory.v1', ['uvUtil', fun
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_4.2.RBK',
-                hideExpression: '!harArbetetsPaverkan',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'arbetetsPaverkan'
