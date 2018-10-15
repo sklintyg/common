@@ -1,4 +1,10 @@
-<div uib-collapse="isCollapsed" collapsing="start()" expanding="start()" collapsed="stop()" expanded="stop()" class="wc-help-chevron__margin-bottom wc-help-chevron__arrow_box">
+<div uib-collapse="isCollapsed"
+     collapsing="start()"
+     expanding="start()"
+     collapsed="stop()"
+     expanded="stop()"
+     class="wc-help-chevron__margin-bottom wc-help-chevron__arrow_box"
+     ng-click="stopEvents($event)">
   <wc-bottom-fadeout color="28" class="wc-help-chevron__textarea">
     <span class="multiline" ng-bind-html="text"></span>
   </wc-bottom-fadeout>
