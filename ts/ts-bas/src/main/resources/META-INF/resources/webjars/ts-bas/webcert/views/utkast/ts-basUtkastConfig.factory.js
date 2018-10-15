@@ -316,6 +316,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'funktionsnedsattning.beskrivning',
                             hideExpression: '!model.funktionsnedsattning.funktionsnedsattning',
                             htmlMaxlength: 180,
+                            rows: 3,
                             label: {
                                 key: 'DFR_12.2.RBK',
                                 required: true,
@@ -347,6 +348,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'hjartKarl.beskrivningRiskfaktorer',
                             hideExpression: '!model.hjartKarl.riskfaktorerStroke',
                             htmlMaxlength: 180,
+                            rows: 3,
                             label: {
                                 key: 'DFR_16.2.RBK',
                                 required: true,
@@ -418,6 +420,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'medvetandestorning.beskrivning',
                             hideExpression: '!model.medvetandestorning.medvetandestorning',
                             htmlMaxlength: 180,
+                            rows: 3,
                             label: {
                                 key: 'DFR_21.2.RBK'
                             }
@@ -478,6 +481,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'narkotikaLakemedel.lakemedelOchDos',
                             hideExpression: '!model.narkotikaLakemedel.lakarordineratLakemedelsbruk',
                             htmlMaxlength: 180,
+                            rows: 3,
                             label: {
                                 key: 'DFR_26.1.RBK',
                                 required: true,
@@ -554,6 +558,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             modelProp: 'medicinering.beskrivning',
                             hideExpression: '!model.medicinering.stadigvarandeMedicinering',
                             htmlMaxlength: 180,
+                            rows: 3,
                             label: {
                                 key: 'DFR_31.2.RBK',
                                 required: true,
@@ -568,7 +573,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
                             type: 'ue-textarea',
                             modelProp: 'kommentar',
                             htmlMaxlength: 500,
-                            rows: 3
+                            rows: 5
                         }])
                     ]),
                     // Bedömning
