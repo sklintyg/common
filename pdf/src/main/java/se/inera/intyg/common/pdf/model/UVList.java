@@ -40,7 +40,7 @@ public class UVList extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         List<String> results = new ArrayList<>();
 
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
@@ -68,6 +68,8 @@ public class UVList extends UVComponent {
 
         // RENDER the results.
         renderListResult(parent, results, separator);
+
+        return true;
     }
 
     /**

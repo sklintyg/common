@@ -35,7 +35,7 @@ public class UVKategori extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
         String kategori = renderer.getText(labelKey);
 
@@ -56,5 +56,7 @@ public class UVKategori extends UVComponent {
         borderDiv.setBorderBottom(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH));
         parent.setKeepTogether(true);
         parent.add(borderDiv);
+
+        return true;
     }
 }

@@ -42,7 +42,7 @@ public class UVSkapadAv extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
 
         StringBuilder intygsUtfardare = buildIntygsutfardare(modelProp);
@@ -82,6 +82,7 @@ public class UVSkapadAv extends UVComponent {
                     .setFont(renderer.svarFont)
                     .setFontSize(SVAR_FONT_SIZE));
         }
+        return true;
     }
 
     private String buildSigneringsDatum() {

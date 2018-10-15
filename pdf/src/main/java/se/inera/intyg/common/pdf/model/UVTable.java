@@ -47,7 +47,7 @@ public class UVTable extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
         Table table = new Table(headerLabels.size())
@@ -134,6 +134,8 @@ public class UVTable extends UVComponent {
         renderTableData(table, data, headerLabels);
 
         parent.add(table);
+
+        return true;
     }
 
     private void handleStringValueProp(String modelProp, ScriptObjectMirror value, String valueStr, List<String> columnValues) {

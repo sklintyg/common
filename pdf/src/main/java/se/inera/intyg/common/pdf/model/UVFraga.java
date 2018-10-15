@@ -33,9 +33,9 @@ public class UVFraga extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         if (!currentUvNode.containsKey(LABEL_KEY)) {
-            return;
+            return false;
         }
 
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
@@ -51,5 +51,6 @@ public class UVFraga extends UVComponent {
                 .setKeepTogether(true)
         );
         parent.setKeepTogether(false);
+        return true;
     }
 }

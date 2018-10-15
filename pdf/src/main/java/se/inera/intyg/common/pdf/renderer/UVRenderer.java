@@ -144,8 +144,6 @@ public class UVRenderer {
             // Bind the $filter function and other custom functions declared in uvViewConfig.
             engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
 
-
-
             // Fix line breaks in the actual answers, the escape-mess below transforms \n to \\n
             String json = printConfig.getIntygJsonModel().replaceAll("\\\\n", "\\\\\\\\n");
 
@@ -206,48 +204,50 @@ public class UVRenderer {
 
     private void render(Div rootDiv, ScriptObjectMirror currentUvNode) {
 
+        boolean renderChildren = false;
+
         Div currentDiv = new Div();
         String type = (String) currentUvNode.get("type");
         switch (type) {
         case "uv-kategori":
-            new UVKategori(this)
+            renderChildren = new UVKategori(this)
                     .render(currentDiv, currentUvNode);
             break;
         case "uv-fraga":
-            new UVFraga(this)
+            renderChildren = new UVFraga(this)
                     .render(currentDiv, currentUvNode);
             break;
         case "uv-del-fraga":
-            new UVDelfraga(this)
+            renderChildren = new UVDelfraga(this)
                     .render(currentDiv, currentUvNode);
             break;
         case "uv-simple-value":
-            new UVSimpleValue(this)
+            renderChildren = new UVSimpleValue(this)
                     .render(currentDiv, currentUvNode);
             break;
         case "uv-kodverk-value":
-            new UVKodverkValue(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
             break;
         case "uv-boolean-statement":
         case "uv-boolean-value":
-            new UVBooleanValue(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
             break;
         case "uv-list":
-            new UVList(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVList(this).render(currentDiv, currentUvNode);
             break;
         case "uv-table":
-            new UVTable(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVTable(this).render(currentDiv, currentUvNode);
             break;
         case "uv-alert-value":
-            new UVAlertValue(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVAlertValue(this).render(currentDiv, currentUvNode);
             break;
         case "uv-skapad-av":
-            new UVSkapadAv(this).render(currentDiv, currentUvNode);
+            renderChildren = new UVSkapadAv(this).render(currentDiv, currentUvNode);
             break;
         }
 
         // Recurse into sub-components
-        if (currentUvNode.containsKey("components")) {
+        if (renderChildren && currentUvNode.containsKey("components")) {
             Object components = currentUvNode.get("components");
             ScriptObjectMirror array = (ScriptObjectMirror) components;
             for (Map.Entry<String, Object> entry : array.entrySet()) {
