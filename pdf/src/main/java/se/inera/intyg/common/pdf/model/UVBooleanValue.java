@@ -33,7 +33,7 @@ public class UVBooleanValue extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String booleanValue = getBooleanValue((String) currentUvNode.get(MODEL_PROP));
         parent.add(new Paragraph(booleanValue).setItalic()
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
@@ -41,5 +41,7 @@ public class UVBooleanValue extends UVComponent {
                 .setMarginTop(0f)
                 .setFont(renderer.svarFont)
                 .setFontSize(SVAR_FONT_SIZE));
+
+        return true;
     }
 }

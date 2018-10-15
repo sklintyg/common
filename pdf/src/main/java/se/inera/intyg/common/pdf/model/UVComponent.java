@@ -68,7 +68,7 @@ public abstract class UVComponent {
         this.renderer = renderer;
     }
 
-    public abstract void render(Div parent, ScriptObjectMirror currentUvNode);
+    public abstract boolean render(Div parent, ScriptObjectMirror currentUvNode);
 
     /**
      * Transforms the value entries of a ScriptObjectMirror into a list of strings.

@@ -22,6 +22,9 @@ import com.itextpdf.layout.element.Div;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
+/**
+ * Ej implementerad.
+ */
 public class UVTillaggsFragor extends UVComponent {
 
     public UVTillaggsFragor(UVRenderer renderer) {
@@ -29,7 +32,7 @@ public class UVTillaggsFragor extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
-
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+        return true;
     }
 }

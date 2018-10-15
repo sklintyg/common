@@ -37,7 +37,7 @@ public class UVSimpleValue extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
         Object value = renderer.evalValueFromModel(modelProp);
         String outputText = value != null ? value.toString() : UVComponent.EJ_ANGIVET_STR;
@@ -52,5 +52,6 @@ public class UVSimpleValue extends UVComponent {
                 .setKeepTogether(true)
                 );
 
+        return true;
     }
 }

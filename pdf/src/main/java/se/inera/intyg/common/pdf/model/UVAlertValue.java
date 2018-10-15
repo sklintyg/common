@@ -48,14 +48,15 @@ public class UVAlertValue extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
         if (labelKey == null) {
-            return;
+            return false;
         }
 
         // Check if we have hide/show expressions
-        if (show(currentUvNode)) {
+        boolean render = show(currentUvNode);
+        if (render) {
             String delFraga = renderer.getText(labelKey);
 
             PdfImageXObject observandumIcon = renderer.getObservandumIcon();
@@ -86,5 +87,6 @@ public class UVAlertValue extends UVComponent {
                 parent.add(table);
             }
         }
+        return render;
     }
 }

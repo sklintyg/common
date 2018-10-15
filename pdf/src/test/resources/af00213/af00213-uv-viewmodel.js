@@ -28,7 +28,6 @@ var viewConfig = [{
         }, {
             type: 'uv-del-fraga',
             labelKey: 'DFR_1.2.RBK',
-            hideExpression: '!harFunktionsnedsattning   ',
             components: [{
                 type: 'uv-simple-value',
                 modelProp: 'funktionsnedsattning'
@@ -48,7 +47,6 @@ var viewConfig = [{
         },{
             type: 'uv-del-fraga',
             labelKey: 'DFR_2.2.RBK',
-            hideExpression: '!harAktivitetsbegransning',
             components: [{
                 type: 'uv-simple-value',
                 modelProp: 'aktivitetsbegransning'
@@ -68,7 +66,6 @@ var viewConfig = [{
         },{
             type: 'uv-del-fraga',
             labelKey: 'DFR_3.2.RBK',
-            hideExpression: '!harUtredningBehandling',
             components: [{
                 type: 'uv-simple-value',
                 modelProp: 'utredningBehandling'
@@ -88,7 +85,6 @@ var viewConfig = [{
         },{
             type: 'uv-del-fraga',
             labelKey: 'DFR_4.2.RBK',
-            hideExpression: '!harArbetetsPaverkan',
             components: [{
                 type: 'uv-simple-value',
                 modelProp: 'arbetetsPaverkan'

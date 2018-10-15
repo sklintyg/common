@@ -37,7 +37,7 @@ public class UVKodverkValue extends UVComponent {
     }
 
     @Override
-    public void render(Div parent, ScriptObjectMirror currentUvNode) {
+    public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         List<String> kvModelProps = fromStringArray(currentUvNode.get("kvModelProps"));
         List<String> kvLabelKeys = fromStringArray(currentUvNode.get("kvLabelKeys"));
 
@@ -65,5 +65,6 @@ public class UVKodverkValue extends UVComponent {
                     .setFontSize(SVAR_FONT_SIZE)
                     .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
         }
+        return true;
     }
 }
