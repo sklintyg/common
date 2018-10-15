@@ -21,6 +21,6 @@
   </span>
   <span ng-switch="intygstatus.modal">
     <a ng-switch-when="true" class="ng-animate-disabled" ng-click="openModal()"><span ng-bind-html="intygstatus.text" /></a>
-    <span ng-switch-when="false" class="ng-animate-disabled" ng-bind-html="intygstatus.text" />
+    <span ng-switch-when="false" class="ng-animate-disabled" bind-html-compile="intygstatus.text" />
   </span>
 </span>
