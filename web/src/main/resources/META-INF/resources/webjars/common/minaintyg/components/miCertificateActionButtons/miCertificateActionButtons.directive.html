@@ -6,8 +6,9 @@
 
         <!-- SKICKA -->
         <button id="sendCertificateBtn" type="button" class="btn btn-primary" ng-if="onSend"
-                ng-click="onSend({cert:certModel})"
+                ng-click="onSend({cert:certModel});sendPopoverOpen=false;"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.send.tooltip')}}"
+                popover-is-open="sendPopoverOpen"
                 popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-forward"></i> <span dynamic-label key="modules.actionbar.button.send"></span>
         </button>
@@ -15,8 +16,9 @@
 
         <!-- ANPASSA PDF -->
         <button id="customizeCertificateBtn" type="button" class="btn btn-primary" ng-if="onCustomizePdf && enableCustomize"
-                ng-click="onCustomizePdf({cert:certModel})"
+                ng-click="onCustomizePdf({cert:certModel});customizePopoverOpen=false;"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.customizepdf.tooltip')}}"
+                popover-is-open="customizePopoverOpen"
                 popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-pencil"></i> <span dynamic-label key="modules.actionbar.button.customizepdf"></span>
         </button>
@@ -24,8 +26,9 @@
 
         <!-- SKRIV UT -->
         <button id="downloadprint" type="button" class="btn btn-secondary"
-                ng-if="enablePrint" ng-click="onDownloadClicked()"
+                ng-if="enablePrint" ng-click="onDownloadClicked();downloadPopoverOpen=false;"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.print.tooltip')}}"
+                popover-is-open="downloadPopoverOpen"
                 popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
                 <i class="icon icon-download-1"></i> <span dynamic-label key="modules.actionbar.button.print"></span>
         </button>
@@ -33,8 +36,9 @@
 
       <!-- ARKIVERA -->
       <button id="archiveCertificateBtn" type="button" class="btn btn-secondary" ng-if="enableArchive"
-              ng-click="onArchiveClicked()"
+              ng-click="onArchiveClicked();archivePopoverOpen=false;"
               uib-popover="{{messageService.getProperty('modules.actionbar.button.archive.tooltip')}}"
+              popover-is-open="archivePopoverOpen"
               popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
         <i class="icon icon-box"></i> <span dynamic-label key="modules.actionbar.button.archive"></span>
       </button>
