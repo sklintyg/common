@@ -279,7 +279,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory',
                                 modelProp: 'syn.separatOgonlakarintyg'
                             }]), {
                             type: 'ue-group',
-                            hideExpression: 'model.syn.separatOgonlakarintyg',
+                            hideExpression: 'model.syn.separatOgonlakarintyg !== false',
                             components: [
                                 fraga(null, '', '', {}, [{
                                     type: 'ue-text',
