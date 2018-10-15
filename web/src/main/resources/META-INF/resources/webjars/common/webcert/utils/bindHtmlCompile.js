@@ -17,17 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('wcCloseModals', function($uibModalStack) {
-    'use strict';
-    return {
-        restrict: 'A',
-        link: function(scope, element) {
-            element.bind('click', function(event) {
-                // Set a flag to disable modals or visaIntygFragasvara.controller.js
-                // will display modal even when not supposed to show
-                $uibModalStack.disableModals = true;
-                $uibModalStack.dismissAll();
-            });
-        }
-    };
-});
+angular.module('common')
+    .directive('bindHtmlCompile', ['$compile', function ($compile) {
+        'use strict';
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                scope.$watch(function () {
+                    return scope.$eval(attrs.bindHtmlCompile);
+                }, function (value) {
+                    element.html(value);
+                    $compile(element.contents())(scope);
+                });
+            }
+        };
+    }]);
