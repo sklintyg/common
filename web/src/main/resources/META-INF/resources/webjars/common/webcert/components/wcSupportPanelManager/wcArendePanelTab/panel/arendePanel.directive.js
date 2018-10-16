@@ -40,7 +40,10 @@ angular.module('common').directive('arendePanel',
                     config: '='
                 },
                 controller: function($scope) {
+
                     $scope.unhandledKompletteringCount = 0;
+                    $scope.unhandledAdminFragor = 0;
+
                     $scope.showAnswer = function() {
                         var ArendeSvar = $scope.arendeListItem.arende.svar;
                         // If closed and has a meddelande it is answered by message
@@ -55,6 +58,8 @@ angular.module('common').directive('arendePanel',
                         if (arendeListItem.isOpen()) {
                             if (arendeListItem.isKomplettering()) {
                                 $scope.unhandledKompletteringCount++;
+                            } else {
+                                $scope.unhandledAdminFragor++;
                             }
                         }
                     });
