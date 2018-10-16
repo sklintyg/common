@@ -518,9 +518,12 @@
             'doi.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 
             // Could not sign
-            'db.error.sign.intyg_of_type_exists.same_vardgivare': '<strong>Dödsbevis har utfärdats under tiden</strong><br>Dödsbevis för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-            'db.error.sign.intyg_of_type_exists.other_vardgivare': '<strong>Dödsbevis har utfärdats under tiden hos annan vårdgivare</strong><br>Dödsbevis för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Det är inte möjligt att signera detta dödsbevis.',
-            'doi.error.sign.intyg_of_type_exists.same_vardgivare': '<strong>Dödsorsaksintyg har utfärdats under tiden</strong><br>Dödsorsaksintyg för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'db.error.sign.intyg_of_type_exists.same_vardgivare': 'Dödsbevis för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.error.sign.intyg_of_type_exists.same_vardgivare.title': 'Dödsbevis har utfärdats under tiden',
+            'db.error.sign.intyg_of_type_exists.other_vardgivare': 'Dödsbevis för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Det är inte möjligt att signera detta dödsbevis.',
+            'db.error.sign.intyg_of_type_exists.other_vardgivare.title': 'Dödsbevis har utfärdats under tiden hos annan vårdgivare',
+            'doi.error.sign.intyg_of_type_exists.same_vardgivare': 'Dödsorsaksintyg för detta personnummer har utfärdats av någon annan under tiden du har arbetat med detta utkast. Du kan inte signera detta dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.error.sign.intyg_of_type_exists.same_vardgivare.title': 'Dödsorsaksintyg har utfärdats under tiden',
             'doi.error.sign.intyg_of_type_exists.other_vardgivare': 'Dödsorsaksintyg för detta personnummer har utfärdats av någon annan hos annan vårdgivare under tiden du har arbetat med detta utkast. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
             'doi.error.sign.intyg_of_type_exists.other_vardgivare.title': 'Dödsorsaksintyg har utfärdats under tiden hos annan vårdgivare',
             'doi.error.sign.intyg_of_type_exists.other_vardgivare.sign': 'Signera',
