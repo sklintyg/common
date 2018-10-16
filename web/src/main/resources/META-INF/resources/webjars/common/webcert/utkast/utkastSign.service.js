@@ -446,11 +446,20 @@ angular.module('common').factory('common.UtkastSignService',
                 return messageId;
             }
 
-            function _showSigneringsError(signModel, error, intygsTyp) {
-                var sithssignerrormessageid = _setErrorMessageId(error, intygsTyp);
+            function _setErrorModalTitle(error, intygsTyp) {
+                var errorMap = {
+                    'INTYG_FROM_OTHER_VARDGIVARE_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists.other_vardgivare.title',
+                    'INTYG_FROM_SAME_VARDGIVARE_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists.same_vardgivare.title'
+                };
+                return errorMap.hasOwnProperty(error.errorCode) ? errorMap[error.errorCode] : 'common.modal.title.sign.error';
+            }
 
-                var errorMessage;
-                var variables = null;
+            function _showSigneringsError(signModel, error, intygsTyp) {
+                var errorMessage,
+                    variables = null,
+                    modalTitle = _setErrorModalTitle(error, intygsTyp),
+                    sithssignerrormessageid = _setErrorMessageId(error, intygsTyp);
+
                 if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                     // In the case of concurrent modification we should have the name of the user making trouble in the message.
                     variables = {name: error.message};
@@ -459,7 +468,7 @@ angular.module('common').factory('common.UtkastSignService',
                 if (error.errorCode === 'PU_PROBLEM') {
                     dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
                 } else {
-                    dialogService.showErrorMessageDialog(errorMessage, undefined, 'common.modal.title.sign.error');
+                    dialogService.showErrorMessageDialog(errorMessage, undefined, modalTitle);
                 }
                 signModel.signingWithSITHSInProgress = false;
             }
