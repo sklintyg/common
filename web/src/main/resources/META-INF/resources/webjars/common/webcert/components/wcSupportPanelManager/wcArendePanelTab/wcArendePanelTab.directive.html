@@ -72,7 +72,7 @@
             ng-repeat="arendeListItem in viewState.arendeList | filter:administrativaFragorFilter | orderBy:['-arende.senasteHandelse'] as administrativaFragorList"
             class="arende-item">
           <arende-panel last-card="$last" panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
-               parent-view-state="viewState"></arende-panel>
+               parent-view-state="viewState" config="config"></arende-panel>
         </div>
 
         <wc-arende-no-administrativa-fragor-message ng-if="administrativaFragorList.length === 0"></wc-arende-no-administrativa-fragor-message>
