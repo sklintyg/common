@@ -41,7 +41,9 @@ angular.module('common').factory('common.UserModel',[
 
                 //..secondly, if intygstyp context is given, must also have a matching privilege.requestOrigin.intygstyper<->intygstyp constraint if
                 // such a constraint exist.
-                if (intygsTypContext !== undefined) {
+                // INTYG-7389: Hanterar nu även intygsTyp som tom sträng i och med att wc-authority alltid kräver intygstyp.
+                if (intygsTypContext !== undefined && intygsTypContext !== '') {
+
                     //does the originConfig have a intygstyp constraint?
                     if (matchingOriginConfig.intygstyper !== undefined &&
                         matchingOriginConfig.intygstyper.length > 0) {
@@ -177,7 +179,8 @@ angular.module('common').factory('common.UserModel',[
 
                 //.. and if intygstyp context is given, must also have a matching privilege<->intygstyp constraint if
                 // such a constraint exist.
-                if (intygsTypContext !== undefined) {
+                // INTYG-7389: Hanterar nu även intygsTyp som tom sträng i och med att wc-authority alltid kräver intygstyp.
+                if (intygsTypContext !== undefined && intygsTypContext !== '') {
                     var intygsTyper = privilegeConfig.intygstyper;
                     if (intygsTyper !== undefined && intygsTyper.length > 0 &&
                         intygsTyper.indexOf(intygsTypContext) === -1) {
