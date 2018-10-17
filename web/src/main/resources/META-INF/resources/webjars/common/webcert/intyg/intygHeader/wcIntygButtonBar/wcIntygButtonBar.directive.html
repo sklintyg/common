@@ -12,10 +12,10 @@
           class="btn btn-success"
           ng-if="IntygHeaderService.showCreateFromTemplate()"
           ng-disabled="!IntygHeaderService.enableCreateFromTemplate()"
-          ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel)"
+          ng-click="IntygHeaderService.createFromTemplate(viewState.intygModel);createFromTemplatePopoverOpen=false"
           wc-check-vardenhet
           uib-popover="{{IntygHeaderService.getCurrentCreateFromTemplate().tooltip}}"
-
+          popover-is-open="createFromTemplatePopoverOpen"
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
@@ -27,8 +27,8 @@
           id="gotoRelatedFromTemplateBtn"
           class="btn btn-success"
           ng-if="IntygHeaderService.showGotoCreatedFromTemplate()"
-          ng-click="IntygHeaderService.gotoRelatedFromTemplate()"
-
+          ng-click="IntygHeaderService.gotoRelatedFromTemplate();gotoRelatedFromTemplatePopoverOpen=false"
+          popover-is-open="gotoRelatedFromTemplatePopoverOpen"
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
@@ -43,9 +43,9 @@
           intygstyp="{{intygType}}"
           wc-check-vardenhet vardenhet="{{viewState.enhetsId}}"
           ng-if="showSkickaButton()"
-          ng-click="send()"
+          ng-click="send();sendPopoverOpen=false"
           uib-popover="{{sendBtnTooltipText}}"
-
+          popover-is-open="sendPopoverOpen"
           popover-popup-delay="300"
           popover-append-to-body="true"
           popover-placement="auto top">
