@@ -176,7 +176,6 @@ angular.module('common').factory('common.ueSOSFactoryTemplatesHelper', [
                                             scope.model.barn = false;
                                             scope.form.formState.barnForced = true;
                                         } else {
-                                            scope.model.barn = undefined;
                                             scope.form.formState.barnForced = false;
                                         }
                                     }
