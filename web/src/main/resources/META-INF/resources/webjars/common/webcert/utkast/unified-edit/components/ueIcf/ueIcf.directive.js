@@ -33,10 +33,10 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             scope.kategorier = {};
             scope.diagnoser = [];
-            
+
             scope.hasICFDiagnos = function() {
                 return (!angular.equals(scope.kategorier, {}) &&
-                    (!angular.equals(scope.kategorier.gemensamma, {}) || 
+                    (!angular.equals(scope.kategorier.gemensamma, {}) ||
                     !angular.equals(scope.kategorier.unika, [])));
             };
 
@@ -78,7 +78,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             };
 
             scope.getKodTyp = function () {
-                return scope.config.kategoriProp === 'funktionsKategorier' ? 
+                return scope.config.kategoriProp === 'funktionsKategorier' ?
                 'funktionsNedsattningsKoder' : 'aktivitetsBegransningsKoder';
             };
 
@@ -143,7 +143,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                     }
                 }
             }
-            
+
             function setVald(i) {
                 return function(v) {
                     if (v.kod === scope.model[scope.config.kategoriProp][i]) {
@@ -162,7 +162,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             scope.getPlaceHolder = function () {
                 return scope.config.modelProp === 'funktionsnedsattning' ?
-                    'Hur har du kommit fram till ovanstående? På vilket sätt och i vilken utsträckning är patienten påverkad?' :
+                    'Vad grundar sig bedömningen på? På vilket sätt och i vilken utsträckning är patienten påverkad?' :
                     'Hur begränsar ovanstående patientens sysselsättning och i vilken utsträckning?';
             };
 
