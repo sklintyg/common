@@ -150,6 +150,9 @@ public class UVRenderer {
             // Also fix quotation-marks, must have additional escaping.
             json = json.replaceAll("\\\"", "\\\\\\\"");
 
+            // Also fix quotation-marks, must have additional escaping.
+            json = json.replaceAll("'", "\\\\'");
+
             // Parse JSON intyg into JS object
             jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + json + "');");
             engine.put("jsIntygModel", jsIntygModel);
