@@ -19,9 +19,9 @@
 angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope',
         'common.IntygListService', 'common.IntygService', 'common.dialogService', 'common.moduleService',
-        'ts-diabetes.viewConfigFactory', 'common.messageService',
+        'common.messageService', 'viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, IntygListService, IntygService,
-            dialogService, moduleService, viewConfigFactory, messageService) {
+            dialogService, moduleService, messageService, viewConfigFactory) {
             'use strict';
 
             $scope.certificateId = $stateParams.certificateId;

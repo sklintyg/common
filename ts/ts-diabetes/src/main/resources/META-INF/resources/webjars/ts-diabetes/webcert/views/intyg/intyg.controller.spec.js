@@ -157,7 +157,7 @@ describe('ts-diabetes.IntygController', function() {
         $provide.value('common.User', {});
         $provide.value('common.moduleService', {getModule: function(){return {};}});
 
-        $provide.provider('ts-diabetes.viewConfigFactory', function () {
+        $provide.provider('ViewConfigFactory', function () {
             this.$get = function() {
                 return {
                     getViewConfig: function() {
@@ -170,7 +170,7 @@ describe('ts-diabetes.IntygController', function() {
 
     var $scope, ctrl;
 
-    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', function(_$controller_, _$rootScope_, _$httpBackend_) {
+    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'ts-diabetes.IntygController.ViewStateService', function(_$controller_, _$rootScope_, _$httpBackend_, _ViewState_) {
         $rootScope = _$rootScope_;
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
@@ -180,7 +180,8 @@ describe('ts-diabetes.IntygController', function() {
                 return {};
             }
         };
-        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope, supportPanelConfigFactory: supportPanelMock });
+
+        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope, ViewState: _ViewState_, supportPanelConfigFactory: supportPanelMock });
 
         $scope.$digest();
     }]));

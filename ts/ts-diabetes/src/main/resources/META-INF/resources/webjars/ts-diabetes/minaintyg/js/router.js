@@ -26,6 +26,11 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             url :'/ts-diabetes/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/view-cert.html',
             controller: 'ts-diabetes.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
+                }
+            },
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
         }).

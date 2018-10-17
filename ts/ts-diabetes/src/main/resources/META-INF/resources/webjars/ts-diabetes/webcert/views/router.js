@@ -25,6 +25,18 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
     var intygsTypPath = '/web/webjars/ts-diabetes/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-diabetes.UtkastController.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-diabetes.UtkastConfigFactory', $stateParams);
+    };
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('ts-diabetes-edit', {
             data: { defaultActive : 'index', intygType: 'ts-diabetes' },
@@ -34,8 +46,8 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
-                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
                     }
                 },
@@ -48,7 +60,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'ts-diabetes.UtkastController.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -61,8 +73,8 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
-                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                 }
             }
@@ -75,6 +87,8 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'ts-diabetes.IntygController',
                     resolve: {
+                        ViewConfigFactory: viewConfig,
+                        ViewState: 'ts-diabetes.IntygController.ViewStateService',
                         supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
                     }
                 },

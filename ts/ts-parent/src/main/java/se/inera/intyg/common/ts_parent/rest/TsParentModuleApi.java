@@ -18,11 +18,29 @@
  */
 package se.inera.intyg.common.ts_parent.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
@@ -53,8 +71,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemE
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
@@ -73,21 +89,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
-
 public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsParentModuleApi.class);
@@ -100,9 +101,6 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Autowired
     private InternalDraftValidator<T> validator;
-
-    @Autowired
-    private PdfGenerator<T> pdfGenerator;
 
     @Autowired
     private WebcertModelFactory<T> webcertModelFactory;
@@ -217,18 +215,6 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException {
         return updateInternal(internalModel, hosPerson, signingDate);
-    }
-
-    @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
-        try {
-            return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus),
-                    pdfGenerator.generatePdfFilename(getInternal(internalModel)));
-        } catch (PdfGeneratorException e) {
-            LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
-        }
     }
 
     @Override

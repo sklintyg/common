@@ -17,22 +17,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    
-  <bean name="moduleapi.ts-diabetes.v2" class="se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi" />
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-  <bean class="se.inera.intyg.common.ts_diabetes.validator.Validator" />
-
-  <bean class="se.inera.intyg.common.ts_diabetes.model.util.TsDiabetesModelCompareUtil"/>
-
-  <bean class="se.inera.intyg.common.ts_diabetes.pdf.PdfGeneratorImpl">
-    <constructor-arg value="true" />
-  </bean>
-
-  <bean class="se.inera.intyg.common.ts_diabetes.model.converter.WebcertModelFactoryImpl" />
-
-  <bean id="tsDiabetesEntryPoint"
-    class="se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint" />
-
+<context:annotation-config/>
+<context:component-scan base-package="se.inera.intyg.common.ts_diabetes"/>
 </beans>

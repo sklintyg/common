@@ -18,10 +18,9 @@
  */
 angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygProxy', 'common.UserModel',
-        'ts-diabetes.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-diabetes.viewConfigFactory',
-        'supportPanelConfigFactory',
+        'common.dynamicLabelService', 'ViewConfigFactory', 'ViewState', 'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
-            UserModel, ViewState, DynamicLabelService, viewConfigFactory, supportPanelConfigFactory) {
+            UserModel, DynamicLabelService, viewConfigFactory, ViewState, supportPanelConfigFactory) {
             'use strict';
 
             /*********************************************************************

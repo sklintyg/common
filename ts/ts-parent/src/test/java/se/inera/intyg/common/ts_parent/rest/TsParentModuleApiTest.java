@@ -18,9 +18,29 @@
  */
 package se.inera.intyg.common.ts_parent.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -32,6 +52,11 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -46,15 +71,11 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.inera.intyg.common.ts_parent.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_parent.pdf.PdfGeneratorException;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -73,29 +94,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
-
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.lang.reflect.Field;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TsParentModuleApiTest {
@@ -118,8 +116,6 @@ public class TsParentModuleApiTest {
     private InternalDraftValidator<Utlatande> internalDraftValidator;
     @Mock
     private WebcertModelFactory<Utlatande> webcertModelFactory;
-    @Mock
-    private PdfGenerator<Utlatande> pdfGenerator;
     @Mock
     private ModelCompareUtil<Utlatande> modelCompareUtil;
     @Mock
@@ -202,30 +198,6 @@ public class TsParentModuleApiTest {
     public void testCreateRenewalFromTemplateConverterException() throws Exception {
         when(webcertModelFactory.createCopy(any(CreateDraftCopyHolder.class), any(Utlatande.class))).thenThrow(new ConverterException());
         moduleApi.createRenewalFromTemplate(new CreateDraftCopyHolder(INTYG_ID, new HoSPersonal()), utlatande);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test
-    public void testPdf() throws Exception {
-        final ApplicationOrigin applicationOrigin = ApplicationOrigin.INTYGSTJANST;
-        final String fileName = "file name";
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED))).thenReturn(new byte[0]);
-        when(pdfGenerator.generatePdfFilename(any(Utlatande.class))).thenReturn(fileName);
-
-        PdfResponse res = moduleApi.pdf(json, new ArrayList<>(), applicationOrigin, UtkastStatus.SIGNED);
-        assertNotNull(res);
-        assertEquals(fileName, res.getFilename());
-        verify(pdfGenerator).generatePDF(any(Utlatande.class), any(List.class), eq(applicationOrigin), eq(UtkastStatus.SIGNED));
-        verify(pdfGenerator).generatePdfFilename(any(Utlatande.class));
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test(expected = ModuleSystemException.class)
-    public void testPdfPdfGeneratorException() throws Exception {
-        when(pdfGenerator.generatePDF(any(Utlatande.class), any(List.class), any(ApplicationOrigin.class), eq(UtkastStatus.SIGNED)))
-                .thenThrow(new PdfGeneratorException("error"));
-
-        moduleApi.pdf(json, new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, UtkastStatus.SIGNED);
     }
 
     @Test(expected = ModuleException.class)

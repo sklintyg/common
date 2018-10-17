@@ -40,7 +40,7 @@
 
   <!-- ws endpoints -->
   <jaxws:endpoint address="/get-ts-diabetes/v1.0"
-                  implementor="se.inera.intyg.common.ts_diabetes.integration.GetTSDiabetesResponderImpl">
+                  implementor="se.inera.intyg.common.ts_diabetes.v2.integration.GetTSDiabetesResponderImpl">
     <jaxws:outFaultInterceptors>
       <bean class="se.inera.intyg.common.util.integration.interceptor.SoapFaultToSoapResponseTransformerInterceptor">
         <constructor-arg value="transform/se-intygstjanster-ts-services/get-ts-diabetes-transform.xslt"/>
@@ -49,7 +49,7 @@
 
   </jaxws:endpoint>
   <jaxws:endpoint address="/register-ts-diabetes/v1.0"
-                  implementor="se.inera.intyg.common.ts_diabetes.integration.RegisterTSDiabetesResponderImpl">
+                  implementor="se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl">
     <jaxws:outFaultInterceptors>
       <bean class="se.inera.intyg.common.util.integration.interceptor.SoapFaultToSoapResponseTransformerInterceptor">
         <constructor-arg value="transform/se-intygstjanster-ts-services/register-ts-diabetes-transform.xslt"/>

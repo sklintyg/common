@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.ts_diabetes.support;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-
+@Component("TsDiabetesEntryPoint")
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-diabetes";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg diabetes";
     public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
     public static final String MODULE_DESCRIPTION = "Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.";
-    public static final String SCHEMATRON_FILE = "tstrk1031.sch";
     // CHECKSTYLE:ON LineLength
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
