@@ -47,7 +47,8 @@ describe('wcDeprecatedIntygstypeMessage Directive', function() {
             deprecated: false
         }, {
             id: 'fk7263',
-            deprecated: true
+            deprecated: true,
+            displayDeprecated: true
         } ];
 
         moduleService.setModules(modules);

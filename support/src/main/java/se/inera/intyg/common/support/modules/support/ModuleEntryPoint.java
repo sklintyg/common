@@ -104,4 +104,14 @@ public interface ModuleEntryPoint {
     default boolean isDeprecated() {
         return false;
     }
+
+    /**
+     * Flag which decides if deprecated intyg should be displayed.
+     * Is ignored if intyg is not deprecated.
+     *
+     * @return true if the intyg should show.
+     */
+    default boolean displayDeprecated() {
+        return false;
+    }
 }

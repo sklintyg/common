@@ -30,7 +30,7 @@ angular.module('common').directive('wcDeprecatedIntygstypeMessage', [ 'common.mo
             $scope.messageKey = $scope.intygsType + '.deprecated-message.' + $scope.messageSuffix;
             $scope.shouldShowMessage = function() {
                 var module = moduleService.getModule($scope.intygsType);
-                return module && module.deprecated;
+                return module && module.deprecated && module.displayDeprecated;
             };
         }
     };
