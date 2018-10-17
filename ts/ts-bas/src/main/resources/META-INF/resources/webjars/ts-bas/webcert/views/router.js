@@ -25,6 +25,18 @@ angular.module('ts-bas').config(function($stateProvider) {
     var commonPath = '/web/webjars/common/webcert/';
     var intygsTypPath = '/web/webjars/ts-bas/webcert/';
 
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-bas.UtkastController.ViewStateService', $stateParams);
+    };
+
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-bas.UtkastConfigFactory', $stateParams);
+    };
+
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('ts-bas-edit', {
             data: { defaultActive : 'index', intygType: 'ts-bas' },
@@ -34,8 +46,8 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
-                        ViewState: 'ts-bas.UtkastController.ViewStateService',
-                        UtkastConfigFactory: 'ts-bas.UtkastConfigFactory',
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig,
                         supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
                     }
                 },
@@ -48,7 +60,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
-                        ViewState: 'ts-bas.UtkastController.ViewStateService'
+                        ViewState: editViewState
                     }
                 },
 
@@ -61,8 +73,8 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
-                        ViewState: 'ts-bas.UtkastController.ViewStateService',
-                        UtkastConfigFactory: 'ts-bas.UtkastConfigFactory'
+                        ViewState: editViewState,
+                        UtkastConfigFactory: utkastConfig
                     }
                 }
             }
@@ -75,6 +87,8 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
                     controller: 'ts-bas.IntygController',
                     resolve: {
+                        ViewState: 'ts-bas.IntygController.ViewStateService',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
                     }
                 },

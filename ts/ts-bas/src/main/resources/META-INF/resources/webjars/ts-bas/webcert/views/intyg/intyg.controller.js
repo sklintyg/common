@@ -19,7 +19,7 @@
 angular.module('ts-bas').controller('ts-bas.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope',
         'common.IntygProxy', 'common.User',
-        'ts-bas.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-bas.viewConfigFactory',
+        'ViewState', 'common.dynamicLabelService', 'ViewConfigFactory',
         'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
             User, ViewState, DynamicLabelService, viewConfigFactory, supportPanelConfigFactory) {

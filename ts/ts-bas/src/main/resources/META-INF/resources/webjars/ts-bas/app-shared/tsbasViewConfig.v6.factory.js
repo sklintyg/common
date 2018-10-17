@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
+angular.module('ts-bas').factory('ts-bas.viewConfigFactory.v6', [
     '$filter', 'uvUtil',
     function($filter, uvUtil) {
         'use strict';

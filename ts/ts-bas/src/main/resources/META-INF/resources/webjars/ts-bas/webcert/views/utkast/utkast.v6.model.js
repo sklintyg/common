@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas').factory('ts-bas.Domain.IntygModel',
+angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
         'common.domain.BaseAtticModel', 'common.UtilsService',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u) {

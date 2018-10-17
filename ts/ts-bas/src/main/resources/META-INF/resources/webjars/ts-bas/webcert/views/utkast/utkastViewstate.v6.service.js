@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas').service('ts-bas.UtkastController.ViewStateService',
-    ['$log', 'ts-bas.Domain.IntygModel', 'common.UtkastViewStateService',
+angular.module('ts-bas').service('ts-bas.UtkastController.ViewStateService.v6',
+    ['$log', 'ts-bas.Domain.IntygModel.v6', 'common.UtkastViewStateService',
         function($log, IntygModel, CommonViewState) {
             'use strict';
 

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory',
+angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
     ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper', 'common.UtilsService',
         function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates, u) {
             'use strict';
