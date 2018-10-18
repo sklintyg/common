@@ -68,7 +68,11 @@
   <div ng-if="vm.noDataMessage.warning || vm.noDataMessage.incorrectKodverk" class="no-diagnose-entered">
     <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/fmb_no_diagnose.svg"/>
     <div ng-if="vm.noDataMessage.warning" dynamic-label key="{{::vm.noDataMessage.warning }}"></div>
-    <div ng-if="vm.noDataMessage.incorrectKodverk" dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"></div>
+    <div ng-if="vm.noDataMessage.incorrectKodverk"
+         dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"
+         uib-popover="{{'FMB-stöd ska ej hämtas upp.'}}"
+         popover-popup-delay="300" popover-append-to-body="true"
+         popover-placement="top"></div>
   </div>
 
 </wc-support-panel-scrollable-body>
