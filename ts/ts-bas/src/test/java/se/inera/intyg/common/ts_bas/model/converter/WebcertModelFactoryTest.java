@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.model.converter;
+package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +29,7 @@ import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -59,7 +59,7 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateEditableModel() throws Exception {
 
-        TsBasUtlatande utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
+        TsBasUtlatandeV6 utlatande = factory.createNewWebcertDraft(buildNewDraftData("testID"));
 
         assertNotNull(utlatande);
         assertEquals(TsBasEntryPoint.MODULE_ID, utlatande.getTyp());
@@ -78,13 +78,13 @@ public class WebcertModelFactoryTest {
     @Test
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInRivtaV3Format() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
-        TsBasUtlatande draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
+        TsBasUtlatandeV6 draft = factory.createNewWebcertDraft(buildNewDraftData("INTYG_ID"));
         assertTrue(UtlatandeToIntyg.convert(draft).getSvar().isEmpty());
     }
 
     @Test(expected = ConverterException.class)
     public void testCreateCopyCertificateIdMissing() throws Exception {
-        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatande.builder().build());
+        factory.createCopy(new CreateDraftCopyHolder("", new HoSPersonal()), TsBasUtlatandeV6.builder().build());
     }
 
     @Test
@@ -99,10 +99,10 @@ public class WebcertModelFactoryTest {
         grundData.setSkapadAv(hoSPersonal);
         grundData.setPatient(new Patient());
 
-        final TsBasUtlatande tsBasUtlatande = TsBasUtlatande.builder().setGrundData(grundData).build();
+        final TsBasUtlatandeV6 tsBasUtlatande = TsBasUtlatandeV6.builder().setGrundData(grundData).build();
 
         //When
-        TsBasUtlatande utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);
+        TsBasUtlatandeV6 utlatande = factory.createCopy(new CreateDraftCopyHolder("abc123", hoSPersonal), tsBasUtlatande);
 
         //Then
         assertNull(utlatande.getGrundData().getSigneringsdatum());

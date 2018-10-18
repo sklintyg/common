@@ -62,12 +62,12 @@
 
 
   <util:map id="xslHrefMap">
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V1 }" value="xsl/transportToV1.xsl" />
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).TRANSPORT_TO_V3 }" value="xsl/transportToV3.xsl" />
-    <entry key="#{ T(se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerType).V3_TO_V1 }" value="xsl/V3ToV1.xsl" />
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerType).TRANSPORT_TO_V1 }" value="xsl/transportToV1.xsl" />
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerType).TRANSPORT_TO_V3 }" value="xsl/transportToV3.xsl" />
+    <entry key="#{ T(se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerType).V3_TO_V1 }" value="xsl/V3ToV1.xsl" />
   </util:map>
 
-  <bean id="tsBasXslTransformerFactory" class=" se.inera.intyg.common.ts_bas.model.transformer.TsBasTransformerFactory">
+  <bean id="tsBasXslTransformerFactory" class=" se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerFactory">
     <constructor-arg ref="xslHrefMap"/>
   </bean>
 

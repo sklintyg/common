@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_bas.utils;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -39,13 +39,13 @@ public final class ScenarioFinder {
     private ScenarioFinder() {
     }
 
-    private static final String TRANSPORT_MODEL_PATH = "classpath:/scenarios/transport/";
+    private static final String TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/transport/";
 
-    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav3/";
+    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/rivtav3/";
 
-    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/scenarios/rivtav1/";
+    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/rivtav1/";
 
-    private static final String INTERNAL_MODEL_PATH = "classpath:/scenarios/internal/";
+    private static final String INTERNAL_MODEL_PATH = "classpath:/v6/scenarios/internal/";
 
     private static final String TRANSPORT_MODEL_EXT = ".xml";
 
@@ -197,10 +197,10 @@ public final class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public TsBasUtlatande asInternalModel()
+        public TsBasUtlatandeV6 asInternalModel()
                 throws ScenarioNotFoundException {
             try {
-                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), TsBasUtlatande.class);
+                return new CustomObjectMapper().readValue(getInternalModelFor(getName()), TsBasUtlatandeV6.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "internal", e);
             }

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.pdf;
+package se.inera.intyg.common.ts_bas.v6.pdf;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +39,7 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
+import se.inera.intyg.common.ts_bas.v6.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,7 +55,7 @@ public class PdfGeneratorTest {
         intygsTextRepositoryHelper.update();
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("PdfGenerator/utlatande.json").getInputStream(),
+        String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utlatande.json").getInputStream(),
                 Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
@@ -70,7 +70,7 @@ public class PdfGeneratorTest {
         intygsTextRepositoryHelper.update();
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("ts-bas", "6.8");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("PdfGenerator/utkast_utlatande.json").getInputStream(),
+        String jsonModel = IOUtils.toString(new ClassPathResource("v6/PdfGenerator/utkast_utlatande.json").getInputStream(),
                 Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);

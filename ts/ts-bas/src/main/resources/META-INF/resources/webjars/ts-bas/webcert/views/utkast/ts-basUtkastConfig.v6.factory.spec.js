@@ -25,7 +25,7 @@ describe('ts-basUtkastConfigFactory', function() {
     var $scope;
 
     beforeEach(angular.mock.module('common', 'ts-bas'));
-    beforeEach(inject(['$compile', '$rootScope', 'ts-bas.UtkastConfigFactory', 'ts-bas.Domain.IntygModel',
+    beforeEach(inject(['$compile', '$rootScope', 'ts-bas.UtkastConfigFactory.v6', 'ts-bas.Domain.IntygModel.v6',
         function($compile, $rootScope, _UtkastConfigFactory_, _IntygModel_) {
             UtkastConfigFactory = _UtkastConfigFactory_;
 

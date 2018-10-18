@@ -83,7 +83,7 @@ public class TSBasTransportToV1TransformerTest {
         XslTransformer transformer = new XslTransformer("xsl/transportToV1.xsl");
 
         for (String xmlFile : testFiles) {
-            String xmlContents = Resources.toString(getResource("scenarios/transport/" + xmlFile), Charsets.UTF_8);
+            String xmlContents = Resources.toString(getResource("v6/scenarios/transport/" + xmlFile), Charsets.UTF_8);
 
             if (!validateIntygstjansterXSD(xmlContents)) {
                 fail();

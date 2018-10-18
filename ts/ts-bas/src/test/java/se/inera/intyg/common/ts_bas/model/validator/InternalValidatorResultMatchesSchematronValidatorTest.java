@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.model.validator;
+package se.inera.intyg.common.ts_bas.v6.model.validator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -49,11 +49,11 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.ts_bas.validator.internal.InternalValidatorInstance;
+import se.inera.intyg.common.ts_bas.v6.validator.internal.InternalValidatorInstance;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
@@ -127,7 +127,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * @param fail Whether the test should expect validation errors or not.
      */
     private void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
-        TsBasUtlatande utlatandeFromJson = scenario.asInternalModel();
+        TsBasUtlatandeV6 utlatandeFromJson = scenario.asInternalModel();
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validate(utlatandeFromJson);
 

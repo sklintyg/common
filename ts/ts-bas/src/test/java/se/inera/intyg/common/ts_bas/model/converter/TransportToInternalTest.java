@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.model.converter;
+package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,7 +29,7 @@ import org.junit.Test;
 
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
 import se.inera.intygstjanster.ts.services.types.v1.II;
@@ -79,7 +79,7 @@ public class TransportToInternalTest {
     public void testConvert() throws Exception {
         RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
         transportModel.getIntyg().setSkapadAv(buildHosPersonal());
-        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
         assertEquals(LocalDateTime.of(2013, 8, 12, 15, 57, 0), res.getGrundData().getSigneringsdatum());
         HoSPersonal hosPersonal = res.getGrundData().getSkapadAv();
         assertEquals(ENHETSNAMN, hosPersonal.getVardenhet().getEnhetsnamn());
@@ -106,7 +106,7 @@ public class TransportToInternalTest {
         RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
         transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().clear();
         transportModel.getIntyg().getSkapadAv().getSpecialistkompetens().add(specialistkompetens);
-        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getSpecialiteter().size());
         assertEquals(specialistkompetens.getDisplayName(), skapadAv.getSpecialiteter().get(0));
@@ -120,7 +120,7 @@ public class TransportToInternalTest {
         RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
         transportModel.getIntyg().getSkapadAv().getBefattning().clear();
         transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
-        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));
@@ -133,7 +133,7 @@ public class TransportToInternalTest {
         RegisterCertificateType transportModel = ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel();
         transportModel.getIntyg().getSkapadAv().getBefattning().clear();
         transportModel.getIntyg().getSkapadAv().getBefattning().add(befattning);
-        TsBasUtlatande res = TransportToInternal.convert(transportModel.getIntyg());
+        TsBasUtlatandeV6 res = TransportToInternal.convert(transportModel.getIntyg());
         HoSPersonal skapadAv = res.getGrundData().getSkapadAv();
         assertEquals(1, skapadAv.getBefattningar().size());
         assertEquals(befattning.getCode(), skapadAv.getBefattningar().get(0));

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.inera.intyg.common.ts_bas.model.transformer;
+package se.inera.intyg.common.ts_bas.v6.model.transformer;
 
 import org.junit.Before;
 import org.junit.Test;

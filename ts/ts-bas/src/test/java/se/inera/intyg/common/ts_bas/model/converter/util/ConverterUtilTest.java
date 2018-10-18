@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.model.converter.util;
+package se.inera.intyg.common.ts_bas.v6.model.converter.util;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 
 public class ConverterUtilTest {
 
@@ -35,7 +35,7 @@ public class ConverterUtilTest {
 
     @Test
     public void testConvertFromUtlatande() throws Exception {
-        TsBasUtlatande utlatande = objectMapper.readValue(jsonString, TsBasUtlatande.class);
+        TsBasUtlatandeV6 utlatande = objectMapper.readValue(jsonString, TsBasUtlatandeV6.class);
         CertificateHolder holder = ConverterUtil.toCertificateHolder(utlatande);
         Assert.assertEquals("7cc59f3e-ed60-4f79-8f3c-a863a8e43c50", holder.getId());
         Assert.assertEquals("IFV1239877878-1042", holder.getCareUnitId());

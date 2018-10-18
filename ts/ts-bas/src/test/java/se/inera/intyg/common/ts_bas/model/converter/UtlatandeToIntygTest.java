@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.model.converter;
+package se.inera.intyg.common.ts_bas.v6.model.converter;
 
 import org.junit.Test;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.common.ts_bas.model.internal.*;
+import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -63,7 +63,7 @@ public class UtlatandeToIntygTest {
         final String patientPostnummer = "patientPostnummer";
         final String patientPostort = "patientPostort";
 
-        TsBasUtlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
+        TsBasUtlatandeV6 utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
                 skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
@@ -110,7 +110,7 @@ public class UtlatandeToIntygTest {
     public void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
-        TsBasUtlatande utlatande = buildUtlatande(relationKod, relationIntygsId);
+        TsBasUtlatandeV6 utlatande = buildUtlatande(relationKod, relationIntygsId);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertNotNull(intyg.getRelation());
@@ -124,7 +124,7 @@ public class UtlatandeToIntygTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testAddIntygAvserSvar() {
-        TsBasUtlatande utlatande = buildUtlatande();
+        TsBasUtlatandeV6 utlatande = buildUtlatande();
         EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
         utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
 
@@ -149,7 +149,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodIfNull() {
         final String arbetsplatskod = null;
-        TsBasUtlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertFalse(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension().trim().isEmpty());
@@ -158,7 +158,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodIfBlank() {
         final String arbetsplatskod = " ";
-        TsBasUtlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertFalse(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension().trim().isEmpty());
@@ -167,7 +167,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertComplementsArbetsplatskodDoesNotOverride() {
         final String arbetsplatskod = "000000";
-        TsBasUtlatande utlatande = buildUtlatande(arbetsplatskod);
+        TsBasUtlatandeV6 utlatande = buildUtlatande(arbetsplatskod);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(arbetsplatskod, intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension());
@@ -176,7 +176,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertSetsVersionFromTextVersion() {
         final String textVersion = "7.8";
-        TsBasUtlatande utlatande = buildUtlatande();
+        TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(textVersion).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -186,7 +186,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
         final String defaultVersion = "6.7";
-        TsBasUtlatande utlatande = buildUtlatande();
+        TsBasUtlatandeV6 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -197,31 +197,31 @@ public class UtlatandeToIntygTest {
         assertEquals(defaultVersion, intyg.getVersion());
     }
 
-    private TsBasUtlatande buildUtlatande() {
+    private TsBasUtlatandeV6 buildUtlatande() {
         return buildUtlatande(null, null);
     }
 
-    private TsBasUtlatande buildUtlatande(String arbetsplatskod) {
+    private TsBasUtlatandeV6 buildUtlatande(String arbetsplatskod) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", null, null);
     }
 
-    private TsBasUtlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
+    private TsBasUtlatandeV6 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
-    private TsBasUtlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
+    private TsBasUtlatandeV6 buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
-        TsBasUtlatande.Builder utlatandeBuilder = TsBasUtlatande.builder();
+        TsBasUtlatandeV6.Builder utlatandeBuilder = TsBasUtlatandeV6.builder();
         utlatandeBuilder.setId(intygsId);
         utlatandeBuilder.setBedomning(Bedomning.builder().build());
 
@@ -270,7 +270,7 @@ public class UtlatandeToIntygTest {
             grundData.setRelation(relation);
         }
 
-        TsBasUtlatande utlatande = utlatandeBuilder.setGrundData(grundData).build();
+        TsBasUtlatandeV6 utlatande = utlatandeBuilder.setGrundData(grundData).build();
         return utlatande;
     }
 }

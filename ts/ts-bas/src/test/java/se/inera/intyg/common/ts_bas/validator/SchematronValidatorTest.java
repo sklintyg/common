@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.validator;
+package se.inera.intyg.common.ts_bas.v6.validator;
 
 import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertEquals;
@@ -40,55 +40,55 @@ public class SchematronValidatorTest {
 
     @Test
     public void validMaximalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-maximal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-maximal.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validMinimalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-minimal.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validPersontransportXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-persontransport.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-persontransport.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validSamordningXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-samordning.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-samordning.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validDiabetesTyp2XmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-diabetes-typ2-kost.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-diabetes-typ2-kost.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validKorrigeradSynskarpaXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-korrigerad-synskarpa.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-korrigerad-synskarpa.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validSjukhusvardXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-sjukhusvard.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-sjukhusvard.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validUtanSynskarpaXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-utan-korrigerad-synskarpa.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-utan-korrigerad-synskarpa.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 
     @Test
     public void validVersion0608XmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/valid-version0608.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-version0608.xml"), Charsets.UTF_8);
         doTest(inputXml);
     }
 

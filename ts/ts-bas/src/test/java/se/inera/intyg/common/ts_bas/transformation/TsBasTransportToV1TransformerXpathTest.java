@@ -99,13 +99,13 @@ public class TsBasTransportToV1TransformerXpathTest {
     @Test
     public void testMaximaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
             TransformerException {
-        performTests(new ClassPathResource("scenarios/transport/valid-maximal.xml"));
+        performTests(new ClassPathResource("v6/scenarios/transport/valid-maximal.xml"));
     }
 
     @Test
     public void testMinimaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
             TransformerException {
-        performTests(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
+        performTests(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
     }
 

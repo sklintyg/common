@@ -100,7 +100,7 @@ public class TSBasTransportToV3TransformerTest {
 
         for (String xmlFile : testFiles) {
             System.out.println("xmlFile = " + xmlFile);
-            String xmlContents = Resources.toString(getResource("scenarios/transport/" + xmlFile), Charsets.UTF_8);
+            String xmlContents = Resources.toString(getResource("v6/scenarios/transport/" + xmlFile), Charsets.UTF_8);
             List intygstjansterResult = validate(intygstjansterSchema, xmlContents);
             if (!intygstjansterResult.isEmpty()) {
                 fail(xmlFile + " failed to validate against transport schema with errors " + intygstjansterResult.toString());
@@ -114,7 +114,7 @@ public class TSBasTransportToV3TransformerTest {
                 fail(xmlFile + " failed to validate against schema v3 with errors " + v3Results.toString());
             }
 
-            String expectedXmlContents = Resources.toString(getResource("scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+            String expectedXmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
 
             Diff diff = DiffBuilder
                     .compare(Input.fromString(expectedXmlContents))

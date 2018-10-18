@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.pdf;
+package se.inera.intyg.common.ts_bas.v6.pdf;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -45,7 +45,7 @@ public class IntygTextsTsBasRepositoryTestHelper extends IntygTextsRepositoryImp
     public void update()  {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

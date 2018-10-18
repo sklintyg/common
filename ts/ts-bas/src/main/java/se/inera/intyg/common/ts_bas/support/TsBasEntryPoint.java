@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.ts_bas.support;
 
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
+@Component("TsBasEntryPoint")
 public class TsBasEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-bas";

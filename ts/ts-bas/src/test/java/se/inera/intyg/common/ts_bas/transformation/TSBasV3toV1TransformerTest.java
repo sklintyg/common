@@ -95,7 +95,7 @@ public class TSBasV3toV1TransformerTest {
         XslTransformer transformer = new XslTransformer("xsl/V3ToV1.xsl");
 
         for (String xmlFile : testFiles) {
-            String xmlContents = Resources.toString(getResource("scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
+            String xmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
             List v3Result = validate(v3Schema, xmlContents);
             if (!v3Result.isEmpty()) {
                 fail(xmlFile + " failed to validate against schema v3 with errors " + v3Result.toString());

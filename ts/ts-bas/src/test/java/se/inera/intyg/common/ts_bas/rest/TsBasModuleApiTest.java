@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.rest;
+package se.inera.intyg.common.ts_bas.v6.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
@@ -44,9 +44,9 @@ import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
-import se.inera.intyg.common.ts_bas.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.ts_bas.model.converter.WebcertModelFactoryImpl;
-import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
+import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.ts_bas.v6.model.converter.WebcertModelFactoryImpl;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.utils.Scenario;
 import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.utils.ScenarioNotFoundException;
@@ -93,7 +93,7 @@ public class TsBasModuleApiTest {
     private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
     @InjectMocks
     @Spy
-    private TsBasModuleApi moduleApi = new TsBasModuleApi();
+    private TsBasModuleApiV6 moduleApi = new TsBasModuleApiV6();
 
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
@@ -129,7 +129,7 @@ public class TsBasModuleApiTest {
         String holder = moduleApi.createNewInternalFromTemplate(createNewDraftCopyHolder(), scenario.asInternalModel());
 
         assertNotNull(holder);
-        TsBasUtlatande utlatande = objectMapper.readValue(holder, TsBasUtlatande.class);
+        TsBasUtlatandeV6 utlatande = objectMapper.readValue(holder, TsBasUtlatandeV6.class);
         assertEquals(true, utlatande.getSyn().getSynfaltsdefekter());
     }
 
@@ -144,7 +144,7 @@ public class TsBasModuleApiTest {
     public void testXmlPayloadIsRegisterTsBas() throws Exception {
         // We don't test the actual transformation, only the logic within
         // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
+        final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
         boolean result = XslTransformerUtil.isRegisterTsBas(xmlBody);
         assertTrue(result);
     }
@@ -153,7 +153,7 @@ public class TsBasModuleApiTest {
     public void testTransformPayload_TransportToV1() throws Exception {
         // We don't test the actual transformation, only the logic within
         // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
+        final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
@@ -165,7 +165,7 @@ public class TsBasModuleApiTest {
 
         // We don't test the actual transformation, only the logic within
         // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/transport/valid-minimal.xml"));
+        final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
@@ -175,7 +175,7 @@ public class TsBasModuleApiTest {
     public void testTransformPayload_V3ToV1() throws Exception {
         // We don't test the actual transformation, only the logic within
         // the transformaPayload method
-        final String xmlBody = getResourceAsString(new ClassPathResource("scenarios/rivtav3/valid-minimal.xml"));
+        final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/rivtav3/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
         verify(xslTransformerFactory).get(any(XslTransformerType.class));
@@ -227,9 +227,9 @@ public class TsBasModuleApiTest {
     @Ignore
     public void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
         final String originalXml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        final String transformedXml = getResourceAsString(new ClassPathResource("scenarios/rivtav3/valid-minimal.xml"));
+        final String transformedXml = getResourceAsString(new ClassPathResource("v6/scenarios/rivtav3/valid-minimal.xml"));
 
-        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(originalXml);
+        TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(originalXml);
         assertNotNull(res);
     }
 
@@ -237,12 +237,12 @@ public class TsBasModuleApiTest {
     @Ignore
     public void testGetUtlatandeWhenXmlIsInV3Format() throws Exception {
         String xml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asRivtaV3TransportModel());
-        TsBasUtlatande res = moduleApi.getUtlatandeFromXml(xml);
+        TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
-        TsBasUtlatande utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
         String result = moduleApi.getAdditionalInfo(intyg);
