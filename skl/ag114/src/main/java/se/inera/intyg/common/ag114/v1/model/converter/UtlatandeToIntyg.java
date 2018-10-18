@@ -31,6 +31,8 @@ import java.util.List;
 
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DELSVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
@@ -63,20 +65,26 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(Ag114UtlatandeV1 source) {
         List<Svar> svars = new ArrayList<>();
 
+        List<Sysselsattning> sysselsattningList = new ArrayList<>();
 
         // Kategori 1
         int sysselsattningInstans = 1;
         if (source.getSysselsattning() != null) {
-            Sysselsattning sysselsattning = source.getSysselsattning();
-            if (sysselsattning.getTyp() != null) {
-                svars.add(aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
-                        .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
-                                aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
-                                        sysselsattning.getTyp().getLabel()))
-                        .build());
+            for (Sysselsattning sysselsattning : source.getSysselsattning()) {
+                if (sysselsattning.getTyp() != null) {
+                    svars.add(aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
+                            .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
+                                    aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
+                                            sysselsattning.getTyp().getLabel()))
+                            .build());
+                }
             }
         }
         addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_2, NUVARANDE_ARBETE_DELSVAR_ID_2, source.getNuvarandeArbete());
+
+        // Kategori 2 Diagnos
+        addIfNotBlank(svars, ONSKAR_FORMEDLA_SVAR_ID_3, ONSKAR_FORMEDLA_DELSVAR_ID_3, source.getFormedlaDiagnos());
+
 
 
         // if (source.getUndersokningAvPatienten() != null) {

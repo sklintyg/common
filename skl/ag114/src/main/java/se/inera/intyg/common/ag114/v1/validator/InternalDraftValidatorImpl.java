@@ -18,23 +18,37 @@
  */
 package se.inera.intyg.common.ag114.v1.validator;
 
+import com.google.common.base.Strings;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
+
 @Component(value = "ag114.InternalDraftValidatorImpl.v1")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114UtlatandeV1> {
 
     private static final int MAX_UNDERLAG = 3;
-    private static final String CATEGORY_GRUNDFORMU = "grundformu";
-    private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
-    private static final String CATEGORY_OVRIGT = "ovrigt";
-    private static final String CATEGORY_KONTAKT = "kontakt";
+
+    private static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
+    private static final String CATEGORY_ONSKAR_FORMEDLA = "onskarFormedla";
+
+//    private static final String CATEGORY_GRUNDFORMU = "grundformu";
+//    private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
+//    private static final String CATEGORY_OVRIGT = "ovrigt";
+//    private static final String CATEGORY_KONTAKT = "kontakt";
 
     // @Autowired
     //ValidatorUtilFK validatorUtilFK;
@@ -42,6 +56,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     @Override
     public ValidateDraftResponse validateDraft(Ag114UtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
+
+        validateSysselsattning(utlatande, validationMessages);
+
+        validateOnskarFormedla(utlatande, validationMessages);
 
 //        // Kategori 1 – Grund för medicinskt underlag
 //        validateGrundForMU(utlatande, validationMessages);
@@ -66,6 +84,56 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+    }
+
+
+
+    private void validateSysselsattning(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getSysselsattning() == null
+                || !utlatande.getSysselsattning().stream().anyMatch(e -> e.getTyp() != null)) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYSSELSATTNING, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                    ValidationMessageType.EMPTY);
+        } else {
+
+            // R5
+            if (!containsUnique(utlatande.getSysselsattning()
+                    .stream().map(Sysselsattning::getTyp).collect(Collectors.toList()))) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYSSELSATTNING, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                        ValidationMessageType.INCORRECT_COMBINATION,
+                        "lisjp.validation.sysselsattning.invalid_combination");
+            }
+
+            // R9
+            if (Strings.nullToEmpty(utlatande.getNuvarandeArbete()).trim().isEmpty()
+                    && utlatande.getSysselsattning().stream()
+                    .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYSSELSATTNING, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                        ValidationMessageType.EMPTY);
+            }
+
+            // R10
+            if (!Strings.nullToEmpty(utlatande.getNuvarandeArbete()).trim().isEmpty()
+                    && !utlatande.getSysselsattning().stream()
+                    .anyMatch(e -> e.getTyp() == Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYSSELSATTNING, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                        ValidationMessageType.EMPTY,
+                        "lisjp.validation.sysselsattning.nuvarandearbete.invalid_combination");
+            }
+
+            // No more than 1 entries are allowed
+            if (utlatande.getSysselsattning().size() > 1) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYSSELSATTNING, TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                        ValidationMessageType.EMPTY,
+                        "lisjp.validation.sysselsattning.too-many");
+            }
+        }
+    }
+
+    private void validateOnskarFormedla(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getFormedlaDiagnos() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ONSKAR_FORMEDLA, ONSKAR_FORMEDLA_SVAR_JSON_ID_3,
+                    ValidationMessageType.EMPTY);
+        }
     }
 
 //    void validateGrundForMU(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
@@ -247,4 +315,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
 //                    "ag114.validation.blanksteg.otillatet");
 //        }
 //    }
+
+    private static <T> boolean containsUnique(List<T> list) {
+        Set<T> set = new HashSet<>();
+        return list.stream().allMatch(t -> set.add(t));
+    }
 }

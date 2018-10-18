@@ -37,6 +37,10 @@ public final class RespConstants {
     public static final String NUVARANDE_ARBETE_DELSVAR_ID_2 = "2.1";
     public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_2 = "nuvarandeArbete";
 
+    public static final String ONSKAR_FORMEDLA_SVAR_ID_3 = "3";
+    public static final String ONSKAR_FORMEDLA_DELSVAR_ID_3 = "3.1";
+    public static final String ONSKAR_FORMEDLA_SVAR_JSON_ID_3 = "onskarFormedla";
+
     private RespConstants() {
     }
 

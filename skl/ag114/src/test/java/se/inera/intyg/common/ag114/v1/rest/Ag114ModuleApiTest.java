@@ -70,6 +70,7 @@ import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -347,7 +348,7 @@ public class Ag114ModuleApiTest {
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = Ag114UtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("1.0")
-                .setSysselsattning(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE))
+                .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
                 .build();
 
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);

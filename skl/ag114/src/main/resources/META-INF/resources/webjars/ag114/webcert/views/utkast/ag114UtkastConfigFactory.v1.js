@@ -25,8 +25,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
 
             function _getCategoryIds() {
                 return {
-                    1: 'grundformu',
-                    2: 'underlag',
+                    1: 'sysselsattning',
+                    2: 'diagnos',
                     3: 'diagnos',
                     4: 'funktionsnedsattning',
                     5: 'ovrigt',
@@ -78,18 +78,28 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                 };
 
                 var config = [
+
+                    // Sysselsättning
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true, requiredProp: ['sysselsattning["NUVARANDE_ARBETE"]']}, [{
-                            type: 'ue-checkbox',
+                            type: 'ue-checkgroup',
                             modelProp: 'sysselsattning',
                             code: 'KV_FKMU_0002',
                             choices: ['NUVARANDE_ARBETE']
-                        }]), fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', { required: true, hideExpression: '!model.sysselsattning["NUVARANDE_ARBETE"]',
-                            requiredProp: 'nuvarandeArbete'}, [{
+                        }]), fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', { required: true, requiredProp: 'nuvarandeArbete'}, [{
                             type: 'ue-textarea',
                             modelProp: 'nuvarandeArbete'
                         }])
                     ]),
+
+                    // Önskar förmedla
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
+                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedla' }, [{
+                            type: 'ue-radio',
+                            modelProp: 'onskarFormedla'
+                        }])]),
+
+                    // Kategori vårdenhet
                     ueFactoryTemplates.vardenhet
                 ];
                 return config;

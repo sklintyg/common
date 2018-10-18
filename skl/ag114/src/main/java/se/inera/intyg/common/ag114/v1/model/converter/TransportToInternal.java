@@ -27,8 +27,13 @@ import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DELSVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
@@ -54,13 +59,18 @@ public final class TransportToInternal {
 
     private static void setSvar(Builder utlatande, Intyg source) throws ConverterException {
 
+        List<Sysselsattning> sysselsattningar = new ArrayList<>();
+
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
                 case TYP_AV_SYSSELSATTNING_SVAR_ID_1:
-                    handleSysselsattning(utlatande, svar);
+                    handleSysselsattning(sysselsattningar, svar);
                     break;
                 case NUVARANDE_ARBETE_SVAR_ID_2:
                     handleNuvarandeArbete(utlatande, svar);
+                    break;
+                case ONSKAR_FORMEDLA_SVAR_ID_3:
+                    handleOnskarFormedla(utlatande, svar);
                     break;
             default:
                 Integer parsedInt = Ints.tryParse(svar.getId());
@@ -72,6 +82,7 @@ public final class TransportToInternal {
             }
         }
 
+        utlatande.setSysselsattning(sysselsattningar);
 
 //        utlatande.setDiagnoser(diagnoser);
 //        utlatande.setTillaggsfragor(tillaggsfragor);
@@ -91,12 +102,24 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleSysselsattning(Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleSysselsattning(List<Sysselsattning> sysselsattning, Svar svar) throws ConverterException {
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case TYP_AV_SYSSELSATTNING_DELSVAR_ID_1:
                     String sysselsattningsTypString = getCVSvarContent(delsvar).getCode();
-                    utlatande.setSysselsattning(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
+                    sysselsattning.add(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleOnskarFormedla(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ONSKAR_FORMEDLA_DELSVAR_ID_3:
+                    utlatande.setOnskarFormedla(Boolean.valueOf(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();

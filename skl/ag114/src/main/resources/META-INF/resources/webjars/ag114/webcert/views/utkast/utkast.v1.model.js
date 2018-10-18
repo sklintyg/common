@@ -36,9 +36,12 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'sysselsattning': new ModelAttr('sysselsattning', {
                             toTransform: ModelTransform.enumToTransform,
                             fromTransform: ModelTransform.enumFromTransform,
-                            defaultValue: {}
+                            defaultValue: {
+                                "typ": "NUVARANDE_ARBETE"
+                            }
                         }),
-                        'nuvarandeArbete' : undefined
+                        'nuvarandeArbete' : undefined,
+                        'onskarFormedla': undefined
                     });
                 },
                 update: function update(content, parent) {
