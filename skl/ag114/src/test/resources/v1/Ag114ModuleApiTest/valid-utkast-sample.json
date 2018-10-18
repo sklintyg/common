@@ -34,5 +34,9 @@
       "personId": "19650708-1234"
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
-  }
+  },
+  "sysselsattning":{
+    "typ": "NUVARANDE_ARBETE"
+  },
+  "nuvarandeArbete": "Inget"
 }

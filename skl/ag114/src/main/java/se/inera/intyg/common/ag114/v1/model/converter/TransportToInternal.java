@@ -21,12 +21,19 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 import com.google.common.primitives.Ints;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getGrundData;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 public final class TransportToInternal {
 
@@ -49,7 +56,12 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
-
+                case TYP_AV_SYSSELSATTNING_SVAR_ID_1:
+                    handleSysselsattning(utlatande, svar);
+                    break;
+                case NUVARANDE_ARBETE_SVAR_ID_2:
+                    handleNuvarandeArbete(utlatande, svar);
+                    break;
             default:
                 Integer parsedInt = Ints.tryParse(svar.getId());
                 if (parsedInt != null && parsedInt >= TILLAGGSFRAGA_START) {
@@ -60,9 +72,36 @@ public final class TransportToInternal {
             }
         }
 
+
 //        utlatande.setDiagnoser(diagnoser);
 //        utlatande.setTillaggsfragor(tillaggsfragor);
 //        utlatande.setUnderlag(underlag);
+    }
+
+
+    private static void handleNuvarandeArbete(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case NUVARANDE_ARBETE_DELSVAR_ID_2:
+                    utlatande.setNuvarandeArbete(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSysselsattning(Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case TYP_AV_SYSSELSATTNING_DELSVAR_ID_1:
+                    String sysselsattningsTypString = getCVSvarContent(delsvar).getCode();
+                    utlatande.setSysselsattning(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.fromId(sysselsattningsTypString)));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
     }
 
 //    private static void handleFunktionsnedsattningDebut(Builder utlatande, Svar svar) {

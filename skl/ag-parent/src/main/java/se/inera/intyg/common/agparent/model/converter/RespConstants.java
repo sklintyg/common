@@ -25,6 +25,18 @@ public final class RespConstants {
     public static final String ID_JSON_ID = "id";
     public static final String SIGNATURE = "signature";
 
+    public static final String TYP_AV_SYSSELSATTNING_CODE_SYSTEM = "KV_FKMU_0002";
+
+    // Flytta ner till intyget sen!
+
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_ID_1 = "1";
+    public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID_1 = "1.1";
+    public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1 = "sysselsattning";
+
+    public static final String NUVARANDE_ARBETE_SVAR_ID_2 = "2";
+    public static final String NUVARANDE_ARBETE_DELSVAR_ID_2 = "2.1";
+    public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_2 = "nuvarandeArbete";
+
     private RespConstants() {
     }
 

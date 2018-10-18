@@ -20,6 +20,7 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -28,7 +29,15 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 
 public final class UtlatandeToIntyg {
 
@@ -54,7 +63,22 @@ public final class UtlatandeToIntyg {
     private static List<Svar> getSvar(Ag114UtlatandeV1 source) {
         List<Svar> svars = new ArrayList<>();
 
-        int grundForMUInstans = 1;
+
+        // Kategori 1
+        int sysselsattningInstans = 1;
+        if (source.getSysselsattning() != null) {
+            Sysselsattning sysselsattning = source.getSysselsattning();
+            if (sysselsattning.getTyp() != null) {
+                svars.add(aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
+                        .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
+                                aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
+                                        sysselsattning.getTyp().getLabel()))
+                        .build());
+            }
+        }
+        addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_2, NUVARANDE_ARBETE_DELSVAR_ID_2, source.getNuvarandeArbete());
+
+
         // if (source.getUndersokningAvPatienten() != null) {
         // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
         // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,

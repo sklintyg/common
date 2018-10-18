@@ -32,43 +32,13 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'textVersion': undefined,
                         'grundData': grundData,
 
-                        // Kategori 1 Grund för medicinskt underlag
-                        'undersokningAvPatienten': undefined,           //KV_FKMU_0001_1
-                        'journaluppgifter': undefined,                  //KV_FKMU_0001_3
-                        'anhorigsBeskrivningAvPatienten': undefined,    //KV_FKMU_0001_4
-                        'annatGrundForMU': undefined,                   //KV_FKMU_0001_5
-                        'annatGrundForMUBeskrivning': undefined,
-                        'motiveringTillInteBaseratPaUndersokning': undefined,
-                        'kannedomOmPatient': undefined,
-
-                        // Kategori 2 Andra medicinska utredningar och underlag
-                        'underlagFinns': undefined,
-                        'underlag': new ModelAttr('underlag', { defaultValue: [],
-                            fromTransform: ModelTransform.underlagFromTransform,
-                            toTransform: ModelTransform.underlagToTransform
+                        // Kategori 1 sysselsättning
+                        'sysselsattning': new ModelAttr('sysselsattning', {
+                            toTransform: ModelTransform.enumToTransform,
+                            fromTransform: ModelTransform.enumFromTransform,
+                            defaultValue: {}
                         }),
-
-
-                        // Kategori 3 diagnos
-                        'diagnoser': new ModelAttr('diagnoser', {
-                            fromTransform: ModelTransform.diagnosFromTransform,
-                            toTransform: ModelTransform.diagnosToTransform
-                        }),
-
-
-                        // Kategori 4 Funktionsnedsättning
-                        'funktionsnedsattningDebut': undefined,  //15.1
-                        'funktionsnedsattningPaverkan': undefined,  //16.1
-
-                        // Kategori 5 Övrigt
-                        'ovrigt': undefined,
-
-                        // Kategori 6 Kontakt
-                        'kontaktMedFk': new ModelAttr('kontaktMedFk', {defaultValue: false}), // 26.1
-                        'anledningTillKontakt': undefined, //26.2
-
-                        // Kategori 9999 Tilläggsfrågor
-                        'tillaggsfragor': new ModelAttr('tillaggsfragor', {defaultValue: []})
+                        'nuvarandeArbete' : undefined
                     });
                 },
                 update: function update(content, parent) {

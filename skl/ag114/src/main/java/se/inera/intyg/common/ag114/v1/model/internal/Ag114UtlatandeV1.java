@@ -22,8 +22,10 @@ package se.inera.intyg.common.ag114.v1.model.internal;
 
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 
 import javax.annotation.Nullable;
 
@@ -60,9 +62,18 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - -
-    // Kategori 1 – Grund för medicinskt underlag
+    // Kategori 1 – Sysselsättning
     // - - - - - - - - - - - - - - - - - - - - - -
 
+    // Fråga 1 - Sysselsättning
+    // Fråga 1.1
+    @Nullable
+    public abstract Sysselsattning getSysselsattning();
+
+    // Fråga 2 - Nuvarande arbete
+    // Fråga 2.1
+    @Nullable
+    public abstract String getNuvarandeArbete();
 
 
     /*
@@ -92,6 +103,12 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(SIGNATURE)
         public abstract Builder setSignature(String signature);
+
+        @JsonProperty(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1)
+        public abstract Builder setSysselsattning(Sysselsattning sysselsattning);
+
+        @JsonProperty(NUVARANDE_ARBETE_SVAR_JSON_ID_2)
+        public abstract Builder setNuvarandeArbete(String nuvarandeArbete);
     }
 
 }

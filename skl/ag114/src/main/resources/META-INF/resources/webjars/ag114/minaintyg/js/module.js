@@ -32,7 +32,7 @@ angular.module('ag114').config(function($stateProvider) {
                     return factoryResolverHelper.resolve('ag114.viewConfigFactory', $stateParams);
                 }
             },
-            data : { title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,
+            data : { title: 'Arbetsgivarintyg ', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
         }).
         state('ag114-fel', {

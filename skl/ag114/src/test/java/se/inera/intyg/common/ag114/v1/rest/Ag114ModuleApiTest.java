@@ -34,6 +34,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
@@ -345,7 +346,9 @@ public class Ag114ModuleApiTest {
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
-        Utlatande utlatande = Ag114UtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
+        Utlatande utlatande = Ag114UtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("1.0")
+                .setSysselsattning(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE))
+                .build();
 
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
