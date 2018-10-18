@@ -387,16 +387,18 @@
 
             'common.label.intygstatus.is-001': 'Intyget är signerat',
             'common.label.intygstatus.is-002': 'Intyget är skickat till ${recipient}',
-            'common.label.intygstatus.is-003': 'Intyget har ersatts av <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">detta intyg</a>',
+
+            'common.label.intygstatus.is-003': 'Intyget har ersatts av <a href="#/intyg/${intygstyp}/${intygsid}/">detta intyg</a>',
             'common.label.intygstatus.is-004': 'Intyget är makulerat',
-            'common.label.intygstatus.is-005': 'Intyget har kompletterats med ett annat intyg. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+            'common.label.intygstatus.is-005': 'Intyget har kompletterats med ett annat intyg. <a href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
             'common.label.intygstatus.is-006': 'Försäkringkassan har begärt komplettering',
-            'common.label.intygstatus.is-007': 'Intyget ersatte ett tidigare intyg som också kan behöva makuleras. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+            'common.label.intygstatus.is-007': 'Intyget ersatte ett tidigare intyg som också kan behöva makuleras. <a href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
             'common.label.intygstatus.is-008': 'Intyget är tillgängligt för patienten',
-            'common.label.intygstatus.is-009': 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg. <a wc-close-modals href="#/${intygstyp}/edit/${intygsid}/">Öppna utkastet</a>',
-            'common.label.intygstatus.is-010': 'Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
-            'common.label.intygstatus.is-011': 'Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras. <a wc-close-modals href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
-            'common.label.intygstatus.is-012': 'Det finns redan en påbörjad komplettering. <a wc-close-modals href="#/${intygstyp}/edit/${intygsid}/">Öppna utkastet</a>',
+            'common.label.intygstatus.is-009': 'Det finns redan ett påbörjat utkast som ska ersätta detta intyg. <a href="#/${intygstyp}/edit/${intygsid}/">Öppna utkastet</a>',
+            'common.label.intygstatus.is-010': 'Intyget är förnyat utifrån ett tidigare intyg som också kan behöva makuleras. <a href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+            'common.label.intygstatus.is-011': 'Intyget är en komplettering av ett tidigare intyg som också kan behöva makuleras. <a href="#/intyg/${intygstyp}/${intygsid}/">Öppna intyget</a>',
+            'common.label.intygstatus.is-012': 'Det finns redan en påbörjad komplettering. <a href="#/${intygstyp}/edit/${intygsid}/">Öppna utkastet</a>',
+
             // Utkast status
             'common.label.intygstatus.is-013': 'Utkastet sparas',
             'common.label.intygstatus.is-014': 'Utkastet är sparat',
