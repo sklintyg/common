@@ -107,11 +107,16 @@ angular.module('common').factory('common.fmbService', [
             return true;
         }
 
+        function _updateKodverk(kodverk) {
+            fmbViewState.isIcdKodVerk = kodverk === 'ICD_10_SE';
+        }
+
         // Return public API for the service
         return {
             checkDiagnos: _checkDiagnos,
             isAnyFMBDataAvailable: _isAnyFMBDataAvailable,
             updateFmbTextsForAllDiagnoses: _updateFmbTextsForAllDiagnoses,
-            updateFmbText: _updateFmbText
+            updateFmbText: _updateFmbText,
+            updateKodverk: _updateKodverk
         };
     }]);

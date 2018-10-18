@@ -1,6 +1,6 @@
 <div class="tab-content-title-row">Diagnosspecifik information</div>
 
-<div class="fmb-diagnos-row" ng-class="{'has-diagnose' : !vm.noDataMessage.warning}">
+<div class="fmb-diagnos-row" ng-class="{'has-diagnose' : !vm.noDataMessage.warning && !vm.noDataMessage.incorrectKodverk}">
   <span ng-repeat="d in fmb.diagnoses track by $index" class="fmb-diagnos-description">
 
    <wc-radio-wrapper>
@@ -65,9 +65,10 @@
   <wc-alert-message alert-message-id="{{vm.noDataMessage.info}}" alert-severity="info"
                     ng-if="vm.noDataMessage.info"></wc-alert-message>
 
-  <div ng-if="vm.noDataMessage.warning" class="no-diagnose-entered">
+  <div ng-if="vm.noDataMessage.warning || vm.noDataMessage.incorrectKodverk" class="no-diagnose-entered">
     <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/fmb_no_diagnose.svg"/>
-    <div dynamic-label key="{{::vm.noDataMessage.warning}}"></div>
+    <div ng-if="vm.noDataMessage.warning" dynamic-label key="{{::vm.noDataMessage.warning }}"></div>
+    <div ng-if="vm.noDataMessage.incorrectKodverk" dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"></div>
   </div>
 
 </wc-support-panel-scrollable-body>

@@ -714,6 +714,8 @@
             'fmb.warn.no-diagnose-set': 'Ange minst en diagnos för att få FMB-stöd.',
             'fmb.info.single-diagnose-no-data': 'För den angivna diagnosen finns för tillfället inget FMB-stöd.',
             'fmb.info.multiple-diagnose-no-data': 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.',
+            'fmb.incorrectKodverk': 'FMB-stödet finns enbart för koder som ingår i ICD-10-SE.',
+
 
             // SRS texts
             'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',

@@ -36,13 +36,16 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                 referensDescr: null,
                 referensLink: null
             };
-
              /**
              * Determine info message to show
              */
-            function getNoDataReasonMessage(diagnoseCount, hasDataCount) {
+            function getNoDataReasonMessage(diagnoseCount, hasDataCount, enabled) {
                 //Case 1: No diagnose set at all
-                if (diagnoseCount === 0) {
+                if (enabled === false) {
+                    return {
+                        incorrectKodverk: 'fmb.incorrectKodverk'
+                    };
+                } else if (diagnoseCount === 0) {
                     return {
                         warning: 'fmb.warn.no-diagnose-set'
                     };
@@ -129,8 +132,17 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                 _updateSectionDataForDiagnose($scope.vm.activeDiagnose);
 
                 //Update message to display
-                $scope.vm.noDataMessage = getNoDataReasonMessage(diagnosesEnteredCount, diagnosesWithDataCount);
+                $scope.vm.noDataMessage = getNoDataReasonMessage(diagnosesEnteredCount, diagnosesWithDataCount, $scope.fmb.isIcdKodVerk);
+
+                console.log($scope.vm.noDataMessage);
             }
+
+            $scope.$watch('fmb.isIcdKodVerk', function(newVal, oldVal) {
+                $scope.fmb.isIcdKodVerk = newVal;
+                console.log($scope.fmb.isIcdKodVerk);
+                _updateState();
+            }, true);
+
             //Diagnoses were added/removed/changed
             $scope.$watchCollection('fmb.diagnoses', function() {
                 _updateState();

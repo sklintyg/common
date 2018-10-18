@@ -44,6 +44,8 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                     diagnosViewState.diagnosKodSystem = newVal;
                     // We only want to log when the diagnoskodverk really changed and not when the value is set in the beginning
                     // of loading the utkast
+                    fmbService.updateKodverk(newVal);
+
                     if (oldVal) {
                         monitoringService.diagnoskodverkChanged($scope.model.id, $scope.model.typ);
                     }

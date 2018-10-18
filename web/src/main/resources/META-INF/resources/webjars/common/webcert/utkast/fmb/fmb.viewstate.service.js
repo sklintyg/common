@@ -35,6 +35,8 @@ angular.module('common').service('common.fmbViewState', [
             
         };
 
+        this.isIcdKodVerk = true;
+
         this.diagnoses = {
             // The following properties are created and deleted on demand depending on FMB info available.
             // 0: fmbModel.build(), // huvuddiagnos
