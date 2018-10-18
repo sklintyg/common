@@ -17,12 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygHelper',
-    [ '$log', '$state',
-        function($log, $state) {
+    [ '$log', '$state', 'common.ObjectHelper',
+        function($log, $state, ObjectHelper) {
             'use strict';
 
-            function _goToDraft(type, intygTypeVersion, intygId) {
-                $state.go(type + '-edit', {
+            function _goToDraft(type, intygTypeVersion, intygId, extraStateParams) {
+                if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
+                    $log.error('goToDraft: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
+                            ' intygId=' + intygId);
+                    return;
+                }
+
+                var stateParams = {
+                    certificateId: intygId,
+                    intygTypeVersion: intygTypeVersion
+                };
+
+                if (angular.isDefined(extraStateParams)) {
+                    stateParams = angular.extend(stateParams, extraStateParams);
+                }
+
+                $state.go(type + '-edit', stateParams);
+            }
+            function _goToIntyg(type, intygTypeVersion, intygId) {
+                if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
+                    $log.error('goToIntyg: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
+                            ' intygId=' + intygId);
+                    return;
+                }
+
+                $state.go('webcert.intyg.' + type, {
                     certificateId: intygId,
                     intygTypeVersion: intygTypeVersion
                 });
@@ -73,6 +97,7 @@ angular.module('common').factory('common.IntygHelper',
             // Return public API for the service
             return {
                 goToDraft: _goToDraft,
+                goToIntyg: _goToIntyg,
                 isRevoked: _isRevoked,
                 revokedTimestamp: _revokedTimestamp,
                 isSentToTarget: _isSentToTarget,

@@ -241,7 +241,7 @@ angular.module('common').factory('common.IntygCopyActions',
                         },
                         button2click: function (modalInstance) {
                             modalInstance.close();
-                            _continueOnDraft(viewState.common.intygProperties.latestChildRelations.replacedByUtkast.intygsId, viewState.intygModel.typ);
+                            IntygHelper.goToDraft(viewState.intygModel.typ, viewState.intygModel.textVersion, viewState.common.intygProperties.latestChildRelations.replacedByUtkast.intygsId);
                         },
                         button3click: function(modalInstance){
                             modalInstance.close();
@@ -361,12 +361,6 @@ angular.module('common').factory('common.IntygCopyActions',
                     if (onError) {
                         onError(error.errorCode);
                     }
-                });
-            }
-
-            function _continueOnDraft(intygsId, intygsTyp) {
-                $state.go(intygsTyp + '-edit', {
-                    certificateId: intygsId
                 });
             }
 

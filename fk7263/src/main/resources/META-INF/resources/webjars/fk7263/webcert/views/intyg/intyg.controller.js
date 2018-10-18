@@ -17,11 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').controller('fk7263.ViewCertCtrl',
-    [ '$log', '$rootScope', '$stateParams', '$scope', '$state',
-        'common.IntygProxy', 'common.UserModel', 'fk7263.IntygController.ViewStateService', 'fk7263.viewConfigFactory',
+    [ '$log', '$rootScope', '$stateParams', '$scope',
+        'common.IntygProxy', 'common.UserModel', 'common.IntygHelper', 'fk7263.IntygController.ViewStateService', 'fk7263.viewConfigFactory',
         'supportPanelConfigFactory',
-        function($log, $rootScope, $stateParams, $scope, $state,
-            IntygProxy, UserModel, ViewState, viewConfigFactory, supportPanelConfigFactory) {
+        function($log, $rootScope, $stateParams, $scope,
+            IntygProxy, UserModel, IntygHelper, ViewState, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             ViewState.reset();
@@ -41,10 +41,10 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
             $scope.gotoRelatedIntyg = function(intyg) {
                 if (intyg.status === 'SIGNED') {
-                    $state.go('webcert.intyg.fk7263', {certificateId: intyg.intygsId});
+                    IntygHelper.goToIntyg('fk7263', '1.0', intyg.intygsId);
                 }
                 else {
-                    $state.go('fk7263-edit', {certificateId: intyg.intygsId});
+                    IntygHelper.goToDraft('fk7263', '1.0', intyg.intygsId);
                 }
             };
 

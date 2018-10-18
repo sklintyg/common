@@ -67,10 +67,10 @@ angular.module('fk7263').controller('fk7263.EditCertCtrl',
 
             $scope.gotoRelatedIntyg = function(intyg) {
                 if (intyg.status === 'SIGNED') {
-                    $state.go('webcert.intyg.fk7263', {certificateId: intyg.intygsId});
+                    IntygHelper.goToIntyg('fk7263', '1.0', intyg.intygsId);
                 }
                 else {
-                    $state.go('fk7263-edit', {certificateId: intyg.intygsId});
+                    IntygHelper.goToDraft('fk7263', '1.0', intyg.intygsId);
                 }
             };
 

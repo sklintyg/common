@@ -17,10 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.IntygHeaderService',
-    ['$log', '$state', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
+    ['$log', '$stateParams', 'common.featureService', 'common.IntygViewStateService', 'common.IntygHeaderViewState',
         'common.UserModel', 'common.User', 'common.IntygCopyActions', 'common.UtkastProxy', 'common.IntygFornyaRequestModel',
-        function($log, $state, featureService, CommonIntygViewState, IntygHeaderViewState,
-            UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel) {
+        'common.IntygHelper',
+        function($log, $stateParams, featureService, CommonIntygViewState, IntygHeaderViewState,
+            UserModel, User, IntygCopyActions, UtkastProxy, IntygFornyaRequestModel, IntygHelper) {
             'use strict';
 
             var _intygActionDialog = null;
@@ -85,12 +86,12 @@ angular.module('common').service('common.IntygHeaderService',
                 if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_INTYG_INOM_VG) !== -1 &&
                     IntygHeaderViewState.checkUtkastModuleId(intygTemplateConfig.moduleId)) {
                     var utkastId = IntygHeaderViewState.getUtkastIntygsIdForModuleId(intygTemplateConfig.moduleId);
-                    $state.go(intygTemplateConfig.moduleId + '-edit', {certificateId: utkastId});
+                    IntygHelper.goToDraft(intygTemplateConfig.moduleId, $stateParams.intygTypeVersion, utkastId);
                 }
                 else if (intygTemplateConfig.features.indexOf(featureService.features.UNIKT_UTKAST_INOM_VG) !== -1 &&
                     IntygHeaderViewState.checkIntygModuleId(intygTemplateConfig.moduleId)) {
                     var intygsId = IntygHeaderViewState.getIntygIntygsIdForModuleId(intygTemplateConfig.moduleId);
-                    $state.go('webcert.intyg.' + intygTemplateConfig.moduleId, {certificateId: intygsId});
+                    IntygHelper.goToIntyg(intygTemplateConfig.moduleId, $stateParams.intygTypeVersion, intygsId);
                 }
             };
 

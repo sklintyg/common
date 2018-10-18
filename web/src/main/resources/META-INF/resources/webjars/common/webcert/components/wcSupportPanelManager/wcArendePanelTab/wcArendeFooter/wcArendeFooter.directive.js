@@ -30,10 +30,11 @@ angular.module('common').directive('wcArendeFooter',
         'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService', 'common.statService', 'common.messageService',
         'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel',
         'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper', 'common.authorityService',
+        'common.IntygHelper',
         function($log, $rootScope, $q, $state, $timeout, $window,
             UserModel, ObjectHelper, ArendeListViewState, statService, messageService,
             DialogService, IntygProxy, IntygCopyRequestModel,
-            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService) {
+            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService, IntygHelper) {
             'use strict';
 
             return {
@@ -112,15 +113,7 @@ angular.module('common').directive('wcArendeFooter',
                         _answerWithIntyg().then(function(result) {
 
                             statService.refreshStat();
-
-                            function goToDraft(type, intygTypeVersion, intygId) {
-                                $state.go(type + '-edit', {
-                                    certificateId: intygId,
-                                    intygTypeVersion: intygTypeVersion
-                                });
-                            }
-
-                            goToDraft(result.intygsTyp, result.intygTypeVersion, result.intygsUtkastId);
+                            IntygHelper.goToDraft(result.intygsTyp, result.intygTypeVersion, result.intygsUtkastId);
 
                         }, function(error) {
                             $log.error(error);
@@ -174,11 +167,10 @@ angular.module('common').directive('wcArendeFooter',
 
                                         statService.refreshStat();
 
-                                        var stateParams = {
-                                            certificateId: result.intygsUtkastId,
+                                        var extraStateParams = {
                                             focusOn: 'ovrigt'
                                         };
-                                        $state.go(ArendeListViewState.intygProperties.type + '-edit', stateParams);
+                                        IntygHelper.goToDraft(ArendeListViewState.intygProperties.type, result.intygTypeVersion, result.intygsUtkastId, extraStateParams);
                                     }, function(errorResult) {
                                         //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.
                                         dialogModel.updateInProgress = false;
