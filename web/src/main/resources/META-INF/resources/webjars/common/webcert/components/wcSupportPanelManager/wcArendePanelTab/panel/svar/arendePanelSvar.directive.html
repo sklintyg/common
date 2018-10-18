@@ -57,6 +57,8 @@
       <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
       </arende-panel-header>
 
+      <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
+
       <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body">
         <div ng-if="arendeSvar.meddelande" class="multiline">{{arendeSvar.meddelande}}</div>
       </div>
