@@ -113,7 +113,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Autowired(required = false)
     @Qualifier("registerCertificateClient")
-    private RegisterCertificateResponderInterface registerCertificateResponderInterface;
+    protected RegisterCertificateResponderInterface registerCertificateResponderInterface;
 
     @Autowired(required = false)
     private RevokeCertificateResponderInterface revokeCertificateClient;
@@ -127,7 +127,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         this.type = type;
     }
 
-    private RegisterCertificateValidator xmlValidator = new RegisterCertificateValidator(getSchematronFileName());
+    private RegisterCertificateValidator xmlValidator = getRegisterCertificateValidator();
 
     @Override
     public CertificateResponse getCertificate(String certificateId, String logicalAddress, String recipientId) throws ModuleException {
@@ -364,7 +364,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
         return intygTexts.getIntygTextsPojo(intygsTyp, version);
     }
 
-    protected abstract String getSchematronFileName();
+    protected abstract RegisterCertificateValidator getRegisterCertificateValidator();
 
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
 

@@ -47,6 +47,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -54,6 +55,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.InternalToTransportConverter;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.TransportToInternalConverter;
@@ -82,7 +84,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.ts-diabetes.v2")
 public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatandeV2> {
 
-    public static final String SCHEMATRON_FILE = "tstrk1031.sch";
+
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV2.class);
 
     @Autowired(required = false)
@@ -226,8 +228,13 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     @Override
-    protected String getSchematronFileName() {
-        return SCHEMATRON_FILE;
+    protected RegisterCertificateValidator getRegisterCertificateValidator() {
+        return null;
+    }
+
+    @Override
+    public ValidateXmlResponse validateXml(String inputXml) throws ModuleException {
+        throw new NotSupportedException("ts-diabetes.v2 does not support xml validation!");
     }
 
     @Override
