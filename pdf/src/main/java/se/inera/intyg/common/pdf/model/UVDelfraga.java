@@ -35,9 +35,6 @@ public class UVDelfraga extends UVComponent {
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
-        if (labelKey == null) {
-            return false;
-        }
 
         // Check if we have hide/show expressions
         boolean render = show(currentUvNode);
