@@ -156,6 +156,14 @@ angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout'
                 var maximumDate = '2099-12-12';
                 var minimumDate = '1900-01-01';
 
+                if (scope.minDate !== undefined) {
+                    minimumDate = scope.minDate;
+                }
+
+                if (scope.maxDate !== undefined) {
+                    maximumDate = scope.maxDate;
+                }
+
                 ngModel.$validators.maxDate = function() {
                     return dateUtils.isDateEmptyOrValidAndBefore(maximumDate, ngModel.$viewValue);
                 };
