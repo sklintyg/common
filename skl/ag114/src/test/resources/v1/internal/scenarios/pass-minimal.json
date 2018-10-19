@@ -38,5 +38,6 @@
   "sysselsattning": [{
     "typ": "NUVARANDE_ARBETE"
   }],
-  "nuvarandeArbete": "Inget"
+  "nuvarandeArbete": "Inget",
+  "onskarFormedlaDiagnos": true
 }

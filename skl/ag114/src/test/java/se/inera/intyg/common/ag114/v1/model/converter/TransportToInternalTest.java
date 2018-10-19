@@ -25,6 +25,8 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.Collections;
+
 public class TransportToInternalTest {
 
     public static Ag114UtlatandeV1 getUtlatande() {
@@ -32,6 +34,7 @@ public class TransportToInternalTest {
         utlatande.setId("1234567");
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
+        utlatande.setSysselsattning(Collections.EMPTY_LIST);
         return utlatande.build();
     }
 

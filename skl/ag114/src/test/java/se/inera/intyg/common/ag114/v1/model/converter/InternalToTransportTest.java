@@ -38,6 +38,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -69,7 +70,7 @@ public class InternalToTransportTest {
             grundData.setRelation(relation);
         }
         utlatande.setGrundData(grundData);
-
+        utlatande.setSysselsattning(Collections.EMPTY_LIST);
         return utlatande.build();
     }
 

@@ -94,9 +94,9 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
 
                     // Önskar förmedla
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
-                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedla' }, [{
+                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedlaDiagnos' }, [{
                             type: 'ue-radio',
-                            modelProp: 'onskarFormedla'
+                            modelProp: 'onskarFormedlaDiagnos'
                         }])]),
 
                     // Kategori vårdenhet

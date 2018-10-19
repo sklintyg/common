@@ -32,8 +32,8 @@ import java.util.List;
 
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DELSVAR_ID_3;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
@@ -69,7 +69,7 @@ public final class TransportToInternal {
                 case NUVARANDE_ARBETE_SVAR_ID_2:
                     handleNuvarandeArbete(utlatande, svar);
                     break;
-                case ONSKAR_FORMEDLA_SVAR_ID_3:
+                case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3:
                     handleOnskarFormedla(utlatande, svar);
                     break;
             default:
@@ -118,8 +118,8 @@ public final class TransportToInternal {
     private static void handleOnskarFormedla(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case ONSKAR_FORMEDLA_DELSVAR_ID_3:
-                    utlatande.setOnskarFormedla(Boolean.valueOf(getStringContent(delsvar)));
+                case ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3:
+                    utlatande.setOnskarFormedlaDiagnos(Boolean.valueOf(getStringContent(delsvar)));
                     break;
                 default:
                     throw new IllegalArgumentException();

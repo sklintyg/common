@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 
 @Component(value = "ag114.InternalDraftValidatorImpl.v1")
@@ -43,7 +43,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private static final int MAX_UNDERLAG = 3;
 
     private static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
-    private static final String CATEGORY_ONSKAR_FORMEDLA = "onskarFormedla";
+    private static final String CATEGORY_ONSKAR_FORMEDLA_DIAGNOS = "onskarFormedlaDiagnos";
 
 //    private static final String CATEGORY_GRUNDFORMU = "grundformu";
 //    private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
@@ -130,8 +130,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     }
 
     private void validateOnskarFormedla(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getFormedlaDiagnos() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ONSKAR_FORMEDLA, ONSKAR_FORMEDLA_SVAR_JSON_ID_3,
+        if (utlatande.getOnskarFormedlaDiagnos() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ONSKAR_FORMEDLA_DIAGNOS, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3,
                     ValidationMessageType.EMPTY);
         }
     }

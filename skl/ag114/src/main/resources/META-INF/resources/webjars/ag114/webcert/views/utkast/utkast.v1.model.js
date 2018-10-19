@@ -41,7 +41,7 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                             }
                         }),
                         'nuvarandeArbete' : undefined,
-                        'onskarFormedla': undefined
+                        'onskarFormedlaDiagnos': undefined
                     });
                 },
                 update: function update(content, parent) {

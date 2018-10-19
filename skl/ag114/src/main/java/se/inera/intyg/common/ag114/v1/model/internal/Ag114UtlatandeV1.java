@@ -23,7 +23,7 @@ package se.inera.intyg.common.ag114.v1.model.internal;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ID_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
@@ -80,7 +80,7 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
     // Fråga 3 - Inkludera ...
     @Nullable
-    public abstract Boolean getFormedlaDiagnos();
+    public abstract Boolean getOnskarFormedlaDiagnos();
 
 
     /*
@@ -117,8 +117,8 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
         @JsonProperty(NUVARANDE_ARBETE_SVAR_JSON_ID_2)
         public abstract Builder setNuvarandeArbete(String nuvarandeArbete);
 
-        @JsonProperty(ONSKAR_FORMEDLA_SVAR_JSON_ID_3)
-        public abstract Builder setOnskarFormedla(Boolean onskarFormedla);
+        @JsonProperty(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3)
+        public abstract Builder setOnskarFormedlaDiagnos(Boolean onskarFormedlaDiagnos);
     }
 
 }
