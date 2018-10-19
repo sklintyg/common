@@ -50,7 +50,7 @@ public class UVFraga extends UVComponent {
                 .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
                 .setKeepTogether(true)
         );
-        parent.setKeepTogether(false);
+        parent.setKeepTogether(true);
         return true;
     }
 }

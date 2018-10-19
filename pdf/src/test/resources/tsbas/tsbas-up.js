@@ -29,7 +29,7 @@ var viewConfig = [
                     labelKey: 'FRG_1.2.RBK',
                     components: [{
                         type: 'uv-list',
-                        labelKey: 'KORKORT_{var}.RBK',
+                        labelKey: 'KORKORT.{var}.RBK',
                         listKey: function(model) {
                             return model.selected ? model.type : null;
                         },
@@ -641,7 +641,7 @@ var viewConfig = [
                         labelKey: 'DFR_33.1.RBK',
                         components: [{
                             type: 'uv-list',
-                            labelKey: 'KORKORT_{var}.RBK',
+                            labelKey: 'KORKORT.{var}.RBK',
                             listKey: function(model) {
                                 return model.selected ? model.type : null;
                             },
@@ -668,3 +668,4 @@ var viewConfig = [
         type: 'uv-skapad-av',
         modelProp: 'grundData.skapadAv'
     }];
+
