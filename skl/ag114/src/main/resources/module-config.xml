@@ -11,4 +11,9 @@
 
   <import resource="ag114-ws-stub.xml" />
 
+  <!-- MOVE TO PARENT? -->
+  <beans>
+    <bean class="se.inera.intyg.common.ag114.v1.validator.ValidatorUtilSKL"></bean>
+  </beans>
+
 </beans>

@@ -78,5 +78,9 @@
   <svar id="2">
     <delsvar id="2.1">Inget</delsvar>
   </svar>
+  <svar id="9">
+    <delsvar id="9.1">true</delsvar>
+    <delsvar id="9.2">Gillar kontakt</delsvar>
+  </svar>
 </ns2:intyg>
 </ns2:RegisterCertificate>

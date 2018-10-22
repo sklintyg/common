@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
+import com.google.common.base.Strings;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
-import se.inera.intyg.common.agparent.model.converter.RespConstants;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -30,9 +30,13 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_9;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
@@ -45,8 +49,8 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_A
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
 public final class UtlatandeToIntyg {
 
@@ -90,7 +94,12 @@ public final class UtlatandeToIntyg {
         addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_2, NUVARANDE_ARBETE_DELSVAR_ID_2, source.getNuvarandeArbete());
 
         // Kategori 2 Diagnos
-//        addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3, source.getOnskarFormedlaDiagnos());
+        addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3, source.getOnskarFormedlaDiagnos());
+
+        // Lägg endast till diagnos om önskar förmedla är true.
+        if (source.getOnskarFormedlaDiagnos() != null && source.getOnskarFormedlaDiagnos()) {
+            handleDiagnosSvar(svars, source.getDiagnoser());
+        }
 
         // Kategori 3 Arbetsformaga
         addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
@@ -98,6 +107,21 @@ public final class UtlatandeToIntyg {
                 source.getArbetsformagaTrotsSjukdom());
         addIfNotBlank(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
                 source.getArbetsformagaTrotsSjukdomBeskrivning());
+
+
+        // Kategori 6 Kontakt
+        if (source.getKontaktMedArbetsgivaren() != null) {
+            if (source.getKontaktMedArbetsgivaren() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
+                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
+                        source.getKontaktMedArbetsgivaren().toString())
+                        .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt()).build());
+            } else {
+                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
+                        source.getKontaktMedArbetsgivaren().toString())
+                        .build());
+            }
+        }
+
 
         // if (source.getUndersokningAvPatienten() != null) {
         // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
@@ -169,17 +193,7 @@ public final class UtlatandeToIntyg {
         //
         // addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
         //
-        // if (source.getKontaktMedFk() != null) {
-        // if (source.getKontaktMedFk() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
-        // svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26,
-        // source.getKontaktMedFk().toString())
-        // .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
-        // } else {
-        // svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26,
-        // source.getKontaktMedFk().toString())
-        // .build());
-        // }
-        // }
+
         //
         // for (Tillaggsfraga tillaggsfraga : source.getTillaggsfragor()) {
         // addIfNotBlank(svars, tillaggsfraga.getId(), tillaggsfraga.getId() + ".1", tillaggsfraga.getSvar());

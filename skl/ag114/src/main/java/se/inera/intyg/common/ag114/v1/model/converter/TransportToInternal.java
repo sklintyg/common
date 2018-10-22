@@ -18,33 +18,38 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
+import com.google.common.primitives.Ints;
+import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
+import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static se.inera.intyg.common.ag114.v1.model.converter.TransportToInternalUtil.handleDiagnos;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_9;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getGrundData;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.primitives.Ints;
-
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
-import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class TransportToInternal {
 
@@ -65,6 +70,7 @@ public final class TransportToInternal {
 
     private static void setSvar(Builder utlatande, Intyg source) throws ConverterException {
 
+        List<Diagnos> diagnoser = new ArrayList<>();
         List<Sysselsattning> sysselsattningar = new ArrayList<>();
 
         for (Svar svar : source.getSvar()) {
@@ -78,11 +84,17 @@ public final class TransportToInternal {
                 case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3:
                     handleOnskarFormedla(utlatande, svar);
                     break;
+                case TYP_AV_DIAGNOS_SVAR_ID_4:
+                    handleDiagnos(diagnoser, svar);
+                    break;
                 case NEDSATT_ARBETSFORMAGA_SVAR_ID_5:
                     handleNedsattArbetsFormaga(utlatande, svar);
                     break;
                 case ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6:
                     handleArbetsformagaTrotsSjukdom(utlatande, svar);
+                    break;
+                case KONTAKT_ONSKAS_SVAR_ID_9:
+                    handleOnskarKontakt(utlatande, svar);
                     break;
             default:
                 Integer parsedInt = Ints.tryParse(svar.getId());
@@ -95,10 +107,7 @@ public final class TransportToInternal {
         }
 
         utlatande.setSysselsattning(sysselsattningar);
-
-//        utlatande.setDiagnoser(diagnoser);
-//        utlatande.setTillaggsfragor(tillaggsfragor);
-//        utlatande.setUnderlag(underlag);
+        utlatande.setDiagnoser(diagnoser);
     }
 
 
@@ -287,19 +296,19 @@ public final class TransportToInternal {
 //        }
 //    }
 //
-//    private static void handleOnskarKontakt(Builder utlatande, Svar svar) {
-//        for (Delsvar delsvar : svar.getDelsvar()) {
-//            switch (delsvar.getId()) {
-//            case KONTAKT_ONSKAS_DELSVAR_ID_26:
-//                utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
-//                break;
-//            case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
-//                utlatande.setAnledningTillKontakt(getStringContent(delsvar));
-//                break;
-//            default:
-//                throw new IllegalArgumentException();
-//            }
-//        }
-//    }
+    private static void handleOnskarKontakt(Builder utlatande, Svar svar) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+            case KONTAKT_ONSKAS_DELSVAR_ID_9:
+                utlatande.setKontaktMedArbetsgivaren(Boolean.valueOf(getStringContent(delsvar)));
+                break;
+            case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9:
+                utlatande.setAnledningTillKontakt(getStringContent(delsvar));
+                break;
+            default:
+                throw new IllegalArgumentException();
+            }
+        }
+    }
 
 }

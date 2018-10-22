@@ -101,15 +101,16 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedlaDiagnos' }, [{
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaDiagnos'
+                        }]),
+                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'
+                            , hideExpression: '!model.onskarFormedlaDiagnos'}, [{
+                            type: 'ue-diagnos',
+                            modelProp: 'diagnoser',
+                            diagnosBeskrivningLabel: 'DFR_4.1.RBK',
+                            diagnosBeskrivningHelp: 'DFR_4.1.HLP',
+                            diagnosKodLabel: 'DFR_4.2.RBK',
+                            diagnosKodHelp: 'DFR_4.2.HLP'
                         }])
-                        // fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod', hideExpression: '!model.onskarFormedlaDiagnos'}, [{
-                        //     type: 'ue-diagnos',
-                        //     modelProp: 'diagnoser',
-                        //     diagnosBeskrivningLabel: 'DFR_4.1.RBK',
-                        //     diagnosBeskrivningHelp: 'DFR_4.1.HLP',
-                        //     diagnosKodLabel: 'DFR_4.2.RBK',
-                        //     diagnosKodHelp: 'DFR_4.2.HLP'
-                        // }])
                     ]),
 
                     // Arbetsförmåga
@@ -120,7 +121,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             type: 'ue-textarea',
                             modelProp: 'nedsattArbetsformaga'
                         }]),
-                        fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true }, [{
+                        fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'arbetsformagaTrotsSjukdom' }, [{
                             type: 'ue-radio',
                             modelProp: 'arbetsformagaTrotsSjukdom'
                         }, {
@@ -128,7 +129,26 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             modelProp: 'arbetsformagaTrotsSjukdomBeskrivning',
                             hideExpression: '!model.arbetsformagaTrotsSjukdom',
                             label: {
-                                key: 'DFR_6.2.RBK',
+                                key: 'DFR_6.2.RBK'
+                            }
+                        }])
+                    ]),
+                    kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
+                        fraga(26, undefined, 'FRG_9.HLP', { }, [{
+                            type: 'ue-checkbox',
+                            modelProp: 'kontaktMedArbetsgivaren',
+                            label: {
+                                key: 'DFR_9.1.RBK',
+                                helpKey: 'DFR_9.1.HLP'
+                            }
+                        }, {
+                            type: 'ue-textarea',
+                            modelProp: 'anledningTillKontakt',
+                            hideExpression: '!model.kontaktMedArbetsgivaren',
+                            label: {
+                                labelType: 'h5',
+                                key: 'DFR_9.2.RBK',
+                                helpKey: 'DFR_9.2.HLP'
                             }
                         }])
                     ]),

@@ -21,15 +21,18 @@ package se.inera.intyg.common.ag114.v1.model.internal;
 
 // CHECKSTYLE:OFF LineLength
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 
 import java.util.List;
@@ -39,6 +42,7 @@ import javax.annotation.Nullable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -86,6 +90,9 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract Boolean getOnskarFormedlaDiagnos();
 
+    // Fråga 4 - Diagnos
+    public abstract ImmutableList<Diagnos> getDiagnoser();
+
     // Fråga 5 - Inkludera ...
     @Nullable
     public abstract String getNedsattArbetsformaga();
@@ -98,6 +105,14 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract String getArbetsformagaTrotsSjukdomBeskrivning();
 
+    // Fråga 9
+    @Nullable
+    public abstract Boolean getKontaktMedArbetsgivaren();
+
+    // Fråga 9.2
+    @Nullable
+    public abstract String getAnledningTillKontakt();
+
     /*
      * Retrieve a builder from an existing Ag114Utlatande object. The builder can then be used
      * to create a new copy with modified attributes.
@@ -106,6 +121,7 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Ag114UtlatandeV1.Builder()
+                .setDiagnoser(ImmutableList.<Diagnos> of())
                 .setSignature(null);
     }
 
@@ -135,8 +151,13 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
         @JsonProperty(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3)
         public abstract Builder setOnskarFormedlaDiagnos(Boolean onskarFormedlaDiagnos);
 
-//        @JsonProperty(TYP_AV_DIAGNOS_SVAR_JSON_ID_4)
-//        public abstract Builder setTypAvDiagnos(List<Diagnos> diagnos);
+        @JsonProperty(TYP_AV_DIAGNOS_SVAR_JSON_ID_4)
+        public Builder setDiagnoser(List<Diagnos> diagnoser) {
+            return setDiagnoser(ImmutableList.copyOf(diagnoser));
+        }
+
+        /* package private */
+        abstract Builder setDiagnoser(ImmutableList<Diagnos> diagnoser);
 
         @JsonProperty(NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5)
         public abstract Builder setNedsattArbetsformaga(String nedsattArbetsformaga);
@@ -146,6 +167,12 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2)
         public abstract Builder setArbetsformagaTrotsSjukdomBeskrivning(String arbetsformagaTrotsSjukdomBeskrivning);
+
+        @JsonProperty(KONTAKT_ONSKAS_SVAR_JSON_ID_9)
+        public abstract Builder setKontaktMedArbetsgivaren(Boolean kontaktMedFk);
+
+        @JsonProperty(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9)
+        public abstract Builder setAnledningTillKontakt(String anledningTillKontakt);
 }
 
 }

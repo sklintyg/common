@@ -42,9 +42,16 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         }),
                         'nuvarandeArbete' : undefined,
                         'onskarFormedlaDiagnos': undefined,
+                        'diagnoser':new ModelAttr('diagnoser', {
+                            fromTransform: ModelTransform.diagnosFromTransform,
+                            toTransform: ModelTransform.diagnosToTransform
+                        }),
                         'nedsattArbetsformaga': undefined,
-                        'arbertsformagaTrotsSjukdom': undefined,
-                        'arbertsformagaTrotsSjukdomBeskrivning': undefined
+                        'arbetsformagaTrotsSjukdom': undefined,
+                        'arbetsformagaTrotsSjukdomBeskrivning': undefined,
+
+                        'kontaktMedArbetsgivaren': new ModelAttr( 'kontaktMedArbetsgivaren', { defaultValue : false }),
+                        'anledningTillKontakt': undefined
                     });
                 },
                 update: function update(content, parent) {
