@@ -41,7 +41,8 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                             }
                         }),
                         'nuvarandeArbete' : undefined,
-                        'onskarFormedlaDiagnos': undefined
+                        'onskarFormedlaDiagnos': undefined,
+                        'nedsattArbetsFormaga': undefined
                     });
                 },
                 update: function update(content, parent) {

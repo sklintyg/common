@@ -76,8 +76,11 @@
       </ns3:cv>
     </delsvar>
   </svar>
-  <svar id="2">
-    <delsvar id="2.1">Inget</delsvar>
+  <svar id="3">
+    <delsvar id="3.1">true</delsvar>
+  </svar>
+  <svar id="5">
+    <delsvar id="5.1">Kan jobba halvtid.</delsvar>
   </svar>
 </ns2:intyg>
 </ns2:RegisterCertificate>

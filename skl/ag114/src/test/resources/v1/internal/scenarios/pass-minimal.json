@@ -39,5 +39,6 @@
     "typ": "NUVARANDE_ARBETE"
   }],
   "nuvarandeArbete": "Inget",
-  "onskarFormedlaDiagnos": true
+  "onskarFormedlaDiagnos": true,
+  "nedsattArbetsFormaga": "Kan jobba halvtid."
 }

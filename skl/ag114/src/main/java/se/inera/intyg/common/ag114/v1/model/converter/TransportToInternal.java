@@ -22,6 +22,7 @@ import com.google.common.primitives.Ints;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.agparent.model.converter.RespConstants;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -30,6 +31,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
@@ -71,6 +73,9 @@ public final class TransportToInternal {
                     break;
                 case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3:
                     handleOnskarFormedla(utlatande, svar);
+                    break;
+                case NEDSATT_ARBETSFORMAGA_SVAR_ID_5:
+                    handleNedsattArbetsFormaga(utlatande, svar);
                     break;
             default:
                 Integer parsedInt = Ints.tryParse(svar.getId());
@@ -120,6 +125,18 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3:
                     utlatande.setOnskarFormedlaDiagnos(Boolean.valueOf(getStringContent(delsvar)));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleNedsattArbetsFormaga(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5:
+                    utlatande.setNedsattArbetsFormaga(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();

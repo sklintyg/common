@@ -41,6 +41,15 @@ public final class RespConstants {
     public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3 = "3.1";
     public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3 = "onskarFormedlaDiagnos";
 
+    public static final String TYP_AV_DIAGNOS_SVAR_ID_4 = "4";
+    public static final String TYP_AV_DIAGNOS_DELSVAR_ID_4 = "4.1";
+    public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID_4 = "typAvDiagnos";
+
+
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID_5 = "5";
+    public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5 = "5.1";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5 = "nedsattArbetsFormaga";
+
     private RespConstants() {
     }
 

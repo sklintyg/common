@@ -27,8 +27,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                 return {
                     1: 'sysselsattning',
                     2: 'diagnos',
-                    3: 'diagnos',
-                    4: 'funktionsnedsattning',
+                    3: 'arbetsformaga',
+                    4: 'bedomning',
                     5: 'ovrigt',
                     6: 'kontakt'
                 };
@@ -92,13 +92,34 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         }])
                     ]),
 
-                    // Önskar förmedla
+                    // Diagnos
+                    //  - Önskar förmedla 3.1
+                    //  - Typ av diagnos
+                    //     - Diagnostext 4.1
+                    //     - Diagnoskod 4.2
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
                         fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedlaDiagnos' }, [{
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaDiagnos'
-                        }])]),
+                        }])
+                        // fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod', hideExpression: '!model.onskarFormedlaDiagnos'}, [{
+                        //     type: 'ue-diagnos',
+                        //     modelProp: 'diagnoser',
+                        //     diagnosBeskrivningLabel: 'DFR_4.1.RBK',
+                        //     diagnosBeskrivningHelp: 'DFR_4.1.HLP',
+                        //     diagnosKodLabel: 'DFR_4.2.RBK',
+                        //     diagnosKodHelp: 'DFR_4.2.HLP'
+                        // }])
+                    ]),
 
+                    // Arbetsförmåga
+                    //  - 5.1
+                    kategori(categoryIds[3], 'KAT_3.RBK', '', {signingDoctor: true}, [
+                        fraga(2, 'FRG_5.RBK', 'FRG_5.HLP', { required: true}, [{
+                            type: 'ue-textarea',
+                            modelProp: 'nedsattArbetsFormaga'
+                        }])
+                    ]),
                     // Kategori vårdenhet
                     ueFactoryTemplates.vardenhet
                 ];

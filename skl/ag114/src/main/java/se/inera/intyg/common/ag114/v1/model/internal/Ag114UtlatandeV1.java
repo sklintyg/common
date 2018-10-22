@@ -22,10 +22,12 @@ package se.inera.intyg.common.ag114.v1.model.internal;
 
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 
 import java.util.List;
@@ -37,6 +39,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
+import se.inera.intyg.common.agparent.model.converter.RespConstants;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
@@ -82,6 +85,9 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract Boolean getOnskarFormedlaDiagnos();
 
+    // Fråga 5 - Inkludera ...
+    @Nullable
+    public abstract String getNedsattArbetsFormaga();
 
     /*
      * Retrieve a builder from an existing Ag114Utlatande object. The builder can then be used
@@ -119,6 +125,12 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3)
         public abstract Builder setOnskarFormedlaDiagnos(Boolean onskarFormedlaDiagnos);
+
+//        @JsonProperty(TYP_AV_DIAGNOS_SVAR_JSON_ID_4)
+//        public abstract Builder setTypAvDiagnos(List<Diagnos> diagnos);
+
+        @JsonProperty(NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5)
+        public abstract Builder setNedsattArbetsFormaga(String nedsattArbetsFormaga);
     }
 
 }
