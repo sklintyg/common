@@ -86,7 +86,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class Af00213ModuleApiV1Test {
 
-    public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-minimal.json";
+    public static final String TESTFILE_UTLATANDE = "v1/internal/scenarios/pass-minimal.json";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     private final String LOGICAL_ADDRESS = "logical address";
@@ -120,7 +120,7 @@ public class Af00213ModuleApiV1Test {
     public void testSendCertificateShouldUseXml() {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("transport/af00213.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
 
             verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
@@ -135,7 +135,7 @@ public class Af00213ModuleApiV1Test {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
                 .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
-            String xmlContents = Resources.toString(Resources.getResource("transport/af00213.xml"), Charsets.UTF_8);
+            String xmlContents = Resources.toString(Resources.getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
         } catch (IOException e) {
             fail();

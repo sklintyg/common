@@ -20,19 +20,19 @@ package se.inera.intyg.common.af00213.v1.model.internal;
 
 // CHECKSTYLE:OFF LineLength
 
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.GRUNDDATA_SVAR_JSON_ID;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.ID_JSON_ID;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.OVRIGT_SVAR_JSON_ID_5;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.SIGNATURE;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.TEXTVERSION_JSON_ID;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.GRUNDDATA_SVAR_JSON_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ID_JSON_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.SIGNATURE;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.TEXTVERSION_JSON_ID;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
 import javax.annotation.Nullable;
 
@@ -40,15 +40,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
-import se.inera.intyg.common.af00213.model.internal.Af00213Utlatande;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
+import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 
 // CHECKSTYLE:ON LineLength
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Af00213UtlatandeV1.Builder.class)
-public abstract class Af00213UtlatandeV1 implements Af00213Utlatande {
+public abstract class Af00213UtlatandeV1 implements AfUtlatande {
 
     public static Builder builder() {
         return new AutoValue_Af00213UtlatandeV1.Builder()
@@ -77,34 +77,28 @@ public abstract class Af00213UtlatandeV1 implements Af00213Utlatande {
 
     // Fråga 1 - Funktionsnedsättning
     // Fråga 1.1
-    @Override
     @Nullable
     public abstract Boolean getHarFunktionsnedsattning();
 
     // Fråga 1.2
-    @Override
     @Nullable
     public abstract String getFunktionsnedsattning();
 
     // Kategori 2 - Aktivitetsbegränsning
     // Fråga 2 Aktivitetsbegränsning
     // Fråga 2.1
-    @Override
     @Nullable
     public abstract Boolean getHarAktivitetsbegransning();
 
-    @Override
     @Nullable
     public abstract String getAktivitetsbegransning();
 
     // Kategori 3 - Utredning och behandling
     // Fråga 3 -Pågående medicinska behandlingar
     // Fråga 3.1 - Typ av pågående medicinska behandlingar
-    @Override
     @Nullable
     public abstract Boolean getHarUtredningBehandling();
 
-    @Override
     @Nullable
     public abstract String getUtredningBehandling();
 
@@ -118,7 +112,6 @@ public abstract class Af00213UtlatandeV1 implements Af00213Utlatande {
 
     // Kategori 5 - Övrigt
     // Fråga 5
-    @Override
     @Nullable
     public abstract String getOvrigt();
 

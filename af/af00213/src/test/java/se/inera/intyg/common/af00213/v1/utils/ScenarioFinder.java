@@ -40,9 +40,9 @@ public final class ScenarioFinder {
     private ScenarioFinder() {
     }
 
-    private static final String TRANSPORT_MODEL_PATH = "classpath:/transport/scenarios/";
+    private static final String TRANSPORT_MODEL_PATH = "classpath:/v1/transport/scenarios/";
 
-    private static final String INTERNAL_MODEL_PATH = "classpath:/internal/scenarios/";
+    private static final String INTERNAL_MODEL_PATH = "classpath:/v1/internal/scenarios/";
 
     private static final String TRANSPORT_MODEL_EXT = ".xml";
 
@@ -117,7 +117,7 @@ public final class ScenarioFinder {
      *             If no scenario could be found.
      */
     public static Scenario getInternalScenario(String filename) throws ScenarioNotFoundException {
-        return getScenario(filename + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "internal ");
+        return getScenario(filename + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "/internal");
     }
 
     private static Scenario getScenario(String filename, String scenarioPath, String model)
@@ -160,7 +160,7 @@ public final class ScenarioFinder {
             try {
                 return JAXB.unmarshal(getTransportModelFor(getName()), RegisterCertificateType.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "transport", e);
+                throw new ScenarioNotFoundException(getName(), "v1/transport", e);
             }
         }
 
@@ -173,7 +173,7 @@ public final class ScenarioFinder {
             try {
                 return new CustomObjectMapper().readValue(getInternalModelFor(getName()), Af00213UtlatandeV1.class);
             } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "internal", e);
+                throw new ScenarioNotFoundException(getName(), "v1/internal", e);
             }
         }
 

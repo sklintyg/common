@@ -91,7 +91,7 @@ public class InternalToTransportTest {
 
     @Test
     public void doSchematronValidationAf00213() throws Exception {
-        String xmlContents = Resources.toString(getResource("transport/af00213.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
 
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));

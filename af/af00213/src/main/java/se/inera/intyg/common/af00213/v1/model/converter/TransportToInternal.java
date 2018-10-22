@@ -18,17 +18,17 @@
  */
 package se.inera.intyg.common.af00213.v1.model.converter;
 
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_2;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_1;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.OVRIGT_DELSVAR_ID_5;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.OVRIGT_SVAR_ID_5;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
-import static se.inera.intyg.common.af00213.model.converter.Af00213RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_21;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_22;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_2;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_11;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_12;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_1;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_DELSVAR_ID_5;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_SVAR_ID_5;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_31;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_DELSVAR_ID_32;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_ID_3;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_41;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_DELSVAR_ID_42;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_ID_4;

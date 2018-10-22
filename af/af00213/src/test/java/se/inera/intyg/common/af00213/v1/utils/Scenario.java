@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.af00213.v1.utils;
 
-import se.inera.intyg.common.af00213.model.internal.Af00213Utlatande;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 

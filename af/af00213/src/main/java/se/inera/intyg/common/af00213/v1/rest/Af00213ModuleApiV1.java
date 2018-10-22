@@ -66,8 +66,13 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
         IntygTexts texts = getTexts(Af00213EntryPoint.MODULE_ID, af00213Intyg.getTextVersion());
 
         Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, "1", personId, texts, statuses, applicationOrigin,
+        return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, getMajorVersion(af00213Intyg.getTextVersion()), personId,
+                texts, statuses, applicationOrigin,
                 utkastStatus);
+    }
+
+    private String getMajorVersion(String textVersion) {
+        return textVersion.split("\\.", 0)[0];
     }
 
     @Override

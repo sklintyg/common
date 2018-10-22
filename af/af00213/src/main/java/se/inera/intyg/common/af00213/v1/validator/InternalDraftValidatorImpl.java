@@ -18,12 +18,15 @@
  */
 package se.inera.intyg.common.af00213.v1.validator;
 
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_41;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.ARBETETS_PAVERKAN_SVAR_JSON_ID_42;
-import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateAktivitetsbegransning;
-import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateBlanksForOptionalFields;
-import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateFunktionsnedsattning;
-import static se.inera.intyg.common.af00213.validator.BaseInternalDraftValidator.validateUtredningBehandling;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_5;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
+import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +45,11 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 @Component("af00213.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Af00213UtlatandeV1> {
 
+    private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
+    private static final String CATEGORY_AKTIVITETSBEGRANSNING = "aktivitetsbegransning";
+    private static final String CATEGORY_UTREDNING_BEHANDLING = "utredningBehandling";
     private static final String CATEGORY_ARBETETS_PAVERKAN = "arbetetsPaverkan";
+    private static final String CATEGORY_OVRIGT = "ovrigt";
 
     @Override
     public ValidateDraftResponse validateDraft(Af00213UtlatandeV1 utlatande) {
@@ -68,6 +75,59 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+    }
+
+    private void validateFunktionsnedsattning(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        // Yes or no must be specified.
+        if (utlatande.getHarFunktionsnedsattning() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11,
+                    ValidationMessageType.EMPTY);
+        }
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning())
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateAktivitetsbegransning(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && isSetToTrue(utlatande.getHarAktivitetsbegransning())
+                && Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22,
+                    ValidationMessageType.EMPTY);
+        }
+
+        if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && utlatande.getHarAktivitetsbegransning() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21,
+                    ValidationMessageType.INCORRECT_COMBINATION);
+        }
+    }
+
+    private void validateUtredningBehandling(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        // Yes or no must be specified.
+        if (utlatande.getHarUtredningBehandling() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_31,
+                    ValidationMessageType.EMPTY);
+        }
+
+        if (isSetToTrue(utlatande.getHarUtredningBehandling())
+                && (utlatande.getUtredningBehandling() == null || utlatande.getUtredningBehandling().isEmpty())) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateBlanksForOptionalFields(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+
+        if (ValidatorUtil.isBlankButNotNull(utlatande.getUtredningBehandling())) {
+            ValidatorUtil.addValidationError(validationMessages,
+                    CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                    "af00213.validation.blanksteg.otillatet");
+        }
+        if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_5, ValidationMessageType.EMPTY,
+                    "af00213.validation.blanksteg.otillatet");
+        }
     }
 
     private void validateArbetetsPaverkan(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {

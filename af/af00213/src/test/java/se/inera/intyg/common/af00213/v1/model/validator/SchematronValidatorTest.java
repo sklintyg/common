@@ -44,14 +44,14 @@ public class SchematronValidatorTest {
 
     @Test
     public void brokenXmlFailsTest() throws Exception {
-        String inputXml = Resources.toString(getResource("transport/af00213_broken.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/af00213_broken.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertFalse(response.getValidationErrors().isEmpty());
     }
 
     @Test
     public void validXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("transport/af00213.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(response.getValidationErrors().stream().collect(Collectors.joining("\n")), response.getValidationErrors().isEmpty());
     }

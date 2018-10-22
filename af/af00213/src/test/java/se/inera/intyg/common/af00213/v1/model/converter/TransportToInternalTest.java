@@ -22,7 +22,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import se.inera.intyg.common.af00213.model.internal.Af00213Utlatande;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -54,7 +53,7 @@ public class TransportToInternalTest {
     public void endToEnd() throws Exception {
         Af00213UtlatandeV1 originalUtlatande = getUtlatande();
         RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
-        Af00213Utlatande convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
+        Af00213UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
         assertEquals(originalUtlatande, convertedIntyg);
     }
 

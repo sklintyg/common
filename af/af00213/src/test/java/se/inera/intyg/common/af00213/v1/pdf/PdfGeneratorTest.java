@@ -51,7 +51,7 @@ public class PdfGeneratorTest {
         intygsTextRepositoryHelper.update();
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts("af00213", "1.0");
 
-        String jsonModel = IOUtils.toString(new ClassPathResource("internal/scenarios/pass-complete.json").getInputStream(),
+        String jsonModel = IOUtils.toString(new ClassPathResource("v1/internal/scenarios/pass-complete.json").getInputStream(),
                 Charset.forName("UTF-8"));
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, "1", Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);

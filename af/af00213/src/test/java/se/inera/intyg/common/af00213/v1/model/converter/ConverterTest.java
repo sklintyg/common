@@ -36,7 +36,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
@@ -70,7 +69,7 @@ public class ConverterTest {
 
     @Test
     public void doSchematronValidationAf00213() throws Exception {
-        String xmlContents = Resources.toString(getResource("transport/af00213.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
 
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));
@@ -85,7 +84,7 @@ public class ConverterTest {
     @Test
     public void outputJsonFromXml() throws Exception {
 
-        String xmlContents = Resources.toString(getResource("transport/af00213.xml"), Charsets.UTF_8);
+        String xmlContents = Resources.toString(getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
         RegisterCertificateType transport = JAXB.unmarshal(new StringReader(xmlContents), RegisterCertificateType.class);
 
         String json = getJsonFromTransport(transport);
