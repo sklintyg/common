@@ -18,12 +18,22 @@
  */
 package se.inera.intyg.common.ts_bas.v6.rest;
 
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXB;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import java.io.StringReader;
+import java.util.List;
+
+import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
+import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -33,6 +43,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.ts_bas.v6.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.v6.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
@@ -46,16 +57,6 @@ import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import java.io.StringReader;
-import java.util.List;
-
-import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
-import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -153,8 +154,8 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     }
 
     @Override
-    protected String getSchematronFileName() {
-        return TsBasEntryPoint.SCHEMATRON_FILE;
+    protected RegisterCertificateValidator getRegisterCertificateValidator() {
+        return new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
     }
 
     @Override
