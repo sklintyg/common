@@ -35,11 +35,11 @@ ue-year-picker {
 
 .ue-year-picker-popup-wrapper {
   .uib-datepicker-popup.dropdown-menu {
-    padding: 20px;
 
     .btn-default {
 
       border-color: $wc-color-15;
+
       &:disabled, fieldset[disabled] & {
         background-color: $wc-color-20;
         color: $wc-color-09;
@@ -48,6 +48,12 @@ ue-year-picker {
         .text-info {
           color: $wc-color-20;
         }
+      }
+
+
+     //.text-info is set on current year
+      span.text-info {
+        color: $wc-color-17;
       }
     }
 
@@ -58,11 +64,52 @@ ue-year-picker {
       border: $wc-color-21 !important;
       box-shadow: 2px 2px 4px 0 $black_12;
     }
-    td {
-      &:first-child {
-        padding: 1px 1px 2px 2px;
+
+    thead button.btn {
+
+
+      &.btn-default, &:hover {
+        border: none;
+        background-color: transparent;
+        color: $wc-color-07;
+        box-shadow: none;
       }
+      &.btn-default, &:hover {
+        border: none;
+        background-color: transparent;
+        color: $wc-color-07;
+        box-shadow: none;
+
+        &.uib-left, &.uib-right {
+
+          padding: 1px;
+          margin: -5px -13px 0;
+          border-radius: 4px;
+          width: 40px;
+          height: 40px;
+
+          &:hover {
+            background-color: #e9eaed;
+            border-color: #e9eaed;
+            color: $wc-color-17;
+            cursor: pointer;
+          }
+
+        }
+      }
+      &.uib-title {
+        @extend %wc-typo-02;
+        color: $wc-color-07
+      }
+    }
+
+
+    td {
       padding: 1px 1px 2px 2px;
+
+      &.current-year .btn-default {
+        border-color: $wc-color-21;
+      }
     }
 
     .text-invalid, INPUT.ng-invalid-min-date, INPUT.ng-invalid-max-date, INPUT.ng-invalid-date {

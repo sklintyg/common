@@ -32,13 +32,19 @@ angular.module('common').directive('ueYearPicker', [ 'ueUtil', '$timeout', 'comm
             ueUtil.standardSetup($scope);
 
             //configure
+            var currentYear = new Date().getFullYear();
             $scope.format = 'yyyy';
             $scope.datePickerOptions = {
                 datepickerMode: 'year',
                 maxMode: 'year',
                 minMode: 'year',
                 yearRows: 3,
-                yearColumns: 4
+                yearColumns: 4,
+                customClass: function(data) {
+                    if (currentYear === data.date.getFullYear()) {
+                        return 'year current-year';
+                    }
+            }
 
             };
 
