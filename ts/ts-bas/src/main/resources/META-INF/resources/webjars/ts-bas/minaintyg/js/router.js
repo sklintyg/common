@@ -26,6 +26,11 @@ angular.module('ts-bas').config(function($stateProvider) {
             url :'/ts-bas/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
             controller: 'ts-bas.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+                }
+            },
             data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']}
         }).

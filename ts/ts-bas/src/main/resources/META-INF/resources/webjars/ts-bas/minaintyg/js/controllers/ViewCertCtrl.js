@@ -18,7 +18,7 @@
  */
 angular.module('ts-bas').controller('ts-bas.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'ts-bas.viewConfigFactory',
+        'common.IntygService', 'common.dialogService', 'common.messageService', 'common.moduleService', 'viewConfigFactory',
         function($location, $log, $rootScope, $stateParams, $scope, IntygListService, IntygService,
             dialogService, messageService, moduleService, viewConfigFactory) {
             'use strict';
