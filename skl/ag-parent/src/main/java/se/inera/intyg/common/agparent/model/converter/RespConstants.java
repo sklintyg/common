@@ -45,10 +45,15 @@ public final class RespConstants {
     public static final String TYP_AV_DIAGNOS_DELSVAR_ID_4 = "4.1";
     public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID_4 = "typAvDiagnos";
 
-
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID_5 = "5";
     public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5 = "5.1";
-    public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5 = "nedsattArbetsFormaga";
+    public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5 = "nedsattArbetsformaga";
+
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6 = "6";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1 = "6.1";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2 = "6.2";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1 = "arbetsformagaTrotsSjukdom";
+    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2 = "arbetsformagaTrotsSjukdomBeskrivning";
 
     private RespConstants() {
     }

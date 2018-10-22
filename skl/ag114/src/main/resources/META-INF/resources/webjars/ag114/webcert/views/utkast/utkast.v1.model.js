@@ -42,7 +42,9 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         }),
                         'nuvarandeArbete' : undefined,
                         'onskarFormedlaDiagnos': undefined,
-                        'nedsattArbetsFormaga': undefined
+                        'nedsattArbetsformaga': undefined,
+                        'arbertsformagaTrotsSjukdom': undefined,
+                        'arbertsformagaTrotsSjukdomBeskrivning': undefined
                     });
                 },
                 update: function update(content, parent) {

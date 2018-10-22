@@ -30,6 +30,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_2;
@@ -90,8 +93,11 @@ public final class UtlatandeToIntyg {
 //        addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3, source.getOnskarFormedlaDiagnos());
 
         // Kategori 3 Arbetsformaga
-        addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsFormaga());
-
+        addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
+        addIfNotNull(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
+                source.getArbetsformagaTrotsSjukdom());
+        addIfNotBlank(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
+                source.getArbetsformagaTrotsSjukdomBeskrivning());
 
         // if (source.getUndersokningAvPatienten() != null) {
         // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)

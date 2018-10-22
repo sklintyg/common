@@ -113,11 +113,23 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     ]),
 
                     // Arbetsförmåga
-                    //  - 5.1
+                    //  - nedsättning 5.1
+                    //  - förmåga trots sjukdom 6.1
                     kategori(categoryIds[3], 'KAT_3.RBK', '', {signingDoctor: true}, [
-                        fraga(2, 'FRG_5.RBK', 'FRG_5.HLP', { required: true}, [{
+                        fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required: true }, [{
                             type: 'ue-textarea',
-                            modelProp: 'nedsattArbetsFormaga'
+                            modelProp: 'nedsattArbetsformaga'
+                        }]),
+                        fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true }, [{
+                            type: 'ue-radio',
+                            modelProp: 'arbetsformagaTrotsSjukdom'
+                        }, {
+                            type: 'ue-textarea',
+                            modelProp: 'arbetsformagaTrotsSjukdomBeskrivning',
+                            hideExpression: '!model.arbetsformagaTrotsSjukdom',
+                            label: {
+                                key: 'DFR_6.2.RBK',
+                            }
                         }])
                     ]),
                     // Kategori vårdenhet

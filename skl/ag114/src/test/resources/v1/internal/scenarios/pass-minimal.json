@@ -40,5 +40,6 @@
   }],
   "nuvarandeArbete": "Inget",
   "onskarFormedlaDiagnos": true,
-  "nedsattArbetsFormaga": "Kan jobba halvtid."
+  "nedsattArbetsformaga": "Kan jobba halvtid.",
+  "arbetsformagaTrotsSjukdom": true
 }
