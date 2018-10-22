@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import com.google.common.base.Strings;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -278,6 +279,10 @@ public class UVRenderer {
      * Resolves a text from the intygTexts.
      */
     public String getText(String labelKey) {
+        // return an empty string if there's no labelKey.
+        if (Strings.isNullOrEmpty(labelKey)) {
+            return "";
+        }
         try {
             return intygTexts.getTexter().get(labelKey);
         } catch (Exception e) {

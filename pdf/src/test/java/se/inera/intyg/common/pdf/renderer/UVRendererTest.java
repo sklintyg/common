@@ -85,6 +85,42 @@ public class UVRendererTest {
         }
     }
 
+
+    @Test
+    public void testEmptyTsBasUtkast() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("tsbas/empty.tsbas.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tsbas/tsbas-up.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("tsbas/texterTS_TSTRK_1007_v6.8.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Transportstyrelsens läkarintyg")
+                .withIntygsKod("TSTRK1007")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_TS)
+                .withHasSummaryPage(true)
+                .withSummaryHeader("Om Transportstyrelsens läkarintyg")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("TSTRK1007 (U08) 160114")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-empty.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testLisjp() throws IOException {
         JsonNode intygJsonNode = loadAndCleanIntygJson("lisjp/intyg.lisjp.json");

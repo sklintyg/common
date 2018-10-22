@@ -34,13 +34,14 @@ public class UVFraga extends UVComponent {
 
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        if (!currentUvNode.containsKey(LABEL_KEY)) {
-            return false;
-        }
+        //if (!currentUvNode.containsKey(LABEL_KEY)) {
+        //    return false;
+        //}
 
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
+        String fraga = labelKey != null ? renderer.getText(labelKey) : "";
 
-        String fraga = renderer.getText(labelKey);
+
         parent.add(new Paragraph(fraga)
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
                 .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)

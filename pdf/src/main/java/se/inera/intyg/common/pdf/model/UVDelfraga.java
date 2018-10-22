@@ -39,7 +39,7 @@ public class UVDelfraga extends UVComponent {
         // Check if we have hide/show expressions
         boolean render = show(currentUvNode);
         if (render) {
-            String delFraga = renderer.getText(labelKey);
+            String delFraga = labelKey != null ? renderer.getText(labelKey) : "";
             if (delFraga != null) {
                 parent.add(new Paragraph(delFraga)
                         .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
