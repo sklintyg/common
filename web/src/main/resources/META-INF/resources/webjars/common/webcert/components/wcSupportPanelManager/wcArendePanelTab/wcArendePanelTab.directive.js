@@ -72,7 +72,6 @@ angular.module('common').directive('wcArendePanelTab', [
                     ArendeListViewState.intygProperties.isSent &&
                     $scope.config.intygContext.isSigned &&
                     !ArendeListViewState.intygProperties.isRevoked &&
-                    !ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) &&
                     !ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast);
             }
 

@@ -64,8 +64,7 @@ angular.module('common').directive('wcArendeFooter',
                     onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
                     $scope.showKompletteringButtons = function() {
-                        return ArendeListViewState.getUnhandledKompletteringCount() > 0 &&
-                            !$scope.kompletteringConfig.redirectToExistingUtkast;
+                        return ArendeListViewState.getUnhandledKompletteringCount() > 0;
                     };
 
                     var _answerWithIntyg = function(kommentar) {

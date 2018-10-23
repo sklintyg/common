@@ -60,12 +60,16 @@ angular.module('lisjp').constant('lisjp.messages', {
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
 
         'lisjp.fornya.tooltip': 'Om du vill förlänga en sjukskrivning kan du förnya intyget. Viss information från det befintliga intyget följer med till det nya utkastet.',
-        'lisjp.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. <br><br>' +
-        'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
-            '<ul><li>Sjukskrivningsperiod och grad.</li>' +
+        'lisjp.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget.<br><br>' +
+            'Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
+            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
+            '<ul>' +
+            '<li>Sjukskrivningsperiod och grad.</li>' +
             '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
-            '<li>Referenser som intyget baseras på.</li></ul><br>' +
-            'Ärenden som ännu inte är hanterade kommer markeras som hanterade och kommer inte visas i det förnyade intyget.'
+            '<li>Referenser som intyget baseras på.</li>' +
+            '</ul>' +
+            'Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
+            'Det nya utkastet skapas på den enhet du är  inloggad på.'
     },
     'en': {
         'lisjp.label.pagetitle': 'Show Certificate'
