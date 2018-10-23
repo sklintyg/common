@@ -49,7 +49,7 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'nedsattArbetsformaga': undefined,
                         'arbetsformagaTrotsSjukdom': undefined,
                         'arbetsformagaTrotsSjukdomBeskrivning': undefined,
-
+                        'ovrigaUpplysningar': undefined,
                         'kontaktMedArbetsgivaren': new ModelAttr( 'kontaktMedArbetsgivaren', { defaultValue : false }),
                         'anledningTillKontakt': undefined
                     });

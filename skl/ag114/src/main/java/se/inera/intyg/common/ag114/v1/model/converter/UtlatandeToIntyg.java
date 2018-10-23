@@ -43,6 +43,8 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVAR
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_DELSVAR_ID_8;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_SVAR_ID_8;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
@@ -103,6 +105,7 @@ public final class UtlatandeToIntyg {
 
         // Kategori 3 Arbetsformaga
         addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
+        addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
         addIfNotNull(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
                 source.getArbetsformagaTrotsSjukdom());
         addIfNotBlank(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,

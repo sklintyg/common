@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.agparent.model.converter.RespConstants;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -40,6 +41,7 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBET
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_8;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
 
 @Component(value = "ag114.InternalDraftValidatorImpl.v1")
@@ -51,6 +53,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private static final String CATEGORY_ONSKAR_FORMEDLA_DIAGNOS = "onskarFormedlaDiagnos";
     private static final String CATEGORY_NEDSATT_ARBETSFORMAGA = "nedsattArbetsformaga";
     private static final String CATEGORY_ARBETSFORMAGA_TROTS_SJUKDOM = "arbetsformagaTrotsSjukdom";
+    private static final String CATEGORY_OVRIGT = "ovrigt";
 
     // private static final String CATEGORY_GRUNDFORMU = "grundformu";
     // private static final String CATEGORY_FUNKTIONSNEDSATTNING = "funktionsnedsattning";
@@ -74,6 +77,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         // Kategori 3
         validateNedsattArbetsformaga(utlatande, validationMessages);
         validateArbetsformagaTrotsSjukdom(utlatande, validationMessages);
+
+        validateOvrigaUpplysningar(utlatande, validationMessages);
 
         // // Kategori 1 – Grund för medicinskt underlag
         // validateGrundForMU(utlatande, validationMessages);
@@ -161,6 +166,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         } else if (utlatande.getArbetsformagaTrotsSjukdom() && Strings.isNullOrEmpty(utlatande.getArbetsformagaTrotsSjukdomBeskrivning())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETSFORMAGA_TROTS_SJUKDOM,
                     ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateOvrigaUpplysningar(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getOvrigaUpplysningar() == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT,
+                    OVRIGT_SVAR_JSON_ID_8,
                     ValidationMessageType.EMPTY);
         }
     }

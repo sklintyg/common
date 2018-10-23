@@ -60,6 +60,10 @@ public final class RespConstants {
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1 = "arbetsformagaTrotsSjukdom";
     public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2 = "arbetsformagaTrotsSjukdomBeskrivning";
 
+    public static final String OVRIGT_SVAR_ID_8 = "8";
+    public static final String OVRIGT_DELSVAR_ID_8 = "8.1";
+    public static final String OVRIGT_SVAR_JSON_ID_8 = "ovrigaUpplysningar";
+
     public static final String KONTAKT_ONSKAS_SVAR_ID_9 = "9";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_9 = "9.1";
     public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_9 = "kontaktMedArbetsgivaren";

@@ -133,6 +133,14 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             }
                         }])
                     ]),
+
+                    // Övrigt
+                    kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
+                        fraga(26, undefined, 'FRG_8.HLP', { }, [{
+                            type: 'ue-textarea',
+                            modelProp: 'ovrigaUpplysningar',
+                        }])
+                    ]),
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
                         fraga(26, undefined, 'FRG_9.HLP', { }, [{
                             type: 'ue-checkbox',

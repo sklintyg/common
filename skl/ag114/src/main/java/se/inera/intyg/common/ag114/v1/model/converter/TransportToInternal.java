@@ -23,6 +23,7 @@ import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
 import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.agparent.model.converter.RespConstants;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -44,6 +45,7 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVAR
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_SVAR_ID_8;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
@@ -92,6 +94,9 @@ public final class TransportToInternal {
                     break;
                 case ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6:
                     handleArbetsformagaTrotsSjukdom(utlatande, svar);
+                    break;
+                case OVRIGT_SVAR_ID_8:
+                    handleOvrigaUpplysningar(utlatande, svar);
                     break;
                 case KONTAKT_ONSKAS_SVAR_ID_9:
                     handleOnskarKontakt(utlatande, svar);
@@ -168,6 +173,18 @@ public final class TransportToInternal {
                     break;
                 case ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2:
                     utlatande.setArbetsformagaTrotsSjukdomBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleOvrigaUpplysningar(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case RespConstants.OVRIGT_DELSVAR_ID_8:
+                    utlatande.setOvrigaUpplysningar(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();
