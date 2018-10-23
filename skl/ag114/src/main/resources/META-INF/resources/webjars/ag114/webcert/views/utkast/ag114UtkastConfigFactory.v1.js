@@ -29,7 +29,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     2: 'diagnos',
                     3: 'arbetsformaga',
                     4: 'bedomning',
-                    5: 'ovrigt',
+                    5: 'sjukskrivning',
                     6: 'kontakt'
                 };
             }
@@ -141,6 +141,54 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             modelProp: 'ovrigaUpplysningar',
                         }])
                     ]),
+
+                    kategori(categoryIds[5], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+
+                        fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {  }, [
+                            {
+                                type: 'ue-percent-field',
+                                modelProp: 'sjukskrivningsgrad',
+                                required: true,
+                                label: {
+                                    key: 'DFR_7.1.RBK',
+                                    helpKey: 'DFR_7.1.HLP',
+                                    requiredProp: 'sjukskrivningsgrad'
+                                }
+                            },
+                            {
+                                type: 'ue-form-label',
+                                required: true,
+                                key: 'DFR_7.2.RBK',
+                            },
+                            {
+                                type: 'ue-grid',
+                                colSizes: [1,2,1,2],
+                                components: [
+                                    // Row 1
+                                    [{
+                                        type: 'ue-form-label',
+                                        required: true,
+                                        key: 'FROM',
+                                        requiredProp: 'sjukskrivningsperiod.from'
+                                    },{
+                                        type: 'ue-date',
+                                        required: true,
+                                        key: 'common.label.date',
+                                        modelProp: 'sjukskrivningsperiod.from'
+                                    },{
+                                        type: 'ue-form-label',
+                                        required: true,
+                                        key: 'TOM',
+                                        requiredProp: 'sjukskrivningsperiod.tom'
+                                    },{
+                                        type: 'ue-date',
+                                        required: true,
+                                        key: 'common.label.date',
+                                        modelProp: 'sjukskrivningsperiod.tom'
+                                    }]
+                        ]}])]),
+
+
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
                         fraga(26, undefined, 'FRG_9.HLP', { }, [{
                             type: 'ue-checkbox',

@@ -32,6 +32,8 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.NUVAR
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_8;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
@@ -47,6 +49,7 @@ import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.agparent.model.converter.RespConstants;
+import se.inera.intyg.common.support.model.LocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
@@ -110,6 +113,14 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     // Fråga 8
     @Nullable
     public abstract String getOvrigaUpplysningar();
+
+    // Fråga 7 Bedömning
+
+    @Nullable
+    public abstract Integer getSjukskrivningsgrad();
+
+    @Nullable
+    public abstract LocalDateInterval getSjukskrivningsperiod();
 
     // Fråga 9
     @Nullable
@@ -176,6 +187,11 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(OVRIGT_SVAR_JSON_ID_8)
         public abstract Builder setOvrigaUpplysningar(String ovrigaUpplysningar);
+        @JsonProperty(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1)
+        public abstract Builder setSjukskrivningsgrad(Integer sjukskrivningsgrad);
+
+        @JsonProperty(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2)
+        public abstract Builder setSjukskrivningsperiod(LocalDateInterval sjukskrivningsperiod);
 
         @JsonProperty(KONTAKT_ONSKAS_SVAR_JSON_ID_9)
         public abstract Builder setKontaktMedArbetsgivaren(Boolean kontaktMedFk);

@@ -50,6 +50,12 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'arbetsformagaTrotsSjukdom': undefined,
                         'arbetsformagaTrotsSjukdomBeskrivning': undefined,
                         'ovrigaUpplysningar': undefined,
+                        'sjukskrivningsgrad': undefined,
+                        'sjukskrivningsperiod': {
+                            from: undefined,
+                            tom: undefined
+                        },
+
                         'kontaktMedArbetsgivaren': new ModelAttr( 'kontaktMedArbetsgivaren', { defaultValue : false }),
                         'anledningTillKontakt': undefined
                     });
