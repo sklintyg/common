@@ -49,6 +49,10 @@
   </div>
 
   <!-- Svarsdelen -->
+  <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg" class="kompletterad">
+    <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
+  </div>
+
   <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg" class="arende-svar card">
     <div class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
