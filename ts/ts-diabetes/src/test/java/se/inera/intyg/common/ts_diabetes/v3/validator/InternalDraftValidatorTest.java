@@ -55,19 +55,18 @@ import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValida
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMIER;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_SYNFUNKTION;
 
+import com.google.common.collect.ImmutableSet;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.google.common.collect.ImmutableSet;
-
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
 
@@ -426,9 +425,35 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void failureDueToRule19() throws Exception {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R19").asInternalModel();
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(6, res.getValidationErrors().size());
+
+        ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
+                new ValidationMessage("synfunktion",
+                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT),
+                new ValidationMessage("synfunktion",
+                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT),
+                new ValidationMessage("synfunktion",
+                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT),
+                new ValidationMessage("synfunktion",
+                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT),
+                new ValidationMessage("synfunktion",
+                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT));
+
+        assertTrue(res.getValidationErrors().containsAll(expectedErrors));
+    }
+
+    @Test
     public void failureDueToMissingVardenhetPostnummer() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-vardenhetensPostNummerSaknas").asInternalModel();
-
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertTrue(res.hasErrorMessages());
