@@ -105,12 +105,16 @@ public final class UtlatandeToIntyg {
 
         // Kategori 3 Arbetsformaga
         addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
-        addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
-        addIfNotNull(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                source.getArbetsformagaTrotsSjukdom());
-        addIfNotBlank(svars, ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6, ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
-                source.getArbetsformagaTrotsSjukdomBeskrivning());
 
+        if (source.getArbetsformagaTrotsSjukdom() != null) {
+            if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
+                svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
+                        source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
+                                source.getArbetsformagaTrotsSjukdomBeskrivning())
+                        .build());
+            }
+        }
+        addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
 
         // Kategori 6 Kontakt
         if (source.getKontaktMedArbetsgivaren() != null) {

@@ -68,6 +68,7 @@
     </specialistkompetens>
   </skapadAv>
   <svar id="1">
+    <instans>1</instans>
     <delsvar id="1.1">
       <ns3:cv>
         <ns3:code>NUVARANDE_ARBETE</ns3:code>
@@ -75,6 +76,9 @@
         <ns3:displayName>Nuvarande arbete</ns3:displayName>
       </ns3:cv>
     </delsvar>
+  </svar>
+  <svar id="2">
+    <delsvar id="2.1">Inget</delsvar>
   </svar>
   <svar id="3">
     <delsvar id="3.1">true</delsvar>
@@ -90,6 +94,13 @@
   </svar>
   <svar id="5">
     <delsvar id="5.1">Kan jobba halvtid.</delsvar>
+  </svar>
+  <svar id="6">
+    <delsvar id="6.1">true</delsvar>
+    <delsvar id="6.2">Beskrivning av förmåga</delsvar>
+  </svar>
+  <svar id="8">
+    <delsvar id="8.1">text</delsvar>
   </svar>
   <svar id="9">
     <delsvar id="9.1">true</delsvar>

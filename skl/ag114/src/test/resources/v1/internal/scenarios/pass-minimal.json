@@ -42,6 +42,8 @@
   "onskarFormedlaDiagnos": true,
   "nedsattArbetsformaga": "Kan jobba halvtid.",
   "arbetsformagaTrotsSjukdom": true,
+  "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
+  "ovrigaUpplysningar": "text",
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",

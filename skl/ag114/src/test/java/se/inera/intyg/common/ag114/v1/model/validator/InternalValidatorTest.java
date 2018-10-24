@@ -18,24 +18,26 @@
  */
 package se.inera.intyg.common.ag114.v1.model.validator;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
-import static org.junit.Assert.assertEquals;
-
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfiguration.class)
 public class InternalValidatorTest {
 
-    @InjectMocks
-    private InternalDraftValidatorImpl internalValidator;
+    @Autowired
+    private InternalDraftValidator<Ag114UtlatandeV1> internalValidator;
 
     @Test
     public void test() throws ScenarioNotFoundException {

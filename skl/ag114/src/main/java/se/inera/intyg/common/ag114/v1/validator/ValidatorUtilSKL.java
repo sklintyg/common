@@ -18,21 +18,23 @@
  */
 package se.inera.intyg.common.ag114.v1.validator;
 
-// CHECKSTYLE:OFF LineLength
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 
-import com.google.common.base.Strings;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+// CHECKSTYLE:OFF LineLength
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-
-import java.util.List;
-
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 
 // CHECKSTYLE:ON LineLength
 
