@@ -4,69 +4,63 @@
 </div>
 <wc-bottom-fadeout default-height="75vh" scroll-id="wc-about-modal-body">
   <div class="modal-body wc-header-about-modal">
-    <div uib-accordion close-others="false">
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.om">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Om Webcert</span> <i class="material-icons md-24">{{open.om ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <div ng-if="!user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial.html'"></div>
-        <div ng-if="user.privatLakare" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-partial-privatlakare.html'"></div>
 
-      </div>
+    <wc-school-link use-bg-plate="true"></wc-school-link>
 
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.terms" ng-if="user.privatLakare">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Användarvillkor</span> <i class="material-icons md-24">{{open.terms ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/om-privatlakaravtal-partial.html'"></div>
-      </div>
+    <p>Webcert är en tjänst som drivs av Inera AB.</p>
+    <p>Nuvarande version är {{version}}</p>
 
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.support">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Support och kontaktinformation</span> <i class="material-icons md-24">{{open.support ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-normal.html'"></div>
-        <div wc-authority request-origin="!NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/support-kontakt-partial-uthopp-djupintegrerad.html'"></div>
-      </div>
+    <p>
+      Webcert är utvecklat för Inernet Explorer 11 och efterföljande versioner. Andra webbläsare kan användas, men då
+      finns det risk att problem uppstår.
 
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.faq">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Vanliga frågor</span> <i class="material-icons md-24">{{open.faq ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <wc-faq-toggler>
-          <div wc-authority request-origin="NORMAL" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-normal-partial.html'"></div>
-          <div wc-authority request-origin="UTHOPP" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-uthopp-partial.html'"></div>
-          <div wc-authority request-origin="DJUPINTEGRATION" ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/faq-djupintegrerad-partial.html'"></div>
-        </wc-faq-toggler>
-      </div>
+      För att kunna generera utskrifter av intygen använder sig Webcert av
+      <span dynamiclink key="iText7"></span>. För mer information under vilka villkor iText7 får användas läs mer om AGPL 3.0 på
+      <span dynamiclink key="agpl3"></span>. För Webcerts källkod besök
+      <span dynamiclink key="github"></span>. För Webcerts upphovsrättslicens besök
+      <span dynamiclink key="githubLicense"></span>.
+    </p>
 
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.kakor">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Om kakor (cookies)</span> <i class="material-icons md-24">{{open.kakor ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/kakor-partial.html'"></div>
-      </div>
+    <h4>Behandling av personuppgifter</h4>
+    <p>
+      Inera behandlar personuppgifter som personuppgiftsansvarig för det egna bolagets verksamhet och i sin roll som
+      personuppgiftsbiträde för landsting, regioner och kommuner. Inera värnar om den personliga integriteten och
+      eftersträvar alltid en hög nivå av dataskydd.
 
-      <div uib-accordion-group panel-class="wc-about-panel" is-open="open.personuppgifter">
-        <div uib-accordion-heading>
-          <div class="wc-about-panel-header">
-            <span>Om behandling av personuppgifter</span> <i class="material-icons md-24">{{open.personuppgifter ? 'expand_less':'expand_more'}}</i>
-          </div>
-        </div>
-        <div ng-include="'/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/about-personuppgifter.html'"></div>
-      </div>
+      Läs mer om hur personuppgifter behandlas på <span dynamiclink key="ineraPersonuppgifter"></span>.
+    </p>
 
-    </div>
+    <h4>Användandet av kakor (cookies)</h4>
+    <p>
+      Vi använder kakor (cookies) för att den här webbplatsen ska fungera på ett bra sätt för dig. Genom att logga in
+      accepterar du vår användning av kakor. </p>
+    <p>
+      Webcert använder så kallade sessionskakor. De lagras temporärt i din dators minne under tiden du är inne på
+      webbplatsen. Sessionskakor sparar ingen personlig information om dig och de försvinner när du stänger din
+      webbläsare. De säkerställer att du kan navigera i tjänsten utan att behöva logga in på nytt varje gång du går till
+      en ny sida. De används också för att de filtrerinställningar du gör finns kvar under tiden du är inloggad. För att
+      vara säker på att kakorna inte sparas i din dator efter avslutad session måste du stänga webbläsaren när du har
+      loggat ut. </p>
+    <p>
+      Om du inte accepterar användningen av kakor kan du ställa in din webbläsare så att kakor blockeras. Väljer du att
+      inte acceptera kakor kan du inte identifiera dig med e-legitimation i denna e-tjänst. </p>
+    <p>
+      Mer information om kakor finns på <span dynamiclink key="ptsCookiesBanner"></span>.
+    </p>
+
+    <h4>Kontakt och support</h4>
+    <p>
+      Vid frågor gällande inloggning, kontakta leverantören av din e-legitimation eller SITHS/Efos-kortsadministratör.
+    </p>
+    <p>
+      Vid övriga frågor eller problem, kontakta <span dynamiclink key="ineraKundserviceAnmalFel"></span>
+    </p>
+    <p>
+      Inera AB<br>
+      Box 17703<br>
+      118 93 Stockholm<br>
+      Organisationsnummer: 556559-4230<br>
+    </p>
   </div>
 </wc-bottom-fadeout>
 <div class="modal-footer">
