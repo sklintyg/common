@@ -21,6 +21,39 @@ package se.inera.intyg.common.ts_diabetes.v3.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.BEDOMNING_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID;
+import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_ALLMANT;
+import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_HYPOGLYKEMIER;
+import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.CATEGORY_SYNFUNKTION;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -35,7 +68,6 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
 
@@ -78,8 +110,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(RespConstants.BEDOMNING_JSON_ID, error.getCategory());
-        Assert.assertEquals(RespConstants.BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID, error.getField());
+        Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
+        Assert.assertEquals(BEDOMNING_JSON_ID + "." + BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -93,8 +125,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
@@ -108,8 +140,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -123,9 +155,9 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BEHANDLING_JSON_ID, error.getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
     @Test
@@ -138,8 +170,9 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
+                error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -153,35 +186,35 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(10, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("hypoglykemier",
-                        RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
+                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
                         ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -196,8 +229,9 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
+                error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
@@ -211,8 +245,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("hypoglykemier", error.getCategory());
-        Assert.assertEquals(RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -226,8 +260,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("hypoglykemier", error.getCategory());
-        Assert.assertEquals(RespConstants.HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -241,8 +275,8 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("hypoglykemier", error.getCategory());
-        Assert.assertEquals(RespConstants.HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        Assert.assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -256,14 +290,17 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -278,14 +315,17 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -300,14 +340,17 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -322,14 +365,17 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
                         ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
@@ -344,8 +390,10 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(
+                ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID,
+                error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -370,8 +418,26 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(1, res.getValidationErrors().size());
         ValidationMessage error = res.getValidationErrors().get(0);
-        assertEquals("allmant", error.getCategory());
-        Assert.assertEquals(RespConstants.ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID, error.getField());
+        assertEquals(CATEGORY_ALLMANT, error.getCategory());
+        Assert.assertEquals(
+                ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
+                error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
+    }
+
+    @Test
+    public void failureDueToMissingVardenhetPostnummer() throws Exception {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-vardenhetensPostNummerSaknas").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals("vardenhet", error.getCategory());
+        Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer",
+                error.getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType());
     }
 }

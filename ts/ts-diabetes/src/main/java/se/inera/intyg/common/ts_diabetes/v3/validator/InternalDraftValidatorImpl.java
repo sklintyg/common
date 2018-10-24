@@ -85,399 +85,17 @@ import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 @Component("ts-diabetes.v3.InternalDraftValidator")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetesUtlatandeV3> {
 
-    private static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
-    private static final String CATEGORY_ALLMANT = "allmant";
-    private static final String CATEGORY_IDENTITET = "identitet";
-    private static final String CATEGORY_HYPOGLYKEMIER = "hypoglykemier";
-    private static final String CATEGORY_SYNFUNKTION = "synfunktion";
-    private static final String CATEGORY_OVRIGT = "ovrigt";
-    private static final String CATEGORY_BEDOMNING = "bedomning";
     public static final double RULE_13_CUTOFF = 0.5;
     public static final double RULE_14_CUTOFF = 0.8;
     public static final double RULE_15_CUTOFF = 0.1;
-
-    @Override
-    public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV3 utlatande) {
-        List<ValidationMessage> validationMessages = new ArrayList<>();
-
-        // Kategori 1 - Intyget avser
-        validateIntygetAvser(utlatande, validationMessages);
-
-        // Kategori 2 - Identitet
-        validateIdentitetStyrkt(utlatande, validationMessages);
-
-        // Kategori 3 - Allmänt
-        if (utlatande.getAllmant() != null) {
-            validateDiagnosAr(utlatande, validationMessages);
-            validateTypAvDiabetes(utlatande, validationMessages);
-            validateBehandling(utlatande, validationMessages);
-        } else {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID, ValidationMessageType.EMPTY);
-        }
-
-        // Kategori 4 - Hypoglykemier
-        // R6: Obligatoriska följdfrågor vid insulinbehandling
-        if (eligibleForRule6(utlatande) || eligibleForRule17(utlatande)) {
-            if (utlatande.getHypoglykemier() != null) {
-                validateSjukdomenUnderKontroll(utlatande, validationMessages);
-                validateNedsattHjarnFunktion(utlatande, validationMessages);
-                validateForstarRisker(utlatande, validationMessages);
-                validateFortrogenMedSymptom(utlatande, validationMessages);
-                validateSaknarFormagaVarningsTecken(utlatande, validationMessages);
-                validateKunskapLampligaAtgarder(utlatande, validationMessages);
-                validateEgenkontrollBlodsocker(utlatande, validationMessages);
-                validateAterkommandeSenasteAret(utlatande, validationMessages);
-                validateAterkommandeSenasteKvartalet(utlatande, validationMessages);
-                validateForekomstTrafikSenasteAret(utlatande, validationMessages);
-            } else {
-                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_JSON_ID, ValidationMessageType.EMPTY);
-            }
-        }
-
-        // Kategori 5 - Synfunktion
-        if (utlatande.getSynfunktion() != null) {
-            validateMisstankeOgonSjukdom(utlatande, validationMessages);
-            validateOgonbottenFotoSaknas(utlatande, validationMessages);
-            validateVanster(utlatande, validationMessages);
-            validateHoger(utlatande, validationMessages);
-            validateBinokulart(utlatande, validationMessages);
-        } else {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_JSON_ID, ValidationMessageType.EMPTY);
-        }
-
-        // Kategori 6 – Övrigt
-        validateBlanksForOptionalFields(utlatande, validationMessages);
-
-        // Kategori 7 - Bedömning
-        if (utlatande.getBedomning() != null) {
-            validateUppfyllerBehorighetskrav(utlatande, validationMessages);
-            validateLampligtInnehav(utlatande, validationMessages);
-            validateBorUndersokasBeskrivning(utlatande, validationMessages);
-        } else {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID, ValidationMessageType.EMPTY);
-        }
-
-        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
-    }
-
-    private void validateIntygetAvser(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Set<IntygAvserKategori> intygAvser = utlatande.getIntygAvser() == null ? null : utlatande.getIntygAvser().getKategorier();
-        if (intygAvser == null || intygAvser.isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_INTYGET_AVSER_BEHORIGHET, INTYGETAVSER_SVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateIdentitetStyrkt(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getIdentitetStyrktGenom() == null) {
-            addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID, ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateDiagnosAr(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        String cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
-        if (cleanedDiabetesDiagnosAr.isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, ValidationMessageType.EMPTY);
-            return;
-        }
-
-        Year parsedYear;
-        try {
-            parsedYear = Year.parse(cleanedDiabetesDiagnosAr);
-        } catch (DateTimeParseException e) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11,
-                    ValidationMessageType.INVALID_FORMAT);
-            return;
-        }
-
-        if (eligibleForRule2(utlatande, parsedYear)) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11, ValidationMessageType.OTHER);
-        }
-    }
-
-    private void validateTypAvDiabetes(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Allmant allmant = utlatande.getAllmant();
-        if (allmant.getTypAvDiabetes() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_TYP_AV_DIABETES_JSON_ID, ValidationMessageType.EMPTY);
-        }
-
-        if (eligibleForRule3(utlatande) && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateBehandling(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getAllmant().getBehandling() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_JSON_ID, ValidationMessageType.EMPTY);
-            return;
-        }
-        Behandling behandling = utlatande.getAllmant().getBehandling();
-
-        if (eligibleForRule4(utlatande)
-                && (!nullToFalse(behandling.getEndastKost()))
-                && (!nullToFalse(behandling.getTabletter()))
-                && (!nullToFalse(behandling.getInsulin()))
-                && (!nullToFalse(behandling.getAnnanBehandling()))) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_JSON_ID,
-                    ValidationMessageType.INCORRECT_COMBINATION);
-        }
-
-        if (eligibleForRule5(utlatande)) {
-            // R5: Om insulinbehandling besvaras så ska även årtal anges.
-            String cleanedInsulinSedanArString = Strings.nullToEmpty(behandling.getInsulinSedanAr()).trim();
-            if (cleanedInsulinSedanArString.isEmpty()) {
-                addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
-                        ValidationMessageType.EMPTY);
-            } else {
-                Year parsedYear;
-                try {
-                    parsedYear = Year.parse(cleanedInsulinSedanArString);
-                } catch (DateTimeParseException e) {
-                    addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
-                            ValidationMessageType.INVALID_FORMAT);
-                    return;
-                }
-
-                // R7: Årtal för 'insulinbehandling sedan' måste vara efter patienten är född
-                if (eligibleForRule7(utlatande)
-                        && ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString, utlatande.getGrundData().getPatient().getPersonId())
-                        || parsedYear.isAfter(Year.now())) {
-                    addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
-                            ValidationMessageType.OTHER);
-                }
-            }
-
-        }
-
-        // R16: Om tablettbehandling, svara på om tablettbehandling ger risk för hypoglykemi.
-        if (eligibleForRule16(utlatande) && utlatande.getAllmant().getBehandling().getTablettRiskHypoglykemi() == null) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-
-        // R18: Om annan behandling, beskriv annan behandling.
-        if (eligibleForRule18(utlatande) && Strings.nullToEmpty(behandling.getAnnanBehandlingBeskrivning()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateSjukdomenUnderKontroll(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getSjukdomenUnderKontroll() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateNedsattHjarnFunktion(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getNedsattHjarnfunktion() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateForstarRisker(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getForstarRisker() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateFortrogenMedSymptom(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getFortrogenMedSymptom() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateSaknarFormagaVarningsTecken(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getSaknarFormagaVarningstecken() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateKunskapLampligaAtgarder(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getKunskapLampligaAtgarder() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateEgenkontrollBlodsocker(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getHypoglykemier().getEgenkontrollBlodsocker() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateAterkommandeSenasteAret(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (hypoglykemier.getAterkommandeSenasteAret() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
-                    ValidationMessageType.EMPTY);
-            return;
-        }
-
-        // R8
-        if (eligibleForRule8(utlatande) && hypoglykemier.getAterkommandeSenasteTidpunkt() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateAterkommandeSenasteKvartalet(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (hypoglykemier.getAterkommandeSenasteKvartalet() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
-                    ValidationMessageType.EMPTY);
-            return;
-        }
-
-        // R9
-        if (eligibleForRule9(utlatande) && hypoglykemier.getSenasteTidpunktVaken() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateForekomstTrafikSenasteAret(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
-        if (hypoglykemier.getForekomstTrafik() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
-                    ValidationMessageType.EMPTY);
-            return;
-        }
-
-        // R10
-        if (eligibleForRule10(utlatande) && hypoglykemier.getForekomstTrafikTidpunkt() == null) {
-            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateMisstankeOgonSjukdom(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getSynfunktion().getMisstankeOgonsjukdom() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateOgonbottenFotoSaknas(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getSynfunktion().getOgonbottenFotoSaknas() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateVanster(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Synskarpevarden vanster = utlatande.getSynfunktion().getVanster();
-        if (vanster == null) {
-            // R12
-            if (eligibleForRule12(utlatande)) {
-                addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID,
-                        ValidationMessageType.EMPTY);
-            }
-            return;
-        }
-
-        // 8.2
-        if (eligibleForRule12(utlatande) && vanster.getUtanKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-
-        // 8.5
-        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
-                && vanster.getMedKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateHoger(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Synskarpevarden hoger = utlatande.getSynfunktion().getHoger();
-        if (hoger == null) {
-            // R12
-            if (eligibleForRule12(utlatande)) {
-                addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID,
-                        ValidationMessageType.EMPTY);
-            }
-            return;
-        }
-
-        // 8.1
-        if (eligibleForRule12(utlatande) && hoger.getUtanKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-
-        // 8.4
-        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
-                && hoger.getMedKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateBinokulart(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Synskarpevarden binokulart = utlatande.getSynfunktion().getBinokulart();
-        if (binokulart == null) {
-            // R12
-            if (eligibleForRule12(utlatande)) {
-                addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID,
-                        ValidationMessageType.EMPTY);
-            }
-            return;
-        }
-
-        // 8.3
-        if (eligibleForRule12(utlatande) && binokulart.getUtanKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-
-        // 8.6
-        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
-                && binokulart.getMedKorrektion() == null) {
-            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateUppfyllerBehorighetskrav(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        Set<BedomningKorkortstyp> behorighet = utlatande.getBedomning().getUppfyllerBehorighetskrav();
-        // Minst 1 behörighetskrav behöver vara markerat.
-        if (behorighet == null || behorighet.isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateLampligtInnehav(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (eligibleForRule1(utlatande) && utlatande.getBedomning().getLampligtInnehav() == null) {
-            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        }
-    }
-
-    private void validateBorUndersokasBeskrivning(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        // Optional, därför ingen validering.
-    }
-
-    private void validateBlanksForOptionalFields(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
-        if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
-            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_DELSVAR_JSON_ID, ValidationMessageType.EMPTY,
-                    "ts-diabetes.validation.blanksteg.otillatet");
-        }
-    }
+    protected static final String CATEGORY_INTYGET_AVSER_BEHORIGHET = "intygAvser";
+    protected static final String CATEGORY_ALLMANT = "allmant";
+    protected static final String CATEGORY_IDENTITET = "identitetStyrktGenom";
+    protected static final String CATEGORY_HYPOGLYKEMIER = "hypoglykemier";
+    protected static final String CATEGORY_SYNFUNKTION = "synfunktion";
+    protected static final String CATEGORY_OVRIGT = "ovrigt";
+    protected static final String CATEGORY_BEDOMNING = "bedomning";
+    protected static final String BEHANDLING_ROOT_FIELD_PATH = ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + ".";
 
     // R1
     private static boolean eligibleForRule1(TsDiabetesUtlatandeV3 utlatande) {
@@ -489,12 +107,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 IntygAvserKategori.C, IntygAvserKategori.CE, IntygAvserKategori.D1, IntygAvserKategori.D1E, IntygAvserKategori.D,
                 IntygAvserKategori.DE, IntygAvserKategori.TAXI);
         return !Collections.disjoint(intygAvser, answerRequiringAdditionalData);
-    }
-
-    // R2
-    private static boolean eligibleForRule2(TsDiabetesUtlatandeV3 utlatande, Year diagnosYear) {
-        return ValidatorUtil.isYearBeforeBirth(diagnosYear.toString(), utlatande.getGrundData().getPatient().getPersonId())
-                || diagnosYear.isAfter(Year.now());
     }
 
     // R3
@@ -624,5 +236,435 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
     private static boolean nullToFalse(Boolean bool) {
         return bool != null && bool;
+    }
+
+    @Override
+    public ValidateDraftResponse validateDraft(TsDiabetesUtlatandeV3 utlatande) {
+        List<ValidationMessage> validationMessages = new ArrayList<>();
+
+        // Kategori 1 - Intyget avser
+        validateIntygetAvser(utlatande, validationMessages);
+
+        // Kategori 2 - Identitet
+        validateIdentitetStyrkt(utlatande, validationMessages);
+
+        // Kategori 3 - Allmänt
+        if (utlatande.getAllmant() != null) {
+            validateDiagnosAr(utlatande, validationMessages);
+            validateTypAvDiabetes(utlatande, validationMessages);
+            validateBehandling(utlatande, validationMessages);
+        } else {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID, ValidationMessageType.EMPTY);
+        }
+
+        // Kategori 4 - Hypoglykemier
+        // R6: Obligatoriska följdfrågor vid insulinbehandling
+        if (eligibleForRule6(utlatande) || eligibleForRule17(utlatande)) {
+            if (utlatande.getHypoglykemier() != null) {
+                validateSjukdomenUnderKontroll(utlatande, validationMessages);
+                validateNedsattHjarnFunktion(utlatande, validationMessages);
+                validateForstarRisker(utlatande, validationMessages);
+                validateFortrogenMedSymptom(utlatande, validationMessages);
+                validateSaknarFormagaVarningsTecken(utlatande, validationMessages);
+                validateKunskapLampligaAtgarder(utlatande, validationMessages);
+                validateEgenkontrollBlodsocker(utlatande, validationMessages);
+                validateAterkommandeSenasteAret(utlatande, validationMessages);
+                validateAterkommandeSenasteKvartalet(utlatande, validationMessages);
+                validateForekomstTrafikSenasteAret(utlatande, validationMessages);
+            } else {
+                addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER, HYPOGLYKEMIER_JSON_ID, ValidationMessageType.EMPTY);
+            }
+        }
+
+        // Kategori 5 - Synfunktion
+        if (utlatande.getSynfunktion() != null) {
+            validateMisstankeOgonSjukdom(utlatande, validationMessages);
+            validateOgonbottenFotoSaknas(utlatande, validationMessages);
+            validateVanster(utlatande, validationMessages);
+            validateHoger(utlatande, validationMessages);
+            validateBinokulart(utlatande, validationMessages);
+        } else {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION, SYNFUNKTION_JSON_ID, ValidationMessageType.EMPTY);
+        }
+
+        // Kategori 6 – Övrigt
+        validateBlanksForOptionalFields(utlatande, validationMessages);
+
+        // Kategori 7 - Bedömning
+        if (utlatande.getBedomning() != null) {
+            validateUppfyllerBehorighetskrav(utlatande, validationMessages);
+            validateLampligtInnehav(utlatande, validationMessages);
+            validateBorUndersokasBeskrivning(utlatande, validationMessages);
+        } else {
+            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID, ValidationMessageType.EMPTY);
+        }
+
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+
+        return ValidatorUtil.buildValidateDraftResponse(validationMessages);
+    }
+
+    private void validateIntygetAvser(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Set<IntygAvserKategori> intygAvser = utlatande.getIntygAvser() == null ? null : utlatande.getIntygAvser().getKategorier();
+        if (intygAvser == null || intygAvser.isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_INTYGET_AVSER_BEHORIGHET, INTYGETAVSER_SVAR_JSON_ID + ".kategorier",
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateIdentitetStyrkt(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getIdentitetStyrktGenom() == null) {
+            addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateDiagnosAr(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        String diabetesSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_DIABETES_DIAGNOS_AR_JSON_ID_11;
+        String cleanedDiabetesDiagnosAr = Strings.nullToEmpty(utlatande.getAllmant().getDiabetesDiagnosAr()).trim();
+        if (cleanedDiabetesDiagnosAr.isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath, ValidationMessageType.EMPTY);
+            return;
+        }
+
+        Year parsedYear;
+        try {
+            parsedYear = Year.parse(cleanedDiabetesDiagnosAr);
+        } catch (DateTimeParseException e) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+                    ValidationMessageType.INVALID_FORMAT);
+            return;
+        }
+
+        // R2
+        if (ValidatorUtil.isYearBeforeBirth(parsedYear.toString(), utlatande.getGrundData().getPatient().getPersonId())) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+                    ValidationMessageType.OTHER, "common.validation.d-05");
+        }
+        if (parsedYear.isAfter(Year.now())) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, diabetesSedanArFieldPath,
+                    ValidationMessageType.OTHER, "common.validation.d-02");
+        }
+
+    }
+
+    private void validateTypAvDiabetes(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        String typAvDiabetesFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_TYP_AV_DIABETES_JSON_ID;
+        String annanTypAvDiabetesBeskrivningFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_JSON_ID;
+        Allmant allmant = utlatande.getAllmant();
+        if (allmant.getTypAvDiabetes() == null) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, typAvDiabetesFieldPath, ValidationMessageType.EMPTY);
+        }
+
+        if (eligibleForRule3(utlatande) && Strings.nullToEmpty(allmant.getBeskrivningAnnanTypAvDiabetes()).trim().isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, annanTypAvDiabetesBeskrivningFieldPath,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateBehandling(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        String insulinSedanArFieldPath = ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "."
+                + ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID;
+
+        if (utlatande.getAllmant().getBehandling() == null) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
+                    ValidationMessageType.EMPTY);
+            return;
+        }
+        Behandling behandling = utlatande.getAllmant().getBehandling();
+
+        if (eligibleForRule4(utlatande)
+                && (!nullToFalse(behandling.getEndastKost()))
+                && (!nullToFalse(behandling.getTabletter()))
+                && (!nullToFalse(behandling.getInsulin()))
+                && (!nullToFalse(behandling.getAnnanBehandling()))) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+
+        if (eligibleForRule5(utlatande)) {
+            // R5: Om insulinbehandling besvaras så ska även årtal anges.
+            String cleanedInsulinSedanArString = Strings.nullToEmpty(behandling.getInsulinSedanAr()).trim();
+            if (cleanedInsulinSedanArString.isEmpty()) {
+
+                addValidationError(validationMessages, CATEGORY_ALLMANT,
+                        insulinSedanArFieldPath,
+                        ValidationMessageType.EMPTY, "common.validation.d-01");
+            } else {
+                Year parsedYear;
+                try {
+                    parsedYear = Year.parse(cleanedInsulinSedanArString);
+                } catch (DateTimeParseException e) {
+                    addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath, ValidationMessageType.INVALID_FORMAT);
+                    return;
+                }
+
+                // R7: Årtal för 'insulinbehandling sedan' måste vara efter patienten är född, och senast innevarande år
+                if (eligibleForRule7(utlatande)
+                        && ValidatorUtil.isYearBeforeBirth(cleanedInsulinSedanArString,
+                                utlatande.getGrundData().getPatient().getPersonId())) {
+                    addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
+                            ValidationMessageType.OTHER, "common.validation.d-05");
+                }
+                if (eligibleForRule7(utlatande)
+                        && parsedYear.isAfter(Year.now())) {
+                    addValidationError(validationMessages, CATEGORY_ALLMANT, insulinSedanArFieldPath,
+                            ValidationMessageType.OTHER, "common.validation.d-02");
+                }
+            }
+
+        }
+
+        // R16: Om tablettbehandling, svara på om tablettbehandling ger risk för hypoglykemi.
+        if (eligibleForRule16(utlatande) && utlatande.getAllmant().getBehandling().getTablettRiskHypoglykemi() == null) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT,
+                    BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+
+        // R18: Om annan behandling, beskriv annan behandling.
+        if (eligibleForRule18(utlatande) && Strings.nullToEmpty(behandling.getAnnanBehandlingBeskrivning()).trim().isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_ALLMANT,
+                    BEHANDLING_ROOT_FIELD_PATH + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateSjukdomenUnderKontroll(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getSjukdomenUnderKontroll() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateNedsattHjarnFunktion(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getNedsattHjarnfunktion() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateForstarRisker(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getForstarRisker() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateFortrogenMedSymptom(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getFortrogenMedSymptom() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateSaknarFormagaVarningsTecken(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getSaknarFormagaVarningstecken() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateKunskapLampligaAtgarder(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getKunskapLampligaAtgarder() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateEgenkontrollBlodsocker(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getHypoglykemier().getEgenkontrollBlodsocker() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateAterkommandeSenasteAret(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
+        if (hypoglykemier.getAterkommandeSenasteAret() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
+                    ValidationMessageType.EMPTY);
+            return;
+        }
+
+        // R8
+        if (eligibleForRule8(utlatande)) {
+            ValidatorUtil.validateDate(hypoglykemier.getAterkommandeSenasteTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, null);
+        }
+    }
+
+    private void validateAterkommandeSenasteKvartalet(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
+        if (hypoglykemier.getAterkommandeSenasteKvartalet() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
+                    ValidationMessageType.EMPTY);
+            return;
+        }
+
+        // R9
+        if (eligibleForRule9(utlatande)) {
+            ValidatorUtil.validateDate(hypoglykemier.getSenasteTidpunktVaken(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, null);
+        }
+    }
+
+    private void validateForekomstTrafikSenasteAret(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Hypoglykemier hypoglykemier = utlatande.getHypoglykemier();
+        if (hypoglykemier.getForekomstTrafik() == null) {
+            addValidationError(validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
+                    ValidationMessageType.EMPTY);
+            return;
+        }
+
+        // R10
+        if (eligibleForRule10(utlatande)) {
+            ValidatorUtil.validateDate(hypoglykemier.getForekomstTrafikTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, null);
+        }
+    }
+
+    private void validateMisstankeOgonSjukdom(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getSynfunktion().getMisstankeOgonsjukdom() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_MISSTANKE_OGONSJUKDOM_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateOgonbottenFotoSaknas(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (utlatande.getSynfunktion().getOgonbottenFotoSaknas() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateVanster(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Synskarpevarden vanster = utlatande.getSynfunktion().getVanster();
+        if (vanster == null) {
+            // R12
+            if (eligibleForRule12(utlatande)) {
+                addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                        SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID,
+                        ValidationMessageType.EMPTY);
+            }
+            return;
+        }
+
+        // 8.2
+        if (eligibleForRule12(utlatande) && vanster.getUtanKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+
+        // 8.5
+        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
+                && vanster.getMedKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateHoger(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Synskarpevarden hoger = utlatande.getSynfunktion().getHoger();
+        if (hoger == null) {
+            // R12
+            if (eligibleForRule12(utlatande)) {
+                addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                        SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID,
+                        ValidationMessageType.EMPTY);
+            }
+            return;
+        }
+
+        // 8.1
+        if (eligibleForRule12(utlatande) && hoger.getUtanKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+
+        // 8.4
+        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
+                && hoger.getMedKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateBinokulart(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Synskarpevarden binokulart = utlatande.getSynfunktion().getBinokulart();
+        if (binokulart == null) {
+            // R12
+            if (eligibleForRule12(utlatande)) {
+                addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                        SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID,
+                        ValidationMessageType.EMPTY);
+            }
+            return;
+        }
+
+        // 8.3
+        if (eligibleForRule12(utlatande) && binokulart.getUtanKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+
+        // 8.6
+        if ((eligibleForRule13(utlatande) || eligibleForRule14(utlatande) || eligibleForRule15(utlatande))
+                && binokulart.getMedKorrektion() == null) {
+            addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateUppfyllerBehorighetskrav(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        Set<BedomningKorkortstyp> behorighet = utlatande.getBedomning().getUppfyllerBehorighetskrav();
+        // Minst 1 behörighetskrav behöver vara markerat.
+        if (behorighet == null || behorighet.isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_BEDOMNING,
+                    BEDOMNING_JSON_ID + "." + BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateLampligtInnehav(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (eligibleForRule1(utlatande) && utlatande.getBedomning().getLampligtInnehav() == null) {
+            addValidationError(validationMessages, CATEGORY_BEDOMNING, BEDOMNING_JSON_ID + "." + BEDOMNING_LAMPLIGHET_ATT_INNEHA_JSON_ID,
+                    ValidationMessageType.EMPTY);
+        }
+    }
+
+    private void validateBorUndersokasBeskrivning(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        // Optional, därför ingen validering.
+    }
+
+    private void validateBlanksForOptionalFields(TsDiabetesUtlatandeV3 utlatande, List<ValidationMessage> validationMessages) {
+        if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
+            addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_DELSVAR_JSON_ID, ValidationMessageType.EMPTY,
+                    "ts-diabetes.validation.blanksteg.otillatet");
+        }
     }
 }

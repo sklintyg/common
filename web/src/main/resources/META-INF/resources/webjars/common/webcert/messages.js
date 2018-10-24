@@ -606,8 +606,11 @@
             // Standard valideringsmeddelande UE komponenter
 
             'common.validation.ue-checkbox-date.empty': 'Fältet får inte vara tomt.',
+            'common.validation.ue-year-picker.empty': 'Du måste ange ett år.',
+            'common.validation.ue-year-picker.invalid_format': 'Du måste ange ett år på formatet åååå.',
             'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Du måste välja minst ett alternativ.',
+            'common.validation.checkgroup.incorrect_combination': 'Du måste välja ett alternativ',
             'common.validation.ue-radio.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-radio.incorrect_combination': 'Du måste välja ett alternativ.',
             'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
@@ -666,6 +669,12 @@
             'common.validation.sjukskrivning_period.halften.invalid_format': 'Datum för nedsatt arbetsförmåga med 50% har angetts på felaktigt format.',
             'common.validation.sjukskrivning_period.tre_fjardedel.invalid_format': 'Datum för nedsatt arbetsförmåga med 75% har angetts på felaktigt format.',
             'common.validation.sjukskrivning_period.helt_nedsatt.invalid_format': 'Datum för nedsatt arbetsförmåga med 100% har angetts på felaktigt format.',
+            'common.validation.d-01': 'Ange vilket år behandling med insulin påbörjades.',
+            'common.validation.d-02': 'Ange ett årtal mellan 1900 och innevarande år.',
+            'common.validation.d-03': 'Ange synskärpa i intervallet 0,0 - 2,0.',
+            'common.validation.d-04': 'Ange ett datum inom det senaste året.',
+            'common.validation.d-05': 'Ange ett år, senare än patientens födelseår.',
+            'common.validation.d-06': 'Ange ett år, årets eller tidigare.',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',

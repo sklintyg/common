@@ -49,6 +49,15 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                     ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
             }
 
+            function R12(model) {
+                //Om nej på båda och EJ angivit något i alla 3 utan korrektion
+                return (ObjectHelper.deepGet(model, 'synfunktion.ogonbottenFotoSaknas') === false ||
+                    ObjectHelper.deepGet(model, 'synfunktion.misstankeOgonsjukdom') === false) &&
+                    ((_synvarde(model, 'synfunktion.hoger.utanKorrektion', -1) === -1) &&
+                    (_synvarde(model, 'synfunktion.vanster.utanKorrektion', -1) === -1) &&
+                    (_synvarde(model, 'synfunktion.binokulart.utanKorrektion', -1) === -1));
+            }
+
             function _synvarde(model, synProperty, elseValue) {
                 return ObjectHelper.getFloatOr(ObjectHelper.deepGet(model, synProperty), elseValue);
             }
@@ -154,7 +163,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             {
                                 type: 'ue-textfield',
                                 modelProp: 'allmant.beskrivningAnnanTypAvDiabetes',
-                                hideExpression: function(scope) {return scope.model.allmant.typAvDiabetes !== 'DIABETES_TYP_ANNAN';},
+                                hideExpression: function(scope) {return (scope.model.allmant.typAvDiabetes !== 'ANNAN');},
                                 htmlMaxlength: '160',
                                 label: {
                                     key: 'DFR_18.2.RBK',
@@ -164,6 +173,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             }
                         ]),
                         fraga(109, 'FRG_109.RBK', 'FRG_109.HLP', {
+                            validationContext: {key: 'allmant.behandling', type: 'checkgroup'},
                             required: true,
                             requiredProp: [
                                 'allmant.behandling.endastKost',
@@ -396,11 +406,10 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                         ]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {
                                 required: true,
-                                requiredMode: 'AND',
-                                requiredProp: [
-                                    'synfunktion.hoger.utanKorrektion',
-                                    'synfunktion.vanster.utanKorrektion',
-                                    'synfunktion.binokulart.utanKorrektion']}, [
+                                requiredProp: function(model) {
+                                    return R12(model);
+                                }
+                        }, [
                             {
                                 type: 'ue-alert',
                                 alertType: 'warning',
@@ -507,11 +516,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             noLabel: 'SVAR_NEJ.RBK',
                             modelProp: 'bedomning.lampligtInnehav'
                         }]),
-                        fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', {
-                            required: true,
-                            requiredProp: 'bedomning.borUndersokasBeskrivning'
-                        }, [{
-                            type: 'ue-textarea',
+                        fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', {}, [{
+                            type: 'ue-textfield',
+                            htmlMaxlength: '71',
                             modelProp: 'bedomning.borUndersokasBeskrivning'
                         }])
                     ]),
