@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Strings;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -78,6 +80,13 @@ public class Patient {
             throw new IllegalStateException("No person id has been set");
         }
         return SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId));
+    }
+
+    @JsonIgnore
+    public boolean isCompleteAddressProvided() {
+        return !Strings.isNullOrEmpty(this.postadress)
+                && !Strings.isNullOrEmpty(this.postort)
+                && !Strings.isNullOrEmpty(this.postnummer);
     }
 
     public Personnummer getPersonId() {

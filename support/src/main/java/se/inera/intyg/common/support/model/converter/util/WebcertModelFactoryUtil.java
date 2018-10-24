@@ -71,9 +71,7 @@ public final class WebcertModelFactoryUtil {
 
         grundData.setPatient(patient);
         // INTYG-5573, if adress is incomplete dont use it, to stay consistent how other parts of Webcert behave.
-        if (Strings.isNullOrEmpty(patient.getPostadress())
-                || Strings.isNullOrEmpty(patient.getPostnummer())
-                || Strings.isNullOrEmpty(patient.getPostort())) {
+        if (!patient.isCompleteAddressProvided()) {
             patient.setPostadress(null);
             patient.setPostnummer(null);
             patient.setPostort(null);
@@ -100,12 +98,5 @@ public final class WebcertModelFactoryUtil {
         if (skapadAv == null) {
             throw new ConverterException("Got null while trying to populateWithSkapadAv");
         }
-    }
-
-    // Copied from IntygServiceImpl, INTYG-5380
-    private static boolean completeAddressProvided(Patient patient) {
-        return !Strings.isNullOrEmpty(patient.getPostadress())
-                && !Strings.isNullOrEmpty(patient.getPostort())
-                && !Strings.isNullOrEmpty(patient.getPostnummer());
     }
 }
