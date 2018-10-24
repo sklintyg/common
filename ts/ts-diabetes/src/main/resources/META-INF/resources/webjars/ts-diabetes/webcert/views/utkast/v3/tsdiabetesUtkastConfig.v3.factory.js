@@ -50,11 +50,11 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
             }
 
             function R12(model) {
-                //Om nej på båda och EJ angivit något i alla 3 utan korrektion
-                return (ObjectHelper.deepGet(model, 'synfunktion.ogonbottenFotoSaknas') === false ||
+                //Om nej på båda och någon saknas i utan korrektion
+                return (ObjectHelper.deepGet(model, 'synfunktion.ogonbottenFotoSaknas') === false &&
                     ObjectHelper.deepGet(model, 'synfunktion.misstankeOgonsjukdom') === false) &&
-                    ((_synvarde(model, 'synfunktion.hoger.utanKorrektion', -1) === -1) &&
-                    (_synvarde(model, 'synfunktion.vanster.utanKorrektion', -1) === -1) &&
+                    ((_synvarde(model, 'synfunktion.hoger.utanKorrektion', -1) === -1) ||
+                    (_synvarde(model, 'synfunktion.vanster.utanKorrektion', -1) === -1) ||
                     (_synvarde(model, 'synfunktion.binokulart.utanKorrektion', -1) === -1));
             }
 
@@ -425,11 +425,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                                         key: 'ts-diabetes.label.syn.utankorrektion',
                                         helpKey: 'ts-diabetes.helptext.synfunktioner.utan-korrektion',
                                         required: true,
-                                        requiredMode: 'AND',
-                                        requiredProp: [
-                                            'synfunktion.hoger.utanKorrektion',
-                                            'synfunktion.vanster.utanKorrektion',
-                                            'synfunktion.binokulart.utanKorrektion']
+                                        requiredProp: function(model) {
+                                            return R12(model);
+                                        }
                                     }, {
                                         type: 'ue-form-label',
                                         key: 'ts-diabetes.label.syn.medkorrektion',
