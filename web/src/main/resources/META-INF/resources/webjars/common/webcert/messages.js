@@ -175,9 +175,9 @@
             'intyg.status.patient.name.pu-integration.changed': 'Patientens namn skiljer sig från det i journalsystemet',
 
             'intyg.status.patient.name.pu-intyg.changed.modalheader': 'Patientens namn har ändrats',
-            'intyg.status.patient.name.pu-intyg.changed.modalbody': '<p>Patientens namn har ändrats hos Personuppgiftstjänsten sedan det här intyget utfärdades.</p><p>Intyget kommer fortsättningsvis innehålla patientens nya namn.</p>',
+            'intyg.status.patient.name.pu-intyg.changed.modalbody': '<p>Patientens namn har ändrats hos Personuppgiftstjänsten sedan det här intyget utfärdades.</p>',
             'intyg.status.patient.address.pu-intyg.changed.modalheader': 'Patientens adress har ändrats',
-            'intyg.status.patient.address.pu-intyg.changed.modalbody': '<p>Patientens adress har ändrats hos Personuppgiftstjänsten sedan det här intyget utfärdades.</p><p>Intyget kommer fortsättningsvis innehålla patientens nya adress.</p>',
+            'intyg.status.patient.address.pu-intyg.changed.modalbody': '<p>Patientens adress har ändrats hos Personuppgiftstjänsten sedan det här intyget utfärdades.</p>',
             'intyg.status.patient.name.pu-integration.changed.modalheader': 'Patientens namn skiljer sig',
             'intyg.status.patient.name.pu-integration.changed.modalbody': '<p>Patientens namn som visas i intyget har hämtats från Personuppgiftstjänsten och skiljer sig från det som är lagrat i journalsystemet.</p>',
 
