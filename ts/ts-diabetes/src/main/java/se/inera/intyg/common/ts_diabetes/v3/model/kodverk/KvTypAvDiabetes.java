@@ -31,7 +31,7 @@ public enum KvTypAvDiabetes {
 
     TYP1("E10", "Diabetes mellitus typ 1"),
     TYP2("E11", "Diabetes mellitus typ 2"),
-    ANNAN("", "Annan typ av diabetes");
+    ANNAN("E13", "Annan typ av diabetes");
 
     final String code;
     final String description;
