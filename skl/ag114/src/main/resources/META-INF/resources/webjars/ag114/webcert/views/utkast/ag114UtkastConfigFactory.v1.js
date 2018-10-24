@@ -29,7 +29,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     2: 'diagnos',
                     3: 'arbetsformaga',
                     4: 'bedomning',
-                    5: 'sjukskrivning',
+                    5: 'ovrigt',
                     6: 'kontakt'
                 };
             }
@@ -134,15 +134,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         }])
                     ]),
 
-                    // Övrigt
-                    kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
-                        fraga(26, undefined, 'FRG_8.HLP', { }, [{
-                            type: 'ue-textarea',
-                            modelProp: 'ovrigaUpplysningar',
-                        }])
-                    ]),
-
-                    kategori(categoryIds[5], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+                    // Bedömning
+                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
 
                         fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {  }, [
                             {
@@ -186,10 +179,20 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                         key: 'common.label.date',
                                         modelProp: 'sjukskrivningsperiod.tom'
                                     }]
-                        ]}])]),
+                                ]
+                            }])
+                        ]),
 
+                        // Övrigt
+                        kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
+                            fraga(26, undefined, 'FRG_8.HLP', { }, [{
+                                type: 'ue-textarea',
+                                modelProp: 'ovrigaUpplysningar',
+                            }])
+                        ]),
 
-                    kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
+                        // Kontakt
+                        kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
                         fraga(26, undefined, 'FRG_9.HLP', { }, [{
                             type: 'ue-checkbox',
                             modelProp: 'kontaktMedArbetsgivaren',
