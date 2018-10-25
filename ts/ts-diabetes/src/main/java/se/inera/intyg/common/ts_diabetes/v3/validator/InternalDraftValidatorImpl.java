@@ -659,8 +659,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         //R19
         if (eligibleForRule19(utlatande, VANSTER_UTAN_KORREKTION) && !validateMaxSynskarpeVarde(vanster.getUtanKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
 
         // 8.5
@@ -676,8 +677,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         //R19
         if (eligibleForRule19(utlatande, VANSTER_MED_KORREKTION) && !validateMaxSynskarpeVarde(vanster.getMedKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
     }
 
@@ -701,11 +703,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                     ValidationMessageType.EMPTY);
         }
 
-        //R19
+        // R19
         if (eligibleForRule19(utlatande, HOGER_UTAN_KORREKTION) && !validateMaxSynskarpeVarde(hoger.getUtanKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
 
         // 8.4
@@ -720,8 +723,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         //R19
         if (eligibleForRule19(utlatande, HOGER_MED_KORREKTION) && !validateMaxSynskarpeVarde(hoger.getMedKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
     }
 
@@ -748,8 +752,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         //R19
         if (eligibleForRule19(utlatande, BINOKULART_UTAN_KORREKTION) && !validateMaxSynskarpeVarde(binokulart.getUtanKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
 
         // 8.6
@@ -764,8 +769,9 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
         //R19
         if (eligibleForRule19(utlatande, BINOKULART_MED_KORREKTION) && !validateMaxSynskarpeVarde(binokulart.getMedKorrektion())) {
             addValidationError(validationMessages, CATEGORY_SYNFUNKTION,
-                    (SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                    ValidationMessageType.INVALID_FORMAT);
+                    (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + "."
+                            + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                    ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format");
         }
     }
 

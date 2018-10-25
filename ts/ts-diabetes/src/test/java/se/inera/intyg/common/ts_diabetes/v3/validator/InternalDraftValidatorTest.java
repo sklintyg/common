@@ -432,21 +432,26 @@ public class InternalDraftValidatorTest {
         assertEquals(6, res.getValidationErrors().size());
 
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT),
-                new ValidationMessage("synfunktion",
-                        (RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT));
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+                new ValidationMessage(CATEGORY_SYNFUNKTION,
+                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"));
 
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }

@@ -626,6 +626,7 @@
             'common.validation.ue-prognos.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-checkgroup-ts.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-synskarpa.empty': 'Fältet får inte vara tomt.',
+            'common.validation.ue-synskarpa.invalid_format': 'Ange synskärpa i intervallet 0,0 - 2,0.',
             'common.validation.ue-syn.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-korkort-bedomning.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
