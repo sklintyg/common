@@ -92,27 +92,26 @@ public class SchematronValidatorTest {
         doTest(inputXml);
     }
 
-    /* Activate when r33-r35 are back in business
     @Test
     public void invalidMinimalTestFails() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
 
     @Test
     public void invalidAnnatFelsynskarpaTestFails() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/fail-annat-felsynskarpa.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
 
     @Test
-    public void invalidMinalR35TestFails() throws Exception {
-        String inputXml = Resources.toString(getResource("scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
+    public void invalidMinimalR35TestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/fail-minimal-r35.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
-    }*/
+    }
 
     private void doTest(String inputXml) throws ModuleException {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);

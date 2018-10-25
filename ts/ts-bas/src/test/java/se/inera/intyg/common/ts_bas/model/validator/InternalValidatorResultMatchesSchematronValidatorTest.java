@@ -104,10 +104,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
         List<Object[]> retList = new ArrayList<>();
         // Failing tests
-        // Add fail-annat-felsynskarpa and fail-minimal-r35 when new schematron is used.
-        /*retList.addAll(ScenarioFinder.getInternalScenarios("fail-minimal").stream()
+        retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
                 .map(u -> new Object[] { u.getName(), u, true })
-                .collect(Collectors.toList()));*/
+                .collect(Collectors.toList()));
         // Passing tests
         retList.addAll(
                 ScenarioFinder.getInternalScenarios("valid-*").stream()
@@ -195,7 +194,13 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
-        return internalValidationResponse.getValidationErrors().size();
+        // Rules R33-35 is validated differently between schematron and internal due to frontend limitations.
+        Long numberOfspecialErrors = internalValidationResponse.getValidationErrors().stream()
+                .filter(e -> e.getMessage().contains("ts-bas.validation.syn.r3")).count();
+        if (numberOfspecialErrors > 1) {
+            return internalValidationResponse.getValidationErrors().size() - (numberOfspecialErrors.intValue() - 1);
+        }
+        return internalValidationResponse.getValidationErrors().size() - numberOfspecialErrors.intValue();
     }
 
     private static int getNumberOfTransportValidationErrors(SchematronOutputType result) {

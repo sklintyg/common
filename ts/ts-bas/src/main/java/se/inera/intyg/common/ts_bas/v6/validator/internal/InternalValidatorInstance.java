@@ -21,30 +21,13 @@ package se.inera.intyg.common.ts_bas.v6.validator.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Kognitivt;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Neurologi;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Njurar;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Psykiskt;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
-import se.inera.intyg.common.ts_bas.v6.model.internal.SomnVakenhet;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Utvecklingsstorning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 /**
@@ -104,7 +87,7 @@ public class InternalValidatorInstance {
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdentitetStyrkt(utlatande.getVardkontakt());
-            validateSyn(utlatande.getSyn()); // 1.
+            validateSyn(utlatande); // 1.
             validateHorselBalans(utlatande.getHorselBalans()); // 2.
             validateFunktionsnedsattning(utlatande.getFunktionsnedsattning()); // 3.
             validateHjartKarl(utlatande.getHjartKarl()); // 4.
@@ -444,7 +427,12 @@ public class InternalValidatorInstance {
         }
     }
 
-    private void validateSyn(final Syn syn) {
+    private void validateSyn(final TsBasUtlatandeV6 utlatande) {
+        if (utlatande.getSyn() == null) {
+            return;
+        }
+
+        final Syn syn = utlatande.getSyn();
         if (syn == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn", ValidationMessageType.EMPTY,
                     "ts-bas.validation.syn.missing");
@@ -539,7 +527,6 @@ public class InternalValidatorInstance {
                 }
             }
         }
-        /* Uncomment this when a new version of TSTRK1007 (ts-bas) is made, sync with new release of schematron
         // CHECKSTYLE:OFF MagicNumber
         if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null
                 && utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null) {
@@ -549,28 +536,29 @@ public class InternalValidatorInstance {
                     && syn.getBinokulart().getUtanKorrektion() < 0.5) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
-                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.hoger.r33");
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
                 }
                 if (syn.getVansterOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
-                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.vanster.r33");
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
                 }
             }
             // R34
             if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
                     && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
-                    && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)) {
+                    && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
+                    && (syn.getHogerOga().getUtanKorrektion() > 0.1 && syn.getVansterOga().getUtanKorrektion() > 0.1)) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
-                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.hoger.r34");
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
                 }
                 if (syn.getVansterOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
-                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.vanster.r34");
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
                 }
                 if (syn.getBinokulart().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
-                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.bin.r34");
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
                 }
             }
             // R35

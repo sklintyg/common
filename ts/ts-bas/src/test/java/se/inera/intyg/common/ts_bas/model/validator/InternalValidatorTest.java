@@ -128,6 +128,26 @@ public class InternalValidatorTest {
         assertEquals("sjukhusvard.anledning", validationResponse.getValidationErrors().get(index++).getField());
     }
 
+    @Test
+    public void testInvalidMinimalR35TestFails() throws Exception {
+        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-minimal-r35")
+                .asInternalModel();
+        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+        int index = 0;
+        assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
+        assertEquals("syn.vansterOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
+        assertEquals("syn.binokulart.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
+    }
+
+    @Test
+    public void testInvalidMinimalTestFails() throws Exception {
+        TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("fail-annat-felsynskarpa")
+                .asInternalModel();
+        ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
+        int index = 0;
+        assertEquals("syn.hogerOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
+        assertEquals("syn.vansterOga.medKorrektion", validationResponse.getValidationErrors().get(index++).getField());
+    }
 
     /**
      * Utility method for getting a single element from a collection.

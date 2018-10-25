@@ -128,7 +128,10 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas.',
         'ts-bas.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas.',
         'ts-bas.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas.',
-        'ts-bas.validation.syn.out-of-bounds': 'Måste ligga i intervallet 0,0 till 2,0.'
+        'ts-bas.validation.syn.out-of-bounds': 'Måste ligga i intervallet 0,0 till 2,0.',
+        'ts-bas.validation.syn.r33': 'Fältet får inte vara tomt.',
+        'ts-bas.validation.syn.r34': 'Fältet får inte vara tomt.',
+        'ts-bas.validation.syn.r35': 'Fältet får inte vara tomt.'
     },
     'en': {
         'ts-bas.label.pagetitle': 'Show Certificate'
