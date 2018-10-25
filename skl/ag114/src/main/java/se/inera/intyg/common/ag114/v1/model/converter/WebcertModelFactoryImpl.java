@@ -18,12 +18,17 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -60,6 +65,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114Utlatan
 
         Ag114UtlatandeV1.Builder template = Ag114UtlatandeV1.builder();
         GrundData grundData = new GrundData();
+
+        List<Sysselsattning> sysselsattning = Arrays.asList(Sysselsattning.create(SysselsattningsTyp.NUVARANDE_ARBETE));
+        template.setSysselsattning(sysselsattning);
 
         populateWithId(template, newDraftData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);

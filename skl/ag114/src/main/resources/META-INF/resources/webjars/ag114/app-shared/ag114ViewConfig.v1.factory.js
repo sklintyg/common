@@ -28,151 +28,33 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                     labelKey: 'FRG_1.RBK',
                     components: [ {
                         type: 'uv-del-fraga',
-                        labelKey: 'KV_FKMU_0001.UNDERSOKNING.RBK',
+                        labelKey: '',
                         components: [ {
                             type: 'uv-simple-value',
-                            modelProp: 'undersokningAvPatienten'
+                            modelProp: 'sysselsattning'
                         } ]
                     }, {
                         type: 'uv-del-fraga',
-                        labelKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
+                        labelKey: 'FRG_2.RBK',
                         components: [ {
                             type: 'uv-simple-value',
-                            modelProp: 'journaluppgifter'
+                            modelProp: 'nuvarandeArbete'
                         } ]
-                    }, {
-                        type: 'uv-del-fraga',
-                        labelKey: 'KV_FKMU_0001.ANHORIG.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'anhorigsBeskrivningAvPatienten'
-                        } ]
-                    }, {
-                        type: 'uv-del-fraga',
-                        labelKey: 'KV_FKMU_0001.ANNAT.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'annatGrundForMU'
-                        } ]
-                    }, {
-                        type: 'uv-del-fraga',
-                        labelKey: 'DFR_1.3.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'annatGrundForMUBeskrivning'
-                        } ]
-                    }, {
-                        type: 'uv-del-fraga',
-                        labelKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
-                        hideExpression: '!motiveringTillInteBaseratPaUndersokning',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'motiveringTillInteBaseratPaUndersokning'
-                        } ]
-                    } ]
-                }, {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_2.RBK',
-                    components: [ {
-                        type: 'uv-del-fraga',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'kannedomOmPatient'
-                        } ]
-                    } ]
-                }, {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_3.RBK',
-                    components: [ {
-                        type: 'uv-del-fraga',
-                        components: [ {
-                            type: 'uv-boolean-value',
-                            modelProp: 'underlagFinns'
-                        } ]
-                    } ]
-                }, {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_4.RBK',
-                    components: [ {
-                        type: 'uv-table',
-                        contentUrl: 'utlatande',
-                        headers: ['FRG_4.RBK', 'Datum', 'DFR_4.3.RBK'], // labels for th cells
-                        valueProps: ['KV_FKMU_0005.{typ}.RBK', 'datum', 'hamtasFran'], // {typ} refers to underlag.typ values
-                        modelProp: 'underlag'
-                    } ]
-                } ]
-            },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_3.RBK',
-            components: [{
-                type: 'uv-fraga',
-                labelKey: 'FRG_6.RBK',
-                components: [{
-                    type: 'uv-table',
-                    headers: ['DFR_6.2.RBK', ''], // labels for th cells
-                    valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
-                    modelProp: 'diagnoser'
-                }]
-            }]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_4.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'FRG_15.RBK',
-                components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'funktionsnedsattningDebut'
-                } ]
-            }, {
-                type: 'uv-fraga',
-                labelKey: 'FRG_16.RBK',
-                components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'funktionsnedsattningPaverkan'
-                } ]
-            } ]
+                    }]
+                }
+            ]
         },
         {
             type: 'uv-kategori',
             labelKey: 'KAT_5.RBK',
             components: [{
                 type: 'uv-fraga',
-                labelKey: 'FRG_25.RBK',
+                labelKey: 'FRG_8.RBK',
                 components: [{
                     type: 'uv-simple-value',
-                    modelProp: 'ovrigt'
+                    modelProp: 'ovrigaUpplysningar'
                 }]
             }]
-        },
-        {
-            type: 'uv-kategori',
-            labelKey: 'KAT_6.RBK',
-            components: [ {
-                type: 'uv-fraga',
-                labelKey: 'FRG_26.RBK',
-                components: [ {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_26.1.RBK',
-                    components: [ {
-                        type: 'uv-boolean-statement',
-                        modelProp: 'kontaktMedFk'
-                    } ]
-                }, {
-                    type: 'uv-del-fraga',
-                    labelKey: 'DFR_26.2.RBK',
-                    components: [ {
-                        type: 'uv-simple-value',
-                        modelProp: 'anledningTillKontakt'
-                    } ]
-                } ]
-            } ]
-        }, {
-            type: 'uv-tillaggsfragor',
-            labelKey: 'KAT_9999.RBK',
-            modelProp: 'tillaggsfragor'
         },
         {
             type: 'uv-skapad-av',
