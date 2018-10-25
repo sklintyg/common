@@ -71,6 +71,7 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
 
                         params.push(event.target);
                         params.push(event.intygsTyp);
+                        params.push(event.intygsTypVersion);
                     }
 
                     var msgProperty = 'certificates.events.' + event.type.toLowerCase(); //received [sic] or sent
@@ -96,8 +97,8 @@ angular.module('common').directive('latestEvents', ['$filter', 'common.messageSe
                     }
                 };
 
-                scope.viewCert = function(type, certId) {
-                    $state.go(type.toLowerCase() + '-view', {certificateId: certId});
+                scope.viewCert = function(type, typeVersion, certId) {
+                    $state.go(type.toLowerCase() + '-view', {certificateId: certId, intygTypeVersion: typeVersion});
                 };
 
                 function openModal() {

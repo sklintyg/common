@@ -10,7 +10,7 @@
          ng-init="info = getEventInfo(event)" ng-attr-id="event-{{certId}}-{{$index}}"
          ng-class="{'event-row-tight': tightRows, 'event-row': !tightRows, 'stripe-dark': !tightRows && $even}" >
       <span ng-attr-id="event-timestamp-{{certId}}-{{$index}}" class="latest-events-timestamp">{{info.timestamp}}</span>
-      <latest-events-text class="event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}" text="info.text" view-cert="viewCert(type, id)"></latest-events-text>
+      <latest-events-text class="event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}" text="info.text" view-cert="viewCert(type, typeVersion, id)"></latest-events-text>
     </div>
   </div>
   <ng-include ng-if="showMoreButtonLocation === 'bottom'" src="'/web/webjars/common/minaintyg/components/latestEvents/latestEventsShowMoreButton.html'"></ng-include>
