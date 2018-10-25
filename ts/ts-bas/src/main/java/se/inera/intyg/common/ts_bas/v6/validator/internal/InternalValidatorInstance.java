@@ -527,6 +527,11 @@ public class InternalValidatorInstance {
                 }
             }
         }
+
+        validateSynKorrektionsRegler(utlatande, syn);
+    }
+
+    private void validateSynKorrektionsRegler(TsBasUtlatandeV6 utlatande, Syn syn) {
         // CHECKSTYLE:OFF MagicNumber
         if (syn.getBinokulart() != null && syn.getHogerOga() != null && syn.getVansterOga() != null
                 && utlatande.getIntygAvser() != null && utlatande.getIntygAvser().getKorkortstyp() != null) {
