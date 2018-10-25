@@ -20,10 +20,12 @@ $filter = function(type) {
     if (type === 'number') {
         return function(number, fractionSize) {
 
-            // if null or undefined pass it through
-            return (number == null)
-                ? number
-                : number;
+           if (number === null || number === undefined || fractionSize === undefined) {
+               return number;
+           } else {
+               return parseFloat(number).toFixed(fractionSize).replace('.',',');
+           }
+
         };
     }
 

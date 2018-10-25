@@ -140,15 +140,15 @@
     "misstankeOgonsjukdom":true,
     "ogonbottenFotoSaknas":true,
     "vanster":{
-      "utanKorrektion":0.3,
-      "medKorrektion":0.4
+      "utanKorrektion":0,
+      "medKorrektion":0.0
     },
     "hoger":{
       "utanKorrektion":0.1,
-      "medKorrektion":0.2
+      "medKorrektion":1.0
     },
     "binokulart":{
-      "utanKorrektion":0.5,
+      "utanKorrektion":2.2,
       "medKorrektion":0.6
     }
   },
