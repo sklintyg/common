@@ -23,6 +23,7 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
+import org.springframework.util.StringUtils;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 import java.util.ArrayList;
@@ -61,8 +62,10 @@ public class UVList extends UVComponent {
 
         if (results.isEmpty()) {
             String noValueText = renderer.getText((String) currentUvNode.get("noValue"));
-            if (noValueText != null) {
+            if (!StringUtils.isEmpty(noValueText)) {
                 results.add(noValueText);
+            } else {
+                results.add(EJ_ANGIVET_STR);
             }
         }
 

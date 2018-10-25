@@ -1,0 +1,182 @@
+{
+  "id": "3834b0be-473c-440b-8a2a-dcce8c65caad",
+  "grundData": {
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "postadress": "Svensson, Storgatan 1, PL 1234",
+      "postnummer": "12345",
+      "postort": "Småmåla",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    }
+  },
+  "textVersion": "3.0",
+  "intygAvser": {
+    "kategorier": [
+      {
+        "type": "AM",
+        "selected": false
+      },
+      {
+        "type": "A1",
+        "selected": false
+      },
+      {
+        "type": "A2",
+        "selected": false
+      },
+      {
+        "type": "A",
+        "selected": false
+      },
+      {
+        "type": "B",
+        "selected": false
+      },
+      {
+        "type": "BE",
+        "selected": false
+      },
+      {
+        "type": "TRAKTOR",
+        "selected": false
+      },
+      {
+        "type": "C1",
+        "selected": false
+      },
+      {
+        "type": "C1E",
+        "selected": false
+      },
+      {
+        "type": "C",
+        "selected": false
+      },
+      {
+        "type": "CE",
+        "selected": false
+      },
+      {
+        "type": "D1",
+        "selected": false
+      },
+      {
+        "type": "D1E",
+        "selected": false
+      },
+      {
+        "type": "D",
+        "selected": false
+      },
+      {
+        "type": "DE",
+        "selected": false
+      },
+      {
+        "type": "TAXI",
+        "selected": false
+      }
+    ]
+  },
+  "allmant": {},
+  "synfunktion": {},
+  "bedomning": {
+    "uppfyllerBehorighetskrav": [
+      {
+        "type": "C1",
+        "selected": false
+      },
+      {
+        "type": "C1E",
+        "selected": false
+      },
+      {
+        "type": "C",
+        "selected": false
+      },
+      {
+        "type": "CE",
+        "selected": false
+      },
+      {
+        "type": "D1",
+        "selected": false
+      },
+      {
+        "type": "D1E",
+        "selected": false
+      },
+      {
+        "type": "D",
+        "selected": false
+      },
+      {
+        "type": "DE",
+        "selected": false
+      },
+      {
+        "type": "TAXI",
+        "selected": false
+      },
+      {
+        "type": "AM",
+        "selected": false
+      },
+      {
+        "type": "A1",
+        "selected": false
+      },
+      {
+        "type": "A2",
+        "selected": false
+      },
+      {
+        "type": "A",
+        "selected": false
+      },
+      {
+        "type": "B",
+        "selected": false
+      },
+      {
+        "type": "BE",
+        "selected": false
+      },
+      {
+        "type": "TRAKTOR",
+        "selected": false
+      },
+      {
+        "type": "KANINTETASTALLNING",
+        "selected": false
+      }
+    ]
+  },
+  "typ": "ts-diabetes"
+}

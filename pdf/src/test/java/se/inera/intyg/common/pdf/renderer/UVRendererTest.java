@@ -89,6 +89,41 @@ public class UVRendererTest {
     }
 
     @Test
+    public void testEmptyTsDiabetes() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("tsdiabetes/empty.tsdiabetes.v3.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tsdiabetes/ts-up.v3.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("tsdiabetes/texterTS_TSTRK_1031_v3.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Transportstyrelsens läkarintyg")
+                .withIntygsKod("TSTRK1031")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_TS)
+                .withHasSummaryPage(true)
+                .withSummaryHeader("Om Transportstyrelsens läkarintyg diabetes")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("TSTRK1031 (U03) 181024")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-empty-generic.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testTsBas() throws IOException {
         JsonNode intygJsonNode = loadAndCleanIntygJson("tsbas/intyg.tsbas.json");
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
