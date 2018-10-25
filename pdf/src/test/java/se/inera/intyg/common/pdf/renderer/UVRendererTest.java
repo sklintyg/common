@@ -18,19 +18,6 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +26,22 @@ import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
+
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 public class UVRendererTest {
 
@@ -49,6 +52,41 @@ public class UVRendererTest {
     private static final String INFO_TEXT_FK = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
             + "redan har skickats till Försäkringskassan.";
     private static final String INFO_TEXT_AF = "Detta är en utskrift av ett elektroniskt intyg.";
+
+    @Test
+    public void testTsDiabetes() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("tsdiabetes/intyg.tsdiabetes.v3.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tsdiabetes/ts-up.v3.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("tsdiabetes/texterTS_TSTRK_1031_v3.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Transportstyrelsens läkarintyg")
+                .withIntygsKod("TSTRK1031")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_TS)
+                .withHasSummaryPage(true)
+                .withSummaryHeader("Om Transportstyrelsens läkarintyg diabetes")
+                .withSummaryText("Lorem ipsum")
+                .withLeftMarginTypText("TSTRK1031 (U03) 181024")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-generic.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testTsBas() throws IOException {
@@ -84,7 +122,6 @@ public class UVRendererTest {
             e.printStackTrace();
         }
     }
-
 
     @Test
     public void testEmptyTsBasUtkast() throws IOException {
