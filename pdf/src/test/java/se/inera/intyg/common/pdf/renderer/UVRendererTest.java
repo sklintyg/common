@@ -18,6 +18,20 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
+import org.springframework.core.io.ClassPathResource;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import se.inera.intyg.common.pdf.model.Summary;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,22 +40,6 @@ import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.springframework.core.io.ClassPathResource;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.collect.ImmutableMap;
-
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 public class UVRendererTest {
 
@@ -72,9 +70,7 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1031")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_TS)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Om Transportstyrelsens läkarintyg diabetes")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum"))
                 .withLeftMarginTypText("TSTRK1031 (U03) 181024")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -107,9 +103,7 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1031")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_TS)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Om Transportstyrelsens läkarintyg diabetes")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum"))
                 .withLeftMarginTypText("TSTRK1031 (U03) 181024")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -142,9 +136,7 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1007")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_TS)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Om Transportstyrelsens läkarintyg")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
                 .withLeftMarginTypText("TSTRK1007 (U08) 160114")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -177,9 +169,7 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1007")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_TS)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Om Transportstyrelsens läkarintyg")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
                 .withLeftMarginTypText("TSTRK1007 (U08) 160114")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -212,9 +202,7 @@ public class UVRendererTest {
                 .withIntygsKod("FK7800")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_FK)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Om försäkringskassans läkarintyg")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Om försäkringskassans läkarintyg", "Lorem ipsum"))
                 .withLeftMarginTypText("FK7800 180214")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -247,9 +235,7 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -282,9 +268,6 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withHasSummaryPage(false)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -317,9 +300,7 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -352,9 +333,7 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande","Lorem ipsum"))
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -387,9 +366,7 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withHasSummaryPage(true)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
+                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
@@ -422,8 +399,6 @@ public class UVRendererTest {
                 .withIntygsKod("AF00213")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withSummaryHeader("Arbetsförmedlingens medicinska utlåtande")
-                .withSummaryText("Lorem ipsum")
                 .withLeftMarginTypText("AF00213")
                 .withUtfardarLogotyp(logoData)
                 .withIsMakulerad(true)

@@ -81,8 +81,6 @@ public class PdfGenerator {
                     .withIntygsKod(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                    .withSummaryHeader(PDF_SUMMARY_HEADER)
-                    .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
                     .withLeftMarginTypText(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)

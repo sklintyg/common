@@ -33,7 +33,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-
+import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -46,12 +46,18 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+
 @Component("ts-bas.v6.PdfGenerator")
 public class PdfGenerator {
 
-    private static final String PDF_SUMMARY_HEADER = "Transportstyrelsens läkarintyg högre körkortsbehörighet";
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "transportstyrelsens_logotyp_rgb.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-bas-uv-viewmodel.v6.js";
+    private static final String PDF_SUMMARY_HEADER = "Transportstyrelsens läkarintyg högre körkortsbehörighet";
+    private static final String PDF_SUMMARY_SECOND_PART_HEADER = "Skicka intyg till mottagare";
+    private static final String PDF_SUMMARY_SECOND_PART_TEXT = "Du som fått ett intyg utfärdat kan snabbt och säkert "
+            + "hantera detta intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren.\n"
+            + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. "
+            + "Det enda du behöver för att logga in är e-legitimation.";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
@@ -83,8 +89,9 @@ public class PdfGenerator {
                     .withIntygsKod(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                    .withSummaryHeader(PDF_SUMMARY_HEADER)
-                    .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
+                    .withSummary(new Summary()
+                            .add(PDF_SUMMARY_HEADER, getCleanModuleDescription())
+                            .add(PDF_SUMMARY_SECOND_PART_HEADER, PDF_SUMMARY_SECOND_PART_TEXT))
                     .withLeftMarginTypText(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
@@ -100,6 +107,15 @@ public class PdfGenerator {
             throw new ModuleException("Error generating PDF for ts-bas: " + e.getMessage());
         }
     }
+
+
+    private String getCleanModuleDescription() {
+        return  new TsBasEntryPoint().getDetailedModuleDescription()
+                .replace("<p>", "")
+                .replace("</p>", "\n")
+                .replace("<LINK:transportstyrelsen>", "www.transportstyrelsen.se");
+    }
+
 
     private String buildInfoText(boolean isUtkast, List<Status> statuses) {
         StringBuilder buf = new StringBuilder();

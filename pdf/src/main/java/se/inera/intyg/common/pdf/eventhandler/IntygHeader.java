@@ -122,7 +122,7 @@ public class IntygHeader implements IEventHandler {
     }
 
     private boolean isNotSummaryPage(PdfDocument pdf, PdfPage page) {
-        if (printConfig.isHasSummaryPage()) {
+        if (printConfig.hasSummaryPage()) {
             return pdf.getPageNumber(page) != pdf.getNumberOfPages();
         }
         return true;

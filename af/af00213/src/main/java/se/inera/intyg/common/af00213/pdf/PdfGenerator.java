@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
+import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -80,9 +81,7 @@ public class PdfGenerator {
                     .withIntygsKod(Af00213EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                    .withHasSummaryPage(true)
-                    .withSummaryHeader(PDF_SUMMARY_HEADER)
-                    .withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
+                    .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
                     .withLeftMarginTypText(Af00213EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)

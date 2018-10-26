@@ -77,7 +77,7 @@ public class MarginTexts implements IEventHandler {
     }
 
     private boolean renderIntygsId(PdfDocument pdf, PdfPage page) {
-        if (printConfig.isHasSummaryPage()) {
+        if (printConfig.hasSummaryPage()) {
             return pdf.getPageNumber(page) != pdf.getNumberOfPages();
         }
         return true;

@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 /**
@@ -39,9 +40,7 @@ public class PrintConfig {
     private String intygsId;
     private String leftMarginTypText;
 
-    private boolean hasSummaryPage = false;
-    private String summaryHeader;
-    private String summaryText;
+    private Summary summary;
 
     private boolean isUtkast;
     private boolean isLockedUtkast;
@@ -85,16 +84,12 @@ public class PrintConfig {
         return leftMarginTypText;
     }
 
-    public boolean isHasSummaryPage() {
-        return hasSummaryPage;
+    public boolean hasSummaryPage() {
+        return summary != null && !summary.isEmpty();
     }
 
-    public String getSummaryHeader() {
-        return summaryHeader;
-    }
-
-    public String getSummaryText() {
-        return summaryText;
+    public Summary getSummary() {
+        return summary;
     }
 
     public boolean isUtkast() {
@@ -124,9 +119,7 @@ public class PrintConfig {
         private String infoText;
         private String intygsId;
         private String leftMarginTypText;
-        private boolean hasSummaryPage = false;
-        private String summaryHeader;
-        private String summaryText;
+        private Summary summary;
         private boolean isUtkast;
         private boolean isLockedUtkast;
         private boolean isMakulerad;
@@ -184,18 +177,8 @@ public class PrintConfig {
             return this;
         }
 
-        public PrintConfigBuilder withHasSummaryPage(boolean hasSummaryPage) {
-            this.hasSummaryPage = hasSummaryPage;
-            return this;
-        }
-
-        public PrintConfigBuilder withSummaryHeader(String summaryHeader) {
-            this.summaryHeader = summaryHeader;
-            return this;
-        }
-
-        public PrintConfigBuilder withSummaryText(String summaryText) {
-            this.summaryText = summaryText;
+        public PrintConfigBuilder withSummary(Summary summary) {
+            this.summary = summary;
             return this;
         }
 
@@ -230,12 +213,10 @@ public class PrintConfig {
             printConfig.upJsModel = this.upJsModel;
             printConfig.infoText = this.infoText;
             printConfig.intygsKod = this.intygsKod;
-            printConfig.summaryText = this.summaryText;
-            printConfig.summaryHeader = this.summaryHeader;
+            printConfig.summary = this.summary;
             printConfig.applicationOrigin = this.applicationOrigin;
             printConfig.intygsNamn = this.intygsNamn;
             printConfig.intygsId = this.intygsId;
-            printConfig.hasSummaryPage = this.hasSummaryPage;
             printConfig.isLockedUtkast = this.isLockedUtkast;
             return printConfig;
         }

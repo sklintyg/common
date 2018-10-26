@@ -44,16 +44,7 @@ import se.inera.intyg.common.pdf.eventhandler.IntygHeader;
 import se.inera.intyg.common.pdf.eventhandler.MarginTexts;
 import se.inera.intyg.common.pdf.eventhandler.PageNumberEvent;
 import se.inera.intyg.common.pdf.eventhandler.WaterMarkerer;
-import se.inera.intyg.common.pdf.model.UVAlertValue;
-import se.inera.intyg.common.pdf.model.UVBooleanValue;
-import se.inera.intyg.common.pdf.model.UVDelfraga;
-import se.inera.intyg.common.pdf.model.UVFraga;
-import se.inera.intyg.common.pdf.model.UVKategori;
-import se.inera.intyg.common.pdf.model.UVKodverkValue;
-import se.inera.intyg.common.pdf.model.UVList;
-import se.inera.intyg.common.pdf.model.UVSimpleValue;
-import se.inera.intyg.common.pdf.model.UVSkapadAv;
-import se.inera.intyg.common.pdf.model.UVTable;
+import se.inera.intyg.common.pdf.model.*;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
 import javax.script.ScriptEngine;
@@ -173,7 +164,7 @@ public class UVRenderer {
             document.add(rootDiv);
 
             // Final page.
-            if (printConfig.isHasSummaryPage()) {
+            if (printConfig.hasSummaryPage()) {
                 renderSummaryPage(printConfig, document);
             }
 
@@ -187,18 +178,28 @@ public class UVRenderer {
     }
 
     private void renderSummaryPage(PrintConfig printConfig, Document document) {
+
+        if (printConfig.getSummary() == null || printConfig.getSummary().isEmpty()) {
+            return;
+        }
+
         document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
         document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
         Div summaryDiv = new Div();
-        summaryDiv.add(new Paragraph(printConfig.getSummaryHeader())
-                .setMarginBottom(0f)
-                .setFont(fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-        summaryDiv.add(new Paragraph(printConfig.getSummaryText())
-                .setMarginTop(0f)
-                // .setMarginLeft(millimetersToPoints(PAGE_MARGIN_LEFT))
-                .setFont(svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+
+        printConfig.getSummary().getSummaryPartList().forEach(summaryPart -> {
+
+            summaryDiv.add(new Paragraph(summaryPart.getHeading())
+                    .setMarginBottom(0f)
+                    .setFont(fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+
+            summaryDiv.add(new Paragraph(summaryPart.getBodyText() + "\n")
+                    .setMarginTop(0f)
+                    .setFont(svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+        });
+
         document.add(summaryDiv);
     }
 
