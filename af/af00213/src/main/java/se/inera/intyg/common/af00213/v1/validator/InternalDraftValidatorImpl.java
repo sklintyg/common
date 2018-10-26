@@ -99,7 +99,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
 
         if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && utlatande.getHarAktivitetsbegransning() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21,
-                    ValidationMessageType.INCORRECT_COMBINATION);
+                    ValidationMessageType.EMPTY);
         }
     }
 

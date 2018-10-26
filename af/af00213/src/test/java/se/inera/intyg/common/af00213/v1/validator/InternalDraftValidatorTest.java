@@ -154,7 +154,7 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getCategory());
         assertEquals("harAktivitetsbegransning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
     @Test
