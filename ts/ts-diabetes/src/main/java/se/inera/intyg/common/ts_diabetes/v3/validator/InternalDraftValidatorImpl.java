@@ -229,7 +229,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 && utlatande.getSynfunktion().getHoger().getUtanKorrektion() != null
                 && utlatande.getSynfunktion().getHoger().getUtanKorrektion() < RULE_14_CUTOFF;
 
-        return conditionKorkortstyp && (conditionVansterOgaDaligSyn || conditionHogerOgaDaligSyn);
+        return conditionKorkortstyp && (conditionVansterOgaDaligSyn && conditionHogerOgaDaligSyn);
     }
 
     // R15: som R14, fast fler obligatoriska frågor
