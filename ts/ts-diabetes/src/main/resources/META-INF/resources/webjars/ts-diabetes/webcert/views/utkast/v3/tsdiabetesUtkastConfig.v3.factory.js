@@ -173,7 +173,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             }
                         ]),
                         fraga(109, 'FRG_109.RBK', 'FRG_109.HLP', {
-                            validationContext: {key: 'allmant.behandling', type: 'checkgroup'},
+                            validationContext: {key: 'allmant.behandling', type: 'ue-checkgroup'},
                             required: true,
                             requiredProp: [
                                 'allmant.behandling.endastKost',

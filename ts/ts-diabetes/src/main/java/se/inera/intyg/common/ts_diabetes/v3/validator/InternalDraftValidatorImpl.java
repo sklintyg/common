@@ -453,7 +453,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         if (utlatande.getAllmant().getBehandling() == null) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
             return;
         }
         Behandling behandling = utlatande.getAllmant().getBehandling();
@@ -465,7 +465,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
                 && isNotTrue(behandling.getInsulin())
                 && isNotTrue(behandling.getAnnanBehandling())) {
             addValidationError(validationMessages, CATEGORY_ALLMANT, ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, "common.validation.ue-checkgroup.empty");
         }
 
         // R5: Om insulinbehandling besvaras så ska även årtal anges.

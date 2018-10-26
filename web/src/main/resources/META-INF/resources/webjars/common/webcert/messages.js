@@ -610,7 +610,7 @@
             'common.validation.ue-year-picker.invalid_format': 'Du måste ange ett år på formatet åååå.',
             'common.validation.ue-checkbox-date.invalid_format': 'Datum behöver skrivas på formatet åååå-mm-dd.',
             'common.validation.ue-checkgroup.empty': 'Du måste välja minst ett alternativ.',
-            'common.validation.checkgroup.incorrect_combination': 'Du måste välja ett alternativ',
+            'common.validation.ue-checkgroup.incorrect_combination': 'Du måste välja ett alternativ',
             'common.validation.ue-radio.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-radio.incorrect_combination': 'Du måste välja ett alternativ.',
             'common.validation.ue-radiogroup.empty': 'Du måste välja ett alternativ.',
