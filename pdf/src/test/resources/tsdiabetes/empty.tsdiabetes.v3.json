@@ -105,7 +105,13 @@
     ]
   },
   "allmant": {},
-  "synfunktion": {},
+  "synfunktion": {
+    "binokulart": {},
+    "hoger": {},
+    "misstankeOgonsjukdom": true,
+    "ogonbottenFotoSaknas": true,
+    "vanster": {}
+  },
   "bedomning": {
     "uppfyllerBehorighetskrav": [
       {

@@ -174,7 +174,7 @@ public class UVList extends UVComponent {
                 if (evaluatedValue instanceof Boolean) {
                     boolean evalBool = (boolean) evaluatedValue;
                     if (evalBool) {
-                        Object result = listKey.call(null, evaluatedValue, index++);
+                        Object result = listKey.call(null, evaluatedValue, index);
 
                         if (result != null) {
                             Integer i;
@@ -194,6 +194,7 @@ public class UVList extends UVComponent {
                 } else if (evaluatedValue != null) {
                     throw new IllegalStateException("UNHANDLED evaluated value type in uv-list: " + evaluatedValue.getClass().getName());
                 }
+                index++;
             } else {
                 throw new IllegalStateException("UNHANDLED listKey type in uv-list: " + listKey.getClassName());
             }

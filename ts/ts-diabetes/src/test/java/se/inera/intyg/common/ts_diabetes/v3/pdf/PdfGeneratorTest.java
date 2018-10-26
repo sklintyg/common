@@ -39,6 +39,7 @@ import java.util.regex.Pattern;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.ts_diabetes.v3.pdf.PdfGenerator.CERTIFICATE_FILE_PREFIX;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PdfGeneratorTest {
@@ -56,7 +57,7 @@ public class PdfGeneratorTest {
         PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^ts_diabetes_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        Pattern p = Pattern.compile("^" +  CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
     }
 

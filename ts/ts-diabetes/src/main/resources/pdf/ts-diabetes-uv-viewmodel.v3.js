@@ -75,7 +75,15 @@ var viewConfig = [
                         kvModelProps: ['allmant.typAvDiabetes'],
                         kvLabelKeys: ['SVAR_{var}.RBK']
                     }]
-                }]
+                },{
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_18.2.RBK',
+                    components: [
+                        {
+                            type: 'uv-simple-value',
+                            modelProp: 'allmant.beskrivningAnnanTypAvDiabetes'
+                        }
+                    ]}]
             },
             {
                 type: 'uv-fraga',
@@ -87,16 +95,22 @@ var viewConfig = [
                             type: 'uv-list',
                             labelKey: 'DFR_109.{var}.RBK',
                             listKey: function(model, index) {
-                                switch(index) {
-                                case 2:
-                                    index = 4;
-                                    break;
-                                case 3:
-                                    index = 6;
-                                    break;
-                                default:
-                                    index = index + 1;
-                                }
+                                    switch (index) {
+                                    case 0: //endastKost
+                                        index = 1; //DRF_109.1.RBK
+                                        break;
+                                    case 1: //tabletter
+                                        index = 2; //DRF_109.2.RBK
+                                        break;
+                                    case 2: //insulin
+                                        index = 4; //DRF_109.4.RBK
+                                        break;
+                                    case 3: //annanBehandling
+                                        index = 6; //DRF_109.6.RBK
+                                        break;
+                                    default:
+                                        index = 0;
+                                    }
                                 return model ? index : null; // return index for {var} if true, otherwise null -> list item will not be shown
                             },
                             separator: ', ',

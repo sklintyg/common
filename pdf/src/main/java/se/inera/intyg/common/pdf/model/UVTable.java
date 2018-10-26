@@ -121,6 +121,8 @@ public class UVTable extends UVComponent {
                         } else {
                             columnValues.add(result.toString());
                         }
+                    } else if (result instanceof Undefined) {
+                        columnValues.add(EJ_ANGIVET_STR);
                     } else {
                         columnValues.add("");
                     }
