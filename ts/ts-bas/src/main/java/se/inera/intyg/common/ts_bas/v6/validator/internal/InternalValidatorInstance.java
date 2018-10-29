@@ -547,12 +547,15 @@ public class InternalValidatorInstance {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.vansterOga.medKorrektion",
                             ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
                 }
-            }
-            // R34
-            if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                if (syn.getBinokulart().getMedKorrektion() == null) {
+                    ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
+                            ValidationMessageType.EMPTY, "ts-bas.validation.syn.r33");
+                }
+                // R34
+            } else if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
                     && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
                     && (syn.getHogerOga().getUtanKorrektion() < 0.8 && syn.getVansterOga().getUtanKorrektion() < 0.8)
-                    && (syn.getHogerOga().getUtanKorrektion() > 0.1 && syn.getVansterOga().getUtanKorrektion() > 0.1)) {
+                    && (syn.getHogerOga().getUtanKorrektion() >= 0.1 && syn.getVansterOga().getUtanKorrektion() >= 0.1)) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.hogerOga.medKorrektion",
                             ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
@@ -565,9 +568,8 @@ public class InternalValidatorInstance {
                     ValidatorUtil.addValidationError(validationMessages, CATEGORY_SYN, "syn.binokulart.medKorrektion",
                             ValidationMessageType.EMPTY, "ts-bas.validation.syn.r34");
                 }
-            }
-            // R35
-            if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
+                // R35
+            } else if (CollectionUtils.containsAny(IntygAvserKategori.getNormalCategories(), utlatande.getIntygAvser().getKorkortstyp())
                     && (syn.getHogerOga().getUtanKorrektion() != null && syn.getVansterOga().getUtanKorrektion() != null)
                     && (syn.getHogerOga().getUtanKorrektion() < 0.1 || syn.getVansterOga().getUtanKorrektion() < 0.1)) {
                 if (syn.getHogerOga().getMedKorrektion() == null) {

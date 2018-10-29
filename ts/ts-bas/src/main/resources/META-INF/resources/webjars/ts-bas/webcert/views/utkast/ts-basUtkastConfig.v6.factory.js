@@ -97,16 +97,20 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                     return false;
                 } 
 
+                function isSetAndLessThan(value, max) {
+                    return !(value === undefined || value === null) && value < max;
+                }
+
                 function korrektionRequired(model) {
                     var antalIntyg = getNumberOfSelectedKortkortstyper(model);
 
                     if((antalIntyg > 0 && !(antalIntyg === 1 && isAnnatSelected(model)) &&
-                        ((model.syn.hogerOga.utanKorrektion < '0.8' &&
-                        model.syn.vansterOga.utanKorrektion < '0.8') || 
-                        (model.syn.hogerOga.utanKorrektion < '0.1' ||
-                        model.syn.vansterOga.utanKorrektion < '0.1'))) ||
+                        ((isSetAndLessThan(model.syn.hogerOga.utanKorrektion, '0.8') &&
+                        isSetAndLessThan(model.syn.vansterOga.utanKorrektion,'0.8')) || 
+                        (isSetAndLessThan(model.syn.hogerOga.utanKorrektion,'0.1') ||
+                        isSetAndLessThan(model.syn.vansterOga.utanKorrektion, '0.1')))) ||
                         (antalIntyg > 0 && isAnnatSelected(model) &&
-                        model.syn.binokulart.utanKorrektion < '0.5')) {
+                        isSetAndLessThan(model.syn.binokulart.utanKorrektion, '0.5'))) {
                         if (!model.syn.hogerOga.medKorrektion ||
                             !model.syn.vansterOga.medKorrektion ||
                             !model.syn.binokulart.medKorrektion ) {
