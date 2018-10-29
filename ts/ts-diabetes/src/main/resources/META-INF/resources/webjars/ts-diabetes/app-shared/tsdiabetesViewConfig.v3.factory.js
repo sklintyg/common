@@ -456,7 +456,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config);
+                config = uvUtil.convertToWebcert(config, true);
             }
 
             return config;
