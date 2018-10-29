@@ -102,8 +102,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaDiagnos'
                         }]),
-                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'
-                            , hideExpression: '!model.onskarFormedlaDiagnos'}, [{
+                        fraga(4, 'FRG_4.RBK', 'FRG_4.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod',
+                            hideExpression: '!model.onskarFormedlaDiagnos'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
                             diagnosBeskrivningLabel: 'DFR_4.1.RBK',

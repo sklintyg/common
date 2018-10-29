@@ -16,33 +16,107 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', function (uvUtil) {
+angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', function(uvUtil) {
     'use strict';
 
     var viewConfig = [
         {
-                type: 'uv-kategori',
-                labelKey: 'KAT_1.RBK',
-                components: [ {
-                    type: 'uv-fraga',
-                    labelKey: 'FRG_1.RBK',
-                    components: [ {
-                        type: 'uv-del-fraga',
-                        labelKey: '',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'sysselsattning'
-                        } ]
-                    }, {
-                        type: 'uv-del-fraga',
-                        labelKey: 'FRG_2.RBK',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'nuvarandeArbete'
-                        } ]
+            type: 'uv-kategori',
+            labelKey: 'KAT_1.RBK',
+            components: [{
+                type: 'uv-fraga',
+                labelKey: 'FRG_1.RBK',
+                components: [{
+                    type: 'uv-del-fraga',
+                    labelKey: '',
+                    components: [{
+                        type: 'uv-list',
+                        labelKey: 'KV_FKMU_0002.{var}.RBK', // {var} is a placeholder for sysselsattning.typ values
+                        listKey: 'typ', // name of property on modelProp to use on each row
+                        modelProp: 'sysselsattning'
                     }]
-                }
-            ]
+                }, {
+                    type: 'uv-del-fraga',
+                    labelKey: 'FRG_2.RBK',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'nuvarandeArbete'
+                    }]
+                }]
+            }]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'KAT_2.RBK',
+            components: [{
+                type: 'uv-fraga',
+                labelKey: 'FRG_3.RBK',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'onskarFormedlaDiagnos'
+                }]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_4.RBK',
+                components: [{
+                    type: 'uv-table',
+                    headers: ['DFR_4.1.RBK', ''], // labels for th cells
+                    valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
+                    modelProp: 'diagnoser'
+                }]
+            }]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'KAT_3.RBK',
+            components: [{
+                type: 'uv-fraga',
+                labelKey: 'FRG_5.RBK',
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'nedsattArbetsformaga'
+                }]
+            },
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_6.RBK',
+                components: [{
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-boolean-value',
+                        modelProp: 'arbetsformagaTrotsSjukdom'
+                    }]
+                }, {
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-simple-value',
+                        labelKey: 'DFR_6.2.RBK',
+                        modelProp: 'arbetsformagaTrotsSjukdomBeskrivning'
+                    }]
+                }]
+            }]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'KAT_4.RBK',
+            components: [{
+                type: 'uv-fraga',
+                labelKey: 'FRG_7.RBK',
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'sjukskrivningsgrad',
+                    unit: '%'
+                }, {
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-table',
+                        headers: ['DFR_7.2.RBK', ''], // labels for th cells
+                        valueProps: ['from', 'tom'], // properties on entries to use in each rows cells
+                        modelProp: 'sjukskrivningsperiod'
+                    }]
+                }]
+            }]
         },
         {
             type: 'uv-kategori',
@@ -53,6 +127,25 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'ovrigaUpplysningar'
+                }]
+            }]
+        },
+        {
+            type: 'uv-kategori',
+            labelKey: 'KAT_6.RBK',
+            components: [{
+                type: 'uv-fraga',
+                labelKey: 'DFR_9.1.RBK',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'kontaktMedArbetsgivaren'
+                }, {
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-simple-value',
+                        labelKey: 'DFR_9.2.RBK',
+                        modelProp: 'anledningTillKontakt'
+                    }]
                 }]
             }]
         },
