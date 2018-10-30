@@ -114,7 +114,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                 scope.model[scope.config.kategoriProp] = [];
                 itereraKategorier(function (v) {
                     if (v.vald) {
-                        scope.model[scope.config.kategoriProp].push(v.kod);
+                        scope.model[scope.config.kategoriProp].push(v.benamning);
                     }
                 });
                 scope.closePlate();
