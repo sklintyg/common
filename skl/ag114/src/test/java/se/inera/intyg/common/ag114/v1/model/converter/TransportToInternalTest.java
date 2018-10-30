@@ -20,11 +20,14 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.junit.Test;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.LocalDateInterval;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 import static org.junit.Assert.assertEquals;
 
+import java.time.LocalDate;
 import java.util.Collections;
 
 public class TransportToInternalTest {
@@ -34,7 +37,9 @@ public class TransportToInternalTest {
         utlatande.setId("1234567");
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
-        utlatande.setSysselsattning(Collections.EMPTY_LIST);
+        utlatande.setSysselsattning(Collections.emptyList());
+        utlatande.setSjukskrivningsgrad("45");
+        utlatande.setSjukskrivningsperiod(new InternalLocalDateInterval("2018-11-11", "2018-11-18"));
         return utlatande.build();
     }
 

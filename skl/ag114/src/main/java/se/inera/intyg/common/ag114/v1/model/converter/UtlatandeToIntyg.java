@@ -22,6 +22,7 @@ import com.google.common.base.Strings;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -35,6 +36,7 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.ANLED
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.BEDOMNING_SVAR_ID_7;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
@@ -45,11 +47,14 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKA
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_DELSVAR_ID_8;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.OVRIGT_SVAR_ID_8;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
@@ -77,8 +82,6 @@ public final class UtlatandeToIntyg {
 
     private static List<Svar> getSvar(Ag114UtlatandeV1 source) {
         List<Svar> svars = new ArrayList<>();
-
-        List<Sysselsattning> sysselsattningList = new ArrayList<>();
 
         // Kategori 1
         int sysselsattningInstans = 1;
@@ -114,6 +117,16 @@ public final class UtlatandeToIntyg {
                         .build());
             }
         }
+
+        InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
+        if (sjukskrivningsperiod != null) {
+            svars.add(aSvar(BEDOMNING_SVAR_ID_7)
+                    .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, source.getSjukskrivningsgrad())
+                    .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
+                            aDatePeriod(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()))
+                    .build());
+        }
+
         addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
 
         // Kategori 6 Kontakt
@@ -128,83 +141,6 @@ public final class UtlatandeToIntyg {
                         .build());
             }
         }
-
-
-        // if (source.getUndersokningAvPatienten() != null) {
-        // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-        // aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
-        // RespConstants.ReferensTyp.UNDERSOKNING.label))
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-        // InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
-        // .build());
-        // }
-        // if (source.getJournaluppgifter() != null) {
-        // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-        // aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
-        // RespConstants.ReferensTyp.JOURNAL.label))
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-        // InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
-        // .build());
-        // }
-        // if (source.getAnhorigsBeskrivningAvPatienten() != null) {
-        // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-        // aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
-        // RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-        // InternalConverterUtil.getInternalDateContent(source.getAnhorigsBeskrivningAvPatienten()))
-        // .build());
-        // }
-        // if (source.getAnnatGrundForMU() != null) {
-        // svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-        // aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
-        // RespConstants.ReferensTyp.ANNAT.label))
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-        // InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
-        // .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1,
-        // source.getAnnatGrundForMUBeskrivning()).build());
-        // }
-        //
-        // if (source.getKannedomOmPatient() != null) {
-        // svars.add(aSvar(KANNEDOM_SVAR_ID_2)
-        // .withDelsvar(KANNEDOM_DELSVAR_ID_2, InternalConverterUtil.getInternalDateContent(source.getKannedomOmPatient()))
-        // .build());
-        // }
-        //
-        // if (source.getUnderlagFinns() != null) {
-        // svars.add(aSvar(UNDERLAGFINNS_SVAR_ID_3).withDelsvar(UNDERLAGFINNS_DELSVAR_ID_3,
-        // source.getUnderlagFinns().toString()).build());
-        // }
-        //
-        // int underlagInstans = 1;
-        // for (Underlag underlag : source.getUnderlag()) {
-        // svars.add(
-        // aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
-        // .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
-        // : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
-        // .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
-        // .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
-        // }
-        //
-        // handleDiagnosSvar(svars, source.getDiagnoser());
-        //
-        // addIfNotBlank(svars, FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15,
-        // source.getFunktionsnedsattningDebut());
-        // addIfNotBlank(svars, FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16,
-        // source.getFunktionsnedsattningPaverkan());
-        //
-        // /* End complex object */
-        //
-        // addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
-        //
-
-        //
-        // for (Tillaggsfraga tillaggsfraga : source.getTillaggsfragor()) {
-        // addIfNotBlank(svars, tillaggsfraga.getId(), tillaggsfraga.getId() + ".1", tillaggsfraga.getSvar());
-        // }
 
         return svars;
     }

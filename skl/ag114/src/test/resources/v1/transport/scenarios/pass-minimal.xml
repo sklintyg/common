@@ -99,6 +99,15 @@
     <delsvar id="6.1">true</delsvar>
     <delsvar id="6.2">Beskrivning av förmåga</delsvar>
   </svar>
+  <svar id="7">
+    <delsvar id="7.1">70</delsvar>
+    <delsvar id="7.2">
+      <ns3:datePeriod>
+        <ns3:start>2018-11-10</ns3:start>
+        <ns3:end>2018-11-20</ns3:end>
+      </ns3:datePeriod>
+    </delsvar>
+  </svar>
   <svar id="8">
     <delsvar id="8.1">text</delsvar>
   </svar>

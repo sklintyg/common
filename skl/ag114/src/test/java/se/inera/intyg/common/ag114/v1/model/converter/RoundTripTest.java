@@ -36,6 +36,7 @@ import se.inera.intyg.common.ag114.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -71,7 +72,7 @@ public class RoundTripTest {
      * Test that no information is lost when mapping json -> xml -> json.
      * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
      */
-  //  @Test
+    @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());

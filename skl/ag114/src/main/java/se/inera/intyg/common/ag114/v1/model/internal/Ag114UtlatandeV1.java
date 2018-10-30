@@ -48,8 +48,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
-import se.inera.intyg.common.agparent.model.converter.RespConstants;
-import se.inera.intyg.common.support.model.LocalDateInterval;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
@@ -117,10 +116,10 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     // Fråga 7 Bedömning
 
     @Nullable
-    public abstract Integer getSjukskrivningsgrad();
+    public abstract String getSjukskrivningsgrad();
 
     @Nullable
-    public abstract LocalDateInterval getSjukskrivningsperiod();
+    public abstract InternalLocalDateInterval getSjukskrivningsperiod();
 
     // Fråga 9
     @Nullable
@@ -185,13 +184,14 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
         @JsonProperty(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2)
         public abstract Builder setArbetsformagaTrotsSjukdomBeskrivning(String arbetsformagaTrotsSjukdomBeskrivning);
 
-        @JsonProperty(OVRIGT_SVAR_JSON_ID_8)
-        public abstract Builder setOvrigaUpplysningar(String ovrigaUpplysningar);
         @JsonProperty(SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1)
-        public abstract Builder setSjukskrivningsgrad(Integer sjukskrivningsgrad);
+        public abstract Builder setSjukskrivningsgrad(String sjukskrivningsgrad);
 
         @JsonProperty(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2)
-        public abstract Builder setSjukskrivningsperiod(LocalDateInterval sjukskrivningsperiod);
+        public abstract Builder setSjukskrivningsperiod(InternalLocalDateInterval sjukskrivningsperiod);
+
+        @JsonProperty(OVRIGT_SVAR_JSON_ID_8)
+        public abstract Builder setOvrigaUpplysningar(String ovrigaUpplysningar);
 
         @JsonProperty(KONTAKT_ONSKAS_SVAR_JSON_ID_9)
         public abstract Builder setKontaktMedArbetsgivaren(Boolean kontaktMedFk);
