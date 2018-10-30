@@ -27,6 +27,12 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  * Contains all intyg- and intygstyp specific data needed for complete rendering.
  */
 public class PrintConfig {
+    public static final String UTSK001_HEADER = "Skicka intyg till mottagare";
+    public static final String UTSK001_BODY = "Du som fått ett intyg utfärdat kan snabbt och säkert hantera detta "
+            + "intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren."
+            + "\n\n"
+            + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se."
+            + "Det enda du behöver för att logga in är e-legitimation.";
 
     private String intygJsonModel;
     private String upJsModel;
@@ -107,7 +113,6 @@ public class PrintConfig {
     public ApplicationOrigin getApplicationOrigin() {
         return applicationOrigin;
     }
-
 
     public static final class PrintConfigBuilder {
         private String intygJsonModel;

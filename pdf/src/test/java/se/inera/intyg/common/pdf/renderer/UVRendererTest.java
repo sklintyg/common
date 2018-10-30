@@ -41,6 +41,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 public class UVRendererTest {
 
     private static final String PNR = "19121212-1212";
@@ -70,7 +73,7 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1031")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_TS)
-                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum"))
+                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText("TSTRK1031 (U03) 181024")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)

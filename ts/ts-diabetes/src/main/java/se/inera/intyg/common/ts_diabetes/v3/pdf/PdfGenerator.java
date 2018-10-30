@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
+import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -44,6 +45,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 public class PdfGenerator {
 
@@ -81,6 +85,9 @@ public class PdfGenerator {
                     .withIntygsKod(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
+                    .withSummary(new Summary()
+                            .add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK"))
+                            .add(UTSK001_HEADER, UTSK001_BODY))
                     .withLeftMarginTypText(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)

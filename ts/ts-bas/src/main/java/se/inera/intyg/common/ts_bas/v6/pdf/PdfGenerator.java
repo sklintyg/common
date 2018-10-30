@@ -47,6 +47,9 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 
 @Component("ts-bas.v6.PdfGenerator")
 public class PdfGenerator {
@@ -54,11 +57,7 @@ public class PdfGenerator {
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "transportstyrelsens_logotyp_rgb.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-bas-uv-viewmodel.v6.js";
     private static final String PDF_SUMMARY_HEADER = "Transportstyrelsens läkarintyg högre körkortsbehörighet";
-    private static final String PDF_SUMMARY_SECOND_PART_HEADER = "Skicka intyg till mottagare";
-    private static final String PDF_SUMMARY_SECOND_PART_TEXT = "Du som fått ett intyg utfärdat kan snabbt och säkert "
-            + "hantera detta intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren.\n"
-            + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. "
-            + "Det enda du behöver för att logga in är e-legitimation.";
+
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
@@ -92,7 +91,7 @@ public class PdfGenerator {
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummary(new Summary()
                             .add(PDF_SUMMARY_HEADER, getCleanModuleDescription(intygTexts))
-                            .add(PDF_SUMMARY_SECOND_PART_HEADER, PDF_SUMMARY_SECOND_PART_TEXT))
+                            .add(UTSK001_HEADER, UTSK001_BODY))
                     .withLeftMarginTypText(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
