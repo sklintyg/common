@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -90,7 +91,7 @@ public class PdfGenerator {
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummary(new Summary()
-                            .add(PDF_SUMMARY_HEADER, getCleanModuleDescription())
+                            .add(PDF_SUMMARY_HEADER, getCleanModuleDescription(intygTexts))
                             .add(PDF_SUMMARY_SECOND_PART_HEADER, PDF_SUMMARY_SECOND_PART_TEXT))
                     .withLeftMarginTypText(TsBasEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)
@@ -109,11 +110,10 @@ public class PdfGenerator {
     }
 
 
-    private String getCleanModuleDescription() {
-        return  new TsBasEntryPoint().getDetailedModuleDescription()
-                .replace("<p>", "")
-                .replace("</p>", "\n")
-                .replace("<LINK:transportstyrelsen>", "www.transportstyrelsen.se");
+    private String getCleanModuleDescription(IntygTexts intygTexts) {
+        //dynamicLinkService in Infra could be used to make proper replacement?
+        String rawText = intygTexts.getTexter().get("FRM_1.RBK");
+        return rawText != null ? rawText.replace("<LINK:transportstyrelsen>", "www.transportstyrelsen.se") : rawText;
     }
 
 

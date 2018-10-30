@@ -18,7 +18,13 @@
  */
 package se.inera.intyg.common.ts_bas.support;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
@@ -32,9 +38,13 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1007";
     // CHECKSTYLE:OFF LineLength
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
+    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
     private static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";
-    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg ska användas vid förlängd giltighet av högre behörighet från 45 år, ansökan om körkortstillstånd för grupp II och III och vid ansökan om taxiförarlegitimation. Transportstyrelsens läkarintyg kan även användas när Transportstyrelsen i annat fall begärt ett allmänt läkarintyg avseende lämplighet att inneha körkort.</p>Specialistintyg finns bl.a. för alkohol, läkemedel, synfunktion, Alkolås m.m. Se <LINK:transportstyrelsen>."; //<!-- <a href="http://www.transportstyrelsen.se" target="_blank">www.transportstyrelsen.se</a>
-    // CHECKSTYLE:ON LineLength
+     // CHECKSTYLE:ON LineLength
+
+    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+    @Autowired(required = false)
+    private Optional<IntygTextsRepository> repo;
 
     @Override
     public String getModuleId() {
@@ -53,7 +63,14 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        return MODULE_DETAILED_DESCRIPTION;
+        if (repo.isPresent()) {
+            final String latestVersion = repo.get().getLatestVersion(getModuleId());
+            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+            if (texts != null) {
+                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+            }
+        }
+        return null;
     }
 
     @Override

@@ -92,7 +92,7 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
                         ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                         $scope.cert = result.contents;
 
-                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, $stateParams.intygTypeVersion, true);
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);
 

@@ -120,7 +120,7 @@ angular.module('common').factory('common.messageService',
         function _buildDynamicLink(linkKey) {
             var dynamicLink = '';
             dynamicLink += _links[linkKey].target ? '<span class="unbreakable">' : '';
-            dynamicLink += '<a href="' + _links[linkKey].url + '" class="external-link"';
+            dynamicLink += '<a href="' + _links[linkKey].url + '" class="external-link" rel="noopener noreferrer" ';
             dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
             dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
             dynamicLink += _links[linkKey].text + '</a>';
@@ -136,7 +136,8 @@ angular.module('common').factory('common.messageService',
             propertyExists: _propertyExists,
             getProperty: _getProperty,
             addResources: _addResources,
-            addLinks: _addLinks
+            addLinks: _addLinks,
+            buildExternalLink: _buildDynamicLink
         };
     }
 );

@@ -33,7 +33,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             $scope.cert = undefined;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
-            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, '1.0', true);
 
             // Check if the user used the special qa-link to get here.
             $scope.isQaOnly = UserModel.isUthopp();

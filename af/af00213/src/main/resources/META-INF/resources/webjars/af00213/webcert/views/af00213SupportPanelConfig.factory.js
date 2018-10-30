@@ -24,13 +24,15 @@
 angular.module('af00213').factory('af00213.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned) {
+    function _getConfig(id, intygTypeVersion, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'af00213',
                 id: id,
+                intygTypeVersion: intygTypeVersion,
+                aboutMsgKey: 'FRM_1.RBK',
                 isSigned: isSigned
             }
         };

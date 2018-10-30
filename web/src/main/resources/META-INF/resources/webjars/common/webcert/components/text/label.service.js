@@ -46,8 +46,21 @@ angular.module('common').factory('common.dynamicLabelService',
                 return true;
             }
 
-            function _getProperty(key) {
+            function _getProperty(key, supportExternalLink) {
                 var value = getRequiredTextByPropKey(key); // get required text
+                if (value && supportExternalLink) {
+                    var regex2 = /<LINK:(.*?)>/gi, result;
+
+                    while ( (result = regex2.exec(value)) ) {
+                        var replace = result[0];
+                        var linkKey = result[1];
+
+                        var dynamicLink = messageService.buildExternalLink(linkKey);
+
+                        var regexp = new RegExp(replace, 'g');
+                        value = value.replace(regexp, dynamicLink);
+                    }
+                }
                 return value;
             }
 

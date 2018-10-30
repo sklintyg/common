@@ -26,7 +26,8 @@ angular.module('common').directive('dynamicLabel',
                 scope: {
                     'key': '@',
                     'params': '<',
-                    'fallbackValue': '@'
+                    'fallbackValue': '@',
+                    'supportExternalLink': '<'
                 },
                 replace: true,
                 link: function(scope, element, attr) {
@@ -37,7 +38,7 @@ angular.module('common').directive('dynamicLabel',
                         result = messageService.propertyExists(angular.lowercase(interpolatedKey));
 
                         if (!result) {
-                            result = dynamicLabelService.getProperty(interpolatedKey);
+                            result = dynamicLabelService.getProperty(interpolatedKey, scope.supportExternalLink);
                         } else {
                             result = messageService.getProperty(angular.lowercase(interpolatedKey), scope.params);
                         }

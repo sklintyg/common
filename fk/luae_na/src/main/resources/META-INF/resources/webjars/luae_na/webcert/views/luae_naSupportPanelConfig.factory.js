@@ -25,7 +25,7 @@
 angular.module('luae_na').factory('luae_na.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
@@ -33,6 +33,7 @@ angular.module('luae_na').factory('luae_na.supportPanelConfigFactory', [ 'common
                 type: 'luae_na',
                 aboutMsgKey: 'FRM_2.RBK',
                 id: id,
+                intygTypeVersion: intygTypeVersion,
                 isSigned: isSigned
             }
         };

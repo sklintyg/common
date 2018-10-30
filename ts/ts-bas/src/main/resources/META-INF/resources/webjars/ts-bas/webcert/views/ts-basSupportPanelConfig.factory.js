@@ -25,13 +25,15 @@
 angular.module('ts-bas').factory('ts-bas.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, isSigned) {
+    function _getConfig(id, intygTypeVersion, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'ts-bas',
                 id: id,
+                aboutMsgKey: 'FRM_2.RBK',
+                intygTypeVersion: intygTypeVersion,
                 isSigned: isSigned
             }
         };

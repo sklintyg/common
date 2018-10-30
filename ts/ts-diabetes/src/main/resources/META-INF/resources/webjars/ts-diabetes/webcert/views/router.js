@@ -37,6 +37,10 @@ angular.module('ts-diabetes').config(function($stateProvider) {
         return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
     };
 
+    var supportPanelConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('ts-diabetes.supportPanelConfigFactory', $stateParams);
+    };
+
     $stateProvider.
         state('ts-diabetes-edit', {
             data: { defaultActive : 'index', intygType: 'ts-diabetes' },
@@ -48,7 +52,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     resolve: {
                         ViewState: editViewState,
                         UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                        supportPanelConfigFactory: supportPanelConfig
                     }
                 },
 
@@ -89,7 +93,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
                     resolve: {
                         ViewConfigFactory: viewConfig,
                         ViewState: 'ts-diabetes.IntygController.ViewStateService',
-                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                        supportPanelConfigFactory: supportPanelConfig
                     }
                 },
                 'header@webcert.intyg.ts-diabetes': {

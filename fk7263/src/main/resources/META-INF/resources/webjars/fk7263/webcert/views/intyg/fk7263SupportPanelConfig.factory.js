@@ -24,13 +24,14 @@
 angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'fk7263',
                 id: id,
+                intygTypeVersion: intygTypeVersion,
                 isSigned: isSigned
             }
         };

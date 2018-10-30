@@ -32,6 +32,7 @@ angular.module('common').directive('wcHelpTipsPanelTab', [ '$log', 'common.modul
                     title: intygsModule.label,
                     issuerTypeId: intygsModule.issuerTypeId,
                     moduleDescription: intygsModule.detailedDescription,
+                    intygTypeVersion: $scope.config.intygContext.intygTypeVersion,
                     aboutMsgKey: $scope.config.intygContext.aboutMsgKey
 
                 };

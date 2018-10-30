@@ -25,7 +25,7 @@
 angular.module('luse').factory('luse.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
 
         var config = {
             tabs: [],
@@ -33,6 +33,7 @@ angular.module('luse').factory('luse.supportPanelConfigFactory', [ 'common.featu
                 type: 'luse',
                 aboutMsgKey: 'FRM_2.RBK',
                 id: id,
+                intygTypeVersion: intygTypeVersion,
                 isSigned: isSigned
             }
         };

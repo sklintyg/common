@@ -106,7 +106,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v2',
                             fraga(null, '', '', {}, [{
                                 type: 'ue-alert',
                                 alertType: 'info',
-                                key: 'FRM_1.RBK'
+                                key: 'KAT_100.OBS.RBK'
                             }])
                         ]),
 

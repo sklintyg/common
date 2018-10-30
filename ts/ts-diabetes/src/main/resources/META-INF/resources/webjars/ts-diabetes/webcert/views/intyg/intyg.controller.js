@@ -78,7 +78,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.IntygController',
                         ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                         $scope.cert = result.contents;
 
-                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, ViewState.intygModel.textVersion, true);
 
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);

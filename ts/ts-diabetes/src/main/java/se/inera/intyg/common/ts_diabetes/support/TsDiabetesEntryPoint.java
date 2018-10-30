@@ -18,9 +18,16 @@
  */
 package se.inera.intyg.common.ts_diabetes.support;
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
+
 @Component("TsDiabetesEntryPoint")
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
@@ -32,7 +39,11 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     // CHECKSTYLE:OFF LineLength
-    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <LINK:transportstyrelsen>.";
+    private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+
+    // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
+    @Autowired(required = false)
+    private Optional<IntygTextsRepository> repo;
 
     @Override
     public String getModuleId() {
@@ -51,7 +62,14 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
-        return MODULE_DETAILED_DESCRIPTION;
+        if (repo.isPresent()) {
+            final String latestVersion = repo.get().getLatestVersion(getModuleId());
+            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+            if (texts != null) {
+                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+            }
+        }
+        return null;
     }
 
     @Override
