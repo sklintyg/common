@@ -34,48 +34,11 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                 };
             }
 
-            function _getConfig(viewState) {
+            function _getConfig() {
                 var categoryIds = _getCategoryIds();
-
-                var underlagChoices = [
-                    {label: 'common.label.choose', id: null},
-                    {label: 'KV_FKMU_0005.NEUROPSYKIATRISKT.RBK', id: 'NEUROPSYKIATRISKT'},
-                    {label: 'KV_FKMU_0005.HABILITERING.RBK', id: 'HABILITERING'},
-                    {label: 'KV_FKMU_0005.ARBETSTERAPEUT.RBK', id: 'ARBETSTERAPEUT'},
-                    {label: 'KV_FKMU_0005.FYSIOTERAPEUT.RBK', id: 'FYSIOTERAPEUT'},
-                    {label: 'KV_FKMU_0005.LOGOPED.RBK', id: 'LOGOPED'},
-                    {label: 'KV_FKMU_0005.PSYKOLOG.RBK', id: 'PSYKOLOG'},
-                    {label: 'KV_FKMU_0005.SKOLHALSOVARD.RBK', id: 'SKOLHALSOVARD'},
-                    {label: 'KV_FKMU_0005.SPECIALISTKLINIK.RBK', id: 'SPECIALISTKLINIK'},
-                    {label: 'KV_FKMU_0005.VARD_UTOMLANDS.RBK', id: 'VARD_UTOMLANDS'},
-                    {label: 'KV_FKMU_0005.OVRIGT_UTLATANDE.RBK', id: 'OVRIGT_UTLATANDE'}
-                ];
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
-                var today = moment().format('YYYY-MM-DD');
-
-                var buildUnderlagConfigRow = function(row) {
-                    return [ {
-                        type: 'ue-dropdown',
-                        modelProp: 'underlag[' + row + '].typ',
-                        choices: underlagChoices,
-                        skipAttic: (row > 0)
-
-                    }, {
-                        type: 'ue-date',
-                        maxDate: today,
-                        modelProp: 'underlag[' + row + '].datum',
-                        skipAttic: true
-                    }, {
-                        type: 'ue-textfield',
-                        modelProp: 'underlag[' + row + '].hamtasFran',
-                        size: 'full-width',
-                        htmlMaxlength: 53,
-                        skipAttic: true
-                    } ];
-
-                };
 
                 var config = [
 
@@ -153,7 +116,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             {
                                 type: 'ue-form-label',
                                 required: true,
-                                key: 'DFR_7.2.RBK',
+                                key: 'DFR_7.2.RBK'
                             },
                             {
                                 type: 'ue-grid',
@@ -189,7 +152,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
                             fraga(26, undefined, 'FRG_8.HLP', { }, [{
                                 type: 'ue-textarea',
-                                modelProp: 'ovrigaUpplysningar',
+                                modelProp: 'ovrigaUpplysningar'
                             }])
                         ]),
 

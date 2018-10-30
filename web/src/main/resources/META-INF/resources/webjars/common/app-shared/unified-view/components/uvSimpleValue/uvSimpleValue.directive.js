@@ -27,7 +27,18 @@ angular.module('common').directive('uvSimpleValue', [ 'uvUtil', function(uvUtil)
         },
         templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.html',
         link: function($scope) {
-            $scope.value =  uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+
+            // use template and variable approach if available
+            if(angular.isDefined($scope.config.variables) && angular.isDefined($scope.config.template)){
+                $scope.value = $scope.config.template;
+                for(var i = 0; i <  $scope.config.variables.length; i++) {
+                    var modelProp = uvUtil.getValue($scope.viewData, $scope.config.modelProp + '.' + $scope.config.variables[i]);
+                    $scope.value = $scope.value.replace('{' + i + '}', modelProp);
+                }
+            } else {
+                // otherwise process normally
+                $scope.value =  uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+            }
 
             $scope.hasValue = function() {
                 return uvUtil.isValidValue($scope.value);

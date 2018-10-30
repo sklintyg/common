@@ -105,14 +105,16 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                 labelKey: 'FRG_7.RBK',
                 components: [{
                     type: 'uv-simple-value',
+                    labelKey: 'DFR_7.1.RBK',
                     modelProp: 'sjukskrivningsgrad',
                     unit: '%'
                 }, {
                     type: 'uv-del-fraga',
                     components: [{
-                        type: 'uv-table',
-                        headers: ['DFR_7.2.RBK', ''], // labels for th cells
-                        valueProps: ['from', 'tom'], // properties on entries to use in each rows cells
+                        type: 'uv-simple-value',
+                        labelKey: 'DFR_7.2.RBK',
+                        template: 'Fr.o.m {0} t.o.m {1}',
+                        variables: ['from', 'tom'],
                         modelProp: 'sjukskrivningsperiod'
                     }]
                 }]

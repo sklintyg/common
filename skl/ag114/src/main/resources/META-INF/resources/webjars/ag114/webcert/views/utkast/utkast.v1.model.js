@@ -37,7 +37,7 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                             toTransform: ModelTransform.enumToTransform,
                             fromTransform: ModelTransform.enumFromTransform,
                             defaultValue: {
-                                "typ": "NUVARANDE_ARBETE"
+                                'typ': 'NUVARANDE_ARBETE'
                             }
                         }),
                         'nuvarandeArbete' : undefined,
