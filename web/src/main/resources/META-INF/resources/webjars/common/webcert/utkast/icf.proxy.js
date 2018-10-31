@@ -38,7 +38,7 @@ angular.module('common').factory('common.IcfProxy',
             var icdKodNr = 0;
             var diagnosPath = diagnoser.map(function(v){
                 icdKodNr++;
-                return 'icfCode' + icdKodNr + '=' + v.diagnosKod;
+                return 'icd10Kod' + icdKodNr + '=' + v.diagnosKod;
             }).join('&');
             return diagnosPath;
         }
