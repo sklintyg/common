@@ -214,7 +214,7 @@ angular.module('common').directive('wcArendeFooter',
                         // Handle vidarebefordra dialog
                         // use timeout so that external mail client has a chance to start before showing dialog
                         $timeout(function() {
-                            ArendeVidarebefordraHelper.handleVidareBefodradToggle($scope.onVidarebefordradChange);
+                            ArendeVidarebefordraHelper.handleVidareBefordradToggle($scope.onVidarebefordradChange);
                         }, 1000);
 
                         // Launch mail client

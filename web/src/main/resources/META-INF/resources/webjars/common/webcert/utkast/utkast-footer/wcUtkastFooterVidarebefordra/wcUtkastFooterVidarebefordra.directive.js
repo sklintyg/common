@@ -19,14 +19,14 @@
 
 angular
     .module('common')
-    .directive('wcUtkastFooterVidarebefodra',
+    .directive('wcUtkastFooterVidarebefordra',
         ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService', '$rootScope', '$timeout',
             function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService, $rootScope, $timeout) {
                 'use strict';
 
                 return {
                     restrict: 'E',
-                    templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterVidarebefodra/wcUtkastFooterVidarebefodra.directive.html',
+                    templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.html',
                     scope: {
                         viewState: '=',
                         certForm: '<'

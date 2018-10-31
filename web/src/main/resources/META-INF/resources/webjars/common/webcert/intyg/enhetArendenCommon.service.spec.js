@@ -147,7 +147,7 @@ describe('enhetArendenCommonService', function() {
 
         it('toggle', function() {
             var onVidarebefordradChange = function() {};
-            enhetArendenCommonService.handleVidareBefodradToggle(onVidarebefordradChange);
+            enhetArendenCommonService.handleVidareBefordradToggle(onVidarebefordradChange);
         });
     });
 

@@ -51,10 +51,10 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                 return link;
             };
 
-            this.handleVidareBefodradToggle = function (onYesCallback) {
+            this.handleVidareBefordradToggle = function (onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!_isSkipVidareBefodradCookieSet()) {
+                if (!_isSkipVidareBefordradCookieSet()) {
                     this.showVidarebefordradPreferenceDialog(
                         'markforward',
                         'Vill du markera ärendet som vidarebefordrat?',
@@ -72,7 +72,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                         function() {
                             $log.debug('no and dont ask');
                             // How can user reset this?
-                            _setSkipVidareBefodradCookie();
+                            _setSkipVidareBefordradCookie();
                         }
                     );
                 }
@@ -130,7 +130,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
                 });
             };
 
-            function _setSkipVidareBefodradCookie() {
+            function _setSkipVidareBefordradCookie() {
                 var secsDays = 12 * 30 * 24 * 3600 * 1000; // 1 year
                 var now = new Date();
                 var expires = new Date(now.getTime() + secsDays);
@@ -138,7 +138,7 @@ angular.module('common').service('common.ArendeVidarebefordraHelper',
 
             }
 
-            function _isSkipVidareBefodradCookieSet() {
+            function _isSkipVidareBefordradCookieSet() {
                 return (document.cookie && document.cookie.indexOf('WCDontAskForVidareBefordradToggle=1') !== -1);
             }
 

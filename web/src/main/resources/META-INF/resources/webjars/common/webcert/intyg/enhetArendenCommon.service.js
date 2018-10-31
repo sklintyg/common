@@ -44,7 +44,7 @@ angular.module('common').factory('common.enhetArendenCommonService',
                 });
             }
 
-            function _setSkipVidareBefodradCookie() {
+            function _setSkipVidareBefordradCookie() {
                 var secsDays = 12 * 30 * 24 * 3600 * 1000; // 1 year
                 var now = new Date();
                 var expires = new Date(now.getTime() + secsDays);
@@ -52,7 +52,7 @@ angular.module('common').factory('common.enhetArendenCommonService',
 
             }
 
-            function _isSkipVidareBefodradCookieSet() {
+            function _isSkipVidareBefordradCookieSet() {
                 return (document.cookie && document.cookie.indexOf('WCDontAskForVidareBefordradToggle=1') !== -1);
             }
 
@@ -195,10 +195,10 @@ angular.module('common').factory('common.enhetArendenCommonService',
                 });
             }
 
-            function _handleVidareBefodradToggle(qa, onYesCallback) {
+            function _handleVidareBefordradToggle(qa, onYesCallback) {
                 // Only ask about toggle if not already set AND not skipFlag cookie is
                 // set
-                if (!qa.vidarebefordrad && !_isSkipVidareBefodradCookieSet()) {
+                if (!qa.vidarebefordrad && !_isSkipVidareBefordradCookieSet()) {
                     _showVidarebefordradPreferenceDialog(
                         'markforward',
                         'Det verkar som att du har informerat den som ska hantera ärendet. Vill du markera ärendet som vidarebefordrat?',
@@ -217,7 +217,7 @@ angular.module('common').factory('common.enhetArendenCommonService',
                         function() {
                             $log.debug('no and dont ask');
                             // How can user reset this?
-                            _setSkipVidareBefodradCookie();
+                            _setSkipVidareBefordradCookie();
                         }
                     );
                 }
@@ -307,7 +307,7 @@ angular.module('common').factory('common.enhetArendenCommonService',
             // Return public API for the service
             return {
                 setVidareBefordradState: _setVidareBefordradState,
-                handleVidareBefodradToggle: _handleVidareBefodradToggle,
+                handleVidareBefordradToggle: _handleVidareBefordradToggle,
                 decorateSingleItemMeasure: _decorateSingleItemMeasure,
                 decorateSingleItem: _decorateSingleItem,
                 isUnhandled: _isUnhandled,
