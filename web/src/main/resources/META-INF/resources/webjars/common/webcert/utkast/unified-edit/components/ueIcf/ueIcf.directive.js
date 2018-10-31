@@ -122,12 +122,20 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             function itereraKategorier(fun) {
                 if (scope.kategorier.gemensamma[scope.getKodTyp()]) {
-                    scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
-                    scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                    if (scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder) {
+                        scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
+                    }
+                    if (scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder) {
+                        scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                    }
                 }
                 scope.kategorier.unika.forEach(function(v) {
-                    v[scope.getKodTyp()].centralaKoder.forEach(fun);
-                    v[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                    if (v[scope.getKodTyp()] && v[scope.getKodTyp()].centralaKoder) {
+                        v[scope.getKodTyp()].centralaKoder.forEach(fun);
+                    }
+                    if (v[scope.getKodTyp()] && v[scope.getKodTyp()].kompletterandeKoder) {
+                        v[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                    }
                 });
             }
 
@@ -146,7 +154,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             function setVald(i) {
                 return function(v) {
-                    if (v.kod === scope.model[scope.config.kategoriProp][i]) {
+                    if (v.benamning === scope.model[scope.config.kategoriProp][i]) {
                         v.vald = true;
                     }
                 };
