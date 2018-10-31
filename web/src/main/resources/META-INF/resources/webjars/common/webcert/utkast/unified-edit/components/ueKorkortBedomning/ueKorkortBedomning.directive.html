@@ -16,7 +16,7 @@
     </div>
 
     <div class="row korkortstyper">
-      <div ng-if="!model[config.modelProp].kanInteTaStallning" class="fold-animation">
+      <div ng-if="!model[config.modelProp].kanInteTaStallning">
         <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter().korkortstyp">
          <wc-checkbox-wrapper>
             <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"

@@ -1,5 +1,5 @@
 .fold-slide-fade-animation {
-  margin-left: 0px;
+  margin-left: 0;
   opacity: 1;
 }
 
@@ -12,13 +12,13 @@
 
 .fold-animation {
   &.ng-enter-prepare {
-    height: 0px;
+    height: 0;
     overflow: hidden;
   }
 }
 
 .slide-fade-animation {
-  margin-left: 0px;
+  margin-left: 0;
   opacity: 1;
 }
 
