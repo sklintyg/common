@@ -31,26 +31,13 @@ angular.module('ag114').factory('ag114.supportPanelConfigFactory', [ 'common.fea
             tabs: [],
             intygContext: {
                 type: 'ag114',
-                aboutMsgKey: 'FRM_2.RBK',
+                aboutMsgKey: 'FRM_1.RBK',
                 id: id,
                 isSigned: isSigned
             }
         };
 
 
-        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
-            config.tabs.push({
-                id: 'wc-arende-panel-tab',
-                title: 'common.supportpanel.arende.title',
-                tooltip: 'common.supportpanel.arende.tooltip',
-                config: {
-                    intygContext: config.intygContext
-                },
-                active: isSigned || isKompletteringsUtkast
-            });
-        }
-
-        //Always has this, but only active by default utkast and not kompletteringsutkast
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'common.supportpanel.help.title',
@@ -58,7 +45,7 @@ angular.module('ag114').factory('ag114.supportPanelConfigFactory', [ 'common.fea
             config: {
                 intygContext: config.intygContext
             },
-            active: !(isSigned || isKompletteringsUtkast)
+            active: true
         });
 
 

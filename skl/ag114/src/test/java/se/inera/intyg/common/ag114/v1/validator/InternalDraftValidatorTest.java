@@ -59,15 +59,15 @@ public class InternalDraftValidatorTest {
     private static final String ENHET_NAMN = "enhetNamn";
     private static final String INTYG_ID = "intyg-1";
 
+    @Mock
+    ValidatorUtilSKL validatorUtilSKL;
+
     @InjectMocks
     InternalDraftValidatorImpl validator;
 
     List<ValidationMessage> validationMessages;
 
     Ag114UtlatandeV1.Builder builderTemplate;
-
-    @Mock
-    WebcertModuleService moduleService;
 
     @Before
     public void setUp() throws Exception {
@@ -77,7 +77,6 @@ public class InternalDraftValidatorTest {
                 .setId(INTYG_ID)
                 .setGrundData(buildGrundData(LocalDateTime.now()))
                 .setTextVersion("1.0");
-
     }
 
     @Test

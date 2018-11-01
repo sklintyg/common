@@ -25,7 +25,8 @@ angular.module('ag114').constant('ag114.messages', {
         'ag114.fornya.tooltip': 'En kopia av det tidigare intyget skapas. Samtlig information följer med till det nya intygsutkastet. Informationen kan sedan ändras.',
         'ag114.modal.fornya.text': 'Förnya intyg innebär att ett nytt intygsutkast skapas med samma information som i det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
         'Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
-        'Ärenden som ännu inte är hanterade kommer markeras som hanterade och kommer inte visas i det förnyade intyget.'
+        'Ärenden som ännu inte är hanterade kommer markeras som hanterade och kommer inte visas i det förnyade intyget.',
+        'ag114.validation.sjukskrivningsgrad.invalid.percent': 'Ange ett värde mellan 0 och 100 %'
     },
     'en': {
         'ag114.label.pagetitle': 'Show Certificate'

@@ -2,6 +2,12 @@ ue-percent-field {
 
   @extend %field-set-disabled-ie11-fix;
 
+  .form-inline {
+    input.form-control {
+      width: 40px;
+    }
+  }
+
   input.form-control {
     height: 38px;
     width: 100%;

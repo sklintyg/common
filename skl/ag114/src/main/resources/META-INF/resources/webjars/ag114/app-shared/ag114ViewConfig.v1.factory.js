@@ -116,6 +116,30 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                         template: 'Fr.o.m {0} t.o.m {1}',
                         variables: ['from', 'tom'],
                         modelProp: 'sjukskrivningsperiod'
+                    }, {
+                        type: 'uv-alert-value',
+                        showExpression: function(model) {
+                            // Pure javascript function to determine if message shold be displayed.
+                            // This is because we want to use the same expression in pdf uv-config.
+                            if (model.sjukskrivningsperiod && model.sjukskrivningsperiod.from && model.sjukskrivningsperiod.tom) {
+
+                                var msPerDay = 86400000;
+
+                                // Convert both dates to milliseconds
+                                var fromMs = new Date(model.sjukskrivningsperiod.from).getTime();
+                                var toMs = new Date(model.sjukskrivningsperiod.tom).getTime();
+
+                                // Calculate the difference in milliseconds
+                                var differenceMs = toMs - fromMs;
+                                // Convert back to days
+                                var daysBetween = Math.round(differenceMs / msPerDay) + 1;
+
+                                return daysBetween > 14;
+                            }
+                            return false;
+                        },
+                        labelKey: 'SKL-001.ALERT',
+                        alertLevel: 'warning'
                     }]
                 }]
             }]

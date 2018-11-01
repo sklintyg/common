@@ -24,11 +24,6 @@ angular.module('ag114').controller('ag114.ViewCertCtrl',
 
             $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
-
-            $scope.send = function() {
-                $location.path('/send/ag114/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
-            };
-
             $scope.errorMessage = null;
             $scope.doneLoading = false;
             certificateService.getCertificate('ag114', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {

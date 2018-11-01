@@ -19,4 +19,10 @@
  */
 
 ue-grid {
+  .horizontal {
+    .row {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

@@ -26,8 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-// CHECKSTYLE:OFF LineLength
-
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
@@ -36,6 +34,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
+// CHECKSTYLE:OFF LineLength
+
 // CHECKSTYLE:ON LineLength
 
 /**
@@ -43,16 +43,14 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
  */
 public class ValidatorUtilSKL {
 
-    @Autowired(required = false)
-    private WebcertModuleService moduleService;
-
     private static final Logger LOG = LoggerFactory.getLogger(ValidatorUtilSKL.class);
-
     private static final int MIN_SIZE_PSYKISK_DIAGNOS = 4;
     private static final int MIN_SIZE_DIAGNOS = 3;
     private static final int MAX_SIZE_DIAGNOS = 5;
-
     private static final String CATEGORY_DIAGNOS = "diagnos";
+
+    @Autowired(required = false)
+    private WebcertModuleService moduleService;
 
     public void validateDiagnose(List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
 
@@ -131,6 +129,20 @@ public class ValidatorUtilSKL {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS, TYP_AV_DIAGNOS_SVAR_JSON_ID_4,
                     ValidationMessageType.INVALID_FORMAT, msgKey);
         }
+
+    }
+
+    public boolean isIntInRange(String intString, int min, int max) {
+        try {
+            final int value = Integer.parseInt(intString);
+            return value >= min && value <= max;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    public boolean hasNoContent(String stringValue) {
+        return (stringValue == null || stringValue.trim().isEmpty());
 
     }
 }

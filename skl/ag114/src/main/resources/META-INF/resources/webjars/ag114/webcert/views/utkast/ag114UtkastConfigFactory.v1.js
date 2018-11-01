@@ -46,6 +46,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true, requiredProp: ['sysselsattning["NUVARANDE_ARBETE"]']}, [{
                             type: 'ue-checkgroup',
+                            disabled: true,
                             modelProp: 'sysselsattning',
                             code: 'KV_FKMU_0002',
                             choices: ['NUVARANDE_ARBETE']
@@ -69,10 +70,10 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             hideExpression: '!model.onskarFormedlaDiagnos'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
-                            diagnosBeskrivningLabel: 'DFR_4.1.RBK',
-                            diagnosBeskrivningHelp: 'DFR_4.1.HLP',
-                            diagnosKodLabel: 'DFR_4.2.RBK',
-                            diagnosKodHelp: 'DFR_4.2.HLP'
+                            diagnosBeskrivningLabel: 'DFR_4.2.RBK',
+                            diagnosBeskrivningHelp: 'DFR_4.2.HLP',
+                            diagnosKodLabel: 'DFR_4.1.RBK',
+                            diagnosKodHelp: 'DFR_4.1.HLP'
                         }])
                     ]),
 
@@ -102,55 +103,79 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     // Bedömning
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
 
-                        fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {  }, [
+                        fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {}, [
                             {
                                 type: 'ue-percent-field',
                                 modelProp: 'sjukskrivningsgrad',
-                                required: true,
+                                numbersOnly: true,
                                 label: {
                                     key: 'DFR_7.1.RBK',
                                     helpKey: 'DFR_7.1.HLP',
+                                    required: true,
                                     requiredProp: 'sjukskrivningsgrad'
                                 }
                             },
                             {
                                 type: 'ue-form-label',
-                                required: true,
                                 key: 'DFR_7.2.RBK'
                             },
                             {
                                 type: 'ue-grid',
-                                colSizes: [1,2,1,2],
+                                cssClass: 'horizontal',
+                                colSizes: [1,2,1,1,2],
                                 components: [
                                     // Row 1
                                     [{
                                         type: 'ue-form-label',
-                                        required: true,
                                         key: 'FROM',
+                                        required: true,
                                         requiredProp: 'sjukskrivningsperiod.from'
                                     },{
                                         type: 'ue-date',
-                                        required: true,
-                                        key: 'common.label.date',
                                         modelProp: 'sjukskrivningsperiod.from'
-                                    },{
+                                    }, {
+                                    //dummy for spacing
+                                    }, {
                                         type: 'ue-form-label',
-                                        required: true,
                                         key: 'TOM',
+                                        required: true,
                                         requiredProp: 'sjukskrivningsperiod.tom'
                                     },{
                                         type: 'ue-date',
-                                        required: true,
-                                        key: 'common.label.date',
                                         modelProp: 'sjukskrivningsperiod.tom'
                                     }]
                                 ]
+                            }, {
+                                type: 'ue-alert',
+                                key: 'SKL-001.ALERT',
+                                alertType: 'warning',
+                                hideExpression: function(scope) {
+                                    // Pure javascript function to determine if message shold be displayed.
+                                    // This is because we want to use the same expression in pdf uv-config which doesn't
+                                    // support any 3:rd party functionality, i.e moment.js / angular etc.
+                                    if (scope.model.sjukskrivningsperiod && scope.model.sjukskrivningsperiod.from && scope.model.sjukskrivningsperiod.tom) {
+
+                                        var msPerDay = 86400000;
+
+                                        // Convert both dates to milliseconds
+                                        var fromMs = new Date(scope.model.sjukskrivningsperiod.from).getTime();
+                                        var toMs = new Date(scope.model.sjukskrivningsperiod.tom).getTime();
+
+                                        // Calculate the difference in milliseconds
+                                        var differenceMs = toMs - fromMs;
+                                        // Convert back to days
+                                        var daysBetween = Math.round(differenceMs / msPerDay) + 1;
+
+                                        return daysBetween <= 14;
+                                    }
+                                    return true;
+                                }
                             }])
                         ]),
 
                         // Övrigt
                         kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
-                            fraga(26, undefined, 'FRG_8.HLP', { }, [{
+                            fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                                 type: 'ue-textarea',
                                 modelProp: 'ovrigaUpplysningar'
                             }])
@@ -170,9 +195,10 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             modelProp: 'anledningTillKontakt',
                             hideExpression: '!model.kontaktMedArbetsgivaren',
                             label: {
-                                labelType: 'h5',
                                 key: 'DFR_9.2.RBK',
-                                helpKey: 'DFR_9.2.HLP'
+                                helpKey: 'DFR_9.2.HLP',
+                                required: true,
+                                requiredProp: 'anledningTillKontakt'
                             }
                         }])
                     ]),
