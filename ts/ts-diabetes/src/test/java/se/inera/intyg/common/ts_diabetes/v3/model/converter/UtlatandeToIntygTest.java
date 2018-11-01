@@ -83,8 +83,8 @@ public class UtlatandeToIntygTest {
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertEquals(textVersion, intyg.getVersion());
         assertEquals(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
-        assertEquals("b64ea353-e8f6-4832-b563-fc7d46f29548", intyg.getTyp().getCodeSystem());
-        Assert.assertEquals(TsDiabetesEntryPoint.MODULE_DESCRIPTION, intyg.getTyp().getDisplayName());
+        assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
+        Assert.assertEquals(TsDiabetesEntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
         assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
         assertEquals(patientPersonId, intyg.getPatient().getPersonId().getExtension());
