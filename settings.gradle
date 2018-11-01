@@ -30,6 +30,8 @@ include ':ts-diabetes'
 include ':sos_parent'
 include ':db'
 include ':doi'
+include ':ag-parent'
+include ':ag114'
 
 project(':logging-util').projectDir = "$rootDir/util/logging-util" as File
 project(':common-support').projectDir = "$rootDir/support" as File
@@ -51,3 +53,5 @@ project(':ts-diabetes').projectDir = "$rootDir/ts/ts-diabetes" as File
 project(':sos_parent').projectDir = "$rootDir/sos/sos_parent" as File
 project(':db').projectDir = "$rootDir/sos/db" as File
 project(':doi').projectDir = "$rootDir/sos/doi" as File
+project(':ag-parent').projectDir = "$rootDir/skl/ag-parent" as File
+project(':ag114').projectDir = "$rootDir/skl/ag114" as File
