@@ -35,6 +35,7 @@ import com.google.common.base.Strings;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 
+import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -82,9 +83,7 @@ public class PdfGenerator {
                     .withIntygsKod(Ag114EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast))
-                    //.withHasSummaryPage(true)
-                    //.withSummaryHeader(PDF_SUMMARY_HEADER)
-                    //.withSummaryText(intygTexts.getTexter().get("FRM_1.RBK"))
+                    .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
                     .withLeftMarginTypText("SKL AG1-14 - Fastställd av Sveriges kommuner och landsting Avdelningen för arbetsgivarpolitik")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
