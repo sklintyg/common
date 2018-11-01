@@ -56,9 +56,10 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
-            + "elektroniskt av intygsutfärdaren.";
-    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-            + "skickas till Arbetsförmedlingen.";
+            + "elektroniskt av intygsutfärdaren. Intyget är avsett för patientens arbetsgivare som längst till och "
+            + "med dag 14 i sjukskrivningsperioden";
+    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
+            + "INTE skickas.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
     // CHECKSTYLE:OFF ParameterNumber
