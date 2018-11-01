@@ -106,18 +106,22 @@ public final class UtlatandeToIntyg {
             handleDiagnosSvar(svars, source.getDiagnoser());
         }
 
-        // Kategori 3 Arbetsformaga
+        // Kategori 5 Arbetsformaga
         addIfNotBlank(svars, NEDSATT_ARBETSFORMAGA_SVAR_ID_5, NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5, source.getNedsattArbetsformaga());
 
+        // Kategori 6 Arbetsformaga trots sjukdom
         if (source.getArbetsformagaTrotsSjukdom() != null) {
-            if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
+            if (!source.getArbetsformagaTrotsSjukdom()) {
+                svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
+                        source.getArbetsformagaTrotsSjukdom().toString()).build());
+            } else if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
                 svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
                         source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
-                                source.getArbetsformagaTrotsSjukdomBeskrivning())
-                        .build());
+                                source.getArbetsformagaTrotsSjukdomBeskrivning()).build());
             }
         }
 
+        // Kategori Behov av sjukskrivning
         InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
         if (sjukskrivningsperiod != null) {
             svars.add(aSvar(BEDOMNING_SVAR_ID_7)
@@ -127,9 +131,10 @@ public final class UtlatandeToIntyg {
                     .build());
         }
 
+        // Kategori 8 övrigt
         addIfNotBlank(svars, OVRIGT_SVAR_ID_8, OVRIGT_DELSVAR_ID_8, source.getOvrigaUpplysningar());
 
-        // Kategori 6 Kontakt
+        // Kategori 9 Kontakt
         if (source.getKontaktMedArbetsgivaren() != null) {
             if (source.getKontaktMedArbetsgivaren() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,

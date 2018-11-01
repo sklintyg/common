@@ -30,8 +30,10 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 import javax.xml.transform.stream.StreamSource;
@@ -39,6 +41,7 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -81,11 +84,10 @@ public class InternalToTransportTest {
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator(Ag114ModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+        RegisterCertificateValidator validator = new RegisterCertificateValidator("test-ag114.v1.sch");
+        ValidateXmlResponse response = XmlValidator.validate(validator, xmlContents);
 
-        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 0, response.getValidationErrors().size());
     }
 
     @Test

@@ -25,11 +25,13 @@ import com.helger.schematron.svrl.SVRLHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.rest.Ag114ModuleApiV1;
 import se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.ag114.v1.validator.ValidatorUtilSKL;
 import se.inera.intyg.common.agparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -55,6 +57,9 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ConverterTest {
+
+    @Mock
+    private ValidatorUtilSKL validatorUtilSKL;
 
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;

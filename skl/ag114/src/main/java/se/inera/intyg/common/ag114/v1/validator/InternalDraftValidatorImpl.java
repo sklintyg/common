@@ -66,36 +66,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     public ValidateDraftResponse validateDraft(Ag114UtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        // Kategori 1
         validateSysselsattning(utlatande, validationMessages);
 
-        // Kategori 2
         validateOnskarFormedla(utlatande, validationMessages);
+
         validateDiagnoser(utlatande, validationMessages);
 
-        // Kategori 3
         validateNedsattArbetsformaga(utlatande, validationMessages);
         validateArbetsformagaTrotsSjukdom(utlatande, validationMessages);
 
         validateOvrigaUpplysningar(utlatande, validationMessages);
-
-        // // Kategori 1 – Grund för medicinskt underlag
-        // validateGrundForMU(utlatande, validationMessages);
-        //
-        // // Kategori 2 - Andra medicinska utredningar och underlag
-        // validateUnderlag(utlatande, validationMessages);
-
-        //
-        // // Kategori 4 – Funktionsnedsättning
-        // validateFunktionsnedsattning(utlatande, validationMessages);
-        //
-        // // Kategori 8 – Övrigt
-        //
-        // Kategori 6 – Kontakt
         validateKontakt(utlatande, validationMessages);
-        //
-        // validateBlanksForOptionalFields(utlatande, validationMessages);
-
         // Vårdenhet
         ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
@@ -320,7 +301,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     // }
     // }
     //
-    void validateDiagnoser(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    private void validateDiagnoser(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Validera endast om patient önskar att förmedla diagnos.
         if (utlatande.getOnskarFormedlaDiagnos() != null && utlatande.getOnskarFormedlaDiagnos()) {
             validatorUtilSKL.validateDiagnose(utlatande.getDiagnoser(), validationMessages);
@@ -343,7 +324,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     // }
     // }
     //
-    void validateKontakt(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+    private void validateKontakt(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getKontaktMedArbetsgivaren() != null && !utlatande.getKontaktMedArbetsgivaren()
                 && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, KONTAKT_ONSKAS_SVAR_JSON_ID_9,
