@@ -21,11 +21,14 @@ package se.inera.intyg.common.ag114.v1.rest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import se.inera.intyg.common.ag114.pdf.PdfGenerator;
+import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag114.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -33,6 +36,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -56,8 +60,12 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
         try {
-            LOG.info("Creating PDF, fix this method....");
-            return null;
+            Ag114UtlatandeV1 utlatande = getInternal(internalModel);
+            IntygTexts texts = getTexts(Ag114EntryPoint.MODULE_ID, utlatande.getTextVersion());
+            Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+            // Use proper major-version
+            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, "1", personId, texts, statuses,
+                            applicationOrigin, utkastStatus);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);

@@ -1,6 +1,7 @@
 dependencies {
     compile project(":common-support")
     compile project(":common-web")
+    compile project(":common-pdf")
     compile project(":integration-util")
     compile project(":common-services")
     compile project(":common-schemas")
