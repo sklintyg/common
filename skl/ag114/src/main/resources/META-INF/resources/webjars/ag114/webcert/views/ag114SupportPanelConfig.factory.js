@@ -25,12 +25,13 @@
 angular.module('ag114').factory('ag114.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned) {
 
         var config = {
             tabs: [],
             intygContext: {
                 type: 'ag114',
+                intygTypeVersion: intygTypeVersion,
                 aboutMsgKey: 'FRM_1.RBK',
                 id: id,
                 isSigned: isSigned
