@@ -22,6 +22,7 @@ import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
@@ -128,7 +129,7 @@ public final class UtlatandeToIntyg {
     private static TypAvIntyg getTypAvIntyg(TsDiabetesUtlatandeV3 source) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE);
-        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
+        typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
         typAvIntyg.setDisplayName(TsDiabetesEntryPoint.MODULE_DESCRIPTION);
         return typAvIntyg;
     }

@@ -6,8 +6,8 @@
     </ns3:intygs-id>
     <ns3:typ>
       <ns5:code>TSTRK1031</ns5:code>
-      <ns5:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns5:codeSystem>
-      <ns5:displayName>Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.</ns5:displayName>
+      <ns5:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns5:codeSystem>
+      <ns5:displayName>Transportstyrelsens läkarintyg, diabetes</ns5:displayName>
     </ns3:typ>
     <ns3:version>3.0</ns3:version>
     <ns3:signeringstidpunkt>2018-10-26T12:48:00</ns3:signeringstidpunkt>
