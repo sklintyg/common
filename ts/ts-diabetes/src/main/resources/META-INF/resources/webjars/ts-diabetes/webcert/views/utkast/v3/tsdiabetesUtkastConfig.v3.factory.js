@@ -240,7 +240,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                                 label: {
                                     key: 'DFR_109.7.RBK',
                                     required: true,
-                                    requiredProp: 'allmant.behandling.annanBehandling'
+                                    requiredProp: 'allmant.behandling.annanBehandlingBeskrivning'
                                 }
                             }])
                         ]
