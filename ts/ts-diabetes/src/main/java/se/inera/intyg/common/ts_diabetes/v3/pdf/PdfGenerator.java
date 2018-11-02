@@ -51,7 +51,6 @@ import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 public class PdfGenerator {
 
-    private static final String PDF_SUMMARY_HEADER = "Läkarintyg Diabetes avseende lämpligheten att inneha körkort m.m.";
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "/pdf/transportstyrelsens_logotyp_rgb.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "/pdf/ts-diabetes-uv-viewmodel.v3.js";
 
@@ -86,7 +85,7 @@ public class PdfGenerator {
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummary(new Summary()
-                            .add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK"))
+                            .add(null, intygTexts.getTexter().get("FRM_1.RBK"))
                             .add(UTSK001_HEADER, UTSK001_BODY))
                     .withLeftMarginTypText(TsDiabetesEntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)

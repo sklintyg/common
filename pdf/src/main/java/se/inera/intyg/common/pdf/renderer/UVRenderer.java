@@ -189,10 +189,12 @@ public class UVRenderer {
 
         printConfig.getSummary().getSummaryPartList().forEach(summaryPart -> {
 
-            summaryDiv.add(new Paragraph(summaryPart.getHeading())
-                    .setMarginBottom(0f)
-                    .setFont(fragaDelFragaFont)
-                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            if (summaryPart.getHeading() != null) {
+                summaryDiv.add(new Paragraph(summaryPart.getHeading())
+                        .setMarginBottom(0f)
+                        .setFont(fragaDelFragaFont)
+                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            }
 
             summaryDiv.add(new Paragraph(summaryPart.getBodyText() + "\n")
                     .setMarginTop(0f)
