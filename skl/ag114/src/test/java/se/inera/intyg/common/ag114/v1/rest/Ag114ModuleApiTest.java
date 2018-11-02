@@ -32,6 +32,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
+import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -130,6 +131,16 @@ public class Ag114ModuleApiTest {
         when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(Ag114EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
                 .thenReturn(INTYG_TYPE_VERSION_1);
 
+    }
+
+    @Test
+    public void testGetAdditionalInfo() throws Exception {
+        Ag114UtlatandeV1 utlatande = getUtlatandeFromFile();
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertEquals("2018-11-10 - 2018-11-20", result);
     }
 
     @Test

@@ -47,5 +47,10 @@
     }
   ],
   "kontaktMedArbetsgivaren": true,
-  "anledningTillKontakt": "Gillar kontakt"
+  "anledningTillKontakt": "Gillar kontakt",
+  "sjukskrivningsgrad": "70",
+  "sjukskrivningsperiod": {
+    "from": "2018-11-10",
+    "tom": "2018-11-20"
+  }
 }
