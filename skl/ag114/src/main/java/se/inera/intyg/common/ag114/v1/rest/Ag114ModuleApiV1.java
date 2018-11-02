@@ -47,8 +47,6 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     public static final String SCHEMATRON_FILE = "ag114.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(Ag114ModuleApiV1.class);
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";
-
     public Ag114ModuleApiV1() {
         super(Ag114UtlatandeV1.class);
     }

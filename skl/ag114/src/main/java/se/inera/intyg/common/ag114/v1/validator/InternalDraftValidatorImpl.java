@@ -45,16 +45,15 @@ import se.inera.intyg.common.support.validate.ValidatorUtil;
 @Component(value = "ag114.InternalDraftValidatorImpl.v1")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114UtlatandeV1> {
 
-    private static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
-    private static final String CATEGORY_DIAGNOS = "diagnos";
-    private static final String CATEGORY_ARBETSFORMAGA = "arbetsformaga";
-    private static final String CATEGORY_BEDOMNING = "bedomning";
-    private static final String CATEGORY_OVRIGT = "ovrigt";
-    private static final String CATEGORY_KONTAKT = "kontakt";
-
+    protected static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
+    protected static final String CATEGORY_DIAGNOS = "diagnos";
+    protected static final String CATEGORY_ARBETSFORMAGA = "arbetsformaga";
+    protected static final String CATEGORY_BEDOMNING = "bedomning";
+    protected static final String CATEGORY_KONTAKT = "kontakt";
+    protected static final String AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT = "ag114.validation.sjukskrivningsgrad.invalid.percent";
+    protected static final String COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER = "common.validation.date-period.invalid_order";
     private static final int SJUKSKRIVNINGSGRAD_FROM = 0;
     private static final int SJUKSKRIVNINGSGRAD_TOM = 100;
-
     @Autowired
     private ValidatorUtilSKL validatorUtilSKL;
 
@@ -82,7 +81,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         } else {
             if (!validatorUtilSKL.isIntInRange(utlatande.getSjukskrivningsgrad(), SJUKSKRIVNINGSGRAD_FROM, SJUKSKRIVNINGSGRAD_TOM)) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
-                        ValidationMessageType.OTHER, "ag114.validation.sjukskrivningsgrad.invalid.percent");
+                        ValidationMessageType.OTHER, AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT);
             }
         }
         // Sjukskrivningsperiod
@@ -101,7 +100,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         if (utlatande.getSjukskrivningsperiod() != null && utlatande.getSjukskrivningsperiod().getTom() != null
                 && utlatande.getSjukskrivningsperiod().getFrom() != null && !utlatande.getSjukskrivningsperiod().isValid()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
-                    ValidationMessageType.INCORRECT_COMBINATION, "common.validation.date-period.invalid_order");
+                    ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
         }
 
     }
@@ -163,7 +162,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
                     ValidationMessageType.EMPTY);
         }
         // ..men får ej förekomma om ej kryssat ja
-        if (utlatande.getKontaktMedArbetsgivaren() == null || !utlatande.getKontaktMedArbetsgivaren()
+        if ((utlatande.getKontaktMedArbetsgivaren() == null || !utlatande.getKontaktMedArbetsgivaren())
                 && !validatorUtilSKL.hasNoContent(utlatande.getAnledningTillKontakt())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9,
                     ValidationMessageType.INCORRECT_COMBINATION);

@@ -61,7 +61,7 @@ public class PdfGenerator {
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
             + "INTE skickas.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
+    protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
             List<Status> statuses,

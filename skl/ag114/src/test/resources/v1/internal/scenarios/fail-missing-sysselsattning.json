@@ -35,17 +35,25 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "sysselsattning": [{
-    "typ": "NUVARANDE_ARBETE"
-  }],
+  "sysselsattning": [],
   "nuvarandeArbete": "Inget",
-  "onskarFormedlaDiagnos": false,
+  "onskarFormedlaDiagnos": true,
   "nedsattArbetsformaga": "Kan jobba halvtid.",
-  "arbetsformagaTrotsSjukdom": false,
+  "arbetsformagaTrotsSjukdom": true,
+  "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
   "sjukskrivningsgrad": "70",
-    "sjukskrivningsperiod": {
-      "from": "2018-11-10",
-      "tom": "2018-11-20"
-    },
-  "diagnoser": []
+  "sjukskrivningsperiod": {
+    "from": "2018-11-10",
+    "tom": "2018-11-20"
+  },
+  "ovrigaUpplysningar": "text",
+  "diagnoser": [
+    {
+      "diagnosBeskrivning": "Klämskada skuldra",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S47"
+    }
+  ],
+  "kontaktMedArbetsgivaren": true,
+  "anledningTillKontakt": "Gillar kontakt"
 }

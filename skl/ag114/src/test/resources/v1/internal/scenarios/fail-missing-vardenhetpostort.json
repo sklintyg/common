@@ -16,7 +16,6 @@
         },
         "epost": "ve1@vg1.se",
         "telefonnummer": "0812341234",
-        "postort": "Stadby",
         "postnummer": "100 10",
         "postadress": "Enhetsg. 1",
         "enhetsnamn": "VE1",
@@ -39,13 +38,23 @@
     "typ": "NUVARANDE_ARBETE"
   }],
   "nuvarandeArbete": "Inget",
-  "onskarFormedlaDiagnos": false,
+  "onskarFormedlaDiagnos": true,
   "nedsattArbetsformaga": "Kan jobba halvtid.",
-  "arbetsformagaTrotsSjukdom": false,
+  "arbetsformagaTrotsSjukdom": true,
+  "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
   "sjukskrivningsgrad": "70",
     "sjukskrivningsperiod": {
       "from": "2018-11-10",
       "tom": "2018-11-20"
     },
-  "diagnoser": []
+  "ovrigaUpplysningar": "text",
+  "diagnoser": [
+    {
+      "diagnosBeskrivning": "Klämskada skuldra",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosKod": "S47"
+    }
+  ],
+  "kontaktMedArbetsgivaren": true,
+  "anledningTillKontakt": "Gillar kontakt"
 }
