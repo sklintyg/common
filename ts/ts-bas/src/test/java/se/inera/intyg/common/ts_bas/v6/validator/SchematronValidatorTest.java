@@ -33,9 +33,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 
 public class SchematronValidatorTest {
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("tstrk1007.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
 
     @Test
     public void validMaximalXmlPassesTest() throws Exception {

@@ -29,13 +29,14 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
 
+import se.inera.intyg.common.luse.v1.rest.LuseModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator LUSE_VALIDATOR = new RegisterCertificateValidator("luse.sch");
+    private static final RegisterCertificateValidator LUSE_VALIDATOR = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
 
     static {
         // avoid com.helger debug log

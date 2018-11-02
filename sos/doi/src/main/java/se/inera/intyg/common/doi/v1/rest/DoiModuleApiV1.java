@@ -46,7 +46,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
-    public static final String SCHEMATRON_FILE = "doi.sch";
+    public static final String SCHEMATRON_FILE = "doi.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DoiModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsorsaksintyg";
 

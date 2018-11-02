@@ -51,7 +51,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.luae_fs.v1")
 public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
-    public static final String SCHEMATRON_FILE = "luae_fs.sch";
+    public static final String SCHEMATRON_FILE = "luae_fs.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuaefsModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_aktivitetsersattning";

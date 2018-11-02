@@ -43,6 +43,7 @@ import se.inera.intyg.common.luse.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
+import se.inera.intyg.common.luse.v1.rest.LuseModuleApiV1;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -53,7 +54,7 @@ public class TransportToInternalTest {
 
     private ObjectFactory objectFactory;
     private JAXBContext jaxbContext;
-    private RegisterCertificateValidator validator = new RegisterCertificateValidator("luse.sch");
+    private RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
 
     private static LuseUtlatandeV1 getUtlatande() {
         LuseUtlatandeV1.Builder utlatande = LuseUtlatandeV1.builder();

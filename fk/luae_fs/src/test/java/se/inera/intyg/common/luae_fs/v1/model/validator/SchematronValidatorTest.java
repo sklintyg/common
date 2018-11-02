@@ -29,13 +29,14 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
 
+import se.inera.intyg.common.luae_fs.v1.rest.LuaefsModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("luae_fs.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
 
     static {
         // avoid com.helger debug log

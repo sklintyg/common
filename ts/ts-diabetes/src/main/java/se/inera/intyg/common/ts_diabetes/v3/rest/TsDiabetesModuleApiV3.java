@@ -67,7 +67,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 @Component(value = "moduleapi.ts-diabetes.v3")
 public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatandeV3> {
 
-    public static final String SCHEMATRON_FILE = "tstrk1031.sch"; // change to versioned namning e.g "tstrk1031.v3.sch"
+    public static final String SCHEMATRON_FILE = "tstrk1031.v3.sch";
 
     private static final Logger LOG = LoggerFactory.getLogger(TsDiabetesModuleApiV3.class);
 

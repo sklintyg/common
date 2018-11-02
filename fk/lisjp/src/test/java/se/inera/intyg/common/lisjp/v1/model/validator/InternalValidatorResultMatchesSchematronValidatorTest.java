@@ -53,6 +53,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1;
 import se.inera.intyg.common.lisjp.v1.utils.Scenario;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioNotFoundException;
@@ -168,7 +169,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = getXmlFromModel(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("lisjp.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);

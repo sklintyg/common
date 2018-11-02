@@ -47,7 +47,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.db.v1")
 public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
 
-    public static final String SCHEMATRON_FILE = "db.sch";
+    public static final String SCHEMATRON_FILE = "db.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(DbModuleApiV1.class);
     private static final String PDF_FILENAME_PREFIX = "dodsbevis";
 

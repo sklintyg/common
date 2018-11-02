@@ -62,7 +62,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.lisjp.v1")
 public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
-    public static final String SCHEMATRON_FILE = "lisjp.sch";
+    public static final String SCHEMATRON_FILE = "lisjp.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LisjpModuleApiV1.class);
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_sjukpenning";

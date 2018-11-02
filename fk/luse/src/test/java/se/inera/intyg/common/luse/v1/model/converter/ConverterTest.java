@@ -46,6 +46,7 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
+import se.inera.intyg.common.luse.v1.rest.LuseModuleApiV1;
 import se.inera.intyg.common.luse.v1.validator.InternalDraftValidatorImpl;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -67,7 +68,7 @@ public class ConverterTest {
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("luse.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
@@ -86,7 +87,7 @@ public class ConverterTest {
         String convertedXML = getXmlFromModel(transportConvertedALot);
 
         // Do schematron validation on the xml-string from the converted transport format
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("luse.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
         assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
 

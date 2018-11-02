@@ -51,7 +51,7 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
-    public static final String SCHEMATRON_FILE = "luse.sch";
+    public static final String SCHEMATRON_FILE = "luse.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuseModuleApiV1.class);
     private static final String CERTIFICATE_FILE_PREFIX = "lakarutlatande_sjukersattning";
 

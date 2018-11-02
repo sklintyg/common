@@ -49,6 +49,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
@@ -133,7 +134,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         RegisterCertificateType intyg = scenario.asRivtaV3TransportModel();
         String convertedXML = getXmlFromIntyg(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("tstrk1007.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(TsBasEntryPoint.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);

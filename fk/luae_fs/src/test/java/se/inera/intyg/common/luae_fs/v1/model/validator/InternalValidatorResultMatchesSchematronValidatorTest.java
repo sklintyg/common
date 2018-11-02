@@ -53,6 +53,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.luae_fs.v1.rest.LuaefsModuleApiV1;
 import se.inera.intyg.common.luae_fs.v1.utils.Scenario;
 import se.inera.intyg.common.luae_fs.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.luae_fs.v1.utils.ScenarioNotFoundException;
@@ -169,7 +170,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = getXmlFromModel(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("luae_fs.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);

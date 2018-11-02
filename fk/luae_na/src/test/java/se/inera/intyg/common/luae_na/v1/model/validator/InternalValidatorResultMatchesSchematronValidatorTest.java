@@ -56,6 +56,7 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.fkparent.model.validator.InternalToSchematronValidatorTestUtil;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
+import se.inera.intyg.common.luae_na.v1.rest.LuaenaModuleApiV1;
 import se.inera.intyg.common.luae_na.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -167,7 +168,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = InternalToSchematronValidatorTestUtil.getXmlFromModel(intyg);
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("luae_na.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaenaModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
