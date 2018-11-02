@@ -34,7 +34,11 @@ angular.module('common').factory('ueUtil', ['$parse', '$timeout', 'common.AtticH
             setupWatchers: function _setupWatchers(scope, config) {
 
                 function setupWatcher(watcher) {
-                    scope.$watch(watcher.expression, watcher.listener, watcher.watchDeep);
+                    if(angular.isArray(watcher.expression)) {
+                        scope.$watchGroup(watcher.expression, watcher.listener, watcher.watchDeep);
+                    } else {
+                        scope.$watch(watcher.expression, watcher.listener, watcher.watchDeep);
+                    }
                 }
 
                 if (config.watcher) {

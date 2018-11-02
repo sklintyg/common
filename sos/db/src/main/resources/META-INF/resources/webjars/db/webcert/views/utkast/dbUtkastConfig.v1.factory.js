@@ -45,7 +45,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                     .subtract(1, 'year')
                     .dayOfYear(1)
                     .format('YYYY-MM-DD');
-
+                var today = moment().format('YYYY-MM-DD');
 
                 var config = [
 
@@ -96,6 +96,7 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                         }, {
                             type: 'ue-date',
                             minDate: beginningOfLastYear,
+                            maxDate: today,
                             modelProp: 'undersokningDatum',
                             hideExpression: 'model.undersokningYttre != "UNDERSOKNING_GJORT_KORT_FORE_DODEN"',
                             label: {
@@ -103,6 +104,16 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 helpKey: 'DFR_6.3.HLP',
                                 required: true,
                                 requiredProp: 'undersokningDatum'
+                            },
+                            watcher: {
+                                expression: ['model.antraffatDodDatum', 'model.dodsdatum', 'model.dodsdatumSakert'],
+                                listener: function _maxDateUndersokningListener(newValue, oldValue, scope) {
+                                    if (scope.model.dodsdatumSakert) {
+                                        scope.config.maxDate = scope.model.dodsdatum || today;
+                                    } else {
+                                        scope.config.maxDate = scope.model.antraffatDodDatum || today;
+                                    }
+                                }
                             }
                         }])
                     ]),
