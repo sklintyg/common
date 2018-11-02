@@ -45,10 +45,6 @@ public final class RespConstants {
     public static final String TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4 = "4.1";
     public static final String TYP_AV_DIAGNOS_DELSVAR_ID_4 = "4.2";
     public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID_4 = "diagnoser";
-    public static final String TYP_AV_BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_4 = "4.3";
-    public static final String TYP_AV_BIDIAGNOS_1_DELSVAR_ID_4 = "4.4";
-    public static final String TYP_AV_BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_4 = "4.5";
-    public static final String TYP_AV_BIDIAGNOS_2_DELSVAR_ID_4 = "4.6";
 
     public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID_5 = "5";
     public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5 = "5.1";

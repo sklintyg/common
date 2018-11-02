@@ -69,6 +69,12 @@ public class InternalDraftValidatorImplTest {
     }
 
     @Test
+    public void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
+        ValidateDraftResponse res = validateScenarioFile("pass-maxed");
+        assertEquals(0, getNumberOfInternalValidationErrors(res));
+    }
+
+    @Test
     public void testFailsWhenMissingSysselsattning() throws ScenarioNotFoundException {
         Ag114UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-missing-sysselsattning").asInternalModel();
 

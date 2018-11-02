@@ -18,57 +18,41 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.util.List;
-
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_BIDIAGNOS_1_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_BIDIAGNOS_2_DELSVAR_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_DELSVAR_ID_4;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 
+import java.util.List;
+
+import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
 public final class InternalToTransportUtil {
     private InternalToTransportUtil() {
     }
 
     public static void handleDiagnosSvar(List<Svar> svars, List<Diagnos> diagnoser) {
-        SvarBuilder diagnosSvar = aSvar(TYP_AV_DIAGNOS_SVAR_ID_4);
+        // Could be 0 - 3 diagnoses, uses "instans" to represent multiple values
         for (int i = 0; i < diagnoser.size(); i++) {
+            SvarBuilder diagnosSvar = aSvar(TYP_AV_DIAGNOS_SVAR_ID_4, (i + 1));
             Diagnos diagnos = diagnoser.get(i);
-            if (diagnos.getDiagnosKod() == null) {
-                continue;
-            }
-            Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
-            switch (i) {
-            case 0:
+
+            if (diagnos.getDiagnosKod() != null) {
+
+                Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
                 diagnosSvar.withDelsvar(TYP_AV_DIAGNOS_DELSVAR_ID_4,
                         aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
                         .withDelsvar(TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
-                break;
-            case 1:
-                diagnosSvar.withDelsvar(TYP_AV_BIDIAGNOS_1_DELSVAR_ID_4,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(TYP_AV_BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
-                break;
-            case 2:
-                diagnosSvar.withDelsvar(TYP_AV_BIDIAGNOS_2_DELSVAR_ID_4,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(TYP_AV_BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
-                break;
-            default:
-                throw new IllegalArgumentException();
+                if (!diagnosSvar.delSvars.isEmpty()) {
+                    svars.add(diagnosSvar.build());
+                }
             }
+
         }
-        if (!diagnosSvar.delSvars.isEmpty()) {
-            svars.add(diagnosSvar.build());
-        }
+
     }
 }
