@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
-    ['$log', '$timeout', 'common.ObjectHelper', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
-        function ($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates) {
+    ['$log', '$timeout', 'common.ObjectHelper', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
+        function ($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             function _hasAnyOfIntygAvserBehorighet(model, targetKategorier) {
@@ -497,13 +497,16 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
 
                     kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
                         fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', {
-                            required: true,
-                            requiredProp: requiredKorkortProperties('bedomning.uppfyllerBehorighetskrav', 17)
-                        }, [{
-                            type: 'ue-checkgroup-ts',
-                            modelProp: 'bedomning.uppfyllerBehorighetskrav',
-                            labelTemplate: 'KV_KORKORTSBEHORIGHET_{0}.RBK'
-                        }]),
+                                required: true,
+                                requiredProp: requiredKorkortProperties('bedomning.uppfyllerBehorighetskrav', 17)
+                            },
+                            [{
+                                type: 'ue-checkgroup-ts',
+                                modelProp: 'bedomning.uppfyllerBehorighetskrav',
+                                labelTemplate: 'KV_KORKORTSBEHORIGHET_{0}.RBK',
+                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav', 'KANINTETASTALLNING')
+                            }]
+                        ),
                         fraga(45, 'FRG_45.RBK', 'FRG_45.HLP', {
                             required: true,
                             hideExpression: function(scope) { return !R1(scope);},

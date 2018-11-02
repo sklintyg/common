@@ -18,9 +18,20 @@
  */
 angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
+        'common.domain.BaseAtticModel', 'common.UtilsService',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService) {
             'use strict';
+
+            var uppfyllerBehorighetskravFromTransform = function(backendValue) {
+                var index = UtilsService.findIndexWithPropertyValue(backendValue, 'type', 'KANINTETASTALLNING'),
+                    kanInteTaStallningSelected = (index > -1 && backendValue[index].selected);
+
+                return backendValue.map(function(bedomningsTyp) {
+                    bedomningsTyp.disabled = bedomningsTyp.type === 'KANINTETASTALLNING' ? false : kanInteTaStallningSelected;
+                    return bedomningsTyp;
+                });
+            };
+
 
             var TsDiabetesV3Model = BaseAtticModel._extend({
                 init: function init() {
@@ -95,7 +106,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
 
                         // Kategori 7
                         bedomning: {
-                            uppfyllerBehorighetskrav: undefined,
+                            uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
+                                fromTransform: uppfyllerBehorighetskravFromTransform
+                            }),
                             lampligtInnehav: undefined,
                             borUndersokasBeskrivning: undefined
                         }
