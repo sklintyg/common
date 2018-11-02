@@ -6,6 +6,7 @@
      <wc-checkbox-wrapper>
         <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
                type="checkbox"
+               ng-disabled="choice.disabled"
                ng-model="choice.selected"
                ng-change="updateValidation()">
       <label ng-attr-for="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}">

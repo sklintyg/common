@@ -24,10 +24,21 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
 
         var bedomningFromTransform = function(backendBedomning) {
 
-            var korkortstyp = backendBedomning.korkortstyp;
-            korkortstyp.push({type:'KAN_INTE_TA_STALLNING', selected: !angular.isDefined(backendBedomning.kanInteTaStallning) ? false : backendBedomning.kanInteTaStallning});
+            var frontendObject,
+                korkortstyp,
+                kanInteTaStallningSelected = angular.isDefined(backendBedomning.kanInteTaStallning) && backendBedomning.kanInteTaStallning;
 
-            var frontendObject = {
+            korkortstyp = backendBedomning.korkortstyp.map(function(korkortstypObject) {
+                korkortstypObject.disabled = kanInteTaStallningSelected;
+                return korkortstypObject;
+            });
+
+            korkortstyp.push({
+                type:'KAN_INTE_TA_STALLNING',
+                selected: kanInteTaStallningSelected
+            });
+
+            frontendObject = {
                 korkortstyp: korkortstyp,
                 lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
             };

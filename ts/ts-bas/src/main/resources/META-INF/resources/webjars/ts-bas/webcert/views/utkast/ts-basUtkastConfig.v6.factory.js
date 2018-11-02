@@ -18,8 +18,8 @@
  */
 
 angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
-    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper', 'common.UtilsService',
-        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates, u) {
+    ['$log', '$timeout', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
+        function($log, $timeout, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             function _getCategoryIds() {
@@ -582,49 +582,17 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                     ]),
                     // Bedömning
                     kategori(categoryIds[101], 'KAT_101.RBK', 'KAT_101.HLP', { }, [
-                        fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', { required: true,
-                            requiredProp: requiredKorkortProperties('bedomning')}, [{
-                            labelTemplate:'KORKORT.{0}.RBK',
-                            type: 'ue-checkgroup-ts',
-                            modelProp: 'bedomning.korkortstyp',
-                            watcher: [{
-                                type: '$watch',
-                                watchDeep: true,
-                                expression: 'model.bedomning.korkortstyp',
-                                /*jshint maxcomplexity:11*/
-                                listener: function(newValue, oldValue, scope) {
-                                    if (oldValue && newValue !== oldValue) {
-
-                                        // find if a regular prop or kanintetastallning changed
-                                        var kanInteTaStallningActivated = false;
-                                        var otherActivated = false;
-                                        for(var i = 0; i < newValue.length; i++){
-                                            if(newValue[i].selected !== oldValue[i].selected && newValue[i].selected === true){
-                                                if(!kanInteTaStallningActivated && newValue[i].type === 'KAN_INTE_TA_STALLNING'){
-                                                    kanInteTaStallningActivated = true;
-                                                } else if(!otherActivated) {
-                                                    otherActivated = true;
-                                                }
-                                            }
-                                        }
-
-                                        // deselect all checks from the group not selected if something was selected
-                                        var index = u.findIndexWithPropertyValue(newValue, 'type', 'KAN_INTE_TA_STALLNING');
-                                        if (index !== -1) {
-                                            if(kanInteTaStallningActivated) {
-                                                for(var j = 0; j < scope.model.bedomning.korkortstyp.length; j++){
-                                                    if(index !== j){
-                                                        scope.model.bedomning.korkortstyp[j].selected = false;
-                                                    }
-                                                }
-                                            } else if(otherActivated) {
-                                               scope.model.bedomning.korkortstyp[index].selected = false;
-                                            }
-                                        }
-                                    }
-                                }
+                        fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', {
+                                required: true,
+                                requiredProp: requiredKorkortProperties('bedomning')
+                            },
+                            [{
+                                labelTemplate:'KORKORT.{0}.RBK',
+                                type: 'ue-checkgroup-ts',
+                                modelProp: 'bedomning.korkortstyp',
+                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('korkortstyp', 'KAN_INTE_TA_STALLNING')
                             }]
-                        }]),
+                        ),
                         fraga(33, '', '', { }, [{
                             type: 'ue-text',
                             label: {
