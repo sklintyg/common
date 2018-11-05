@@ -76,9 +76,11 @@ public class UVRendererTest {
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AG)
                 .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG1-14)")
+                .withLeftMarginTypText("AG1-14")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withSignBox(true)
+                .withSignatureLine(true)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);

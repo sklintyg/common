@@ -43,6 +43,7 @@ import se.inera.intyg.common.pdf.eventhandler.IntygFooter;
 import se.inera.intyg.common.pdf.eventhandler.IntygHeader;
 import se.inera.intyg.common.pdf.eventhandler.MarginTexts;
 import se.inera.intyg.common.pdf.eventhandler.PageNumberEvent;
+import se.inera.intyg.common.pdf.eventhandler.SignBox;
 import se.inera.intyg.common.pdf.eventhandler.WaterMarkerer;
 import se.inera.intyg.common.pdf.model.*;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -81,6 +82,7 @@ public class UVRenderer {
     public PdfFont fragaDelFragaFont;
     public PdfFont svarFont;
     private PdfFont watermarkFont;
+    private PdfFont signBoxFont;
 
     private ScriptObjectMirror jsIntygModel;
     private IntygTexts intygTexts;
@@ -98,6 +100,7 @@ public class UVRenderer {
         this.fragaDelFragaFont = loadFont("Roboto-Medium.woff2");
         this.svarFont = loadFont("Roboto-Regular.woff2");
         this.watermarkFont = loadFont("Roboto-Medium.woff2");
+        this.signBoxFont = loadFont("Roboto-Regular.woff2");
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
@@ -120,6 +123,8 @@ public class UVRenderer {
                     new MarginTexts(printConfig, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
                     new WaterMarkerer(printConfig, watermarkFont));
+            pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
+                        new SignBox(printConfig, signBoxFont));
 
             PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,

@@ -51,6 +51,8 @@ public class PrintConfig {
     private boolean isUtkast;
     private boolean isLockedUtkast;
     private boolean isMakulerad;
+    private boolean showSignBox;
+    private boolean showSignatureLine;
 
     private ApplicationOrigin applicationOrigin;
 
@@ -110,6 +112,14 @@ public class PrintConfig {
         return isMakulerad;
     }
 
+    public boolean showSignBox() {
+        return showSignBox;
+    }
+
+    public boolean showSignatureLine() {
+        return showSignatureLine;
+    }
+
     public ApplicationOrigin getApplicationOrigin() {
         return applicationOrigin;
     }
@@ -128,6 +138,8 @@ public class PrintConfig {
         private boolean isUtkast;
         private boolean isLockedUtkast;
         private boolean isMakulerad;
+        private boolean showSignBox;
+        private boolean showSignatureLine;
         private ApplicationOrigin applicationOrigin;
 
         private PrintConfigBuilder() {
@@ -207,6 +219,16 @@ public class PrintConfig {
             return this;
         }
 
+        public PrintConfigBuilder withSignBox(boolean showSignBox) {
+            this.showSignBox = showSignBox;
+            return this;
+        }
+
+        public PrintConfigBuilder withSignatureLine(boolean showSignatureLine) {
+            this.showSignatureLine = showSignatureLine;
+            return this;
+        }
+
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
             printConfig.isUtkast = this.isUtkast;
@@ -223,6 +245,8 @@ public class PrintConfig {
             printConfig.intygsNamn = this.intygsNamn;
             printConfig.intygsId = this.intygsId;
             printConfig.isLockedUtkast = this.isLockedUtkast;
+            printConfig.showSignBox = this.showSignBox;
+            printConfig.showSignatureLine = this.showSignatureLine;
             return printConfig;
         }
     }

@@ -18,8 +18,11 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 import com.google.common.base.Strings;
+import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.LineSeparator;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -50,7 +53,7 @@ public class UVSkapadAv extends UVComponent {
         String signaturDatum = buildSigneringsDatum();
 
         boolean isUtkast = renderer.getPrintConfig().isUtkast() || renderer.getPrintConfig().isLockedUtkast();
-
+        boolean showSignatureLine = renderer.getPrintConfig().showSignatureLine();
         // Render
         parent.setKeepTogether(true);
         parent.add(new Paragraph("Intygsutfärdare:")
@@ -82,6 +85,24 @@ public class UVSkapadAv extends UVComponent {
                     .setFont(renderer.svarFont)
                     .setFontSize(SVAR_FONT_SIZE));
         }
+        if (showSignatureLine) {
+            // CHECKSTYLE:OFF MagicNumber
+            Div lineDiv = new Div();
+            lineDiv.setWidth(millimetersToPoints(50f));
+            lineDiv.setMarginTop(20f);
+            final SolidLine lineDrawer = new SolidLine(1f);
+            lineDrawer.setColor(wcColor07);
+            lineDiv.add(new LineSeparator(lineDrawer));
+            parent.add(lineDiv);
+
+            parent.add(new Paragraph("Intygsutfärdarens underskrift")
+                    .setMarginTop(5f)
+                    .setMarginBottom(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+            // CHECKSTYLE:ON MagicNumber
+        }
+
         return true;
     }
 

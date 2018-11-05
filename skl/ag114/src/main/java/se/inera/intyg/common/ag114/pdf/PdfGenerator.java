@@ -91,6 +91,8 @@ public class PdfGenerator {
                     .withIsLockedUtkast(isLockedUtkast)
                     .withIsMakulerad(isMakulerad)
                     .withApplicationOrigin(applicationOrigin)
+                    .withSignBox(true)
+                    .withSignatureLine(true)
                     .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
