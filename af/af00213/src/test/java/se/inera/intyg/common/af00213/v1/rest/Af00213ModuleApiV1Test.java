@@ -21,6 +21,7 @@ package se.inera.intyg.common.af00213.v1.rest;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -29,6 +30,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.af00213.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
@@ -366,6 +369,19 @@ public class Af00213ModuleApiV1Test {
     }
 
     @Test
+    public void testUpdateBeforeViewing() throws IOException, ModuleException, JSONException {
+        Patient updatedPatient = createPatient("fornamn","efternamn","19270310-4321");
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        final String validMinimalJson = getResourceAsString(new ClassPathResource(TESTFILE_UTLATANDE));
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        assertNotNull(res);
+        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
+    }
+
+    @Test
     public void testRevokeCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
         String xmlContents = Resources.toString(Resources.getResource("revokerequest.xml"), Charsets.UTF_8);
@@ -464,4 +480,7 @@ public class Af00213ModuleApiV1Test {
                 TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
     }
 
+    private String getResourceAsString(ClassPathResource cpr) throws IOException {
+        return Resources.toString(cpr.getURL(), Charsets.UTF_8);
+    }
 }

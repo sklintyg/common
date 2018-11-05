@@ -38,14 +38,11 @@ import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.apache.commons.lang.StringUtils;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -352,6 +349,7 @@ public class TsDiabetesModuleApiV3Test {
                 .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
+        assertNotNull(response);
         assertEquals(internalModel, response);
         verify(moduleService, times(0)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }
@@ -369,6 +367,7 @@ public class TsDiabetesModuleApiV3Test {
                 .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
+        assertNotNull(response);
         assertEquals(internalModel, response);
         verify(moduleService, times(0)).getDescriptionFromDiagnosKod(anyString(), anyString());
     }

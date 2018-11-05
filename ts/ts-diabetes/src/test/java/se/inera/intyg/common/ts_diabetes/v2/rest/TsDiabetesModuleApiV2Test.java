@@ -29,10 +29,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -52,6 +52,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
 
@@ -67,11 +69,8 @@ import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -476,6 +475,24 @@ public class TsDiabetesModuleApiV2Test {
         assertEquals(INTYG_ID, resultObject.getRevoke().getLakarutlatande().getLakarutlatandeId());
     }
 
+    @Test
+    public void testUpdateBeforeViewing() throws Exception {
+        Patient updatedPatient = new Patient();
+        updatedPatient.setEfternamn("updated lastName");
+        updatedPatient.setMellannamn("updated middle-name");
+        updatedPatient.setFornamn("updated firstName");
+        updatedPatient.setFullstandigtNamn("updated full name");
+        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        final String validMinimalJson = getResourceAsString(new ClassPathResource("v2/scenarios/internal/valid-minimal.json"));
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        assertNotNull(res);
+        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
+    }
+
     private CreateNewDraftHolder createNewDraftHolder() {
         HoSPersonal hosPersonal = createHosPersonal();
         Patient patient = new Patient();
@@ -512,6 +529,10 @@ public class TsDiabetesModuleApiV2Test {
         meta.setAdditionalInfo("C");
         meta.setAvailable("true");
         return meta;
+    }
+
+    private String getResourceAsString(ClassPathResource cpr) throws IOException {
+        return Resources.toString(cpr.getURL(), Charsets.UTF_8);
     }
 
     private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {

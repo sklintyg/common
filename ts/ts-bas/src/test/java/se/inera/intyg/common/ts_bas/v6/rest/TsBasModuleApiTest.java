@@ -29,6 +29,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -329,6 +331,25 @@ public class TsBasModuleApiTest {
 
         String result = moduleApi.getAdditionalInfo(intyg);
         assertNull(result);
+    }
+
+    @Test
+    public void testUpdateBeforeViewing() throws Exception {
+        Patient updatedPatient = new Patient();
+        updatedPatient.setEfternamn("updated lastName");
+        updatedPatient.setMellannamn("updated middle-name");
+        updatedPatient.setFornamn("updated firstName");
+        updatedPatient.setFullstandigtNamn("updated full name");
+        updatedPatient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        final String validMinimalJson = getResourceAsString(new ClassPathResource("v6/scenarios/internal/valid-minimal.json"));
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+
+        assertNotNull(res);
+        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
     }
 
     private IntygMeta createMeta() throws ScenarioNotFoundException {

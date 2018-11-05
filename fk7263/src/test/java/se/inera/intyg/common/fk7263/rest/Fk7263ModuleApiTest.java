@@ -119,20 +119,21 @@ public class Fk7263ModuleApiTest {
     @Test
     public void updatePatientBeforeSave() throws IOException, ModuleException {
         Fk7263Utlatande utlatande = getUtlatandeFromFile();
+        Patient updatedPatient = createUpdatedPatient();
 
-        Patient patient = new Patient();
-        patient.setEfternamn("updated lastName");
-        patient.setMellannamn("updated middle-name");
-        patient.setFornamn("updated firstName");
-        patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(createPnr("19121212-1212"));
-        patient.setPostadress("updated postal address");
-        patient.setPostnummer("1111111");
-        patient.setPostort("updated post city");
-
-        String res = fk7263ModuleApi.updateBeforeSave(toJsonString(utlatande), patient);
+        String res = fk7263ModuleApi.updateBeforeSave(toJsonString(utlatande), updatedPatient);
         assertNotNull(res);
-        assertEquals(patient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
+        assertEquals(updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
+    }
+
+    @Test
+    public void testUpdatePatientBeforeViewing() throws Exception {
+        Fk7263Utlatande utlatande = getUtlatandeFromFile();
+        Patient updatedPatient = createUpdatedPatient();
+
+        String res = fk7263ModuleApi.updateBeforeViewing(toJsonString(utlatande), updatedPatient);
+        assertNotNull(res);
+        assertEquals(updatedPatient, fk7263ModuleApi.getUtlatandeFromJson(res).getGrundData().getPatient());
     }
 
     @Test
@@ -490,6 +491,20 @@ public class Fk7263ModuleApiTest {
         }
 
         return holder;
+    }
+
+    private Patient createUpdatedPatient() {
+        Patient updatedPatient = new Patient();
+        updatedPatient.setEfternamn("updated lastName");
+        updatedPatient.setMellannamn("updated middle-name");
+        updatedPatient.setFornamn("updated firstName");
+        updatedPatient.setFullstandigtNamn("updated full name");
+        updatedPatient.setPersonId(createPnr("19121212-1212"));
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        return updatedPatient;
     }
 
     private Personnummer createPnr(String civicRegistrationNumber) {

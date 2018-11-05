@@ -43,6 +43,7 @@ import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -220,6 +221,12 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         } catch (Exception e) {
             throw new ModuleException(e);
         }
+    }
+
+    @Override
+    // INTYG-7449, INTYG-7529: The saved patient data should not be overwritten for this intyg.
+    public String updateBeforeViewing(String internalModel, Patient patient) {
+        return internalModel;
     }
 
     @Override

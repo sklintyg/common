@@ -264,6 +264,19 @@ public interface ModuleApi {
     String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate) throws ModuleException;
 
     /**
+     * Returns an updated version of the internal model for viewing, with new patient information applied.
+     *
+     * @param internalModel
+     *            the internal model to use as a base
+     * @param patient
+     *            the patient complement the model with
+     * @return the new internal model updated with the Patient info
+     * @throws ModuleException
+     *             if the mapping of the internal model to String failed
+     */
+    String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException;
+
+    /**
      * Create a revoke request using the Utlatande and the HoSPersonal.
      *
      * @param utlatande

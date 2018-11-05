@@ -409,20 +409,10 @@ public class FkParentModuleApiTest {
 
     @Test
     public void testUpdatePatientBeforeSave() throws Exception {
-
-        Patient patient = new Patient();
-        patient.setEfternamn("updated lastName");
-        patient.setMellannamn("updated middle-name");
-        patient.setFornamn("updated firstName");
-        patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
-        patient.setPostadress("updated postal address");
-        patient.setPostnummer("1111111");
-        patient.setPostort("updated post city");
-
-        String res = moduleApi.updateBeforeSave(json, patient);
+        Patient updatedPatient = createUpdatedPatient();
+        String res = moduleApi.updateBeforeSave(json, updatedPatient);
         assertNotNull(res);
-        assertEquals(patient, moduleApi.getInternal(res).getGrundData().getPatient());
+        assertEquals(updatedPatient, moduleApi.getInternal(res).getGrundData().getPatient());
     }
 
     @Test
@@ -444,6 +434,14 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testUpdateBeforeSigningInvalidJson() throws Exception {
         moduleApi.updateBeforeSigning("invalidJson", new HoSPersonal(), LocalDateTime.now());
+    }
+
+    @Test
+    public void testUpdatePatientBeforeViewing() throws Exception {
+        Patient updatedPatient = createUpdatedPatient();
+        String res = moduleApi.updateBeforeViewing(json,updatedPatient);
+        assertNotNull(res);
+        assertEquals(updatedPatient, moduleApi.getInternal(res).getGrundData().getPatient());
     }
 
     @Test
@@ -559,6 +557,20 @@ public class FkParentModuleApiTest {
         assertNotNull(resultObject);
         assertEquals(meddelande, resultObject.getMeddelande());
         assertEquals(INTYG_ID, resultObject.getIntygsId().getExtension());
+    }
+
+    private Patient createUpdatedPatient() throws Exception {
+        Patient patient = new Patient();
+        patient.setEfternamn("updated lastName");
+        patient.setMellannamn("updated middle-name");
+        patient.setFornamn("updated firstName");
+        patient.setFullstandigtNamn("updated full name");
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
+        patient.setPostadress("updated postal address");
+        patient.setPostnummer("54321");
+        patient.setPostort("updated post city");
+
+        return patient;
     }
 
     public static class TestUtlatande implements Utlatande {

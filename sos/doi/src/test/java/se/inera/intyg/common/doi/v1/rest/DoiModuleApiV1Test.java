@@ -45,6 +45,9 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.core.io.ClassPathResource;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -193,6 +196,20 @@ public class DoiModuleApiV1Test {
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
+    }
+
+    @Test
+    public void testUpdateBeforeViewing() throws Exception {
+        Patient updatedPatient = createPatient("", "", "191212121212");
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        final String validMinimalJson = getResourceAsString(new ClassPathResource("v1/internal/scenarios/pass-1.json"));
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+
+        assertNotNull(res);
+        JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
 
     @Test(expected = ModuleException.class)
@@ -440,5 +457,9 @@ public class DoiModuleApiV1Test {
         value.setResultCode(res);
         retVal.setResult(value);
         return retVal;
+    }
+
+    private String getResourceAsString(ClassPathResource cpr) throws IOException {
+        return Resources.toString(cpr.getURL(), Charsets.UTF_8);
     }
 }

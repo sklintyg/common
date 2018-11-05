@@ -44,6 +44,9 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.core.io.ClassPathResource;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -60,6 +63,7 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -191,6 +195,19 @@ public class DbModuleApiTest {
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
+    }
+
+    @Test
+    public void testUpdateBeforeViewing() throws Exception {
+        Patient updatedPatient = createPatient("fornamn","efternamn","19121212-1212");
+        updatedPatient.setPostadress("updated postal address");
+        updatedPatient.setPostnummer("54321");
+        updatedPatient.setPostort("updated post city");
+
+        final String validMinimalJson = getResourceAsString(new ClassPathResource("v1/internal/scenarios/pass-1.json"));
+        final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
+        assertNotNull(res);
+        JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
 
     @Test(expected = ModuleException.class)
@@ -359,7 +376,7 @@ public class DbModuleApiTest {
     }
 
     @Test
-    public void tesGetUtlatandeFromXml() {
+    public void testGetUtlatandeFromXml() {
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
             DbUtlatandeV1 res = (DbUtlatandeV1) moduleApi.getUtlatandeFromXml(xmlContents);
@@ -409,6 +426,14 @@ public class DbModuleApiTest {
         return hosPerson;
     }
 
+    private Patient createPatient(String fornamn, String efternamn, String personnummer) {
+        Patient patient = new Patient();
+        patient.setPersonId(Personnummer.createPersonnummer( (personnummer != null) ? personnummer : "191212121212").get());
+        patient.setFornamn(fornamn);
+        patient.setEfternamn(efternamn);
+        return patient;
+    }
+
     private Vardenhet createVardenhet() {
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId");
@@ -425,5 +450,9 @@ public class DbModuleApiTest {
         value.setResultCode(res);
         retVal.setResult(value);
         return retVal;
+    }
+
+    private String getResourceAsString(ClassPathResource cpr) throws IOException {
+        return Resources.toString(cpr.getURL(), Charsets.UTF_8);
     }
 }

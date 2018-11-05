@@ -218,6 +218,11 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+        return updateInternal(internalModel, patient);
+    }
+
+    @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields, UtkastStatus utkastStatus)
             throws ModuleException {

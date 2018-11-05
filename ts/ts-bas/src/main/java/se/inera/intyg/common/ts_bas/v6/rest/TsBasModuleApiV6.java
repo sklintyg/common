@@ -37,6 +37,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
@@ -146,6 +147,12 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
+    }
+
+    @Override
+    // INTYG-7449, INTYG-7529: Saved patient data should not be overwritten for this intyg.
+    public String updateBeforeViewing(String internalModel, Patient patient) {
+        return internalModel;
     }
 
     @Override

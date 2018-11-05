@@ -295,6 +295,23 @@ public class Ag114ModuleApiTest {
         assertEquals(TEST_HSA_ID, utlatandeFromJson.getGrundData().getSkapadAv().getPersonId());
     }
 
+    @Test
+    public void testUpdateBeforeViewing() throws IOException, ModuleException {
+        final String json = Resources
+                .toString(new ClassPathResource("v1/internal/scenarios/pass-minimal.json").getURL(), Charsets.UTF_8);
+
+        final Patient updatedPatient = createPatient("Nytt","Namn", TEST_PATIENT_PERSONNR);
+
+        Ag114UtlatandeV1 utlatandeBeforeViewing = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
+        assertNotEquals(TEST_PATIENT_PERSONNR, utlatandeBeforeViewing.getGrundData().getPatient().getPersonId().getPersonnummer());
+
+        when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeViewing);
+
+        final String internalModelResponse = moduleApi.updateBeforeViewing(json, updatedPatient);
+        final Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
+        assertEquals(updatedPatient, utlatandeFromJson.getGrundData().getPatient());
+    }
+
 //    @Test
 //    public void testRevokeCertificate() throws Exception {
 //        final String logicalAddress = "logicalAddress";

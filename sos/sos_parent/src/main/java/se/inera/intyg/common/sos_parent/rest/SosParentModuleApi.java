@@ -239,6 +239,12 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     }
 
     @Override
+    // INTYG-7449, INTYG-7529: Saved patient data should not be overwritten for this intyg.
+    public String updateBeforeViewing(String internalModel, Patient patient) {
+        return internalModel;
+    }
+
+    @Override
     public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, type);
     }

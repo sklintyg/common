@@ -342,6 +342,11 @@ public class Fk7263ModuleApi implements ModuleApi {
     }
 
     @Override
+    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+        return updateInternal(internalModel, patient);
+    }
+
+    @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
         Fk7263Utlatande oldUtlatande;
         Fk7263Utlatande newUtlatande;

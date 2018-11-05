@@ -249,6 +249,11 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
+    public String updateBeforeViewing(String internalModel, Patient patient) throws ModuleException {
+        return updateInternal(internalModel, patient);
+    }
+
+    @Override
     public Utlatande getUtlatandeFromJson(String utlatandeJson) throws ModuleException, IOException {
         return objectMapper.readValue(utlatandeJson, type);
     }
