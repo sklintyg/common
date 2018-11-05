@@ -36,6 +36,9 @@ import java.util.stream.Collectors;
  * uvConfig.
  */
 public class UVList extends UVComponent {
+
+    private boolean useLabelKeyForPrint = false;
+
     public UVList(UVRenderer renderer) {
         super(renderer);
     }
@@ -49,6 +52,9 @@ public class UVList extends UVComponent {
 
         Object listKeyObj = currentUvNode.get("listKey");
         Object modelPropObj = currentUvNode.get(MODEL_PROP);
+
+        useLabelKeyForPrint = currentUvNode.get("useLabelKeyForPrint") == null
+                ? false : (Boolean) currentUvNode.get("useLabelKeyForPrint");
 
         // First, resolve the actual values using either String- or function based resolving and push the textual values
         // into a list.
@@ -82,7 +88,7 @@ public class UVList extends UVComponent {
             Object modelPropObj) {
         ScriptObjectMirror listKey = listKeyObj;
         if (modelPropObj instanceof String) {
-            buildListResultFromStringModelProp(results, listKey, (String) modelPropObj);
+            buildListResultFromStringModelProp(results, listKey, (String) modelPropObj, labelKey);
         } else if (modelPropObj instanceof ScriptObjectMirror) {
             ScriptObjectMirror modelProps = (ScriptObjectMirror) modelPropObj;
             if (modelProps.isArray()) {
@@ -201,7 +207,8 @@ public class UVList extends UVComponent {
         }
     }
 
-    private void buildListResultFromStringModelProp(List<String> results, ScriptObjectMirror listKey, String modelPropObj) {
+    private void buildListResultFromStringModelProp(List<String> results, ScriptObjectMirror listKey,
+                                                    String modelPropObj, String labelKey) {
         Object eval = renderer.evalValueFromModel(modelPropObj);
 
         // Lists are tricky. Check if the listKey is a function
@@ -216,7 +223,12 @@ public class UVList extends UVComponent {
                 for (Object o : evaluatedModelProp.values()) {
                     Object result = listKey.call(null, o, index++);
                     if (result != null) {
-                        results.add((String) result);
+                        if (useLabelKeyForPrint) {
+                            String textKey = labelKey.replaceAll("\\{var\\}", (String) result);
+                            results.add(renderer.getText(textKey));
+                        } else {
+                            results.add((String) result);
+                        }
                     }
                 }
             }

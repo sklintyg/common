@@ -28,6 +28,7 @@ var viewConfig = [
                     components: [{
                         type: 'uv-list',
                         labelKey: 'KORKORT_{var}.RBK',
+                        useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;
                         },
@@ -408,6 +409,7 @@ var viewConfig = [
                         components: [{
                             type: 'uv-list',
                             labelKey: 'KV_KORKORTSBEHORIGHET_{var}.RBK',
+                            useLabelKeyForPrint: true,
                             listKey: function(model) {
                                 return model.selected ? model.type : null;
                             },
