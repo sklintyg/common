@@ -3,6 +3,10 @@
   "id": "1234567",
   "textVersion": "1",
   "grundData": {
+    "patient": {
+      "samordningsNummer": false,
+      "personId": "192703104321"
+    },
     "skapadAv": {
       "vardenhet": {
         "arbetsplatsKod": "45312",
@@ -35,13 +39,12 @@
     "typ": "NUVARANDE_ARBETE"
   }],
   "nuvarandeArbete": "Inget",
-  "diagnoser": [
-    {
-      "diagnosBeskrivning": "Klämskada skuldra",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosKod": "S47"
-    }
-  ],
-  "kontaktMedArbetsgivaren": true,
-  "anledningTillKontakt": "Gillar kontakt"
+  "onskarFormedlaDiagnos": false,
+  "nedsattArbetsformaga": "Kan jobba halvtid.",
+  "sjukskrivningsgrad": "70",
+  "sjukskrivningsperiod": {
+    "from": "2018-11-10",
+    "tom": "2018-11-20"
+  },
+  "diagnoser": []
 }

@@ -108,6 +108,14 @@
     </iso:rule>
   </iso:pattern>
 
+  <iso:pattern id="q4.instans">
+    <iso:rule context="//gn:svar[@id='4']">
+      <iso:assert test="count(gn:instans) = 1">
+        'Diagnos' måste ha ett instansnummer.
+      </iso:assert>
+    </iso:rule>
+   </iso:pattern>
+
   <iso:pattern id="q4.1">
     <iso:rule context="//gn:svar[@id='4']/gn:delsvar[@id='4.1']">
       <iso:extends rule="non-empty-string"/>
@@ -262,6 +270,14 @@
       <iso:extends rule="non-empty-string"/>
     </iso:rule>
   </iso:pattern>
+
+    <iso:pattern id="q9.2-R2">
+        <iso:rule context="//gn:delsvar[@id='9.1' and matches(normalize-space(.), 'true|1')]">
+          <iso:assert test="count(../gn:delsvar[@id='9.2']) = 1">
+            Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras.
+          </iso:assert>
+        </iso:rule>
+      </iso:pattern>
 
   <iso:pattern id="non-empty-string-pattern">
     <iso:rule id="non-empty-string" abstract="true">

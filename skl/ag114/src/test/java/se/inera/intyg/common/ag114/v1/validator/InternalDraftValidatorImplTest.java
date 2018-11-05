@@ -165,17 +165,6 @@ public class InternalDraftValidatorImplTest {
     }
 
     @Test
-    public void testFailsWhenMissingSjukskrivningsperiodTom() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-sjukskrivningsperiod-tom");
-
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-        Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-    }
-
-    @Test
     public void testFailsWhenInvalidSjukskrivningsperiod() throws ScenarioNotFoundException {
         ValidateDraftResponse res = validateScenarioFile("fail-invalid-sjukskrivningsperiod");
 
@@ -195,17 +184,6 @@ public class InternalDraftValidatorImplTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         Assert.assertEquals(CATEGORY_KONTAKT, error.getCategory());
         Assert.assertEquals(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9, error.getField());
-        assertEquals(ValidationMessageType.EMPTY, error.getType());
-    }
-
-    @Test
-    public void testFailsWhenMissingSkapadAvPostort() throws ScenarioNotFoundException {
-        ValidateDraftResponse res = validateScenarioFile("fail-missing-vardenhetpostort");
-
-        assertEquals(1, getNumberOfInternalValidationErrors(res));
-        ValidationMessage error = res.getValidationErrors().get(0);
-        Assert.assertEquals("vardenhet", error.getCategory());
-        Assert.assertEquals("grunddata.skapadAv.vardenhet.postort", error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 

@@ -18,36 +18,6 @@
  */
 package se.inera.intyg.common.ag114.v1.model.validator;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.ag114.v1.utils.Scenario;
-import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
-import se.inera.intyg.common.ag114.v1.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getInternalValidationErrorString;
@@ -55,6 +25,38 @@ import static se.inera.intyg.common.agparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getNumberOfTransportValidationErrors;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
+
+import java.io.ByteArrayInputStream;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.xml.transform.stream.StreamSource;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.MockitoAnnotations;
+import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import org.springframework.test.util.ReflectionTestUtils;
+
+import com.google.common.base.Charsets;
+import com.google.common.collect.ImmutableList;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
+
+import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.utils.Scenario;
+import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.ag114.v1.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl;
+import se.inera.intyg.common.ag114.v1.validator.ValidatorUtilSKL;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
@@ -67,30 +69,25 @@ import static se.inera.intyg.common.agparent.model.validator.InternalToSchematro
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
 
-    private Scenario scenario;
-
-    private boolean shouldFail;
-
-    // Used for labeling tests.
-    private static String name;
-
     /*
      * Due to the existence of virtual intyg fields in Webcert, there is a discrepancy between the numbers of errors in
      * the schematron validation vs the Webcert validation. Thus those fields should be ignored for the purposes of
      * comparing the internal (Webcert) validation and the schematron validation of intyg.
      */
     private static final ImmutableList<String> IGNORED_FIELDS = ImmutableList.of("motiveringTillInteBaseratPaUndersokning");
+    // Used for labeling tests.
+    private static String name;
+    private static InternalDraftValidatorImpl internalValidator;
 
     static {
         // avoid com.helger debug log
         GlobalDebug.setDebugModeDirect(false);
+        internalValidator = new InternalDraftValidatorImpl();
+        ReflectionTestUtils.setField(internalValidator, "validatorUtilSKL", new ValidatorUtilSKL());
     }
 
-    @Mock
-    private static WebcertModuleService mockModuleService;
-
-    @InjectMocks
-    private static InternalDraftValidatorImpl internalValidator;
+    private Scenario scenario;
+    private boolean shouldFail;
 
     public InternalValidatorResultMatchesSchematronValidatorTest(String name, Scenario scenario, boolean shouldFail) {
         this.scenario = scenario;
@@ -119,20 +116,9 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         return retList;
     }
 
-    @Before
-    public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void testScenarios() throws Exception {
-        // doInternalAndSchematronValidation(scenario, shouldFail);
-        System.err.println("Placeholder until we have a failing scenario...");
-    }
-
     /**
      * Perform internal and schematron validation on the supplied Scenario.
-     * 
+     *
      * @param scenario
      * @param fail
      *            Whether the test should expect validation errors or not.
@@ -147,7 +133,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         String convertedXML = getXmlFromModel(intyg);
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator("test-ag114.v1.sch");
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 
@@ -159,9 +146,11 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     private static void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
             String internalValidationErrors, String transportValidationErrors) {
         if (fail) {
-            assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
-                    name, transportValidationErrors, internalValidationErrors),
-                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
+            assertEquals(
+                    String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
+                            name, transportValidationErrors, internalValidationErrors),
+                    getNumberOfTransportValidationErrors(result),
+                    getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
                     name),
                     internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
@@ -177,6 +166,16 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
                     name, transportValidationErrors),
                     SVRLHelper.getAllFailedAssertions(result).size() == 0);
         }
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void testScenarios() throws Exception {
+        doInternalAndSchematronValidation(scenario, shouldFail);
     }
 
 }
