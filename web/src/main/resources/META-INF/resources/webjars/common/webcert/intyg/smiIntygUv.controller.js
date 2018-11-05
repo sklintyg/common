@@ -43,9 +43,6 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
 
-            //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast)
-            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, $stateParams.intygTypeVersion, true, false);
-
             //Did we just sign this intyg, and was it determined that we need to show approve receivers dialog for it?
             if ($stateParams.signed && receiverService.getData().showApproveDialog) {
                 receiverService.getData().showApproveDialog = false;
@@ -82,6 +79,9 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                         }
 
                         ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+
+                        //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast)
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, ViewState.intygModel.textVersion, true, false);
 
                         $scope.cert = result.contents;
 

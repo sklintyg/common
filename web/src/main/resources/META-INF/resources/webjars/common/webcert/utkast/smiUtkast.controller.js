@@ -70,9 +70,9 @@ angular.module('common').controller('smi.EditCertCtrl',
                 }
             });
 
-            $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering) {
+            $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
                 //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast)
-                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, $stateParams.intygTypeVersion, false, isKomplettering);
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false, isKomplettering);
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {

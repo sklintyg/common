@@ -171,7 +171,7 @@ describe('UtkastService', function() {
             expect(commonViewState.intyg.isKomplettering).toBeFalsy();
             expect(resultData.braIntygsData).toBe('bra');
             expect($rootScope.$broadcast.calls.count()).toBe(6);
-            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['utkast.supportPanelConfig', false]);
+            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['utkast.supportPanelConfig', false, '1.0']);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);
@@ -219,7 +219,7 @@ describe('UtkastService', function() {
             expect(viewState.common.doneLoading).toBeTruthy();
             expect(commonViewState.intyg.isKomplettering).toBeTruthy();
             expect($rootScope.$broadcast.calls.count()).toBe(6);
-            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['utkast.supportPanelConfig', true]);
+            expect($rootScope.$broadcast.calls.argsFor(2)).toEqual(['utkast.supportPanelConfig', true, '1.0']);
             expect($rootScope.$broadcast.calls.argsFor(3)).toEqual(['intyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(4)).toEqual(['testIntyg.loaded', response.content]);
             expect($rootScope.$broadcast.calls.argsFor(5)).toEqual(['ViewCertCtrl.load', null, { isSent: false, isRevoked: false }]);

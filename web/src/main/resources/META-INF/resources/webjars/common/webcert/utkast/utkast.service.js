@@ -101,7 +101,7 @@ angular.module('common').factory('common.UtkastService',
                         // update model here so controls dependent on correct models at startup has the right values first
                         viewState.common.update(viewState.draftModel, utkastData);
 
-                        $rootScope.$broadcast('utkast.supportPanelConfig', viewState.common.intyg.isKomplettering);
+                        $rootScope.$broadcast('utkast.supportPanelConfig', viewState.common.intyg.isKomplettering, viewState.draftModel.content.textVersion);
 
                         // updateDynamicLabels will update draftModel.content with Tillaggsfragor
                         dynamicLabelService.updateDynamicLabels(intygsTyp, utkastData.latestTextVersion).then(
