@@ -82,10 +82,8 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -141,33 +139,6 @@ public class Ag114ModuleApiTest {
         String result = moduleApi.getAdditionalInfo(intyg);
 
         assertEquals("2018-11-10 - 2018-11-20", result);
-    }
-
-    @Test
-    public void testSendCertificateToRecipientShouldUseXml() {
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
-        try {
-            String xmlContents = Resources.toString(Resources.getResource("v1/ag114-simple-valid.xml"), Charsets.UTF_8);
-            moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
-
-            verify(registerCertificateResponderInterface, times(1)).registerCertificate(same(LOGICAL_ADDRESS), any());
-
-        } catch (ModuleException | IOException e) {
-            fail();
-        }
-    }
-
-    @Test(expected = ModuleException.class)
-    public void testSendCertificateToRecipientFailsWithoutXmlModel() throws ModuleException {
-        moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
-    }
-
-    @Test(expected = ExternalServiceCallException.class)
-    public void testSendCertificateToRecipientFailsForNonOkResponse() throws Exception {
-        String xmlContents = Resources.toString(Resources.getResource("v1/ag114-simple-valid.xml"), Charsets.UTF_8);
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
-        moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     }
 
     @Test

@@ -19,7 +19,6 @@
 package se.inera.intyg.common.agparent.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,24 +176,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
-            throw new ModuleException("Request does not contain the original xml");
-        }
-        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
-
-        try {
-            RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
-
-            if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
-                String message = response.getResult().getResultText();
-                LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
-                throw new ExternalServiceCallException(message);
-            }
-        } catch (SOAPFaultException e) {
-            throw new ExternalServiceCallException(e);
-        }
+        throw new UnsupportedOperationException("An AG-intyg is not supposed to be sent to any recipient.");
     }
 
     @Override
