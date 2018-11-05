@@ -18,18 +18,12 @@
  */
 angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.UtilsService',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService) {
+        'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
             'use strict';
 
             var uppfyllerBehorighetskravFromTransform = function(backendValue) {
-                var index = UtilsService.findIndexWithPropertyValue(backendValue, 'type', 'KANINTETASTALLNING'),
-                    kanInteTaStallningSelected = (index > -1 && backendValue[index].selected);
-
-                return backendValue.map(function(bedomningsTyp) {
-                    bedomningsTyp.disabled = bedomningsTyp.type === 'KANINTETASTALLNING' ? false : kanInteTaStallningSelected;
-                    return bedomningsTyp;
-                });
+                return tsBaseHelper.setupKorkortstypChoices(backendValue, 'KANINTETASTALLNING');
             };
 
 
