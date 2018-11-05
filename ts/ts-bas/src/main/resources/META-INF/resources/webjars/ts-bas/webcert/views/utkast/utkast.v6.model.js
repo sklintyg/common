@@ -18,32 +18,23 @@
  */
 angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.UtilsService',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u) {
+        'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u, tsBaseHelper) {
         'use strict';
 
         var bedomningFromTransform = function(backendBedomning) {
 
-            var frontendObject,
-                korkortstyp,
-                kanInteTaStallningSelected = angular.isDefined(backendBedomning.kanInteTaStallning) && backendBedomning.kanInteTaStallning;
-
-            korkortstyp = backendBedomning.korkortstyp.map(function(korkortstypObject) {
-                korkortstypObject.disabled = kanInteTaStallningSelected;
-                return korkortstypObject;
-            });
+            var korkortstyp = backendBedomning.korkortstyp;
 
             korkortstyp.push({
                 type:'KAN_INTE_TA_STALLNING',
-                selected: kanInteTaStallningSelected
+                selected: angular.isDefined(backendBedomning.kanInteTaStallning) && backendBedomning.kanInteTaStallning
             });
 
-            frontendObject = {
-                korkortstyp: korkortstyp,
+            return {
+                korkortstyp: tsBaseHelper.setupKorkortstypChoices(korkortstyp, 'KAN_INTE_TA_STALLNING'),
                 lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
             };
-
-            return frontendObject;
         };
 
         var bedomningToTransform = function(frontendObject) {

@@ -38,21 +38,30 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
 
                     if (oldValue && newValue !== oldValue) {
 
-                        var kanInteTaStallningIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', kanInteTaStallningType);
-                        if (oldValue[kanInteTaStallningIndex].selected === newValue[kanInteTaStallningIndex].selected) {
+                        var kanInteTaStallningIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', kanInteTaStallningType),
+                            kanInteTaStallningChanged = oldValue[kanInteTaStallningIndex].selected !== newValue[kanInteTaStallningIndex].selected;
+
+                        if(kanInteTaStallningChanged) {
+                            // enable or disable all but "Kan inte ta ställning"
+                            var kanInteTaStallningSelected = newValue[kanInteTaStallningIndex].selected;
+                            for(var i = 0; i < scope.model.bedomning[modelProp].length; i++) {
+                                if(kanInteTaStallningIndex === i) {
+                                    continue;
+                                }
+                                scope.model.bedomning[modelProp][i].disabled = kanInteTaStallningSelected;
+                                if(kanInteTaStallningSelected) {
+                                    scope.model.bedomning[modelProp][i].selected = false;
+                                }
+                            }
                             return;
                         }
 
-                        var kanInteTaStallningSelected = newValue[kanInteTaStallningIndex].selected;
-                        for(var i = 0; i < scope.model.bedomning[modelProp].length; i++) {
-                            if(kanInteTaStallningIndex === i) {
-                                continue;
-                            }
-                            scope.model.bedomning[modelProp][i].disabled = kanInteTaStallningSelected;
-                            if(kanInteTaStallningSelected) {
-                                scope.model.bedomning[modelProp][i].selected = false;
-                            }
-                        }
+                        // something else has changed
+                        var selectedChoices = newValue.filter(function(choice) {
+                            return choice.type !== kanInteTaStallningType && choice.selected;
+                        });
+
+                        scope.model.bedomning[modelProp][kanInteTaStallningIndex].disabled = selectedChoices.length > 0;
                     }
                 }
             }];
