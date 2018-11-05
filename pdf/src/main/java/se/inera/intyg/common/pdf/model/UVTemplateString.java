@@ -18,38 +18,38 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+import java.util.List;
 
 /**
  * Renders a uv-simple-value.
  */
-public class UVSimpleValue extends UVComponent {
+public class UVTemplateString extends UVComponent {
 
     private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
-    public UVSimpleValue(UVRenderer renderer) {
+    public UVTemplateString(UVRenderer renderer) {
         super(renderer);
     }
 
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
-        Object value = renderer.evalValueFromModel(modelProp);
-        Object unit = currentUvNode.get("unit");
+        List<String> variables = fromStringArray(currentUvNode.get("variables"));
+        String template = (String) currentUvNode.get("template");
         StringBuilder outputText = new StringBuilder();
-        if (value != null) {
-            outputText.append(value.toString());
-            if (unit != null) {
-                outputText.append(" ");
-                outputText.append(unit.toString());
-            }
+
+        if (variables.size() > 0 && template != null) {
+            String replaced = template.replaceAll("\\{\\d}", "%s");
+            outputText.append(String.format(replaced, variables.stream().map(it ->
+                    (String) renderer.evalValueFromModel(modelProp + "." + it)).toArray()));
         } else {
             outputText.append(UVComponent.EJ_ANGIVET_STR);
         }
+
         parent.add(new Paragraph(outputText.toString()).setItalic()
                 .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)

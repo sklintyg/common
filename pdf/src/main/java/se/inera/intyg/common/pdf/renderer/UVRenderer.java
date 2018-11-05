@@ -232,6 +232,10 @@ public class UVRenderer {
             renderChildren = new UVSimpleValue(this)
                     .render(currentDiv, currentUvNode);
             break;
+        case "uv-template-string":
+            renderChildren = new UVTemplateString(this)
+                    .render(currentDiv, currentUvNode);
+            break;
         case "uv-kodverk-value":
             renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
             break;

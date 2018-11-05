@@ -108,7 +108,7 @@ var viewConfig = [
             }, {
                 type: 'uv-del-fraga',
                 components: [{
-                    type: 'uv-simple-value',
+                    type: 'uv-template-string',
                     labelKey: 'DFR_7.2.RBK',
                     template: 'Fr.o.m {0} t.o.m {1}',
                     variables: ['from', 'tom'],
