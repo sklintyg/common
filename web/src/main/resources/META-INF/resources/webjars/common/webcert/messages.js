@@ -678,6 +678,8 @@
             'common.validation.d-04': 'Ange ett datum inom det senaste året.',
             'common.validation.d-05': 'Ange ett år, senare än patientens födelseår.',
             'common.validation.d-06': 'Ange ett år, årets eller tidigare.',
+            'common.validation.d-09': 'Ange ett datum som infaller under de senaste tolv månaderna',
+            'common.validation.d-10': 'Ange ett datum som infaller under de senaste tre månaderna',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',

@@ -457,6 +457,54 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void failureDueToRule20() throws Exception {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario( "fail-R20").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
+        assertEquals(error.getMessage(), "common.validation.d-09");
+    }
+
+    @Test
+    public void failureDueToRules21() throws Exception {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R21").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
+        assertEquals(error.getMessage(), "common.validation.d-10");
+    }
+
+    @Test
+    public void failureDueToRules22() throws Exception {
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R22").asInternalModel();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertTrue(res.hasErrorMessages());
+        assertFalse(res.hasWarningMessages());
+        assertEquals(1, res.getValidationErrors().size());
+        ValidationMessage error = res.getValidationErrors().get(0);
+        assertEquals(CATEGORY_HYPOGLYKEMIER, error.getCategory());
+        assertEquals(HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, error.getField());
+        assertEquals(ValidationMessageType.OTHER, error.getType());
+        assertEquals(error.getMessage(), "common.validation.d-09");
+    }
+
+    @Test
     public void failureDueToMissingVardenhetPostnummer() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-vardenhetensPostNummerSaknas").asInternalModel();
         ValidateDraftResponse res = validator.validateDraft(utlatande);

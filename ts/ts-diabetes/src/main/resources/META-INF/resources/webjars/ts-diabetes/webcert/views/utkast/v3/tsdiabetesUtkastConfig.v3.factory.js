@@ -22,6 +22,14 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
         function ($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
+            var today = moment().format('YYYY-MM-DD');
+            var twelveMonthsBack = moment()
+                .subtract(12, 'months')
+                .format('YYYY-MM-DD');
+            var threeMonthsBack = moment()
+                .subtract(3, 'months')
+                .format('YYYY-MM-DD');
+
             function _hasAnyOfIntygAvserBehorighet(model, targetKategorier) {
                 var valueArray = model.intygAvser.kategorier || [];
 
@@ -37,6 +45,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
 
             }
 
+            /**
+             * @return {boolean}
+             */
             function R1(scope) {
                 return _hasAnyOfIntygAvserBehorighet(scope.model, ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI']);
             }
@@ -49,6 +60,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                     ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
             }
 
+            /**
+             * @return {boolean}
+             */
             function R12(model) {
                 //Om nej på båda och någon saknas i utan korrektion
                 return (ObjectHelper.deepGet(model, 'synfunktion.ogonbottenFotoSaknas') === false &&
@@ -62,16 +76,26 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                 return ObjectHelper.getFloatOr(ObjectHelper.deepGet(model, synProperty), elseValue);
             }
 
+            /**
+             * @return {boolean}
+             */
             function R13(model) {
                 var binokulartUtanKorr = _synvarde(model, 'synfunktion.binokulart.utanKorrektion', 99);
                 return (binokulartUtanKorr < 0.5) && _hasAnyOfIntygAvserBehorighet(model, ['AM', 'A1', 'A2', 'A', 'B', 'BE', 'TRAKTOR']);
             }
 
+            /**
+             * @return {boolean}
+             */
             function R14(model) {
                 var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
                 var vansterUtanKorr =_synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
                 return (hogerUtanKorr < 0.8 && vansterUtanKorr < 0.8) && _hasAnyOfIntygAvserBehorighet(model, ['C1', 'C1E', 'C', 'CE', 'D1', 'D1E', 'D', 'DE', 'TAXI']);
             }
+
+            /**
+             * @return {boolean}
+             */
             function R15(model) {
                 var hogerUtanKorr = _synvarde(model, 'synfunktion.hoger.utanKorrektion', 99);
                 var vansterUtanKorr = _synvarde(model, 'synfunktion.vanster.utanKorrektion', 99);
@@ -329,6 +353,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             },
                             {
                                 type: 'ue-date',
+                                minDate: twelveMonthsBack,
+                                maxDate: today,
                                 modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt',
                                 hideExpression: '!model.hypoglykemier.aterkommandeSenasteAret',
                                 label: {
@@ -350,6 +376,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             },
                             {
                                 type: 'ue-date',
+                                minDate: threeMonthsBack,
+                                maxDate: today,
                                 modelProp: 'hypoglykemier.senasteTidpunktVaken',
                                 hideExpression: '!model.hypoglykemier.aterkommandeSenasteKvartalet',
                                 label: {
@@ -371,6 +399,8 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             },
                             {
                                 type: 'ue-date',
+                                minDate: twelveMonthsBack,
+                                maxDate: today,
                                 modelProp: 'hypoglykemier.forekomstTrafikTidpunkt',
                                 hideExpression: '!model.hypoglykemier.forekomstTrafik',
                                 label: {
@@ -490,7 +520,9 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', {}, [{
                             modelProp: 'ovrigt',
-                            type: 'ue-textarea'
+                            type: 'ue-textarea',
+                            htmlMaxlength: 189,
+                            rows: 3
                         }])
                     ]),
 
