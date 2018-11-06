@@ -19,6 +19,7 @@
           'Välj enbart de svårigheter som påverkar patientens sysselsättning.' }}</span>
     </div>
     <div class="kategori-content">
+      <div class="kategori-content-padding">
       <div ng-if="kategorier.gemensamma[getKodTyp()] && (kategorier.gemensamma[getKodTyp()].centralaKoder.length > 0 ||
                   kategorier.gemensamma[getKodTyp()].kompletterandeKoder.length > 0)">
         <span class="kategori-label">ICF-kategorier för:</span><br />
@@ -34,6 +35,7 @@
         <strong class="medborder">{{diagnosBeskrivningen(unika.icd10Kod)}}</strong>
         <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].centralaKoder" class="kategori"></ue-icf-kategori>
         <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
+      </div>
       </div>
     </div>
 

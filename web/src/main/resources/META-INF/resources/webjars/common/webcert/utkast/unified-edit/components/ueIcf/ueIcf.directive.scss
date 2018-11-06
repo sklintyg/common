@@ -70,12 +70,15 @@ ue-icf {
           padding: 10px;
         }
       }
-
       .kategori-content {
         height: 300px;
-        padding: 10px 10px 30px 10px;
         overflow: auto;
         flex: 1 0 auto;
+
+        /* Behövs för att bottom padding ska fungera i IE */
+        .kategori-content-padding {
+          padding: 10px 10px 30px 10px !important;
+        }
 
         .kategori:nth-child(odd) {
           background-color: $wc-color-24;
