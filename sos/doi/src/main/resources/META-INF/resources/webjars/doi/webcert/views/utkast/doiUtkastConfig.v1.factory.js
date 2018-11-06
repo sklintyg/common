@@ -76,6 +76,14 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                             beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                             datumLabel: 'DELAT_TEXT.DEBUT',
                             orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
+                            watcher: {
+                                expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',
+                                listener: function _terminalMaxDateListener(newValue, oldValue, scope) {
+                                    var maxDate = (newValue ? newValue : today);
+                                    scope.config.maxDate = maxDate;
+                                    scope.config.foljd.maxDate = maxDate;
+                                }
+                            },
                             foljd: {
                                 modelProp: 'foljd',
                                 maxDate: today,
@@ -108,6 +116,7 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 type: 'ue-dodsorsak-multi', // R11
                                 maxRows: 8,
                                 htmlMaxlength: 45,
+                                maxDate: today,
                                 orsaksTyper: [
                                     'PLOTSLIG',
                                     'KRONISK',
@@ -115,7 +124,13 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 ],
                                 beskrivningLabel: 'DELAT_TEXT.BESKRIVNING',
                                 datumLabel: 'DELAT_TEXT.DEBUT',
-                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION'
+                                orsakLabel: 'DELAT_TEXT.SPECIFIKATION',
+                                watcher: {
+                                    expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',
+                                    listener: function _bidragandeMaxDateListener(newValue, oldValue, scope) {
+                                        scope.config.maxDate = newValue ? newValue : today;
+                                    }
+                                }
                             }
                         ])
                     ]),
@@ -140,11 +155,14 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                                 modelProp: 'operationDatum',
                                 type: 'ue-date',
                                 minDate: beginningOfLastYear,
+                                maxDate: today,
                                 watcher: {
-                                    expression: 'model.dodsdatumSakert ? model.dodsdatum : null',
-                                    listener: function _operationsMinDateListener(newValue, oldValue, scope) {
-                                        var minDate = (newValue ? moment(newValue).subtract(4, 'week').format('YYYY-MM-DD') : beginningOfLastYear);
+                                    expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',
+                                    listener: function _operationsMinMaxDateListener(newValue, oldValue, scope) {
+                                        var minDate = (scope.model.dodsdatum ? moment(scope.model.dodsdatum)
+                                            .subtract(4, 'week').format('YYYY-MM-DD') : beginningOfLastYear);
                                         scope.config.minDate = minDate;
+                                        scope.config.maxDate = newValue ? newValue : today;
                                     }
                                 },
                                 label: {key: 'DFR_11.2.RBK', required: true, requiredProp: 'operationDatum'}
@@ -189,10 +207,17 @@ angular.module('doi').factory('doi.UtkastConfigFactory.v1',
                             {
                                 modelProp: 'forgiftningDatum',
                                 type: 'ue-date',
+                                maxDate: today,
                                 label: {
                                     key: 'DFR_12.3.RBK',
                                     required: true,
                                     requiredProp: 'forgiftningDatum'
+                                },
+                                watcher: {
+                                    expression: 'model.dodsdatumSakert ? model.dodsdatum : model.antraffatDodDatum',
+                                    listener: function _forgiftningMaxDateListener(newValue, oldValue, scope) {
+                                        scope.config.maxDate = newValue ? newValue : today;
+                                    }
                                 }
                             }]),
                         fraga(12, '', '', { hideExpression: 'model.forgiftning !== true' /* R17 */ }, [

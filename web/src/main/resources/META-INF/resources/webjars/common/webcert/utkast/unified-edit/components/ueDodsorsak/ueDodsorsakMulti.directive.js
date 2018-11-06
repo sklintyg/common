@@ -30,6 +30,7 @@ angular.module('common').directive('ueDodsorsakMulti',
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.directive.html',
             link: function($scope) {
+                ueUtil.standardSetup($scope);
 
                 $scope.validation = UtkastValidationViewState;
 

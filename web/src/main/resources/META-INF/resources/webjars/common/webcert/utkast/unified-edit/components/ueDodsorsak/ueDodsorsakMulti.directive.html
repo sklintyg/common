@@ -28,6 +28,7 @@
               ng-class="{'validation-error' : hasValidationError('datum', $index)}"
               ng-model="orsak.datum"
               on-blur="validate()"
+              max-date="{{config.maxDate}}"
               add-date-parser="loose"></span>
       </td>
       <td class="dropdown-row">
