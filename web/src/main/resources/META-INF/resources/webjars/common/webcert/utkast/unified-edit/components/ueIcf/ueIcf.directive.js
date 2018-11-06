@@ -46,7 +46,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                         var diagnoser = scope.model.diagnoser.filter(function(v){
                             return !!v.diagnosKod;
                         });
-                        if (diagnoser.length > 0 && !angular.equals(diagnoser, scope.diagnoser)) {
+                        if (diagnoser.length > 0) {
                             scope.diagnoser = diagnoser;
                             IcfProxy.getIcf(diagnoser, function(kategorier) {
                                 scope.kategorier = kategorier;
