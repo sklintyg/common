@@ -28,7 +28,7 @@
         <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].kompletterandeKoder" class="kategori"></ue-icf-kategori>
       </div>
 
-      <div ng-repeat="unika in kategorier.unika"
+      <div class="unika-wrapper" ng-repeat="unika in kategorier.unika"
             ng-if="unika[getKodTyp()] && (unika[getKodTyp()].centralaKoder.length > 0 ||
                    unika[getKodTyp()].kompletterandeKoder.length > 0)">
         <span class="kategori-label">ICF-kategorier för:</span><br />
