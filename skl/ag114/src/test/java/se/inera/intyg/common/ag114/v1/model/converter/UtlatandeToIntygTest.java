@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ag114.v1.model.converter;
 
 import org.junit.Test;
+import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -78,7 +79,7 @@ public class UtlatandeToIntygTest {
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
         assertEquals(textVersion, intyg.getVersion());
-        assertEquals(utlatande.getTyp().toUpperCase(), intyg.getTyp().getCode());
+        assertEquals(Ag114EntryPoint.KV_INTYGSTYP_CODE, intyg.getTyp().getCode());
         assertEquals("b64ea353-e8f6-4832-b563-fc7d46f29548", intyg.getTyp().getCodeSystem());
         assertNotNull(intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());

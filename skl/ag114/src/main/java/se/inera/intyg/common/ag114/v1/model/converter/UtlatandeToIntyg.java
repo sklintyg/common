@@ -31,6 +31,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
+import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.KV_INTYGSTYP_CODE;
 import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
@@ -74,7 +75,10 @@ public final class UtlatandeToIntyg {
 
     private static TypAvIntyg getTypAvIntyg(Ag114UtlatandeV1 source) {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
-        typAvIntyg.setCode(source.getTyp().toUpperCase());
+
+        // Note that this value comes from Ag114EntryPoint, see jira INTYG-7574
+        typAvIntyg.setCode(KV_INTYGSTYP_CODE);
+
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(Ag114EntryPoint.MODULE_NAME);
         return typAvIntyg;
