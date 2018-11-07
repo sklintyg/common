@@ -28,7 +28,7 @@
             <ns6:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns6:codeSystem>
             <ns6:displayName>Läkarintyg FK 7263</ns6:displayName>
         </ns4:typ>
-        <ns4:version/>
+        <ns4:version>1.0</ns4:version>
         <ns4:signeringstidpunkt>2011-01-26T00:00:00</ns4:signeringstidpunkt>
         <ns4:skickatTidpunkt>2011-01-26T00:00:00</ns4:skickatTidpunkt>
         <ns4:patient>
