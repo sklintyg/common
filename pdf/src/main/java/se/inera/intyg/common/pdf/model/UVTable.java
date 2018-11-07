@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.base.Strings;
 import com.itextpdf.layout.borders.Border;
 import com.itextpdf.layout.borders.SolidBorder;
@@ -25,15 +30,11 @@ import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.ECMAException;
 import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * The table component is somewhat complex since table data can be either property- or function-based.
@@ -48,6 +49,13 @@ public class UVTable extends UVComponent {
 
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+        String modelProp = (String) currentUvNode.get(MODEL_PROP);
+
+        // Handle any modelPropOverride for this "modelProp"
+        if (handleModelPropOveride(parent, modelProp)) {
+            return true;
+        }
+
         List<String> headerLabels = buildHeaderLabels(currentUvNode);
 
         Table table = new Table(headerLabels.size())
@@ -66,7 +74,6 @@ public class UVTable extends UVComponent {
             throw new IllegalArgumentException("Table valueProps must be of type array.");
         }
 
-        String modelProp = (String) currentUvNode.get(MODEL_PROP);
         ScriptObjectMirror modelValue = (ScriptObjectMirror) renderer.evalValueFromModel(modelProp);
 
         List<List<String>> data = new ArrayList<>();

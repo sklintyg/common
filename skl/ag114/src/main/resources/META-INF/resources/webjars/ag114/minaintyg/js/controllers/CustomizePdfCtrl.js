@@ -16,31 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
-    [ '$window', '$location', '$log', '$rootScope', '$state', '$stateParams', '$scope','lisjp.customizeViewstate', 'common.IntygListService',
+angular.module('ag114').controller('ag114.CustomizePdfCtrl',
+    [ '$window', '$location', '$log', '$rootScope', '$state', '$stateParams', '$scope','ag114.customizeViewstate', 'common.IntygListService',
         'common.IntygService', 'common.dialogService', 'common.messageService',
         function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService, messageService) {
             'use strict';
 
             $scope.messageService = messageService;
             $scope.customizeViewstate = customizeViewstate;
-            $scope.downloadAsPdfLink = '/moduleapi/certificate/lisjp/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
+            $scope.downloadAsPdfLink = '/moduleapi/certificate/ag114/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/pdf/arbetsgivarutskrift';
 
-            certificateService.getCertificate('lisjp', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
+            certificateService.getCertificate('ag114', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
-                    //Tillaggsfragor are dynamic, so we create field config for any such things after cert has been loaded.
-                    customizeViewstate.addTillaggsFragor($scope.cert.tillaggsfragor);
                 } else {
 
                     // show error view
-                    $location.path('/lisjp/visafel/certnotfound');
+                    $location.path('/ag114/visafel/certnotfound');
                 }
             }, function() {
                 $log.debug('got error');
-                $location.path('/lisjp/visafel/certnotfound');
+                $location.path('/ag114/visafel/certnotfound');
             });
 
             var dialogInstance;
@@ -74,7 +72,7 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                 });
             }
             $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, options) {
-                if (toState.name.indexOf('lisjp-customize')!==-1 || leaveConfirmed) {
+                if (toState.name.indexOf('ag114-customize')!==-1 || leaveConfirmed) {
                     return;
                 }
 
@@ -90,7 +88,7 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
 
             $scope.backToViewCertificate = function() {
                 customizeViewstate.resetModel();
-                $location.path('/lisjp/' + $stateParams.intygTypeVersion + '/view/' + $stateParams.certificateId);
+                $location.path('/ag114/' + $stateParams.intygTypeVersion + '/view/' + $stateParams.certificateId);
             };
 
 

@@ -63,12 +63,12 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
             Ag114UtlatandeV1 utlatande = getInternal(internalModel);
             IntygTexts texts = getTexts(Ag114EntryPoint.MODULE_ID, utlatande.getTextVersion());
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-            // Use proper major-version
-            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, "1", personId, texts, statuses,
-                    applicationOrigin, utkastStatus);
+            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
+                    texts, statuses,
+                    applicationOrigin, utkastStatus, null);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
-            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
+            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
         }
     }
 
@@ -76,7 +76,21 @@ public class Ag114ModuleApiV1 extends AgParentModuleApi<Ag114UtlatandeV1> {
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields, UtkastStatus utkastStatus)
             throws ModuleException {
-        throw new RuntimeException("Not implemented");
+        try {
+            Ag114UtlatandeV1 utlatande = getInternal(internalModel);
+            IntygTexts texts = getTexts(Ag114EntryPoint.MODULE_ID, utlatande.getTextVersion());
+            Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
+                    texts, statuses,
+                    applicationOrigin, utkastStatus, optionalFields);
+        } catch (Exception e) {
+            LOG.error("Failed to generate pdfEmployer for certificate!", e);
+            throw new ModuleSystemException("Failed to generate (pdfEmployer) PDF for certificate!", e);
+        }
+    }
+
+    private String getMajorVersion(String textVersion) {
+        return textVersion.split("\\.", 0)[0];
     }
 
     @Override

@@ -17,15 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ag114').controller('ag114.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory',
+        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'ag114.customizeViewstate', 'viewConfigFactory',
 
-        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory) {
+        function($location, $log, $stateParams, $scope, certificateService, customizeViewstate, viewConfigFactory) {
             'use strict';
 
             $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
             $scope.errorMessage = null;
             $scope.doneLoading = false;
+
+            $scope.customizeCertificate = function() {
+                customizeViewstate.resetModel();
+                $location.path('/ag114/' + $stateParams.intygTypeVersion + '/customize-ag114/' + $stateParams.certificateId + '/step1');
+            };
+
             certificateService.getCertificate('ag114', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {

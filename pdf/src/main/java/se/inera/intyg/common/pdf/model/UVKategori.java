@@ -25,10 +25,14 @@ import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 /**
  * Renders a kategori. Note that we wrap the actual kategori iText Div for correct border rendering.
  */
 public class UVKategori extends UVComponent {
+
+    private static final float KATEGORI_PADDING_BOTTOM = millimetersToPoints(2f);
 
     public UVKategori(UVRenderer renderer) {
         super(renderer);
@@ -40,7 +44,8 @@ public class UVKategori extends UVComponent {
         String kategori = renderer.getText(labelKey);
 
         Div borderDiv = new Div();
-        parent.setBorder(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH));
+        parent.setBorder(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH))
+                .setPaddingBottom(KATEGORI_PADDING_BOTTOM);
 
         borderDiv.add(new Paragraph(kategori.toUpperCase())
                 .setMarginTop(0f)

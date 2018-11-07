@@ -34,6 +34,10 @@ public class UVBooleanValue extends UVComponent {
 
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
+        // Handle any modelPropOverride for this "modelProp"
+        if (handleModelPropOveride(parent, (String) currentUvNode.get(MODEL_PROP))) {
+            return true;
+        }
         String booleanValue = getBooleanValue((String) currentUvNode.get(MODEL_PROP));
         parent.add(new Paragraph(booleanValue).setItalic()
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)

@@ -102,6 +102,23 @@ public abstract class UVComponent {
         return EJ_ANGIVET_STR;
     }
 
+    boolean handleModelPropOveride(Div parent, String modelProp) {
+        if (this.renderer.getPrintConfig().getModelPropReplacements() != null) {
+            String replacementValue = this.renderer.getPrintConfig().getModelPropReplacements().get(modelProp);
+            if (replacementValue != null) {
+                parent.add(new Paragraph(replacementValue)
+                        .setItalic()
+                        .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                        .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                        .setFont(renderer.svarFont)
+                        .setFontSize(SVAR_FONT_SIZE)
+                        .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+                return true;
+            }
+        }
+        return false;
+    }
+
     boolean show(ScriptObjectMirror obj) {
         boolean render = true;
         if (isNotEligibleForCheck(obj)) {

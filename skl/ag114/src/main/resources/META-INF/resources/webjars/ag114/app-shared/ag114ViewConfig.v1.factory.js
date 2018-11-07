@@ -89,9 +89,9 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                     }]
                 }, {
                     type: 'uv-del-fraga',
+                    labelKey: 'DFR_6.2.RBK',
                     components: [{
                         type: 'uv-simple-value',
-                        labelKey: 'DFR_6.2.RBK',
                         modelProp: 'arbetsformagaTrotsSjukdomBeskrivning'
                     }]
                 }]
@@ -110,9 +110,9 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                     unit: '%'
                 }, {
                     type: 'uv-del-fraga',
+                    labelKey: 'DFR_7.2.RBK',
                     components: [{
                         type: 'uv-simple-value',
-                        labelKey: 'DFR_7.2.RBK',
                         template: 'Fr.o.m {0} t.o.m {1}',
                         variables: ['from', 'tom'],
                         modelProp: 'sjukskrivningsperiod'
@@ -167,9 +167,9 @@ angular.module('ag114').factory('ag114.viewConfigFactory.v1', ['uvUtil', functio
                     modelProp: 'kontaktMedArbetsgivaren'
                 }, {
                     type: 'uv-del-fraga',
+                    labelKey: 'DFR_9.2.RBK',
                     components: [{
                         type: 'uv-simple-value',
-                        labelKey: 'DFR_9.2.RBK',
                         modelProp: 'anledningTillKontakt'
                     }]
                 }]

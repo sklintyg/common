@@ -36,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -85,6 +87,45 @@ public class UVRendererTest {
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testAg114EmployerPdfWithoutDiagnose() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf.v1.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("ag114/ag1-14-uv-viewmodel.v1.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+
+        Map<String, String> replacementConfig = new HashMap<>();
+        replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
+        replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Intygsnamnet (AG1-14)")
+                .withIntygsKod("AG114")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AG)
+                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+                .withLeftMarginTypText("AG1-14")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withSignBox(true)
+                .withSignatureLine(true)
+                .withModelPropReplacements(replacementConfig)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-employer-no-diagnose.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();

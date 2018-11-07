@@ -21,6 +21,8 @@ package se.inera.intyg.common.pdf.renderer;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
+import java.util.Map;
+
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.
  *
@@ -53,6 +55,9 @@ public class PrintConfig {
     private boolean isMakulerad;
     private boolean showSignBox;
     private boolean showSignatureLine;
+    //Defines a override (String) value to be rendered instead of actual modelProp.
+    // This is used when creating a employer print where certain values are not to be included
+    private Map<String, String> modelPropReplacements;
 
     private ApplicationOrigin applicationOrigin;
 
@@ -119,6 +124,9 @@ public class PrintConfig {
     public boolean showSignatureLine() {
         return showSignatureLine;
     }
+    public Map<String, String> getModelPropReplacements() {
+        return modelPropReplacements;
+    }
 
     public ApplicationOrigin getApplicationOrigin() {
         return applicationOrigin;
@@ -141,6 +149,7 @@ public class PrintConfig {
         private boolean showSignBox;
         private boolean showSignatureLine;
         private ApplicationOrigin applicationOrigin;
+        private Map<String, String> modelPropReplacements;
 
         private PrintConfigBuilder() {
         }
@@ -228,7 +237,10 @@ public class PrintConfig {
             this.showSignatureLine = showSignatureLine;
             return this;
         }
-
+        public PrintConfigBuilder withModelPropReplacements(Map<String, String> modelPropReplacements) {
+            this.modelPropReplacements = modelPropReplacements;
+            return this;
+        }
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
             printConfig.isUtkast = this.isUtkast;
@@ -247,6 +259,7 @@ public class PrintConfig {
             printConfig.isLockedUtkast = this.isLockedUtkast;
             printConfig.showSignBox = this.showSignBox;
             printConfig.showSignatureLine = this.showSignatureLine;
+            printConfig.modelPropReplacements = this.modelPropReplacements;
             return printConfig;
         }
     }

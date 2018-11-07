@@ -30,7 +30,7 @@ angular.module('lisjp').controller(
 
                     $scope.customizeCertificate = function() {
                         customizeViewstate.resetModel();
-                        $location.path('/lisjp/' + $stateParams.intygTypeVersion + '/customize/' + $stateParams.certificateId + '/step1');
+                        $location.path('/lisjp/' + $stateParams.intygTypeVersion + '/customize-lisjp/' + $stateParams.certificateId + '/step1');
                     };
 
                     $scope.errorMessage = null;

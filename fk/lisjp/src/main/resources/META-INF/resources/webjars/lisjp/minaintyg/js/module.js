@@ -37,7 +37,7 @@ angular.module('lisjp').config(function($stateProvider) {
         }
     }).state('lisjp-customize', {
         abstract: true, // jshint ignore:line
-        url: '/:type/:intygTypeVersion/customize/:certificateId',
+        url: '/:type/:intygTypeVersion/customize-lisjp/:certificateId',
         templateUrl: '/web/webjars/lisjp/minaintyg/views/customize-pdf.html',
         controller: 'lisjp.CustomizePdfCtrl',
         data: {

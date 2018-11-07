@@ -18,11 +18,16 @@
  */
 package se.inera.intyg.common.ag114.pdf;
 
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -34,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
-
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
@@ -49,23 +53,24 @@ import se.inera.intyg.schemas.contract.Personnummer;
 
 public class PdfGenerator {
 
+    protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
     private static final String PDF_SUMMARY_HEADER = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skl_logo.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag1-14-uv-viewmodel.v%s.js";
-
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
-
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
             + "elektroniskt av intygsutfärdaren. Intyget är avsett för patientens arbetsgivare som längst till och "
             + "med dag 14 i sjukskrivningsperioden";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
             + "INTE skickas.";
+    private static final String OPTIONAL_FIELD_DIAGNOSER = TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
+    private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
+    private static final String OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT = "På patientens begäran uppges inte diagnos";
 
-    protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
             List<Status> statuses,
-            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus, List<String> optionalFields) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -76,6 +81,8 @@ public class PdfGenerator {
             boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
             boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
+            Map<String, String> modelPropReplacements = buildModelPropReplacements(optionalFields);
+
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                     .withIntygJsonModel(cleanedJson)
                     .withUpJsModel(upJsModel)
@@ -85,7 +92,7 @@ public class PdfGenerator {
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast))
                     .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
-                    .withLeftMarginTypText("SKL AG1-14 - Fastställd av Sveriges kommuner och landsting Avdelningen för arbetsgivarpolitik")
+                    .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
                     .withIsLockedUtkast(isLockedUtkast)
@@ -93,6 +100,7 @@ public class PdfGenerator {
                     .withApplicationOrigin(applicationOrigin)
                     .withSignBox(true)
                     .withSignatureLine(true)
+                    .withModelPropReplacements(modelPropReplacements)
                     .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
@@ -103,6 +111,27 @@ public class PdfGenerator {
         }
     }
     // CHECKSTYLE:ON ParameterNumber
+
+    /**
+     * Build a map of modelProp names and a replacement text to be used when rendering it.
+     *
+     * @param optionalFields
+     * @return
+     */
+    private Map<String, String> buildModelPropReplacements(List<String> optionalFields) {
+        Map<String, String> overrides = new HashMap<>();
+        if (optionalFields != null) {
+            // Only diagnoser is optional for this type as of now
+            if (optionalFields.stream().anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_DIAGNOSER))) {
+                overrides.put(OPTIONAL_FIELD_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
+            }
+            // Even not strictly optional, the yes/no can also be toggled...
+            if (optionalFields.stream().anyMatch(s -> s.equals("!" + OPTIONAL_FIELD_FORMEDLA_DIAGNOSER))) {
+                overrides.put(OPTIONAL_FIELD_FORMEDLA_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
+            }
+        }
+        return overrides;
+    }
 
     private String buildInfoText(boolean isUtkast) {
         StringBuilder buf = new StringBuilder();
@@ -143,4 +172,5 @@ public class PdfGenerator {
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {
         return new ObjectMapper().readTree(jsonModel);
     }
+
 }

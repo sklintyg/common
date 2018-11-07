@@ -34,20 +34,71 @@ angular.module('ag114').config(function($stateProvider) {
             },
             data : { title: 'Arbetsgivarintyg ', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('ag114-fel', {
-            url : '/ag114/fel/:errorCode',
-            templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
-            controller: 'ag114.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('ag114-visafel', {
-            url :'/ag114/visafel/:errorCode',
-            templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
-            controller: 'ag114.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
-        });
+        }).state('ag114-customize', {
+            abstract: true, // jshint ignore:line
+            url: '/:type/:intygTypeVersion/customize-ag114/:certificateId',
+            templateUrl: '/web/webjars/ag114/minaintyg/views/customize-pdf.html',
+            controller: 'ag114.CustomizePdfCtrl',
+            data: {
+                title: 'Anpassa intyget till arbetsgivare',
+                keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg', 'anpassa'], backState: 'history-back' }
+
+        }).state('ag114-customize.step1', {
+            url: '/step1',
+            views: {
+                'header@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step1.header.html'
+                },
+                'body@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step1.body.html'
+                }
+            },
+            data: {
+                index: 0
+            }
+
+        }).state('ag114-customize.step2', {
+            url: '/step2',
+            views: {
+                'header@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step2.header.html'
+                },
+                'body@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step2.body.html'
+                }
+            },
+            data: {
+                index: 1
+            }
+
+        }).state('ag114-customize.step3', {
+            url: '/step3',
+            views: {
+                'header@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step3.header.html'
+                },
+                'body@ag114-customize': {
+                    templateUrl: '/web/webjars/ag114/minaintyg/views/step3.body.html'
+                }
+            },
+            data: {
+                index: 2
+            }
+
+        }).state('ag114-fel', {
+                url : '/ag114/fel/:errorCode',
+                templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
+                controller: 'ag114.ErrorCtrl',
+                data : { title: 'Fel' }
+            }).
+            state('ag114-visafel', {
+                url :'/ag114/visafel/:errorCode',
+                templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
+                controller: 'ag114.ErrorCtrl',
+                data : { title: 'Fel',
+                        backLink: '/web/start' }
+            });
 });
 
 // Inject language resources
