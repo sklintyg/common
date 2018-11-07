@@ -49,7 +49,9 @@
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
       <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig" view-data="cert"></uv-render-components>
 
-      <div class="row col-xs-12 text-muted"><br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span></div>
+      <div ng-if="!errorMessage" class="row col-xs-12 text-muted">
+        <br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span>
+      </div>
     </div>
     <!-- eof spinner -->
   </div>
