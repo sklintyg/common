@@ -80,14 +80,14 @@ ue-icf {
 
         /* Behövs för att bottom padding ska fungera i IE */
         .kategori-content-padding {
-          padding: 10px 10px 30px 10px !important;
+          padding: 10px 10px 30px 10px;
         }
 
-        .kategori:nth-child(odd) {
+        .kategori:nth-child(odd) div {
           background-color: $wc-color-24;
         }
 
-        .kategori:nth-child(even) {
+        .kategori:nth-child(even) div {
           background-color: #fff;
         }
 
