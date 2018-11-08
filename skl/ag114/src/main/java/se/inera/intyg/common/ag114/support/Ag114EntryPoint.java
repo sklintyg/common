@@ -53,6 +53,11 @@ public class Ag114EntryPoint extends AgAbstractModuleEntryPoint {
     }
 
     @Override
+    public String getExternalId() {
+        return KV_INTYGSTYP_CODE;
+    }
+
+    @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
