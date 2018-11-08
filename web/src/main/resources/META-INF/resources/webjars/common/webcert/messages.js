@@ -322,7 +322,7 @@
             'common.recipient.skv': 'Skatteverket',
             'common.recipient.sos': 'Socialstyrelsen',
             'common.recipient.af': 'Arbetsförmedlingen',
-            'common.recipient.ag': 'Intygstjänsten?????',
+            'common.recipient.ag': 'Intygstjänsten',
             //////////////////////////////////////////////////////////////////////////////////////////////////
             // WIP. module specific strings that should be made common. keep working on these!
             //////////////////////////////////////////////////////////////////////////////////////////////////
