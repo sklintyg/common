@@ -80,7 +80,10 @@ ue-icf {
 
         /* Behövs för att bottom padding ska fungera i IE */
         .kategori-content-padding {
-          padding: 10px 20px 30px 20px;
+          padding: 10px 20px 10px 20px;
+          > div {
+              padding-bottom: 20px;
+          }
         }
 
         .kategori:nth-child(odd) div {
@@ -111,11 +114,13 @@ ue-icf {
           input {
             flex: 0 0 30px;
             height: 20px;
+            cursor: pointer;
           }
 
           span {
             align-self: flex-end;
             flex: 1 1 auto;
+            cursor: pointer;
           }
 
           .visamer {
@@ -135,9 +140,6 @@ ue-icf {
           color: #6a6a6a;
         }
       }
-      .unika-wrapper {
-        padding-top: 30px;
-      }
 
       .fader {
         position: absolute;
@@ -153,7 +155,7 @@ ue-icf {
         background-color: #e9eaed;
         flex: 1 0 55px;
 
-        a {
+        span {
           flex: 1 0 1%;
           align-self: center;
           padding-right: 10px;

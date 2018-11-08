@@ -46,8 +46,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                         var diagnoser = scope.model.diagnoser.filter(function(v){
                             return !!v.diagnosKod;
                         });
-                        if (diagnoser.length > 0) {
-                            scope.diagnoser = diagnoser;
+                        if (diagnoser.length > 0 && !angular.equals(diagnoser, scope.diagnoser)) {
                             IcfProxy.getIcf(diagnoser, function(kategorier) {
                                 scope.kategorier = kategorier;
                             }, function() {
@@ -57,6 +56,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                             scope.kategorier = {};
                             scope.model[scope.config.kategoriProp] = [];
                         }
+                        scope.diagnoser = diagnoser;
                     }
                 }
             }, true);
@@ -103,14 +103,14 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                 }
             };
 
-            scope.rensa = function(option) {
+            scope.rensa = function() {
                 itereraKategorier(function (v) {
                     v.vald = false;
                 });
                 scope.closePlate();
             };
 
-            scope.add = function(arr) {
+            scope.add = function() {
                 scope.model[scope.config.kategoriProp] = [];
                 itereraKategorier(function (v) {
                     if (v.vald) {
@@ -146,7 +146,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                     var dropElement = $window.document.getElementById(scope.model.diagnoser[0].diagnosKod +
                         '-' + scope.config.modelProp + '-dropdown');
                     if (!plateElement.contains(e.target) && !dropElement.contains(e.target)) {
-                        scope.closePlate();
+                        scope.rensa();
                         scope.$digest();
                     }
                 }
