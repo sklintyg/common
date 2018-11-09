@@ -1,0 +1,43 @@
+{
+  "id": "903f142c-2919-4ed4-abc1-9f77b5aee12e",
+  "grundData": {
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    }
+  },
+  "textVersion": "1.0",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    }
+  ],
+  "diagnoser": [],
+  "typ": "ag114"
+}

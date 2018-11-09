@@ -18,19 +18,23 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+import java.util.List;
+import java.util.stream.Stream;
+
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-import java.util.List;
 
 /**
- * Renders a uv-simple-value.
+ * Renders a uv-template-string.
  */
 public class UVTemplateString extends UVComponent {
 
-    private static final float SIMPLEVALUE_MARGIN_BOTTOM = 5f;
+    private static final String SCRIPT_PROPERTY_VARIABLES = "variables";
+    private static final String SCRIPT_PROPERTY_TEMPLATE = "template";
+
     public UVTemplateString(UVRenderer renderer) {
         super(renderer);
     }
@@ -38,28 +42,41 @@ public class UVTemplateString extends UVComponent {
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
         String modelProp = (String) currentUvNode.get(MODEL_PROP);
-        List<String> variables = fromStringArray(currentUvNode.get("variables"));
-        String template = (String) currentUvNode.get("template");
+        List<String> variables = fromStringArray(currentUvNode.get(SCRIPT_PROPERTY_VARIABLES));
+        String template = (String) currentUvNode.get(SCRIPT_PROPERTY_TEMPLATE);
         StringBuilder outputText = new StringBuilder();
 
         if (variables.size() > 0 && template != null) {
-            String replaced = template.replaceAll("\\{\\d}", "%s");
-            outputText.append(String.format(replaced, variables.stream().map(it ->
-                    (String) renderer.evalValueFromModel(modelProp + "." + it)).toArray()));
+            final Object[] values = variables.stream()
+                    .map(it -> renderer.evalValueFromModel(modelProp + "." + it))
+                    .toArray();
+
+            boolean hasAtleastOneValue = Stream.of(values).anyMatch(value -> value != null);
+            if (hasAtleastOneValue) {
+                final Object[] resolvedValues = Stream.of(values)
+                        .map(value -> (value != null) ? value.toString() : EJ_ANGIVET_STR)
+                        .toArray();
+
+                String replaced = template.replaceAll("\\{\\d}", "%s");
+                outputText.append(String.format(replaced, resolvedValues));
+            } else {
+                outputText.append(EJ_ANGIVET_STR);
+            }
+
         } else {
-            outputText.append(UVComponent.EJ_ANGIVET_STR);
+            outputText.append(EJ_ANGIVET_STR);
         }
 
         parent.add(new Paragraph(outputText.toString()).setItalic()
-                .setMarginBottom(millimetersToPoints(SIMPLEVALUE_MARGIN_BOTTOM))
+                .setMarginBottom(0f)
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
                 .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
                 .setFont(renderer.svarFont)
                 .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f)
-                .setKeepTogether(false)
-                );
+                .setPadding(0f).setMarginTop(0f)
+                .setKeepTogether(false));
 
         return true;
     }
+
 }

@@ -59,6 +59,41 @@ public class UVRendererTest {
     private static final String INFO_TEXT_AF = "Detta är en utskrift av ett elektroniskt intyg.";
 
     @Test
+    public void testAg114TomtUtkast() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf-utkast.v1.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("ag114/ag1-14-uv-viewmodel.v1.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("ag114/pdftestMU_AG114_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Intygsnamnet (AG1-14)")
+                .withIntygsKod("AG114")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AG)
+                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+                .withLeftMarginTypText("AG1-14")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withSignBox(true)
+                .withSignatureLine(true)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic-tomt-utkast.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void testAg114() throws IOException {
         JsonNode intygJsonNode = loadAndCleanIntygJson("ag114/ag114-pdf.v1.json");
         String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);

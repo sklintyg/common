@@ -140,11 +140,25 @@ public class UVTable extends UVComponent {
         }
 
         // RENDER
-        renderTableData(table, data, headerLabels);
-
-        parent.add(table);
+        if (hasValuesInTable(data)) {
+            renderTableData(table, data, headerLabels);
+            parent.add(table);
+        } else {
+            parent.add(new Paragraph(EJ_ANGIVET_STR).setItalic()
+                    .setMarginBottom(0f)
+                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE)
+                    .setPadding(0f).setMarginTop(0f)
+                    .setKeepTogether(false));
+        }
 
         return true;
+    }
+
+    private boolean hasValuesInTable(List<List<String>> tableData) {
+        return tableData.stream().anyMatch(row -> row.stream().anyMatch(col -> !Strings.isNullOrEmpty(col) && !col.equals(EJ_ANGIVET_STR)));
     }
 
     private void handleStringValueProp(String modelProp, ScriptObjectMirror value, String valueStr, List<String> columnValues) {
@@ -167,7 +181,6 @@ public class UVTable extends UVComponent {
                 columnValues.add(result.toString());
             } else {
                 columnValues.add("");
-                System.err.println("Null value for: " + modelProp + "." + valueStr);
             }
         }
     }
