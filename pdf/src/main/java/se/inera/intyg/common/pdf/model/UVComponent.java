@@ -57,6 +57,7 @@ public abstract class UVComponent {
     protected final UVRenderer renderer;
 
     Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
+    Color miColor25 = new DeviceRgb(0xFC, 0xF9, 0xE4);
     Color wcColor05 = new DeviceRgb(0x76, 0x5A, 0x20);
     Color wcColor07 = new DeviceRgb(33, 33, 33);
     Color wcColor09 = new DeviceRgb(106, 106, 106);

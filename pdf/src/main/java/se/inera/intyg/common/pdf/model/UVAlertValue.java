@@ -27,6 +27,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
@@ -65,7 +66,8 @@ public class UVAlertValue extends UVComponent {
                     .setPadding(millimetersToPoints(ALERT_TABLE_PADDING))
                     .setMargin(millimetersToPoints(ALERT_TABLE_MARGIN))
                     .setKeepTogether(true);
-            table.setBackgroundColor(wcColor02);
+            table.setBackgroundColor(
+                    renderer.getPrintConfig().getApplicationOrigin().equals(ApplicationOrigin.MINA_INTYG) ? miColor25 : wcColor02);
 
             Cell iconCell = new Cell();
             iconCell.setBorder(Border.NO_BORDER);
