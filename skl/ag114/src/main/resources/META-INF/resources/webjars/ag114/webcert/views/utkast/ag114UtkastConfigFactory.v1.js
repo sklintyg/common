@@ -61,7 +61,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     //  - Typ av diagnos
                     //     - Diagnostext 4.1
                     //     - Diagnoskod 4.2
-                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {}, [
                         fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required:true, requiredProp: 'onskarFormedlaDiagnos' }, [{
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaDiagnos'
@@ -80,7 +80,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     // Arbetsförmåga
                     //  - nedsättning 5.1
                     //  - förmåga trots sjukdom 6.1
-                    kategori(categoryIds[3], 'KAT_3.RBK', '', {signingDoctor: true}, [
+                    kategori(categoryIds[3], 'KAT_3.RBK', '', {}, [
                         fraga(5, 'FRG_5.RBK', 'FRG_5.HLP', { required: true, requiredProp: 'nedsattArbetsformaga' }, [{
                             type: 'ue-textarea',
                             modelProp: 'nedsattArbetsformaga'
@@ -174,7 +174,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                         ]),
 
                         // Övrigt
-                        kategori(categoryIds[5], 'KAT_5.RBK', '', { signingDoctor: true }, [
+                        kategori(categoryIds[5], 'KAT_5.RBK', '', {}, [
                             fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                                 type: 'ue-textarea',
                                 modelProp: 'ovrigaUpplysningar'
