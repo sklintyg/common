@@ -65,6 +65,9 @@ public final class TransportToInternal {
     }
 
     public static Ag114UtlatandeV1 convert(Intyg source) throws ConverterException {
+        if (source == null) {
+            throw new ConverterException("Source utlatande was null, cannot convert");
+        }
         Builder utlatande = Ag114UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(getGrundData(source, false));

@@ -113,7 +113,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() {
+    public void testConvertWithRelation() throws Exception{
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         Ag114UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);

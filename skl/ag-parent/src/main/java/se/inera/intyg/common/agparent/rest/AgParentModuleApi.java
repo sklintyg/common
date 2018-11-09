@@ -19,6 +19,7 @@
 package se.inera.intyg.common.agparent.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,8 +82,6 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(AgParentModuleApi.class);
-
-    public static final String PREFIX = "Motivering till varför ingen ytterligare medicinsk information kunde anges vid komplettering: ";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -153,25 +152,13 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
-            throws ModuleException {
-
-        T utkast;
-
-        try {
-            utkast = webcertModelFactory.createCopy(draftCopyHolder, template);
-        } catch (ConverterException e) {
-            LOG.error("Could not create a new internal Webcert model", e);
-            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
-        }
-
-        return toInternalModelResponse(utkast);
+    public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment) {
+            throw new UnsupportedOperationException("An AG-intyg is not supposed to be supplemented.");
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-            throws ModuleException {
-        return createNewInternalFromTemplate(draftCertificateHolder, template);
+    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template) {
+        throw new UnsupportedOperationException("An AG-intyg is not supposed to be renewed.");
     }
 
     @Override
@@ -210,16 +197,16 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
             throw new ModuleConverterException("Failed to convert to transport format during registerCertificate", e);
         }
 
-        RegisterCertificateResponseType response2 = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
+        RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
 
         // check whether call was successful or not
-        if (response2.getResult().getResultCode() == ResultCodeType.INFO) {
-            throw new ExternalServiceCallException(response2.getResult().getResultText(),
-                    "Certificate already exists".equals(response2.getResult().getResultText())
+        if (response.getResult().getResultCode() == ResultCodeType.INFO) {
+            throw new ExternalServiceCallException(response.getResult().getResultText(),
+                    "Certificate already exists".equals(response.getResult().getResultText())
                             ? ErrorIdEnum.VALIDATION_ERROR
                             : ErrorIdEnum.APPLICATION_ERROR);
-        } else if (response2.getResult().getResultCode() == ResultCodeType.ERROR) {
-            throw new ExternalServiceCallException(response2.getResult().getErrorId() + " : " + response2.getResult().getResultText());
+        } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
+            throw new ExternalServiceCallException(response.getResult().getErrorId() + " : " + response.getResult().getResultText());
         }
     }
 
@@ -260,10 +247,12 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class);
         try {
+            Preconditions.checkArgument(xml != null && !"".equals(xml), "XML was null or empty.");
+            RegisterCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class);
+
             return transportToInternal(jaxbObject.getIntyg());
-        } catch (ConverterException e) {
+        } catch (ConverterException | IllegalArgumentException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
@@ -291,7 +280,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Map<String, List<String>> getModuleSpecificArendeParameters(Utlatande utlatande, List<String> frageIds) {
-        throw new RuntimeException("Not implement");
+        throw new UnsupportedOperationException("Not applicable to AG-intyg as they are not supposed to be sent to any recipients.");
     }
 
     @Override
@@ -315,8 +304,6 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
             throw new ModuleException(e.getMessage());
         }
     }
-
-
 
     protected abstract String getSchematronFileName();
 

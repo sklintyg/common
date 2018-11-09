@@ -29,8 +29,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
+import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.test.util.ReflectionTestUtils;
+import se.inera.intyg.common.ag114.pdf.PdfGenerator;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag114.v1.model.converter.WebcertModelFactoryImpl;
@@ -46,13 +47,18 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -60,17 +66,21 @@ import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertif
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 import javax.xml.soap.SOAPFactory;
+import javax.xml.transform.Source;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
@@ -84,12 +94,10 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/**
- * Created by marced on 26/04/16.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class Ag114ModuleApiTest {
 
@@ -105,7 +113,16 @@ public class Ag114ModuleApiTest {
     private GetCertificateResponderInterface getCertificateResponderInterface;
 
     @Mock
+    private RegisterCertificateValidator validator;
+
+    @Mock
+    private InternalDraftValidator<Utlatande> internalDraftValidator;
+
+    @Spy
     private IntygTextsService intygTextsServiceMock;
+
+    @Mock
+    private ModelCompareUtil<Utlatande> modelCompareUtil;
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory;
@@ -114,7 +131,7 @@ public class Ag114ModuleApiTest {
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     @Mock
-    private WebcertModuleService moduleService;
+    private PdfGenerator pdfGenerator;
 
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
@@ -124,18 +141,27 @@ public class Ag114ModuleApiTest {
 
     @Before
     public void setUp() throws Exception {
-
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
         when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(Ag114EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
                 .thenReturn(INTYG_TYPE_VERSION_1);
+    }
 
+    @Test
+    public void testValidateDraft() throws Exception {
+        when(internalDraftValidator.validateDraft(any(Utlatande.class)))
+                .thenReturn(new ValidateDraftResponse(ValidationStatus.VALID, new ArrayList<>()));
+
+        ValidateDraftResponse res = moduleApi.validateDraft(getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json"));
+
+        assertNotNull(res);
+        assertEquals(ValidationStatus.VALID, res.getStatus());
+        verify(internalDraftValidator).validateDraft(any(Utlatande.class));
     }
 
     @Test
     public void testGetAdditionalInfo() throws Exception {
         Ag114UtlatandeV1 utlatande = getUtlatandeFromFile();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-
         String result = moduleApi.getAdditionalInfo(intyg);
 
         assertEquals("2018-11-10 - 2018-11-20", result);
@@ -143,7 +169,6 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testGetCertificate() throws Exception {
-
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.SENTTO, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
@@ -153,7 +178,6 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testGetCertificateWhenRevoked() throws Exception {
-
         GetCertificateResponseType result = createGetCertificateResponseType(StatusKod.CANCEL, "FKASSA");
 
         when(getCertificateResponderInterface.getCertificate(anyString(), any())).thenReturn(result);
@@ -162,18 +186,16 @@ public class Ag114ModuleApiTest {
     }
 
     @Test(expected = ModuleException.class)
-    public void testGetCertificateWhenSOAPExceptionThowsModuleException() throws Exception {
+    public void testGetCertificateWhenSOAPExceptionThrowsModuleException() throws Exception {
         SOAPFaultException ex = new SOAPFaultException(SOAPFactory.newInstance().createFault());
-        doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
-                any());
+        doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(), any());
 
         moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
     }
 
     @Test
     public void testRegisterCertificate() throws IOException, ModuleException {
-        final String json = Resources
-                .toString(new ClassPathResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
 
         Ag114UtlatandeV1 utlatande = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatande);
@@ -228,7 +250,33 @@ public class Ag114ModuleApiTest {
         }
     }
 
-    @Test
+    @Test(expected = ExternalServiceCallException.class)
+    public void testRegisterCertificateThrowsExternalServiceCallExceptionOnErrorResultCode() throws IOException, ModuleException {
+        RegisterCertificateResponseType result = createReturnVal(ResultCodeType.ERROR);
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
+
+        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
+        moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testSendCertificate() throws IOException, ModuleException {
+        moduleApi.sendCertificateToRecipient("<xml/>","logicalAddress","recipient");
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testCreateCompletionFromTemplate() throws Exception {
+        CreateDraftCopyHolder draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
+
+        final String completionFromTemplate = moduleApi.createCompletionFromTemplate(draftCertificateHolder, getUtlatandeFromFile(),"No!");
+
+        Ag114UtlatandeV1 copy = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(completionFromTemplate);
+        assertEquals(TEST_HSA_ID, copy.getGrundData().getSkapadAv().getPersonId());
+
+        verify(webcertModelFactory).createCopy(eq(draftCertificateHolder), any(Ag114UtlatandeV1.class));
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
     public void testCreateRenewalFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
 
@@ -254,7 +302,6 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testCreateNewInternal() throws Exception {
-
         CreateNewDraftHolder createNewDraftHolder =
                 new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
@@ -266,75 +313,88 @@ public class Ag114ModuleApiTest {
 
     }
 
-    @Test(expected = ExternalServiceCallException.class)
-    public void testRegisterCertificateThrowsExternalServiceCallExceptionOnErrorResultCode() throws IOException, ModuleException {
-
-        RegisterCertificateResponseType result = createReturnVal(ResultCodeType.ERROR);
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
-        final String json = Resources
-                .toString(new ClassPathResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
-
-        moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
-    }
-
-    /**
-     * Verify that grundData is updated
-     */
     @Test
-    public void testUpdateBeforeSave() throws IOException, ModuleException {
-        final String json = Resources
-                .toString(new ClassPathResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
+    public void testUpdateHoSPersonalBeforeSave() throws IOException, ModuleException {
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
 
         Ag114UtlatandeV1 utlatandeBeforeSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
 
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
 
-        final String internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal());
-        final Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
-        assertEquals(TEST_HSA_ID, utlatandeFromJson.getGrundData().getSkapadAv().getPersonId());
+        final String res = moduleApi.updateBeforeSave(json, createHosPersonal());
+        final Utlatande responseUtlatande = moduleApi.getUtlatandeFromJson(res);
+        assertEquals(TEST_HSA_ID, responseUtlatande.getGrundData().getSkapadAv().getPersonId());
     }
 
     @Test
-    public void testUpdateBeforeViewing() throws IOException, ModuleException {
-        final String json = Resources
-                .toString(new ClassPathResource("v1/internal/scenarios/pass-minimal.json").getURL(), Charsets.UTF_8);
+    public void testUpdatePatientBeforeSave() throws IOException, ModuleException {
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
+        final Patient updatedPatient = createPatient("Nytt","Namn", TEST_PATIENT_PERSONNR);
 
+        Ag114UtlatandeV1 utlatandeBeforeSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
+        assertNotEquals(updatedPatient, utlatandeBeforeSave.getGrundData().getPatient());
+
+        when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeSave);
+
+        final String res = moduleApi.updateBeforeSave(json, updatedPatient);
+        final Ag114UtlatandeV1 utlatandeAfterSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(res);
+        assertEquals(updatedPatient, utlatandeAfterSave.getGrundData().getPatient());
+    }
+
+    @Test
+    public void testUpdateBeforeSigning() throws Exception {
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");;
+        final LocalDateTime signDate = LocalDateTime.now();
+
+        HoSPersonal hosPersonal = new HoSPersonal();
+        hosPersonal.setFullstandigtNamn("Other Person");
+        assertNotEquals(hosPersonal, moduleApi.getUtlatandeFromJson(json).getGrundData().getSkapadAv());
+
+        String res = moduleApi.updateBeforeSigning(json, hosPersonal, signDate);
+        assertNotNull(res);
+        Ag114UtlatandeV1 utlatandeAfterSigning = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(res);
+        assertEquals(hosPersonal, utlatandeAfterSigning.getGrundData().getSkapadAv());
+        assertEquals(signDate, utlatandeAfterSigning.getGrundData().getSigneringsdatum());
+    }
+    @Test
+    public void testUpdateBeforeViewing() throws IOException, ModuleException {
+        final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
         final Patient updatedPatient = createPatient("Nytt","Namn", TEST_PATIENT_PERSONNR);
 
         Ag114UtlatandeV1 utlatandeBeforeViewing = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
-        assertNotEquals(TEST_PATIENT_PERSONNR, utlatandeBeforeViewing.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertNotEquals(updatedPatient, utlatandeBeforeViewing.getGrundData().getPatient());
 
         when(objectMapper.readValue(json, Ag114UtlatandeV1.class)).thenReturn(utlatandeBeforeViewing);
 
-        final String internalModelResponse = moduleApi.updateBeforeViewing(json, updatedPatient);
-        final Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
-        assertEquals(updatedPatient, utlatandeFromJson.getGrundData().getPatient());
+        final String res = moduleApi.updateBeforeViewing(json, updatedPatient);
+        final Utlatande utlatandeAfterViewing = moduleApi.getUtlatandeFromJson(res);
+        assertEquals(updatedPatient, utlatandeAfterViewing.getGrundData().getPatient());
     }
 
-//    @Test
-//    public void testRevokeCertificate() throws Exception {
-//        final String logicalAddress = "logicalAddress";
-//        String xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
-//
-//        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
-//        returnVal.setResult(ResultTypeUtil.okResult());
-//        when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-//        moduleApi.revokeCertificate(xmlContents, logicalAddress);
-//        verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
-//    }
+    @Test
+    public void testRevokeCertificate() throws Exception {
+        final String logicalAddress = "logicalAddress";
+        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokeResponse.xml");
 
-//    @Test(expected = ExternalServiceCallException.class)
-//    public void testRevokeCertificateThrowsExternalServiceCallException() throws Exception {
-//        final String logicalAddress = "logicalAddress";
-//        String xmlContents = Resources.toString(Resources.getResource("v1/revokerequest.xml"), Charsets.UTF_8);
-//
-//        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
-//        returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
-//        when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
-//        moduleApi.revokeCertificate(xmlContents, logicalAddress);
-//        fail();
-//    }
+        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
+        returnVal.setResult(ResultTypeUtil.okResult());
+        when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        verify(revokeClient, times(1)).revokeCertificate(eq(logicalAddress), any());
+    }
+
+    @Test(expected = ExternalServiceCallException.class)
+    public void testRevokeCertificateThrowsExternalServiceCallException() throws Exception {
+        final String logicalAddress = "logicalAddress";
+        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokeResponse.xml");
+
+        RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
+        returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));
+        when(revokeClient.revokeCertificate(eq(logicalAddress), any())).thenReturn(returnVal);
+        moduleApi.revokeCertificate(xmlContents, logicalAddress);
+        fail();
+    }
 
     @Test
     public void testCreateRevokeRequest() throws Exception {
@@ -355,11 +415,76 @@ public class Ag114ModuleApiTest {
         assertNotEquals("", res);
     }
 
+    @Test
+    public void testShouldNotifyTrue() throws Exception {
+        final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
+        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(true);
+        boolean res = moduleApi.shouldNotify("", json);
+        assertTrue(res);
+        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
+    }
+
+    @Test
+    public void testShouldNotifyFalse() throws Exception {
+        final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
+        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(false);
+        boolean res = moduleApi.shouldNotify("", json);
+        assertFalse(res);
+        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
+    }
+
+    // Successful usage of getUtlatandeFromJson is used in a lot of other tests.
+    @Test(expected = IOException.class)
+    public void testGetUtlatandeFromJsonInvalidJson() throws Exception {
+        moduleApi.getUtlatandeFromJson("{ invalidJson: }");
+    }
+
+    // Successful usage of getUtlatandeFromXml is used in a lot of other tests
+    // using method createGetCertificateResponseType()
+
+    @Test(expected = ModuleException.class)
+    public void testGetUtlatandeFromXmlConverterException() throws Exception {
+        moduleApi.getUtlatandeFromXml("<xml/>");
+    }
+
+    @Test
+    public void testTransformToStatisticsService() throws Exception {
+        final String inputString = "input string";
+        String res = moduleApi.transformToStatisticsService(inputString);
+        assertEquals(inputString, res);
+    }
+
+    @Test
+    public void testValidateXml() throws Exception {
+        String xmlBody = getResourceAsString("v1/ag114-simple-valid.xml");
+        when(validator.validateSchematron(any(Source.class))).thenReturn(new SchematronOutputType());
+        ValidateXmlResponse res = moduleApi.validateXml(xmlBody);
+        assertNotNull(res);
+        assertEquals(ValidationStatus.VALID, res.getStatus());
+    }
+
+    // Successful usage of getIntygFromUtlatande is used in a lot of other tests
+    // using method createGetCertificateResponseType()
+
+    @Test(expected = ModuleException.class)
+    public void testGetIntygFromUtlatandeConverterException() throws Exception {
+        Utlatande failingUtlatande = Ag114UtlatandeV1.builder().setId("").setGrundData(new GrundData()).setTextVersion("1.0")
+                .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+                .build();
+
+        moduleApi.getIntygFromUtlatande(failingUtlatande);
+    }
+
+   @Test(expected = UnsupportedOperationException.class)
+    public void testGetModuleSpecificArendeParameters() throws Exception {
+        moduleApi.getModuleSpecificArendeParameters(getUtlatandeFromFile(), Arrays.asList("1","2"));
+    }
+
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
             throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
-        String xmlContents = Resources.toString(Resources.getResource("v1/ag114-simple-valid.xml"), Charsets.UTF_8);
+        String xmlContents = getResourceAsString("v1/ag114-simple-valid.xml");
         Utlatande utlatandeFromXml = moduleApi.getUtlatandeFromXml(xmlContents);
         Intyg intyg = moduleApi.getIntygFromUtlatande(utlatandeFromXml);
 
@@ -428,11 +553,12 @@ public class Ag114ModuleApiTest {
 
     private Ag114UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper()
-                .readValue(new ClassPathResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json").getFile(), Ag114UtlatandeV1.class);
+                .readValue(Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json"), Ag114UtlatandeV1.class);
     }
 
-    private CreateDraftCopyHolder createCopyHolder() {
-        return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+    private String getResourceAsString(String resourceName) throws IOException {
+        return (resourceName == null) ?
+                null :
+                Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
     }
 }
