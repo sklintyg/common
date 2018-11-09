@@ -54,7 +54,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 public class PdfGenerator {
 
     protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
-    private static final String PDF_SUMMARY_HEADER = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
+    private static final String PDF_SUMMARY_HEADER = Ag114EntryPoint.MODULE_NAME;
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skl_logo.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag1-14-uv-viewmodel.v%s.js";
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);

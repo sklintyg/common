@@ -29,8 +29,9 @@ public class Ag114EntryPoint extends AgAbstractModuleEntryPoint {
     public static final String ISSUER_TYPE_ID = "FK 7802";
     public static final String MODULE_ID = "ag114";
     public static final String KV_INTYGSTYP_CODE = "AG1-14";
-    public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – sjuklöneperiod (AG1-14)";
-    public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – sjuklöneperiod (AG1-14)";
+    public static final String KV_INTYGSTYP_DISPLAYNAME = "Läkarintyg om arbetsförmåga – sjuklöneperiod";
+    public static final String MODULE_NAME = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
+    public static final String MODULE_DESCRIPTION = "Läkarintyg om arbetsförmåga – sjuklöneperioden";
 
     @Override
     public String getModuleId() {

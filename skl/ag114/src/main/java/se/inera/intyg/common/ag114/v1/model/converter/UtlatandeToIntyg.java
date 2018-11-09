@@ -80,7 +80,7 @@ public final class UtlatandeToIntyg {
         typAvIntyg.setCode(KV_INTYGSTYP_CODE);
 
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
-        typAvIntyg.setDisplayName(Ag114EntryPoint.MODULE_NAME);
+        typAvIntyg.setDisplayName(Ag114EntryPoint.KV_INTYGSTYP_DISPLAYNAME);
         return typAvIntyg;
     }
 
