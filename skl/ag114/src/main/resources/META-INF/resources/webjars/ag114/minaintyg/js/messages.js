@@ -46,7 +46,8 @@ angular.module('ag114').constant('ag114.messages', {
         'ag114.customize.step.3.pageingress.right': '',
         'ag114.customize.step.3.download': 'Ladda ner som PDF',
         'ag114.customize.step.3.download.tooltip': 'Intyget sparas som PDF på din enhet.',
-        'ag114.customize.change': 'Ändra dina val'
+        'ag114.customize.change': 'Ändra dina val',
+        'ag114.button.cancel': 'Avbryt'
     },
     'en': {
         'ag114.label.pagetitle': 'Show Certificate'
