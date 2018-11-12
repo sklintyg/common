@@ -114,6 +114,7 @@
   </button>
 
   <div class="button-tooltip"
+       ng-if="showErsattButton()"
        ng-class="{'disabled':ersattButtonDisabled}"
        uib-popover="{{ersattBtnTooltipText}}"
 
@@ -123,7 +124,6 @@
     <button type="button"
             id="ersattBtn"
             class="btn btn-primary"
-            ng-if="showErsattButton()"
             ng-click="ersatt(viewState.intygModel)"
             ng-disabled="ersattButtonDisabled"
             wc-check-vardenhet
