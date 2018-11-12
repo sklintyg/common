@@ -120,7 +120,7 @@
                                             '<p>Det nya utkastet skapas på den enhet du är inloggat på.</p>',
             'common.modal.copy.body_go': '<p>Genom att kopiera ett låst intygsutkast skapas ett nytt utkast med samma information som i det ursprungliga låsta utkastet. Du kan redigera utkastet innan du signerar det. Det ursprungliga låsta utkastet finns kvar.</p>',
 
-            'common.modal.label.discard_draft': 'Ta bort utkast',
+            'common.modal.label.discard_draft': 'Radera utkast',
             'common.modal.label.confirm_sign': 'Signera intyget',
 
             'common.modal.label.signing': 'Ditt intyg signeras.',
