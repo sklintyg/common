@@ -101,10 +101,13 @@ var viewConfig = [
             type: 'uv-fraga',
             labelKey: 'FRG_7.RBK',
             components: [{
-                type: 'uv-simple-value',
+                type: 'uv-del-fraga',
                 labelKey: 'DFR_7.1.RBK',
-                modelProp: 'sjukskrivningsgrad',
-                unit: '%'
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'sjukskrivningsgrad',
+                    unit: '%'
+                }]
             }, {
                 type: 'uv-del-fraga',
                 labelKey: 'DFR_7.2.RBK',
