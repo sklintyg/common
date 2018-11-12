@@ -11,14 +11,6 @@ wc-header-user {
     flex-grow: 1;
   }
 
-  //flex items must a some sort of width applied for it to be able to shrink
-  //NOTE: when using min-width:0px (no unit), scss processing optimised it by
-  // removing the unit, casuing rendering errorss in IE that doesnt handle unitless min-widths in flex context. took me 6 hours to find that ugh!
-  min-width: $wc-header-user-min-width;
-
-  // but NOT a flex-container, because we want to be able to relativly position the menu below it when it expands..
-  display: block;
-
   //base text color for this component
   color: $wc-color-20;
 
