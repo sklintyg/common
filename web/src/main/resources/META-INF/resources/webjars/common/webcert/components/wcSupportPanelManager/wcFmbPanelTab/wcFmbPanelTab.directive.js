@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollService', 'common.fmbService', 'common.fmbViewState',
-    function(anchorScrollService, fmbService, fmbViewState) {
+angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollService', 'common.fmbService', 'common.fmbViewState', '$log',
+    function(anchorScrollService, fmbService, fmbViewState, $log) {
     'use strict';
 
     return {
@@ -134,12 +134,12 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                 //Update message to display
                 $scope.vm.noDataMessage = getNoDataReasonMessage(diagnosesEnteredCount, diagnosesWithDataCount, $scope.fmb.isIcdKodVerk);
 
-                console.log($scope.vm.noDataMessage);
+                $log.debug($scope.vm.noDataMessage);
             }
 
             $scope.$watch('fmb.isIcdKodVerk', function(newVal, oldVal) {
                 $scope.fmb.isIcdKodVerk = newVal;
-                console.log($scope.fmb.isIcdKodVerk);
+                $log.debug($scope.fmb.isIcdKodVerk);
                 _updateState();
             }, true);
 
