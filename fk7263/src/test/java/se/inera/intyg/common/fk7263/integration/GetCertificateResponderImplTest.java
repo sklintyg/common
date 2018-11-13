@@ -18,8 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +28,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
@@ -35,18 +39,20 @@ import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
-import se.inera.intyg.common.support.integration.module.exception.MissingConsentException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ERROR;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
 /**
  * @author andreaskaltenbach
@@ -116,22 +122,6 @@ public class GetCertificateResponderImplTest {
         assertEquals(ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals("Unknown certificate ID: 123456", response.getResult().getErrorText());
-    }
-
-    @Test
-    @SuppressWarnings("unchecked")
-    public void getCertificateWithoutConsent() throws Exception {
-
-        when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true)).thenThrow(MissingConsentException.class);
-
-        GetCertificateRequestType parameters = createGetCertificateRequest(civicRegistrationNumber, certificateId);
-
-        GetCertificateResponseType response = responder.getCertificate(null, parameters);
-
-        assertNull(response.getMeta());
-        assertNull(response.getCertificate());
-        assertEquals(ERROR, response.getResult().getResultCode());
-        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
     }
 
     @Test

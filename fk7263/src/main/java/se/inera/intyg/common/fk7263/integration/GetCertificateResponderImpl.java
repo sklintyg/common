@@ -18,12 +18,23 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import com.google.common.base.Throwables;
+import java.io.StringReader;
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3.wsaddressing10.AttributedURIType;
 import org.w3c.dom.Document;
+
+import com.google.common.base.Throwables;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificate.rivtabp20.v1.GetCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.CertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
@@ -33,17 +44,10 @@ import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificater
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
-import se.inera.intyg.common.support.integration.module.exception.MissingConsentException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.*;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.StringReader;
 
 /**
  * @author andreaskaltenbach
@@ -96,7 +100,7 @@ public class GetCertificateResponderImpl implements
                 attachCertificateDocument(certificate, response);
                 response.setResult(ResultOfCallUtil.okResult());
             }
-        } catch (InvalidCertificateException | MissingConsentException e) {
+        } catch (InvalidCertificateException e) {
             response.setResult(ResultOfCallUtil.failResult(e.getMessage()));
         }
 
