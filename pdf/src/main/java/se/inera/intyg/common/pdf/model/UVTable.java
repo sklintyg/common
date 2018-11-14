@@ -79,7 +79,7 @@ public class UVTable extends UVComponent {
         List<List<String>> data = new ArrayList<>();
 
         // Iterate over the modelValue if array.
-        if (modelValue.isArray()) {
+        if (modelValue != null && modelValue.isArray()) {
 
             // Start rows
             for (Object value : modelValue.values()) {
@@ -101,7 +101,7 @@ public class UVTable extends UVComponent {
                 data.add(columnValues);
             }
 
-        } else if (modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
+        } else if (modelValue != null && modelValue.getClassName().equalsIgnoreCase("OBJECT")) {
             List<String> colProps = fromStringArray(currentUvNode.get("colProps"));
 
             // Start rows. colProps are rows... very confusing...

@@ -42,7 +42,8 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         }),
                         'nuvarandeArbete' : undefined,
                         'onskarFormedlaDiagnos': undefined,
-                        'diagnoser':new ModelAttr('diagnoser', {
+                        'diagnoser': new ModelAttr('diagnoser', {
+                            defaultValue: [],
                             fromTransform: ModelTransform.diagnosFromTransform,
                             toTransform: ModelTransform.diagnosToTransform
                         }),

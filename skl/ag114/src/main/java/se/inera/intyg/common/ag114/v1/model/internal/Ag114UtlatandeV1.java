@@ -95,6 +95,7 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     public abstract Boolean getOnskarFormedlaDiagnos();
 
     // Fråga 4 - Diagnos
+    @Nullable
     public abstract ImmutableList<Diagnos> getDiagnoser();
 
     // Fråga 5 - Inkludera ...

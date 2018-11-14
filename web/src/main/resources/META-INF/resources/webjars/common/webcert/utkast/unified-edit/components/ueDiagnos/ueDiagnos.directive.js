@@ -19,9 +19,9 @@
 
 angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
     'common.fmbService', 'common.srsService', 'common.ObjectHelper', 'common.MonitoringLogService',
-    'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService',
+    'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
     function($log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-        ArendeListViewState, UtkastValidationService, UtkastViewState) {
+        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper) {
     'use strict';
 
     return {
@@ -32,6 +32,11 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnos/ueDiagnos.directive.html',
         link: function($scope) {
+
+            AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
+
+            // Clear attic model and destroy watch on scope destroy
+            AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
             $scope.validation = UtkastViewState.validation;
 
@@ -204,11 +209,13 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
             };
 
             function resetDiagnoses() {
-                $scope.model[$scope.config.modelProp].forEach(function(diagnos) {
-                    diagnos.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
-                    diagnos.diagnosKod = undefined;
-                    diagnos.diagnosBeskrivning = undefined;
-                });
+                if ($scope.model[$scope.config.modelProp]) {
+                    $scope.model[$scope.config.modelProp].forEach(function(diagnos) {
+                        diagnos.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
+                        diagnos.diagnosKod = undefined;
+                        diagnos.diagnosBeskrivning = undefined;
+                    });
+                }
             }
 
             function setAlldiagnosKodSystem(val) {
