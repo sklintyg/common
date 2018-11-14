@@ -43,8 +43,12 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
            scope.$watch('model.diagnoser', function(newVal) {
                 if (newVal) {
                     if(scope.model.diagnoser && scope.model.diagnoser.length > 0) {
-                        var diagnoser = scope.model.diagnoser.filter(function(v){
-                            return !!v.diagnosKod;
+                        var unikaDiagnoser = [];
+                        var diagnoser = scope.model.diagnoser.filter(function(v) {
+                            if (v.diagnosKod && unikaDiagnoser.indexOf(v.diagnosKod)) {
+                                unikaDiagnoser.push(v.diagnosKod);
+                                return true;
+                            }
                         });
                         if (diagnoser.length > 0 && !angular.equals(diagnoser, scope.diagnoser)) {
                             IcfProxy.getIcf(diagnoser, function(kategorier) {
@@ -63,13 +67,13 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             scope.diagnosBeskrivningen = function(kod) {
                 if (angular.isArray(kod)) {
-                    return scope.model.diagnoser.filter(function(v){
+                    return scope.diagnoser.filter(function(v){
                         return kod.indexOf(v.diagnosKod) > -1;
                     }).map(function(v) {
                         return v.diagnosBeskrivning;
                     }).join(', ');
                 }
-                var icdKod = scope.model.diagnoser.filter(function(v){
+                var icdKod = scope.diagnoser.filter(function(v){
                         return v.diagnosKod === kod;
                 });
                 if (icdKod.length === 1) {
