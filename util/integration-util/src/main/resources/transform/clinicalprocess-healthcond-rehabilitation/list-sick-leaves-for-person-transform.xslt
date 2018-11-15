@@ -19,17 +19,17 @@
   -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:lc="urn:riv:clinicalprocess:healthcond:rehabilitation:ListActiveSickLeavesForPersonResponder:1">
+                xmlns:lc="urn:riv:clinicalprocess:healthcond:rehabilitation:ListSickLeavesForPersonResponder:1">
 
   <xsl:include href="transform/clinicalprocess-healthcond-rehabilitation/general-transform.xslt"/>
 
   <xsl:template name="response">
-    <lc:ListActiveSickLeavesForPersonResponse>
+    <lc:ListSickLeavesForPersonResponse>
       <lc:resultCode>ERROR</lc:resultCode>
       <lc:comment>
         <xsl:value-of select="faultstring/text()"/>
       </lc:comment>
-    </lc:ListActiveSickLeavesForPersonResponse>
+    </lc:ListSickLeavesForPersonResponse>
   </xsl:template>
 
 </xsl:stylesheet>
