@@ -33,7 +33,8 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
-    public static final String ISSUER_TYPE_ID = "SoSB 76026";
+    //Should be blank (see INTYG-6418)
+    public static final String ISSUER_TYPE_ID = "";
 
     private static final String DEFAULT_RECIPIENT_ID = "SKV";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";

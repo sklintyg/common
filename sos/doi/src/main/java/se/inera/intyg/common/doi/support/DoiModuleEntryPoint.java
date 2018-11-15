@@ -33,7 +33,8 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "doi";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
-    public static final String ISSUER_TYPE_ID = "SoSB 76016";
+    //Should be blank (see INTYG-6418)
+    public static final String ISSUER_TYPE_ID = "";
 
     private static final String DEFAULT_RECIPIENT_ID = "SOS";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
