@@ -90,7 +90,7 @@
     <delsvar id="6.1">false</delsvar>
   </svar>
   <svar id="7">
-    <delsvar id="7.1">120</delsvar>
+    <delsvar id="7.1">001</delsvar>
     <delsvar id="7.2">
       <ns3:datePeriod>
         <ns3:start>2018-11-10</ns3:start>

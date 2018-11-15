@@ -43,7 +43,7 @@
   "nedsattArbetsformaga": "Kan jobba halvtid.",
   "arbetsformagaTrotsSjukdom": true,
   "arbetsformagaTrotsSjukdomBeskrivning": "Beskrivning av förmåga",
-  "sjukskrivningsgrad": "120",
+  "sjukskrivningsgrad": "001",
   "sjukskrivningsperiod": {
       "from": "2018-11-10",
       "tom": "2018-11-20"

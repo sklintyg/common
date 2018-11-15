@@ -14,6 +14,7 @@ dependencies {
     compile "org.springframework:spring-tx:${springVersion}"
 
     compile "com.google.auto.value:auto-value:${autovalueVersion}"
+    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"    
 
     apt "com.google.auto.value:auto-value:${autovalueVersion}"
 }

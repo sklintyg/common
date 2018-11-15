@@ -20,14 +20,12 @@ package se.inera.intyg.common.ag114.v1.validator;
 
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 
-import java.util.List;
-
+import com.google.common.base.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Strings;
-
+import java.util.List;
 import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -118,7 +116,7 @@ public class ValidatorUtilSKL {
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,
-            List<ValidationMessage> validationMessages) {
+                                    List<ValidationMessage> validationMessages) {
         // if moduleService is not available, skip this validation
         if (moduleService == null) {
             LOG.warn("Forced to skip validation of diagnosKod since an implementation of ModuleService is not available");
@@ -133,16 +131,21 @@ public class ValidatorUtilSKL {
     }
 
     public boolean isIntInRange(String intString, int min, int max) {
-        try {
-            final int value = Integer.parseInt(intString);
-            return value >= min && value <= max;
-        } catch (NumberFormatException e) {
+        final boolean numeric = StringUtils.isNumeric(intString);
+
+        if (!numeric) {
             return false;
         }
+
+        if (intString.length() > 1 && intString.charAt(0) == '0') {
+            return false;
+        }
+
+        final int value = Integer.parseInt(intString);
+        return value >= min && value <= max;
     }
 
     public boolean hasNoContent(String stringValue) {
         return (stringValue == null || stringValue.trim().isEmpty());
-
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <iso:schema xmlns="http://purl.oclc.org/dsdl/schematron" xmlns:iso="http://purl.oclc.org/dsdl/schematron"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.oclc.org/dsdl/schematron"
-    queryBinding='xslt2' schemaVersion='ISO19757-3'>
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://purl.oclc.org/dsdl/schematron"
+            queryBinding='xslt2' schemaVersion='ISO19757-3'>
 
   <iso:title>Schematron file for "Läkarintyg om arbetsförmåga – sjuklöneperiod AG1-14".</iso:title>
 
@@ -114,7 +114,7 @@
         'Diagnos' måste ha ett instansnummer.
       </iso:assert>
     </iso:rule>
-   </iso:pattern>
+  </iso:pattern>
 
   <iso:pattern id="q4.1">
     <iso:rule context="//gn:svar[@id='4']/gn:delsvar[@id='4.1']">
@@ -214,7 +214,7 @@
 
   <iso:pattern id="q7.1">
     <iso:rule context="//gn:delsvar[@id='7.1']">
-      <iso:assert test="number(.) ge 0 and number(.) le 100">
+      <iso:assert test="matches(normalize-space(.), '^0$|^[1-9]$|^[1-9][0-9]$|^100$')">
         'Sjukskrivningsgrad' måste besvaras med ett värde mellan 0 och 100%.
       </iso:assert>
     </iso:rule>
@@ -271,13 +271,13 @@
     </iso:rule>
   </iso:pattern>
 
-    <iso:pattern id="q9.2-R2">
-        <iso:rule context="//gn:delsvar[@id='9.1' and matches(normalize-space(.), 'true|1')]">
-          <iso:assert test="count(../gn:delsvar[@id='9.2']) = 1">
-            Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras.
-          </iso:assert>
-        </iso:rule>
-      </iso:pattern>
+  <iso:pattern id="q9.2-R2">
+    <iso:rule context="//gn:delsvar[@id='9.1' and matches(normalize-space(.), 'true|1')]">
+      <iso:assert test="count(../gn:delsvar[@id='9.2']) = 1">
+        Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras.
+      </iso:assert>
+    </iso:rule>
+  </iso:pattern>
 
   <iso:pattern id="non-empty-string-pattern">
     <iso:rule id="non-empty-string" abstract="true">
