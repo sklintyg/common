@@ -32,31 +32,9 @@
  *
  * Produces: <a href="http://some.url" target="_blank" title="Some tooltip">Some text</a>
  */
-angular.module('common.dynamiclink', []);
 
-angular.module('common.dynamiclink').factory('dynamicLinkService',
-    function() {
-        'use strict';
-
-        var _links = {};
-
-        function _getLink(key) {
-            return _links[key];
-        }
-
-        function _addLinks(links) {
-            _links = links;
-        }
-
-        return {
-            getLink: _getLink,
-            addLinks: _addLinks
-        };
-    }
-);
-
-angular.module('common.dynamiclink').directive('dynamiclink',
-    ['$log', '$rootScope', '$sce', '$compile', 'dynamicLinkService',
+angular.module('common').directive('dynamiclink',
+    ['$log', '$rootScope', '$sce', '$compile', 'common.dynamicLinkService',
     function($log, $rootScope, $sce, $compile, dynamicLinkService) {
         'use strict';
 

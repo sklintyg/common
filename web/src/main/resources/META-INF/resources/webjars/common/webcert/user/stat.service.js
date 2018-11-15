@@ -48,7 +48,6 @@ angular.module('common').factory('common.statService',
         }
         
         function _callApi() {
-            $log.debug('callApi');
             $http.get('/moduleapi/stat/').then(function(response) {
                 $log.debug('_getStat success - data:' + response.data);
                 lastData = response.data;

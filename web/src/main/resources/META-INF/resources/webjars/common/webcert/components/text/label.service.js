@@ -26,8 +26,8 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('common.dynamicLabelService',
-    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy', 'common.messageService', 'common.ObjectHelper',
-        function($log, $rootScope, $q, DynamicLabelProxy, messageService, ObjectHelper) {
+    [ '$log', '$rootScope', '$q', 'common.DynamicLabelProxy', 'common.messageService', 'common.ObjectHelper', 'common.dynamicLinkService',
+        function($log, $rootScope, $q, DynamicLabelProxy, messageService, ObjectHelper, dynamicLinkService) {
             'use strict';
 
             var _labelResources = null;
@@ -49,17 +49,7 @@ angular.module('common').factory('common.dynamicLabelService',
             function _getProperty(key, supportExternalLink) {
                 var value = getRequiredTextByPropKey(key); // get required text
                 if (value && supportExternalLink) {
-                    var regex2 = /<LINK:(.*?)>/gi, result;
-
-                    while ( (result = regex2.exec(value)) ) {
-                        var replace = result[0];
-                        var linkKey = result[1];
-
-                        var dynamicLink = messageService.buildExternalLink(linkKey);
-
-                        var regexp = new RegExp(replace, 'g');
-                        value = value.replace(regexp, dynamicLink);
-                    }
+                    value = dynamicLinkService.processLinkTags(value);
                 }
                 return value;
             }

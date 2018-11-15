@@ -131,7 +131,7 @@ angular.module('common').factory('common.IntygProxy',
                 var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
                 $http.post(restPath, payload).then(function(response) {
-                    $log.debug('got callback data: ' + response.data);
+                    $log.debug(restPath + ' response: ' + angular.toJson(response.data));
                     onSuccess(response.data);
                     statService.refreshStat();
 
@@ -152,7 +152,7 @@ angular.module('common').factory('common.IntygProxy',
             var payload = buildPayloadFromCopyIntygRequest(intygCopyRequest);
 
             $http.post(restPath, payload).then(function(response) {
-                $log.debug('got data:' + response.data.intygsUtkastId);
+                $log.debug(restPath + ' response: ' + response.data.intygsUtkastId);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);

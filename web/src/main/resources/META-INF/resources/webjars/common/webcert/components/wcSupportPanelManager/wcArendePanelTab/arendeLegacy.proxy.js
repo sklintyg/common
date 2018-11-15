@@ -27,7 +27,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
             $http.get(restPath, { timeout:timeout }).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -46,7 +46,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + intygsId;
             $http.post(restPath, payload).then(function(response) {
-                $log.debug('got callback data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -61,7 +61,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + ArendeSvar.internReferens + '/besvara';
             $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -76,7 +76,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/' + intygsId + '/besvara';
             $http.put(restPath, meddelande).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarViewListToArendeList(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -91,7 +91,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
         function _closeAsHandled(fragaSvarId, intygsTyp, onSuccess, onError) {
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/stang';
             $http.get(restPath).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -111,7 +111,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
             }, fs);
 
             $http.put(restPath, fs).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + angular.toJSON(response.data));
                 onSuccess(ArendeLegacyService.convertFragasvarListToArendeList(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -129,7 +129,7 @@ angular.module('common').factory('common.ArendeLegacyProxy', ['$http', '$log', '
 
             var restPath = '/moduleapi/fragasvar/' + intygsTyp + '/' + fragaSvarId + '/oppna';
             $http.get(restPath).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(ArendeLegacyService.convertFragasvarToArende(response.data));
             }, function(response) {
                 $log.error('error ' + response.status);
