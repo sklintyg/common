@@ -89,8 +89,9 @@ angular.module('common').factory('common.fmbService', [
                 fmbViewState.reset(diagnosType);
                 return false;
             } else {
-                if (!angular.isObject(fmbViewState.diagnoses[diagnosType]) ||
-                    fmbViewState.diagnoses[diagnosType].diagnosKod !== originalDiagnosKod) {
+                if ((!angular.isObject(fmbViewState.diagnoses[diagnosType]) ||
+                    fmbViewState.diagnoses[diagnosType].diagnosKod !== originalDiagnosKod) &&
+                    !fmbViewState.diagnosExistsInDiagnoses(originalDiagnosKod)) {
 
                     if (kodSystem === 'ICD_10_SE') {
                         var fmbSuccess = function fmbSuccess(formData) {

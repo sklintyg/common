@@ -47,7 +47,7 @@ angular.module('common').service('common.fmbViewState', [
 
         this.setState = function(diagnosType, formData, originalDiagnosKod, originalDiagnosBeskrivning) {
 
-            if(!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])){
+            if (!ObjectHelper.isEmpty(originalDiagnosKod) && !angular.isObject(this.diagnoses[diagnosType])) {
                 this.diagnoses[diagnosType] = fmbModel.build();
             }
 
@@ -56,5 +56,13 @@ angular.module('common').service('common.fmbViewState', [
 
         this.reset = function(diagnosType) {
             delete this.diagnoses[diagnosType];
+        };
+
+        this.diagnosExistsInDiagnoses = function(diagnosKod) {
+            for (var k in this.diagnoses) {
+                if (angular.isDefined(k) && this.diagnoses[k].diagnosKod === diagnosKod) {
+                    return true;
+                }
+            }
         };
     }]);
