@@ -330,22 +330,10 @@ describe('fmbService', function() {
             expect(fmbViewState.reset).toHaveBeenCalled();
         });
 
-        it('should not set fmb info if diagnose already exists', function() {
-
-            var diagnosType = 0;
-            var originalDiagnosKod = 'M118';
-
-            var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod, 'ICD_10_SE');
-            $rootScope.$apply();
-
-            expect(result).toBeTruthy();
-            expect(fmbViewState.setState).not.toHaveBeenCalled();
-        });
-
         it('should set fmb info if a valid diagnoses array is provided', function() {
 
             var diagnosType = 0;
-            var originalDiagnosKod = 'M119';
+            var originalDiagnosKod = 'M118';
 
             var result = fmbService.updateFmbText(diagnosType, originalDiagnosKod, 'ICD_10_SE');
             $rootScope.$apply();

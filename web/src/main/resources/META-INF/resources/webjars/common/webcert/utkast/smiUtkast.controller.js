@@ -56,14 +56,7 @@ angular.module('common').controller('smi.EditCertCtrl',
                 viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
                 if($state.current.data.useFmb) {
-                    var unikaDiagnoser = [];
-                    var diagnoser = intygModel.diagnoser.filter(function(v) {
-                        if(unikaDiagnoser.indexOf(v.diagnosKod) === -1) {
-                            unikaDiagnoser.push(v.diagnosKod);
-                            return true;
-                        }
-                    });
-                    fmbService.updateFmbTextsForAllDiagnoses(diagnoser);
+                    fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
 
                 if (!viewState.draftModel.isLocked()) {
