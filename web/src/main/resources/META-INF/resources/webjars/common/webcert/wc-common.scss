@@ -545,6 +545,7 @@
   /* Used in fk7263 intygstyper. Maybe move it there */
   .multiline {
     white-space: pre-line;
+    word-break: break-word;
   }
 
   .white-space-normal {
