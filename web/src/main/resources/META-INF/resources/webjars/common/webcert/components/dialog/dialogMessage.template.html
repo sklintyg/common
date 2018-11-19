@@ -3,7 +3,7 @@
   <h3><span ng-bind-html="title"></span><span dynamic-label key="{{titleId}}"></span></h3>
 </div>
 <wc-bottom-fadeout>
-  <div class="modal-body multiline" ng-bind-html="bodyText"></div>
+  <div class="modal-body multiline" bind-html-compile="bodyText"></div>
 </wc-bottom-fadeout>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" id="confirmationOkButton" ng-click="$close()">Stäng</button>

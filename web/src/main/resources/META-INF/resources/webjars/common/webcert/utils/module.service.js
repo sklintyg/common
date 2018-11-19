@@ -43,9 +43,13 @@ angular.module('common').factory('common.moduleService', ['common.dynamicLinkSer
 
     function _setModules(modules) {
         _moduleArray = modules;
-        _moduleArray.forEach(function(intygModule) {
-            intygModule.detailedDescription =  dynamicLinkService.processLinkTags(intygModule.detailedDescription);
-        })
+        if(_moduleArray){
+            _moduleArray.forEach(function(intygModule) {
+                if(intygModule.detailedDescription){
+                    intygModule.detailedDescription = dynamicLinkService.processLinkTags(intygModule.detailedDescription);
+                }
+            })
+        }
     }
 
     function _getModules(modules) {
