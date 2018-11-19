@@ -20,9 +20,6 @@ package se.inera.intyg.common.support.modules.support;
 
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */

@@ -40,7 +40,8 @@ public class PatientDetailResolveOrder {
                 Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
 
-    public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy, List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
+    public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy,
+                                     List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
         this.predecessorType = predecessorType;
         this.adressStrategy = adressStrategy;
         this.avlidenStrategy = avlidenStrategy;
@@ -64,12 +65,13 @@ public class PatientDetailResolveOrder {
     }
 
     public enum ResolveOrder {
+        /** PARAMS || PU (used for avliden).*/
         PARAMS_OR_PU,
-        /** From integrations parameters */
+        /** From integrations parameters. */
         PARAMS,
-        /** From PU*/
+        /** From PU.*/
         PU,
-        /** From existing intyg, type specified by predecessorType */
+        /** From existing intyg, type specified by predecessorType.*/
         PREDECESSOR
     }
 
