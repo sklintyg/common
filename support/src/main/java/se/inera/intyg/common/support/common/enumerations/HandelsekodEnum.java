@@ -30,7 +30,7 @@ public enum HandelsekodEnum {
     SIGNAT("SIGNAT", "Intyg signerat"),
     SKICKA("SKICKA", "Intyg skickat till mottagare"),
     RADERA("RADERA", "Intygsutkast raderat"),
-    MAKULE("MAKULE", "Intyg makulerat"),
+    MAKULE("MAKULE", "Intyg eller intygsutkast makulerat"),
     NYFRFM("NYFRFM", "Ny fråga från mottagare"),
     NYSVFM("NYSVFM", "Nytt svar från mottagare"),
     NYFRFV("NYFRFV", "Ny fråga från vården"),
