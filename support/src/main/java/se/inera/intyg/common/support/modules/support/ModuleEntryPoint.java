@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support;
 
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -113,5 +118,13 @@ public interface ModuleEntryPoint {
      */
     default boolean displayDeprecated() {
         return false;
+    }
+
+    /**
+     * Each module needs to specify in which order patient details should be resolved. <br/>
+     * Defaults to FK presets (with no predessorId, <1, ResolveOrder.PU_NAME_ONLY> and <2, ResolveOrder.PARAMS_NAME_ONLY>).
+     */
+    default PatientDetailResolveOrder getPatientDetailResolveOrder() {
+        return new PatientDetailResolveOrder();
     }
 }
