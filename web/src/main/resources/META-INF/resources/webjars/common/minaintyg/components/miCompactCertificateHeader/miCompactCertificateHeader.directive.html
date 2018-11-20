@@ -1,36 +1,37 @@
-<div ng-class="{'mi-compact-certificate-header': !certMetaModel.isReplaced, 'mi-compact-certificate-header-replaced' : certMetaModel.isReplaced}"
-        ng-attr-id="mi-compact-certificate-header-{{certMetaModel.id}}"
-        ng-show="certMetaModel">
-    <div class="row-wrapper">
+<div
+    ng-class="{'mi-compact-certificate-header': !certMetaModel.isReplaced, 'mi-compact-certificate-header-replaced' : certMetaModel.isReplaced}"
+    ng-attr-id="mi-compact-certificate-header-{{certMetaModel.id}}" ng-show="certMetaModel">
+  <div class="row-wrapper">
 
-        <div class="icon-wrapper" ng-switch="certMetaModel.isReplaced">
-            <i ng-switch-when="false" class="icon icon-doc-text pull-left"></i>
-            <i ng-switch-when="true" class="icon icon-clone pull-left"></i>
-        </div>
-        <div class="certificate-header-wrapper">
-            <div class="cert-type-title">
-                <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
-                <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
-            </div>
-            <div class="complementary-info">
-                <span ng-if="!certMetaModel.replacedBy">
-                    <span class="small-header" dynamic-label key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></span><br class="visible-xs">
-                    <span ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
-                 {{certMetaModel.complementaryInfo}}
-                </span>
-                </span>
+    <div class="icon-wrapper" ng-switch="certMetaModel.isReplaced">
+      <i ng-switch-when="false" class="icon icon-doc-text pull-left"></i>
+      <i ng-switch-when="true" class="icon icon-clone pull-left"></i>
+    </div>
+    <div class="certificate-header-wrapper">
+      <div class="cert-type-title">
+        <h1 ng-if="onViewClick"><a ng-click="onViewClick({cert:certMetaModel})">{{getModuleName()}}</a></h1>
+        <h1 ng-if="!onViewClick">{{getModuleName()}}</h1>
+      </div>
+      <div class="complementary-info">
+        <span ng-if="!certMetaModel.replacedBy">
+          <span class="small-header" dynamic-label
+                key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></span><br class="visible-xs">
+          <span ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+            {{certMetaModel.complementaryInfo}}
+          </span>
+        </span>
 
-                <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+        <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
                     <p dynamic-label key="certificates.label.replaced"></p>
                 </span>
-            </div>
-        </div>
-
-        <div class="certificate-issued-date">
-            <span class="visible-xs">Utfärdat</span>
-            <span class="hidden-xs">Intyg utfärdat</span>
-            <b class="date">{{certMetaModel.sentDate | date:'shortDate'}}</b>
-        </div>
-
+      </div>
     </div>
+
+    <div class="certificate-issued-date">
+      <span class="visible-xs">Utfärdat</span>
+      <span class="hidden-xs">Intyg utfärdat</span>
+      <b class="date">{{certMetaModel.sentDate | date:'shortDate'}}</b>
+    </div>
+
+  </div>
 </div>
