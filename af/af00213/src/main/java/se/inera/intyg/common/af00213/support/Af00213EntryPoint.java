@@ -55,9 +55,9 @@ public class Af00213EntryPoint extends AfAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/af00213/minaintyg/css/af00213.css";
+            return "";
         case WEBCERT:
-            return "/web/webjars/af00213/webcert/css/af00213.css";
+            return "";
         default:
             return null;
         }

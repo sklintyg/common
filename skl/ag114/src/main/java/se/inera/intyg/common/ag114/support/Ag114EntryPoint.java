@@ -62,9 +62,9 @@ public class Ag114EntryPoint extends AgAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/ag114/minaintyg/css/ag114.css";
+            return "";
         case WEBCERT:
-            return "/web/webjars/ag114/webcert/css/ag114.css";
+            return "";
         default:
             return null;
         }

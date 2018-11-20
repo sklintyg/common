@@ -76,7 +76,7 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/ts-diabetes/minaintyg/css/ts-diabetes.css";
+            return "";
         case WEBCERT:
             return "/web/webjars/ts-diabetes/webcert/css/ts-diabetes.css";
         default:

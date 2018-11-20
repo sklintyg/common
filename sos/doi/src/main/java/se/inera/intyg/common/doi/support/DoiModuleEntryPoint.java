@@ -88,7 +88,7 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
-        return "/web/webjars/doi/webcert/css/doi.css";
+        return "";
     }
 
     @Override

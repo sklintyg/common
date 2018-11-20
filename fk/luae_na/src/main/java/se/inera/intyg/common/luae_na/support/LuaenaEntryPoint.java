@@ -54,9 +54,9 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/luae_na/minaintyg/css/luae_na.css";
+            return "";
         case WEBCERT:
-            return "/web/webjars/luae_na/webcert/css/luae_na.css";
+            return "";
         default:
             return null;
         }

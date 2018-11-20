@@ -56,7 +56,7 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
         case MINA_INTYG:
             return "/web/webjars/lisjp/minaintyg/css/lisjp.css";
         case WEBCERT:
-            return "/web/webjars/lisjp/webcert/css/lisjp.css";
+            return "";
         default:
             return null;
         }
