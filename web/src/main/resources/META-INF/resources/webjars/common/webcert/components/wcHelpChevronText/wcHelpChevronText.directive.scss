@@ -44,8 +44,13 @@
 .wc-help-chevron__textarea {
   line-height: 19px;
   cursor: default;
+
   .scrollable-body {
-    padding: 20px 20px 0px 20px;
+    padding: 25px 20px;
     max-height: 190px; // 190 - padding = 140 = 7 text rows
+  }
+
+  .multiline{
+    padding-bottom: 5px;
   }
 }
