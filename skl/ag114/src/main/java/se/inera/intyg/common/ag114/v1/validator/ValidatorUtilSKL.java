@@ -21,7 +21,7 @@ package se.inera.intyg.common.ag114.v1.validator;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 
 import com.google.common.base.Strings;
-import org.apache.commons.lang3.StringUtils;
+import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,9 +131,9 @@ public class ValidatorUtilSKL {
     }
 
     public boolean isIntInRange(String intString, int min, int max) {
-        final boolean numeric = StringUtils.isNumeric(intString);
+        final Integer parsedInteger = Ints.tryParse(intString);
 
-        if (!numeric) {
+        if (parsedInteger == null) {
             return false;
         }
 
@@ -141,8 +141,7 @@ public class ValidatorUtilSKL {
             return false;
         }
 
-        final int value = Integer.parseInt(intString);
-        return value >= min && value <= max;
+        return parsedInteger >= min && parsedInteger <= max;
     }
 
     public boolean hasNoContent(String stringValue) {
