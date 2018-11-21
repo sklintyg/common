@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class PatientDetailResolveOrder {
      * avlidenStrategy(PU, PARAMS) and <br/>
      * other ie name and sekretess-strategy (PU, PARAMS).
      */
-    public PatientDetailResolveOrder() {
-        this(null, null,
+    public static PatientDetailResolveOrder defaultOrder() {
+        return new PatientDetailResolveOrder(null, null,
                 Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS),
                 Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
@@ -53,14 +54,23 @@ public class PatientDetailResolveOrder {
     }
 
     public List<ResolveOrder> getAdressStrategy() {
+        if (adressStrategy == null) {
+            adressStrategy = new ArrayList<>();
+        }
         return adressStrategy;
     }
 
     public List<ResolveOrder> getAvlidenStrategy() {
+        if (avlidenStrategy == null) {
+            avlidenStrategy = new ArrayList<>();
+        }
         return avlidenStrategy;
     }
 
     public List<ResolveOrder> getOtherStrategy() {
+        if (other == null) {
+            other = new ArrayList<>();
+        }
         return other;
     }
 

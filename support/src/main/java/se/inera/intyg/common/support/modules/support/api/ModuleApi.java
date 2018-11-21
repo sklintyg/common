@@ -396,10 +396,14 @@ public interface ModuleApi {
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 
     /**
+     * Injects the XML digital signature into the json model encoded into Base64.
      *
      * @param jsonModel
+     *      the certificate as JSON.
      * @param signatureXml
+     *      Plain-text XML signature.
      * @return
+     *      The updated JSON model.
      */
     String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException;
 
@@ -408,7 +412,7 @@ public interface ModuleApi {
      * Defaults to FK presets (with no predessorId, <1, ResolveOrder.PU_NAME_ONLY> and <2, ResolveOrder.PARAMS_NAME_ONLY>).
      */
     default PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        return new PatientDetailResolveOrder();
+        return PatientDetailResolveOrder.defaultOrder();
     }
 
 }
