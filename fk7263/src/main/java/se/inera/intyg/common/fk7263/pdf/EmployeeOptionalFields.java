@@ -31,7 +31,6 @@ public enum EmployeeOptionalFields {
     AKTUELLT_SJUKDOMS_FORLOPP("aktuelltSjukdomsforlopp"),
     FUNKTIONSNEDSATTNING("funktionsnedsattning"),
     AKTIVITETSBEGRANSNING("aktivitetsbegransning"),
-    INTYGET_BASERAS_PA("intygetBaserasPa"),
     REKOMMENDATIONER_UTOM_FORETAGSHALSOVARD("rekommendationerUtomForetagsHalsoVard"),
     BEHANDLING_ATGARD("planeradBehandling"),
     REHABILITERING("rehabilitering"),
