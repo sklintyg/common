@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.modules.support;
 
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -77,7 +75,8 @@ public interface ModuleEntryPoint {
     /**
      * Returns the module css path.
      *
-     * @param originator the calling application
+     * @param originator
+     *            the calling application
      * @return the module css path for the calling application
      */
     String getModuleCssPath(ApplicationOrigin originator);
@@ -85,7 +84,8 @@ public interface ModuleEntryPoint {
     /**
      * Returns the module script path.
      *
-     * @param originator the calling application
+     * @param originator
+     *            the calling application
      * @return the module script path for the calling application
      */
     String getModuleScriptPath(ApplicationOrigin originator);
@@ -93,7 +93,8 @@ public interface ModuleEntryPoint {
     /**
      * Returns the path to a resource containing the dependencies for the module.
      *
-     * @param originator the calling application
+     * @param originator
+     *            the calling application
      * @return the path to the module dependency definition for the calling application
      */
     String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
