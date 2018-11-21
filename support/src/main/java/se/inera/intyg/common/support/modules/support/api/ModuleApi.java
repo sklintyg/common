@@ -27,6 +27,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -395,10 +396,23 @@ public interface ModuleApi {
     String getAdditionalInfo(Intyg intyg) throws ModuleException;
 
     /**
+     * Injects the XML digital signature into the json model encoded into Base64.
      *
      * @param jsonModel
+     *      the certificate as JSON.
      * @param signatureXml
+     *      Plain-text XML signature.
      * @return
+     *      The updated JSON model.
      */
     String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException;
+
+    /**
+     * Each module needs to specify in which order patient details should be resolved. <br/>
+     * Defaults to FK presets (with no predessorId, <1, ResolveOrder.PU_NAME_ONLY> and <2, ResolveOrder.PARAMS_NAME_ONLY>).
+     */
+    default PatientDetailResolveOrder getPatientDetailResolveOrder() {
+        return PatientDetailResolveOrder.defaultOrder();
+    }
+
 }

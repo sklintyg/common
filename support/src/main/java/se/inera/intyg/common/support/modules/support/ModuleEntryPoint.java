@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.support.modules.support;
 
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
+
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -114,4 +116,5 @@ public interface ModuleEntryPoint {
     default boolean displayDeprecated() {
         return false;
     }
+
 }
