@@ -114,7 +114,7 @@ angular.module('common').factory('common.User',
 
                 var restPath = '/api/anvandare/andraenhet';
                 $http.post(restPath, payload).then(function(response) {
-                    $log.debug('got callback data: ' + response.data);
+                    $log.debug(restPath + ' response: ' + response.data);
 
                     // Update user context
                     userModel.setUser(response.data);

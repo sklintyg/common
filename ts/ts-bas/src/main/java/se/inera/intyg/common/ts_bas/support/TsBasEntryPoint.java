@@ -85,7 +85,7 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/ts-bas/minaintyg/css/ts-bas.css";
+            return "";
         case WEBCERT:
             return "/web/webjars/ts-bas/webcert/css/ts-bas.css";
         default:

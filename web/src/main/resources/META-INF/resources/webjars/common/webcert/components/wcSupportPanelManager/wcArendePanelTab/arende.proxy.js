@@ -31,7 +31,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
 
             var restPath = '/moduleapi/arende/' + intygsId;
             $http.get(restPath, { timeout:timeout }).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -56,7 +56,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
             $http.post(restPath, payload).then(function(response) {
-                $log.debug('got callback data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -76,7 +76,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
             $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -96,7 +96,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
 
             var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
             $http.put(restPath, meddelande).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -116,7 +116,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }
 
             $http.put(restPath).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -137,7 +137,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
 
             var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/oppna';
             $http.put(restPath).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);
@@ -161,7 +161,7 @@ angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common
             }, fs);
 
             $http.put(restPath, fs).then(function(response) {
-                $log.debug('got data:' + response.data);
+                $log.debug(restPath + ' response:' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.error('error ' + response.status);

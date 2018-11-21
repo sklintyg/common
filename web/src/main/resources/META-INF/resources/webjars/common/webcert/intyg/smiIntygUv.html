@@ -1,12 +1,12 @@
 <div ui-view="header"></div>
-<div class="webcert-workarea-hflex-container centered-constrained-content" id="view-{{viewState.common.intyg.type}}" ng-show="!viewState.common.activeErrorMessageKey">
+<div class="webcert-workarea-hflex-container centered-constrained-content" id="view-{{viewState.common.intygProperties.type}}" ng-show="!viewState.common.activeErrorMessageKey">
 
   <div class="bottom-fadeout-gradient wc-color-27">
     <div></div>
   </div>
 
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid">
-    <div class="{{viewState.common.intyg.type}}-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
+    <div class="{{viewState.common.intygProperties.type}}-ns weak-hidden" ng-class="{show: viewState.common.showTemplate}">
       <wc-spinner label="common.load.certificate" show-spinner="!viewState.common.doneLoading">
 
         <div id="certificate" ng-class="{'certificate': true, 'revoked-certificate' : viewState.common.intygProperties.isRevoked}">

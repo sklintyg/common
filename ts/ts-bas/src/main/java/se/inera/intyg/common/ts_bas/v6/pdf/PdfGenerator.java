@@ -110,7 +110,6 @@ public class PdfGenerator {
 
 
     private String getCleanModuleDescription(IntygTexts intygTexts) {
-        //dynamicLinkService in Infra could be used to make proper replacement?
         String rawText = intygTexts.getTexter().get("FRM_1.RBK");
         return rawText != null ? rawText.replace("<LINK:transportstyrelsen>", "www.transportstyrelsen.se") : rawText;
     }

@@ -55,9 +55,9 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/luse/minaintyg/css/luse.css";
+            return "";
         case WEBCERT:
-            return "/web/webjars/luse/webcert/css/luse.css";
+            return "";
         default:
             return null;
         }

@@ -54,9 +54,9 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/luae_fs/minaintyg/css/luae_fs.css";
+            return "";
         case WEBCERT:
-            return "/web/webjars/luae_fs/webcert/css/luae_fs.css";
+            return "";
         default:
             return null;
         }

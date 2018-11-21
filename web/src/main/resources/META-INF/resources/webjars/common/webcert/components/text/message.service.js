@@ -25,12 +25,11 @@
  *
  * Usage: <message key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
-angular.module('common').factory('common.messageService',
-    function($rootScope) {
+angular.module('common').factory('common.messageService', ['$rootScope', 'common.dynamicLinkService',
+    function($rootScope, dynamicLinkService) {
         'use strict';
 
         var _messageResources = null;
-        var _links = null;
 
         function _propertyExists(key) {
             var value;
@@ -81,18 +80,7 @@ angular.module('common').factory('common.messageService',
                     message = message.replace(regexp, value);
                 });
 
-                // Find <LINK: dynamic links and replace
-                var regex2 = /<LINK:(.*?)>/gi, result;
-
-                while ( (result = regex2.exec(message)) ) {
-                    var replace = result[0];
-                    var linkKey = result[1];
-
-                    var dynamicLink = _buildDynamicLink(linkKey);
-
-                    var regexp = new RegExp(replace, 'g');
-                    message = message.replace(regexp, dynamicLink);
-                }
+                message = dynamicLinkService.processLinkTags(message);
             }
 
             return message;
@@ -117,27 +105,10 @@ angular.module('common').factory('common.messageService',
             }
         }
 
-        function _buildDynamicLink(linkKey) {
-            var dynamicLink = '';
-            dynamicLink += _links[linkKey].target ? '<span class="unbreakable">' : '';
-            dynamicLink += '<a href="' + _links[linkKey].url + '" class="external-link" rel="noopener noreferrer" ';
-            dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
-            dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
-            dynamicLink += _links[linkKey].text + '</a>';
-            dynamicLink += _links[linkKey].target ? ' <i ng-show="target" class="external-link-icon material-icons">launch</i></span>' : '';
-            return dynamicLink;
-        }
-
-        function _addLinks(links) {
-            _links = links;
-        }
-
         return {
             propertyExists: _propertyExists,
             getProperty: _getProperty,
-            addResources: _addResources,
-            addLinks: _addLinks,
-            buildExternalLink: _buildDynamicLink
+            addResources: _addResources
         };
-    }
+    }]
 );

@@ -94,7 +94,7 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
-        return "/web/webjars/db/webcert/css/db.css";
+        return "";
     }
 
     @Override

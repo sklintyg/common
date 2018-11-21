@@ -29,7 +29,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
             var restPath = '/api/arende/draft/' + intygsId;
 
             $http.get(restPath).then(function(response) {
-                $log.debug('got data: ' + response.data);
+                $log.debug(restPath + ' response: ' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.debug('error: ' + response.data);
@@ -58,7 +58,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
             }
 
             $http.put(restPath, payload).then(function(response) {
-                $log.debug('got data: ' + response.data);
+                $log.debug(restPath + ' response: ' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.debug('error: ' + response.data);
@@ -82,7 +82,7 @@ angular.module('common').factory('common.ArendeDraftProxy', ['$http', '$log',
                 method: 'DELETE',
                 url: restPath
             }).then(function(response) {
-                $log.debug('got data: ' + response.data);
+                $log.debug(restPath + ' response: ' + response.data);
                 onSuccess(response.data);
             }, function(response) {
                 $log.debug('error: ' + response.data);

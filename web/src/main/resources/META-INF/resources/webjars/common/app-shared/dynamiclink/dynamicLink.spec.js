@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -35,7 +35,7 @@ describe('dynamiclink', function() {
 
     // Create a <p> with a dynamic link to test the validation directive on.
     beforeEach(inject(
-        ['$compile', '$rootScope', 'dynamicLinkService',
+        ['$compile', '$rootScope', 'common.dynamicLinkService',
         function(_$compile_, $rootScope, dynamicLinkService) {
             dynamicLinkService.addLinks(_links);
             $scope = $rootScope.$new();
