@@ -21,8 +21,8 @@
  * certain source and replaces another source.
  */
 angular.module('common').service('common.PatientService',
-    ['$log', 'common.ObjectHelper', 'common.UserModel',
-        function($log, ObjectHelper, UserModel) {
+    ['$log', 'common.ObjectHelper', 'common.StringHelper', 'common.UserModel',
+        function($log, ObjectHelper, StringHelper, UserModel) {
             'use strict';
 
                 this.getPatientDataChanges = function(isIntyg, intyg, intygProperties) {
@@ -75,29 +75,20 @@ angular.module('common').service('common.PatientService',
                  * */
                 this.hasChangedNameInIntegration = function(grundData) {
                     if (ObjectHelper.isDefined(grundData) &&
+                        ObjectHelper.isDefined(grundData.patient.fornamn) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('fornamn')) &&
                         ObjectHelper.isDefined(UserModel.getIntegrationParam('efternamn'))) {
 
-                        return grundData.patient.fornamn !== UserModel.getIntegrationParam('fornamn') ||
-                            grundData.patient.efternamn !== UserModel.getIntegrationParam('efternamn');
-                    }
-                    return false;
-                };
+                        var mellannamn = false;
 
-                /**
-                 * When a deep-integration user requests an intyg, the original request  may contain name and address.
-                 * This method matches the supplied parameters (if applicable) with the patient address on the requested
-                 * certificate and returns true if the address has changed.
-                 */
-                this.hasChangedAddressInIntegration = function(grundData) {
-                    if (ObjectHelper.isDefined(grundData) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) &&
-                        ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'))) {
+                        if (ObjectHelper.isDefined(UserModel.getIntegrationParam('mellannamn'))) {
+                            mellannamn = StringHelper.toLowerCase(grundData.patient.mellannamn) !== UserModel.getIntegrationParam('mellannamn').toLowerCase();
+                        }
 
-                        return grundData.patient.postort !== UserModel.getIntegrationParam('postort') ||
-                            grundData.patient.postadress !== UserModel.getIntegrationParam('postadress') ||
-                            grundData.patient.postnummer !== UserModel.getIntegrationParam('postnummer');
+
+                        return grundData.patient.fornamn.toLowerCase() !== UserModel.getIntegrationParam('fornamn').toLowerCase() ||
+                            grundData.patient.efternamn.toLowerCase() !== UserModel.getIntegrationParam('efternamn').toLowerCase() ||
+                            mellannamn;
                     }
                     return false;
                 };

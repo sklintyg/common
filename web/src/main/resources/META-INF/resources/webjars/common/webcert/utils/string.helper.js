@@ -16,22 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.doi.model.internal;
+angular.module('common').factory('common.StringHelper',
+    ['common.ObjectHelper',
+    function(ObjectHelper) {
+        'use strict';
 
-public enum Dodsorsaksgrund {
-    UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
-    UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
-    KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
-    RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
-    RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
+        return {
+            toLowerCase: function(value) {
+                if (ObjectHelper.isDefined(value)) {
+                    return value.toLowerCase();
+                }
 
-    private final String beskrivning;
-
-    Dodsorsaksgrund(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
-
-    public String getBeskrivning() {
-        return beskrivning;
-    }
-}
+                return '';
+            }
+        };
+    }]
+);

@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <wc-deprecated-intygstype-message message-suffix="utkastheader" intygs-type="{{::utkastViewState.common.intyg.type}}"></wc-deprecated-intygstype-message>
+    <wc-deprecated-intygstype-message timeout="true" wc-authority request-origin="!UTHOPP" message-suffix="utkastheader" intygs-type="{{::utkastViewState.common.intyg.type}}"></wc-deprecated-intygstype-message>
 
     <!-- Integration deleted message -->
     <div id="integration-deleted" ng-if="utkastViewState.common.deleted">

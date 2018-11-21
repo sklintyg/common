@@ -23,8 +23,8 @@ angular.module('common').directive('wcAuthority',
             return {
                 restrict: 'A',
                 link: function($scope, $element, $attr) {
-                    $timeout(function(){
 
+                    if ($attr.timeout) {
                         var options = {
                             authority: $attr.wcAuthority,
                             feature: $attr.feature,
@@ -35,7 +35,22 @@ angular.module('common').directive('wcAuthority',
                         if (!authorityService.isAuthorityActive(options)) {
                             $element.remove();
                         }
-                    });
+                    }
+                    else {
+                        $timeout(function(){
+
+                            var options = {
+                                authority: $attr.wcAuthority,
+                                feature: $attr.feature,
+                                role: $attr.role,
+                                intygstyp: $attr.intygstyp,
+                                requestOrigin: $attr.requestOrigin
+                            };
+                            if (!authorityService.isAuthorityActive(options)) {
+                                $element.remove();
+                            }
+                        });
+                    }
                 }
             };
         }]);

@@ -99,7 +99,7 @@
             <delsvar id="3.2">
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
-                    <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
+                    <ns3:codeSystem>65f0069f-14b5-4634-b187-5193580a3349</ns3:codeSystem>
                     <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
@@ -116,8 +116,8 @@
             <delsvar id="6.2">
                 <ns3:cv>
                     <ns3:code>UNDERSOKNING_GJORT</ns3:code>
-                    <ns3:codeSystem>KV_DETALJER_UNDERSOKNING</ns3:codeSystem>
-                    <ns3:displayName>UNDERSOKNING_GJORT</ns3:displayName>
+                    <ns3:codeSystem>da46dd8c-b3f1-4e39-8d62-777d069213ea</ns3:codeSystem>
+                    <ns3:displayName>Den avlidne undersökt kort före döden</ns3:displayName>
                 </ns3:cv>
             </delsvar>
             <delsvar id="6.3">2016-12-31</delsvar>

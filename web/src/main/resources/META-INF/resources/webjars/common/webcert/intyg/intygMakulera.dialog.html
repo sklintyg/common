@@ -1,3 +1,4 @@
+<div class="intyg-makulera">
 <div id="{{dialogId}}" class="modal-header">
   <button type="button" class="close" data-ng-click="$close()"><i class="material-icons">close</i></button>
   <h3 ng-focus="model.focus" tabindex="-1">
@@ -37,19 +38,27 @@
 </div>
 
   <div class="modal-footer">
-    <button type="button" id="{{button1id}}" class="btn btn-secondary"
-            ng-disabled="!model.isMakuleraEnabled(model)"
-            ng-click="button1click()">
-      <img ng-hide="model.makuleraProgressDone" ng-src="/img/ajax-loader-small-red.gif" />
+    <div class="button-wrapper">
+    <wc-button
+            btn-id="{{button1id}}"
+            btn-class="btn btn-secondary"
+            btn-click="button1click()"
+            btn-disabled="!model.isMakuleraEnabled(model)"
+            loading="!model.makuleraProgressDone"
+    >
       <span dynamic-label key="{{button1text}}"></span>
-    </button>
-
-    <button type="button" id="{{button3id}}" class="btn btn-default" ng-click="button3click()">
+    </wc-button>
+    <wc-button
+            btn-id="{{button3id}}"
+            btn-class="btn btn-default"
+            btn-click="button3click()"
+    >
       <span dynamic-label key="{{button3text}}"></span>
-    </button>
+    </wc-button>
+    </div>
     <div class="webcert-top-padding-section" ng-show="model.showerror">
       <wc-alert-message alert-severity="danger" class="alert-dialog-error" alert-message-id="{{model.errormessageid}}">
       </wc-alert-message>
     </div>
   </div>
-
+</div>

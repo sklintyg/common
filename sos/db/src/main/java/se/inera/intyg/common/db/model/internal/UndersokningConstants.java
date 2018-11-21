@@ -16,22 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.doi.model.internal;
+package se.inera.intyg.common.db.model.internal;
 
-public enum Dodsorsaksgrund {
-    UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
-    UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
-    KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
-    RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
-    RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
+public final class UndersokningConstants {
+    public static final String UNDERSOKNING_GJORT_TEXT = "Den avlidne undersökt kort före döden";
+    public static final String UNDERSOKNING_SKA_GORAS_TEXT = "Rättsmedicinsk undersökning ska göras";
 
-    private final String beskrivning;
+    public static final String UNDERSOKNING_SKA_GORAS_TRANSPORT = "UNDERSOKNING_SKA_GORAS";
+    public static final String UNDERSOKNING_GJORT_TRANSPORT = "UNDERSOKNING_GJORT";
 
-    Dodsorsaksgrund(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
-
-    public String getBeskrivning() {
-        return beskrivning;
+    private UndersokningConstants() {
     }
 }

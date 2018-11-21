@@ -16,22 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.doi.model.internal;
 
-public enum Dodsorsaksgrund {
-    UNDERSOKNING_FORE_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_FORE_DODEN),
-    UNDERSOKNING_EFTER_DODEN(DodsorsaksgrundConstants.UNDERSOKNING_EFTER_DODEN),
-    KLINISK_OBDUKTION(DodsorsaksgrundConstants.KLINISK_OBDUKTION),
-    RATTSMEDICINSK_OBDUKTION(DodsorsaksgrundConstants.RATTSMEDICINSK_OBDUKTION),
-    RATTSMEDICINSK_BESIKTNING(DodsorsaksgrundConstants.RATTSMEDICINSK_BESIKTNING);
+describe('StringHelper', function() {
+    'use strict';
 
-    private final String beskrivning;
+    beforeEach(angular.mock.module('common'));
 
-    Dodsorsaksgrund(final String beskrivning) {
-        this.beskrivning = beskrivning;
-    }
+    var stringHelper;
 
-    public String getBeskrivning() {
-        return beskrivning;
-    }
-}
+    beforeEach(angular.mock.inject(['common.StringHelper', function(_stringHelper_) {
+        stringHelper = _stringHelper_;
+    }]));
+
+    describe('toLowerCase', function() {
+        it('undefined', function() {
+            var result = stringHelper.toLowerCase(undefined);
+            expect(result).toEqual('');
+        });
+
+        it('null', function() {
+            var result = stringHelper.toLowerCase(null);
+            expect(result).toEqual('');
+        });
+
+        it('normal', function() {
+            var result = stringHelper.toLowerCase('NoRmal');
+            expect(result).toEqual('normal');
+        });
+    });
+
+});

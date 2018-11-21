@@ -19,8 +19,18 @@
 package se.inera.intyg.common.doi.model.internal;
 
 public enum ForgiftningOrsak {
-    OLYCKSFALL,
-    SJALVMORD,
-    AVSIKTLIGT_VALLAD,
-    OKLART;
+    OLYCKSFALL(ForgiftningOrsakConstants.OLYCKSFALL),
+    SJALVMORD(ForgiftningOrsakConstants.SJALVMORD),
+    AVSIKTLIGT_VALLAD(ForgiftningOrsakConstants.AVSIKTLIGT_VALLAD),
+    OKLART(ForgiftningOrsakConstants.OKLART);
+
+    private final String beskrivning;
+
+    ForgiftningOrsak(final String beskrivning) {
+        this.beskrivning = beskrivning;
+    }
+
+    public String getBeskrivning() {
+        return beskrivning;
+    }
 }

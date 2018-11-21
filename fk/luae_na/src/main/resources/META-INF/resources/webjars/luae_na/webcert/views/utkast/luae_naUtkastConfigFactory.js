@@ -239,7 +239,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                     ]),
 
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {required: true, requiredProp: funktionsnedsattningar()}, [
-                        fraga(8, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'ue-checkgroup'} }, [{
+                        fraga(8, '', '', {}, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
                             id: 'check-funktionsnedsattningIntellektuell',
@@ -258,7 +258,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]), fraga(9, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKommunikation',
                             id: 'check-funktionsnedsattningKommunikation',
@@ -277,7 +277,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]), fraga(10, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKoncentration',
                             id: 'check-funktionsnedsattningKoncentration',
@@ -296,7 +296,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]), fraga(11, '', '', {}, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningPsykisk',
                             id: 'check-funktionsnedsattningPsykisk',
@@ -315,7 +315,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]), fraga(12, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningSynHorselTal',
                             id: 'check-funktionsnedsattningSynHorselTal',
@@ -334,7 +334,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]), fraga(13, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningBalansKoordination',
                             id: 'check-funktionsnedsattningBalansKoordination',
@@ -353,7 +353,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }, {
+                        }]),fraga(14, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningAnnan',
                             id: 'check-funktionsnedsattningAnnan',
@@ -372,8 +372,8 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory',
                                     requiredProp: funktionsnedsattningar()
                                 }
                             }]
-                        }
-                        ])
+                        }]),
+                        fraga(null, '', '', { validationContext: {key: 'funktionsnedsattning', type: 'ue-checkgroup'} })
                     ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [

@@ -23,9 +23,9 @@
 
 </div>
 
-<wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body" color="28">
+<wc-support-panel-scrollable-body dom-id="arende-panel-scrollable-body">
 
-  <wc-deprecated-intygstype-message message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
+  <wc-deprecated-intygstype-message timeout="true" wc-authority request-origin="!UTHOPP" message-suffix="arendeheader" intygs-type="{{::viewState.intygProperties.type}}"></wc-deprecated-intygstype-message>
 
     <!-- error message -->
     <wc-alert-message id="arende-list-load-error"
@@ -36,9 +36,9 @@
     <wc-arende-intyg-not-sent-message ng-if="!viewState.intygProperties.isSent"></wc-arende-intyg-not-sent-message>
 
     <div id="arende-kompletteringar-section" class="arende-list-section" ng-show="viewState.intygProperties.isSent && isFilterKomplettering">
+      <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
 
-      <div ng-if="viewState.intygProperties.isInteractionEnabled">
-        <wc-arende-komplettera-utkast-warning></wc-arende-komplettera-utkast-warning>
+      <div ng-if="viewState.intygProperties.isInteractionEnabled">    
         <wc-arende-komplettera-intyg-confirmation></wc-arende-komplettera-intyg-confirmation>
         <wc-arende-komplettera-meddelande-confirmation arende-list="viewState.arendeList"></wc-arende-komplettera-meddelande-confirmation>
       </div>
@@ -46,7 +46,7 @@
       <!-- list of komplettering arenden -->
       <div ng-repeat="arendeListItem in viewState.arendeList | filter:kompletteringarFilter | orderBy:['-arende.senasteHandelse'] as kompletteringarList"
            class="arende-item">
-        <arende-panel panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
+        <arende-panel last-card="$last" panel-id="kompletteringar" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
              parent-view-state="viewState"></arende-panel>
       </div>
 
@@ -59,12 +59,13 @@
       <!-- new arende form -->
       <arende-new ng-show="viewState.intygProperties.isInteractionEnabled && viewState.doneLoading && viewState.activeErrorMessageKey == null"
            arende-list="viewState.arendeList" parent-view-state="viewState"></arende-new>
+      <div class="card-divider"></div>
 
       <!-- list of administrativ fraga arenden -->
       <div
           ng-repeat="arendeListItem in viewState.arendeList | filter:administrativaFragorFilter | orderBy:['-arende.senasteHandelse'] as administrativaFragorList"
           class="arende-item">
-        <arende-panel panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
+        <arende-panel last-card="$last" panel-id="administrativaFragor" arende-list-item="arendeListItem" arende-list="viewState.arendeList"
              parent-view-state="viewState"></arende-panel>
       </div>
 
