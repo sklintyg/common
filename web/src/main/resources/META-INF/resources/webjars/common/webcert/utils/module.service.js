@@ -48,7 +48,7 @@ angular.module('common').factory('common.moduleService', ['common.dynamicLinkSer
                 if(intygModule.detailedDescription){
                     intygModule.detailedDescription = dynamicLinkService.processLinkTags(intygModule.detailedDescription);
                 }
-            })
+            });
         }
     }
 
