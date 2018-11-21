@@ -18,23 +18,14 @@
  */
 package se.inera.intyg.common.ts_bas.support;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
+
+import java.util.Optional;
 
 @Component("TsBasEntryPoint")
 public class TsBasEntryPoint implements ModuleEntryPoint {
