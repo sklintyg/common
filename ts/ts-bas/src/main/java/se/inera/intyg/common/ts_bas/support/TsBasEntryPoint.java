@@ -133,13 +133,4 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
         return KV_UTLATANDETYP_INTYG_CODE;
     }
 
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
-        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
-
-        return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
-    }
-
 }

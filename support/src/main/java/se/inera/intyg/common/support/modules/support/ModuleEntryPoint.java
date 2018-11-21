@@ -117,11 +117,4 @@ public interface ModuleEntryPoint {
         return false;
     }
 
-    /**
-     * Each module needs to specify in which order patient details should be resolved. <br/>
-     * Defaults to FK presets (with no predessorId, <1, ResolveOrder.PU_NAME_ONLY> and <2, ResolveOrder.PARAMS_NAME_ONLY>).
-     */
-    default PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        return new PatientDetailResolveOrder();
-    }
 }

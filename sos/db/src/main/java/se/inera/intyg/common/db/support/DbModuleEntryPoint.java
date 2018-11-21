@@ -107,13 +107,4 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
         return "/web/webjars/db/webcert/module-deps.json";
     }
 
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Collections.singletonList(PU);
-        List<ResolveOrder> avlidenStrat = Collections.singletonList(PU);
-        List<ResolveOrder> otherStrat = Collections.singletonList(PU);
-
-        return new PatientDetailResolveOrder("db", adressStrat, avlidenStrat, otherStrat);
-    }
-
 }

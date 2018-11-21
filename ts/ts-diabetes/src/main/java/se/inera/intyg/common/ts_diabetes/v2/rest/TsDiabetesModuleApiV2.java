@@ -18,8 +18,13 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.rest;
 
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
+
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.ws.rs.NotSupportedException;
@@ -49,10 +54,12 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -265,4 +272,14 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
             throw new ModuleSystemException("Failed to generate PDF for certificate!", e);
         }
     }
+
+    @Override
+    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
+        List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
+        List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
+        List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
+
+        return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
+    }
+
 }

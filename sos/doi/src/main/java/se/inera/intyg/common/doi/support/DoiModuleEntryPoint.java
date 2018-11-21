@@ -108,13 +108,4 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
         return "/web/webjars/doi/webcert/module-deps.json";
     }
 
-    @Override
-    public PatientDetailResolveOrder getPatientDetailResolveOrder() {
-        List<ResolveOrder> adressStrat = Arrays.asList(PREDECESSOR, PU);
-        List<ResolveOrder> avlidenStrat = Arrays.asList(PU, PREDECESSOR);
-        List<ResolveOrder> otherStrat = Arrays.asList(PREDECESSOR, PU);
-
-        return new PatientDetailResolveOrder("db", adressStrat, avlidenStrat, otherStrat);
-    }
-
 }
