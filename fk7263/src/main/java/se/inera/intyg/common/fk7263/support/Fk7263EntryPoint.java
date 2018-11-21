@@ -18,19 +18,16 @@
  */
 package se.inera.intyg.common.fk7263.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
+import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
-import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
 
 public class Fk7263EntryPoint implements ModuleEntryPoint {
 
     public static final String DEFAULT_RECIPIENT_ID = "FKASSA";
+    public static final String ISSUER_TYPE_ID = "FK 7263";
 
     public static final String MODULE_ID = "fk7263";
     public static final String MODULE_NAME = "Läkarintyg FK 7263";
@@ -38,6 +35,7 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DETAILED_DESCRIPTION = "Läkarintyget används av Försäkringskassan för att bedöma om patienten har rätt till sjukpenning. Av intyget ska det framgå hur sjukdomen påverkar patientens arbetsförmåga och hur länge patienten behöver vara sjukskriven.";
     // CHECKSTYLE:ON LineLength
+    private static final boolean DEPRECATED = true;
 
     @Autowired
     private Fk7263ModuleApi moduleApi;
@@ -70,11 +68,6 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "fk7263-features.properties");
     }
 
     @Override
@@ -117,4 +110,15 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     public String getExternalId() {
         return MODULE_ID.toUpperCase();
     }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
+    }
+
+    @Override
+    public boolean isDeprecated() {
+        return DEPRECATED;
+    }
+
 }

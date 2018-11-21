@@ -38,27 +38,24 @@ describe('PrefilledUserDataService', function() {
         });
 
         it('should return positive when all parts of are present', function() {
-            prefilledUserDataService.searchForPrefilledPatientData(patient);
-            expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(true);
+            expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(true);
         });
 
         it('should return negative if any part are ', function() {
 
             describe('missing', function() {
                 delete patient.postort;
-                prefilledUserDataService.searchForPrefilledPatData(patient);
-                expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(false);
+                expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
             });
 
             describe('empty', function() {
                 patient.postort = '';
-                prefilledUserDataService.searchForPrefilledPatientData(patient);
-                expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(false);
+                expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
             });
         });
 
-        it('should return undefined if not initialized by calling searchForPrefilledPatientData', function() {
-            expect(prefilledUserDataService.getPrefilledFields().completeAddress).toBe(undefined);
+        it('should return undefined if given undefined', function() {
+            expect(prefilledUserDataService.searchForPrefilledPatientData(undefined)).toBe(undefined);
         });
     });
 });

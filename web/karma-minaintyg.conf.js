@@ -61,7 +61,7 @@ module.exports = function(config) {
 
             // Dependencies
             // bower:js
-            'bower_components/jquery/jquery.js',
+            'bower_components/jquery/dist/jquery.js',
             'bower_components/angular/angular.js',
             'bower_components/angular-animate/angular-animate.js',
             'bower_components/angular-cookies/angular-cookies.js',
@@ -69,8 +69,6 @@ module.exports = function(config) {
             'bower_components/angular-i18n/angular-locale_sv-se.js',
             'bower_components/angular-sanitize/angular-sanitize.js',
             'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-            'bower_components/api-check/dist/api-check.js',
-            'bower_components/angular-formly/dist/formly.js',
             'bower_components/angular-ui-router/release/angular-ui-router.js',
             'bower_components/bootstrap/dist/js/bootstrap.js',
             'bower_components/momentjs/moment.js',
@@ -110,7 +108,7 @@ module.exports = function(config) {
         // - Safari (only Mac; has to be installed with `npm install karma-safari-launcher`)
         // - PhantomJS
         // - IE (only Windows; has to be installed with `npm install karma-ie-launcher`)
-        browsers: [ 'Chrome' ],
+        browsers: [ 'PhantomJS' ],
 
         // If browser does not capture in given timeout [ms], kill it
         captureTimeout: 60000,
@@ -120,8 +118,6 @@ module.exports = function(config) {
 
         plugins: [
             'karma-jasmine',
-            'karma-chrome-launcher',
-            'karma-firefox-launcher',
             'karma-phantomjs-launcher',
             'karma-mocha-reporter',
             'karma-ng-html2js-preprocessor',

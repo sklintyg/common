@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.IntygHelper',
     [ '$log', '$state',
         function($log, $state) {
@@ -39,6 +38,16 @@ angular.module('common').factory('common.IntygHelper',
                 return false;
             }
 
+            function _sentToTargetTimestamp(statusArr, target) {
+                if (statusArr) {
+                    for (var i = 0; i < statusArr.length; i++) {
+                        if (statusArr[i].target === target && statusArr[i].type === 'SENT') {
+                            return statusArr[i].timestamp;
+                        }
+                    }
+                }
+            }
+
             function _isRevoked(statusArr) {
                 if (statusArr) {
                     for (var i = 0; i < statusArr.length; i++) {
@@ -50,10 +59,22 @@ angular.module('common').factory('common.IntygHelper',
                 return false;
             }
 
-             // Return public API for the service
+            function _revokedTimestamp(statusArr) {
+                if (statusArr) {
+                    for (var i = 0; i < statusArr.length; i++) {
+                        if (statusArr[i].type === 'CANCELLED') {
+                            return statusArr[i].timestamp;
+                        }
+                    }
+                }
+            }
+
+            // Return public API for the service
             return {
                 goToDraft: _goToDraft,
                 isRevoked: _isRevoked,
-                isSentToTarget: _isSentToTarget
+                revokedTimestamp: _revokedTimestamp,
+                isSentToTarget: _isSentToTarget,
+                sentToTargetTimestamp: _sentToTargetTimestamp
             };
         }]);

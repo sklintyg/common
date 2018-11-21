@@ -1,0 +1,35 @@
+<div>
+  <div class="tab-footer">
+    <div class="footer__komplettera">
+      <div ng-if="showKompletteringButtons()"
+           wc-authority="BESVARA_KOMPLETTERINGSFRAGA" intygstyp="{{intygProperties.type}}">
+        <wc-button
+            wc-authority="SVARA_MED_NYTT_INTYG"
+            btn-id="komplettera-intyg"
+            btn-class="btn-success margin-right"
+            btn-click="kompletteraIntyg()"
+            loading="updateInProgress"
+            disabled="updateInProgress">
+          <i class="icon-wc-ikon-komplettera"></i> Komplettera intyg</button>
+        </wc-button>
+
+        <button class="btn btn-primary"
+                id="kan-inte-komplettera"
+                ng-click="openKompletteringDialog()"
+                wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}">
+          <i class="icon-wc-ikon-comment"></i> Kan ej komplettera</button>
+
+        <a wc-authority request-origin="UTHOPP" ng-click="openUthoppInfoModal()" id="arende-komplettering-uthopp-link">
+          <span dynamic-label key="common.arende.komplettering.uthopp.link"></span>
+        </a>
+      </div>
+    </div>
+    <button type="button" id="vidarebefordraEjHanterad"
+            wc-authority="VIDAREBEFORDRA_FRAGASVAR" intygstyp="{{intygProperties.type}}"
+            ng-show="!intygProperties.isRevoked"
+            class="btn btn-primary stick-right" title="Skicka mejl med en länk till intyget för att informera den som ska hantera frågan-svaret."
+            ng-click="openMailDialog()">
+      <i class="icon-wc-ikon-reply"></i> Vidarebefordra</span>
+    </button>
+  </div>
+</div>

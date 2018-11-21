@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.doi.model.converter;
 
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableList;
 import org.junit.Test;
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
@@ -90,7 +90,7 @@ public class UtlatandeToIntygTest {
     private final String textVersion = "textversion";
     private final String enhetsId = "enhetsid";
     private final String enhetsnamn = "enhetsnamn";
-    private final String patientPersonId = "pid";
+    private final String patientPersonId = "191212121212";
     private final String skapadAvFullstandigtNamn = "fullständigt namn";
     private final String skapadAvPersonId = "skapad av pid";
     private final LocalDateTime signeringsdatum = LocalDateTime.now();
@@ -429,7 +429,7 @@ public class UtlatandeToIntygTest {
         skapadAv.setForskrivarKod(forskrivarKod);
         grundData.setSkapadAv(skapadAv);
         Patient patient = new Patient();
-        Personnummer personId = new Personnummer(patientPersonId);
+        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);

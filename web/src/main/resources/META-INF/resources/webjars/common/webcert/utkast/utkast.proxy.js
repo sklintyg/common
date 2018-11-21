@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Common utkast proxy. All utkast-related REST-functions goes here.
  */
@@ -41,13 +40,12 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_getDraft intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId;
             $http.get(restPath).
-                success(function(data) {
-                    $log.debug('_getDraft data: ' + data);
-                    onSuccess(data);
-                }).
-                error(function(data, status) {
-                    $log.error('error ' + status);
-                    onError(data);
+                then(function(response) {
+                    $log.debug('_getDraft data: ' + response.data);
+                    onSuccess(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    onError(response.data);
                 });
         }
 
@@ -61,13 +59,13 @@ angular.module('common').factory('common.UtkastProxy',
             $window.saving = true;
             saveDraftInProgress = true;
             $http.put(restPath, intyg).
-                success(function(data) {
-                    $log.debug('_saveDraft data: ' + data);
-                    onSuccess(data);
+                then(function(response) {
+                    $log.debug('_saveDraft data: ' + response.data);
+                    onSuccess(response.data);
                     saveDraftInProgress = false;
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    onError(data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    onError(response.data);
                     saveDraftInProgress = false;
                 }).finally(function(){ // jshint ignore:line
                     saveDraftInProgress = false;
@@ -85,13 +83,12 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_discardDraft id: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version;
             $http['delete'](restPath).
-                success(function(data) {
-                    $log.debug('_discardDraft data: ' + data);
-                    onSuccess(data);
-                }).
-                error(function(data, status) {
-                    $log.error('error ' + status);
-                    onError(data);
+                then(function(response) {
+                    $log.debug('_discardDraft data: ' + response.data);
+                    onSuccess(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    onError(response.data);
                 });
         }
 
@@ -99,11 +96,10 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_getSigneringshash, intygsId: ' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeringshash';
             $http.post(restPath).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data);
+                }, function(response) {
+                    _handleError(onError, response.data);
                 });
         }
 
@@ -111,11 +107,10 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_getSigneringsstatus, ticketId: ' + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + ticketId + '/signeringsstatus';
             $http.get(restPath).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data);
+                },function(response) {
+                    _handleError(onError, response.data);
                 });
         }
 
@@ -123,11 +118,10 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_signeraUtkast, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/signeraserver';
             $http.post(restPath).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data);
+                }, function(response) {
+                    _handleError(onError, response.data);
                 });
         }
 
@@ -135,12 +129,22 @@ angular.module('common').factory('common.UtkastProxy',
             $log.debug('_signeraUtkastWithGrp, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
             var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/grp/signeraserver';
             $http.post(restPath).
-                success(function(data) {
-                    onSuccess(data);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data);
+                }, function(response) {
+                    _handleError(onError, response.data);
                 });
+        }
+
+        function _signeraUtkastWithNias(intygsId, intygsTyp, version, onSuccess, onError) {
+            $log.debug('_signeraUtkastWithNias, intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            var restPath = '/moduleapi/utkast/' + intygsTyp + '/' + intygsId + '/' + version + '/nias/signeraserver';
+            $http.post(restPath).
+            then(function(response) {
+                onSuccess(response.data);
+            }, function(response) {
+                _handleError(onError, response.data);
+            });
         }
 
         function _signeraUtkastWithSignatur(ticketId, intygsTyp, signatur, onSuccess, onError) {
@@ -149,11 +153,10 @@ angular.module('common').factory('common.UtkastProxy',
             $http.post(restPath, {
                 'signatur': signatur
             }).
-                success(function(ticket) {
-                    onSuccess(ticket);
-                }).
-                error(function(error) {
-                    _handleError(onError, error);
+                then(function(response) {
+                    onSuccess(response.data); // ticket
+                }, function(response) {
+                    _handleError(onError, response.data);
                 });
         }
 
@@ -163,12 +166,12 @@ angular.module('common').factory('common.UtkastProxy',
         function _getPrevious(patientId, onSuccess, onError) {
             $log.debug('_getPrevious');
             var restPath = '/api/utkast/previousIntyg/' + patientId;
-            $http.get(restPath).success(function(data) {
-                $log.debug('_getPrevious got data:' + data);
-                onSuccess(data);
-            }).error(function(data, status) {
-                $log.debug('_getPrevious error :' + status);
-                onError(data);
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getPrevious got data:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.debug('_getPrevious error :' + response.status);
+                onError(response.data);
             });
         }
 
@@ -182,6 +185,7 @@ angular.module('common').factory('common.UtkastProxy',
             getSigneringsstatus: _getSigneringsstatus,
             signeraUtkast: _signeraUtkast,
             signeraUtkastWithGrp: _signeraUtkastWithGrp,
+            signeraUtkastWithNias: _signeraUtkastWithNias,
             signeraUtkastWithSignatur: _signeraUtkastWithSignatur,
             getPrevious: _getPrevious
         };

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 describe('IntygController', function() {
     'use strict';
 
@@ -46,6 +45,7 @@ describe('IntygController', function() {
                 };
             };
         });
+
     }));
 
     // Get references to the object we want to test from the context.
@@ -65,8 +65,12 @@ describe('IntygController', function() {
 
     describe('#loadIntyg', function() {
         it('should run when controller is created', function(){
-
-            $controller('fk7263.ViewCertCtrl' , { $scope: $scope, viewState:viewState });
+            var supportPanelMock = {
+                getConfig: function() {
+                    return {};
+                }
+            };
+            $controller('fk7263.ViewCertCtrl' , { $scope: $scope, viewState:viewState , supportPanelConfigFactory: supportPanelMock});
 
             expect(IntygProxy.getIntyg).toHaveBeenCalled();
         });
@@ -128,7 +132,12 @@ describe('IntygController', function() {
                 ]
             },
             'roles': role,
-            'features': ['hanteraFragor', 'hanteraFragor.fk7263'],
+            'features': {
+                'HANTERA_FRAGOR': {
+                    'global': true,
+                    'intygstyper': ['fk7263']
+                }
+            },
             'totaltAntalVardenheter': 6,
             'origin': 'NORMAL'
         };

@@ -67,7 +67,7 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import java.util.ArrayList;
 import java.util.List;
 
-import autovalue.shaded.com.google.common.common.primitives.Ints;
+import com.google.common.primitives.Ints;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;

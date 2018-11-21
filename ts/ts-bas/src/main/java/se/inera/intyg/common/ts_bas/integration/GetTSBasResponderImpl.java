@@ -18,39 +18,33 @@
  */
 package se.inera.intyg.common.ts_bas.integration;
 
-import java.io.StringReader;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-import javax.xml.bind.JAXB;
-
+import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
-
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.integration.module.exception.MissingConsentException;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.util.logging.LogMarkers;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponderInterface;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasResponseType;
 import se.inera.intygstjanster.ts.services.GetTSBasResponder.v1.GetTSBasType;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
-import se.inera.intygstjanster.ts.services.v1.IntygMeta;
-import se.inera.intygstjanster.ts.services.v1.IntygStatus;
-import se.inera.intygstjanster.ts.services.v1.Status;
-import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
+import se.inera.intygstjanster.ts.services.v1.*;
+
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
 
@@ -64,7 +58,7 @@ public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
         GetTSBasResponseType response = new GetTSBasResponseType();
 
         String certificateId = request.getIntygsId();
-        Personnummer personNummer = request.getPersonId() != null ? new Personnummer(request.getPersonId().getExtension()) : null;
+        Personnummer personnummer = getPersonnummer(request);
 
         if (Strings.isNullOrEmpty(certificateId)) {
             LOGGER.info(LogMarkers.VALIDATION, "Tried to get certificate with non-existing certificateId '.");
@@ -75,8 +69,8 @@ public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
         CertificateHolder certificate = null;
 
         try {
-            certificate = moduleContainer.getCertificate(certificateId, personNummer, false);
-            if (personNummer != null && !certificate.getCivicRegistrationNumber().equals(personNummer)) {
+            certificate = moduleContainer.getCertificate(certificateId, personnummer, false);
+            if (personnummer != null && !certificate.getCivicRegistrationNumber().equals(personnummer)) {
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "nationalIdentityNumber mismatch"));
                 return response;
             }
@@ -133,6 +127,17 @@ public class GetTSBasResponderImpl implements GetTSBasResponderInterface {
         status.setTimestamp(source.getTimestamp().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         status.setType(mapToStatus(source.getState()));
         return status;
+    }
+
+    private Personnummer getPersonnummer(GetTSBasType request) {
+        if (request.getPersonId() != null) {
+            Optional<Personnummer> optional = Personnummer.createPersonnummer(request.getPersonId().getExtension());
+            if (optional.isPresent()) {
+                return optional.get();
+            }
+        }
+
+        return null;
     }
 
     private Status mapToStatus(CertificateState state) {

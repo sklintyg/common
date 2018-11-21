@@ -1,0 +1,26 @@
+<p ng-if="isSignAndSend()">
+  <span dynamic-label key="{{::viewState.common.intyg.type}}.label.signandsend"></span>
+</p>
+
+<p ng-show="viewState.common.intyg.isKomplettering">
+  <span dynamic-label key="draft.completion.signinfo"></span>
+</p>
+
+<wc-alert-message ng-if="disableSign() && getPreviousIntygWarning() !== undefined"
+                  alert-severity="warning"
+                  alert-message-id="{{getPreviousIntygWarning()}}">
+</wc-alert-message>
+
+<wc-button
+    btn-id="signera-utkast-button"
+    btn-class="btn-success"
+    btn-click="sign()"
+    loading="getCurrentSignStatus() === 'pending'"
+    btn-disabled="certForm.$dirty || disableSign()"
+    btn-tooltip="{{::signBtnTooltip}}"
+><i class="icon-wc-ikon-30 icon-wc-24"></i>{{::signBtnText}}</wc-button>
+
+<!-- Om personen har loggat in med BANK ID skall vi visa en liten extra text -->
+<p ng-if="user.authenticationMethod === 'BANK_ID'">
+  <span dynamic-label key="common.modal.label.signing.open.bankid"></span>
+</p>

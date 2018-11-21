@@ -20,8 +20,6 @@ package se.inera.intyg.common.support.modules.support;
 
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
-import java.util.Map;
-
 /**
  * Defines the contract for modules so they can be discovered by an application.
  */
@@ -63,6 +61,13 @@ public interface ModuleEntryPoint {
     String getExternalId();
 
     /**
+     * Returns the issuing party's id for the module type.
+     *
+     * @return the id used by the issuer.
+     */
+    String getIssuerTypeId();
+
+    /**
      * Returns the identifier of the default recipient of this module, or null if no default recipient is specified.
      *
      * @return the identifier of the default recipient or null if none is specified
@@ -75,14 +80,6 @@ public interface ModuleEntryPoint {
      * @return the module API implementation
      */
     ModuleApi getModuleApi();
-
-    /**
-     * Returns a Map containing which {@code se.inera.intyg.common.support.modules.support.feature.ModuleFeature} that this
-     * module will support and what state these have.
-     *
-     * @return the map of feature to on/off state of the module feature
-     */
-    Map<String, Boolean> getModuleFeatures();
 
     /**
      * Returns the module css path.
@@ -107,4 +104,13 @@ public interface ModuleEntryPoint {
      * @return the path to the module dependency definition for the calling application
      */
     String getModuleDependencyDefinitionPath(ApplicationOrigin originator);
+
+    /**
+     * Flag indicating this intyg is marked for removal in the near future.
+     *
+     * @return true if the intyg is marked for removal.
+     */
+    default boolean isDeprecated() {
+        return false;
+    }
 }

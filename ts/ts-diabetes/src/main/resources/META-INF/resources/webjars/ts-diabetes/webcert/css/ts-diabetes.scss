@@ -23,17 +23,70 @@ This is to avoid leaking module specific style rules outside of it's intended co
 */
 
 .ts-diabetes-ns {
+  // The table styles are duplicated between the 2 TS certificates. Earlier these
+  // were shared using a _ts-common-layout in common/css, but I though this was better as there aren't that many rules.
+  %table-padding-alignment {
+    padding: 0 5px 5px 0;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .table-padding-top {
+    padding-top: 15px;
+  }
+
+  .table-form {
+    margin: 0;
+    > thead > tr {
+      > td {
+        @extend %table-padding-alignment;
+      }
+      > th {
+        @extend %table-padding-alignment;
+      }
+    }
+    > tbody > tr {
+      > td {
+        @extend %table-padding-alignment;
+      }
+      > th {
+        @extend %table-padding-alignment;
+      }
+    }
+  }
+
+  .table .table-form {
+    background-color: transparent;
+  }
+
+  /* commenting out all classes affecting radios and checkboxes to get control over them. this should prbably be removed after ts is UE
+  .table-form-radio > tbody > tr > td:last-child {
+    width: 100%;
+  }
+
+    input[type="radio"] {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .radio {
+    span {
+      margin-left: 20px;
+    }
+  }
+
+  */
+
   textarea[wc-maxlength] {
     margin-bottom: 0;
   }
 
   input[type=text] {
     margin-bottom: 0;
-  }
 
-  input[type="radio"] {
-    margin-left: 0;
-    margin-right: 0;
+    &.small-decimal {
+      width: 38px;
+    }
   }
 
   .input-year {
@@ -51,11 +104,6 @@ This is to avoid leaking module specific style rules outside of it's intended co
     }
   }
 
-  .radio {
-    span {
-      margin-left: 20px;
-    }
-  }
   .text-center {
     text-align: center;
   }

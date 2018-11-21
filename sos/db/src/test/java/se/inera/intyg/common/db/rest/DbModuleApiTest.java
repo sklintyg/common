@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.db.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.utils.ScenarioFinder;
@@ -34,12 +34,7 @@ import se.inera.intyg.common.db.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.db.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -66,19 +61,12 @@ import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DbModuleApiTest {
@@ -351,7 +339,7 @@ public class DbModuleApiTest {
 
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -387,7 +375,7 @@ public class DbModuleApiTest {
     private Utlatande createUtlatande() {
         GrundData gd = new GrundData();
         gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        gd.getPatient().setPersonId(Personnummer.createPersonnummer("191212121212").get());
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
         return DbUtlatande.builder().setId("intygId").setGrundData(gd).setTextVersion("").build();
@@ -409,7 +397,7 @@ public class DbModuleApiTest {
         Patient patient = new Patient();
         patient.setFornamn("fornamn");
         patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         return new CreateNewDraftHolder("certificateId", createHosPersonal(), patient);
     }
 

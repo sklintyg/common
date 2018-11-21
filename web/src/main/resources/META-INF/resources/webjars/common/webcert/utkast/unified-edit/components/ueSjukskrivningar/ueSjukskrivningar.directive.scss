@@ -1,0 +1,79 @@
+ue-sjukskrivningar {
+
+
+  wc-alert-message {
+    .alert {
+      margin: 10px 0;
+    }
+  }
+
+  .hours-wrapper {
+    margin: 1em 0;
+    label {
+      padding-left: 9px;
+    }
+    span i {
+      padding-top: 10px;
+    }
+  }
+
+  .hoursPerWeek {
+    width: 50px !important;
+  }
+
+  label {
+    font-weight: normal;
+    width: auto;
+    margin-bottom: 6px;
+   
+    input[type=checkbox].big-checkbox {
+      margin-top: 5px;
+    }
+  }
+
+  .sjukskrivningar_period label {
+    margin-right: 9px;
+  }
+  .fold-slide-animation {
+    padding-top: 10px;
+  }
+  .flex-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0 0 0 6px;
+    flex-wrap: wrap;
+  }
+
+  .extra-margin-bottom {
+    padding-bottom: 12px;
+  }
+
+  .checkbox-width {
+     width: 12em;
+  }
+
+  .padding-bottom {
+    padding-bottom: 8px;
+  }
+
+  .date-width {
+    width: 16em;
+     padding-left: 23px;
+  }
+
+  @media (max-width: 750px) {
+   .hours-wrapper {
+     span i {
+       padding-top: 0;
+     }
+   }
+  }
+
+  @media (max-width: 990px) {
+     .padding-right {
+       padding-right: 8px;
+     }
+  }
+}

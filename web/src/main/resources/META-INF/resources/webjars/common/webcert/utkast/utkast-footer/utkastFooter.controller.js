@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,41 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').controller('common.UtkastFooter',
     ['$scope', '$rootScope', '$timeout',
-        'common.UtkastSignService', 'common.UtkastNotifyService', 'common.UtkastValidationService',
-        'common.UtkastViewStateService', 'common.UtkastService', 'common.UtkastValidationViewState',
-        'common.featureService', '$q',
-        function($scope, $rootScope, $timeout,
-            UtkastSignService, UtkastNotifyService, UtkastValidationService, CommonViewState, UtkastService,
-            utkastValidationViewState, featureService, $q) {
+        function($scope, $rootScope, $timeout) {
             'use strict';
-
-            var viewState = $scope.viewState;
-
-            /**
-             * Handle vidarebefordra dialog
-             */
-            $scope.vidarebefordraUtkast = function() {
-                UtkastNotifyService.notifyUtkast(viewState.intygModel.id, viewState.common.intyg.type,
-                    viewState.draftModel, viewState.common);
-            };
-
-            $scope.onVidarebefordradChange = function() {
-                UtkastNotifyService.onNotifyChange(viewState.intygModel.id, viewState.common.intyg.type,
-                    viewState.draftModel, viewState.common);
-            };
-
-            /**
-             * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
-             */
-            $scope.notifieraUtkast = function() {
-                    UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
-                        viewState.draftModel, viewState.common, function() {
-                            viewState.klartForSigneringDatum = true;
-                        });
-            };
 
             /**
              * Handle the problem of jumping /scolling of content in regard to clicking sign/visa fel.
@@ -58,92 +27,37 @@ angular.module('common').controller('common.UtkastFooter',
              * change the DOM before the ng-click (mouse-down+ some time + mouseup = click) event happens.
              */
             var savedElementTop  = 0;
-            var lastClickedButtonId = null;
+            var scrollToElement = document.getElementById('utkast-footer');
+            var containerElement = $('#certificate-content-container');
 
-            $scope.initValidationSequence = function(btnId) {
-                lastClickedButtonId = btnId;
-                //Save the current top of the button clicked
-                savedElementTop = $('#' + lastClickedButtonId).offset().top - $(window).scrollTop();
+            $scope.initValidationSequence = function() {
+                var offset = scrollToElement.offsetTop;
+                var scrollTop = containerElement.scrollTop();
+
+                savedElementTop = offset - scrollTop;
             };
 
-            var waitingForSignCompletion = $q.resolve();
-            $scope.getCurrentSignStatus = function() {
-                // 0: pending, 1: resolved, 2: rejected. Works for later versions of AngularJS.
-                switch(waitingForSignCompletion.$$state.status) {
-                case 0:
-                    return 'pending';
-                case 1:
-                    return 'resolved';
-                case 2:
-                    return 'rejected';
-                default:
-                    console.error('Unknown promise state. $q changed internal data representation?');
-                }
-            };
-
-            $scope.checkMissing = function() {
-                if($scope.getCurrentSignStatus() === 'pending') {
-                    return false;
-                }
-
-                if(!viewState.common.intyg.isComplete || $scope.certForm.$dirty){
-
-                    CommonViewState.setShowComplete();
-                    UtkastService.save();
-                    UtkastValidationService.filterValidationMessages();
-
-                    return false;
-                }
-
-                return true;
-            };
-
-            $scope.isSignAndSend = function() {
-                return featureService.isFeatureActive(featureService.features.SIGNERA_SKICKA_DIREKT, viewState.common.intyg.type);
-            };
-
-            $scope.isSignAndSendOrKomp = function() {
-                return viewState.common.intyg.isKomplettering || $scope.isSignAndSend();
-            };
-
-            /**
-             * Action to sign the certificate draft and return to Webcert again.
-             */
-            $scope.sign = function() {
-                if(!$scope.checkMissing()){
-                    return;
-                }
-
-                utkastValidationViewState.reset();
-
-                waitingForSignCompletion = UtkastSignService.signera(viewState.common.intyg.type, viewState.draftModel.version).then(
-                    function(result) {
-                        if (result.newVersion) {
-                            viewState.draftModel.version = result.newVersion;
-                        }
-                    }
-                );
-            };
 
             /**
              * Whenever a validation round is completed, either directly by clicking a button or by bluring a validated field -
              * scroll (back) to where we were before 'content-changed-above' scrolling occurred.
              */
-            var unbindFastEvent = $rootScope.$on('validation.messages-updated', function () {
+            var unbindFastEvent = $rootScope.$on('validation.content-updated', function () {
                 var focusedElement = $(':focus');
-                var focusedElementId = focusedElement.attr('id');
-                if(lastClickedButtonId === focusedElementId) {
+
+                if(focusedElement.length > 0 && $.contains(scrollToElement, focusedElement[0])) {
                     //Need a timeout here so that the focused button has appeared in it's new position
                     $timeout(function() {
                         if (savedElementTop > 0) {
                             //restore scroll position
-                            $(window).scrollTop(focusedElement.offset().top - savedElementTop);
+                            var top = scrollToElement.offsetTop;
+                            containerElement.scrollTop(top - savedElementTop);
                         }
-                    }, 200);
+                    });
                 }
             });
-            $scope.$on('$destroy', unbindFastEvent);
 
+            $scope.$on('$destroy', unbindFastEvent);
         }
     ]
 );

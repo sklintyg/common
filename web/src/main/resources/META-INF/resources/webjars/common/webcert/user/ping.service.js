@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.pingService',
     ['$http', '$log', '$interval', function($http, $log, $interval) {
         'use strict';
@@ -31,10 +30,10 @@ angular.module('common').factory('common.pingService',
          */
         function _executePingSessionRequest() {
             $log.debug('_executePingSessionRequest =>');
-            $http.get('/api/anvandare/ping').success(function() {
+            $http.get('/api/anvandare/ping').then(function() {
                 $log.debug('<= _executePingSessionRequest success');
-            }).error(function(data, status) {
-                $log.error('<= _executePingSessionRequest failed: ' + status);
+            }, function(response) {
+                $log.error('<= _executePingSessionRequest failed: ' + response.status);
             }).finally(function() { // jshint ignore:line
                 //clear interval promise no matter the outcome of the request
                 if (pingSessionPromise) {

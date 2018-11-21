@@ -22,24 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import iso.v21090.dt.v1.CD;
 import iso.v21090.dt.v1.II;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsuppgiftType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.BedomtTillstandType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.FunktionstillstandType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.MedicinsktTillstandType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Nedsattningsgrad;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Prognosangivelse;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ReferensType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Referenstyp;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.SysselsattningType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvFunktionstillstand;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.TypAvSysselsattning;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.VardkontaktType;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Vardkontakttyp;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
@@ -58,6 +41,7 @@ import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public final class InternalToTransport {
@@ -513,12 +497,15 @@ public final class InternalToTransport {
     }
 
     private static PatientType patientToJaxb(Patient source) {
-        PatientType patientType = new PatientType();
         II id = new II();
-        id.setRoot(SamordningsnummerValidator.isSamordningsNummer(source.getPersonId()) ? Constants.SAMORDNING_ID_OID
+        id.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(source.getPersonId()))
+                ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID);
-        id.setExtension(source.getPersonId().getPersonnummer());
+        id.setExtension(source.getPersonId().getPersonnummerWithDash());
+
+        PatientType patientType = new PatientType();
         patientType.setPersonId(id);
+
         return patientType;
     }
 }

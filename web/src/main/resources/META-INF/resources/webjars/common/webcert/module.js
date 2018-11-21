@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,10 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Add formly base types to separate module since they need to execute before the types which extends them.
-angular.module('common.formlyBaseTypes', []);
-
-angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'formly', 'common.formlyBaseTypes', 'common.dynamiclink' ]);
+angular.module('common', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common.dynamiclink' ]);
 
 // Inject language resources
 angular.module('common').run([ 'common.messageService', 'common.messages',

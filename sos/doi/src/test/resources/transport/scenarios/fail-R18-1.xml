@@ -72,8 +72,8 @@
         </svar>
         <svar id="2">
             <delsvar id="2.1">false</delsvar>
-            <delsvar id="2.2">2017-01-01</delsvar>
-            <delsvar id="2.3">2017-01-02</delsvar>
+            <delsvar id="2.2">2017-04-01</delsvar>
+            <delsvar id="2.3">2017-04-02</delsvar>
         </svar>
         <svar id="3">
             <delsvar id="3.1">kommun</delsvar>
@@ -81,7 +81,7 @@
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
                     <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
-                    <ns3:displayName>SJUKHUS</ns3:displayName>
+                    <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>

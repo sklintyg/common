@@ -1,0 +1,57 @@
+<div>
+  <div class="card"
+       ng-if="showCreateArende()"
+       wc-check-vardenhet vardenhet="{{localViewState.parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid}}"
+       wc-authority feature="SKAPA_NY_FRAGA" intygstyp="{{localViewState.parentViewState.intygProperties.type}}">
+
+    <!-- New question form -->
+    <div arende-draft-auto-save intyg-id="localViewState.parentViewState.intyg.id" amne="arendeNewModel.chosenTopic" text="arendeNewModel.frageText" save-state="arendeNewModel.saveState">
+      <div class="arende-new-heading">
+        Här kan du ställa en ny fråga till Försäkringskassan.
+      </div>
+      <div class="form-group" id="arendeNewModelForm">
+        <wc-dropdown id="new-question-topic" ng-model="arendeNewModel.chosenTopic" items="arendeNewModel.topics" use-dynamic-label="false"></wc-dropdown>
+      </div>
+      <div class="form-group">
+        <textarea ng-trim="false" maxlength="2000" rows="13" class="form-control"
+                ng-model="arendeNewModel.frageText" wc-focus-me="localViewState.focusArende"
+                id="arendeNewModelText"></textarea>
+      </div>
+
+      <!-- error message occuring when inteacting with server for this FragaSvar-->
+      <wc-alert-message id="arendeNewModel-load-error" ng-show="localViewState.activeErrorMessageKey" alert-severity="danger">
+        <span dynamic-label key="common.error.{{localViewState.activeErrorMessageKey}}"></span>
+      </wc-alert-message>
+
+      <!-- Form button group -->
+      <div class="form-group">
+
+        <!-- Skicka -->
+        <button type="button" class="btn btn-success" ng-click="sendNewArende()"
+                ng-disabled="!isArendeValidForSubmit()"
+                id="sendArendeBtn">
+          <img src="/img/loader-small-green.gif" ng-show="localViewState.updateInProgress"> Skicka
+        </button>
+
+        <!-- Avbryt -->
+        <button type="button" class="btn btn-default" ng-click="cancelQuestion()"
+                ng-disabled="isArendeNonCancellable()"
+                id="cancelArendeBtn">Avbryt</button>
+
+        <!-- Status -->
+        <span class="arende-draft-status pull-right" ng-switch="arendeNewModel.saveState">
+          <span ng-switch-when="saving" id="arende-draft-saving" dynamic-label key="common.arende.draft.saving"></span>
+          <span ng-switch-when="saved" id="arende-draft-saved" dynamic-label key="common.arende.draft.saved"></span>
+          <span ng-switch-when="failed">
+            <wc-alert-message id="arende-draft-error"
+                              alert-severity="danger"
+                              alert-message-id="common.arende.draft.failed"></wc-alert-message>
+          </span>
+        </span>
+      </div>
+    </div>
+    <!--  Arende formular end -->
+
+  </div>
+
+</div>

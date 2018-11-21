@@ -1,0 +1,51 @@
+<div class="wc-page-header">
+  <div class="centered-constrained-content">
+    <!-- header content -->
+    <div ng-if="!utkastViewState.common.error.activeErrorMessageKey">
+
+      <!-- Status -->
+      <div class="page-header-divider">
+        <div class="inline-block" wc-authority="NAVIGERING" ng-if="::backState">
+          <a ng-click="back()"><i class="material-icons">arrow_back</i></a>
+          <a id="tillbakaButton"
+             ng-click="back()">Tillbaka</a>
+        </div>
+
+        <wc-utkast-status utkast-view-state="utkastViewState" cert-form="certForm"></wc-utkast-status>
+      </div>
+      <div class="flex-row padding-top-small">
+        <div class="flex-col-max">
+          <!-- Header text -->
+          <h2 class="page-heading1">
+            <span>{{certificateName}}</span>
+          </h2>
+          <h3 class="page-heading2"
+              wc-intyg-patient-namn-personnummer
+              patient-name="utkastViewState.intygModel.grundData.patient.fullstandigtNamn"
+              person-id="utkastViewState.intygModel.grundData.patient.personId"
+              old-person-id="oldPersonId">
+          </h3>
+          <!-- Patient status -->
+          <wc-patient-status is-intyg="false" patient="utkastViewState.intygModel.grundData.patient" intyg-model="utkastViewState.intygModel" intyg-properties="utkastViewState.common.intygProperties"></wc-patient-status>
+        </div>
+        <div class="flex-col-min">
+          <!-- Buttonbar -->
+          <wc-utkast-button-bar view-state="utkastViewState"></wc-utkast-button-bar>
+        </div>
+      </div>
+    </div>
+
+    <wc-deprecated-intygstype-message message-suffix="utkastheader" intygs-type="{{::utkastViewState.common.intyg.type}}"></wc-deprecated-intygstype-message>
+
+    <!-- Integration deleted message -->
+    <div id="integration-deleted" ng-if="utkastViewState.common.deleted">
+      Utkastet är raderat och borttaget från Webcert.
+    </div>
+
+    <!-- Total fail error messages -->
+    <div id="error-panel" class="intyg-error-panel"
+         ng-show="utkastViewState.common.doneLoading && utkastViewState.common.error.activeErrorMessageKey && !utkastViewState.common.deleted">
+      <wc-alert-message alert-severity="danger" alert-message-id="{{utkastViewState.common.error.activeErrorMessageKey}}"></wc-alert-message>
+    </div>
+  </div>
+</div>

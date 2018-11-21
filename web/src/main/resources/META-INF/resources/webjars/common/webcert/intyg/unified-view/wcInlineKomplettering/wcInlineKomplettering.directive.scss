@@ -1,0 +1,19 @@
+wc-inline-komplettering {
+  display: block;
+
+  wc-alert-message {
+    display: block;
+    .alert {
+      display: block;
+      margin-bottom: 0;
+    }
+  }
+
+  .inline-komplettering-text {
+    white-space: pre-line;
+  }
+
+  .inline-komplettering-heading {
+    @extend %wc-typo-06;
+  }
+}

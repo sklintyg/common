@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-angular.module('common').directive('uvBooleanStatement', [ '$filter', 'uvUtil', function($filter, uvUtil) {
+angular.module('common').directive('uvBooleanStatement', ['uvUtil', function(uvUtil) {
     'use strict';
 
     return {
@@ -31,8 +30,7 @@ angular.module('common').directive('uvBooleanStatement', [ '$filter', 'uvUtil', 
 
             $scope.getValue = function() {
                 var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-                //uvBoolFilter makes sure we always get ja/nej as output, defaulting to Nej if no value
-                return $filter('uvBoolFilter')(value);
+                return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Ej angivet' : 'Ja';
             };
 
         }

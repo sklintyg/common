@@ -25,33 +25,25 @@ angular.module('common').factory('common.PrefilledUserDataService',
         function() {
             'use strict';
 
-            var prefilled = {};
-
-            function reset() {
-                prefilled = {};
-            }
-
             function isPrefilledValue(value) {
                 return angular.isString(value) && value !== '';
             }
 
-            /**
-             * Call this before calling getPrefilledFields.
-             */
             function _searchForPrefilledPatientData(patient) {
-                reset();
+                if(angular.isUndefined(patient)) {
+                    return undefined;
+                }
+
+                var prefilled = {};
                 // Adress, enligt INTYG-5354.
                 prefilled.completeAddress = isPrefilledValue(patient.postadress) &&
                     isPrefilledValue(patient.postnummer) &&
                     isPrefilledValue(patient.postort);
-            }
-
-            function _getPrefilledFields() {
                 return prefilled;
             }
 
             return {
-                searchForPrefilledPatientData: _searchForPrefilledPatientData,
-                getPrefilledFields: _getPrefilledFields
+                searchForPrefilledPatientData: _searchForPrefilledPatientData
+                //getPrefilledFields: _getPrefilledFields
             };
         }]);

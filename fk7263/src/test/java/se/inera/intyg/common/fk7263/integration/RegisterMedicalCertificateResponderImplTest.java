@@ -28,7 +28,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
@@ -61,7 +61,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -334,22 +334,8 @@ public class RegisterMedicalCertificateResponderImplTest {
 
         ArgumentCaptor<CertificateHolder> certificateCaptor = ArgumentCaptor.forClass(CertificateHolder.class);
         Mockito.verify(moduleContainer, Mockito.only()).certificateReceived(certificateCaptor.capture());
-        assertEquals("19121212-1212", certificateCaptor.getValue().getCivicRegistrationNumber().getPersonnummer());
+        assertEquals("191212121212", certificateCaptor.getValue().getCivicRegistrationNumber().getPersonnummer());
     }
-
-    // INTYG-4086: We explicitly allow empty or missing patient name.
-//    @Test
-//    public void testRegisterMedicalCertificateSaknatPatientnamn() throws Exception {
-//        request.getLakarutlatande().getPatient().setFullstandigtNamn(null);
-//        RegisterMedicalCertificateResponseType response = responder.registerMedicalCertificate(null, request);
-//
-//        assertEquals(ResultCodeEnum.ERROR, response.getResult().getResultCode());
-//        assertEquals(ErrorIdEnum.VALIDATION_ERROR, response.getResult().getErrorId());
-//        assertEquals("Validation Error(s) found: Validation Error:No Patient fullstandigtNamn elements found or set!",
-//                response.getResult().getErrorText());
-//
-//        Mockito.verifyZeroInteractions(moduleContainer);
-//    }
 
     @Test
     public void testRegisterMedicalCertificateSaknadHoSPersonal() throws Exception {

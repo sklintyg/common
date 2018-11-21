@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import java.io.ByteArrayOutputStream;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
@@ -27,9 +25,11 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Optional;
 
 /**
  * Generic PDF renderer that delegates (almost) all rendering logic to a given model.
@@ -77,9 +77,8 @@ public final class PdfGenerator {
         return bos.toByteArray();
     }
 
-    public static String generatePdfFilename(Personnummer personId, String fileNamePrefix) {
-        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
-        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
+    public static String generatePdfFilename(Personnummer personnummer, String fileNamePrefix) {
+        final String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         return String.format("%s_%s.pdf", fileNamePrefix, personnummerString);
     }
 }

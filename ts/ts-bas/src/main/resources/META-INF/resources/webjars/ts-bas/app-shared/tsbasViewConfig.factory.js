@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
     '$filter', 'uvUtil',
     function($filter, uvUtil) {
@@ -101,7 +100,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                         model.syn.synfaltsdefekter;
                                 },
                                 labelKey: 'FRG_3-5.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     },
                     {
@@ -177,7 +176,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                 return model.syn.korrektionsglasensStyrka === true;
                             },
                             labelKey: 'FRG_9.INF',
-                            alertLevel: 'info'
+                            alertLevel: 'warning'
                         }]
                     }]
             },
@@ -341,7 +340,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                     return model.diabetes.insulin || model.diabetes.tabletter;
                                 },
                                 labelKey: 'DFR_19.3.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     }]
             },
@@ -484,7 +483,7 @@ angular.module('ts-bas').factory('ts-bas.viewConfigFactory', [
                                     return model.narkotikaLakemedel.provtagningBehovs;
                                 },
                                 labelKey: 'DFR_25.3.INF',
-                                alertLevel: 'info'
+                                alertLevel: 'warning'
                             }]
                     },
                     {

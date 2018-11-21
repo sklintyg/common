@@ -22,21 +22,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.ts_diabetes.rest.TsDiabetesModuleApi;
-
-import java.util.Map;
 
 public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
-    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     public static final String MODULE_ID = "ts-diabetes";
     public static final String MODULE_NAME = "Transportstyrelsens läkarintyg, diabetes";
     public static final String MODULE_DESCRIPTION = "Läkarintyg diabetes avseende lämpligheten att inneha körkort m.m.";
-    // CHECKSTYLE:OFF LineLength
-    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <LINK:transportstyrelsen>.";
     // CHECKSTYLE:ON LineLength
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1031";
+    private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
+    // CHECKSTYLE:OFF LineLength
+    private static final String MODULE_DETAILED_DESCRIPTION = "<p>Transportstyrelsens läkarintyg, diabetes ska användas vid diabetessjukdom. Föreskrivna krav på läkarens specialistkompetens vid diabetessjukdom framgår av 17 kap. i Transportstyrelsens föreskrifter (TSFS 2010:125) och allmänna råd om medicinska krav för innehav av körkort m.m.</p>Information om Transportstyrelsens föreskrifter finns på <LINK:transportstyrelsen>.";
 
     @Autowired
     private TsDiabetesModuleApi moduleApi;
@@ -64,11 +61,6 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "ts-diabetes-features.properties");
     }
 
     @Override
@@ -114,6 +106,12 @@ public class TsDiabetesEntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getExternalId() {
+        return KV_UTLATANDETYP_INTYG_CODE;
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        //Same as externalId for ts
         return KV_UTLATANDETYP_INTYG_CODE;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.statService',
-    ['$http', '$log', '$rootScope', '$interval', 'common.User', function($http, $log, $rootScope, $interval, User) {
+    ['$http', '$log', '$rootScope', '$interval', '$timeout', function($http, $log, $rootScope, $interval, $timeout) {
         'use strict';
 
+        var intervalPromise;
         var timeOutPromise;
         var msPollingInterval = 60 * 1000;
         var lastData = null;
@@ -31,8 +31,8 @@ angular.module('common').factory('common.statService',
          * stop regular polling of stats from server
          */
         function _stopPolling() {
-            if (timeOutPromise) {
-                $interval.cancel(timeOutPromise);
+            if (intervalPromise) {
+                $interval.cancel(intervalPromise);
                 $log.debug('statService -> Stop polling');
             }
         }
@@ -42,16 +42,25 @@ angular.module('common').factory('common.statService',
          */
         function _refreshStat() {
             $log.debug('_getStat');
-            $http.get('/moduleapi/stat/').success(function(data) {
-                $log.debug('_getStat success - data:' + data);
-                lastData = data;
-                $rootScope.$broadcast('wc-stat-update', data);
+            if (!timeOutPromise) {
+                timeOutPromise = $timeout(_callApi, 300);
+            }
+        }
+        
+        function _callApi() {
+            $log.debug('callApi');
+            $http.get('/moduleapi/stat/').then(function(response) {
+                $log.debug('_getStat success - data:' + response.data);
+                lastData = response.data;
+                $rootScope.$broadcast('statService.stat-update', response.data);
                 _stopPolling();
-                timeOutPromise = $interval(_refreshStat, msPollingInterval);
-            }).error(function(data, status) {
+                intervalPromise = $interval(_callApi, msPollingInterval);
+                timeOutPromise = null;
+            }, function(data, status) {
                 $log.error('_getStat error ' + status);
                 _stopPolling();
-                timeOutPromise = $interval(_refreshStat, msPollingInterval);
+                intervalPromise = $interval(_callApi, msPollingInterval);
+                timeOutPromise = null;
             });
         }
 

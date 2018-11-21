@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('ts-bas').controller('ts-bas.IntygController',
     [ '$log', '$rootScope', '$stateParams', '$scope',
         'common.IntygProxy', 'common.User',
         'ts-bas.IntygController.ViewStateService', 'common.dynamicLabelService', 'ts-bas.viewConfigFactory',
+        'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, IntygProxy,
-            User, ViewState, DynamicLabelService, viewConfigFactory) {
+            User, ViewState, DynamicLabelService, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             /*********************************************************************
@@ -89,19 +89,22 @@ angular.module('ts-bas').controller('ts-bas.IntygController',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
                         $scope.cert = result.contents;
 
-                        $scope.pdfUrl = '/moduleapi/intyg/ts-bas/' + ViewState.intygModel.id + '/pdf';
-
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg());
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel);
                         $rootScope.$broadcast('intyg.loaded', ViewState.intygModel, ViewState.common.intygProperties);
 
                     } else {
                         $log.debug('Got error while loading intyg - invalid data');
+                        $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
                         ViewState.common.activeErrorMessageKey = 'common.error.data_not_found';
                     }
                 }, function(error) {
+                    $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                 });

@@ -1,12 +1,11 @@
 {
   "typ": "doi",
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": false,
-  "dodsdatum": "2017-01-01",
-  "antraffatDodDatum": "2017-01-02",
+  "dodsdatumSakert": true,
+  "dodsdatum": "2017-04-01",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
-  "barn": true,
+  "barn": false,
   "terminalDodsorsak": {
     "beskrivning": "terminal dödsorsak",
     "datum": "2017-04-01",
@@ -72,7 +71,7 @@
     }
   ],
   "operation": "JA",
-  "operationDatum": "2017-02-01",
+  "operationDatum": "2017-04-02",
   "operationAnledning": "anledning",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",

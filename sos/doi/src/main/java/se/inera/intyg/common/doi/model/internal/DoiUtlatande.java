@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.doi.model.internal;
 
-import autovalue.shaded.com.google.common.common.collect.ImmutableList;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;

@@ -46,6 +46,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author andreaskaltenbach
@@ -218,9 +219,8 @@ public abstract class PdfAbstractGenerator {
     protected AcroFields fields;
 
     public String generatePdfFilename(boolean isCustomized) {
-        Personnummer personId = intyg.getGrundData().getPatient().getPersonId();
-        personId = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
-        String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
+        Personnummer personnummer = intyg.getGrundData().getPatient().getPersonId();
+        String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         String prefix = isCustomized ? "anpassat_" : "";
         String intygstyp = "fk7263";
         return String.format("%slakarintyg_%s_%s.pdf", prefix, intygstyp, personnummerString);
@@ -369,8 +369,8 @@ public abstract class PdfAbstractGenerator {
     }
 
     protected void fillPatientDetails() {
-        fillText(PATIENT_SSN, intyg.getGrundData().getPatient().getPersonId().getPersonnummer());
-        fillText(PATIENT_SSN_2, intyg.getGrundData().getPatient().getPersonId().getPersonnummer());
+        fillText(PATIENT_SSN, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+        fillText(PATIENT_SSN_2, intyg.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
     }
 
     protected void fillSignerNameAndAddress() {

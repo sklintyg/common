@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.db.validator;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import se.inera.intyg.common.db.model.internal.DbUtlatande;
 import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -27,11 +31,12 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import static se.inera.intyg.common.db.support.DbModuleEntryPoint.MODULE_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_AVLAGSNAT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.EXPLOSIV_IMPLANTAT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.POLISANMALAN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_JSON_ID;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateBarn;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsdatum;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
@@ -44,7 +49,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         validateIdentitetStyrkt(utlatande, validationMessages, MODULE_ID);
         validateDodsdatum(utlatande, validationMessages, MODULE_ID);
@@ -53,6 +57,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
         validateExplosivtImplantat(utlatande, validationMessages);
         validateUndersokning(utlatande, validationMessages);
         validatePolisanmalan(utlatande, validationMessages);
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
@@ -60,12 +65,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
     private void validateExplosivtImplantat(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R5
         if (utlatande.getExplosivImplantat() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat.explosivImplantat", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat", EXPLOSIV_IMPLANTAT_JSON_ID,
+                    ValidationMessageType.EMPTY);
         } else if (utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat.explosivAvlagsnat", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "explosivImplantat", EXPLOSIV_AVLAGSNAT_JSON_ID,
+                    ValidationMessageType.EMPTY);
         } else if (!utlatande.getExplosivImplantat() && utlatande.getExplosivAvlagsnat() != null) {
             ValidatorUtil
-                    .addValidationError(validationMessages, "explosivImplantat.explosivAvlagsnat",
+                    .addValidationError(validationMessages, "explosivImplantat", EXPLOSIV_AVLAGSNAT_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION,
                             MODULE_ID + ".validation.explosivAvlagsnat.explosivImplantatFalse");
         }
@@ -74,30 +81,32 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
     private void validateUndersokning(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         // R6 & R7
         if (utlatande.getUndersokningYttre() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning.undersokningYttre", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_YTTRE_JSON_ID,
+                    ValidationMessageType.EMPTY);
         } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_GJORT_KORT_FORE_DODEN) {
             if (utlatande.getUndersokningDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning.undersokningDatum", ValidationMessageType.EMPTY);
+                ValidatorUtil.addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
+                        ValidationMessageType.EMPTY);
             } else if (!utlatande.getUndersokningDatum().isValidDate()) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                        .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                                 ValidationMessageType.INVALID_FORMAT);
             } else if (!utlatande.getUndersokningDatum().isReasonable() || utlatande.getUndersokningDatum().asLocalDate()
                     .isAfter(LocalDate.now())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum", ValidationMessageType.INVALID_FORMAT,
-                                "common.validation.date_out_of_range");
+                        .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
+                                ValidationMessageType.INVALID_FORMAT, "common.validation.date.today.or.earlier");
             } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getDodsdatum().asLocalDate())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                        .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                                 ValidationMessageType.INCORRECT_COMBINATION,
                                 "db.validation.undersokningDatum.after.dodsdatum");
             } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
                     && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
                     && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {
                 ValidatorUtil
-                        .addValidationError(validationMessages, "yttreUndersokning.undersokningDatum",
+                        .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                                 ValidationMessageType.INCORRECT_COMBINATION,
                                 "db.validation.undersokningDatum.after.antraffatDodDatum");
             }
@@ -106,10 +115,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
 
     private void validatePolisanmalan(DbUtlatande utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getPolisanmalan() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "polisanmalan.polisanmalan", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "polisanmalan", POLISANMALAN_JSON_ID, ValidationMessageType.EMPTY);
         } else if (utlatande.getUndersokningYttre() == Undersokning.UNDERSOKNING_SKA_GORAS && !utlatande.getPolisanmalan()) {
             // R19
-            ValidatorUtil.addValidationError(validationMessages, "polisanmalan.polisanmalan", ValidationMessageType.INCORRECT_COMBINATION);
+            ValidatorUtil.addValidationError(validationMessages, "polisanmalan", POLISANMALAN_JSON_ID,
+                    ValidationMessageType.INCORRECT_COMBINATION);
         }
     }
 }

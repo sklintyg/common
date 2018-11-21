@@ -18,15 +18,44 @@
  */
 package se.inera.intyg.common.luae_na.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.luae_na.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
@@ -39,9 +68,11 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
@@ -52,35 +83,12 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_ID_24;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_ID_21;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
-
 @RunWith(MockitoJUnitRunner.class)
 public class LuaenaModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
+
+    private final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -88,8 +96,8 @@ public class LuaenaModuleApiTest {
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
 
-    @Mock
-    private ObjectMapper objectMapper;
+    @Spy
+    private CustomObjectMapper objectMapper;
 
     @Mock
     private WebcertModuleService moduleService;
@@ -180,8 +188,10 @@ public class LuaenaModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
-        when(objectMapper.readValue(internalModel, LuaenaUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuaenaUtlatande.class);
+
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -200,8 +210,9 @@ public class LuaenaModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
-        when(objectMapper.readValue(internalModel, LuaenaUtlatande.class))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(internalModel, LuaenaUtlatande.class);
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -218,10 +229,10 @@ public class LuaenaModuleApiTest {
         final String meddelande = "revokeMessage";
         final String intygId = "intygId";
 
-        GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
         HoSPersonal skapadAv = createHosPersonal();
+
+        GrundData gd = new GrundData();
+        gd.setPatient(createPatient());
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = LuaenaUtlatande.builder().setId(intygId).setGrundData(gd).setTextVersion("").build();
@@ -234,9 +245,13 @@ public class LuaenaModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(LuaenaUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
-        when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
+
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(anyString(), eq(LuaenaUtlatande.class));
+        doReturn(internalModel)
+                .when(objectMapper)
+                .writeValueAsString(any());
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
@@ -245,9 +260,15 @@ public class LuaenaModuleApiTest {
     @Test
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
-        when(objectMapper.readValue(anyString(), eq(LuaenaUtlatande.class)))
-                .thenReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel());
-        when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
+
+        doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
+                .when(objectMapper)
+                .readValue(anyString(), eq(LuaenaUtlatande.class));
+
+        doReturn(internalModel)
+                .when(objectMapper)
+                .writeValueAsString(any());
+
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
@@ -295,6 +316,78 @@ public class LuaenaModuleApiTest {
         assertEquals("Skada på multipla böjmuskler och deras senor på handleds- och handnivå", additionalInfo);
     }
 
+    @Test
+    public void testCreateCompletionFromTemplateWithComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "kommentarText";
+
+        LuaenaUtlatande utlatande = LuaenaUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaenaUtlatande utlatandeFromJson = (LuaenaUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateCompletionFromTemplateWithNoComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "";
+
+        LuaenaUtlatande utlatande = LuaenaUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaenaUtlatande utlatandeFromJson = (LuaenaUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateCompletionFromTemplateWithNoOvrigt() throws Exception {
+
+        final String ovrigt = "";
+        final String kommentar = "kommentarText";
+
+        LuaenaUtlatande utlatande = LuaenaUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaenaUtlatande utlatandeFromJson = (LuaenaUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
     private RegisterCertificateResponseType createReturnVal(ResultCodeType res) {
         RegisterCertificateResponseType retVal = new RegisterCertificateResponseType();
         ResultType value = new ResultType();
@@ -311,6 +404,26 @@ public class LuaenaModuleApiTest {
         return hosPerson;
     }
 
+    private Patient createPatient() {
+        return createPatient("fornamn", "efternamn", PNR_TOLVAN);
+    }
+
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
+        Patient patient = new Patient();
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(createPnr(pnr));
+        return patient;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
+    }
+
     private Vardenhet createVardenhet() {
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("hsaId");
@@ -319,5 +432,10 @@ public class LuaenaModuleApiTest {
         vardenhet.getVardgivare().setVardgivarid("vg1");
         vardenhet.getVardgivare().setVardgivarnamn("vg1");
         return vardenhet;
+    }
+
+    private CreateDraftCopyHolder createCopyHolder() {
+        return new CreateDraftCopyHolder("certificateId",
+                createHosPersonal());
     }
 }

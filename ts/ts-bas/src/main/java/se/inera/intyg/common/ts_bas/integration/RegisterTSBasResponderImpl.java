@@ -18,32 +18,34 @@
  */
 package se.inera.intyg.common.ts_bas.integration;
 
-import java.io.StringWriter;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.*;
-
+import com.google.common.base.Throwables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.google.common.base.Throwables;
-
-import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
-import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.common.ts_bas.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.model.converter.util.ConverterUtil;
 import se.inera.intyg.common.ts_bas.model.internal.TsBasUtlatande;
 import se.inera.intyg.common.ts_bas.validator.transport.TransportValidatorInstance;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.*;
+import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
+import se.inera.intyg.common.util.logging.LogMarkers;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.ObjectFactory;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponderInterface;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponseType;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import java.io.StringWriter;
+import java.util.List;
 
 public class RegisterTSBasResponderImpl implements RegisterTSBasResponderInterface {
 

@@ -1,15 +1,15 @@
 {
   "typ": "doi",
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": true,
-  "dodsdatum": "2017-01-01",
-  "antraffatDodDatum": "2017-01-02",
+  "dodsdatumSakert": false,
+  "dodsdatum": "2018-02-00",
+  "antraffatDodDatum": "2018-01-01",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": false,
   "terminalDodsorsak": {
     "beskrivning": "terminal dödsorsak",
-    "datum": "2017-04-01",
+    "datum": "2016-12-31",
     "specifikation": "KRONISK"
   },
   "foljd": [
@@ -29,51 +29,8 @@
       "specifikation": "KRONISK"
     }
   ],
-  "bidragandeSjukdomar": [
-    {
-      "beskrivning": "bidragande sjukdom 1",
-      "datum": "2017-03-01",
-      "specifikation": "KRONISK"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 2",
-      "datum": "2017-03-02",
-      "specifikation": "PLOTSLIG"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 3",
-      "datum": "2017-03-03",
-      "specifikation": "KRONISK"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 4",
-      "datum": "2017-03-04",
-      "specifikation": "PLOTSLIG"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 5",
-      "datum": "2017-03-05",
-      "specifikation": "KRONISK"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 6",
-      "datum": "2017-03-06",
-      "specifikation": "PLOTSLIG"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 7",
-      "datum": "2017-03-07",
-      "specifikation": "KRONISK"
-    },
-    {
-      "beskrivning": "bidragande sjukdom 8",
-      "datum": "2017-03-08",
-      "specifikation": "PLOTSLIG"
-    }
-  ],
-  "operation": "JA",
-  "operationDatum": "2016-02-01",
-  "operationAnledning": "anledning",
+  "bidragandeSjukdomar": [],
+  "operation": "NEJ",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
   "forgiftningDatum": "2017-01-01",

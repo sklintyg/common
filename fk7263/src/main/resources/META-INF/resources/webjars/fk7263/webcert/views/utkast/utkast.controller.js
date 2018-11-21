@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,122 +16,62 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('fk7263').controller('fk7263.EditCertCtrl',
-['$rootScope', '$anchorScroll', '$filter', '$location', '$scope', '$log', '$timeout', '$state', '$stateParams', '$q',
-    'common.UtkastService', 'common.UserModel', 'fk7263.diagnosService',
-    'common.DateUtilsService', 'common.UtilsService', 'fk7263.Domain.IntygModel',
-    'fk7263.EditCertCtrl.ViewStateService', 'common.fmbViewState', 'common.fmbService',
-    'common.srsService', 'common.ObjectHelper', 'common.IntygProxy', 'common.IntygHelper',
-    function($rootScope, $anchorScroll, $filter, $location, $scope, $log, $timeout, $state, $stateParams, $q,
-        UtkastService, UserModel, diagnosService, dateUtils, utils, IntygModel, viewState,
-        fmbViewState, fmbService, srsService, ObjectHelper, IntygProxy, IntygHelper) {
-        'use strict';
+    ['$rootScope', '$location', '$scope', '$log',  '$state', '$stateParams', '$q',
+        'common.UtkastService', 'common.UserModel',
+         'common.UtilsService', 'fk7263.Domain.IntygModel', 'fk7263.supportPanelConfigFactory', 'fk7263.viewConfigFactory',
+        'fk7263.EditCertCtrl.ViewStateService', 'common.ObjectHelper', 'common.IntygProxy', 'common.IntygHelper',
+        function($rootScope, $location, $scope, $log,  $state, $stateParams, $q,
+            UtkastService, UserModel, utils, IntygModel, supportPanelConfigFactory, viewConfigFactory, viewState, ObjectHelper, IntygProxy, IntygHelper) {
+            'use strict';
 
-        /**********************************************************************************
-         * Default state
-         **********************************************************************************/
+            /**********************************************************************************
+             * Default state
+             **********************************************************************************/
 
             // create a new intyg model and reset all viewStates
-        viewState.reset();
-        $scope.viewState = viewState;
+            viewState.reset();
+            $scope.viewState = viewState;
 
-        // Page states
-        $scope.user = UserModel.user;
+            // Page states
+            $scope.user = UserModel.user;
 
-        /**************************************************************************
-         * Load certificate and setup form / Constructor ...
-         **************************************************************************/
+            /**************************************************************************
+             * Load certificate and setup form / Constructor ...
+             **************************************************************************/
 
-        $scope.$on('saveRequest', function($event, saveDefered) {
-            $scope.certForm.$setPristine();
-            var intygState = {
-                viewState: viewState,
-                formFail: function() {
-                    $scope.certForm.$setDirty();
+            // Get the certificate draft from the server.
+            UtkastService.load(viewState).then(function(intygModel) {
+
+                //Expose pdf download link
+                viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+
+                $scope.uvConfig = viewConfigFactory.getViewConfig(true, true);
+                $scope.cert = viewState.common.__utlatandeJson.content;
+                //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, false, viewState.common.intyg.isKomplettering);
+                viewState.common.showTemplate = true;
+
+            }, function(error) {
+
+                if(typeof error === 'object') {
+                    $log.error('Failed to load utkast. Reason: ' + error.errorCode + ': ' + error.message);
                 }
-            };
-            saveDefered.resolve(intygState);
-        });
 
-        $scope.$on('$destroy', function() {
-            if (!$scope.certForm.$dirty) {
-                $scope.destroyList();
-            }
-            fmbViewState.reset();
-        });
-
-        $scope.destroyList = function() {
-            viewState.clearModel();
-        };
-
-        // Get the certificate draft from the server.
-        UtkastService.load(viewState).then(function(intygModel) {
-
-            //Expose pdf download link
-            $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
-
-            srsService.updateDiagnosKod(intygModel.diagnosKod);
-            srsService.getDiagnosBeskrivningUsingCodesystem(intygModel.diagnosKodsystem1);
-            srsService.updateHsaId(intygModel.grundData.skapadAv.vardenhet.enhetsid);
-            srsService.updateIntygsTyp(intygModel.name);
-            srsService.updatePersonnummer(intygModel.grundData.patient.personId);
-
-            fmbService.updateFmbTextsForAllDiagnoses([
-                {diagnosKod: intygModel.diagnosKod},
-                {diagnosKod: intygModel.diagnosKod2},
-                {diagnosKod: intygModel.diagnosKod3}
-            ]);
-
-            // Load parentIntyg to feed fragasvar component with load event
-            if (ObjectHelper.isDefined(intygModel.grundData.relation) &&
-                ObjectHelper.isDefined(intygModel.grundData.relation.relationIntygsId) &&
-                ObjectHelper.isDefined(intygModel.grundData.relation.meddelandeId)) {
-                IntygProxy.getIntyg(intygModel.grundData.relation.relationIntygsId, viewState.common.intyg.type,
-                    function(result) {
-                        if (result !== null && result !== '') {
-                            var parentIntyg = result.contents;
-                            var intygMeta = {
-                                isSent: IntygHelper.isSentToTarget(result.statuses, 'FKASSA'),
-                                isRevoked: IntygHelper.isRevoked(result.statuses),
-                                forceUseProvidedIntyg: true,
-                                meddelandeId: intygModel.grundData.relation.meddelandeId,
-                                type: viewState.common.intyg.type
-                            };
-                            $rootScope.$emit('ViewCertCtrl.load', parentIntyg, intygMeta);
-                        } else {
-                            $rootScope.$emit('ViewCertCtrl.load', null, null);
-                        }
-                    }, function(error) {
-                        $rootScope.$emit('ViewCertCtrl.load', null, null);
-                    });
-            } else {
                 // Failed to load parent intyg. Tell frågasvar
                 $rootScope.$broadcast('ViewCertCtrl.load', null, {
                     isSent: false,
                     isRevoked: false
                 });
-            }
-        }, function(error) {
-
-            if(typeof error === 'object') {
-                $log.error('Failed to load utkast. Reason: ' + error.errorCode + ': ' + error.message);
-            }
-
-            // Failed to load parent intyg. Tell frågasvar
-            $rootScope.$broadcast('ViewCertCtrl.load', null, {
-                isSent: false,
-                isRevoked: false
             });
-        });
 
-        $scope.gotoRelatedIntyg = function(intyg) {
-            if (intyg.status === 'SIGNED') {
-                $state.go('webcert.intyg.fk.fk7263', {certificateId: intyg.intygsId});
-            }
-            else {
-                $state.go('fk7263-edit', {certificateId: intyg.intygsId});
-            }
-        };
+            $scope.gotoRelatedIntyg = function(intyg) {
+                if (intyg.status === 'SIGNED') {
+                    $state.go('webcert.intyg.fk7263', {certificateId: intyg.intygsId});
+                }
+                else {
+                    $state.go('fk7263-edit', {certificateId: intyg.intygsId});
+                }
+            };
 
-    }]);
+        }]);

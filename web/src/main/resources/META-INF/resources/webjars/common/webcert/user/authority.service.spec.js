@@ -41,7 +41,14 @@ describe('authorityService', function() {
             ]
             }
         ],
-        'features': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
+        //'features': ['arbetsgivarUtskrift', 'arbetsgivarUtskrift.fk7263'],
+        'features': {
+            'ARBETSGIVARUTSKRIFT': {
+                'global': true,
+                'name': 'ARBETSGIVARUTSKRIFT',
+                'intygstyper': ['fk7263']
+            }
+        },
         'authorities': {
             'NAVIGERING': {},
             'SIGNERA_INTYG': {'intygstyper': ['fk7263', 'ts-diabetes']},
@@ -73,15 +80,15 @@ describe('authorityService', function() {
     describe('#AuthorityActive - features checking', function() {
 
         it ('feature should be ACTIVE when base feature exists', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({feature:'ARBETSGIVARUTSKRIFT'})).toBeTruthy();
         });
 
         it ('feature should be INACTIVE when intygstyp context is given - but missing in feature-config', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', intygstyp:'ts-bas'})).toBeFalsy();
+            expect(authorityService.isAuthorityActive({feature:'ARBETSGIVARUTSKRIFT', intygstyp:'ts-bas'})).toBeFalsy();
         });
 
          it ('feature should be ACTIVE when intygstyp context is given - AND it exists in feature-config', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', intygstyp:'fk7263'})).toBeTruthy();
+            expect(authorityService.isAuthorityActive({feature:'ARBETSGIVARUTSKRIFT', intygstyp:'fk7263'})).toBeTruthy();
         });
     });
 
@@ -142,12 +149,12 @@ describe('authorityService', function() {
     describe('#AuthorityService - Combination checking', function() {
 
         it ('should be false when failing 1 criteria', function () {
-            expect(authorityService.isAuthorityActive({feature:'arbetsgivarUtskrift', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
+            expect(authorityService.isAuthorityActive({feature:'ARBETSGIVARUTSKRIFT', role:'LAKARE', authority:'SIGNERA_INTYG', intygstyp:'DUMMY_TYPE'})).toBeFalsy();
         });
 
         it ('should be true when meeting all criteria', function () {
             expect(authorityService.isAuthorityActive({
-                feature: 'arbetsgivarUtskrift',
+                feature: 'ARBETSGIVARUTSKRIFT',
                 role: 'LAKARE',
                 authority: 'SIGNERA_INTYG',
                 requestOrigin: 'NORMAL',

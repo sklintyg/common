@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Created by stephenwhite on 05/03/15.
  */
@@ -28,80 +27,63 @@ angular.module('ts-diabetes').config(function($stateProvider) {
 
     $stateProvider.
         state('ts-diabetes-edit', {
-            data: { defaultActive : 'index' },
+            data: { defaultActive : 'index', intygType: 'ts-diabetes' },
             url: '/ts-diabetes/edit/:certificateId/:focusOn',
             views : {
-                'content@': {
-                    templateUrl: intygsTypPath + 'views/utkast/utkast.html',
-                    controller: 'ts-diabetes.UtkastController'
-                },
-                'wcHeader@ts-diabetes-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
-                },
-                'header@ts-diabetes-edit': {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl',
+                    resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
+                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                    }
                 },
 
-                'patient@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/patient.html'
-                },
-                'intention@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/intention.html',
-                    controller: 'ts-diabetes.Utkast.IntentionController'
-                },
-                'identity@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/identity.html'
-                },
-                'form1@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form1.html',
-                    controller: 'ts-diabetes.Utkast.Form1Controller'
-                },
-                'form2@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form2.html',
-                    controller: 'ts-diabetes.Utkast.Form2Controller'
-                },
-                'form3@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form3.html',
-                    controller: 'ts-diabetes.Utkast.Form3Controller'
-                },
-                'form4@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form4.html',
-                    controller: 'ts-diabetes.Utkast.Form4Controller'
-                },
-                'form5@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form5.html'
-                },
-                'form6@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form6.html'
-                },
-                'form7@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/form7.html'
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'messages@ts-diabetes-edit' : {
-                    templateUrl: intygsTypPath + 'views/utkast/form/messages.html',
-                    controller: 'ts-diabetes.Utkast.MessagesController'
+                'header@ts-diabetes-edit' : {
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService'
+                    }
                 },
 
                 'footer@ts-diabetes-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
+                },
+
+                'utkast@ts-diabetes-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
+                    resolve: {
+                        ViewState: 'ts-diabetes.UtkastController.ViewStateService',
+                        UtkastConfigFactory: 'ts-diabetes.UtkastConfigFactory'
+                    }
                 }
             }
         }).
-        state('webcert.intyg.ts.diabetes', {
+        state('webcert.intyg.ts-diabetes', {
             data: { defaultActive: 'index', intygType: 'ts-diabetes' },
             url: '/intyg/ts-diabetes/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.ts': {
+                'intyg@webcert.intyg': {
                     templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'ts-diabetes.IntygController'
+                    controller: 'ts-diabetes.IntygController',
+                    resolve: {
+                        supportPanelConfigFactory: 'ts-diabetes.supportPanelConfigFactory'
+                    }
                 },
-                'header@webcert.intyg.ts.diabetes': {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                'header@webcert.intyg.ts-diabetes': {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'ts-diabetes.IntygController.ViewStateService'
+                    }
                 }
             }
         });

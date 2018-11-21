@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('lisjp').config(function($stateProvider) {
     'use strict';
 
@@ -26,24 +25,27 @@ angular.module('lisjp').config(function($stateProvider) {
         state('lisjp-edit', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
             url : '/lisjp/edit/:certificateId/:focusOn',
-            views : {
+                views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
 
-                'wcHeader@lisjp-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@lisjp-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'lisjp.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@lisjp-edit' : {
@@ -51,45 +53,39 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@lisjp-edit' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
+                'utkast@lisjp-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'lisjp.EditCertCtrl.ViewStateService',
-                        FormFactory: 'lisjp.FormFactory'
+                        UtkastConfigFactory: 'lisjp.UtkastConfigFactory'
                     }
-                },
-
-                'fragasvar@lisjp-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
-                }
+                 }
             }
-        }).
-        state('webcert.intyg.fk.lisjp', {
+        }).state('webcert.intyg.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
             url:'/intyg/lisjp/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.lisjp' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                'header@webcert.intyg.lisjp' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'lisjp.IntygController.ViewStateService'
+                    }
                 }
             }
         }).
         state('webcert.fragasvar.lisjp', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'lisjp'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'lisjp'  },
             url: '/fragasvar/lisjp/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
@@ -97,16 +93,16 @@ angular.module('lisjp').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: 'lisjp.viewConfigFactory'
+                        ViewConfigFactory: 'lisjp.viewConfigFactory',
+                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
                     }
                 },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
                 'header@webcert.fragasvar.lisjp' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'lisjp.IntygController.ViewStateService'
+                    }
                 }
             }
         }).

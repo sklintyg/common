@@ -18,6 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -31,11 +36,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -128,6 +128,28 @@ public interface ModuleApi {
      *             if the new model could not be created, typically because the conversion to String failed
      */
     String createNewInternalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template) throws ModuleException;
+
+    /**
+     * Creates a new internal model from a template as a completion.
+     * <p>
+     * The model is prepopulated using data contained in the {@link CreateNewDraftHolder} parameter, template and the
+     * comment if any.
+     * </p>
+     *
+     * @param draftCopyHolder
+     *            the id of the new internal model, the {@link HoSPersonal}
+     *            and optional {@link se.inera.intyg.common.support.model.common.internal.Patient} data.
+     * @param template
+     *            the Utlatande to be used as a template for the new internal model.
+     * @param comment
+     *            optional comment of why no new medicinal information can be entered into new Utlatande.
+     * @return
+     * @throws ModuleException
+     */
+    default String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+            throws ModuleException {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Register certificate in Intygstjänsten.

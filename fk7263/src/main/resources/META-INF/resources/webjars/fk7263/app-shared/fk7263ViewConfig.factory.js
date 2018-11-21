@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function(uvUtil) {
     'use strict';
 
@@ -391,11 +390,11 @@ angular.module('fk7263').factory('fk7263.viewConfigFactory', ['uvUtil', function
     ];
 
     return {
-        getViewConfig: function(webcert) {
+        getViewConfig: function(webcert, isDraft) {
             var config = angular.copy(viewConfig);
 
             if (webcert) {
-                config = uvUtil.convertToWebcert(config, true);
+                config = uvUtil.convertToWebcert(config, true, isDraft);
             }
 
             return config;

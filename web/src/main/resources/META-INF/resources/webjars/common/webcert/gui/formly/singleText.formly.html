@@ -1,9 +1,0 @@
-<div class="form-{{to.formType}} row" ng-class="{'indent' : to.indent, 'bold' : to.bold}">
-  <div class="col-md-{{to.labelColSize}} control-label label__no-break">
-    <wc-form-label to="to" key="options.key"></wc-form-label>
-  </div>
-  <div class="col-md-{{12 - to.labelColSize}}">
-    <input id="{{options.key}}" type="text" class="form-control" ng-disabled="to.disabled"
-           ng-model="model[options.key]" ng-model-options="{ debounce: 500 }" wc-number="{{to.numbersOnly === true}}"  ng-class="{ 'input-{{to.size}}': to.size }" maxlength="{{to.htmlMaxlength || 3500}}">
-  </div>
-</div>

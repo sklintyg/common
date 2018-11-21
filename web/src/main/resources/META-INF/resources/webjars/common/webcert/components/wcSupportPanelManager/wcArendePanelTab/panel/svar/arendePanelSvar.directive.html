@@ -1,0 +1,69 @@
+<div wc-check-vardenhet vardenhet="{{arendeSvar.enhetsId}}">
+
+  <div ng-if="canAnswer()" class="arende-svar">
+    <!-- Öppna svarapanelen -->
+    <button type="button" class="btn btn-success" ng-click="openAnswerPanel()" ng-show="!answerPanelOpen"
+            id="arende-answer-button-{{arendeSvar.fragaInternReferens}}">
+      Svara
+    </button>
+
+    <!-- Svarapanel -->
+    <div ng-if="answerPanelOpen" class="fold-animation" arende-draft-auto-save intyg-id="parentViewState.intyg.id" text="arendeSvar.meddelande" save-state="arendeSvar.draftState" question-id="arendeSvar.fragaInternReferens">
+      <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
+      <!-- TA BORT arendeSvar.intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
+
+      <div class="form-group">
+        <textarea ng-trim="false" maxlength="5000"
+                  class="form-control" ng-model="arendeSvar.meddelande"
+                  id="answerText-{{arendeSvar.fragaInternReferens}}"></textarea>
+        <span class="arende-draft-status pull-right" ng-switch="arendeSvar.draftState">
+          <span ng-switch-when="saving" id="arende-draft-saving" dynamic-label key="common.arende.draft.saving"></span>
+          <span ng-switch-when="saved" id="arende-draft-saved" dynamic-label key="common.arende.draft.saved"></span>
+          <span ng-switch-when="failed">
+            <wc-alert-message id="arende-draft-error"
+                              alert-severity="danger"
+                              alert-message-id="common.arende.draft.failed"></wc-alert-message>
+          </span>
+        </span>
+      </div>
+
+      <div class="form-group">
+        <!-- error message occuring when interacting with server for this FragaSvar-->
+        <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
+             ng-show="arendeSvar.activeErrorMessageKey" alert-severity="danger">
+          <span dynamic-label key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
+        </wc-alert-message>
+
+        <button type="button" class="btn btn-success" ng-click="sendAnswer()"
+                ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress"
+                id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">
+          Skicka
+        </button>
+        <button type="button" class="btn btn-default" ng-click="deleteArendeDraft()">
+          Avbryt
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Svarsdelen -->
+  <div ng-if="showAnswer()" class="arende-svar">
+    <div class="arende-block" ng-class="{'arende-block-handled': arendeSvar.status == 'CLOSED',
+            'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
+             'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
+
+      <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+      </arende-panel-header>
+
+      <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body multiline">
+        {{arendeSvar.meddelande}}
+        <div ng-if="arendeSvar.answeredWithIntyg">
+          <span dynamic-label key="common.arende.svar.besvaradmedintyg"></span><br>
+          <button class="btn btn-link btn-link__purelink" ng-click='goToIntyg()' ><span dynamic-label key="common.arende.svar.go"></span></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

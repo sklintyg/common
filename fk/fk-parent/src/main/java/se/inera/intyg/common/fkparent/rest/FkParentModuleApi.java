@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.fkparent.rest;
 
-import autovalue.shaded.com.google.common.common.primitives.Ints;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +81,8 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleApi {
 
     private static final Logger LOG = LoggerFactory.getLogger(FkParentModuleApi.class);
+
+    public static final String PREFIX = "Motivering till varför ingen ytterligare medicinsk information kunde anges vid komplettering: ";
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
@@ -151,6 +153,22 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
             LOG.error("Could not create a new internal Webcert model", e);
             throw new ModuleConverterException("Could not create a new internal Webcert model", e);
         }
+    }
+
+    @Override
+    public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment)
+            throws ModuleException {
+
+        T utkast;
+
+        try {
+            utkast = webcertModelFactory.createCopy(draftCopyHolder, template);
+        } catch (ConverterException e) {
+            LOG.error("Could not create a new internal Webcert model", e);
+            throw new ModuleConverterException("Could not create a new internal Webcert model", e);
+        }
+
+        return toInternalModelResponse(decorateUtkastWithComment(utkast, comment));
     }
 
     @Override
@@ -318,6 +336,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     protected abstract T decorateDiagnoserWithDescriptions(T utlatande);
 
+    protected abstract T decorateUtkastWithComment(T utlatande, String comment);
+
     protected T getInternal(String internalModel) throws ModuleException {
         try {
             return objectMapper.readValue(internalModel, type);
@@ -411,4 +431,18 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         }
     }
 
+    protected String concatOvrigtFalt(String oldOvrigt, String comment) {
+
+        final String concatString;
+
+        if (Strings.isNullOrEmpty(comment)) {
+            concatString = oldOvrigt;
+        } else if (Strings.isNullOrEmpty(oldOvrigt)) {
+            concatString = PREFIX + comment;
+        } else {
+            concatString = oldOvrigt + "\n\n" + PREFIX + comment;
+        }
+
+        return concatString;
+    }
 }

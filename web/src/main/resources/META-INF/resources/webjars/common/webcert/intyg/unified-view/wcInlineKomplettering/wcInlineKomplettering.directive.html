@@ -1,0 +1,9 @@
+<div ng-if="getKompletteringar().length > 0" class="ng-animate-disabled">
+  <wc-bottom-fadeout color="02" ng-repeat="komplettering in getKompletteringar()">
+    <wc-alert-message
+         alert-severity="komplettering"
+         ng-attr-id="{{'inline-komplettering-' + frageId + '-' + $index}}">
+        <div class="inline-komplettering-text"><span class="inline-komplettering-heading">Kompletteringsbegäran: </span><p>{{komplettering.text}}</p></div>
+    </wc-alert-message>
+  </wc-bottom-fadeout>
+</div>

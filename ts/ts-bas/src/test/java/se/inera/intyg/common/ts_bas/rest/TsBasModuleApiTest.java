@@ -24,11 +24,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -77,14 +76,17 @@ import javax.xml.soap.SOAPPart;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -134,10 +136,13 @@ public class TsBasModuleApiTest {
 
     @Test
     public void testPdf() throws Exception {
-        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), Matchers.eq(false))).thenReturn(new byte[] {});
+        when(pdfGenerator.generatePDF(any(TsBasUtlatande.class), any(List.class), any(ApplicationOrigin.class), eq(false)))
+                .thenReturn(new byte[] {});
         when(pdfGenerator.generatePdfFilename(any(TsBasUtlatande.class))).thenReturn("filename");
         for (Scenario scenario : ScenarioFinder.getInternalScenarios("valid-*")) {
-            moduleApi.pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), null, ApplicationOrigin.MINA_INTYG, false);
+            moduleApi
+                    .pdf(objectMapper.writeValueAsString(scenario.asInternalModel()), Collections.emptyList(), ApplicationOrigin.MINA_INTYG,
+                            false);
         }
     }
 
@@ -164,7 +169,7 @@ public class TsBasModuleApiTest {
     public void testRegisterCertificate() throws JsonProcessingException, ScenarioNotFoundException {
         RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
         registerResponse.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(registerTSBasResponderInterface.registerTSBas(Mockito.eq("OK"), Mockito.any(RegisterTSBasType.class)))
+        Mockito.when(registerTSBasResponderInterface.registerTSBas(eq("OK"), Mockito.any(RegisterTSBasType.class)))
                 .thenReturn(registerResponse);
 
         String logicalAddress = "OK";
@@ -199,7 +204,7 @@ public class TsBasModuleApiTest {
 
         RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult(RegisterTSBasResponderImpl.CERTIFICATE_ALREADY_EXISTS));
-        when(registerTSBasResponderInterface.registerTSBas(Mockito.eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
+        when(registerTSBasResponderInterface.registerTSBas(eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
                 .thenReturn(registerResponse);
 
         try {
@@ -219,7 +224,7 @@ public class TsBasModuleApiTest {
 
         RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
         registerResponse.setResultat(ResultTypeUtil.infoResult("INFO"));
-        when(registerTSBasResponderInterface.registerTSBas(Mockito.eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
+        when(registerTSBasResponderInterface.registerTSBas(eq(logicalAddress), Mockito.any(RegisterTSBasType.class)))
                 .thenReturn(registerResponse);
 
         try {
@@ -232,12 +237,7 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    public void testRegisterCertificateFailed() throws JsonProcessingException, ScenarioNotFoundException {
-        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
-        registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "failed"));
-        Mockito.when(registerTSBasResponderInterface.registerTSBas(Mockito.eq("FAIL"), Mockito.any(RegisterTSBasType.class)))
-                .thenReturn(registerResponse);
-
+    public void testRegisterCertificateConvert() throws JsonProcessingException, ScenarioNotFoundException {
         String logicalAddress = "FAIL";
         String failResult = "";
         Scenario scenario = ScenarioFinder.getInternalScenario("invalid-missing-identitet");
@@ -247,7 +247,26 @@ public class TsBasModuleApiTest {
         } catch (ModuleException me) {
             failResult = me.getMessage();
         }
-        assertTrue(!failResult.isEmpty());
+        assertFalse(failResult.isEmpty());
+    }
+
+    @Test
+    public void testRegisterCertificateFailed() throws JsonProcessingException, ScenarioNotFoundException {
+        RegisterTSBasResponseType registerResponse = new RegisterTSBasResponseType();
+        registerResponse.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "failed"));
+        when(registerTSBasResponderInterface.registerTSBas(eq("FAIL"), any(RegisterTSBasType.class)))
+                .thenReturn(registerResponse);
+
+        String logicalAddress = "FAIL";
+        String failResult = "";
+        Scenario scenario = ScenarioFinder.getInternalScenario("valid-maximal");
+        String internalModel = objectMapper.writeValueAsString(scenario.asInternalModel());
+        try {
+            moduleApi.registerCertificate(internalModel, logicalAddress);
+        } catch (ModuleException me) {
+            failResult = me.getMessage();
+        }
+        assertFalse(failResult.isEmpty());
     }
 
     @Test
@@ -293,7 +312,7 @@ public class TsBasModuleApiTest {
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.okResult());
-        Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
+        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -306,7 +325,7 @@ public class TsBasModuleApiTest {
         result.setIntyg(ScenarioFinder.getTransportScenario("valid-maximal").asTransportModel().getIntyg());
         result.setMeta(createMeta());
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.REVOKED, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
+        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
         CertificateResponse internal = moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -317,7 +336,7 @@ public class TsBasModuleApiTest {
     public void testGetCertificateRevokedValidationError() throws Exception {
         GetTSBasResponseType result = new GetTSBasResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
+        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -327,7 +346,7 @@ public class TsBasModuleApiTest {
     public void testGetCertificateRevokedApplicationError() throws Exception {
         GetTSBasResponseType result = new GetTSBasResponseType();
         result.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
-        Mockito.when(getTSBasResponderInterface.getTSBas(Mockito.eq("TS"), Mockito.any(GetTSBasType.class)))
+        Mockito.when(getTSBasResponderInterface.getTSBas(eq("TS"), Mockito.any(GetTSBasType.class)))
                 .thenReturn(result);
 
         moduleApi.getCertificate("cert-id", "TS", "INVANA");
@@ -450,7 +469,7 @@ public class TsBasModuleApiTest {
         Patient patient = new Patient();
         patient.setFornamn("Kalle");
         patient.setEfternamn("Kula");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         return new CreateNewDraftHolder("Id1", hosPersonal, patient);
     }
 

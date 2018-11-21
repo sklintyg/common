@@ -18,18 +18,15 @@
  */
 package se.inera.intyg.common.luae_na.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.luae_na.rest.LuaenaModuleApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7801";
     public static final String MODULE_ID = "luae_na";
     public static final String MODULE_NAME = "Läkarutlåtande för aktivitetsersättning vid nedsatt arbetsförmåga";
     public static final String MODULE_DESCRIPTION = "Läkarintyg enligt 3 kap, 8 § lagen (1962:381) om allmän försäkring";
@@ -54,13 +51,13 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
     }
 
     @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "luae_na-features.properties");
+    public ModuleApi getModuleApi() {
+        return moduleApi;
     }
 
     @Override
@@ -98,5 +95,4 @@ public class LuaenaEntryPoint extends FkAbstractModuleEntryPoint {
             return null;
         }
     }
-
 }

@@ -54,6 +54,7 @@ import java.time.LocalDate;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
 import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
@@ -133,8 +134,8 @@ public final class InternalConverterUtil {
      */
     public static PersonId getPersonId(Personnummer pnr) {
         PersonId personId = new PersonId();
-        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(pnr) ? SAMORDNING_ID_OID : PERSON_ID_OID);
-        personId.setExtension(pnr.getPersonnummerWithoutDash());
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(pnr)) ? SAMORDNING_ID_OID : PERSON_ID_OID);
+        personId.setExtension(pnr.getPersonnummer());
         return personId;
     }
 
@@ -173,7 +174,6 @@ public final class InternalConverterUtil {
     public static String getInternalDateContent(InternalDate internalDate) {
         return internalDate.isValidDate() ? internalDate.asLocalDate().toString() : internalDate.toString();
     }
-
     /**
      * Returns an internalDate as a String where unfilled information is completed with zeros.
      *
@@ -337,9 +337,14 @@ public final class InternalConverterUtil {
     }
 
     private static Patient getPatient(se.inera.intyg.common.support.model.common.internal.Patient sourcePatient,
-            boolean extendedPatientInfo) {
+                                      boolean extendedPatientInfo) {
+
+        String pnr = sourcePatient.getPersonId().getPersonnummer();
+        Personnummer personnummer = Personnummer.createPersonnummer(pnr).get();
+
         Patient patient = new se.riv.clinicalprocess.healthcond.certificate.v3.Patient();
-        patient.setPersonId(getPersonId(new Personnummer(sourcePatient.getPersonId().getPersonnummer())));
+        patient.setPersonId(getPersonId(personnummer));
+
         if (extendedPatientInfo) {
             patient.setEfternamn(emptyStringIfNull(sourcePatient.getEfternamn()));
             patient.setFornamn(emptyStringIfNull(sourcePatient.getFornamn()));
@@ -421,11 +426,23 @@ public final class InternalConverterUtil {
             return svar;
         }
 
+        /**
+         * Builder method which are used to add a {@link Delsvar} to a {@link ArrayList} <{@link Delsvar}>.
+         * If the content is null or empty, the method does not add
+         * the delsvar to DelsvarsList
+         *
+         * @param delsvarsId the id of the delsvar.
+         * @param content the content to add to the Delsvar.
+         * @return SvarBuilder
+         */
         public SvarBuilder withDelsvar(String delsvarsId, Object content) {
-            Delsvar delsvar = new Delsvar();
-            delsvar.setId(delsvarsId);
-            delsvar.getContent().add(content);
-            delSvars.add(delsvar);
+
+            if (content != null) {
+                Delsvar delsvar = new Delsvar();
+                delsvar.setId(delsvarsId);
+                delsvar.getContent().add(content);
+                delSvars.add(delsvar);
+            }
             return this;
         }
     }

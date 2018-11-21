@@ -40,19 +40,21 @@ public final class PatientValidator {
         if (patient == null) {
             throw new RuntimeException("No Patient found when attempting to validate");
         }
-        validateString(validationMessages, patient.getPostadress(), "patient.grunddata.patient.postadress");
-        validateString(validationMessages, patient.getPostnummer(), "patient.grunddata.patient.postnummer");
-        if (!Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()
-                && !STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
-            validationMessages.add(new ValidationMessage("patient.grunddata.patient.postnummer",
+        validateString(validationMessages, patient.getPostadress(), "patient", "grunddata.patient.postadress");
+
+        if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()) {
+            validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
+                    ValidationMessageType.EMPTY));
+        } else if (!STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
+            validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
                     ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
         }
-        validateString(validationMessages, patient.getPostort(), "patient.grunddata.patient.postort");
+        validateString(validationMessages, patient.getPostort(), "patient", "grunddata.patient.postort");
     }
 
-    private static void validateString(List<ValidationMessage> validationMessages, String text, String field) {
+    private static void validateString(List<ValidationMessage> validationMessages, String text, String category, String field) {
         if (Strings.nullToEmpty(text).trim().isEmpty()) {
-            validationMessages.add(new ValidationMessage(field, ValidationMessageType.EMPTY));
+            validationMessages.add(new ValidationMessage(category, field, ValidationMessageType.EMPTY));
         }
     }
 }

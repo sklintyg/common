@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.ts_parent.model.converter;
 
+import org.springframework.util.CollectionUtils;
+import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
-
-import org.springframework.util.CollectionUtils;
-
-import se.inera.intyg.common.support.model.common.internal.*;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
-import se.inera.intygstjanster.ts.services.v1.DiabetesTypVarden;
-import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 
 public final class TransportToInternalUtil {
 
@@ -104,7 +103,7 @@ public final class TransportToInternalUtil {
         patient.setEfternamn(source.getEfternamn());
         patient.setFornamn(source.getFornamn());
         patient.setFullstandigtNamn(source.getFullstandigtNamn());
-        patient.setPersonId(new Personnummer(source.getPersonId().getExtension()));
+        patient.setPersonId(Personnummer.createPersonnummer(source.getPersonId().getExtension()).get());
         patient.setPostadress(source.getPostadress());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostort(source.getPostort());

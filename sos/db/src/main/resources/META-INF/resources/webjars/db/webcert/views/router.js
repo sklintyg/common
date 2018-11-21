@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('db').config(function($stateProvider) {
     'use strict';
 
@@ -32,18 +31,21 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory'
+                        UtkastConfigFactory: 'db.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
 
-                'wcHeader@db-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@db-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'db.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@db-edit' : {
@@ -51,45 +53,40 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'common.UtkastFooter'
                 },
 
-                'formly@db-edit' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
+                'utkast@db-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'db.EditCertCtrl.ViewStateService',
-                        FormFactory: 'db.FormFactory'
+                        UtkastConfigFactory: 'db.UtkastConfigFactory'
                     }
-                },
-
-                'fragasvar@db-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
-        state('webcert.intyg.fk.db', {
+        state('webcert.intyg.db', {
             data: { defaultActive : 'index', intygType: 'db' },
             url:'/intyg/db/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory'
+                        ViewConfigFactory: 'db.viewConfigFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.db' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                'header@webcert.intyg.db' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'db.IntygController.ViewStateService'
+                    }
                 }
             }
         }).
         state('webcert.fragasvar.db', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'db'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'db'  },
             url: '/fragasvar/db/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
@@ -97,7 +94,8 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: 'db.viewConfigFactory'
+                        ViewConfigFactory: 'db.viewConfigFactory',
+                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
                     }
                 },
                 'fragasvar@webcert.fragasvar' : {
@@ -105,8 +103,11 @@ angular.module('db').config(function($stateProvider) {
                     controller: 'common.ArendeListCtrl'
                 },
                 'header@webcert.fragasvar.db' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         });

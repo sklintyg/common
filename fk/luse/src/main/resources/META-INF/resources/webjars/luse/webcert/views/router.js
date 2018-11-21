@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('luse').config(function($stateProvider) {
     'use strict';
 
@@ -32,64 +31,61 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
+                        UtkastConfigFactory: 'luse.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
 
-                'wcHeader@luse-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
                 'header@luse-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'luse.EditCertCtrl.ViewStateService'
+                    }
                 },
 
                 'footer@luse-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-
-                'formly@luse-edit' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
+                'utkast@luse-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'luse.EditCertCtrl.ViewStateService',
-                        FormFactory: 'luse.FormFactory'
+                        UtkastConfigFactory: 'luse.UtkastConfigFactory'
                     }
-                },
-
-                'fragasvar@luse-edit' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeListUtkast.html',
-                    controller: 'common.ArendeListCtrl'
                 }
             }
         }).
-        state('webcert.intyg.fk.luse', {
+        state('webcert.intyg.luse', {
             data: { defaultActive : 'index', intygType: 'luse' },
             url:'/intyg/luse/:certificateId/:focusOn',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
-                'fragasvar@webcert.intyg.fk' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
-                'header@webcert.intyg.fk.luse' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                'header@webcert.intyg.luse' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         }).
         state('webcert.fragasvar.luse', {
-            data: { defaultActive : 'unhandled-qa', intygType: 'luse' },
+            data: { defaultActive : 'enhet-arenden', intygType: 'luse' },
             url: '/fragasvar/luse/:certificateId',
             views: {
                 'intyg@webcert.fragasvar' : {
@@ -97,16 +93,16 @@ angular.module('luse').config(function($stateProvider) {
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'luse.IntygController.ViewStateService',
-                        ViewConfigFactory: 'luse.viewConfigFactory'
+                        ViewConfigFactory: 'luse.viewConfigFactory',
+                        supportPanelConfigFactory: 'luse.supportPanelConfigFactory'
                     }
                 },
-                'fragasvar@webcert.fragasvar' : {
-                    templateUrl: commonPath + 'fk/arenden/arendeList.html',
-                    controller: 'common.ArendeListCtrl'
-                },
                 'header@webcert.fragasvar.luse' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'luse.IntygController.ViewStateService'
+                    }
                 }
             }
         });

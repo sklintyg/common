@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Common certificate management methods between certificate modules
  */
 angular.module('common').factory('common.UtkastService',
-    ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
+    ['$browser', '$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
-        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocus', 'common.dynamicLabelService',
-        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService', 'common.srsService',
-        function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
-            dialogService, messageService, statService, UserModel, CommonViewState, wcFocus, dynamicLabelService, ObjectHelper,
-            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService, srsService) {
+        'common.UserModel', 'common.UtkastViewStateService', 'common.wcFocusOn', 'common.dynamicLabelService',
+        'common.ObjectHelper', 'common.IntygHelper', 'common.IntygProxy', 'common.PatientProxy', 'common.UtkastValidationService', 'common.anchorScrollService', 'common.srsService', '$animate',
+        function($browser, $rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q, UtkastProxy,
+            dialogService, messageService, statService, UserModel, CommonViewState, wcFocusOn, dynamicLabelService, ObjectHelper,
+            IntygHelper, IntygProxy, PatientProxy, UtkastValidationService, anchorScrollService, srsService, $animate) {
             'use strict';
 
             // used to calculate save duration
@@ -43,7 +42,7 @@ angular.module('common').factory('common.UtkastService',
 
                 $timeout(function() {
                     var focusTarget = $stateParams.focusOn || 'focusFirstInput';
-                    wcFocus(focusTarget);
+                    wcFocusOn(focusTarget);
                     $rootScope.$broadcast('intyg.loaded', viewState.draftModel.content);
                     $rootScope.$broadcast(intygsTyp + '.loaded', viewState.draftModel.content);
                     CommonViewState.doneLoading = true;
@@ -65,12 +64,14 @@ angular.module('common').factory('common.UtkastService',
                 var intygsTyp = viewState.common.intyg.type;
                 CommonViewState.doneLoading = false;
                 var def = $q.defer();
+                $animate.enabled(false);
 
                 UtkastProxy.getUtkast($stateParams.certificateId, intygsTyp, function(utkastData) {
 
                     // check that the certs status is not signed
                     if (utkastData.status === 'SIGNED') {
                         // just change straight to the intyg
+                        $animate.enabled(true);
                         $location.url('/intyg/' + intygsTyp + '/' + utkastData.content.id + '/');
                     }
                     else {
@@ -100,6 +101,7 @@ angular.module('common').factory('common.UtkastService',
                                 CommonViewState.doneLoading = true;
                                 CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
                                 def.reject(error);
+                                $animate.enabled(true);
                             });
                     }
 
@@ -107,6 +109,7 @@ angular.module('common').factory('common.UtkastService',
                     CommonViewState.doneLoading = true;
                     CommonViewState.error.activeErrorMessageKey = checkSetError(error.errorCode);
                     def.reject(error);
+                    $animate.enabled(true);
                 });
                 return def.promise;
             }
@@ -129,11 +132,14 @@ angular.module('common').factory('common.UtkastService',
                                     type: viewState.common.intyg.type
                                 };
                                 $rootScope.$emit('ViewCertCtrl.load', parentIntyg, intygMeta);
+                                $animate.enabled(true);
                             } else {
                                 $rootScope.$emit('ViewCertCtrl.load', null, null);
+                                $animate.enabled(true);
                             }
                         }, function(error) {
                             $rootScope.$emit('ViewCertCtrl.load', null, null);
+                            $animate.enabled(true);
                         });
                 } else {
                     // Failed to load parent intyg. Tell frågasvar
@@ -141,6 +147,7 @@ angular.module('common').factory('common.UtkastService',
                         isSent: false,
                         isRevoked: false
                     });
+                    $animate.enabled(true);
                 }
             }
 

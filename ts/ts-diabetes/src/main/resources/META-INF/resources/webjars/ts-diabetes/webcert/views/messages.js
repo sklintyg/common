@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /* jshint maxlen: false */
 angular.module('ts-diabetes').constant('ts-diabetes.messages', {
     'sv': {
@@ -33,8 +32,17 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.syn': '3. Synintyg',
         'ts-diabetes.label.bedomning': '4. Bedömning',
         'ts-diabetes.label.vardenhet': 'Vårdenhet',
+        'ts-diabetes.label.diabets.typ1': 'Typ 1',
+        'ts-diabetes.label.diabets.typ2': 'Typ 2',
 
-        // Visa ts-diabetes
+        'ts-diabetes.label.identitet.id_kort': 'ID-kort ¹',
+        'ts-diabetes.label.identitet.foretag_eller_tjanstekort': 'Företagskort eller tjänstekort ²',
+        'ts-diabetes.label.identitet.korkort': 'Svenskt körkort',
+        'ts-diabetes.label.identitet.pers_kannedom': 'Personlig kännedom',
+        'ts-diabetes.label.identitet.forsakran_kap18': 'Försäkran enligt 18 kap. 4§ ³',
+        'ts-diabetes.label.identitet.pass': 'Pass ⁴',
+
+// Visa ts-diabetes
         'ts-diabetes.label.patient': 'Patientens adressuppgifter',
 
         'ts-diabetes.label.syn.binokulart': 'Binokulärt',
@@ -55,6 +63,14 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         // Help texts
         'ts-diabetes.helptext.identitet-styrkt-genom': 'ID-kort = SIS-märkt ID-kort, svenskt nationellt ID-kort eller ID-kort utfärdat av Skatteverket.<br/> Företagskort eller tjänstekort = SIS-märkt företagskort eller tjänstekort.<br/> Försäkran enligt 18 kap. 4 § = Försäkran enligt 18 kap 4 § i Transportstyrelsens föreskrifter (TSFS 2010:125, senast ändrade genom TSFS 2013:2): Identiteten får fastställas genom att en förälder, annan vårdnadshavare, make, maka eller sambo, registrerad partner eller myndigt barn skriftligen försäkrar att lämnade uppgifter om sökandens identitet är riktiga. Den som lämnar en sådan försäkran ska vara närvarande vid identitetskontrollen och kunna styrka sin egen identitet.<br/> Pass = Svenskt EU-pass, annat EU-pass utfärdade från och med den 1 september 2006, pass utfärdat av Island, Liechtenstein, Norge eller Schweiz från och med den 1 september 200<br/>',
 
+        'ts-diabetes.helptext.hypoglykemier.korkortd': 'För innehav av behörigheterna C1, C1E, C, CE, D1, D1E, D, DE och taxiförarlegitimation ska även fråga f-g besvaras',
+        'ts-diabetes.helptext.hypoglykemier.date': '(Fyll i åååå-mm-dd)',
+
+        'ts-diabetes.helptext.syn.alt1.heading': 'Alternativ 1',
+        'ts-diabetes.helptext.syn.alt1.text': 'Vid synnedsättningar av betydelse för innehavet krävs ögonläkarintyg. Detta gäller vid proliferativ retinopati, genomgången laserbehandling av retinopati, signifikant makulaödem eller vid annan ögonsjukdom samt om ögonbottenfoto saknas.',
+        'ts-diabetes.helptext.syn.alt2.heading': 'Alternativ 2: (frågorna b-d besvaras)',
+        'ts-diabetes.helptext.syn.alt2.text': 'Om ögonläkarintyg inte krävs kan behandlande specialistkompetent läkare med god kännedom om patientens sjukdom här avge intyg om synfunktionen.',
+
         'ts-diabetes.helptext.synfunktioner.synskarpa': 'Synskärpa (alla bokstäver ska kunna läsas på den rad som anger synskärpan. Är synskärpan sämre än 0,1 ska den anges som 0,0).<br/><br/> Uppgifterna om synskärpa med och utan korrektion kan grundas på aktuellt intyg av bl.a. legitimerad optiker eller den som är anställd hos optiker. Alternativt kan kopia av sådant intyg bifogas. Uppgifter från ögonbottenfoto kan också användas.',
         'ts-diabetes.helptext.synfunktioner.utan-korrektion': 'Uppgiften är obligatorisk',
         'ts-diabetes.helptext.synfunktioner.med-korrektion': 'Uppgiften är obligatorisk om föreskriven synskärpa endast uppnås med korrektion. Definition av föreskriven synskärpa finns i Transportstyrelsens föreskrifter.',
@@ -64,10 +80,10 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
 
 
         // Validation messages
-        'ts-diabetes.validation.hypoglykemier.missing': 'Hypoglykemier saknas',
+        'ts-diabetes.validation.hypoglykemier.missing': 'Hypoglykemier saknas.',
         'ts-diabetes.validation.hypoglykemier.allvarlig-forekomst-vaken-tid.observationstid.incorrect-date': 'Tidpunkt för allvarlig hypoglykemi under vaken tid måste anges som åååå-mm-dd, och får inte vara tidigare än ett år tillbaka eller senare än dagens datum.',
-        'ts-diabetes.validation.diabetes.missing': 'Diabetes saknas',
-        'ts-diabetes.validation.diabetes.observationsperiod.incorrect-format': 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än patienten är född.',
+        'ts-diabetes.validation.diabetes.missing': 'Diabetes saknas.',
+        'ts-diabetes.validation.diabetes.observationsperiod.incorrect-format': 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än patientens födelseår.',
         'ts-diabetes.validation.diabetes.behandling.missing': 'Minst en behandling måste väljas.',
         'ts-diabetes.validation.diabetes.insulin.behandlingsperiod.missing' : 'År då behandling med insulin påbörjades måste anges.',
         'ts-diabetes.validation.diabetes.insulin.behandlingsperiod.incorrect-format' : 'År måste anges enligt formatet ÅÅÅÅ. Det går inte att ange årtal som är senare än innevarande år eller tidigare än år 1900.',

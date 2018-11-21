@@ -1,7 +1,7 @@
 <div class="mi-compact-certificate-body" ng-show="certMetaModel">
   <div class="row">
     <div class="col-xs-12">
-      <div class="text-muted"><span message key="inbox.list.issuer.label" /></div>
+      <div class="text-muted"><span dynamic-label key="inbox.list.issuer.label" /></div>
       <span ng-attr-id="cert-issuer-text-{{certMetaModel.id}}"><strong>{{certMetaModel.caregiverName}}, {{certMetaModel.careunitName}}</strong></span>
     </div>
   </div>
@@ -17,14 +17,14 @@
               ng-click="onArchiveClick({cert:certMetaModel})"
               uib-popover="{{messageService.getProperty('button.archive.tooltip')}}"
               popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
-        <i class="icon icon-box"></i> <span message key="button.archive"></span>
+        <i class="icon icon-box"></i> <span dynamic-label key="button.archive"></span>
       </button>
 
       <button ng-if="onViewClick" type="button" ng-attr-id="viewCertificateBtn-{{certMetaModel.id}}" class="btn btn-primary"
               ng-click="onViewClick({cert:certMetaModel})"
               uib-popover="{{messageService.getProperty('button.show.tooltip')}}"
               popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
-        <i class="icon icon-eye"></i> <span message key="button.show"></span>
+        <i class="icon icon-eye"></i> <span dynamic-label key="button.show"></span>
       </button>
 
     </div>

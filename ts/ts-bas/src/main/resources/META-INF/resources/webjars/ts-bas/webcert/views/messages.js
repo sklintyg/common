@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /* jshint maxlen: false */
 angular.module('ts-bas').constant('ts-bas.messages', {
     'sv': {
@@ -42,6 +41,13 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.ovrigkommentar': '16. Övrig kommentar',
         'ts-bas.label.bedomning': 'Bedömning',
         'ts-bas.label.vardenhet': 'Vårdenhet',
+
+        'ts-bas.label.identitet.id_kort': 'ID-kort ¹',
+        'ts-bas.label.identitet.foretag_eller_tjanstekort': 'Företagskort eller tjänstekort ²',
+        'ts-bas.label.identitet.korkort': 'Svenskt körkort',
+        'ts-bas.label.identitet.pers_kannedom': 'Personlig kännedom',
+        'ts-bas.label.identitet.forsakran_kap18': 'Försäkran enligt 18 kap. 4§ ³',
+        'ts-bas.label.identitet.pass': 'Pass ⁴',
 
         'ts-bas.helptext.intyg-avser': '<span style="text-align:left">C1 = medeltung lastbil och enbart ett lätt släpfordon<br/>C1E = medeltung lastbil och ett eller flera släpfordon oavsett vikt<br/>C = tung lastbil och enbart ett lätt släpfordon<br/>CE = tung lastbil och ett eller flera släpfordon oavsett vikt<br/>D1 = mellanstor buss och enbart ett lätt släpfordon<br/>D1E = mellanstor buss och ett eller flera släpfordon oavsett vikt<br/>D = buss och enbart ett lätt släpfordon<br/>DE = buss och ett eller flera släpfordon oavsett vikt<br/>Taxi = taxiförarlegitimation<br/>Annat = (AM,A1,A2,A,B,BE eller Traktor)</span>',
 
@@ -101,26 +107,26 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.label.kommentar-relevant-trafiksakerhet': 'Övriga kommentarer som är relevant ur trafiksäkerhetssynpunkt.',
 
         // Validation messages starting
-        'ts-bas.validation.utvecklingsstorning.missing': 'ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning måste anges',
-        'ts-bas.validation.psykiskt.missing': 'Psykiska sjukdomar och störningar saknas',
-        'ts-bas.validation.somnvakenhet.missing': 'Sömn- och vakenhetsstörningar saknas',
-        'ts-bas.validation.njurar.missing': 'Njursjukdomar saknas',
-        'ts-bas.validation.neurologi.missing': 'Neurologiska sjukdomar saknas',
+        'ts-bas.validation.utvecklingsstorning.missing': 'ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning måste anges.',
+        'ts-bas.validation.psykiskt.missing': 'Psykiska sjukdomar och störningar saknas.',
+        'ts-bas.validation.somnvakenhet.missing': 'Sömn- och vakenhetsstörningar saknas.',
+        'ts-bas.validation.njurar.missing': 'Njursjukdomar saknas.',
+        'ts-bas.validation.neurologi.missing': 'Neurologiska sjukdomar saknas.',
         'ts-bas.validation.neurologi.neurologisksjukdom.missing': 'Du måste välja ett alternativ.',
-        'ts-bas.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas',
-        'ts-bas.validation.bedomning.missing': 'Bedömning saknas',
-        'ts-bas.validation.diabetes.missing': 'Diabetes saknas',
-        'ts-bas.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas',
-        'ts-bas.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas',
-        'ts-bas.validation.horselbalans.missing': 'Hörsel och balanssinne saknas',
-        'ts-bas.validation.kognitivt.missing': 'Demens och kognitiva störningar saknas',
-        'ts-bas.validation.medicinering.missing': 'Övrig medicinering saknas',
-        'ts-bas.validation.narkotikalakemedel.missing': 'Alkohol, narkotika och läkemedel saknas',
+        'ts-bas.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas.',
+        'ts-bas.validation.bedomning.missing': 'Bedömning saknas.',
+        'ts-bas.validation.diabetes.missing': 'Diabetes saknas.',
+        'ts-bas.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas.',
+        'ts-bas.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas.',
+        'ts-bas.validation.horselbalans.missing': 'Hörsel och balanssinne saknas.',
+        'ts-bas.validation.kognitivt.missing': 'Demens och kognitiva störningar saknas.',
+        'ts-bas.validation.medicinering.missing': 'Övrig medicinering saknas.',
+        'ts-bas.validation.narkotikalakemedel.missing': 'Alkohol, narkotika och läkemedel saknas.',
         'ts-bas.validation.medvetandestorning.missing': 'Du måste välja ett alternativ.',
-        'ts-bas.validation.syn.missing': 'Synfunktioner saknas',
-        'ts-bas.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas',
-        'ts-bas.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas',
-        'ts-bas.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas',
+        'ts-bas.validation.syn.missing': 'Synfunktioner saknas.',
+        'ts-bas.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas.',
+        'ts-bas.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas.',
+        'ts-bas.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas.',
         'ts-bas.validation.syn.out-of-bounds': 'Måste ligga i intervallet 0,0 till 2,0.'
     },
     'en': {

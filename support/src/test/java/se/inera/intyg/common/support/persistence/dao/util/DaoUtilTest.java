@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.support.persistence.dao.util;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.support.peristence.dao.util.DaoUtil;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import static org.junit.Assert.assertEquals;
 
 public class DaoUtilTest {
     @Test
     public void testPnrWithAndWithoutDashYieldsSameResult() {
-        Personnummer pnr1 = new Personnummer("191212121212");
-        Personnummer pnr2 = new Personnummer("19121212-1212");
+        Personnummer pnr1 = Personnummer.createPersonnummer("191212121212").get();
+        Personnummer pnr2 = Personnummer.createPersonnummer("19121212-1212").get();
 
         assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr1));
         assertEquals("19121212-1212", DaoUtil.formatPnrForPersistence(pnr2));

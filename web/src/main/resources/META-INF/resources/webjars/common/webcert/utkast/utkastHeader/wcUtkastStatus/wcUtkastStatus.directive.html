@@ -1,0 +1,20 @@
+<span>
+
+  <!-- error from button interaction -->
+  <wc-alert-message id="utkast-inline-error"
+                    ng-show="utkastViewState.common.error.saveErrorCode"
+                    alert-severity="danger">
+    <span ng-bind-html="utkastViewState.common.error.saveErrorMessage"></span>
+  </wc-alert-message>
+
+  <span ng-show="!utkastViewState.common.error.saveErrorCode">
+    <wc-intyg-status-slot id="intygstatus1" intygstatus="getIntygStatus1()"></wc-intyg-status-slot>
+    <wc-intyg-status-slot id="intygstatus2" intygstatus="getIntygStatus2()"></wc-intyg-status-slot>
+  </span>
+
+  <span id="utkast-created" ng-if="utkastViewState.draftModel.created">
+    <span dynamic-label key="common.label.utkastcreated"></span>
+    {{utkastViewState.draftModel.created | date : 'yyyy-MM-dd HH:mm'}}
+  </span>
+
+</span>

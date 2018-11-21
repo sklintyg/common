@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.IntygMakulera',
     [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel', 'common.IntygHelper',
         'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService', 'common.messageService',
@@ -66,9 +65,6 @@ angular.module('common').factory('common.IntygMakulera',
             }
 
             function _makulera(intyg, confirmationMessage, onSuccess) {
-                // Only show tooltip for FK-intyg
-                var isFkIntyg = moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient === 'FKASSA' ? true : false;
-
                 function isMakuleraEnabled(model) {
                     return model.makuleraProgressDone && // model.ersattProgressDone &&
                         (
@@ -90,7 +86,6 @@ angular.module('common').factory('common.IntygMakulera',
                 }
 
                 var dialogMakuleraModel = {
-                    isFkIntyg: isFkIntyg,
                     hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
                     isMakuleraEnabled: isMakuleraEnabled,
                     makuleraProgressDone: true,
@@ -103,7 +98,8 @@ angular.module('common').factory('common.IntygMakulera',
                     makuleraModel: {
                         reason: undefined,
                         clarification: []
-                    }
+                    },
+                    recipient: 'common.recipient.' + moduleService.getModule(CommonViewState.intygProperties.type).defaultRecipient.toLowerCase()
                 };
 
                 if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, CommonViewState.intygProperties.type)) {
@@ -122,7 +118,7 @@ angular.module('common').factory('common.IntygMakulera',
                         placeholder: key === 'FEL_PATIENT' ? 'Förtydliga vid behov...' : 'Ange orsak (obligatoriskt)...'
                     });
                 }, dialogMakuleraModel.choices);
-
+                
                 makuleraDialog = dialogService.showDialog({
                     dialogId: 'makulera-dialog',
                     titleId: 'label.makulera',
@@ -132,9 +128,9 @@ angular.module('common').factory('common.IntygMakulera',
                         $log.debug('revoking intyg from dialog' + intyg);
                         _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
                     },
-                    button1text: 'common.revoke',
+                    button1text: 'common.makulera',
                     button1id: 'button1makulera-dialog',
-                    button3text: 'common.canceldontrevoke',
+                    button3text: 'common.cancel',
                     button3id: 'button3makulera-dialog',
                     autoClose: false
                 });

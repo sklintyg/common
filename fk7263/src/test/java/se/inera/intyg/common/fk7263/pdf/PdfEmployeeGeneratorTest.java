@@ -78,7 +78,7 @@ public class PdfEmployeeGeneratorTest {
         final Fk7263Utlatande intyg = objectMapper.readValue(fk7263Json, Fk7263Utlatande.class);
 
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer("191212121212"));
+        patient.setPersonId(Personnummer.createPersonnummer("191212121212").get());
         intyg.getGrundData().setPatient(patient);
         intyg.setGiltighet(new LocalDateInterval(LocalDate.parse("2016-08-15"), LocalDate.parse("2016-10-30")));
 

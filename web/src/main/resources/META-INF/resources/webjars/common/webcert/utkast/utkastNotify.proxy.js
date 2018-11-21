@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Utkast Notify Proxy Module - REST-Functions related to
  * sending notifications of utkast to a doctor via mail.
@@ -32,12 +31,12 @@ angular.module('common').factory('common.UtkastNotifyProxy',
             function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback,  errorCallback) {
                 $log.debug('_setNotifyState');
                 var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
-                $http.put(restPath, {'notified': isNotified}).success(function(data) {
-                    $log.debug('_setNotifyState data:' + data);
-                    callback(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    errorCallback(data);
+                $http.put(restPath, {'notified': isNotified}).then(function(response) {
+                    $log.debug('_setNotifyState data:' + response.data);
+                    callback(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    errorCallback(response.data);
                 });
             }
 
@@ -46,13 +45,13 @@ angular.module('common').factory('common.UtkastNotifyProxy',
              */
             function _sendNotificationStatusUpdate(intygId, intygType, utkast, callback, errorCallback) {
                 var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + utkast.version + '/redoattsignera';
-                $http.put(restPath, {}).success(function(data) {
-                    $log.debug('sendNotificationStatusUpdate data:' + data);
+                $http.put(restPath, {}).then(function(response) {
+                    $log.debug('sendNotificationStatusUpdate data:' + response.data);
                     utkast.version++;
-                    callback(data);
-                }).error(function(data, status) {
-                    $log.error('error ' + status);
-                    errorCallback(data);
+                    callback(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    errorCallback(response.data);
                 });
             }
 

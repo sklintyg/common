@@ -1,9 +1,9 @@
 {
   "typ": "db",
   "identitetStyrkt": "körkort",
-  "dodsdatumSakert": true,
-  "dodsdatum": "2017-01-01",
-  "antraffatDodDatum": "2017-01-02",
+  "dodsdatumSakert": false,
+  "dodsdatum": "2018-02-00",
+  "antraffatDodDatum": "2018-01-01",
   "dodsplatsKommun": "kommun",
   "dodsplatsBoende": "SJUKHUS",
   "barn": false,

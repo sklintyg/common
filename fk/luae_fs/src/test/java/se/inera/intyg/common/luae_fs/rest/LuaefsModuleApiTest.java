@@ -21,13 +21,14 @@ package se.inera.intyg.common.luae_fs.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.luae_fs.model.converter.SvarIdHelperImpl;
@@ -81,10 +82,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.same;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -99,6 +100,7 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
 /**
  * Created by marced on 26/04/16.
@@ -108,7 +110,7 @@ public class LuaefsModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
     private static final String TEST_HSA_ID = "hsaId";
-    private static final String TEST_PATIENT_PERSONNR = "121212121212";
+    private static final String TEST_PATIENT_PERSONNR = "191212121212";
 
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
@@ -161,7 +163,6 @@ public class LuaefsModuleApiTest {
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientFailsWithoutXmlModel() throws ModuleException {
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(createReturnVal(ResultCodeType.OK));
         moduleApi.sendCertificateToRecipient(null, LOGICAL_ADDRESS, null);
     }
 
@@ -287,7 +288,8 @@ public class LuaefsModuleApiTest {
     @Test
     public void testCreateNewInternal() throws Exception {
 
-        CreateNewDraftHolder createNewDraftHolder = new CreateNewDraftHolder("1", createHosPersonal(), createPatient());
+        CreateNewDraftHolder createNewDraftHolder =
+                new CreateNewDraftHolder("1", createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 
@@ -320,9 +322,6 @@ public class LuaefsModuleApiTest {
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
 
         when(objectMapper.readValue(json, LuaefsUtlatande.class)).thenReturn(utlatandeBeforeSave);
-
-        RegisterCertificateResponseType result = createReturnVal(ResultCodeType.OK);
-        when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
 
         final String internalModelResponse = moduleApi.updateBeforeSave(json, createHosPersonal());
         final Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(internalModelResponse);
@@ -361,8 +360,7 @@ public class LuaefsModuleApiTest {
         final String intygId = "intygId";
 
         GrundData gd = new GrundData();
-        gd.setPatient(new Patient());
-        gd.getPatient().setPersonId(new Personnummer("191212121212"));
+        gd.setPatient(createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
         HoSPersonal skapadAv = createHosPersonal();
         gd.setSkapadAv(skapadAv);
 
@@ -419,6 +417,84 @@ public class LuaefsModuleApiTest {
         assertEquals("Klämskada skuldra", additionalInfo);
     }
 
+    @Test
+    public void testCreateCompletionFromTemplateWithComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "kommentarText";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt + "\n\n" + PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateCompletionFromTemplateWithNoComment() throws Exception {
+
+        final String ovrigt = "övrigtText";
+        final String kommentar = "";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(ovrigt, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
+    @Test
+    public void testCreateCompletionFromTemplateWithNoOvrigt() throws Exception {
+
+        final String ovrigt = "";
+        final String kommentar = "kommentarText";
+
+        LuaefsUtlatande utlatande = LuaefsUtlatande
+                .builder()
+                .setId("utlatande-id")
+                .setGrundData(new GrundData())
+                .setTextVersion("textVersion")
+                .setOvrigt(ovrigt)
+                .build();
+
+        doReturn(utlatande)
+                .when(webcertModelFactory)
+                .createCopy(any(), any());
+
+        String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
+        LuaefsUtlatande utlatandeFromJson = (LuaefsUtlatande) moduleApi.getUtlatandeFromJson(result);
+
+        assertEquals(PREFIX + kommentar, utlatandeFromJson.getOvrigt());
+
+        verify(webcertModelFactory, times(1)).createCopy(any(), any());
+    }
+
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
             throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
@@ -446,12 +522,20 @@ public class LuaefsModuleApiTest {
         return intygsStatus;
     }
 
-    private Patient createPatient() {
+    private Patient createPatient(String fornamn, String efternamn, String pnr) {
         Patient patient = new Patient();
-        patient.setFornamn("fornamn");
-        patient.setEfternamn("efternamn");
-        patient.setPersonId(new Personnummer(TEST_PATIENT_PERSONNR));
+        if (StringUtils.isNotEmpty(fornamn)) {
+            patient.setFornamn(fornamn);
+        }
+        if (StringUtils.isNotEmpty(efternamn)) {
+            patient.setEfternamn(efternamn);
+        }
+        patient.setPersonId(createPnr(pnr));
         return patient;
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private HoSPersonal createHosPersonal() {
@@ -485,5 +569,10 @@ public class LuaefsModuleApiTest {
     private LuaefsUtlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper()
                 .readValue(new ClassPathResource("LuaefsModuleApiTest/valid-utkast-sample.json").getFile(), LuaefsUtlatande.class);
+    }
+
+    private CreateDraftCopyHolder createCopyHolder() {
+        return new CreateDraftCopyHolder("certificateId",
+                createHosPersonal());
     }
 }

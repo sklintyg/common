@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
@@ -60,7 +60,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -123,7 +123,8 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu.baserasPa", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -148,7 +149,8 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu.undersokningAvPatienten", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("undersokningAvPatienten", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
@@ -173,7 +175,8 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu.telefonkontaktMedPatienten", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("telefonkontaktMedPatienten", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
@@ -198,7 +201,8 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu.journaluppgifter", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
@@ -225,7 +229,8 @@ public class InternalDraftValidatorTest {
 
         assertEquals(1, res.getValidationErrors().size());
 
-        assertEquals("grundformu.annatGrundForMU", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("annatGrundForMU", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
@@ -238,7 +243,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu.annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -317,7 +323,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("sysselsattning.nuvarandeArbete", res.getValidationErrors().get(0).getField());
+        assertEquals("sysselsattning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("nuvarandeArbete", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -403,7 +410,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning.aktivitetsbegransning", res.getValidationErrors().get(0).getField());
+        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -416,7 +424,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning.aktivitetsbegransning", res.getValidationErrors().get(0).getField());
+        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("aktivitetsbegransning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -493,7 +502,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -557,9 +567,11 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+        assertEquals("sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
     }
 
@@ -578,9 +590,11 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+        assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
     }
 
@@ -599,13 +613,17 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(4, res.getValidationErrors().size());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("sjukskrivningar.period.HELT_NEDSATT.from", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(0).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(1).getCategory());
+        assertEquals("sjukskrivningar.period.HELT_NEDSATT.tom", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(1).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(2).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(2).getCategory());
+        assertEquals("sjukskrivningar.period.HALFTEN.from", res.getValidationErrors().get(2).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(2).getType());
-        assertEquals("bedomning.sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(3).getCategory());
+        assertEquals("sjukskrivningar.period.HALFTEN.tom", res.getValidationErrors().get(3).getField());
         assertEquals(ValidationMessageType.PERIOD_OVERLAP, res.getValidationErrors().get(3).getType());
     }
 
@@ -633,7 +651,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukskrivningIsTooLong() throws Exception {
         LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(4);
+        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(1);
 
         Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
             new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
@@ -705,8 +723,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.arbetstidsforlaggningMotivering",
-                res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("arbetstidsforlaggningMotivering", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -800,7 +818,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.prognos", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("prognos", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -813,7 +832,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.prognos", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("prognos", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -837,7 +857,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("bedomning.prognos.dagarTillArbete", res.getValidationErrors().get(0).getField());
+        assertEquals("bedomning", res.getValidationErrors().get(0).getCategory());
+        assertEquals("prognos.dagarTillArbete", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -864,7 +885,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("atgarder.arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
+        assertEquals("atgarder", res.getValidationErrors().get(0).getCategory());
+        assertEquals("arbetslivsinriktadeAtgarder", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1050,7 +1072,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("grundformu.annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
         assertEquals("lisjp.validation.blanksteg.otillatet", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
@@ -1103,7 +1126,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1115,7 +1139,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postadress", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1127,8 +1152,9 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
     @Test
@@ -1139,8 +1165,9 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
     @Test
@@ -1151,7 +1178,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postnummer", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
     }
 
@@ -1163,7 +1191,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1175,7 +1204,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.postort", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1187,7 +1217,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1199,7 +1230,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("vardenhet.grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
+        assertEquals("vardenhet", res.getValidationErrors().get(0).getCategory());
+        assertEquals("grunddata.skapadAv.vardenhet.telefonnummer", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -1233,7 +1265,7 @@ public class InternalDraftValidatorTest {
         skapadAv.setFullstandigtNamn("Torsten Ericsson");
 
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

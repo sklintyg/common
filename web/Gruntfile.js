@@ -29,6 +29,10 @@ module.exports = function(grunt) {
     var cwd = process.cwd();
     process.chdir(npmDir);
 
+    var autoprefixer = require('autoprefixer')({
+        browsers: [ 'last 2 versions' ]
+    });
+
     require('time-grunt')(grunt);
     require('jit-grunt')(grunt, {
         bower: 'grunt-bower-task',
@@ -162,7 +166,7 @@ module.exports = function(grunt) {
                 }
             },
 
-            // Inject component scss into inera-webcert.scss
+            // Inject component scss into wc-common.scss
             webcert: {
                 options: {
                     transform: function(filePath) {
@@ -215,12 +219,19 @@ module.exports = function(grunt) {
             options: {
                 map: false,
                 processors: [
-                    require('autoprefixer')({browsers: ['last 2 versions', 'ie 9']}), // add vendor prefixes
-                    require('cssnano')() // minify the result
+                    autoprefixer, // add vendor prefixes
+                    require('cssnano')({
+                        zindex: false,
+                        reduceIdents: false
+                        //discardComments: { removeAllButFirst: true }
+                    }) // minify the result
                 ]
             },
-            dist: {
+            minaintyg: {
                 src: '<%= config.destRoot %>/minaintyg/*.css'
+            },
+            webcert: {
+                src: '<%= config.destRoot %>/webcert/*.css'
             }
         },
 
@@ -285,7 +296,8 @@ module.exports = function(grunt) {
         }
 
     });
-
+    grunt.log.subhead('======================= Autoprefixer settings =====================');
+    grunt.log.ok(autoprefixer.info());
     grunt.registerTask('default', [ 'ngtemplates', 'concat', 'ngAnnotate', 'uglify', 'injector', 'sass', 'postcss' ]);
     grunt.registerTask('lint-minaintyg', [ 'jshint:minaintyg' ]);
     grunt.registerTask('lint-webcert', [ 'jshint:webcert' ]);

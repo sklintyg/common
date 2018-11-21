@@ -18,18 +18,15 @@
  */
 package se.inera.intyg.common.lisjp.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.lisjp.rest.LisjpModuleApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7804";
     public static final String MODULE_ID = "lisjp";
     public static final String MODULE_NAME = "Läkarintyg för sjukpenning";
     public static final String MODULE_DESCRIPTION = "Läkarintyg för sjukpenning";
@@ -54,13 +51,13 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     }
 
     @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "lisjp-features.properties");
+    public ModuleApi getModuleApi() {
+        return moduleApi;
     }
 
     @Override
@@ -98,5 +95,4 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
             return null;
         }
     }
-
 }

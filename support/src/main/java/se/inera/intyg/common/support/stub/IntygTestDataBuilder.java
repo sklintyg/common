@@ -18,15 +18,10 @@
  */
 package se.inera.intyg.common.support.stub;
 
-import java.time.LocalDateTime;
-
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.time.LocalDateTime;
 
 public final class IntygTestDataBuilder {
 
@@ -68,8 +63,9 @@ public final class IntygTestDataBuilder {
     }
 
     private static Patient getPatient() {
+        Personnummer personnummer = Personnummer.createPersonnummer("19270310-4321").get();
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer("19270310-4321"));
+        patient.setPersonId(personnummer);
         return patient;
     }
 

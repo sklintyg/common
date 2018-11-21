@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import se.inera.intyg.schemas.contract.InvalidPersonNummerException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
@@ -38,21 +38,21 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
     /**
      * Controls if a civic registration number is a 'samordningsnummer' or not.
-     * @param personNummer the civic registration number
+     * @param personnummer the civic registration number
      * @return true if the civic registration number is a 'samordningsnummer', otherwise false
      */
-    public static boolean isSamordningsNummer(Personnummer personNummer) {
+    public static boolean isSamordningsNummer(Optional<Personnummer> personnummer) {
 
-        // In order to determine if a personnummer is a samordningsnummer, we need to have a normalized yyyyMMdd-NNNN
+        // In order to determine if a personnummer is a samordningsnummer, we need to have a normalized yyyyMMddNNNN
         // number. If we cannot parse the encapsulated string, it certainly isn't a personnummer.
-        try {
-            String normalizedPersonnummer = personNummer.getNormalizedPnr();
+        if (personnummer.isPresent()) {
+            String normalizedPersonnummer = personnummer.get().getPersonnummer();
             char dateDigit = normalizedPersonnummer.charAt(SAMORDNING_MONTH_INDEX);
             return Character.getNumericValue(dateDigit) >= SAMORDNING_MONTH_VALUE_MIN;
-        } catch (InvalidPersonNummerException e) {
-            // An invalid personnummer cannot be a samordningsnummer.
-            return false;
         }
+
+        // An invalid personnummer cannot be a samordningsnummer.
+        return false;
     }
 
     /**
@@ -70,17 +70,18 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
     // CHECKSTYLE:OFF MagicNumber
     @Override
     protected LocalDate getBirthDay(String birthDate) {
-        String personNummer = birthDate;
+        String pnr = birthDate;
+
         // In case we got a birthDate YYMMdd or YYYYMMdd we normalize it before checking if it is a samordningsnummer.
-        if (personNummer != null && (personNummer.trim().length() == 6 || personNummer.trim().length() == 8) && isNumeric(personNummer)) {
-            personNummer = personNummer + "-0000";
+        if (pnr != null && (pnr.trim().length() == 6 || pnr.trim().length() == 8) && isNumeric(pnr)) {
+            pnr = pnr + "-0000";
         }
 
-        if (!isSamordningsNummer(new Personnummer(personNummer))) {
-            throw new IllegalArgumentException("personNummer " + personNummer + " is not a valid 'samordningsnummer");
+        if (!isSamordningsNummer(Personnummer.createPersonnummer(pnr))) {
+            throw new IllegalArgumentException("Personnummer " + pnr + " is not a valid 'samordningsnummer");
         }
 
-        StringBuilder sb = new StringBuilder(personNummer);
+        StringBuilder sb = new StringBuilder(pnr);
         String substractedWith6 = String.valueOf((char) (sb.charAt(6) - 6));
         sb.replace(6, 7, substractedWith6);
 

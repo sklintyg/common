@@ -30,7 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
@@ -76,8 +76,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -87,12 +87,14 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class TsParentModuleApiTest {
 
-    private static final String INTYG_ID = "test-id";
-    private static final String LOGICAL_ADDRESS = "logicalAddress";
+    private final String INTYG_ID = "test-id";
+    private final String LOGICAL_ADDRESS = "logicalAddress";
+
     private static ClassPathResource getCertificateFile;
     private static ClassPathResource revokeCertificateFile;
     private static Utlatande utlatande;
     private static String json;
+
     @SuppressWarnings("unchecked")
     @InjectMocks
     private TsParentModuleApi<Utlatande> moduleApi = mock(TsParentModuleApi.class, Mockito.CALLS_REAL_METHODS);
@@ -250,7 +252,7 @@ public class TsParentModuleApiTest {
         patient.setMellannamn("updated middle-name");
         patient.setFornamn("updated firstName");
         patient.setFullstandigtNamn("updated full name");
-        patient.setPersonId(new Personnummer("19121212-1212"));
+        patient.setPersonId(Personnummer.createPersonnummer("19121212-1212").get());
         patient.setPostadress("updated postal address");
         patient.setPostnummer("1111111");
         patient.setPostort("updated post city");

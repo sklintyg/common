@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 angular.module('common').factory('common.DiagnosProxy',
     function($http, $log) {
         'use strict';
@@ -11,16 +29,16 @@ angular.module('common').factory('common.DiagnosProxy',
             $http.post(restPath, {
                 codeSystem: codeSystem,
                 codeFragment: code.toUpperCase()
-            }).success(function(response) {
-                if (response && response.resultat === 'OK') {
-                    onSuccess(response);
+            }).then(function(response) {
+                if (response && response.data.resultat === 'OK') {
+                    onSuccess(response.data);
                 }
                 else {
-                    onError(response);
+                    onError(response.data);
                 }
-            }).error(function(response, status) {
-                $log.error('error ' + status);
-                onError(response);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
             });
         }
 

@@ -50,7 +50,7 @@ public class TransportToInternalTest {
         assertEquals("Testgatan 1", res.getGrundData().getPatient().getPostadress());
         assertEquals("111 11", res.getGrundData().getPatient().getPostnummer());
         assertEquals("Teststaden", res.getGrundData().getPatient().getPostort());
-        assertEquals("19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals("19270310-4321", res.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
         assertEquals(LocalDateTime.of(2015, 12, 7, 15, 48, 5), res.getGrundData().getSigneringsdatum());
         assertEquals("Karl Karlsson", res.getGrundData().getSkapadAv().getFullstandigtNamn());
         assertEquals("SE2321000016-6G5R", res.getGrundData().getSkapadAv().getPersonId());

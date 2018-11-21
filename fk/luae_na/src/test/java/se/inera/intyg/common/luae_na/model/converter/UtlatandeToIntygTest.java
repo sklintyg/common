@@ -18,25 +18,23 @@
  */
 package se.inera.intyg.common.luae_na.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.Arrays;
-
 import org.junit.Test;
-
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
+
 public class UtlatandeToIntygTest {
+
+    private final String PNR_TOLVAN = "191212121212";
 
     @Test
     public void testConvert() throws Exception {
@@ -44,8 +42,8 @@ public class UtlatandeToIntygTest {
         final String textVersion = "textversion";
         final String enhetsId = "enhetsid";
         final String enhetsnamn = "enhetsnamn";
-        final String patientPersonId = "pid";
-        final String skapadAvFullstandigtNamn = "fullstÃ¤ndigt namn";
+        final String patientPersonId = PNR_TOLVAN;
+        final String skapadAvFullstandigtNamn = "fullstandigt namn";
         final String skapadAvPersonId = "skapad av pid";
         final LocalDateTime signeringsdatum = LocalDateTime.now();
         final String arbetsplatsKod = "arbetsplatsKod";
@@ -136,7 +134,7 @@ public class UtlatandeToIntygTest {
     }
 
     private LuaenaUtlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
-        return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", "patientPersonId",
+        return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
                 "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
@@ -147,11 +145,18 @@ public class UtlatandeToIntygTest {
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
             String patientPostort, RelationKod relationKod, String relationIntygsId) {
+
         LuaenaUtlatande.Builder template = LuaenaUtlatande.builder();
         template.setId(intygsId);
         template.setTextVersion(textVersion);
+
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();
+
+        Vardgivare vardgivare = new Vardgivare();
+        vardgivare.setVardgivarid(vardgivarid);
+        vardgivare.setVardgivarnamn(vardgivarNamn);
+
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid(enhetsId);
         vardenhet.setEnhetsnamn(enhetsnamn);
@@ -161,17 +166,18 @@ public class UtlatandeToIntygTest {
         vardenhet.setPostort(postOrt);
         vardenhet.setEpost(epost);
         vardenhet.setTelefonnummer(telefonNummer);
-        Vardgivare vardgivare = new Vardgivare();
-        vardgivare.setVardgivarid(vardgivarid);
-        vardgivare.setVardgivarnamn(vardgivarNamn);
         vardenhet.setVardgivare(vardgivare);
+
         skapadAv.setVardenhet(vardenhet);
         skapadAv.setFullstandigtNamn(skapadAvFullstandigtNamn);
         skapadAv.setPersonId(skapadAvPersonId);
         skapadAv.setForskrivarKod(forskrivarKod);
+
         grundData.setSkapadAv(skapadAv);
+
+        Personnummer personId = Personnummer.createPersonnummer(patientPersonId).get();
+
         Patient patient = new Patient();
-        Personnummer personId = new Personnummer(patientPersonId);
         patient.setPersonId(personId);
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
@@ -179,6 +185,7 @@ public class UtlatandeToIntygTest {
         patient.setPostadress(patientPostadress);
         patient.setPostnummer(patientPostnummer);
         patient.setPostort(patientPostort);
+
         grundData.setPatient(patient);
         grundData.setSigneringsdatum(signeringsdatum);
         if (relationKod != null) {
@@ -187,6 +194,7 @@ public class UtlatandeToIntygTest {
             relation.setRelationKod(relationKod);
             grundData.setRelation(relation);
         }
+
         template.setGrundData(grundData);
         return template.build();
     }

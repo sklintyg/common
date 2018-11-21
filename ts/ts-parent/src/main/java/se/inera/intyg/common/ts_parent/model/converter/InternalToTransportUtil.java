@@ -79,9 +79,11 @@ public final class InternalToTransportUtil {
         patient.setEfternamn(source.getEfternamn());
         patient.setFornamn(source.getFornamn());
         patient.setFullstandigtNamn(Joiner.on(' ').skipNulls().join(source.getFornamn(), source.getMellannamn(), source.getEfternamn()));
-        patient.setPersonId(buildII(SamordningsnummerValidator.isSamordningsNummer(source.getPersonId()) ? Constants.SAMORDNING_ID_OID
+        patient.setPersonId(buildII(SamordningsnummerValidator.isSamordningsNummer(
+                Optional.of(source.getPersonId()))
+                ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID,
-                source.getPersonId().getPersonnummer()));
+                source.getPersonId().getPersonnummerWithDash()));
         patient.setPostadress(source.getPostadress());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostort(source.getPostort());

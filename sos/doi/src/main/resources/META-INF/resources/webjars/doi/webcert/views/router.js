@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2017 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('doi').config(function($stateProvider) {
     'use strict';
 
@@ -25,57 +24,64 @@ angular.module('doi').config(function($stateProvider) {
     $stateProvider.
         state('doi-edit', {
             data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
-            url : '/doi/edit/:certificateId/',
+            url : '/doi/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
                     controller: 'smi.EditCertCtrl',
                     resolve: {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory'
+                        UtkastConfigFactory: 'doi.UtkastConfigFactory',
+                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
-
-                'wcHeader@doi-edit' : {
-                    templateUrl: commonPath + 'gui/headers/wcHeader.partial.html',
-                    controller: 'common.wcHeaderController'
+    
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
-
+    
                 'header@doi-edit' : {
-                    templateUrl: commonPath + 'utkast/utkast-header/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader',
+                    resolve: {
+                        ViewState: 'doi.EditCertCtrl.ViewStateService'
+                    }
                 },
-
+    
                 'footer@doi-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-
-                'formly@doi-edit' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastFormly.html',
-                    controller: 'smi.EditCert.FormlyCtrl',
+    
+                'utkast@doi-edit' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl',
                     resolve: {
                         ViewState: 'doi.EditCertCtrl.ViewStateService',
-                        FormFactory: 'doi.FormFactory'
+                        UtkastConfigFactory: 'doi.UtkastConfigFactory'
                     }
                 }
             }
         }).
-        state('webcert.intyg.fk.doi', {
+        state('webcert.intyg.doi', {
             data: { defaultActive : 'index', intygType: 'doi' },
             url:'/intyg/doi/:certificateId/',
             views: {
-                'intyg@webcert.intyg.fk' : {
+                'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'doi.IntygController.ViewStateService',
-                        ViewConfigFactory: 'doi.viewConfigFactory'
+                        ViewConfigFactory: 'doi.viewConfigFactory',
+                        supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
                     }
                 },
-                'header@webcert.intyg.fk.doi' : {
-                    templateUrl: commonPath + 'intyg/intyg-header/intyg-header.html',
-                    controller: 'common.IntygHeader'
+                'header@webcert.intyg.doi' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader',
+                    resolve: {
+                        IntygViewState: 'doi.IntygController.ViewStateService'
+                    }
                 }
             }
         });

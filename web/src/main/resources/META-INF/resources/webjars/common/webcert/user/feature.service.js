@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,26 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.featureService',
     [ 'common.UserModel', function(UserModel) {
         'use strict';
 
-        function _isFeatureActive(feature, intygstyp) {
-            if (!feature) {
+        function _isFeatureActive(featureName, intygstyp) {
+            if (!featureName) {
                 return false;
             }
 
             var activeFeatures = UserModel.getActiveFeatures();
-            if (!activeFeatures || !activeFeatures.length) {
+
+            if (!activeFeatures) {
                 return false;
             }
 
-            if (activeFeatures.indexOf(feature) === -1) {
+            var feature = activeFeatures[featureName];
+
+            if (feature === undefined || !feature.global)  {
                 return false;
             }
 
-            if (intygstyp && activeFeatures.indexOf(feature + '.' + intygstyp) === -1) {
+            if (intygstyp && feature.intygstyper && feature.intygstyper.indexOf(intygstyp) === -1) {
                 return false;
             }
 
@@ -44,22 +46,23 @@ angular.module('common').factory('common.featureService',
 
         return {
             features: {
-                HANTERA_FRAGOR: 'hanteraFragor',
-                HANTERA_INTYGSUTKAST: 'hanteraIntygsutkast',
-                HANTERA_INTYGSUTKAST_AVLIDEN: 'hanteraIntygsutkastAvliden',
-                FORNYA_INTYG: 'fornyaIntyg',
-                MAKULERA_INTYG: 'makuleraIntyg',
-                MAKULERA_INTYG_KRAVER_ANLEDNING: 'makuleraIntygKraverAnledning',
-                SKAPA_NYFRAGA: 'skapaNyFraga',
-                SKICKA_INTYG: 'skickaIntyg',
-                SIGNERA_SKICKA_DIREKT: 'signeraSkickaDirekt',
-                UTSKRIFT: 'utskrift',
-                ARBETSGIVARUTSKRIFT: 'arbetsgivarUtskrift',
-                JS_LOGGNING: 'jsLoggning',
-                JS_MINIFIED: 'jsMinified',
-                UNIKT_INTYG: 'uniktIntyg',
-                UNIKT_INTYG_INOM_VG: 'uniktIntygInomVg',
-                SRS: 'srs'
+                HANTERA_FRAGOR: 'HANTERA_FRAGOR',
+                HANTERA_INTYGSUTKAST: 'HANTERA_INTYGSUTKAST',
+                HANTERA_INTYGSUTKAST_AVLIDEN: 'HANTERA_INTYGSUTKAST_AVLIDEN',
+                FORNYA_INTYG: 'FORNYA_INTYG',
+                MAKULERA_INTYG: 'MAKULERA_INTYG',
+                MAKULERA_INTYG_KRAVER_ANLEDNING: 'MAKULERA_INTYG_KRAVER_ANLEDNING',
+                SKAPA_NYFRAGA: 'SKAPA_NYFRAGA',
+                SKICKA_INTYG: 'SKICKA_INTYG',
+                SIGNERA_SKICKA_DIREKT: 'SIGNERA_SKICKA_DIREKT',
+                UTSKRIFT: 'UTSKRIFT',
+                ARBETSGIVARUTSKRIFT: 'ARBETSGIVARUTSKRIFT',
+                JS_LOGGNING: 'JS_LOGGNING',
+                JS_MINIFIED: 'JS_MINIFIED',
+                UNIKT_INTYG: 'UNIKT_INTYG',
+                UNIKT_INTYG_INOM_VG: 'UNIKT_INTYG_INOM_VG',
+                UNIKT_UTKAST_INOM_VG: 'UNIKT_UTKAST_INOM_VG',
+                SRS: 'SRS'
             },
             isFeatureActive: _isFeatureActive
         };

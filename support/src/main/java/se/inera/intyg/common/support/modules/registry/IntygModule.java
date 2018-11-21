@@ -28,6 +28,8 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String detailedDescription;
 
+    private String issuerTypeId;
+
     private String cssPath;
 
     private String scriptPath;
@@ -36,17 +38,22 @@ public class IntygModule implements Comparable<IntygModule> {
 
     private String defaultRecipient;
 
+    private boolean deprecated;
+
     // CHECKSTYLE:OFF ParameterNumber
-    public IntygModule(String id, String label, String description, String detailedDescription, String cssPath, String scriptPath,
-            String dependencyDefinitionPath, String defaultRecipient) {
+    public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
+            String scriptPath,
+            String dependencyDefinitionPath, String defaultRecipient, boolean deprecated) {
         this.id = id;
         this.label = label;
         this.description = description;
         this.detailedDescription = detailedDescription;
+        this.issuerTypeId = issuerTypeId;
         this.cssPath = cssPath;
         this.scriptPath = scriptPath;
         this.dependencyDefinitionPath = dependencyDefinitionPath;
         this.defaultRecipient = defaultRecipient;
+        this.deprecated = deprecated;
     }
     // CHECKSTYLE:ON ParameterNumber
 
@@ -73,6 +80,11 @@ public class IntygModule implements Comparable<IntygModule> {
         this.detailedDescription = detailedDescription;
     }
 
+
+    public String getIssuerTypeId() {
+        return issuerTypeId;
+    }
+
     public String getCssPath() {
         return cssPath;
     }
@@ -87,6 +99,10 @@ public class IntygModule implements Comparable<IntygModule> {
 
     public String getDefaultRecipient() {
         return defaultRecipient;
+    }
+
+    public boolean isDeprecated() {
+        return deprecated;
     }
 
     @Override

@@ -54,6 +54,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v1.UtlatandeId;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
 import static se.inera.intyg.common.support.Constants.KV_HANDELSE_CODE_SYSTEM;
@@ -137,7 +138,8 @@ public class Fk7263InternalToNotification {
     private void decorateWithPatient(UtlatandeType utlatandeType, Fk7263Utlatande utlatandeSource) {
         PersonId personId = new PersonId();
         personId.setExtension(utlatandeSource.getGrundData().getPatient().getPersonId().getPersonnummer());
-        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(utlatandeSource.getGrundData().getPatient().getPersonId())
+        personId.setRoot(SamordningsnummerValidator.isSamordningsNummer(
+                Optional.of(utlatandeSource.getGrundData().getPatient().getPersonId()))
                 ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID);
         Patient patientType = new Patient();

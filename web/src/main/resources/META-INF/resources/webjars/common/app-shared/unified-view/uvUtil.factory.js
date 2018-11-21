@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 angular.module('common').factory('uvUtil', [
     '$parse', '$log', 'common.dynamicLabelService', 'common.messageService', 'common.ObjectHelper',
     function($parse, $log, dynamicLabelService, messageService, ObjectHelper) {
@@ -59,7 +77,7 @@ angular.module('common').factory('uvUtil', [
             return viewConfig;
         }
 
-        function _convertToWebcert(viewConfig, skipPatient) {
+        function _convertToWebcert(viewConfig, skipPatient, isDraft) {
             viewConfig.pop();
 
             if (!skipPatient) {
@@ -72,12 +90,14 @@ angular.module('common').factory('uvUtil', [
                     }]
                 });
             }
-
-            viewConfig.push({
-                type: 'uv-signed-by',
-                modelProp: 'grundData'
-            });
-
+            // As of WC 6.0, we show also drafts using uv-framework, and since drafts cant possibly be signed,
+            // skip this component in that case.
+            if(!isDraft) {
+                viewConfig.push({
+                    type: 'uv-signed-by',
+                    modelProp: 'grundData'
+                });
+            }
             viewConfig = _replaceType(viewConfig, 'uv-fraga', 'uv-wc-fraga');
 
             var propertiesToUpdate = {contentUrl: null};

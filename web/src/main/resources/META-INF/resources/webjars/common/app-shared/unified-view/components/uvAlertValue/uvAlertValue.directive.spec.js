@@ -21,6 +21,7 @@ describe('uvAlertValue Directive', function() {
     'use strict';
 
     var $scope;
+    var isolateScope;
     var element;
 
     beforeEach(angular.mock.module('htmlTemplates'));
@@ -39,11 +40,14 @@ describe('uvAlertValue Directive', function() {
             '<uv-alert-value config="configMock" view-data="viewDataMock"></uv-alert-value>'
         )($scope);
 
+        $scope.$digest();
+        isolateScope = element.isolateScope();
+
     }]));
 
     it('should display message by default', function() {
-        $scope.$digest();
-        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
+        $scope.configMock.showExpression = undefined;
+        expect(isolateScope.showMessage()).toBeTruthy();
     });
 
     it('should not display message if showexpression returns false', function() {
@@ -52,16 +56,16 @@ describe('uvAlertValue Directive', function() {
         $scope.$digest();
 
         expect(fakeExpression).toHaveBeenCalled();
-        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(0);
+        expect(isolateScope.showMessage()).toBeFalsy();
     });
 
-    it('should  display message if showexpression returns true', function() {
+    it('should display message if showexpression returns true', function() {
         var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
         $scope.configMock.showExpression = fakeExpression;
         $scope.$digest();
 
         expect(fakeExpression).toHaveBeenCalled();
-        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
+        expect(isolateScope.showMessage()).toBeTruthy();
     });
 
 });

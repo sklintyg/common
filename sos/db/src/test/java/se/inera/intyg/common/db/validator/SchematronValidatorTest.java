@@ -25,6 +25,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
+import java.util.stream.Collectors;
+
 import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertTrue;
 
@@ -35,7 +37,7 @@ public class SchematronValidatorTest {
     public void validXmlPassesTest() throws Exception {
         String inputXml = Resources.toString(getResource("db.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-        assertTrue(response.getValidationErrors().isEmpty());
+        assertTrue(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
     }
 
 }

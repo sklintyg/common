@@ -1,0 +1,17 @@
+<ue-validation-wrapper validations="validation.messagesByField[config.modelPropToWatch.toLowerCase()]" class="ue-del-fraga">
+  <wc-checkbox-wrapper>
+      <input type="checkbox"
+             ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
+             ng-model="vm.showComponents"
+             ng-change="updateValidation(form, model)"
+             ng-false-value="undefined">
+      <label ng-attr-for="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}">
+        <ue-label config="::config.label" model="::model"></ue-label>
+      </label>
+  </wc-checkbox-wrapper>
+
+    <div ng-if="vm.showComponents" class="fold-animation toggled-components-container">
+      <ue-render-components form="::form" config="::config.components" model="::model" />
+    </div>
+
+</ue-validation-wrapper>

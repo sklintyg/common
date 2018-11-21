@@ -25,9 +25,7 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 
-import java.util.Map;
 import java.util.Optional;
 
 public class DoiModuleEntryPoint implements ModuleEntryPoint {
@@ -35,6 +33,7 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     public static final String SCHEMATRON_FILE = "doi.sch";
     public static final String MODULE_ID = "doi";
     public static final String MODULE_NAME = "Dödsorsaksintyg";
+    public static final String ISSUER_TYPE_ID = "SoSB 76016";
 
     private static final String DEFAULT_RECIPIENT_ID = "SOS";
     private static final String MODULE_DESCRIPTION = "Dödsorsaksintyg";
@@ -80,6 +79,11 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     }
 
     @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
+    }
+
+    @Override
     public String getDefaultRecipient() {
         return DEFAULT_RECIPIENT_ID;
     }
@@ -87,11 +91,6 @@ public class DoiModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "doi-features.properties");
     }
 
     @Override

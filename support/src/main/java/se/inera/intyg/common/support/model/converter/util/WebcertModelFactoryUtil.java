@@ -68,7 +68,16 @@ public final class WebcertModelFactoryUtil {
         if (patient == null) {
             throw new ConverterException("Got null while trying to populateWithPatientInfo");
         }
+
         grundData.setPatient(patient);
+        // INTYG-5573, if adress is incomplete dont use it, to stay consistent how other parts of Webcert behave.
+        if (Strings.isNullOrEmpty(patient.getPostadress())
+                || Strings.isNullOrEmpty(patient.getPostnummer())
+                || Strings.isNullOrEmpty(patient.getPostort())) {
+            patient.setPostadress(null);
+            patient.setPostnummer(null);
+            patient.setPostort(null);
+        }
     }
 
     private static void populateWithMissingInfo(Vardenhet target, Vardenhet source) {
@@ -93,4 +102,10 @@ public final class WebcertModelFactoryUtil {
         }
     }
 
+    // Copied from IntygServiceImpl, INTYG-5380
+    private static boolean completeAddressProvided(Patient patient) {
+        return !Strings.isNullOrEmpty(patient.getPostadress())
+                && !Strings.isNullOrEmpty(patient.getPostort())
+                && !Strings.isNullOrEmpty(patient.getPostnummer());
+    }
 }

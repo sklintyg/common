@@ -18,39 +18,43 @@
  */
 package se.inera.intyg.common.ts_diabetes.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
+import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
+import se.inera.intygstjanster.ts.services.types.v1.II;
+import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
+import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
+import se.inera.intygstjanster.ts.services.v1.Status;
 
+import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBException;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBException;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.modules.support.api.*;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.ts_diabetes.utils.ScenarioFinder;
-import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
-import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
-import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
-import se.inera.intygstjanster.ts.services.types.v1.II;
-import se.inera.intygstjanster.ts.services.v1.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetTSDiabetesResponderImplTest {
 
-    private static final String LOGICAL_ADDRESS = "logicalAddress";
+    private final String LOGICAL_ADDRESS = "logicalAddress";
+    private final String PNR_FJORTON = "19141214-1414";
+    private final String PNR_TOLVAN = "19121212-1212";
 
     @Mock
     private ModuleContainerApi moduleContainer;
@@ -61,25 +65,27 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetes() throws Exception {
         final String intygId = "intygId";
-        final String personId = "personId";
         final String target = "target";
         final CertificateState state = CertificateState.RECEIVED;
         final LocalDateTime timestamp = LocalDateTime.now();
         final String additionalInfo = "additionalInfo";
+
         RegisterTSDiabetesType originalCertificate = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+        Personnummer pnr = createPnr(PNR_TOLVAN);
 
         CertificateHolder certificate = new CertificateHolder();
-        certificate.setCivicRegistrationNumber(new Personnummer(personId));
+        certificate.setCivicRegistrationNumber(pnr);
         certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder(target, state, timestamp)));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
         certificate.setAdditionalInfo(additionalInfo);
         certificate.setDeleted(false);
-        when(moduleContainer.getCertificate(intygId, new Personnummer(personId), false)).thenReturn(certificate);
+        when(moduleContainer.getCertificate(intygId, pnr, false)).thenReturn(certificate);
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
         request.setPersonId(new II());
-        request.getPersonId().setExtension(personId);
+        request.getPersonId().setExtension(PNR_TOLVAN);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -97,20 +103,22 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesDeleted() throws Exception {
         final String intygId = "intygId";
-        final String personId = "personId";
+
         RegisterTSDiabetesType originalCertificate = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+        Personnummer pnr = createPnr(PNR_TOLVAN);
 
         CertificateHolder certificate = new CertificateHolder();
-        certificate.setCivicRegistrationNumber(new Personnummer(personId));
+        certificate.setCivicRegistrationNumber(pnr);
         certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
         certificate.setDeleted(true);
-        when(moduleContainer.getCertificate(intygId, new Personnummer(personId), false)).thenReturn(certificate);
+        when(moduleContainer.getCertificate(intygId, pnr, false)).thenReturn(certificate);
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
         request.setPersonId(new II());
-        request.getPersonId().setExtension(personId);
+        request.getPersonId().setExtension(PNR_TOLVAN);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -122,6 +130,7 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesNoPersonId() throws Exception {
         final String intygId = "intygId";
+
         RegisterTSDiabetesType originalCertificate = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
         CertificateHolder certificate = new CertificateHolder();
@@ -131,6 +140,7 @@ public class GetTSDiabetesResponderImplTest {
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -151,16 +161,16 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesPersonIdMismatch() throws Exception {
         final String intygId = "intygId";
-        final String personId = "personId";
 
         CertificateHolder certificate = new CertificateHolder();
-        certificate.setCivicRegistrationNumber(new Personnummer("another personid"));
-        when(moduleContainer.getCertificate(intygId, new Personnummer(personId), false)).thenReturn(certificate);
+        certificate.setCivicRegistrationNumber(createPnr(PNR_FJORTON));
+        when(moduleContainer.getCertificate(intygId, createPnr(PNR_TOLVAN), false)).thenReturn(certificate);
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
         request.setPersonId(new II());
-        request.getPersonId().setExtension(personId);
+        request.getPersonId().setExtension(PNR_TOLVAN);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -172,12 +182,14 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesDeletedByCareGiver() throws Exception {
         final String intygId = "intygId";
+
         CertificateHolder certificate = new CertificateHolder();
         certificate.setDeletedByCareGiver(true);
         when(moduleContainer.getCertificate(intygId, null, false)).thenReturn(certificate);
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -189,26 +201,28 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesRevoked() throws Exception {
         final String intygId = "intygId";
-        final String personId = "personId";
         final String target = "target";
         final CertificateState state = CertificateState.RECEIVED;
         final LocalDateTime timestamp = LocalDateTime.now();
         final String additionalInfo = "additionalInfo";
+
         RegisterTSDiabetesType originalCertificate = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
+        Personnummer pnr = createPnr(PNR_TOLVAN);
 
         CertificateHolder certificate = new CertificateHolder();
-        certificate.setCivicRegistrationNumber(new Personnummer(personId));
+        certificate.setCivicRegistrationNumber(pnr);
         certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder(target, state, timestamp)));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
         certificate.setAdditionalInfo(additionalInfo);
         certificate.setDeleted(false);
         certificate.setRevoked(true);
-        when(moduleContainer.getCertificate(intygId, new Personnummer(personId), false)).thenReturn(certificate);
+        when(moduleContainer.getCertificate(intygId, pnr, false)).thenReturn(certificate);
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
         request.setPersonId(new II());
-        request.getPersonId().setExtension(personId);
+        request.getPersonId().setExtension(PNR_TOLVAN);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
@@ -228,16 +242,22 @@ public class GetTSDiabetesResponderImplTest {
     @Test
     public void testGetTSDiabetesInvalidCertificate() throws Exception {
         final String intygId = "intygId";
+
         when(moduleContainer.getCertificate(intygId, null, false)).thenThrow(new InvalidCertificateException(intygId, null));
 
         GetTSDiabetesType request = new GetTSDiabetesType();
         request.setIntygsId(intygId);
+
         GetTSDiabetesResponseType res = responder.getTSDiabetes(LOGICAL_ADDRESS, request);
 
         assertNotNull(res);
         assertEquals(ResultCodeType.ERROR, res.getResultat().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, res.getResultat().getErrorId());
         assertEquals("Unknown certificate ID: intygId", res.getResultat().getResultText());
+    }
+
+    private Personnummer createPnr(String pnr) {
+        return Personnummer.createPersonnummer(pnr).get();
     }
 
     private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {

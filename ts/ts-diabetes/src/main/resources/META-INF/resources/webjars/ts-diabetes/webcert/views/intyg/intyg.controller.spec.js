@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 describe('ts-diabetes.IntygController', function() {
     'use strict';
 
@@ -167,7 +166,7 @@ describe('ts-diabetes.IntygController', function() {
                 };
             };
         });
-    }));
+     }));
 
     var $scope, ctrl;
 
@@ -176,7 +175,12 @@ describe('ts-diabetes.IntygController', function() {
         $controller = _$controller_;
         $httpBackend = _$httpBackend_;
         $scope = $rootScope.$new();
-        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope });
+        var supportPanelMock = {
+            getConfig: function() {
+                return {};
+            }
+        };
+        ctrl = $controller('ts-diabetes.IntygController', { $scope: $scope, supportPanelConfigFactory: supportPanelMock });
 
         $scope.$digest();
     }]));

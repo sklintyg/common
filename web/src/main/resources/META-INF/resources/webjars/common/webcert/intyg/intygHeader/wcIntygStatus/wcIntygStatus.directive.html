@@ -1,0 +1,16 @@
+<span>
+
+  <!-- error from button interaction -->
+  <wc-alert-message id="intyg-inline-error"
+                    ng-show="intygViewState.common.inlineErrorMessageKey"
+                    alert-severity="danger"
+                    alert-message-id="{{intygViewState.common.inlineErrorMessageKey}}">
+  </wc-alert-message>
+
+  <span ng-show="!intygViewState.common.inlineErrorMessageKey">
+    <wc-intyg-status-slot id="intygstatus1" intygstatus="intygstatus1[0]"></wc-intyg-status-slot>
+    <wc-intyg-status-slot id="intygstatus2" intygstatus="intygstatus2[0]"></wc-intyg-status-slot>
+  </span>
+  <a id="showallstatusesLink" ng-click="openAllStatusesModal()"><span dynamic-label key="common.label.showallstatuses"></span></a>
+
+</span>

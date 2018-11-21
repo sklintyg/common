@@ -69,6 +69,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD_LAKARE_EJ_LEG_AT;
@@ -190,10 +191,8 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
 
     @Override
     public String generatePdfFilename(TsBasUtlatande utlatande) {
-        Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        Personnummer personIdDash = Personnummer.createValidatedPersonnummerWithDash(personId).orElse(personId);
-
-        final String personnummerString = personIdDash.getPersonnummer() != null ? personIdDash.getPersonnummer() : "NoPnr";
+        Personnummer personnummer = utlatande.getGrundData().getPatient().getPersonId();
+        String personnummerString = Optional.ofNullable(personnummer).isPresent() ? personnummer.getPersonnummerWithDash() : "NoPnr";
         return String.format("lakarintyg_transportstyrelsen_%s.pdf", personnummerString);
     }
 
@@ -277,7 +276,7 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
         INVANARE_ADRESS_FALT1.setField(fields, patient.getFullstandigtNamn());
         INVANARE_ADRESS_FALT2.setField(fields, patient.getPostadress());
         INVANARE_ADRESS_FALT3.setField(fields, patient.getPostnummer() + " " + patient.getPostort());
-        INVANARE_PERSONNUMMER.setField(fields, patient.getPersonId().getPersonnummerWithoutDash());
+        INVANARE_PERSONNUMMER.setField(fields, patient.getPersonId().getPersonnummer());
     }
 
     private void populateIntygAvser(IntygAvser intygAvser, AcroFields fields) throws IOException, DocumentException {

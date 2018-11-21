@@ -18,10 +18,22 @@
  */
 package se.inera.intyg.common.luae_na.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.when;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
+import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -30,27 +42,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-
-import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
-import se.inera.intyg.common.luae_na.model.internal.LuaenaUtlatande;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -117,9 +112,11 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("grundformu.baserasPa", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("grundformu.kannedomOmPatient", res.getValidationErrors().get(1).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(1).getCategory());
+        assertEquals("kannedomOmPatient", res.getValidationErrors().get(1).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
     }
 
@@ -133,7 +130,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu.kannedomOmPatient", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("kannedomOmPatient", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -208,7 +206,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("grundformu.baserasPa", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
         assertEquals("luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
@@ -225,7 +224,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu.annat", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("annatGrundForMUBeskrivning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -244,7 +244,8 @@ public class InternalDraftValidatorTest {
         // then
         assertEquals(1, res.getValidationErrors().size());
         assertEquals(0, res.getValidationWarnings().size());
-        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
         assertEquals(null, res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
@@ -265,7 +266,8 @@ public class InternalDraftValidatorTest {
         // then
         assertEquals(1, res.getValidationErrors().size());
         assertEquals(0, res.getValidationWarnings().size());
-        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
         assertEquals(null, res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
@@ -285,7 +287,8 @@ public class InternalDraftValidatorTest {
         // then
         assertEquals(1, res.getValidationErrors().size());
         assertEquals(0, res.getValidationWarnings().size());
-        assertEquals("grundformu.motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("motiveringTillInteBaseratPaUndersokning", res.getValidationErrors().get(0).getField());
         assertEquals(null, res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
@@ -299,7 +302,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu.underlagFinns", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("underlagFinns", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -312,7 +316,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("grundformu.underlag", res.getValidationErrors().get(0).getField());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("underlag", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -474,7 +479,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("medicinskaforutsattningarforarbete", res.getValidationErrors().get(0).getField());
+        assertEquals("medicinskaForutsattningarForArbete", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -500,7 +505,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("diagnos.diagnosgrund", res.getValidationErrors().get(0).getField());
+        assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
+        assertEquals("diagnosgrund", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -513,7 +519,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("diagnos.nyBedomningDiagnosgrund", res.getValidationErrors().get(0).getField());
+        assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
+        assertEquals("nyBedomningDiagnosgrund", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -527,7 +534,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("diagnos.diagnosForNyBedomning", res.getValidationErrors().get(0).getField());
+        assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
+        assertEquals("diagnosForNyBedomning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 
@@ -541,7 +549,8 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("diagnos.nyBedomningDiagnosgrund", res.getValidationErrors().get(0).getField());
+        assertEquals("diagnos", res.getValidationErrors().get(0).getCategory());
+        assertEquals("nyBedomningDiagnosgrund", res.getValidationErrors().get(0).getField());
         assertEquals("luae_na.validation.diagnosfornybedomning.incorrect_combination", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
     }
@@ -613,7 +622,7 @@ public class InternalDraftValidatorTest {
         skapadAv.setFullstandigtNamn(SKAPADAV_PERSON_NAMN);
 
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(PATIENT_PERSON_ID));
+        patient.setPersonId(Personnummer.createPersonnummer(PATIENT_PERSON_ID).get());
         patient.setPostadress("postadress");
         patient.setPostnummer("12345");
         patient.setPostort("postort");

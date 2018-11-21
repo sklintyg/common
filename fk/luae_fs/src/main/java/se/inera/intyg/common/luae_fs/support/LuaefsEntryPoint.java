@@ -18,18 +18,15 @@
  */
 package se.inera.intyg.common.luae_fs.support;
 
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.luae_fs.rest.LuaefsModuleApi;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
 
+    public static final String ISSUER_TYPE_ID = "FK 7802";
     public static final String MODULE_ID = "luae_fs";
     public static final String MODULE_NAME = "Läkarutlåtande för aktivitetsersättning vid förlängd skolgång";
     public static final String MODULE_DESCRIPTION = "Läkarutlåtande för aktivitetsersättning vid förlängd skolgång";
@@ -54,13 +51,13 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     }
 
     @Override
-    public ModuleApi getModuleApi() {
-        return moduleApi;
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "luae_fs-features.properties");
+    public ModuleApi getModuleApi() {
+        return moduleApi;
     }
 
     @Override

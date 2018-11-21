@@ -80,7 +80,7 @@
                 <ns3:cv>
                     <ns3:code>SJUKHUS</ns3:code>
                     <ns3:codeSystem>KV_DODSPLATS_BOENDE</ns3:codeSystem>
-                    <ns3:displayName>SJUKHUS</ns3:displayName>
+                    <ns3:displayName>Sjukhus</ns3:displayName>
                 </ns3:cv>
             </delsvar>
         </svar>
@@ -89,7 +89,7 @@
         </svar>
         <svar id="8">
             <delsvar id="8.1">terminal dödsorsak</delsvar>
-            <delsvar id="8.2">2017-01-01</delsvar>
+            <delsvar id="8.2">2016-12-31</delsvar>
             <delsvar id="8.3">
                 <ns3:cv>
                     <ns3:code>90734009</ns3:code>

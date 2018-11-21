@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.UserModel',[
     '$log', 'common.ObjectHelper',
     function($log, ObjectHelper) {
@@ -115,12 +114,15 @@ angular.module('common').factory('common.UserModel',[
                 VIDAREBEFORDRA_FRAGASVAR: 'VIDAREBEFORDRA_FRAGASVAR',
                 MAKULERA_INTYG: 'MAKULERA_INTYG',
                 FORNYA_INTYG: 'FORNYA_INTYG',
+                ERSATTA_INTYG: 'ERSATTA_INTYG',
                 BESVARA_KOMPLETTERINGSFRAGA: 'BESVARA_KOMPLETTERINGSFRAGA',
+                SVARA_MED_NYTT_INTYG: 'SVARA_MED_NYTT_INTYG',
                 FILTRERA_PA_LAKARE: 'FILTRERA_PA_LAKARE',
                 ATKOMST_ANDRA_ENHETER: 'ATKOMST_ANDRA_ENHETER',
                 HANTERA_PERSONUPPGIFTER: 'HANTERA_PERSONUPPGIFTER',
                 HANTERA_MAILSVAR: 'HANTERA_MAILSVAR',
-                NAVIGERING: 'NAVIGERING'
+                NAVIGERING: 'NAVIGERING',
+                HANTERA_SEKRETESSMARKERAD_PATIENT: 'HANTERA_SEKRETESSMARKERAD_PATIENT'
             },
 
             roles: {

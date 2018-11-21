@@ -31,6 +31,14 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSDATUM_SAKERT_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_BOENDE_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSPLATS_KOMMUN_JSON_ID;
+import static se.inera.intyg.common.sos_parent.support.RespConstants.IDENTITET_STYRKT_JSON_ID;
+
 public final class SosInternalDraftValidator {
 
     private static final Logger LOG = LoggerFactory.getLogger(SosInternalDraftValidator.class);
@@ -41,39 +49,47 @@ public final class SosInternalDraftValidator {
 
     public static void validateIdentitetStyrkt(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (Strings.nullToEmpty(utlatande.getIdentitetStyrkt()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "personuppgifter.identitetStyrkt", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "personuppgifter", IDENTITET_STYRKT_JSON_ID,
+                    ValidationMessageType.EMPTY);
         }
     }
 
     public static void validateDodsdatum(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (utlatande.getDodsdatumSakert() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatumSakert", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_SAKERT_JSON_ID,
+                    ValidationMessageType.EMPTY);
             return;
         }
 
         // R1 & R2
         if (utlatande.getDodsdatum() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY);
+            if (utlatande.getDodsdatumSakert()) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY);
+            } else {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY, "common.validation.ue-vaguedate.empty");
+            }
         } else if (utlatande.getDodsdatumSakert()) {
             if (!utlatande.getDodsdatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.INVALID_FORMAT);
             } else if (!utlatande.getDodsdatum().isBeforeNumDays(-1)) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.OTHER,
-                        "common.validation.date.today.or.earlier");
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
             }
         } else {
             if (!utlatande.getDodsdatum().isYearCorrectFormat()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY,
-                        "common.validation.date.year.not_selected");
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY, "common.validation.date.year.not_selected");
             } else if (!utlatande.getDodsdatum().isMonthCorrectFormat()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum", ValidationMessageType.EMPTY,
-                        "common.validation.date.month.not_selected");
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY, "common.validation.date.month.not_selected");
             } else if (!utlatande.getDodsdatum().isCorrectFormat()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.INVALID_FORMAT);
             } else if (utlatande.getDodsdatum().vagueDateInFuture()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsdatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
             }
         }
@@ -81,21 +97,25 @@ public final class SosInternalDraftValidator {
         // R3
         if (!utlatande.getDodsdatumSakert()) {
             if (utlatande.getAntraffatDodDatum() == null) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.EMPTY);
             } else if (!utlatande.getAntraffatDodDatum().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.INVALID_FORMAT);
             } else if (!utlatande.getAntraffatDodDatum().isBeforeNumDays(-1)) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date.today.or.earlier");
             } else if (!utlatande.getAntraffatDodDatum().isReasonable()) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.OTHER, "common.validation.date_out_of_range_no_future");
+            } else if (utlatande.getDodsdatum() != null && utlatande.getDodsdatum()
+                    .vagueDateAfterDate(utlatande.getAntraffatDodDatum().asLocalDate())) {
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
+                        ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.datum.innanDodsdatum");
             }
         } else {
             if (utlatande.getAntraffatDodDatum() != null) {
-                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.antraffatDodDatum",
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", ANTRAFFAT_DOD_DATUM_JSON_ID,
                         ValidationMessageType.INCORRECT_COMBINATION, prefix + ".validation.antraffatDod.dodsdatumSakert");
             }
         }
@@ -103,18 +123,20 @@ public final class SosInternalDraftValidator {
 
     public static void validateDodsplats(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (Strings.nullToEmpty(utlatande.getDodsplatsKommun()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsplatsKommun", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSPLATS_KOMMUN_JSON_ID,
+                    ValidationMessageType.EMPTY);
         }
 
         // R4
         if (utlatande.getDodsplatsBoende() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats.dodsplatsBoende", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSPLATS_BOENDE_JSON_ID,
+                    ValidationMessageType.EMPTY);
         }
     }
 
     public static void validateBarn(SosUtlatande utlatande, List<ValidationMessage> validationMessages, String prefix) {
         if (utlatande.getBarn() == null) {
-            ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit.barn", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID, ValidationMessageType.EMPTY);
         } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
                 && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()) {
             // R20
@@ -125,11 +147,11 @@ public final class SosInternalDraftValidator {
 
                 if (utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isAfter(
                         patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR, ChronoUnit.DAYS))) {
-                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit.barn",
+                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION);
                 } else if (!utlatande.getBarn() && utlatande.getDodsdatum().asLocalDate().isBefore(
                         patientBirthDate.plus(BARN_SOM_AVLIDIT_INOM_28_DAGAR + 1, ChronoUnit.DAYS))) {
-                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit.barn",
+                    ValidatorUtil.addValidationError(validationMessages, "barnSomAvlidit", BARN_JSON_ID,
                             ValidationMessageType.INCORRECT_COMBINATION);
                 }
 

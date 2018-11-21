@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * UtilsService
  * Provides basic utility methods for strings.
@@ -83,13 +82,18 @@ angular.module('common').factory('common.UtilsService', function() {
         return str.substr(0, position) + text + str.substr(position);
     }
 
+    function _endsWith(str, suffix) {
+        return _isValidString(str) && _isValidString(suffix) && str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
     return {
         extractNumericalFrageId: _extractNumericalFrageId,
         isValidString: _isValidString,
         isDefined: _isDefined,
         replaceAccentedCharacters: _replaceAccentedCharacters,
         replaceAll: _replaceAll,
-        insertAt: _insertAt
+        insertAt: _insertAt,
+        endsWith: _endsWith
     };
 
 });

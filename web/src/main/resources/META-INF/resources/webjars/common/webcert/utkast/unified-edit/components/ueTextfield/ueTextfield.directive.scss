@@ -1,0 +1,20 @@
+ue-textfield {
+  input.form-control {
+    height: 38px;
+    width: 100%;
+    border: 1px solid $wc-color-15;
+    border-radius: 4px;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+
+    &.input-full-width {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+  input.form-control:focus {
+    outline: none !important;
+    border: 1px solid $wc-color-21;
+    box-shadow: 2px 2px 4px 0 $black_12;
+  }
+
+}

@@ -80,20 +80,20 @@ describe('uvBooleanStatement Directive', function() {
         expect($(element).find('span').text()).toContain('Ja');
     });
 
-    it('should display "Nej" when value is false', function() {
+    it('should display "Ej angivet" when value is false', function() {
         $scope.viewDataMock.property1.isRelevant = false;
 
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Nej');
-        expect($(element).find('span').text()).toContain('Nej');
+        expect(element.isolateScope().getValue()).toEqual('Ej angivet');
+        expect($(element).find('span').text()).toContain('Ej angivet');
     });
 
-    it('should by default display "Nej" when value is undefined', function() {
+    it('should by default display "Ej angivet" when value is undefined', function() {
         $scope.viewDataMock.property1 = undefined;
 
         $scope.$digest();
-        expect(element.isolateScope().getValue()).toEqual('Nej');
-        expect($(element).find('span').text()).toContain('Nej');
+        expect(element.isolateScope().getValue()).toEqual('Ej angivet');
+        expect($(element).find('span').text()).toContain('Ej angivet');
     });
 
 });

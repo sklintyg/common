@@ -18,25 +18,14 @@
  */
 package se.inera.intyg.common.ts_bas.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -45,7 +34,25 @@ import se.inera.intyg.common.ts_bas.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_bas.validator.transport.TransportValidatorInstance;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasResponseType;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
+import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
+import se.inera.intygstjanster.ts.services.v1.TSBasIntyg;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.isNull;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RegisterTSBasResponderImplTest {
@@ -123,9 +130,9 @@ public class RegisterTSBasResponderImplTest {
     }
 
     @Test
-    public void testRegisterTSBasConvertException() throws Exception {
+    public void testRegisterTSBasConvertException() {
         TransportValidatorInstance validatorMock = mock(TransportValidatorInstance.class);
-        when(validatorMock.validate(any(TSBasIntyg.class))).thenReturn(new ArrayList<>());
+        when(validatorMock.validate(isNull())).thenReturn(new ArrayList<>());
         ReflectionTestUtils.setField(responder, "validator", validatorMock);
 
         RegisterTSBasResponseType res = responder.registerTSBas(LOGICAL_ADDRESS, new RegisterTSBasType());

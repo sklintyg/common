@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').factory('common.Domain.DraftModel',
     [ function(  ) {
         'use strict';
@@ -33,6 +32,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.patientResolved = undefined;
             this.sekretessmarkering = undefined;
             this.avliden = undefined;
+            this.created = undefined;
             if(contentModel){
                 this.content = contentModel;
             }
@@ -50,6 +50,7 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.patientResolved = data.patientResolved;
             this.sekretessmarkering = data.sekretessmarkering;
             this.avliden = data.avliden;
+            this.created = data.created;
             if(this.content){
                 this.content.update(data.content);
             }

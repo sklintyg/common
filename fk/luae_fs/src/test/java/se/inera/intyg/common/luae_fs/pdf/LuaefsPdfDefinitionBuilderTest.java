@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
@@ -85,8 +85,6 @@ public class LuaefsPdfDefinitionBuilderTest {
         intygList.add(objectMapper.readValue(new ClassPathResource("PdfGeneratorTest/overflow_utlatande.json").getFile(), LuaefsUtlatande.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luae_fs", "1.0");
-
-        when(entryPoint.getDefaultRecipient()).thenReturn("FKASSA");
     }
 
     @Test

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Common certificate management methods between certificate modules
  */
@@ -43,10 +42,12 @@ angular.module('common').factory('common.UtkastSignService',
              */
             function _signera(intygsTyp, version) {
                 var deferred = $q.defer();
-                if (_endsWith(UserModel.user.authenticationScheme, ':fake')) {
+                if (_endsWith(UserModel.user.authenticationScheme, ':fake') && UserModel.user.authenticationMethod === 'FAKE') {
                     _signeraServer(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else if (UserModel.user.authenticationMethod === 'NET_ID' || UserModel.user.authenticationMethod === 'SITHS') {
                     _signeraKlient(intygsTyp, $stateParams.certificateId, version, deferred);
+                } else if (UserModel.user.authenticationMethod === 'EFOS') {
+                    _signeraServerUsingNias(intygsTyp, $stateParams.certificateId, version, deferred);
                 } else {
                     _signeraServerUsingGrp(intygsTyp, $stateParams.certificateId, version, deferred);
                 }
@@ -64,6 +65,14 @@ angular.module('common').factory('common.UtkastSignService',
             function _signeraServerUsingGrp(intygsTyp, intygsId, version, deferred) {
                 var signModel = {};
                 _confirmSigneraMedBankID(signModel, intygsTyp, intygsId, version, deferred);
+            }
+
+            /**
+             * Init point for signering using NIAS (EFOS + NetiD Access Server)
+             */
+            function _signeraServerUsingNias(intygsTyp, intygsId, version, deferred) {
+                var signModel = {};
+                _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred);
             }
 
             /**
@@ -89,7 +98,7 @@ angular.module('common').factory('common.UtkastSignService',
 
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -123,7 +132,58 @@ angular.module('common').factory('common.UtkastSignService',
             }
 
 
-            // net id - telia och sits
+            // EFOS / NetiD Access Server
+            function _confirmSigneraMedNias(signModel, intygsTyp, intygsId, version, deferred) {
+
+                var templates = {
+                    'EFOS': '/app/views/signeraNiasDialog/signera.nias.dialog.html'
+                };
+
+                // Anropa server, starta signering med GRP
+                UtkastProxy.signeraUtkastWithNias(intygsId, intygsTyp, version, function(ticket) {
+
+                    // Resolve which modal template to use (BankID or Mobilt BankID differs somewhat)
+                    var templateUrl = templates[UserModel.authenticationMethod()];
+                    _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, _openNiasSigningModal(templateUrl));
+
+                }, function(error) {
+                    deferred.resolve({});
+                    _showSigneringsError(signModel, error, intygsTyp);
+                });
+            }
+
+            /**
+             * Opens a custom (almost) full-screen modal for NetiD Access Server signing. The biljettStatus() function
+             * in the internal controller is used for updating texts within the modal as GRP state changes are propagated
+             * to the GUI.
+             */
+            function _openNiasSigningModal(templateUrl) {
+
+                return $uibModal.open({
+                    templateUrl: templateUrl,
+                    backdrop: 'static',
+                    keyboard: false,
+                    windowClass: 'nias-signera-modal',
+                    controller: function($scope, $uibModalInstance, ticketStatus) {
+
+                        $scope.close = function() {
+                            $uibModalInstance.close();
+                        };
+
+                        $scope.biljettStatus = function() {
+                            return ticketStatus.status;
+                        };
+                    },
+                    resolve: {
+                        ticketStatus : function() {
+                            return ticketStatus;
+                        }
+                    }
+                });
+            }
+
+
+            // net id - telia och siths
             function _signeraKlient(intygsTyp, intygsId, version, deferred) {
                 var signModel = {
                     signingWithSITHSInProgress : true
@@ -138,20 +198,20 @@ angular.module('common').factory('common.UtkastSignService',
                             } else if (ticket.status === 'BEARBETAR') {
                                 _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, undefined);
                             } else {
-                                _handleFailedSignAttempt(signModel, ticket, deferred);
+                                _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                             }
 
                         }, function(error) {
                             deferred.resolve({newVersion : ticket.version});
-                            _showSigneringsError(signModel, error);
+                            _showSigneringsError(signModel, error, intygsTyp);
                         });
                     }, function(error) {
                         deferred.resolve({newVersion : ticket.version});
-                        _showSigneringsError(signModel, error);
+                        _showSigneringsError(signModel, error, intygsTyp);
                     });
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -168,11 +228,11 @@ angular.module('common').factory('common.UtkastSignService',
                         _handleBearbetar(signModel, intygsTyp, intygsId, ticket, deferred, undefined);
 
                     } else {
-                        _handleFailedSignAttempt(signModel, ticket, deferred);
+                        _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                     }
                 }, function(error) {
                     deferred.resolve({});
-                    _showSigneringsError(signModel, error);
+                    _showSigneringsError(signModel, error, intygsTyp);
                 });
             }
 
@@ -184,7 +244,7 @@ angular.module('common').factory('common.UtkastSignService',
                 // declare poll function
                 function getSigneringsstatus() {
                     UtkastProxy.getSigneringsstatus(ticket.id, intygsTyp, function(ticket) {
-                        
+
                         // Update the global ticketStatus
                         ticketStatus.status = ticket.status;
 
@@ -203,6 +263,7 @@ angular.module('common').factory('common.UtkastSignService',
                                 if (dialogHandle) {
                                     dialogHandle.close();
                                 }
+                                deferred.reject();
                             } else {
                                 signModel._timer = $timeout(getSigneringsstatus, 1000);
                             }
@@ -212,7 +273,7 @@ angular.module('common').factory('common.UtkastSignService',
                             if (dialogHandle) {
                                 dialogHandle.close();
                             }
-                            _handleFailedSignAttempt(signModel, ticket, deferred);
+                            _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp);
                         }
                     }, function(error) {
                         if (dialogHandle) {
@@ -250,10 +311,10 @@ angular.module('common').factory('common.UtkastSignService',
                 });
             }
 
-            function _handleFailedSignAttempt(signModel, ticket, deferred) {
+            function _handleFailedSignAttempt(signModel, ticket, deferred, intygsTyp) {
                 deferred.resolve({newVersion : ticket.version});
                 $timeout.cancel(signModel._timer);
-                _showSigneringsError(signModel, {errorCode: 'SIGNERROR'});
+                _showSigneringsError(signModel, {errorCode: 'SIGNERROR'}, intygsTyp);
             }
 
             function _showIntygAfterSignering(signModel, intygsTyp, intygsId) {
@@ -264,16 +325,18 @@ angular.module('common').factory('common.UtkastSignService',
                 statService.refreshStat();
             }
 
-            function _setErrorMessageId(error) {
+            function _setErrorMessageId(error, intygsTyp) {
                 var messageId = '';
 
                 var errorTable = {
-                    'DATA_NOT_FOUND':          'common.error.certificatenotfound',
-                    'INVALID_STATE':           'common.error.certificateinvalidstate',
-                    'SIGN_NETID_ERROR':        'common.error.sign.netid',
-                    'CONCURRENT_MODIFICATION': 'common.error.sign.concurrent_modification',
-                    'AUTHORIZATION_PROBLEM':   'common.error.sign.authorization',
-                    'INDETERMINATE_IDENTITY':  'common.error.sign.indeterminate.identity'
+                    'PU_PROBLEM':                 'common.error.pu_problem',
+                    'DATA_NOT_FOUND':             'common.error.certificatenotfound',
+                    'INVALID_STATE':              'common.error.certificateinvalidstate',
+                    'SIGN_NETID_ERROR':           'common.error.sign.netid',
+                    'CONCURRENT_MODIFICATION':    'common.error.sign.concurrent_modification',
+                    'AUTHORIZATION_PROBLEM':      'common.error.sign.authorization',
+                    'INDETERMINATE_IDENTITY':     'common.error.sign.indeterminate.identity',
+                    'INVALID_STATE_INTYG_EXISTS': intygsTyp + '.error.sign.intyg_of_type_exists'
                 };
 
                 if (error === undefined) {
@@ -293,8 +356,7 @@ angular.module('common').factory('common.UtkastSignService',
                     } else {
                         messageId = 'common.error.sign.general';
                     }
-                }
-                else {
+                } else {
                     if (error === '') {
                         messageId = 'common.error.cantconnect';
                     } else {
@@ -304,8 +366,8 @@ angular.module('common').factory('common.UtkastSignService',
                 return messageId;
             }
 
-            function _showSigneringsError(signModel, error) {
-                var sithssignerrormessageid = _setErrorMessageId(error);
+            function _showSigneringsError(signModel, error, intygsTyp) {
+                var sithssignerrormessageid = _setErrorMessageId(error, intygsTyp);
 
                 var errorMessage;
                 var variables = null;
@@ -314,7 +376,11 @@ angular.module('common').factory('common.UtkastSignService',
                     variables = {name: error.message};
                 }
                 errorMessage = messageService.getProperty(sithssignerrormessageid, variables, sithssignerrormessageid);
-                dialogService.showErrorMessageDialog(errorMessage);
+                if (error.errorCode === 'PU_PROBLEM') {
+                    dialogService.showMessageDialog('common.error.pu_problem.title', errorMessage);
+                } else {
+                    dialogService.showErrorMessageDialog(errorMessage);
+                }
                 signModel.signingWithSITHSInProgress = false;
             }
 

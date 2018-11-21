@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('fk7263').controller('fk7263.ViewCertCtrl',
     [ '$log', '$rootScope', '$stateParams', '$scope', '$state',
         'common.IntygProxy', 'common.UserModel', 'fk7263.IntygController.ViewStateService', 'fk7263.viewConfigFactory',
+        'supportPanelConfigFactory',
         function($log, $rootScope, $stateParams, $scope, $state,
-            IntygProxy, UserModel, ViewState, viewConfigFactory) {
+            IntygProxy, UserModel, ViewState, viewConfigFactory, supportPanelConfigFactory) {
             'use strict';
 
             ViewState.reset();
@@ -33,6 +33,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
             $scope.cert = undefined;
 
             $scope.uvConfig = viewConfigFactory.getViewConfig(true);
+            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true);
 
             // Check if the user used the special qa-link to get here.
             $scope.isQaOnly = UserModel.isUthopp();
@@ -40,7 +41,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
             $scope.gotoRelatedIntyg = function(intyg) {
                 if (intyg.status === 'SIGNED') {
-                    $state.go('webcert.intyg.fk.fk7263', {certificateId: intyg.intygsId});
+                    $state.go('webcert.intyg.fk7263', {certificateId: intyg.intygsId});
                 }
                 else {
                     $state.go('fk7263-edit', {certificateId: intyg.intygsId});
@@ -64,9 +65,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
-
-                        $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
                         $scope.cert = result.contents;
                         $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
@@ -74,6 +73,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
 
                     } else {
                         $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
 
                         if ($stateParams.signed) {
                             ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
@@ -84,6 +84,7 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                     $scope.intygBackup.showBackupInfo = false;
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                     $scope.intygBackup.showBackupInfo = true;

@@ -1,0 +1,11 @@
+<div class="ue-del-fraga">
+  <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
+  <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
+         ng-model="modelGetterSetter"
+         ng-model-options="{ getterSetter: true }"
+         ng-blur="updateValidation()"
+         ng-disabled="::config.disabled"
+         ue-decimal-ts-syn="2"
+         maxlength="4">
+  </ue-validation-wrapper>
+</div>

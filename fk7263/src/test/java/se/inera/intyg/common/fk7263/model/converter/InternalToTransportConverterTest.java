@@ -18,33 +18,14 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-
-import org.custommonkey.xmlunit.Diff;
-import org.custommonkey.xmlunit.Difference;
-import org.custommonkey.xmlunit.DifferenceConstants;
-import org.custommonkey.xmlunit.DifferenceListener;
-import org.custommonkey.xmlunit.ElementNameAndTextQualifier;
-import org.custommonkey.xmlunit.XMLUnit;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import org.custommonkey.xmlunit.*;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -52,14 +33,21 @@ import se.inera.intyg.common.fk7263.utils.ModelAssert;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.support.Constants;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+import java.io.IOException;
+import java.io.StringWriter;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author marced, andreaskaltenbach
@@ -244,11 +232,11 @@ public class InternalToTransportConverterTest {
 
     @Test
     public void testPersonnummerRoot() throws Exception {
-        final String personnummer = "19121212-1212";
+        final String pnr = "19121212-1212";
         Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(personnummer));
+        patient.setPersonId(createPnr(pnr));
         grundData.setPatient(patient);
         HoSPersonal skapadAv = new HoSPersonal();
         Vardenhet vardenhet = new Vardenhet();
@@ -258,16 +246,16 @@ public class InternalToTransportConverterTest {
         utlatande.setGrundData(grundData);
         RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
         assertEquals(Constants.PERSON_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
-        assertEquals(personnummer, res.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
     }
 
     @Test
     public void testSamordningRoot() throws Exception {
-        final String personnummer = "19800191-0002";
+        final String pnr = "19800191-0002";
         Fk7263Utlatande utlatande = new Fk7263Utlatande();
         GrundData grundData = new GrundData();
         Patient patient = new Patient();
-        patient.setPersonId(new Personnummer(personnummer));
+        patient.setPersonId(createPnr(pnr));
         grundData.setPatient(patient);
         HoSPersonal skapadAv = new HoSPersonal();
         Vardenhet vardenhet = new Vardenhet();
@@ -277,7 +265,11 @@ public class InternalToTransportConverterTest {
         utlatande.setGrundData(grundData);
         RegisterMedicalCertificateType res = InternalToTransport.getJaxbObject(utlatande);
         assertEquals(Constants.SAMORDNING_ID_OID, res.getLakarutlatande().getPatient().getPersonId().getRoot());
-        assertEquals(personnummer, res.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(pnr, res.getLakarutlatande().getPatient().getPersonId().getExtension());
+    }
+
+    private Personnummer createPnr(String civicRegistrationNumber) {
+        return Personnummer.createPersonnummer(civicRegistrationNumber).get();
     }
 
     private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {

@@ -18,24 +18,22 @@
  */
 package se.inera.intyg.common.db.support;
 
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import se.inera.intyg.common.db.rest.DbModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.feature.ModuleFeaturesFactory;
+
+import java.util.Optional;
 
 public class DbModuleEntryPoint implements ModuleEntryPoint {
 
     public static final String SCHEMATRON_FILE = "db.sch";
     public static final String MODULE_ID = "db";
     public static final String MODULE_NAME = "Dödsbevis";
+    public static final String ISSUER_TYPE_ID = "SoSB 76026";
 
     private static final String DEFAULT_RECIPIENT_ID = "SKV";
     private static final String MODULE_DESCRIPTION = "Dödsbevis";
@@ -74,9 +72,15 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
         }
         return null;
     }
+
     @Override
     public String getExternalId() {
         return MODULE_ID.toUpperCase();
+    }
+
+    @Override
+    public String getIssuerTypeId() {
+        return ISSUER_TYPE_ID;
     }
 
     @Override
@@ -87,11 +91,6 @@ public class DbModuleEntryPoint implements ModuleEntryPoint {
     @Override
     public ModuleApi getModuleApi() {
         return moduleApi;
-    }
-
-    @Override
-    public Map<String, Boolean> getModuleFeatures() {
-        return ModuleFeaturesFactory.getFeatures(MODULE_ID, "db-features.properties");
     }
 
     @Override

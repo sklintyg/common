@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'FormFactory', 'common.PrefilledUserDataService',
+        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
         function($scope, $state,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, formFactory, prefilledUserDataService) {
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService, supportPanelConfigFactory) {
             'use strict';
 
             /**********************************************************************************
@@ -36,7 +35,7 @@ angular.module('common').controller('smi.EditCertCtrl',
             // Page states
             $scope.user = UserModel;
 
-            $scope.categoryNames = formFactory.getCategoryNames();
+            $scope.categoryIds = utkastConfigFactory.getCategoryIds();
 
             /**************************************************************************
              * Load certificate and setup form / Constructor ...
@@ -52,11 +51,14 @@ angular.module('common').controller('smi.EditCertCtrl',
                     $scope.certForm.$setDirty();
                 }
                 //Expose pdf download link
-                $scope.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+                viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
 
                 if($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
+
+                //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig(intygModel.id, false, false, viewState.common.intyg.isKomplettering);
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {

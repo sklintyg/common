@@ -1,0 +1,134 @@
+/*!
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+%value-card {
+  background-color: $wc-color-28;
+  padding: 8px 14px;
+  display: inline-block;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+uv-kategori {
+  h2 {
+    padding: $intyg-signed-card-header-padding;
+    background-color: $wc-color-00;
+    color: $wc-color-07;
+    border-radius: 4px 4px 0 0;
+    border-bottom: solid 1px $wc-color-15;
+  }
+
+  .kategori-body {
+    background: $uv-intyg-body-bg;
+    padding: $intyg-signed-card-body-padding;
+    box-shadow: none;
+    border-radius: 0 0 4px 4px;
+    h3 {
+      font-size: 16px;
+      font-weight: bold;
+      font-family: $font-0, $font-3;
+      padding: $intyg-signed-card-h3-padding;
+      color: $wc-color-08;
+      span {
+        padding-top: 5px;
+        display: inline-block;
+        &:empty {
+          display: none;
+        }
+      }
+    }
+
+  }
+
+  h4 {
+    color: $wc-color-09;
+    padding: 4px 0;
+  }
+
+  uv-wc-fraga .fraga-body {
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+
+fk-uv-boolean-value .value,
+fk7263-list,
+uv-kodverk-value,
+uv-boolean-value,
+uv-enum-value,
+uv-patient-grund,
+uv-list,
+uv-simple-value .value,
+uv-boolean-statement .value,
+uv-table uv-no-value {
+  @extend %value-card;
+
+  span.value,
+  ul {
+    padding: 0;
+  }
+
+  ul {
+    padding-left: 10px;
+  }
+}
+
+uv-patient-grund {
+  margin-top: 14px;
+}
+
+fk-uv-table,
+uv-table {
+  .table {
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 14px;
+    > thead > tr > th,
+    > thead > tr > td,
+    > tbody > tr > th,
+    > tbody > tr > td {
+      padding: 8px;
+      vertical-align: top;
+    }
+
+    &.table-striped tbody > tr:nth-child(odd) > th,
+    > thead > tr > th {
+      background-color: $wc-color-15;
+      color: $wc-color-19;
+    }
+
+    &.table-striped tbody > tr:nth-child(odd) > td,
+    > tbody > tr > td {
+      background-color: $wc-color-13;
+      border-top: 1px solid $wc-color-00;
+    }
+  }
+}
+
+uv-render-components {
+  h3, h4, h5, uv-no-value span {
+    .revoked-certificate & {
+      color: $wc-color-22;
+    }
+  }
+  > div:first-child uv-kategori {
+    padding-top: 0;
+  }
+}

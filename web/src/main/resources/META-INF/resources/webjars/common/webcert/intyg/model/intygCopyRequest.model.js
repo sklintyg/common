@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Created by BESA on 2015-02-09.
  */
@@ -34,6 +33,7 @@ angular.module('common').factory('common.IntygCopyRequestModel',
             this.intygId = data.intygId;
             this.intygType = data.intygType;
             this.patientPersonnummer = data.patientPersonnummer;
+            this.kommentar = data.kommentar;
             this.newIntygType = data.newIntygType || data.intygType;
         }
 

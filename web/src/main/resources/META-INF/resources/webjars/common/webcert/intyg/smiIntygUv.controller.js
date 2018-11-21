@@ -1,9 +1,27 @@
+/*
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 angular.module('common').controller('smi.ViewCertCtrlUv',
-    [ '$log', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
+    [ '$log', '$timeout', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
-        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
-        function($log, $rootScope, $stateParams, $scope, $state, IntygProxy,
-            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil) {
+        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil', 'supportPanelConfigFactory',
+        function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
+            UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil, supportPanelConfigFactory) {
             'use strict';
 
             ViewState.reset();
@@ -29,6 +47,8 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             function loadIntyg() {
                 $log.debug('Loading intyg ' + $stateParams.certificateId);
                 IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, function(result) {
+
+
                     ViewState.common.doneLoading = true;
                     if (result !== null && result !== '') {
                         ViewState.intygModel = result.contents;
@@ -45,16 +65,22 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                             ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
                         }
 
-                        ViewState.common.updateIntygProperties(result);
-
-                        $scope.pdfUrl = '/moduleapi/intyg/'+ ViewState.common.intygProperties.type +'/' + ViewState.intygModel.id + '/pdf';
+                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
                         $scope.cert = result.contents;
-                        $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
-                        $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
+
+                        //We now have all info needed to build support-panel config (id, isSigned, isSent, isKompletteringsUtkast)
+                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, true, ViewState.common.isSentIntyg(), false);
+
+                        //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
+                        $timeout(function() {
+                            $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
+                            $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
+                        });
 
                     } else {
                         $rootScope.$emit('ViewCertCtrl.load', null, null);
+                        $rootScope.$broadcast('intyg.loaded', null);
 
                         if ($stateParams.signed) {
                             ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
@@ -63,8 +89,10 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                         }
                     }
                     $scope.intygBackup.showBackupInfo = false;
+
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
+                    $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
                     $scope.intygBackup.showBackupInfo = true;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 Inera AB (http://www.inera.se)
+ * Copyright (C) 2018 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Utkast Notify Service Module - Functions related to
  * sending notifications of utkast to a doctor via mail.
@@ -32,7 +31,6 @@ angular.module('common').factory('common.UtkastNotifyService',
              * Performs an extra REST call to fetch the Utkast so we get hold of the enhets- and vardgivare names.
              */
             function _notifyUtkast(intygId, intygType, utkast, updateState) {
-
                 // Fetch DraftModel to get hold of enhetsNamn and vardgivareNamn
                 utkastProxy.getUtkast(intygId, intygType, function(draft) {
                         var utkastNotifyRequest = {
@@ -153,22 +151,28 @@ angular.module('common').factory('common.UtkastNotifyService',
                 // set
                 if (!draft.vidarebefordradContainer.vidarebefordrad && !_isSkipNotifyCookieSet()) {
                     _showNotifyPreferenceDialog('markforward',
-                        'Det verkar som att du har informerat den som ska signera utkastet. Vill du markera utkastet som vidarebefordrad?',
-                        function() { // yes
+                        '\tVill du markera utkastet som vidarebefordrat?',
+                        function(dontShowAgain) { // yes
                             $log.debug('yes');
                             draft.vidarebefordradContainer.vidarebefordrad = true;
                             if (onYesCallback) {
                                 // let calling scope handle yes answer
                                 onYesCallback(draft);
                             }
+                            if (dontShowAgain) {
+                                _setSkipNotifyCookie();
+                            }
                         },
-                        function() { // no
+                        function(dontShowAgain) { // no
                             $log.debug('no');
                             // Do nothing
                             onRejectCallback();
+                            if (dontShowAgain) {
+                                _setSkipNotifyCookie();
+                            }
                         },
                         function() {
-                            $log.debug('no and dont ask');
+                            $log.debug('dont ask again');
                             // How can user reset this?
                             _setSkipNotifyCookie();
                             onRejectCallback();
@@ -187,12 +191,15 @@ angular.module('common').factory('common.UtkastNotifyService',
                     $scope.title = title;
                     $scope.bodyText = bodyText;
                     $scope.noDontAskVisible = noDontAskCallback !== undefined;
-                    $scope.yes = function(result) {
-                        yesCallback();
-                        $uibModalInstance.close(result);
+                    $scope.model = {
+                        dontShowAgain: false
                     };
-                    $scope.no = function() {
-                        noCallback();
+                    $scope.yes = function(dontShowAgain) {
+                        yesCallback(dontShowAgain);
+                        $uibModalInstance.close(dontShowAgain);
+                    };
+                    $scope.no = function(dontShowAgain) {
+                        noCallback(dontShowAgain);
                         $uibModalInstance.close('cancel');
                     };
                     $scope.noDontAsk = function() {
@@ -247,7 +254,7 @@ angular.module('common').factory('common.UtkastNotifyService',
             }
 
             // Notifiering till journalsystem hanteras i backend
-            function _notifyJournalsystem(intygId, intygType, utkast, updateState, successCallback) {
+            function _notifyJournalsystem(intygId, intygType, utkast, updateState, successCallback, errorCallback) {
 
                 if (!updateState.intyg.isComplete) {
                     _showNotifyJournalsystemDialog('notifyjournalsystem',
@@ -259,10 +266,17 @@ angular.module('common').factory('common.UtkastNotifyService',
                                     successCallback();
                                 }, function() {
                                     $log.error('Send notification failed!');
+
+                                    if (angular.isFunction(errorCallback)) {
+                                        errorCallback();
+                                    }
                                 });
                         },
                         function() { // no
                             $log.debug('no');
+                            if (angular.isFunction(errorCallback)) {
+                                errorCallback();
+                            }
                         }
                     );
                 } else {
@@ -272,6 +286,10 @@ angular.module('common').factory('common.UtkastNotifyService',
                              successCallback();
                          }, function(err) {
                              $log.debug('Send notification failed!');
+
+                             if (angular.isFunction(errorCallback)) {
+                                 errorCallback();
+                             }
                          });
                 }
             }
@@ -279,7 +297,6 @@ angular.module('common').factory('common.UtkastNotifyService',
 
             function _showNotifyJournalsystemDialog(title, bodyText, yesCallback, noCallback,
                 callback) {
-
                 var DialogInstanceCtrl = function($scope, $uibModalInstance, title, bodyText, yesCallback, noCallback
                     ) {
                     $scope.title = title;

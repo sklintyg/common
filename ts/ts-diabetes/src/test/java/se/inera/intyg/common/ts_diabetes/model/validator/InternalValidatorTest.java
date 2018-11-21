@@ -93,7 +93,7 @@ public class InternalValidatorTest {
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
         assertEquals(5, validationResponse.getValidationErrors().size());
         int index = 0;
-        assertEquals("syn.provningUtanAnmarkning", validationResponse.getValidationErrors().get(index++).getField());
+        assertEquals("syn.synfaltsprovningUtanAnmarkning", validationResponse.getValidationErrors().get(index++).getField());
         assertEquals("syn.hoger.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
         assertEquals("syn.vanster.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
         assertEquals("syn.binokulart.utanKorrektion", validationResponse.getValidationErrors().get(index++).getField());
@@ -108,7 +108,7 @@ public class InternalValidatorTest {
         int index = 0;
         assertEquals("diabetes.observationsperiod", validationResponse.getValidationErrors().get(index++).getField());
         assertEquals("diabetes.diabetesTyp", validationResponse.getValidationErrors().get(index++).getField());
-        assertEquals("diabetes.behandling", validationResponse.getValidationErrors().get(index).getField());
+        assertEquals("diabetes.behandlingsTyp", validationResponse.getValidationErrors().get(index).getField());
     }
 
     /*
@@ -156,7 +156,7 @@ public class InternalValidatorTest {
         TsDiabetesUtlatande utlatande = ScenarioFinder.getInternalScenario("invalid-diabetes-insulinperiod").asInternalModel();
         ValidateDraftResponse validationResponse = validator.validateDraft(utlatande);
 
-        assertEquals("diabetes.insulin",
+        assertEquals("diabetes.insulinBehandlingsperiod",
                 getSingleElement(validationResponse.getValidationErrors()).getField());
     }
 
@@ -167,17 +167,17 @@ public class InternalValidatorTest {
 
         utlatande.getDiabetes().setInsulinBehandlingsperiod("1111");
         validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulin",
+        assertEquals("diabetes.insulinBehandlingsperiod",
                 getSingleElement(validationResponse.getValidationErrors()).getField());
 
         utlatande.getDiabetes().setInsulinBehandlingsperiod("");
         validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulin",
+        assertEquals("diabetes.insulinBehandlingsperiod",
                 getSingleElement(validationResponse.getValidationErrors()).getField());
 
         utlatande.getDiabetes().setInsulinBehandlingsperiod("aaaaaaaaaaaaaaa");
         validationResponse = validator.validateDraft(utlatande);
-        assertEquals("diabetes.insulin",
+        assertEquals("diabetes.insulinBehandlingsperiod",
                 getSingleElement(validationResponse.getValidationErrors()).getField());
 
     }

@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by marced on 2017-10-16.
@@ -248,14 +249,16 @@ public abstract class AbstractSoSPdfGenerator {
     }
 
     public String generatePdfFilename(Personnummer personnummer, String prefix) {
-        Personnummer personId = Personnummer.createValidatedPersonnummerWithDash(personnummer).orElse(personnummer);
-        String personnummerString = personId.getPersonnummer() != null ? personId.getPersonnummer() : "NoPnr";
-
+        String personnummerString = isValidPersonnummer(personnummer) ? personnummer.getPersonnummerWithDash() : "NoPnr";
         return String.format("%s_%s.pdf", prefix, personnummerString);
     }
 
     public byte[] getBytes() {
         return outputStream.toByteArray();
+    }
+
+    private boolean isValidPersonnummer(Personnummer personnummer) {
+        return Optional.ofNullable(personnummer).isPresent();
     }
 
 }
