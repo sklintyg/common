@@ -18,8 +18,8 @@
  */
 angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
     [ '$window', '$location', '$log', '$rootScope', '$state', '$stateParams', '$scope','fk7263.customizeViewstate', 'common.IntygListService',
-        'common.IntygService', 'common.dialogService', 'common.messageService',
-        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService, messageService) {
+        'common.IntygService', 'common.dialogService', 'common.messageService', '$cookies', '$http',
+        function($window, $location, $log, $rootScope, $state, $stateParams, $scope, customizeViewstate, listCertService, certificateService, dialogService, messageService, $cookies, $http) {
             'use strict';
 
             $scope.messageService = messageService;
@@ -118,6 +118,8 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
                 angular.forEach(fields, function(item) {
                     inputs += _addInput('selectedOptionalFields', item);
                 });
+
+                inputs += _addInput('_csrf', $cookies.get($http.defaults.xsrfCookieName));
 
                 //send request via temporary added form and remove from dom directly
                 $window.jQuery('<form action="' + $scope.downloadAsPdfLink + '" target="_blank" method="post">' + inputs + '</form>')
