@@ -7,13 +7,10 @@ uv-icf {
     margin: 0;
     color: $wc-color-09;
   }
-
+  
   .value {
-    background-color: #e9eaed;
-    padding: 8px 14px;
     display: inline-block;
-    border-radius: 4px;
-    margin-bottom: 15px;
-    width: 100%;
+    padding-top: 5px;
+    max-width: 100%;
   }
 }
