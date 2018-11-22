@@ -74,7 +74,7 @@ angular.module('common').constant('common.messages', {
         'certificates.events.sent': 'Skickat till {0}',
         'certificates.events.noevents': 'Inga händelser',
         'certificates.events.unknowndatetime': 'Okänd tid',
-        'certificates.events.eventsshown': '(Visar {0} av {1})',
+        'certificates.events.eventsshown': '(visar {0} av {1} händelser)',
         'certificates.events.ersatt': '<a data-ng-click="viewCert({type: \'{1}\', typeVersion: \'{2}\', id: \'{0}\'})">Ersattes av vården med ett nytt intyg</a>',
         'certificates.events.ersatter': '<a data-ng-click="viewCert({type: \'{1}\', typeVersion: \'{2}\', id: \'{0}\'})">Ersätter ett intyg som inte längre är aktuellt</a>',
         'certificates.events.ersatt.warn.header': 'OBS! Intyget har ersatts av vården med <a href="/web/start#/{1}/{2}/view/{0}">detta intyg</a>.',
