@@ -329,7 +329,7 @@
           <p:observationskod code="G40.9" codeSystem="{$id_icd-10}" codeSystemName="ICD-10"/>
           <xsl:if test="ns2:svar[@id='21']/ns2:delsvar[@id='21.1' and matches(normalize-space(.), '1|true')]">
             <p:beskrivning>
-              <xsl:value-of select="ns2:svar[@id='21']/ns2:delsvar[@id='21.1']"/>
+              <xsl:value-of select="ns2:svar[@id='21']/ns2:delsvar[@id='21.2']"/>
             </p:beskrivning>
           </xsl:if>
           <p:forekomst>
