@@ -88,11 +88,11 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             url: '/intyg/ts-diabetes/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'ts-diabetes.IntygController',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
-                        ViewConfigFactory: viewConfig,
                         ViewState: 'ts-diabetes.IntygController.ViewStateService',
+                        ViewConfigFactory: viewConfig,
                         supportPanelConfigFactory: supportPanelConfig
                     }
                 },

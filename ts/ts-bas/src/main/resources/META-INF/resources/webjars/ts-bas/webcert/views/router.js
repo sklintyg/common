@@ -84,8 +84,8 @@ angular.module('ts-bas').config(function($stateProvider) {
             url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'ts-bas.IntygController',
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv',
                     resolve: {
                         ViewState: 'ts-bas.IntygController.ViewStateService',
                         ViewConfigFactory: viewConfig,
