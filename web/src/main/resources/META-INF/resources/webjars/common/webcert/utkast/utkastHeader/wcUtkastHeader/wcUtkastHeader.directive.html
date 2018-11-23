@@ -5,7 +5,12 @@
 
       <!-- Status -->
       <div class="page-header-divider">
-        <div class="inline-block" wc-authority="NAVIGERING" intygstyp="" ng-if="::backState">
+        <div class="inline-block" wc-authority="NAVIGERING" intygstyp="" ng-if="::backState"
+             uib-popover="Tillbaka till föregående vy."
+             popover-popup-delay="300"
+             popover-append-to-body="true"
+             popover-placement="auto top"
+             popover-class="z-low">
           <a ng-click="back()"><i class="material-icons">arrow_back</i></a>
           <a id="tillbakaButton"
              ng-click="back()">Tillbaka</a>
