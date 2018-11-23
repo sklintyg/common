@@ -26,6 +26,17 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 public interface IntygTextsRepository {
 
     /**
+     * Lookup if the version and type of intyg is supported.
+     *
+     * @param intygsTyp
+     *              the type of intyg
+     * @param version
+     *              the version of the intyg, described in [major.minor]
+     * @return boolean if the specific intyg is supported
+     */
+    boolean isVersionSupported(String intygsTyp, String version);
+
+    /**
      * Returns the latest version for intyg of type <code>intygsType</code>.
      *
      * @param intygsTyp
