@@ -18,17 +18,18 @@
  */
 package se.inera.intyg.common.services.texts;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.primitives.Ints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
+import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
+@Component
 public class IntygTextsServiceImpl implements IntygTextsService {
 
     private static final Logger LOG = LoggerFactory.getLogger(IntygTextsService.class);
@@ -39,6 +40,17 @@ public class IntygTextsServiceImpl implements IntygTextsService {
     @Autowired
     @Qualifier("customObjectMapper")
     private CustomObjectMapper mapper;
+
+    @Override
+    public boolean isVersionSupported(final String intygsTyp, final String stringVersion) {
+        final Integer integerVersion = Ints.tryParse(stringVersion);
+
+        final String version = integerVersion != null
+                ? integerVersion.toString() + ".0"
+                : stringVersion;
+
+        return repo.isVersionSupported(intygsTyp, version);
+    }
 
     @Override
     public String getIntygTexts(String intygsTyp, String version) {

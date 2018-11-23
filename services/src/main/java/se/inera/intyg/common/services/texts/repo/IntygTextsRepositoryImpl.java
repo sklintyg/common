@@ -18,27 +18,10 @@
  */
 package se.inera.intyg.common.services.texts.repo;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.isNull;
 
-import javax.annotation.PostConstruct;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,13 +31,31 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import com.google.common.base.Strings;
-
+import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.function.Predicate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 @Repository
 public class IntygTextsRepositoryImpl implements IntygTextsRepository {
@@ -195,6 +196,11 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     }
 
     @Override
+    public boolean isVersionSupported(final String intygsTyp, final String version) {
+        return intygTexts.stream().anyMatch(isCorrectTypeAndVersionAndValid(intygsTyp, version));
+    }
+
+    @Override
     public String getLatestVersion(String intygsTyp) {
         IntygTexts res = intygTexts.stream()
                 .filter(s -> s.getIntygsTyp().equals(intygsTyp))
@@ -236,5 +242,14 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         }
         LOG.error("Tried to access texts for intyg of type {} and version {}, but this does not exist", intygsTyp, version);
         return null;
+    }
+
+    private Predicate<IntygTexts> isCorrectTypeAndVersionAndValid(final String typ, final String version) {
+        final ChronoLocalDate now = ChronoLocalDate.from(LocalDateTime.now());
+
+        return texter -> Objects.equals(typ, texter.getIntygsTyp())
+                && Objects.equals(version, texter.getVersion())
+                && !texter.getValidFrom().isAfter(now)
+                && (isNull(texter.getValidTo()) || !texter.getValidTo().isBefore(now));
     }
 }
