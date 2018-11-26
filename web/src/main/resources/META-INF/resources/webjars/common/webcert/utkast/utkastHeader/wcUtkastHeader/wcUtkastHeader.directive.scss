@@ -22,10 +22,20 @@ wc-utkast-header .wc-page-header {
 
   .page-heading1 {
     padding: 16px 0 0 0;
+    @extend %wc-typo-01;
+    color: $wc-color-06;
   }
 
   .page-heading2 {
     padding: 8px 0 4px 0;
+    @extend %wc-typo-04;
+    color: $wc-color-06;
+  }
+
+  #tillbakaButton {
+    @extend %wc-typo-09;
+    color: $wc-color-06;
+    margin-right: 38px;
   }
 
 }
