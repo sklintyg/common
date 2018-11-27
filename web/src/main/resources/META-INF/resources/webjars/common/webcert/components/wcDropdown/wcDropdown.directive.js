@@ -55,16 +55,35 @@ angular.module('common').directive('wcDropdown',
                         };
                     }
 
+                    function getScrollParent(element) {
+                        var style = getComputedStyle(element);
+                        if (style.position === 'fixed') {
+                            return document.body;
+                        }
+                        var overflowRegex = /(auto|scroll)/;
+
+                        while (element !== document.body) {
+                            style = getComputedStyle(element);
+                            if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
+                                return element;
+                            }
+                            element = element.parentElement;
+                        }
+                        return document.body;
+                    }
+
                     function openPlate() {
                         $window.document.addEventListener('click', onDocumentClick, true);
+                        var parentScroll = getScrollParent(element[0]);
 
                         $timeout(function() {
                             var rootElementOffset = offset(element);
                             var offsetDropdown = offset(plate);
-
                             var scrollTop = $document[0].documentElement.scrollTop || $document[0].body.scrollTop;
 
-                            if (rootElementOffset.top + rootElementOffset.height + offsetDropdown.height > scrollTop + $document[0].documentElement.clientHeight) {
+                            if (rootElementOffset.top + rootElementOffset.height + offsetDropdown.height > 
+                                scrollTop + $document[0].documentElement.clientHeight && 
+                                rootElementOffset.top - parentScroll.offsetTop > offsetDropdown.height) {
                                 plate[0].style.top = (offsetDropdown.height * -1) - 2 + 'px';
                             } else {
                                 plate[0].style.top = rootElementOffset.height + 2 + 'px';
