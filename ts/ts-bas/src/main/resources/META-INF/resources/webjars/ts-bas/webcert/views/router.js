@@ -23,7 +23,7 @@ angular.module('ts-bas').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/ts-bas/webcert/';
+    //var intygsTypPath = '/web/webjars/ts-bas/webcert/';
 
     var editViewState = function(factoryResolverHelper, $stateParams) {
         return factoryResolverHelper.resolve('ts-bas.UtkastController.ViewStateService', $stateParams);
