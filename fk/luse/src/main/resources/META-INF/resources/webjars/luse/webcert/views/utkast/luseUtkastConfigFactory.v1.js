@@ -161,7 +161,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                             modelProp: 'kannedomOmPatient'
 
                         }]),
-                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true, requiredProp: 'underlagFinns'}, [{
+                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', {required: true, requiredProp: 'underlagFinns'}, [{
                             type: 'ue-radio',
                             modelProp: 'underlagFinns',
                             paddingBottom: true
@@ -170,6 +170,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 type: 'ue-grid',
                                 hideExpression: '!model.underlagFinns',
                                 colSizes: [3,3,6],
+                                validationContext: {key: 'underlag', type: 'ue-underlag'},
                                 components: [
                                     // Row 1
                                     [{

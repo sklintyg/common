@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueGrid', [ 'ueUtil',
-    function(ueUtil) {
+angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState',
+    function(UtkastValidationViewState) {
     'use strict';
     return {
         restrict: 'E',
@@ -29,7 +29,7 @@ angular.module('common').directive('ueGrid', [ 'ueUtil',
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGrid/ueGrid.directive.html',
         link: function($scope) {
-
+            $scope.validation = UtkastValidationViewState;
             $scope.getColSize = function(row, $index) {
                 if ($scope.config.colSizes) {
                     return $scope.config.colSizes[$index];
@@ -37,6 +37,11 @@ angular.module('common').directive('ueGrid', [ 'ueUtil',
                     return 12 / row.length;
                 }
             };
+
+            if ($scope.config.validationContext) {
+                $scope.validationKeys = [];
+                $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
+            }
 
         }
     };
