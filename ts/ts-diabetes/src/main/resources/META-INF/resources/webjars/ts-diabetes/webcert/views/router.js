@@ -23,7 +23,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/ts-diabetes/webcert/';
+    //var intygsTypPath = '/web/webjars/ts-diabetes/webcert/';
 
     var editViewState = function(factoryResolverHelper, $stateParams) {
         return factoryResolverHelper.resolve('ts-diabetes.UtkastController.ViewStateService', $stateParams);
