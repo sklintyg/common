@@ -18,9 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.List;
+import java.util.function.Predicate;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 
 public class PatientDetailResolveOrder {
     private String predecessorType;
@@ -36,17 +41,28 @@ public class PatientDetailResolveOrder {
      * other ie name and sekretess-strategy (PU, PARAMS).
      */
     public static PatientDetailResolveOrder defaultOrder() {
-        return new PatientDetailResolveOrder(null, null,
-                Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS),
-                Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS));
+        return new PatientDetailResolveOrder(null, ImmutableList.of(),
+                ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS),
+                ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
 
     public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy,
                                      List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
+        checkNotNull(adressStrategy);
+        checkNotNull(avlidenStrategy);
+        checkNotNull(other);
+
+        // No predecessor --> can't use predecessor strategy.
+        Preconditions.checkArgument((!Strings.isNullOrEmpty(predecessorType)
+                        || ImmutableList.of(adressStrategy, avlidenStrategy, other).stream()
+                        .flatMap(List::stream)
+                        .noneMatch(Predicate.isEqual(ResolveOrder.PREDECESSOR))),
+                "Can't use predecessor strategy without predecessor.");
+
         this.predecessorType = predecessorType;
-        this.adressStrategy = adressStrategy;
-        this.avlidenStrategy = avlidenStrategy;
-        this.other = other;
+        this.adressStrategy = ImmutableList.copyOf(adressStrategy);
+        this.avlidenStrategy = ImmutableList.copyOf(avlidenStrategy);
+        this.other = ImmutableList.copyOf(other);
     }
 
     public String getPredecessorType() {
@@ -54,23 +70,14 @@ public class PatientDetailResolveOrder {
     }
 
     public List<ResolveOrder> getAdressStrategy() {
-        if (adressStrategy == null) {
-            adressStrategy = new ArrayList<>();
-        }
         return adressStrategy;
     }
 
     public List<ResolveOrder> getAvlidenStrategy() {
-        if (avlidenStrategy == null) {
-            avlidenStrategy = new ArrayList<>();
-        }
         return avlidenStrategy;
     }
 
     public List<ResolveOrder> getOtherStrategy() {
-        if (other == null) {
-            other = new ArrayList<>();
-        }
         return other;
     }
 

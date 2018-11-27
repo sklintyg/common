@@ -31,6 +31,7 @@ ext {
     unitilsCoreVersion = "3.3"
     xmlUnitVersion = "2.6.2"
     equalsVerifierVersion = "2.5.2"
+    assertjVersion = "3.6.2"
 }
 
 allprojects {
