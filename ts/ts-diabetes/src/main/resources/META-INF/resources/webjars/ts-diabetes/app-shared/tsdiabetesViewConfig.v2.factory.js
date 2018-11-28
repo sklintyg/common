@@ -78,7 +78,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v2', [
                             components: [{
                                 type: 'uv-kodverk-value',
                                 kvModelProps: ['diabetes.diabetestyp'],
-                                kvLabelKeys: ['ts-bas.label.diabetes.diabetestyp.{var}']
+                                kvLabelKeys: ['ts-diabetes.label.diabetes.diabetestyp.{var}']
                             }]
                         }]
                     },
