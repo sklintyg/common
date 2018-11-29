@@ -42,7 +42,7 @@ public class PatientDetailResolveOrder {
      */
     public static PatientDetailResolveOrder defaultOrder() {
         return new PatientDetailResolveOrder(null, ImmutableList.of(),
-                ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS),
+                ImmutableList.of(ResolveOrder.PARAMS_OR_PU),
                 ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
 
