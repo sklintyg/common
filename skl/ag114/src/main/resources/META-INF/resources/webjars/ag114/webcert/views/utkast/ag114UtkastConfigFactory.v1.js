@@ -117,7 +117,10 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             },
                             {
                                 type: 'ue-form-label',
-                                key: 'DFR_7.2.RBK'
+                                key: 'DFR_7.2.RBK',
+                                required: true,
+                                requiredMode: 'AND',
+                                requiredProp: ['sjukskrivningsperiod.from', 'sjukskrivningsperiod.tom']
                             },
                             {
                                 type: 'ue-grid',
@@ -127,9 +130,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                     // Row 1
                                     [{
                                         type: 'ue-form-label',
-                                        key: 'FROM',
-                                        required: true,
-                                        requiredProp: 'sjukskrivningsperiod.from'
+                                        key: 'FROM'
                                     },{
                                         type: 'ue-date',
                                         modelProp: 'sjukskrivningsperiod.from'
@@ -137,9 +138,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                     //dummy for spacing
                                     }, {
                                         type: 'ue-form-label',
-                                        key: 'TOM',
-                                        required: true,
-                                        requiredProp: 'sjukskrivningsperiod.tom'
+                                        key: 'TOM'
                                     },{
                                         type: 'ue-date',
                                         modelProp: 'sjukskrivningsperiod.tom'
