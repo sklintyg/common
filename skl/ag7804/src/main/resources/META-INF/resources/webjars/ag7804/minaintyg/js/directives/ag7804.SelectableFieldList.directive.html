@@ -300,26 +300,26 @@
   <!-- Kontakt med fk-->
   <selectable-category-wrapper category-label="KAT_9.RBK"
                                cert-model="cert"
-                               field-configs="[fieldConfig.kontaktMedFk, fieldConfig.anledningTillKontakt]"
+                               field-configs="[fieldConfig.kontaktMedAg, fieldConfig.anledningTillKontakt]"
                                summary="summary">
       <div selectable-field-wrapper
-           label-key="FRG_26.RBK"
-           sub-label-key="DFR_26.1.RBK"
+           label-key="FRG_103.RBK"
+           sub-label-key="DFR_103.1.RBK"
            cert-model="cert"
-           field-config="fieldConfig.kontaktMedFk"
+           field-config="fieldConfig.kontaktMedAg"
            summary="summary"
            show-deselected="showDeselected">
-         <span ng-show="cert.kontaktMedFk">
+         <span ng-show="cert.kontaktMedAg">
             <span id="kontaktFk-yes" dynamic-label key="ag7804.label.yes"></span>
           </span>
-      <span ng-show="!cert.kontaktMedFk">
+      <span ng-show="!cert.kontaktMedAg">
          <span id="kontaktFk-no" dynamic-label key="ag7804.label.no"></span>
       </span>
     </div>
 
     <div selectable-field-wrapper
-         label-key="FRG_26.RBK"
-         sub-label-key="DFR_26.2.RBK"
+         label-key="FRG_103.RBK"
+         sub-label-key="DFR_103.2.RBK"
          cert-model="cert"
          field-config="fieldConfig.anledningTillKontakt"
          summary="summary"

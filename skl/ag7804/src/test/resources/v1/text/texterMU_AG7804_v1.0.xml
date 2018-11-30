@@ -9,8 +9,8 @@ Ange även om det finns någon typ av aktivitet som patienten bör undvika på g
 <text id="DFR_17.1.RBK">Beskriv vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på.</text>
 <text id="DFR_19.1.RBK">Ange vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.</text>
 <text id="DFR_20.1.RBK">Ange vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.</text>
-<text id="DFR_26.1.RBK">Jag önskar att Försökringskassan kontaktar mig.</text>
-<text id="DFR_26.2.RBK">Ange gärna varför du vill ha kontakt.</text>
+<text id="DFR_103.1.RBK">Jag önskar att Försökringskassan kontaktar mig.</text>
+<text id="DFR_103.2.RBK">Ange gärna varför du vill ha kontakt.</text>
 <text id="DFR_33.2.RBK">Beskriv medicinska skäl till annan förläggning av arbetstiden</text>
 <text id="DFR_35.1.HLP">Ange observerade nedsättningar (direkt och indirekt), exempelvis
 - avvikelser i somatiskt och psykiskt status
@@ -31,8 +31,8 @@ Om intyget inte grundas på en personlig undersökning ska du förklara under "�
 <text id="FRG_19.RBK">Pågående medicinska behandlingar/åtgärder</text>
 <text id="FRG_20.RBK">Planerade medicinska behandlingar/åtgärder.</text>
 <text id="FRG_25.RBK">Övriga upplysningar</text>
-<text id="FRG_26.HLP">Försäkringskassans handläggare tar kontakt med dig när underlaget har kommit in och handläggningen kan påbörjas.</text>
-<text id="FRG_26.RBK">Kontakt med Försäkringskassan</text>
+<text id="FRG_103.HLP">Försäkringskassans handläggare tar kontakt med dig när underlaget har kommit in och handläggningen kan påbörjas.</text>
+<text id="FRG_103.RBK">Kontakt med Försäkringskassan</text>
 <text id="FRG_27.RBK">Avstängning enligt smittskyddslagen på grund av smitta. (Fortsätt till frågorna "Diagnos" och "Nedsättning av arbetsförmåga".)</text>
 <text id="FRG_28.HLP">Om du kryssar i flera val är det viktigt att du tydliggör under "Övriga upplysningar" om sjukskrivningens omfattning eller period skiljer sig åt mellan olika sysselsättningar.</text>
 <text id="FRG_28.RBK">I relation till vilken sysselsättning bedömer du arbetsförmågan?</text>

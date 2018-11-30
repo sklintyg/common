@@ -172,11 +172,8 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                         'ovrigt': undefined,
 
                         // Kategori 9 Kontakt
-                        'kontaktMedFk': new ModelAttr( 'kontaktMedFk', { defaultValue : false }),
-                        'anledningTillKontakt': undefined,
-
-                        // Kategori 9999 Tilläggsfrågor
-                        'tillaggsfragor': new ModelAttr( 'tillaggsfragor', { defaultValue : [] })
+                        'kontaktMedAg': new ModelAttr( 'kontaktMedAg', { defaultValue : false }),
+                        'anledningTillKontakt': undefined
                     });
                 },
                 update: function update(content, parent) {

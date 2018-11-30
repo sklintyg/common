@@ -62,7 +62,7 @@ describe('ag7804FormFactory', function() {
         'arbetsresor':true,'prognos':{'typ':'ATER_X_ANTAL_DGR','dagarTillArbete':'SEXTIO_DGR'},'arbetslivsinriktadeAtgarder':[{'typ':'ARBETSTRANING'},
             {'typ':'ARBETSANPASSNING'},{'typ':'BESOK_ARBETSPLATS'},{'typ':'ERGONOMISK'},{'typ':'HJALPMEDEL'},
             {'typ':'KONTAKT_FHV'},{'typ':'OMFORDELNING'},{'typ':'OVRIGA_ATGARDER'}],'arbetslivsinriktadeAtgarderBeskrivning':'Därför.',
-        'ovrigt':'Inga övriga upplysningar.','kontaktMedFk':true,'anledningTillKontakt':'Alltid roligt att prata med FK.','tillaggsfragor':[]};
+        'ovrigt':'Inga övriga upplysningar.','kontaktMedAg':true,'anledningTillKontakt':'Alltid roligt att prata med AG.','tillaggsfragor':[]};
 
     var utkastDataSmittskydd = {'grundData':grundData,'avstangningSmittskydd':true,'sysselsattning':[],'diagnoser':[{'diagnosKod':'D50',
         'diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Järnbristanemi'},{'diagnosKod':'G10','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Huntingtons sjukdom'},
@@ -70,7 +70,7 @@ describe('ag7804FormFactory', function() {
         'sjukskrivningar':[{'sjukskrivningsgrad':'HELT_NEDSATT','period':{'from':'2016-08-08','tom':'2016-08-22'}},{'sjukskrivningsgrad':'TRE_FJARDEDEL','period':
             {'from':'2016-08-23','tom':'2016-08-24'}},{'sjukskrivningsgrad':'HALFTEN','period':{'from':'2016-08-25','tom':'2016-08-27'}},{'sjukskrivningsgrad':
             'EN_FJARDEDEL','period':{'from':'2016-08-29','tom':'2016-11-26'}}],'prognos':{},'arbetslivsinriktadeAtgarder':[],'ovrigt':'Inga övriga upplysningar.',
-        'kontaktMedFk':false,'tillaggsfragor':[]};
+        'kontaktMedAg':false,'tillaggsfragor':[]};
 
     it('Should clear model values if avstangningSmittskydd is selected', function() {
 

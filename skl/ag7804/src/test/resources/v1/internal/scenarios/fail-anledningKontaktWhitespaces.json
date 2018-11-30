@@ -58,7 +58,7 @@
       "sjukskrivningsgrad": "TRE_FJARDEDEL"
     }
   ],
-  "kontaktMedFk" : true,
+  "kontaktMedAg" : true,
   "anledningTillKontakt" : " ",
   "aktivitetsbegransning": "Kommer inte in i bilen",
   "funktionsnedsattning": "Haltar när han dansar",

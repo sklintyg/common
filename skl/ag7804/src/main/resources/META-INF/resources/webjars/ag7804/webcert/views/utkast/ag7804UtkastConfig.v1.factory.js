@@ -340,21 +340,21 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[9], 'KAT_9.RBK', 'KAT_9.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                        fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
+                        fraga(103, 'FRG_103.RBK', 'FRG_103.HLP', { }, [{
                             type: 'ue-checkbox',
-                            modelProp: 'kontaktMedFk',
+                            modelProp: 'kontaktMedAg',
                             label: {
-                                key: 'DFR_26.1.RBK',
-                                helpKey: 'DFR_26.1.HLP'
+                                key: 'DFR_103.1.RBK',
+                                helpKey: 'DFR_103.1.HLP'
                             }
                         },{
                             type: 'ue-textarea',
                             modelProp: 'anledningTillKontakt',
-                            hideExpression: '!model.kontaktMedFk',
+                            hideExpression: '!model.kontaktMedAg',
                             label: {
                                 labelType: 'h5',
-                                key: 'DFR_26.2.RBK',
-                                helpKey: 'DFR_26.2.HLP'
+                                key: 'DFR_103.2.RBK',
+                                helpKey: 'DFR_103.2.HLP'
                             }
                         }])
                     ]),

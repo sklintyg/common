@@ -71,11 +71,11 @@ public final class RespConstants {
     public static final String OVRIGT_DELSVAR_ID_25 = "25.1";
     public static final String OVRIGT_SVAR_JSON_ID_25 = "ovrigt";
 
-    public static final String KONTAKT_ONSKAS_SVAR_ID_26 = "26";
-    public static final String KONTAKT_ONSKAS_DELSVAR_ID_26 = "26.1";
-    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_26 = "kontaktMedFk";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26 = "anledningTillKontakt";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26 = "26.2";
+    public static final String KONTAKT_ONSKAS_SVAR_ID_103 = "103";
+    public static final String KONTAKT_ONSKAS_DELSVAR_ID_103 = "103.1";
+    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_103 = "kontaktMedAg";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103 = "anledningTillKontakt";
+    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103 = "103.2";
 
     public static final String AVSTANGNING_SMITTSKYDD_SVAR_ID_27 = "27";
     public static final String AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27 = "27.1";

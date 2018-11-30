@@ -19,7 +19,7 @@
 package se.inera.intyg.common.ag7804.v1.validator;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_MOTIVERING_SVAR_JSON_ID_33;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
@@ -37,7 +37,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDS
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
@@ -526,10 +526,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
     }
 
     private void validateKontakt(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getKontaktMedFk() != null && !utlatande.getKontaktMedFk()
+        if (utlatande.getKontaktMedAg() != null && !utlatande.getKontaktMedAg()
                 && !Strings.nullToEmpty(utlatande.getAnledningTillKontakt()).trim().isEmpty()) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT,
-                    KONTAKT_ONSKAS_SVAR_JSON_ID_26,
+                    KONTAKT_ONSKAS_SVAR_JSON_ID_103,
                     ValidationMessageType.EMPTY, "ag7804.validation.kontakt.invalid_combination");
         }
     }
@@ -543,7 +543,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
         }
         if (se.inera.intyg.common.support.validate.ValidatorUtil.isBlankButNotNull(utlatande.getAnledningTillKontakt())) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_KONTAKT,
-                    ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26,
+                    ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103,
                     ValidationMessageType.EMPTY, "ag7804.validation.blanksteg.otillatet");
         }
         if (se.inera.intyg.common.support.validate.ValidatorUtil.isBlankButNotNull(utlatande.getAnnatGrundForMUBeskrivning())) {

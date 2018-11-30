@@ -45,7 +45,7 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
         'forsakringsmedicinsktBeslutsstod': {mandatory: false, selected: true, fields: ['forsakringsmedicinsktBeslutsstod'] },
         'arbetstidsforlaggningMotivering': { mandatory: false, selected: true, fields: ['arbetstidsforlaggningMotivering'], warn: true },
         'ovrigt': { mandatory: false, selected: true, fields: ['ovrigt']},
-        'kontaktMedFk': { mandatory: false, selected: true, fields: ['kontaktMedFk']},
+        'kontaktMedAg': { mandatory: false, selected: true, fields: ['kontaktMedAg']},
         'anledningTillKontakt': {mandatory: false, selected: true, fields: ['anledningTillKontakt']},
         'sysselsattningOptional': { id:'sysselsattningOptional', mandatory: false, selected: true,
             fields: [sysselsattningsTypResolver(['STUDIER','ARBETSSOKANDE', 'FORALDRALEDIG'])]

@@ -21,7 +21,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter;
 import static se.inera.intyg.common.ag7804.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
@@ -44,8 +44,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
@@ -197,12 +197,12 @@ public final class UtlatandeToIntyg {
 
         addIfNotBlank(svars, OVRIGT_SVAR_ID_25, OVRIGT_DELSVAR_ID_25, buildOvrigaUpplysningar(source));
 
-        if (source.getKontaktMedFk() != null) {
-            if (source.getKontaktMedFk() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
-                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
-                        .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
+        if (source.getKontaktMedAg() != null) {
+            if (source.getKontaktMedAg() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
+                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_103).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_103, source.getKontaktMedAg().toString())
+                        .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103, source.getAnledningTillKontakt()).build());
             } else {
-                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
+                svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_103).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_103, source.getKontaktMedAg().toString())
                         .build());
             }
         }

@@ -21,7 +21,7 @@ package se.inera.intyg.common.ag7804.v1.model.internal;
 // CHECKSTYLE:OFF LineLength
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_JSON_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSRESOR_SVAR_JSON_ID_34;
@@ -37,7 +37,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
@@ -203,11 +203,11 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
     public abstract String getOvrigt();
 
     // Kategori 9 - Kontakt
-    // Fråga 26.1
+    // Fråga 103.1
     @Nullable
-    public abstract Boolean getKontaktMedFk();
+    public abstract Boolean getKontaktMedAg();
 
-    // Fråga 26.2
+    // Fråga 103.2
     @Nullable
     public abstract String getAnledningTillKontakt();
 
@@ -318,10 +318,10 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
         @JsonProperty(OVRIGT_SVAR_JSON_ID_25)
         public abstract Builder setOvrigt(String ovrigt);
 
-        @JsonProperty(KONTAKT_ONSKAS_SVAR_JSON_ID_26)
-        public abstract Builder setKontaktMedFk(Boolean kontaktMedFk);
+        @JsonProperty(KONTAKT_ONSKAS_SVAR_JSON_ID_103)
+        public abstract Builder setKontaktMedAg(Boolean kontaktMedAg);
 
-        @JsonProperty(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26)
+        @JsonProperty(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_103)
         public abstract Builder setAnledningTillKontakt(String anledningTillKontakt);
 
         @JsonProperty(SIGNATURE)

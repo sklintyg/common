@@ -993,7 +993,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktNull() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setKontaktMedFk(null)
+                .setKontaktMedAg(null)
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1004,7 +1004,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktTrue() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setKontaktMedFk(true)
+                .setKontaktMedAg(true)
                 .setAnledningTillKontakt("anledningTillKontakt")
                 .build();
 
@@ -1016,7 +1016,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktTrueNoAnledning() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setKontaktMedFk(true)
+                .setKontaktMedAg(true)
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1027,7 +1027,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktFalse() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setKontaktMedFk(false)
+                .setKontaktMedAg(false)
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -1038,7 +1038,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktFalseAndAnledning() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setKontaktMedFk(false)
+                .setKontaktMedAg(false)
                 .setAnledningTillKontakt("anledningTillKontakt")
                 .build();
 

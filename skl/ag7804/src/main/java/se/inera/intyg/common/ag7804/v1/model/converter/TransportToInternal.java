@@ -20,7 +20,7 @@ package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_DELSVAR_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_BESKRIVNING_SVAR_ID_44;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSLIVSINRIKTADE_ATGARDER_SVAR_ID_40;
@@ -44,8 +44,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_26;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_26;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_103;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
@@ -161,7 +161,7 @@ public final class TransportToInternal {
             case OVRIGT_SVAR_ID_25:
                 handleOvrigt(utlatande, svar);
                 break;
-            case KONTAKT_ONSKAS_SVAR_ID_26:
+            case KONTAKT_ONSKAS_SVAR_ID_103:
                 handleOnskarKontakt(utlatande, svar);
                 break;
             }
@@ -417,10 +417,10 @@ public final class TransportToInternal {
     private static void handleOnskarKontakt(Ag7804UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-            case KONTAKT_ONSKAS_DELSVAR_ID_26:
-                utlatande.setKontaktMedFk(Boolean.valueOf(getStringContent(delsvar)));
+            case KONTAKT_ONSKAS_DELSVAR_ID_103:
+                utlatande.setKontaktMedAg(Boolean.valueOf(getStringContent(delsvar)));
                 break;
-            case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26:
+            case ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103:
                 utlatande.setAnledningTillKontakt(getStringContent(delsvar));
                 break;
             default:

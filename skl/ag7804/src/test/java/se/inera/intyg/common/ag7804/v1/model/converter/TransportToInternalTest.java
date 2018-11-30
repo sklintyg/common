@@ -60,7 +60,7 @@ public class TransportToInternalTest {
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
 //TODO: lägg till sjukskrivningar?
         utlatande.setOvrigt("Trevlig kille");
-        utlatande.setKontaktMedFk(true);
+        utlatande.setKontaktMedAg(true);
         utlatande.setAnledningTillKontakt("Känner mig ensam");
         return utlatande.build();
     }

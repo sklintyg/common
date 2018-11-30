@@ -278,16 +278,16 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
         components: [
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_26.RBK',
+                labelKey: 'FRG_103.RBK',
                 components: [
                     {
                         type: 'uv-boolean-statement',
-                        labelKey: 'DFR_26.1.RBK',
-                        modelProp: 'kontaktMedFk'
+                        labelKey: 'DFR_103.1.RBK',
+                        modelProp: 'kontaktMedAg'
                     },
                     {
                         type: 'uv-simple-value',
-                        labelKey: 'DFR_26.2.RBK',
+                        labelKey: 'DFR_103.2.RBK',
                         modelProp: 'anledningTillKontakt'
                     }
                 ]

@@ -329,9 +329,9 @@
     <svar id="25">
       <delsvar id="25.1">Inga &#xF6;vriga upplysningar.</delsvar>
     </svar>
-    <svar id="26">
-      <delsvar id="26.1">true</delsvar>
-      <delsvar id="26.2">Alltid roligt att prata med FK.</delsvar>
+    <svar id="103">
+      <delsvar id="103.1">true</delsvar>
+      <delsvar id="103.2">Alltid roligt att prata med FK.</delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>

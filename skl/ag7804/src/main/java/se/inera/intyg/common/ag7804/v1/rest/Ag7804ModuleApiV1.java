@@ -143,7 +143,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
             // Null out applicable fields
             Ag7804UtlatandeV1 renewCopy = internal.toBuilder()
-                    .setKontaktMedFk(false)
+                    .setKontaktMedAg(false)
                     .setAnledningTillKontakt(null)
                     .setUndersokningAvPatienten(null)
                     .setTelefonkontaktMedPatienten(null)

@@ -43,6 +43,6 @@
   "diagnoser":[],
   "sjukskrivningar":[],
   "arbetslivsinriktadeAtgarder":[],
-  "kontaktMedFk":false,
+  "kontaktMedAg":false,
   "typ":"ag7804"
 }
