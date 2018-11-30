@@ -20,6 +20,10 @@ package se.inera.intyg.common.agparent.model.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 
@@ -27,6 +31,15 @@ public abstract class AgParentModelCompareUtil {
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
+
+    public boolean diagnosesAreValid(ImmutableList<Diagnos> diagnoser) {
+        for (Diagnos newDiagnos : diagnoser) {
+            if (!diagnoseCodeValid(newDiagnos)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public boolean datesAreValid(InternalDate... dates) {
         for (InternalDate date : dates) {
@@ -39,6 +52,14 @@ public abstract class AgParentModelCompareUtil {
 
     private boolean isValid(InternalDate date) {
         return date == null || date.isValidDate();
+    }
+
+    private boolean diagnoseCodeValid(Diagnos diagnosKod) {
+        if (Strings.nullToEmpty(diagnosKod.getDiagnosKod()).trim().isEmpty()) {
+            return true;
+        } else {
+            return moduleService.validateDiagnosisCode(diagnosKod.getDiagnosKod(), diagnosKod.getDiagnosKodSystem());
+        }
     }
 
 }

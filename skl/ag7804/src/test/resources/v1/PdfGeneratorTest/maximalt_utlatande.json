@@ -1,0 +1,156 @@
+{
+  "id": "maximalt-intyg",
+  "grundData": {
+    "signeringsdatum": "2017-01-20T10:31:00.999",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [
+        "204010"
+      ],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "19121212-1212",
+      "samordningsNummer": false
+    },
+    "relation": {}
+  },
+  "textVersion": "1.0",
+  "avstangningSmittskydd": false,
+  "undersokningAvPatienten": "2017-01-20",
+  "telefonkontaktMedPatienten": "2017-01-20",
+  "journaluppgifter": "2017-01-20",
+  "annatGrundForMU": "2017-01-20",
+  "annatGrundForMUBeskrivning": "Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning Annat anledning",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    },
+    {
+      "typ": "FORALDRALEDIG"
+    },
+    {
+      "typ": "ARBETSSOKANDE"
+    },
+    {
+      "typ": "STUDIER"
+    }
+  ],
+  "nuvarandeArbete": "yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter yrke och arbetsuppgifter",
+  "diagnoser": [
+    {
+      "diagnosKod": "B01",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Vattkoppor",
+      "diagnosDisplayName": "Vattkoppor"
+    },
+    {
+      "diagnosKod": "B011",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Vattkoppsencefalit",
+      "diagnosDisplayName": "Vattkoppsencefalit"
+    },
+    {
+      "diagnosKod": "A011",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Paratyfoidfeber A",
+      "diagnosDisplayName": "Paratyfoidfeber A"
+    }
+  ],
+  "funktionsnedsattning": "undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer undersökningsfynd, testresultat och observationer",
+  "aktivitetsbegransning": "vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på. vad patienten inte kan göra på grund av sin sjukdom. Ange vad uppgiften grundas på.",
+  "pagaendeBehandling": "vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.",
+  "planeradBehandling": "vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet. vad syftet är och om möjligt tidplan samt ansvarig vårdenhet.",
+  "sjukskrivningar": [
+    {
+      "sjukskrivningsgrad": "HELT_NEDSATT",
+      "period": {
+        "from": "2017-07-23",
+        "tom": "2017-09-23"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "TRE_FJARDEDEL",
+      "period": {
+        "from": "2017-05-22",
+        "tom": "2017-07-22"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "HALFTEN",
+      "period": {
+        "from": "2017-03-21",
+        "tom": "2017-05-21"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "EN_FJARDEDEL",
+      "period": {
+        "from": "2017-01-20",
+        "tom": "2017-03-20"
+      }
+    }
+  ],
+  "forsakringsmedicinsktBeslutsstod": "Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att Patientens arbetsförmåga bedöms nedsatt längre tid än den som Socialstyrelsens försäkringsmedicinska beslutsstöd anger, därför att",
+  "arbetstidsforlaggning": true,
+  "arbetstidsforlaggningMotivering": "medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden medicinska skäl till annan förläggning av arbetstiden",
+  "arbetsresor": true,
+  "prognos": {
+    "typ": "ATER_X_ANTAL_DGR",
+    "dagarTillArbete": "TREHUNDRASEXTIOFEM_DAGAR"
+  },
+  "arbetslivsinriktadeAtgarder": [
+    {
+      "typ": "ARBETSTRANING"
+    },
+    {
+      "typ": "ARBETSANPASSNING"
+    },
+    {
+      "typ": "SOKA_NYTT_ARBETE"
+    },
+    {
+      "typ": "BESOK_ARBETSPLATS"
+    },
+    {
+      "typ": "ERGONOMISK"
+    },
+    {
+      "typ": "HJALPMEDEL"
+    },
+    {
+      "typ": "KONFLIKTHANTERING"
+    },
+    {
+      "typ": "KONTAKT_FHV"
+    },
+    {
+      "typ": "OMFORDELNING"
+    },
+    {
+      "typ": "OVRIGA_ATGARDER"
+    }
+  ],
+  "arbetslivsinriktadeAtgarderBeskrivning": "fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder. fler åtgärder.",
+  "ovrigt": "Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar Övriga upplysningar",
+  "kontaktMedFk": true,
+  "anledningTillKontakt": "varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt. varför du vill ha kontakt.",
+  "tillaggsfragor": [],
+  "typ": "ag7804"
+}

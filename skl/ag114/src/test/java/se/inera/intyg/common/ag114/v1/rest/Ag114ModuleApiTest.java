@@ -48,6 +48,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -135,6 +136,9 @@ public class Ag114ModuleApiTest {
 
     @Mock
     private RevokeCertificateResponderInterface revokeClient;
+
+    @Mock
+    private WebcertModuleService moduleService;
 
     @InjectMocks
     private Ag114ModuleApiV1 moduleApi;

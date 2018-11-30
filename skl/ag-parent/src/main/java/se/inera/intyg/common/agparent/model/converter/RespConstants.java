@@ -25,60 +25,17 @@ public final class RespConstants {
     public static final String ID_JSON_ID = "id";
     public static final String SIGNATURE = "signature";
 
+
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM = "KV_FKMU_0001";
     public static final String TYP_AV_SYSSELSATTNING_CODE_SYSTEM = "KV_FKMU_0002";
+    public static final String SJUKSKRIVNING_CODE_SYSTEM = "KV_FKMU_0003";
+    public static final String ARBETSLIVSINRIKTADE_ATGARDER_CODE_SYSTEM = "KV_FKMU_0004";
+    public static final String PROGNOS_CODE_SYSTEM = "KV_FKMU_0006";
+    public static final String PROGNOS_DAGAR_TILL_ARBETE_CODE_SYSTEM = "KV_FKMU_0007";
 
-    // Flytta ner till intyget sen!
-
-    public static final String TYP_AV_SYSSELSATTNING_SVAR_ID_1 = "1";
-    public static final String TYP_AV_SYSSELSATTNING_DELSVAR_ID_1 = "1.1";
-    public static final String TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1 = "sysselsattning";
-
-    public static final String NUVARANDE_ARBETE_SVAR_ID_2 = "2";
-    public static final String NUVARANDE_ARBETE_DELSVAR_ID_2 = "2.1";
-    public static final String NUVARANDE_ARBETE_SVAR_JSON_ID_2 = "nuvarandeArbete";
-
-    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3 = "3";
-    public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3 = "3.1";
-    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3 = "onskarFormedlaDiagnos";
-
-    public static final String TYP_AV_DIAGNOS_SVAR_ID_4 = "4";
-    public static final String TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4 = "4.1";
-    public static final String TYP_AV_DIAGNOS_DELSVAR_ID_4 = "4.2";
-    public static final String TYP_AV_DIAGNOS_SVAR_JSON_ID_4 = "diagnoser";
-
-    public static final String NEDSATT_ARBETSFORMAGA_SVAR_ID_5 = "5";
-    public static final String NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5 = "5.1";
-    public static final String NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5 = "nedsattArbetsformaga";
-
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6 = "6";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1 = "6.1";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2 = "6.2";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1 = "arbetsformagaTrotsSjukdom";
-    public static final String ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2 = "arbetsformagaTrotsSjukdomBeskrivning";
-
-    public static final String OVRIGT_SVAR_ID_8 = "8";
-    public static final String OVRIGT_DELSVAR_ID_8 = "8.1";
-    public static final String OVRIGT_SVAR_JSON_ID_8 = "ovrigaUpplysningar";
-
-    public static final String BEDOMNING_SVAR_ID_7 = "7";
-    public static final String SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1 = "7.1";
-    public static final String SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2 = "7.2";
-    public static final String SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1 = "sjukskrivningsgrad";
-    public static final String SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 = "sjukskrivningsperiod";
-
-    public static final String KONTAKT_ONSKAS_SVAR_ID_9 = "9";
-    public static final String KONTAKT_ONSKAS_DELSVAR_ID_9 = "9.1";
-    public static final String KONTAKT_ONSKAS_SVAR_JSON_ID_9 = "kontaktMedArbetsgivaren";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9 = "anledningTillKontakt";
-    public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9 = "9.2";
 
     private RespConstants() {
     }
 
-    public static String getJsonPropertyFromFrageId(String frageId) {
-        switch (frageId) {
-        default:
-            throw new IllegalArgumentException("The supplied value of frageId " + frageId + " is not supported.");
-        }
-    }
+
 }

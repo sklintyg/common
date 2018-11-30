@@ -157,11 +157,6 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     @Override
-    public String createRenewalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template) {
-        throw new UnsupportedOperationException("An AG-intyg is not supposed to be renewed.");
-    }
-
-    @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
         throw new UnsupportedOperationException("An AG-intyg is not supposed to be sent to any recipient.");
     }
@@ -313,6 +308,8 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     protected abstract Intyg utlatandeToIntyg(T utlatande) throws ConverterException;
 
+    protected abstract T decorateDiagnoserWithDescriptions(T utlatande);
+
     protected abstract T decorateWithSignature(T utlatande, String base64EncodedSignatureXml);
 
     protected T getInternal(String internalModel) throws ModuleException {
@@ -368,7 +365,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException {
         try {
-            T utlatande = getInternal(internalModel);
+            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
             return toInternalModelResponse(utlatande);
         } catch (ModuleException e) {

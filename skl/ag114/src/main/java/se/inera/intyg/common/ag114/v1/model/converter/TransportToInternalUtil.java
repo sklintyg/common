@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_DELSVAR_ID_4;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_DELSVAR_ID_4;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 import java.util.List;
 
-import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;

@@ -18,15 +18,15 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_DELSVAR_ID_4;
-import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_DELSVAR_ID_4;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 
 import java.util.List;
 
-import se.inera.intyg.common.ag114.v1.model.internal.Diagnos;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;

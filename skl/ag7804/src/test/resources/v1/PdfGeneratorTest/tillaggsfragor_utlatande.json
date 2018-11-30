@@ -1,0 +1,68 @@
+{
+  "id": "med-tillaggsfragor",
+  "grundData": {
+    "signeringsdatum": "2017-01-20T12:24:40.596",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [
+        "204010"
+      ],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "19121212-1212",
+      "samordningsNummer": false
+    },
+    "relation": {}
+  },
+  "textVersion": "1.0",
+  "avstangningSmittskydd": true,
+  "sysselsattning": [],
+  "diagnoser": [
+    {
+      "diagnosKod": "B01",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Vattkoppor",
+      "diagnosDisplayName": "Vattkoppor"
+    }
+  ],
+  "sjukskrivningar": [
+    {
+      "sjukskrivningsgrad": "TRE_FJARDEDEL",
+      "period": {
+        "from": "2017-01-20",
+        "tom": "2017-02-02"
+      }
+    }
+  ],
+  "prognos": {},
+  "arbetslivsinriktadeAtgarder": [],
+  "kontaktMedFk": false,
+  "tillaggsfragor": [
+    {
+      "id": "9001",
+      "svar": "Jodå en hel del"
+    },
+    {
+      "id": "9002",
+      "svar": "Kan ej svara vettigt på detta."
+    }
+  ],
+  "typ": "ag7804"
+}
