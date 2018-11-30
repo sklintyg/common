@@ -123,9 +123,6 @@
       "typ": "ARBETSANPASSNING"
     },
     {
-      "typ": "SOKA_NYTT_ARBETE"
-    },
-    {
       "typ": "BESOK_ARBETSPLATS"
     },
     {
@@ -133,9 +130,6 @@
     },
     {
       "typ": "HJALPMEDEL"
-    },
-    {
-      "typ": "KONFLIKTHANTERING"
     },
     {
       "typ": "KONTAKT_FHV"

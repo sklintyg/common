@@ -60,7 +60,7 @@ describe('ag7804FormFactory', function() {
         'forsakringsmedicinsktBeslutsstod':'Har följt beslutstödet till punkt och pricka.','arbetstidsforlaggning':true,
         'arbetstidsforlaggningMotivering':'Har bra och dåliga dagar. Bättre att jobba 22h-24h de bra dagarna så patienten kan vila sedan.',
         'arbetsresor':true,'prognos':{'typ':'ATER_X_ANTAL_DGR','dagarTillArbete':'SEXTIO_DGR'},'arbetslivsinriktadeAtgarder':[{'typ':'ARBETSTRANING'},
-            {'typ':'ARBETSANPASSNING'},{'typ':'SOKA_NYTT_ARBETE'},{'typ':'BESOK_ARBETSPLATS'},{'typ':'ERGONOMISK'},{'typ':'HJALPMEDEL'},{'typ':'KONFLIKTHANTERING'},
+            {'typ':'ARBETSANPASSNING'},{'typ':'BESOK_ARBETSPLATS'},{'typ':'ERGONOMISK'},{'typ':'HJALPMEDEL'},
             {'typ':'KONTAKT_FHV'},{'typ':'OMFORDELNING'},{'typ':'OVRIGA_ATGARDER'}],'arbetslivsinriktadeAtgarderBeskrivning':'Därför.',
         'ovrigt':'Inga övriga upplysningar.','kontaktMedFk':true,'anledningTillKontakt':'Alltid roligt att prata med FK.','tillaggsfragor':[]};
 

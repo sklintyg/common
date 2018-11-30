@@ -6,9 +6,9 @@
       <ns3:extension>9020fbb9-e387-40b0-ba75-ac2746e4736b</ns3:extension>
     </intygs-id>
     <typ>
-      <ns3:code>ag7804</ns3:code>
+      <ns3:code>AG7804</ns3:code>
       <ns3:codeSystem>b64ea353-e8f6-4832-b563-fc7d46f29548</ns3:codeSystem>
-      <ns3:displayName>L&#xE4;karintyg f&#xF6;r sjukpenning</ns3:displayName>
+      <ns3:displayName>Läkarintyg om arbetsförmåga – arbetsgivare</ns3:displayName>
     </typ>
     <version>1.0</version>
     <signeringstidpunkt>2016-08-10T08:59:13</signeringstidpunkt>
@@ -267,16 +267,6 @@
       <instans>3</instans>
       <delsvar id="40.1">
         <ns3:cv>
-          <ns3:code>SOKA_NYTT_ARBETE</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
-          <ns3:displayName>S&#xF6;ka nytt arbete</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="40">
-      <instans>4</instans>
-      <delsvar id="40.1">
-        <ns3:cv>
           <ns3:code>BESOK_ARBETSPLATS</ns3:code>
           <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
           <ns3:displayName>Bes&#xF6;k p&#xE5; arbetsplatsen</ns3:displayName>
@@ -284,7 +274,7 @@
       </delsvar>
     </svar>
     <svar id="40">
-      <instans>5</instans>
+      <instans>4</instans>
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>ERGONOMISK</ns3:code>
@@ -294,7 +284,7 @@
       </delsvar>
     </svar>
     <svar id="40">
-      <instans>6</instans>
+      <instans>5</instans>
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>HJALPMEDEL</ns3:code>
@@ -304,17 +294,7 @@
       </delsvar>
     </svar>
     <svar id="40">
-      <instans>7</instans>
-      <delsvar id="40.1">
-        <ns3:cv>
-          <ns3:code>KONFLIKTHANTERING</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
-          <ns3:displayName>Konflikthantering</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="40">
-      <instans>8</instans>
+      <instans>6</instans>
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>KONTAKT_FHV</ns3:code>
@@ -324,7 +304,7 @@
       </delsvar>
     </svar>
     <svar id="40">
-      <instans>9</instans>
+      <instans>7</instans>
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>OMFORDELNING</ns3:code>
@@ -334,7 +314,7 @@
       </delsvar>
     </svar>
     <svar id="40">
-      <instans>10</instans>
+      <instans>8</instans>
       <delsvar id="40.1">
         <ns3:cv>
           <ns3:code>OVRIGA_ATGARDER</ns3:code>

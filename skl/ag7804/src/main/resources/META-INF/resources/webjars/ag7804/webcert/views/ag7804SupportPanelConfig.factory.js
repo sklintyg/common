@@ -21,10 +21,10 @@
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [ function() {
     'use strict';
 
-    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned) {
 
         var config = {
             tabs: [],
@@ -37,33 +37,7 @@ angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [ 'common.f
             }
         };
 
-        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
-            config.tabs.push({
-                id: 'wc-arende-panel-tab',
-                title: 'common.supportpanel.arende.title',
-                tooltip: 'common.supportpanel.arende.tooltip',
-                config: {
-                    intygContext: config.intygContext
-                },
-                active: isSigned || isKompletteringsUtkast
-            });
-        }
-
-        //Bara visas i utkastläge, default aktiv bara om det inte är ett kompletteringsutkast
-        if (!config.intygContext.isSigned) {
-            config.tabs.push({
-                id: 'wc-fmb-panel-tab',
-                title: 'common.supportpanel.fmb.title',
-                icon: 'lightbulb_outline',
-                tooltip: 'common.supportpanel.fmb.tooltip',
-                config: {
-                    intygContext: config.intygContext
-                },
-                active: !(isSigned || isKompletteringsUtkast)
-            });
-        }
-
-        //Default aktiv om signerat och inte ännu skickat
+         //Default aktiv om signerat och inte ännu skickat
         config.tabs.push({
             id: 'wc-help-tips-panel-tab',
             title: 'common.supportpanel.help.title',
@@ -71,18 +45,9 @@ angular.module('ag7804').factory('ag7804.supportPanelConfigFactory', [ 'common.f
             config: {
                 intygContext: config.intygContext
             },
-            active: !_noOtherActiveTab()
+            active: true
         });
 
-        function _noOtherActiveTab() {
-            var foundActive = false;
-            angular.forEach(config.tabs, function (tab) {
-                if (tab.active) {
-                    foundActive = true;
-                }
-            });
-            return foundActive;
-        }
 
         return angular.copy(config);
     }

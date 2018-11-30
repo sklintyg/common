@@ -50,6 +50,11 @@ angular.module('ag7804').constant('ag7804.messages', {
         'ag7804.validation.atgarder.invalid_combination': 'Beskrivning för arbetslivsinriktade åtgärder kan inte kombineras med åtgärd på detta sätt.', // Should never happen because GUI should block this combination
         'ag7804.validation.atgarder.too-many': 'För många val på åtgärder.', // Should never happen because GUI should block this combination
         'ag7804.validation.atgarder.mastevaljas': 'Åtgärder måste väljas eller Inte aktuellt.',
+        'ag7804.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
+        'ag7804.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
+        'ag7804.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',  // Should never happen because GUI should block this combination
+        'ag7804.validation.funktionsnedsattning.missing': 'Ange ett svar',
+        'ag7804.validation.aktivitetsbegransning.missing': 'Ange ett svar',
 
         'ag7804.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden {{lastEffectiveDate}} och sjukskrivningsgraden var {{sjukskrivningsgrad}}.',
         'ag7804.label.sjukskrivningar.tidigtstartdatum.motivering': 'Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.',

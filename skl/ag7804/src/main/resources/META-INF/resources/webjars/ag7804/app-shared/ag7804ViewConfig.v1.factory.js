@@ -132,9 +132,8 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
                     type: 'uv-del-fraga',
                     labelKey: 'DFR_35.1.RBK',
                     components: [ {
-                        type: 'uv-icf',
-                        modelProp: 'funktionsnedsattning',
-                        kategoriProp: 'funktionsKategorier'
+                        type: 'uv-simple-value',
+                        modelProp: 'funktionsnedsattning'
                     }]
                 } ]
             },
@@ -145,9 +144,8 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
                     type: 'uv-del-fraga',
                     labelKey: 'DFR_17.1.RBK',
                     components: [ {
-                        type: 'uv-icf',
-                        modelProp: 'aktivitetsbegransning',
-                        kategoriProp: 'aktivitetsKategorier'
+                        type: 'uv-simple-value',
+                        modelProp: 'aktivitetsbegransning'
                     }]
                 } ]
             }

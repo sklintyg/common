@@ -157,9 +157,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
                         fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {}, [{
-                            type: 'ue-icf',
+                            type: 'ue-textarea',
                             modelProp: 'funktionsnedsattning',
-                            kategoriProp: 'funktionsKategorier',
                             label: {
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',
@@ -168,9 +167,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             }
                         }]),
                         fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{
-                            type: 'ue-icf',
+                            type: 'ue-textarea',
                             modelProp: 'aktivitetsbegransning',
-                            kategoriProp: 'aktivitetsKategorier',
                             label: {
                                 key: 'DFR_17.1.RBK',
                                 helpKey: 'DFR_17.1.HLP',
@@ -324,8 +322,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
                         fraga(40, 'FRG_40.RBK', 'FRG_40.HLP', { required: true, requiredProp: ['arbetslivsinriktadeAtgarder["EJ_AKTUELLT"]', 'arbetslivsinriktadeAtgarder["ARBETSTRANING"]',
-                            'arbetslivsinriktadeAtgarder["ARBETSANPASSNING"]', 'arbetslivsinriktadeAtgarder["SOKA_NYTT_ARBETE"]', 'arbetslivsinriktadeAtgarder["BESOK_ARBETSPLATS"]',
-                            'arbetslivsinriktadeAtgarder["ERGONOMISK"]', 'arbetslivsinriktadeAtgarder["HJALPMEDEL"]', 'arbetslivsinriktadeAtgarder["KONFLIKTHANTERING"]',
+                            'arbetslivsinriktadeAtgarder["ARBETSANPASSNING"]', 'arbetslivsinriktadeAtgarder["BESOK_ARBETSPLATS"]',
+                            'arbetslivsinriktadeAtgarder["ERGONOMISK"]', 'arbetslivsinriktadeAtgarder["HJALPMEDEL"]',
                             'arbetslivsinriktadeAtgarder["KONTAKT_FHV"]', 'arbetslivsinriktadeAtgarder["OMFORDELNING"]', 'arbetslivsinriktadeAtgarder["OVRIGA_ATGARDER"]']}, [{
                             type: 'ue-checkgroup',
                             modelProp: 'arbetslivsinriktadeAtgarder',
@@ -333,11 +331,9 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             choices: ['EJ_AKTUELLT',
                                 'ARBETSTRANING',
                                 'ARBETSANPASSNING',
-                                'SOKA_NYTT_ARBETE',
                                 'BESOK_ARBETSPLATS',
                                 'ERGONOMISK',
                                 'HJALPMEDEL',
-                                'KONFLIKTHANTERING',
                                 'KONTAKT_FHV',
                                 'OMFORDELNING',
                                 'OVRIGA_ATGARDER'
