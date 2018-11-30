@@ -38,8 +38,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
@@ -126,9 +124,6 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract String getAnnatGrundForMUBeskrivning();
 
-    @Nullable
-    public abstract String getMotiveringTillInteBaseratPaUndersokning();
-
     // Kategori 2 - Sysselsättning
     // Fråga 28
     // Fråga 28.1
@@ -170,9 +165,6 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
     // Fråga 32 - Behov av sjukskrivning
     // 32.1
     public abstract ImmutableList<Sjukskrivning> getSjukskrivningar();
-
-    @Nullable
-    public abstract String getMotiveringTillTidigtStartdatumForSjukskrivning();
 
     // Fråga 37 - försäkringsmedicinskt beslutsstöd
     // 37.1
@@ -258,10 +250,6 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
         @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1)
         public abstract Builder setAnnatGrundForMUBeskrivning(String annatGrundForMUBeskrivning);
 
-        //TODO: Skall bli delfråga?
-        @JsonProperty(MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1)
-        public abstract Builder setMotiveringTillInteBaseratPaUndersokning(String motiveringTillInteBaseratPaUndersokning);
-
         @JsonProperty(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28)
         public Builder setSysselsattning(List<Sysselsattning> sysselsattning) {
             return setSysselsattning(ImmutableList.copyOf(sysselsattning));
@@ -300,10 +288,6 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
 
         /* package private */
         abstract Builder setSjukskrivningar(ImmutableList<Sjukskrivning> sjukskrivningar);
-
-        //TODO: Skall bli delfråga?
-        @JsonProperty(MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID)
-        public abstract Builder setMotiveringTillTidigtStartdatumForSjukskrivning(String motiveringTillTidigtStartdatumForSjukskrivning);
 
         @JsonProperty(FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37)
         public abstract Builder setForsakringsmedicinsktBeslutsstod(String forskningsmedicinsktBeslutsstod);

@@ -97,7 +97,6 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                         'journaluppgifter': undefined,
                         'annatGrundForMU': undefined,
                         'annatGrundForMUBeskrivning': undefined,
-                        'motiveringTillInteBaseratPaUndersokning':undefined,
 
                         // Kategori 2 sysselsättning
                         'sysselsattning': new ModelAttr('sysselsattning', {
@@ -152,7 +151,6 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                             fromTransform: sjukskrivningFromTransform,
                             toTransform: sjukskrivningToTransform
                         }),
-                        'motiveringTillTidigtStartdatumForSjukskrivning': undefined,
                         'forsakringsmedicinsktBeslutsstod': undefined,
                         'arbetstidsforlaggning': undefined,
                         'arbetstidsforlaggningMotivering': undefined,

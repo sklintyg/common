@@ -41,9 +41,6 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1 = "annatGrundForMU";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1 = "telefonkontaktMedPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1 = "annatGrundForMUBeskrivning";
-    public static final String MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1 = "motiveringTillInteBaseratPaUndersokning";
-
-
 
     public static final String DIAGNOS_SVAR_ID_6 = "6";
     public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
@@ -96,7 +93,6 @@ public final class RespConstants {
     public static final String BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32 = "32.1";
     public static final String BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32 = "32.2";
     public static final String BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32 = "sjukskrivningar";
-    public static final String MOTIVERING_TILL_TIDIGT_STARTDATUM_FOR_SJUKSKRIVNING_ID = "motiveringTillTidigtStartdatumForSjukskrivning";
 
     public static final String ARBETSTIDSFORLAGGNING_SVAR_ID_33 = "33";
     public static final String ARBETSTIDSFORLAGGNING_OM_DELSVAR_ID_33 = "33.1";

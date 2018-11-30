@@ -38,7 +38,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
@@ -161,15 +160,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtil.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtil.GrundForMu.ANNAT);
-        }
-
-        // INTYG-3310
-        if (utlatande.getUndersokningAvPatienten() == null && (utlatande.getJournaluppgifter() != null
-                || utlatande.getTelefonkontaktMedPatienten() != null || utlatande.getAnnatGrundForMU() != null)
-                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
-                    MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1,
-                    ValidationMessageType.EMPTY);
         }
 
         // R2

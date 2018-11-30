@@ -150,8 +150,6 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
                     .setJournaluppgifter(null)
                     .setAnnatGrundForMU(null)
                     .setAnnatGrundForMUBeskrivning(null)
-                    .setMotiveringTillTidigtStartdatumForSjukskrivning(null)
-                    .setMotiveringTillInteBaseratPaUndersokning(null)
                     .setPrognos(null)
                     .setSjukskrivningar(new ArrayList<>())
                     .setArbetstidsforlaggning(null)

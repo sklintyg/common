@@ -106,23 +106,6 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             type: 'ue-textarea',
                             hideExpression: '!model.annatGrundForMU',
                             modelProp: 'annatGrundForMUBeskrivning'
-                        }]), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
-                            type: 'ue-textarea',
-                            label: {
-                                bold: 'bold',
-                                key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
-                                required: true,
-                                type: 'label',
-                                requiredProp: 'motiveringTillInteBaseratPaUndersokning'
-                            },
-                            modelProp: 'motiveringTillInteBaseratPaUndersokning'
-                        }, {
-                            type: 'ue-text',
-                            label: {
-                                htmlClass: 'info-transfer',
-                                key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
-                                variableLabelKey: 'FRG_25.RBK'
-                            }
                         }])
                     ]),
 
@@ -209,37 +192,6 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                                 'TRE_FJARDEDEL',
                                 'HELT_NEDSATT'
                             ]
-                        }]),
-                        fraga(null, '', '', { hideExpression: function(scope) {
-                            var hide = true;
-                            var warnings = scope.validation.warningMessagesByField;
-                            if (warnings) {
-                                angular.forEach(warnings.sjukskrivningar, function(w) {
-                                    if (w.message ===
-                                        'ag7804.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
-                                        hide = false;
-                                    }
-                                });
-                            }
-                            return hide;
-                        } }, [ {
-                            type: 'ue-textarea',
-                            label: {
-                                bold: 'bold',
-                                key: 'ag7804.label.sjukskrivningar.tidigtstartdatum.motivering',
-                                helpKey: 'ag7804.label.sjukskrivningar.tidigtstartdatum.motivering.help',
-                                required: true,
-                                type: 'label',
-                                requiredProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
-                            },
-                            modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
-                        }, {
-                            type: 'ue-text',
-                            label : {
-                                htmlClass: 'info-transfer',
-                                key: 'ag7804.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                variableLabelKey: 'FRG_25.RBK'
-                            }
                         }]),
                         fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [{
                             type: 'ue-textarea',

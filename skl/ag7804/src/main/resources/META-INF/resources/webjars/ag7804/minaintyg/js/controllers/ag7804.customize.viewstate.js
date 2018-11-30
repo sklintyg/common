@@ -34,8 +34,7 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
                 'telefonkontaktMedPatienten',
                 'journaluppgifter',
                 'annatGrundForMU',
-                'annatGrundForMUBeskrivning',
-                'motiveringTillInteBaseratPaUndersokning'
+                'annatGrundForMUBeskrivning'
             ]
         },
         'funktionsnedsattning': { mandatory: false, selected: true, fields: ['funktionsnedsattning'] },

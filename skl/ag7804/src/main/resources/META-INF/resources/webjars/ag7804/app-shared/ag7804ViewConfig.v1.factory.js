@@ -76,14 +76,6 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
                     modelProp: 'annatGrundForMUBeskrivning'
                 } ]
 
-            }, {
-                type: 'uv-del-fraga',
-                labelKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
-                hideExpression: '!motiveringTillInteBaseratPaUndersokning',
-                components: [ {
-                    type: 'uv-simple-value',
-                    modelProp: 'motiveringTillInteBaseratPaUndersokning'
-                } ]
             } ]
         } ]
     }, {
@@ -196,15 +188,6 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
                             'period.tom'
                         ],
                         modelProp: 'sjukskrivningar'
-                    },
-                    {
-                        type: 'uv-del-fraga',
-                        labelKey: 'ag7804.label.sjukskrivningar.tidigtstartdatum.motivering',
-                        hideExpression: '!motiveringTillTidigtStartdatumForSjukskrivning',
-                        components: [ {
-                            type: 'uv-simple-value',
-                            modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
-                        } ]
                     }
                 ]
             },
