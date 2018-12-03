@@ -236,7 +236,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                         }])
                     ]),
 
-                    kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { required: true , requiredProp: funktionsnedsattningar()}, [
+                    kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', { required: true , requiredProp: funktionsnedsattningar() }, [
                         fraga(8, '', '', {}, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
@@ -251,9 +251,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningIntellektuell',
                                 label: {
                                     key: 'DFR_8.1.RBK',
-                                    helpKey: 'DFR_8.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_8.1.HLP'
                                 }
                             }]
                         }]), fraga(9, '', '', {}, [ {
@@ -270,9 +268,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningKommunikation',
                                 label: {
                                     key: 'DFR_9.1.RBK',
-                                    helpKey: 'DFR_9.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_9.1.HLP'
                                 }
                             }]
                         }]), fraga(10, '', '', {}, [ {
@@ -289,9 +285,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningKoncentration',
                                 label: {
                                     key: 'DFR_10.1.RBK',
-                                    helpKey: 'DFR_10.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_10.1.HLP'
                                 }
                             }]
                         }]), fraga(11, '', '', {}, [{
@@ -308,9 +302,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningPsykisk',
                                 label: {
                                     key: 'DFR_11.1.RBK',
-                                    helpKey: 'DFR_11.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_11.1.HLP'
                                 }
                             }]
                         }]), fraga(12, '', '', {}, [ {
@@ -327,9 +319,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningSynHorselTal',
                                 label: {
                                     key: 'DFR_12.1.RBK',
-                                    helpKey: 'DFR_12.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_12.1.HLP'
                                 }
                             }]
                         }]), fraga(13, '', '', {}, [ {
@@ -346,9 +336,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningBalansKoordination',
                                 label: {
                                     key: 'DFR_13.1.RBK',
-                                    helpKey: 'DFR_13.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_13.1.HLP'
                                 }
                             }]
                         }]),fraga(14, '', '', {}, [ {
@@ -365,9 +353,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningAnnan',
                                 label: {
                                     key: 'DFR_14.1.RBK',
-                                    helpKey: 'DFR_14.1.HLP',
-                                    required: true,
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_14.1.HLP'
                                 }
                             }]
                         }]),

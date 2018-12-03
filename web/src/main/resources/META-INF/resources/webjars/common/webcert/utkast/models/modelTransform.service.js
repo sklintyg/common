@@ -21,6 +21,18 @@ angular.module('common').factory('common.domain.ModelTransformService',
         'use strict';
 
         return {
+            toStringFilter: function(fromFrontend){
+
+                if(typeof fromFrontend === 'string'){
+                    fromFrontend.trim();
+                }
+
+                if(fromFrontend === ''){
+                    fromFrontend = undefined;
+                }
+
+                return fromFrontend;
+            },
             toTypeTransform: function(fromApp) {
 
                 var transportModel = [];

@@ -41,12 +41,10 @@ angular.module('common').directive('ueComponentToggler', ['$timeout', 'common.Ut
                 $scope.vm = {
                     showComponents: false
                 };
-
                 //Let the state of modelPropToWatch determine if we should show/hide the components
-                $scope.$watch('model.' +$scope.config.modelPropToWatch, function (newVal) {
+                $scope.$watch('model.' + $scope.config.modelPropToWatch, function (newVal) {
                     $scope.vm.showComponents = angular.isDefined(newVal);
                 });
-
             }
         };
     }]);

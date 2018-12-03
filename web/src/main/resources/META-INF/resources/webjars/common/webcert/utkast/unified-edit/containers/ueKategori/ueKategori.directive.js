@@ -37,7 +37,7 @@ angular.module('common').directive('ueKategori', ['$parse',
                             if (angular.isArray(reqProp)) {
                                 for (var i = 0; i < reqProp.length; i++) {
                                     req = $parse(reqProp[i])($scope.model);
-                                    if(!$scope.form[reqProp[i]] && (req === null || req === undefined || req === false)) {
+                                    if(req === null || req === undefined || req === false || req === '') {
                                         continue;
                                     }
                                     return false;

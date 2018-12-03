@@ -1,7 +1,35 @@
 ue-component-toggler {
   display: block;
+  position: relative;
+
+  .hover-effect {
+    position: relative;
+    vertical-align: middle;
+    padding: 10px 25px 0 28px;
+    margin: -14px -28px 0 -28px;
+  }
+
+  .hover-effect:hover {
+    background-color: #f1f1f1;
+  }
 
   .toggled-components-container {
     margin-bottom: 10px;
+  }
+
+  .component-toggler {
+    position: absolute;
+    right: 28px;
+    display: inline-block;
+    z-index: 1;
+  }
+
+  .btn-link {
+    padding: 0;
+  }
+
+  .toggle-chevron__button {
+    display: inline-block;
+    padding: 0 0 0 5px;
   }
 }
