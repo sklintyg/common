@@ -19,8 +19,8 @@
 
 angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
     ['$log', '$timeout',
-        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
-        function($log, $timeout, DateUtils, ueFactoryTemplates) {
+        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.ObjectHelper',
+        function($log, $timeout, DateUtils, ueFactoryTemplates, ObjectHelper) {
             'use strict';
 
             function _getCategoryIds() {
@@ -36,6 +36,9 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     9: 'kontakt',
                     10: 'smittbararpenning'
                 };
+            }
+            function isDiagnoseRequired(model) {
+                return model.onskarFormedlaDiagnos === true && !ObjectHelper.deepGet(model, 'diagnoser[0].diagnosKod');
             }
 
             function _getConfig(viewState) {
@@ -128,7 +131,15 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                        fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
+                        fraga(100, 'FRG_100.RBK', 'FRG_100.HLP', { required: true, requiredProp: 'onskarFormedlaDiagnos'}, [{
+                            type: 'ue-radio',
+                            modelProp: 'onskarFormedlaDiagnos'
+                        }]),
+                        fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {
+                            required: true,
+                            requiredProp: isDiagnoseRequired,
+                            hideExpression: 'model.onskarFormedlaDiagnos === false'
+                        }, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
@@ -139,9 +150,16 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                        fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {}, [{
+                        fraga(101, 'FRG_101.RBK', 'FRG_101.HLP', { required: true, requiredProp: 'onskarFormedlaFunktionsnedsattning'}, [{
+                            type: 'ue-radio',
+                            modelProp: 'onskarFormedlaFunktionsnedsattning'
+                        }]),
+                        fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {
+                            hideExpression: 'model.onskarFormedlaFunktionsnedsattning === false'
+                        }, [{
                             type: 'ue-textarea',
                             modelProp: 'funktionsnedsattning',
+                            disabled: true,
                             label: {
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',

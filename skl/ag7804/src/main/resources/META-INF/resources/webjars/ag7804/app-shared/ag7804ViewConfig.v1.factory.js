@@ -103,7 +103,16 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
     }, {
         type: 'uv-kategori',
         labelKey: 'KAT_3.RBK',
-        components: [ {
+        components: [
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_100.RBK',
+                components: [ {
+                    type: 'uv-boolean-value',
+                    modelProp: 'onskarFormedlaDiagnos'
+                } ]
+            },
+            {
             type: 'uv-fraga',
             labelKey: 'FRG_6.RBK',
             components: [ {
@@ -117,6 +126,14 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
         type: 'uv-kategori',
         labelKey: 'KAT_4.RBK',
         components: [
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_101.RBK',
+                components: [ {
+                    type: 'uv-boolean-value',
+                    modelProp: 'onskarFormedlaFunktionsnedsattning'
+                } ]
+            },
             {
                 type: 'uv-fraga',
                 labelKey: 'FRG_35.RBK',

@@ -88,12 +88,19 @@
     <svar id="29">
       <delsvar id="29.1">Smed</delsvar>
     </svar>
+    <svar id="101">
+      <delsvar id="101.1">true</delsvar>
+    </svar>
     <svar id="35">
       <delsvar id="35.1">Haltar när han dansar</delsvar>
     </svar>
     <svar id="17">
       <delsvar id="17.1">Kommer inte in i bilen</delsvar>
     </svar>
+    <svar id="100">
+      <delsvar id="100.1">true</delsvar>
+    </svar>
+
     <svar id="32">
       <instans>1</instans>
       <delsvar id="32.1">

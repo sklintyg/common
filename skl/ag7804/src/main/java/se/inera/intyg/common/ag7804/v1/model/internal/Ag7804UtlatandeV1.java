@@ -39,6 +39,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
@@ -136,10 +138,21 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
     public abstract String getNuvarandeArbete();
 
     // Kategori 3 - Diagnos
+    // Fråga 103 - Önskar patienten förmedla diagnoser
+    // Fråga 103.1
+    @Nullable
+    public abstract Boolean getOnskarFormedlaDiagnos();
+
     // Fråga 6
+    @Nullable
     public abstract ImmutableList<Diagnos> getDiagnoser();
 
     // Kategori 4 - Sjukdomens konsekvenser
+    // Fråga 103 - Önskar patienten förmedla funktionsnedsättningar
+    // Fråga 103.1
+    @Nullable
+    public abstract Boolean getOnskarFormedlaFunktionsnedsattning();
+
     // Fråga 35 - Funktionsnedsättning
     // Fråga 35.1
     @Nullable
@@ -261,6 +274,9 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
         @JsonProperty(NUVARANDE_ARBETE_SVAR_JSON_ID_29)
         public abstract Builder setNuvarandeArbete(String nuvarandeArbete);
 
+        @JsonProperty(ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100)
+        public abstract Builder setOnskarFormedlaDiagnos(Boolean onskarFormedlaDiagnos);
+
         @JsonProperty(DIAGNOS_SVAR_JSON_ID_6)
         public Builder setDiagnoser(List<Diagnos> diagnoser) {
             return setDiagnoser(ImmutableList.copyOf(diagnoser));
@@ -268,6 +284,9 @@ public abstract class Ag7804UtlatandeV1 implements Utlatande {
 
         /* package private */
         abstract Builder setDiagnoser(ImmutableList<Diagnos> diagnoser);
+
+        @JsonProperty(ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101)
+        public abstract Builder setOnskarFormedlaFunktionsnedsattning(Boolean onskarFormedlaFunktionsnedsattning);
 
         @JsonProperty(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35)
         public abstract Builder setFunktionsnedsattning(String funktionsnedsattning);

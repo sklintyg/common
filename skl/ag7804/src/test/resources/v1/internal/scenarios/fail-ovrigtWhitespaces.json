@@ -35,7 +35,6 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "tillaggsfragor": [],
   "arbetslivsinriktadeAtgarderBeskrivning": "Jobbar bra om man inte stör honom",
   "arbetslivsinriktadeAtgarder": [
     {
@@ -60,7 +59,9 @@
   ],
   "ovrigt": "   ",
   "aktivitetsbegransning": "Kommer inte in i bilen",
+  "onskarFormedlaFunktionsnedsattning": true,
   "funktionsnedsattning": "Haltar när han dansar",
+  "onskarFormedlaDiagnos": true,
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",

@@ -48,6 +48,10 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKA
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
@@ -131,7 +135,14 @@ public final class UtlatandeToIntyg {
 
         addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_DELSVAR_ID_29, source.getNuvarandeArbete());
 
+        //Diagnos
+        addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100,
+                source.getOnskarFormedlaDiagnos());
         handleDiagnosSvar(svars, source.getDiagnoser());
+
+
+        addIfNotNull(svars, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101,
+                source.getOnskarFormedlaFunktionsnedsattning());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_DELSVAR_ID_35, source.getFunktionsnedsattning());
         addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_DELSVAR_ID_17, source.getAktivitetsbegransning());
 

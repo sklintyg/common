@@ -26,12 +26,14 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.ARBETSTIDSFOR
 import static se.inera.intyg.common.ag7804.converter.RespConstants.BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_ATGARDER;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_BEDOMNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_DIAGNOS;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_FUNKTIONSNEDSATTNING;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_GRUNDFORMU;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_KONTAKT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_MEDICINSKABEHANDLINGAR;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_OVRIGT;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.CATEGORY_SYSSELSATTNING;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_JSON_ID_37;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
@@ -39,6 +41,8 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
@@ -67,6 +71,7 @@ import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -100,7 +105,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
         }
 
         // Kategori 3 – Diagnos
-        validatorUtil.validateDiagnose(utlatande.getDiagnoser(), validationMessages);
+        validateDiagnos(utlatande.getOnskarFormedlaDiagnos(), utlatande.getDiagnoser(), validationMessages);
 
         // Kategori 4 – Sjukdomens konsekvenser
         if (!isAvstangningSmittskydd(utlatande)) {
@@ -128,6 +133,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
         se.inera.intyg.common.support.validate.ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
 
         return se.inera.intyg.common.support.validate.ValidatorUtil.buildValidateDraftResponse(validationMessages);
+    }
+
+    private void validateDiagnos(Boolean onskarFormedlaDiagnos, ImmutableList<Diagnos> diagnoser,
+            List<ValidationMessage> validationMessages) {
+        if (onskarFormedlaDiagnos == null) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
+                    ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100, ValidationMessageType.EMPTY);
+        } else if (onskarFormedlaDiagnos) {
+            validatorUtil.validateDiagnose(diagnoser, validationMessages);
+        } else if (!onskarFormedlaDiagnos && (diagnoser != null && diagnoser.size() > 0)) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
+                    DIAGNOS_SVAR_JSON_ID_6,
+                    ValidationMessageType.INCORRECT_COMBINATION);
+        }
+
     }
 
     private void validateGrundForMU(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
@@ -224,11 +244,22 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
     }
 
     private void validateFunktionsnedsattning(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+        if (utlatande.getOnskarFormedlaFunktionsnedsattning() == null) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                    ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101,
+                    ValidationMessageType.EMPTY);
+        } else if (utlatande.getOnskarFormedlaFunktionsnedsattning()
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
                     FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
                     ValidationMessageType.EMPTY,
                     "ag7804.validation.funktionsnedsattning.missing");
+
+        } else if (!utlatande.getOnskarFormedlaFunktionsnedsattning()
+                && !Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
+                    FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
+                    ValidationMessageType.INCORRECT_COMBINATION);
         }
     }
 

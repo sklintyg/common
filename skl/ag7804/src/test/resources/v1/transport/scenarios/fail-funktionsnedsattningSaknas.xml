@@ -88,6 +88,9 @@
     <svar id="29">
       <delsvar id="29.1">Smed</delsvar>
     </svar>
+    <svar id="100">
+      <delsvar id="100.1">true</delsvar>
+    </svar>
     <svar id="6">
       <delsvar id="6.1">Klämskada skuldra</delsvar>
       <delsvar id="6.2">

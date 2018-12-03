@@ -42,6 +42,9 @@ public final class RespConstants {
     public static final String GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1 = "telefonkontaktMedPatienten";
     public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_1 = "annatGrundForMUBeskrivning";
 
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100 = "100";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100 = "100.1";
+    public static final String ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100 = "onskarFormedlaDiagnos";
     public static final String DIAGNOS_SVAR_ID_6 = "6";
     public static final String DIAGNOS_BESKRIVNING_DELSVAR_ID_6 = "6.1";
     public static final String DIAGNOS_DELSVAR_ID_6 = "6.2";
@@ -104,6 +107,10 @@ public final class RespConstants {
     public static final String ARBETSRESOR_OM_DELSVAR_ID_34 = "34.1";
     public static final String ARBETSRESOR_SVAR_JSON_ID_34 = "arbetsresor";
 
+
+    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101 = "101";
+    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101 = "101.1";
+    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101 = "onskarFormedlaFunktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_35 = "35";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_35 = "35.1";
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35 = "funktionsnedsattning";

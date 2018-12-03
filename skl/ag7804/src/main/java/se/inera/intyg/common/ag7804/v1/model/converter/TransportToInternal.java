@@ -48,6 +48,10 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKA
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_DELSVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
@@ -60,6 +64,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_28;
 import static se.inera.intyg.common.ag7804.converter.TransportToInternalUtil.handleDiagnos;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
@@ -122,8 +127,14 @@ public final class TransportToInternal {
             case NUVARANDE_ARBETE_SVAR_ID_29:
                 handleNuvarandeArbete(utlatande, svar);
                 break;
+            case ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100:
+                handleOnskarFormedlaDiagnos(utlatande, svar);
+                break;
             case DIAGNOS_SVAR_ID_6:
                 handleDiagnos(diagnoser, svar);
+                break;
+            case ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101:
+                handleOnskarFormedlaFunktionsnedsattning(utlatande, svar);
                 break;
             case FUNKTIONSNEDSATTNING_SVAR_ID_35:
                 handleFunktionsnedsattning(utlatande, svar);
@@ -292,6 +303,32 @@ public final class TransportToInternal {
                 sjukskrivningar.add(Sjukskrivning.create(SjukskrivningsGrad.fromId(sjukskrivningsnivaString), period));
             }
         }
+    }
+
+    private static void handleOnskarFormedlaDiagnos(Ag7804UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+            case ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100:
+                utlatande.setOnskarFormedlaDiagnos(getBooleanContent(delsvar));
+                break;
+            default:
+                throw new IllegalArgumentException();
+            }
+        }
+
+    }
+
+    private static void handleOnskarFormedlaFunktionsnedsattning(Ag7804UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+            case ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101:
+                utlatande.setOnskarFormedlaFunktionsnedsattning(getBooleanContent(delsvar));
+                break;
+            default:
+                throw new IllegalArgumentException();
+            }
+        }
+
     }
 
     private static void handleFunktionsnedsattning(Ag7804UtlatandeV1.Builder utlatande, Svar svar) {

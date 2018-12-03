@@ -103,11 +103,15 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     protected Ag7804UtlatandeV1 decorateDiagnoserWithDescriptions(Ag7804UtlatandeV1 utlatande) {
-        List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
-                .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
-                        moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
-                .collect(Collectors.toList());
-        return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
+        if (utlatande.getDiagnoser() != null) {
+            List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
+                    .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
+                            moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
+                    .collect(Collectors.toList());
+            return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
+        } else {
+            return utlatande;
+        }
     }
 
     @Override

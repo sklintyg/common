@@ -107,12 +107,15 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                         'nuvarandeArbete' : undefined,
 
                         // Kategori 3 diagnos
+                        'onskarFormedlaDiagnos' : undefined,
                         'diagnoser':new ModelAttr('diagnoser', {
+                            defaultValue: [],
                             fromTransform: ModelTransform.diagnosFromTransform,
                             toTransform: ModelTransform.diagnosToTransform
                         }),
 
                         // Kategori 4 Sjukdomens konsekvenser
+                        'onskarFormedlaFunktionsnedsattning' : undefined,
                         'funktionsnedsattning': undefined,
                         'aktivitetsbegransning': undefined,
 
