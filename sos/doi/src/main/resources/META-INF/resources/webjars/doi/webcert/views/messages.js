@@ -57,7 +57,7 @@ angular.module('doi').constant('doi.messages', {
         'doi.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
         'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
         '<ul><li>Information om sjukskrivningsperiod.</li>' +
-        '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+        '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
         '<li>Referenser som intyget baseras på.</li></ul>',
 
         'doi.warn.previouscertificate.samevg': 'Dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',

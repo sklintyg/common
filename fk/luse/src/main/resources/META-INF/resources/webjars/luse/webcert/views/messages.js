@@ -23,16 +23,11 @@ angular.module('luse').constant('luse.messages', {
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
 
         'luse.fornya.tooltip': 'En kopia av det tidigare intyget skapas. Samtlig information följer med till det nya intygsutkastet. Informationen kan sedan ändras.',
-        'luse.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget.<br><br>' +
+        'luse.modal.fornya.text': 'Förnya intyg innebär att ett nytt intygsutkast skapas med samma information som i det ursprungliga intyget.<br><br>' +
             'Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
-            'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
-            '<ul>' +
-            '<li>Sjukskrivningsperiod och grad.</li>' +
-            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
-            '<li>Referenser som intyget baseras på.</li>' +
-            '</ul>' +
+            'I de fall patienten har ändrat namn eller adress så uppdateras den informationen.<br><br>' +
             'Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
-            'Det nya utkastet skapas på den enhet du är  inloggad på.'
+            'Det nya utkastet skapas på den enhet du är inloggad på.'
     },
     'en': {
         'luse.label.pagetitle': 'Show Certificate'
