@@ -61,22 +61,22 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel.v1',
                         'diagnosForNyBedomning': undefined,
 
                         // Ketagori 5 Funktionsnedsättning
-                        'funktionsnedsattningIntellektuell': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningIntellektuell': new ModelAttr('funktionsnedsattningIntellektuell', {
                             toTransform: ModelTransform.toStringFilter
                         }),
-                        'funktionsnedsattningKommunikation': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningKommunikation': new ModelAttr('funktionsnedsattningKommunikation', {
                             toTransform: ModelTransform.toStringFilter
                         }),
-                        'funktionsnedsattningKoncentration': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningKoncentration': new ModelAttr('funktionsnedsattningKoncentration', {
                             toTransform: ModelTransform.toStringFilter
                         }),
-                        'funktionsnedsattningPsykisk': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningPsykisk': new ModelAttr('funktionsnedsattningPsykisk', {
                             toTransform: ModelTransform.toStringFilter
                         }),
-                        'funktionsnedsattningSynHorselTal': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningSynHorselTal': new ModelAttr('funktionsnedsattningSynHorselTal', {
                             toTransform: ModelTransform.toStringFilter
                         }),
-                        'funktionsnedsattningBalansKoordination': new ModelAttr('funktionsnedsattningAnnan', {
+                        'funktionsnedsattningBalansKoordination': new ModelAttr('funktionsnedsattningBalansKoordination', {
                             toTransform: ModelTransform.toStringFilter
                         }),
                         'funktionsnedsattningAnnan': new ModelAttr('funktionsnedsattningAnnan', {
