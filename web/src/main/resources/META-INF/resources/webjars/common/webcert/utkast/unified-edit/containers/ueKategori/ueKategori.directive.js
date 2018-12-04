@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueKategori', ['$parse',
-    function($parse) {
+angular.module('common').directive('ueKategori', ['$parse', 'common.ObjectHelper',
+    function($parse, ObjectHelper) {
         'use strict';
 
         return {
@@ -33,25 +33,22 @@ angular.module('common').directive('ueKategori', ['$parse',
                     $scope.hasUnfilledRequirements = function() {
                         var reqProp = $scope.config.label.requiredProp;
                         if (reqProp) {
-                            var req;
                             if (angular.isArray(reqProp)) {
                                 for (var i = 0; i < reqProp.length; i++) {
-                                    req = $parse(reqProp[i])($scope.model);
-                                    if(req === null || req === undefined || req === false || req === '') {
+                                    if(ObjectHelper.isFalsy($parse(reqProp[i])($scope.model))) {
                                         continue;
                                     }
                                     return false;
                                 }
                                 return true;
                             } else {
-                                req = $parse(reqProp)($scope.model);
-                                if(req === null || req === undefined || req === false) {
+                                var req = $parse(reqProp)($scope.model);
+                                if(!ObjectHelper.isDefined(req) || req === false) {
                                     return true;
                                 }
                             }
-                        } else {
-                            return true;
                         }
+                        return true;
                     };
                 }
             }

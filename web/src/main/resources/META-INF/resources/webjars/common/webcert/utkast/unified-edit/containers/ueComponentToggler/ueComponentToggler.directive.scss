@@ -10,7 +10,7 @@ ue-component-toggler {
   }
 
   .hover-effect:hover {
-    background-color: #f1f1f1;
+    background-color: $wc-color-24;
   }
 
   .toggled-components-container {
@@ -31,5 +31,9 @@ ue-component-toggler {
   .toggle-chevron__button {
     display: inline-block;
     padding: 0 0 0 5px;
+  }
+
+  label.error .label-slot {
+    border-bottom: 1px solid $wc-color-11;
   }
 }

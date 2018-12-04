@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueComponentToggler', ['$timeout', 'common.UtkastValidationService',
-     function($timeout, UtkastValidationService) {
+angular.module('common').directive('ueComponentToggler', ['$timeout', 'common.UtkastValidationService', 'common.UtkastValidationViewState',
+     function($timeout, UtkastValidationService, UtkastValidationViewState) {
         'use strict';
 
         return {
@@ -29,14 +29,9 @@ angular.module('common').directive('ueComponentToggler', ['$timeout', 'common.Ut
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueComponentToggler/ueComponentToggler.directive.html',
             link: function($scope) {
-                //Don't use ueUtil.standardSetup here because the toggler (checkbox) is not really part of the model.
-                $scope.updateValidation = function(form, model) {
-                    form.$commitViewValue();
-                    // $timeout is needed to allow for the attic functionality to clear the model value for hidden fields
-                    $timeout(function() {
-                        UtkastValidationService.validate(model);
-                    });
-                };
+
+                $scope.validation = UtkastValidationViewState;
+
                 //Default is to not render the component children..
                 $scope.vm = {
                     showComponents: false

@@ -79,7 +79,7 @@ angular.module('common').directive('ueLabel',
                             template += '></span>\n';
                         }
                         if (scope.config.key) {
-                            template += dynamicLabelService.getProperty(scope.config.key) + '\n';
+                            template += '<span class="label-slot">' + dynamicLabelService.getProperty(scope.config.key) + '</span>\n';
                         }
                         if (scope.config.helpKey) {
                             template += '<wc-help help-key="' + scope.config.helpKey + '"></wc-help>\n';

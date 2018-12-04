@@ -243,6 +243,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningIntellektuell',
                             id: 'check-funktionsnedsattningIntellektuell',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_8.RBK',
@@ -253,15 +254,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningIntellektuell',
                                 label: {
                                     key: 'DFR_8.1.RBK',
-                                    helpKey: 'DFR_8.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_8.1.HLP'
                                 }
                             }]
                         }]), fraga(9, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKommunikation',
                             id: 'check-funktionsnedsattningKommunikation',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_9.RBK',
@@ -272,15 +272,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningKommunikation',
                                 label: {
                                     key: 'DFR_9.1.RBK',
-                                    helpKey: 'DFR_9.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_9.1.HLP'
                                 }
                             }]
                         }]), fraga(10, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningKoncentration',
                             id: 'check-funktionsnedsattningKoncentration',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_10.RBK',
@@ -291,15 +290,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningKoncentration',
                                 label: {
                                     key: 'DFR_10.1.RBK',
-                                    helpKey: 'DFR_10.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_10.1.HLP'
                                 }
                             }]
                         }]), fraga(11, '', '', {}, [{
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningPsykisk',
                             id: 'check-funktionsnedsattningPsykisk',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_11.RBK',
@@ -310,15 +308,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningPsykisk',
                                 label: {
                                     key: 'DFR_11.1.RBK',
-                                    helpKey: 'DFR_11.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_11.1.HLP'
                                 }
                             }]
                         }]), fraga(12, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningSynHorselTal',
                             id: 'check-funktionsnedsattningSynHorselTal',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_12.RBK',
@@ -329,15 +326,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningSynHorselTal',
                                 label: {
                                     key: 'DFR_12.1.RBK',
-                                    helpKey: 'DFR_12.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_12.1.HLP'
                                 }
                             }]
                         }]), fraga(13, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningBalansKoordination',
                             id: 'check-funktionsnedsattningBalansKoordination',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_13.RBK',
@@ -348,15 +344,14 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningBalansKoordination',
                                 label: {
                                     key: 'DFR_13.1.RBK',
-                                    helpKey: 'DFR_13.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_13.1.HLP'
                                 }
                             }]
                         }]),fraga(14, '', '', {}, [ {
                             type: 'ue-component-toggler',
                             modelPropToWatch: 'funktionsnedsattningAnnan',
                             id: 'check-funktionsnedsattningAnnan',
+                            validationContext: {key: 'funktionsnedsattning' },
                             label: {
                                 labelType: 'h4',
                                 key: 'FRG_14.RBK',
@@ -367,9 +362,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                                 modelProp: 'funktionsnedsattningAnnan',
                                 label: {
                                     key: 'DFR_14.1.RBK',
-                                    helpKey: 'DFR_14.1.HLP',
-                                    required: 'true',
-                                    requiredProp: funktionsnedsattningar()
+                                    helpKey: 'DFR_14.1.HLP'
                                 }
                             }]
                         }]),

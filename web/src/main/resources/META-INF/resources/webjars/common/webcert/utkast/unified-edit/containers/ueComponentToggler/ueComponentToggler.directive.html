@@ -1,10 +1,8 @@
-<ue-validation-wrapper validations="validation.messagesByField[config.modelPropToWatch.toLowerCase()]"
-                       class="ue-del-fraga">
-  <!--ng-change="updateValidation(form, model)"-->
+<div class="ue-del-fraga">
 
   <div class="hover-effect">
 
-    <div class="component-toggler">
+    <div class="component-toggler" ng-if="!model[config.modelPropToWatch]">
       <button ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
               type="button"
               class="btn btn-link"
@@ -20,7 +18,7 @@
     </div>
 
     <!-- NOTE: This must be below component-toggler otherwise it will move down when help is opened -->
-    <label>
+    <label ng-class="{'error': validation.messagesByField[config.validationContext.key]}">
       <ue-label config="::config.label" model="::model"></ue-label>
     </label>
 
@@ -30,4 +28,4 @@
     <ue-render-components form="::form" config="::config.components" model="::model" />
   </div>
 
-</ue-validation-wrapper>
+</div>

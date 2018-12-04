@@ -22,9 +22,8 @@ angular.module('common').factory('common.domain.ModelTransformService',
 
         return {
             toStringFilter: function(fromFrontend){
-
                 if(typeof fromFrontend === 'string'){
-                    fromFrontend.trim();
+                    fromFrontend = fromFrontend.trim();
                 }
 
                 if(fromFrontend === ''){

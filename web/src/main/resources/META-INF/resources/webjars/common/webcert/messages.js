@@ -596,6 +596,7 @@
             'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
             'common.validation.patient.postort.missing': 'Postort saknas.',
             'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror.',
+            'common.validation.funktionsnedsattning.empty': 'Beskriv minst en funktionsnedsättning.',
 
             'common.label.year': 'År',
             'common.label.month': 'Månad',
