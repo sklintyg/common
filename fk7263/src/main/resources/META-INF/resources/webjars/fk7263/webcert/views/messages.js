@@ -138,7 +138,7 @@ angular.module('fk7263').constant('fk7263.messages', {
         'fk7263.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på. <br><br>' +
         'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
             '<ul><li>Sjukskrivningsperiod och grad.</li>' +
-            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+            '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
             '<li>Referenser som intyget baseras på.</li></ul>',
 
         'fk7263.modal.copy.text': 'Vid kopiering skapas ett nytt intygsutkast med samma information som i det ursprungliga intyget. Uppgifterna i ett förnyat intygsutkast går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.',

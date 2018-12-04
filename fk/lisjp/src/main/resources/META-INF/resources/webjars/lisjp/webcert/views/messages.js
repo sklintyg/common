@@ -65,11 +65,11 @@ angular.module('lisjp').constant('lisjp.messages', {
             'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
             '<ul>' +
             '<li>Sjukskrivningsperiod och grad.</li>' +
-            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+            '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
             '<li>Referenser som intyget baseras på.</li>' +
             '</ul>' +
             'Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
-            'Det nya utkastet skapas på den enhet du är  inloggad på.'
+            'Det nya utkastet skapas på den enhet du är inloggad på.'
     },
     'en': {
         'lisjp.label.pagetitle': 'Show Certificate'
