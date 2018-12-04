@@ -66,6 +66,7 @@ public class IntygHeader implements IEventHandler {
     private static final float DEFAULT_PADDING = millimetersToPoints(5f);
     private static final float SPACING_POINTS = 3f;
     private static final float THOUSAND = 1000.0f;
+    private static final int WIDTH_SCALE_THRESHOLD = 3;
 
     private PrintConfig printConfig;
     private ImageData logotypeData;
@@ -129,19 +130,22 @@ public class IntygHeader implements IEventHandler {
     }
 
     private void renderLogotype(Rectangle pageSize, PdfCanvas pdfCanvas) {
-
         // We need to constrain the logotype either by width or by height. Typically width.
-        if (logotypeData.getWidth() > millimetersToPoints(LOGOTYPE_MAX_WIDTH)) {
-            // Constrain by width
+        if (logotypeData.getWidth() > LOGOTYPE_MAX_WIDTH) {
             float ratio = LOGOTYPE_MAX_WIDTH / logotypeData.getWidth();
-            pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
-        } else {
-            // Constrain by height
-            pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT, LOGOTYPE_MAX_HEIGHT, false, false);
+            float widthHeightRatio = logotypeData.getWidth() / logotypeData.getHeight();
+            // Decide on constraint depending on how quadratic the logo image is determined to be
+            if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
+                // Height constraint, add bottom padding
+                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+                        pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
+                        LOGOTYPE_MAX_HEIGHT, false, false);
+            } else {
+                // Width constraint
+                pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
+                        pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
+            }
         }
-
     }
 
     private void renderUtskriftsDatum(Rectangle pageSize, Canvas canvas) {
