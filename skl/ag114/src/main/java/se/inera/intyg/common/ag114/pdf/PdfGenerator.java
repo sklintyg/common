@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ag114.pdf;
 
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -49,9 +51,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
-
 public class PdfGenerator {
 
     protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
@@ -59,8 +58,11 @@ public class PdfGenerator {
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skl_logo.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag1-14-uv-viewmodel.v%s.js";
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
-    private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
-            + "elektroniskt av intygsutfärdaren. Intyget är avsett för patientens arbetsgivare som längst till och "
+    private static final String INFO_SIGNED_TEXT_COMPLETE = "Detta är en utskrift av ett elektroniskt intyg. "
+            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+    private static final String INFO_SIGNED_TEXT_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. "
+            + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
+    private static final String INFO_SIGNED_TEXT_COMMON = " Intyget är avsett för patientens arbetsgivare som längst till och "
             + "med dag 14 i sjukskrivningsperioden";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
             + "INTE skickas.";
@@ -91,7 +93,7 @@ public class PdfGenerator {
                     .withIntygsNamn(Ag114EntryPoint.MODULE_NAME)
                     .withIntygsKod(Ag114EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
-                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast))
+                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, modelPropReplacements.isEmpty()))
                     .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
                     .withLeftMarginTypText(intygTexts.getProperties().getProperty("formId"))
                     .withUtfardarLogotyp(logoData)
@@ -134,9 +136,21 @@ public class PdfGenerator {
         return overrides;
     }
 
-    private String buildInfoText(boolean isUtkast) {
+    private String buildInfoText(boolean isUtkast, boolean isComplete) {
+        if (isUtkast) {
+            return INFO_UTKAST_TEXT;
+        }
+
         StringBuilder buf = new StringBuilder();
-        buf.append(isUtkast ? INFO_UTKAST_TEXT : INFO_SIGNED_TEXT);
+
+        if (isComplete) {
+            buf.append(INFO_SIGNED_TEXT_COMPLETE);
+        } else {
+            buf.append(INFO_SIGNED_TEXT_CUSTOMIZED);
+        }
+
+        buf.append(INFO_SIGNED_TEXT_COMMON);
+
         return buf.toString();
     }
 

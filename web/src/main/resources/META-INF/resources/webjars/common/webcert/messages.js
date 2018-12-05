@@ -147,7 +147,7 @@
             'common.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av en sjukskrivning. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>' +
                 'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
                 '<ul><li>Information om sjukskrivningsperiod.</li>' +
-                '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
+                '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
                 '<li>Referenser som intyget baseras på.</li></ul>',
 
             'common.modal.marked.ready.notification.sent': 'Observera att utkastet saknar obligatoriska uppgifter. Om du inte kan fylla i mer information kan du ändå markera intyget som klart för signering. Läkaren kommer då behöva komplettera intyget med de saknade uppgifterna innan det går att signera.',
@@ -596,6 +596,7 @@
             'common.validation.patient.postnummer.missing': 'Postnummer saknas.',
             'common.validation.patient.postort.missing': 'Postort saknas.',
             'common.validation.postnummer.incorrect-format': 'Postnummer måste anges med fem siffror.',
+            'common.validation.funktionsnedsattning.empty': 'Beskriv minst en funktionsnedsättning.',
 
             'common.label.year': 'År',
             'common.label.month': 'Månad',

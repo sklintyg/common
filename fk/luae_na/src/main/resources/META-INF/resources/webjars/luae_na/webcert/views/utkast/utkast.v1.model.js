@@ -61,13 +61,27 @@ angular.module('luae_na').factory('luae_na.Domain.IntygModel.v1',
                         'diagnosForNyBedomning': undefined,
 
                         // Ketagori 5 Funktionsnedsättning
-                        'funktionsnedsattningIntellektuell': undefined,
-                        'funktionsnedsattningKommunikation': undefined,
-                        'funktionsnedsattningKoncentration': undefined,
-                        'funktionsnedsattningPsykisk': undefined,
-                        'funktionsnedsattningSynHorselTal': undefined,
-                        'funktionsnedsattningBalansKoordination': undefined,
-                        'funktionsnedsattningAnnan': undefined,
+                        'funktionsnedsattningIntellektuell': new ModelAttr('funktionsnedsattningIntellektuell', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningKommunikation': new ModelAttr('funktionsnedsattningKommunikation', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningKoncentration': new ModelAttr('funktionsnedsattningKoncentration', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningPsykisk': new ModelAttr('funktionsnedsattningPsykisk', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningSynHorselTal': new ModelAttr('funktionsnedsattningSynHorselTal', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningBalansKoordination': new ModelAttr('funktionsnedsattningBalansKoordination', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
+                        'funktionsnedsattningAnnan': new ModelAttr('funktionsnedsattningAnnan', {
+                            toTransform: ModelTransform.toStringFilter
+                        }),
 
                         // Kategori 6 Aktivitetsbegransning
                         'aktivitetsbegransning': undefined,

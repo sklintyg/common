@@ -263,7 +263,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                 && Strings.nullToEmpty(utlatande.getFunktionsnedsattningPsykisk()).trim().isEmpty()
                 && Strings.nullToEmpty(utlatande.getFunktionsnedsattningSynHorselTal()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, "common.validation.funktionsnedsattning.empty");
         }
     }
 

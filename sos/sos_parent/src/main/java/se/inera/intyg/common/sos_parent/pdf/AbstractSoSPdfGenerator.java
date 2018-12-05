@@ -154,7 +154,7 @@ public abstract class AbstractSoSPdfGenerator {
     protected void checkRadioField(String fieldId, String value) {
         try {
             assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_RADIOBUTTON;
-            fields.setField(fieldId, value);
+            fields.setField(fieldId, value, true);
         } catch (IOException | DocumentException e) {
             throw new IllegalArgumentException("Could not check radiofield '" + fieldId + "'", e);
         }
@@ -163,7 +163,7 @@ public abstract class AbstractSoSPdfGenerator {
     protected void checkCheckboxField(String fieldId, String value) {
         try {
             assert fields.getFieldType(fieldId) == AcroFields.FIELD_TYPE_CHECKBOX;
-            fields.setField(fieldId, value);
+            fields.setField(fieldId, value, true);
         } catch (IOException | DocumentException e) {
             throw new IllegalArgumentException("Could not check checkboxfield '" + fieldId + "'", e);
         }

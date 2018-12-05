@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ts_diabetes.v3.rest;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -204,7 +205,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
         List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(ResolveOrder.PU, ResolveOrder.PARAMS);
 
-        return new PatientDetailResolveOrder(null, null, avlidenStrat, otherStrat);
+        return new PatientDetailResolveOrder(null, ImmutableList.of(), avlidenStrat, otherStrat);
     }
 
 }

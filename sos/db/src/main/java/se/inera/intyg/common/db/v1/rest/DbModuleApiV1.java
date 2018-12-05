@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.db.v1.rest;
 
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 import java.time.LocalDateTime;
@@ -118,7 +119,7 @@ public class DbModuleApiV1 extends SosParentModuleApi<DbUtlatandeV1> {
     @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Collections.singletonList(PU);
-        List<ResolveOrder> avlidenStrat = Collections.singletonList(PU);
+        List<ResolveOrder> avlidenStrat = Collections.singletonList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Collections.singletonList(PU);
 
         return new PatientDetailResolveOrder("db", adressStrat, avlidenStrat, otherStrat);
