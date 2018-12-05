@@ -32,6 +32,7 @@ include ':db'
 include ':doi'
 include ':ag-parent'
 include ':ag114'
+include ':ag7804'
 
 project(':logging-util').projectDir = "$rootDir/util/logging-util" as File
 project(':common-support').projectDir = "$rootDir/support" as File
@@ -55,3 +56,4 @@ project(':db').projectDir = "$rootDir/sos/db" as File
 project(':doi').projectDir = "$rootDir/sos/doi" as File
 project(':ag-parent').projectDir = "$rootDir/skl/ag-parent" as File
 project(':ag114').projectDir = "$rootDir/skl/ag114" as File
+project(':ag7804').projectDir = "$rootDir/skl/ag7804" as File

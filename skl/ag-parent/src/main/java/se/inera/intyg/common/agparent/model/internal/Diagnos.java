@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ag114.v1.model.internal;
+package se.inera.intyg.common.agparent.model.internal;
 
 import javax.annotation.Nullable;
 

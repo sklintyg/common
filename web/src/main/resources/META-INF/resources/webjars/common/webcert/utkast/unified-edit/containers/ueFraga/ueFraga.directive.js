@@ -28,7 +28,14 @@ angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState
                 model: '='
             },
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueFraga/ueFraga.directive.html',
-            link: function($scope) {
+            link: function($scope, $element) {
+
+                // Not using ng-class for performance (IE 11)
+                if ($scope.config.cssClass) {
+                    $element.addClass($scope.config.cssClass);
+                }
+
+
                 $scope.validation = UtkastValidationViewState;
 
                 // One time bindings will stop watching when the result is no longer undefined.
