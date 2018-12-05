@@ -50,7 +50,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 @RunWith(MockitoJUnitRunner.class)
 public class Ag7804ModuleApiRenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "v1/ag7804ModelCompareUtil/utlatande.json";
+    public static final String TESTFILE_UTLATANDE = "v1/Ag7804ModelCompareUtil/utlatande.json";
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
