@@ -51,7 +51,7 @@ public class Ag114EntryPointTest {
     public void testGetDetailedModuleDescriptionReturnNullIfNoIntygTextsRepositorySet() throws Exception {
         entryPoint = new Ag114EntryPoint();
         ReflectionTestUtils.setField(entryPoint, "repo", Optional.empty());
-        assertNull(entryPoint.getDetailedModuleDescription());
+        assertEquals("", entryPoint.getDetailedModuleDescription());
     }
 
     @Test

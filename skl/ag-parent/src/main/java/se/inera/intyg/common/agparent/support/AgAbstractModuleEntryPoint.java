@@ -46,7 +46,7 @@ public abstract class AgAbstractModuleEntryPoint implements ModuleEntryPoint {
                 return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
             }
         }
-        return null;
+        return "";
     }
 
     @Override
