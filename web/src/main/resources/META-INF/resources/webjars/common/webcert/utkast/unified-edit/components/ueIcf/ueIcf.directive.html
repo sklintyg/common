@@ -55,7 +55,7 @@
       <span class="problemListTitle">{{ config.modelProp == 'funktionsnedsattning' ?
           'Problem som påverkar patientens möjlighet att utföra sin sysselsättning:' :
           'Svårigheter som påverkar patientens sysselsättning:'}}</span>
-    <span class="problem" ng-repeat="val in model[config.kategoriProp]">{{val}}</span>
+    <span class="problem" ng-repeat="val in model[config.kategoriProp] track by $index">{{val}}</span>
   </div>
 
   <div ng-if="(focus || modelGetterSetter()) && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}</div>
