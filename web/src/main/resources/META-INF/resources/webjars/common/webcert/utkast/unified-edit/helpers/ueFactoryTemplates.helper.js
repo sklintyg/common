@@ -50,7 +50,9 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 frageId: id,
                 components: components,
                 hideExpression: options.hideExpression,
-                validationContext: options.validationContext
+                validationContext: options.validationContext,
+                disabledFunc: options.disabledFunc,
+                cssClass: options.cssClass
             };
             if (labelKey) {
                 fraga.label = {

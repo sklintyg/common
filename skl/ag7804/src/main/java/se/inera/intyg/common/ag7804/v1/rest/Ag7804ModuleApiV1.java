@@ -69,7 +69,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
-        Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
+        //Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
         // TODO:implement
         return null;
     }

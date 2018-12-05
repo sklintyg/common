@@ -40,6 +40,9 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
             function isDiagnoseRequired(model) {
                 return model.onskarFormedlaDiagnos === true && !ObjectHelper.deepGet(model, 'diagnoser[0].diagnosKod');
             }
+            function isFunktionsNedsattningRequired(model) {
+                return model.onskarFormedlaFunktionsnedsattning === true && !model.funktionsnedsattning;
+            }
 
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
@@ -131,11 +134,14 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                        fraga(100, 'FRG_100.RBK', 'FRG_100.HLP', { required: true, requiredProp: 'onskarFormedlaDiagnos'}, [{
+                        fraga(100, 'FRG_100.RBK', 'FRG_100.HLP', { required: true, requiredProp: 'onskarFormedlaDiagnos', cssClass: 'yellow-banner'}, [{
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaDiagnos'
                         }]),
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {
+                            disabledFunc: function(model) {
+                                return ObjectHelper.isEmpty(model.onskarFormedlaDiagnos);
+                            },
                             required: true,
                             requiredProp: isDiagnoseRequired,
                             hideExpression: 'model.onskarFormedlaDiagnos === false'
@@ -150,21 +156,23 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                        fraga(101, 'FRG_101.RBK', 'FRG_101.HLP', { required: true, requiredProp: 'onskarFormedlaFunktionsnedsattning'}, [{
+                        fraga(101, 'FRG_101.RBK', 'FRG_101.HLP', { required: true, requiredProp: 'onskarFormedlaFunktionsnedsattning', cssClass: 'yellow-banner'}, [{
                             type: 'ue-radio',
                             modelProp: 'onskarFormedlaFunktionsnedsattning'
                         }]),
                         fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {
+                            disabledFunc: function(model) {
+                                return ObjectHelper.isEmpty(model.onskarFormedlaFunktionsnedsattning);
+                            },
                             hideExpression: 'model.onskarFormedlaFunktionsnedsattning === false'
                         }, [{
                             type: 'ue-textarea',
                             modelProp: 'funktionsnedsattning',
-                            disabled: true,
                             label: {
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',
                                 required: true,
-                                requiredProp: 'funktionsnedsattning'
+                                requiredProp: isFunktionsNedsattningRequired
                             }
                         }]),
                         fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{

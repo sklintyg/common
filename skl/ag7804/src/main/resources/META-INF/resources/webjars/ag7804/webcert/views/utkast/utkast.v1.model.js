@@ -78,10 +78,10 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                 return resultArray;
             };
 
-            var ag7804Model = BaseAtticModel._extend({
+            var Ag7804Model = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
-                    init._super.call(this, 'ag7804Model', {
+                    init._super.call(this, 'Ag7804Model', {
 
                         'id': undefined,
                         'typ': undefined,
@@ -188,13 +188,13 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
 
             }, {
                 build : function(){
-                    return new DraftModel(new ag7804Model());
+                    return new DraftModel(new Ag7804Model());
                 }
             });
 
             /**
              * Return the constructor function IntygModel
              */
-            return ag7804Model;
+            return Ag7804Model;
 
         }]);

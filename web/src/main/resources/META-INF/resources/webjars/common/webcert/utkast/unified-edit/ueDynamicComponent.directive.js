@@ -48,6 +48,9 @@ angular.module('common').directive('ueDynamicComponent',
                 if ($scope.config.hideExpression)  {
                     componentTemplate = '<div ng-if="!config.hideExpression || !$eval(config.hideExpression)" class="fold-animation">'+componentTemplate+'</div>';
                 }
+                if ($scope.config.disabledFunc)  {
+                    componentTemplate = '<fieldset ng-disabled="config.disabledFunc(model)">'+componentTemplate+'</fieldset>';
+                }
 
                 $element.append($compile(componentTemplate)($scope));
             }

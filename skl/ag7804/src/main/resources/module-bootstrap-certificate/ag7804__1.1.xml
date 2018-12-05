@@ -11,8 +11,8 @@
       <ns3:displayName>Läkarintyg om arbetsförmåga – arbetsgivare</ns3:displayName>
     </typ>
     <version>1.0</version>
-    <signeringstidpunkt>2016-08-10T08:59:13</signeringstidpunkt>
-    <skickatTidpunkt>2016-08-10T08:59:13</skickatTidpunkt>
+    <signeringstidpunkt>2018-12-02T08:59:13</signeringstidpunkt>
+    <skickatTidpunkt>2018-12-02T08:59:13</skickatTidpunkt>
     <patient>
       <person-id>
         <ns3:root>1.2.752.129.2.1.3.1</ns3:root>
@@ -118,6 +118,9 @@
     <svar id="29">
       <delsvar id="29.1">Siare</delsvar>
     </svar>
+    <svar id="100">
+      <delsvar id="100.1">true</delsvar>
+    </svar>
     <svar id="6">
       <delsvar id="6.1">J&#xE4;rnbristanemi</delsvar>
       <delsvar id="6.2">
@@ -140,6 +143,9 @@
           <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
         </ns3:cv>
       </delsvar>
+    </svar>
+    <svar id="101">
+      <delsvar id="101.1">true</delsvar>
     </svar>
     <svar id="35">
       <delsvar id="35.1">Inga fynd gjordes</delsvar>
