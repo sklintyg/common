@@ -21,6 +21,9 @@
 
 angular.module('af00213').constant('af00213.messages', {
     'sv': {
+        /// IS-14c / Modal-02c
+        'af00213.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p>',
+
         //Validation messages
         'af00213.validation.atgarder.inte_aktuellt_no_combine': 'Inte aktuellt kan inte kombineras med andra val.', // Should never happen because GUI should block this combination
         'af00213.validation.atgarder.invalid_combination': 'Beskrivning för arbetslivsinriktade åtgärder kan inte kombineras med åtgärd på detta sätt.', // Should never happen because GUI should block this combination
