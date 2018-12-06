@@ -19,4 +19,8 @@
 
 wc-sekretess-avliden-ikon {
   display: inline-flex;
+  color: $wc-color-18;
+  .material-icons {
+    vertical-align: top;
+  }
 }
