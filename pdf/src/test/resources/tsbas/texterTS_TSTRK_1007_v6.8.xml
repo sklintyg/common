@@ -209,7 +209,7 @@ Avser svenskt EU-pass, annat EU-pass utfärdade från och med den 1 september 20
 	-->
 	<text id="KAT_14.RBK">Sjukhusvård</text>
 
-	<text id="FRG_30.RBK">Har patienten vårdats på sjukhus eller haft kontakt med läkare med anledning av fälten 1-13?</text>
+	<text id="FRG_30.RBK">Har patienten vårdats på sjukhus eller haft kontakt med läkare med anledning av något som efterfrågats i tidigare frågor i intyget?</text>
 	<text id="DFR_30.2.RBK">Om frågan besvarats med ja, när?</text>
 	<text id="DFR_30.3.RBK">Vårdinrättningens namn och klinik/er</text>
 	<text id="DFR_30.4.RBK">För vad?</text>
