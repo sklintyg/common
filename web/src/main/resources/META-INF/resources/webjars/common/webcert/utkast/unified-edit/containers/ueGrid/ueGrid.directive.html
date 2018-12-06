@@ -5,13 +5,27 @@
         <ue-dynamic-component config="::col" model="::model" form="::form"></ue-dynamic-component>
       </ue-validation-wrapper>
     </div>
+
+    <div class="col-xs-12" ng-if="useRowValidation">
+      <div ng-if="useRowValidation" ng-repeat="cvk in getRowValidationKeys(row, $index)">
+        <ue-validation-list
+            class="ng-animate-disabled"
+            field-type="{{cvk.type}}"
+            warnings="validation.warningMessagesByField[cvk.key]"
+            validations="validation.messagesByField[cvk.key]">
+        </ue-validation-list>
+      </div>
+    </div>
   </div>
-  <div ng-repeat="cvk in validationKeys">
-    <ue-validation-list
-        class="ng-animate-disabled"
-        field-type="{{cvk.type}}"
-        warnings="validation.warningMessagesByField[cvk.key]"
-        validations="validation.messagesByField[cvk.key]">
-    </ue-validation-list>
+
+  <div ng-if="!useRowValidation">
+    <div ng-repeat="cvk in validationKeys">
+      <ue-validation-list
+          class="ng-animate-disabled"
+          field-type="{{cvk.type}}"
+          warnings="validation.warningMessagesByField[cvk.key]"
+          validations="validation.messagesByField[cvk.key]">
+      </ue-validation-list>
+    </div>
   </div>
 </div>

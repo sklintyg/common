@@ -212,6 +212,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                         }]),
                         fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {}, [{
                             type: 'ue-grid',
+                            independentRowValidation: true,
                             components: [
                                 // Row 1
                                 [{

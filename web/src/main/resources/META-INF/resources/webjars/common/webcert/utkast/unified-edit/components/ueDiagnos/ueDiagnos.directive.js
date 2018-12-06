@@ -39,6 +39,7 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
             AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
             $scope.validation = UtkastViewState.validation;
+            $scope.diagnosValidations = [];
 
             var diagnosViewState = $scope.diagnosViewState = {
                 diagnosKodSystem: 'ICD_10_SE'
@@ -253,10 +254,18 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 angular.forEach($scope.validation.messagesByField,
                     function(validations, key) {
                         if (key.substr(0, $scope.config.modelProp.length + 1) === $scope.config.modelProp.toLowerCase() + '[') {
-                            $scope.diagnosValidations = $scope.diagnosValidations.concat(validations);
+                            var index = parseInt(key.substr($scope.config.modelProp.length + 1, 1), 10);
+                            if(typeof $scope.diagnosValidations[index] === 'undefined') {
+                                $scope.diagnosValidations[index] = [];
+                            }
+                            $scope.diagnosValidations[index].push(validations[0]);
                         }
                     });
             });
+
+            $scope.getValidationErrors = function(index) {
+                return $scope.diagnosValidations[index] || undefined;
+            };
 
             $scope.validate = function() {
                 //The timeout here allows the model to be updated (via typeahead selection) before sending it for validation

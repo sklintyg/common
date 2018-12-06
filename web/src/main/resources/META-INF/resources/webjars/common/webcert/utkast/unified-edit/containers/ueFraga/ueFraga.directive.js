@@ -52,6 +52,18 @@ angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState
                         if (angular.isArray(c)) {
                             _collectChildValidationKeys(arr, c);
                         }
+
+                        //If child should have it's own validation, don't add it to arr.
+                        //But we do want validation keys grouped to row
+                        if(c.independentRowValidation) {
+                            if(c.components) {
+                                c.validationRows = c.components.map(function(component) {
+                                    return _collectChildValidationKeys([], [component]);
+                                });
+                            }
+                            return;
+                        }
+
                         //Add itself...
                         if (c.modelProp) {
                             // Unfortunately we have duplicate modelProps in db/doi for dodsdatum
@@ -71,9 +83,7 @@ angular.module('common').directive('ueFraga', ['common.UtkastValidationViewState
                     return arr;
                 }
 
-
                 $scope.validationKeys = _collectChildValidationKeys([], $scope.config.components);
-
                 //Also, add the validationKey for the actual fraga (for frage-level EMPTY-type validationmessages)
                 if ($scope.config.validationContext) {
                     $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});

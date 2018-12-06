@@ -38,11 +38,15 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
                 }
             };
 
+            $scope.useRowValidation = !!$scope.config.validationRows;
+            $scope.getRowValidationKeys = function(row, $index) {
+                return $scope.config.validationRows[$index];
+            };
+
             if ($scope.config.validationContext) {
                 $scope.validationKeys = [];
                 $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
             }
-
         }
     };
 

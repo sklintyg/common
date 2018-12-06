@@ -170,7 +170,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                                 type: 'ue-grid',
                                 hideExpression: '!model.underlagFinns',
                                 colSizes: [3,3,6],
-                                validationContext: {key: 'underlag', type: 'ue-underlag'},
+                                independentRowValidation: true,
                                 components: [
                                     // Row 1
                                     [{

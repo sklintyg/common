@@ -65,7 +65,10 @@ public final class SosInternalDraftValidator {
                         ValidationMessageType.EMPTY);
             } else {
                 ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
-                        ValidationMessageType.EMPTY, "common.validation.ue-vaguedate.empty");
+                        ValidationMessageType.EMPTY, "common.validation.ue-vaguedate.empty.year");
+
+                ValidatorUtil.addValidationError(validationMessages, "dodsdatumOchdodsPlats", DODSDATUM_JSON_ID,
+                        ValidationMessageType.EMPTY, "common.validation.ue-vaguedate.empty.month");
             }
         } else if (utlatande.getDodsdatumSakert()) {
 

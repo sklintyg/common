@@ -630,7 +630,8 @@
             'common.validation.ue-synskarpa.invalid_format': 'Ange synskärpa i intervallet 0,0 - 2,0.',
             'common.validation.ue-syn.empty': 'Du måste välja ett alternativ.',
             'common.validation.ue-korkort-bedomning.empty': 'Du måste välja ett alternativ.',
-            'common.validation.ue-vaguedate.empty': 'Du måste ange år och månad.',
+            'common.validation.ue-vaguedate.empty.year': 'Du måste ange år.',
+            'common.validation.ue-vaguedate.empty.month': 'Du måste ange månad.',
             'common.validation.ue-vaguedate.invalid_format': 'åååå måste anges, månad och dag kan anges som 00.',
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-percent-field.empty': 'Fältet får inte vara tomt.',

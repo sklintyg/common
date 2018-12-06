@@ -1,6 +1,5 @@
 ue-sjukskrivningar {
 
-
   wc-alert-message {
     .alert {
       margin: 10px 0;
@@ -9,9 +8,6 @@ ue-sjukskrivningar {
 
   .hours-wrapper {
     margin: 1em 0;
-    label {
-      padding-left: 9px;
-    }
     span i {
       padding-top: 10px;
     }
@@ -42,12 +38,7 @@ ue-sjukskrivningar {
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    margin: 0 0 0 6px;
     flex-wrap: wrap;
-  }
-
-  .extra-margin-bottom {
-    padding-bottom: 12px;
   }
 
   .checkbox-width {
@@ -61,6 +52,16 @@ ue-sjukskrivningar {
   .date-width {
     width: 16em;
      padding-left: 23px;
+  }
+
+  .sjukskrivningar-section{
+    margin-bottom: 12px;
+    ue-validation-list{
+
+      .validation-error{
+        margin: 6.5px 0;
+      }
+    }
   }
 
   @media (max-width: 750px) {

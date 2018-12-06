@@ -28,14 +28,8 @@ ue-diagnos {
     span.diagnos-text {
       color: $wc-color-09;
     }
-    INPUT.validation-error {
+    input.validation-error {
       border-color: $wc-color-11;
-    }
-    table.margin-top {
-      margin-top: 12px;
-      tbody tr:last-of-type td{
-        padding-bottom: 0;
-      }
     }
 
     .diagnos-loading {
@@ -46,19 +40,19 @@ ue-diagnos {
     }
 
     .diagnos-row {
-      td, th {
-        padding-bottom: 15px;
-        min-width: 112px;
+      padding-bottom: 15px;
+      flex-wrap: wrap;
+
+      &:last-of-type{
+        padding-bottom: 0;
       }
 
       .diagnos-description-column {
-        padding-right: 0px;
-        width: 83%;
-        position: absolute;
+        padding-left: 20px;
+        flex: 1;
 
         input.form-control {
           max-width: 100%;
-          margin-left: 1.5em;
         }
       }
 
@@ -66,8 +60,17 @@ ue-diagnos {
         width: 112px;
 
         input.form-control {
-          width: 112px;
           padding: 0 9px;
+        }
+      }
+
+      ue-validation-list{
+        width: 100%;
+        flex-grow: 1;
+        margin-top: 6.5px;
+
+        .validation-error{
+          margin-top: 6.5px;
         }
       }
     }
@@ -75,15 +78,13 @@ ue-diagnos {
     .dropdown-menu {
       max-height: 350px;
       max-width: 100%;
-      width: 100%;
-      margin-right: 28px;
       padding: 5px 0;
       overflow-y: auto;
       overflow-x: hidden;
       border-color: $wc-color-21;
+      right: 0;
 
       li {
-
         a {
           text-decoration: none;
         }
@@ -108,20 +109,6 @@ ue-diagnos {
           padding: 3px 7px;
           display: inline-block;
         }
-      }
-
-    }
-
-    @media (max-width: 1200px) {
-      .diagnos-description-column {
-          width: 88% !important;
-
-        input.form-control {
-          max-width: 88% !important;
-        }
-      }
-      .dropdown-menu {
-        width: 88%;
       }
     }
   }

@@ -19,6 +19,8 @@
                maxlength="{{config.htmlMaxlength || 3500}}">
       </div>
       <span class="dodsorsak-row__letter">{{letter}}</span>
+      <ue-validation-list field-type="dodsorsak" validations="orsakValidations"></ue-validation-list>
+
     </div>
     <div>
       <div class="inline-block padding-top-small">
@@ -44,8 +46,6 @@
 
       </div>
     </div>
+    <ue-validation-list field-type="ue-date" validations="dateValidations"></ue-validation-list>
   </div>
-
-  <ue-validation-list field-type="dodsorsak" validations="orsakValidations"></ue-validation-list>
-  <ue-validation-list field-type="ue-date" validations="dateValidations"></ue-validation-list>
 </div>

@@ -162,6 +162,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                                 type: 'ue-grid',
                                 hideExpression: '!model.underlagFinns',
                                 colSizes: [3,3,6],
+                                independentRowValidation: true,
                                 components: [
                                     // Row 1
                                     [{
