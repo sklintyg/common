@@ -298,22 +298,24 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
                 labelKey: 'FRG_103.RBK',
                 components: [
                     {
-                        type: 'uv-boolean-statement',
+                        type: 'uv-del-fraga',
                         labelKey: 'DFR_103.1.RBK',
-                        modelProp: 'kontaktMedAg'
+                        components: [  {
+                            type: 'uv-boolean-statement',
+                            modelProp: 'kontaktMedAg'
+                        }]
                     },
                     {
-                        type: 'uv-simple-value',
+                        type: 'uv-del-fraga',
                         labelKey: 'DFR_103.2.RBK',
-                        modelProp: 'anledningTillKontakt'
+                        components: [  {
+                            type: 'uv-simple-value',
+                            modelProp: 'anledningTillKontakt'
+                        }]
                     }
                 ]
             }
         ]
-    }, {
-        type: 'uv-tillaggsfragor',
-        labelKey: 'KAT_9999.RBK',
-        modelProp: 'tillaggsfragor'
     }, {
         type: 'uv-skapad-av',
         modelProp: 'grundData.skapadAv'

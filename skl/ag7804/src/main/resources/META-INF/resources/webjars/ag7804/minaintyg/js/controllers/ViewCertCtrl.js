@@ -24,10 +24,6 @@ angular.module('ag7804').controller(
                     $scope.certificateId = $stateParams.certificateId;
                     $scope.cert = undefined;
 
-                    $scope.send = function() {
-                        $location.path('/send/ag7804/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA');
-                    };
-
                     $scope.customizeCertificate = function() {
                         customizeViewstate.resetModel();
                         $location.path('/ag7804/' + $stateParams.intygTypeVersion + '/customize-ag7804/' + $stateParams.certificateId + '/step1');

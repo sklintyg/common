@@ -13,7 +13,6 @@
                                          replaced-message-key="ag7804.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
-        <span dynamic-label key="modules.page-header.info.select-recipients-and-send"></span>
         <span dynamic-label key="modules.page-header.info.customize-pdf"></span>
         <span dynamic-label key="modules.page-header.info.download-pdf"></span>
         <span dynamic-label key="modules.page-header.info.archive"></span>
@@ -44,7 +43,9 @@
           <span dynamic-label key="modules.customize.message.customize.disabled"></span>
         </div>
 
-        <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
+        <mi-certificate-action-buttons cert-model="cert"
+                                       enable-archive="true"
+                                       enable-print="true"
                                        is-replaced="certMeta.isReplaced"
                                        on-customize-pdf="customizeCertificate()" enable-customize="!cert.avstangningSmittskydd">
 

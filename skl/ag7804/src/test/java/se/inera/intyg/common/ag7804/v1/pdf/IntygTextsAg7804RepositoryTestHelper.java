@@ -45,7 +45,7 @@ public class IntygTextsAg7804RepositoryTestHelper extends IntygTextsRepositoryIm
     public void update()  {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v1/text/texterMU_ag7804_v1.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v1/text/texterMU_AG7804_v1.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

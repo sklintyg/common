@@ -51,8 +51,9 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.schemas.contract.Personnummer;
 
 public class PdfGenerator {
-//TODO: fix contants
-    protected static final String CERTIFICATE_FILE_PREFIX = "sjukloneintyg_";
+
+    protected static final String CERTIFICATE_FILE_BASE_NAME = "arbetsgivarintyg_";
+    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "minimalt_" + CERTIFICATE_FILE_BASE_NAME;
     private static final String PDF_SUMMARY_HEADER = Ag7804EntryPoint.MODULE_NAME;
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "skl_logo.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag7804-uv-viewmodel.v%s.js";
@@ -165,7 +166,7 @@ public class PdfGenerator {
     // af_medicinskt_utlatande_åå_mm_dd_ttmm
     private String buildFilename() {
         LocalDateTime now = LocalDateTime.now();
-        return CERTIFICATE_FILE_PREFIX + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
+        return CERTIFICATE_FILE_BASE_NAME + now.format(DateTimeFormatter.ofPattern("yy_MM_dd_HHmm")) + ".pdf";
     }
 
     private JsonNode toIntygJsonNode(String jsonModel) throws IOException {

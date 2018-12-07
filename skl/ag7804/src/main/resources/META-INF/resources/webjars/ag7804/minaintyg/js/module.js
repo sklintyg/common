@@ -31,7 +31,7 @@ angular.module('ag7804').config(function($stateProvider) {
             }
         },
         data: {
-            title: 'Läkarintyg för sjukpenning',
+            title: 'Läkarintyg om arbetsförmåga – arbetsgivaren',
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
         }

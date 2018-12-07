@@ -1,0 +1,154 @@
+{
+  "id": "c387836b-615f-4f9f-be3b-b9302e5842a3",
+  "grundData": {
+    "signeringsdatum": "2018-12-07T08:50:56.370",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    },
+    "relation": {}
+  },
+  "textVersion": "1.0",
+  "avstangningSmittskydd": false,
+  "undersokningAvPatienten": "2018-12-07",
+  "telefonkontaktMedPatienten": "2018-12-07",
+  "journaluppgifter": "2018-12-07",
+  "annatGrundForMU": "2018-12-07",
+  "annatGrundForMUBeskrivning": "Beskrivning av vad annat är",
+  "sysselsattning": [
+    {
+      "typ": "NUVARANDE_ARBETE"
+    },
+    {
+      "typ": "ARBETSSOKANDE"
+    },
+    {
+      "typ": "FORALDRALEDIG"
+    },
+    {
+      "typ": "STUDIER"
+    }
+  ],
+  "nuvarandeArbete": "Jobbar som snickare",
+  "onskarFormedlaDiagnos": true,
+  "diagnoser": [
+    {
+      "diagnosKod": "J22",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Icke specificerad akut infektion i nedre luftvägarna",
+      "diagnosDisplayName": "Icke specificerad akut infektion i nedre luftvägarna"
+    },
+    {
+      "diagnosKod": "M46",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Andra inflammatoriska sjukdomar i ryggraden",
+      "diagnosDisplayName": "Andra inflammatoriska sjukdomar i ryggraden"
+    },
+    {
+      "diagnosKod": "Z432",
+      "diagnosKodSystem": "ICD_10_SE",
+      "diagnosBeskrivning": "Tillsyn av ileostomi",
+      "diagnosDisplayName": "Tillsyn av ileostomi"
+    }
+  ],
+  "onskarFormedlaFunktionsnedsattning": true,
+  "funktionsnedsattning": "Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning.Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning. Funktionsnedsättningen med ganska lång beskrivning.",
+  "aktivitetsbegransning": "Aktivitetsbegränsning",
+  "pagaendeBehandling": "Den Pågående medicinska behandlingen",
+  "planeradBehandling": "De planerade medicinska behandlingarna",
+  "sjukskrivningar": [
+    {
+      "sjukskrivningsgrad": "HELT_NEDSATT",
+      "period": {
+        "from": "2019-01-25",
+        "tom": "2019-02-21"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "TRE_FJARDEDEL",
+      "period": {
+        "from": "2019-01-02",
+        "tom": "2019-01-24"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "HALFTEN",
+      "period": {
+        "from": "2018-12-10",
+        "tom": "2019-01-01"
+      }
+    },
+    {
+      "sjukskrivningsgrad": "EN_FJARDEDEL",
+      "period": {
+        "from": "2018-12-07",
+        "tom": "2018-12-09"
+      }
+    }
+  ],
+  "forsakringsmedicinsktBeslutsstod": "Därför att jag bedömer det!",
+  "arbetstidsforlaggning": true,
+  "arbetstidsforlaggningMotivering": "Hade varit bättre om patienten alltid får sovmorgon, minst till kl 09.",
+  "arbetsresor": true,
+  "prognos": {
+    "typ": "ATER_X_ANTAL_DGR",
+    "dagarTillArbete": "NITTIO_DGR"
+  },
+  "arbetslivsinriktadeAtgarder": [
+    {
+      "typ": "ARBETSTRANING"
+    },
+    {
+      "typ": "ARBETSANPASSNING"
+    },
+    {
+      "typ": "BESOK_ARBETSPLATS"
+    },
+    {
+      "typ": "ERGONOMISK"
+    },
+    {
+      "typ": "HJALPMEDEL"
+    },
+    {
+      "typ": "KONTAKT_FHV"
+    },
+    {
+      "typ": "OMFORDELNING"
+    },
+    {
+      "typ": "OVRIGA_ATGARDER"
+    }
+  ],
+  "arbetslivsinriktadeAtgarderBeskrivning": "Här är ytterligare några åtgärder som jag tror skulle hjälpa patienten tillbaka till arbetslivet.",
+  "ovrigt": "Här är lite övriga upplysningar",
+  "kontaktMedAg": true,
+  "anledningTillKontakt": "Jag vill att Pelle på Vårdcentralen kontaktar mig för vidare diskussion.",
+  "typ": "ag7804"
+}

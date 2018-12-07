@@ -30,12 +30,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.ag7804.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -47,6 +50,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -55,9 +60,6 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     public static final String SCHEMATRON_FILE = "ag7804.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(Ag7804ModuleApiV1.class);
-
-    private static final String CERTIFICATE_FILE_PREFIX = "arbetsgivarintyg";
-    private static final String MINIMAL_CERTIFICATE_FILE_PREFIX = "minimalt_arbetsgivarintyg";
 
     public Ag7804ModuleApiV1() {
         super(Ag7804UtlatandeV1.class);
@@ -69,9 +71,17 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
             throws ModuleException {
-        //Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
-        // TODO:implement
-        return null;
+        try {
+            Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
+            IntygTexts texts = getTexts(Ag7804EntryPoint.MODULE_ID, utlatande.getTextVersion());
+            Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
+                    texts, statuses,
+                    applicationOrigin, utkastStatus, null);
+        } catch (Exception e) {
+            LOG.error("Failed to generate PDF for certificate!", e);
+            throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
+        }
     }
 
     @Override
@@ -79,6 +89,9 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
             List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         // TODO: implement
         return null;
+    }
+    private String getMajorVersion(String textVersion) {
+        return textVersion.split("\\.", 0)[0];
     }
 
     @Override
