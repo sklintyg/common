@@ -25,7 +25,9 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -53,8 +55,17 @@ public class ValidatorUtil {
     private WebcertModuleService moduleService;
 
     public static void validateGrundForMuDate(InternalDate date, List<ValidationMessage> validationMessages, GrundForMu type) {
-        se.inera.intyg.common.support.validate.ValidatorUtil.validateDateAndWarnIfFuture(date, validationMessages, CATEGORY_GRUNDFORMU,
-                type.getFieldName());
+
+        boolean isValid = validateDate(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName(), null);
+
+        // R35: For syntactically valid dates, verify it's not a future date
+        if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                    type.getFieldName(), ValidationMessageType.OTHER,
+                    "common.validation.c-06");
+        }
+
+
     }
 
     public void validateDiagnose(List<Diagnos> diagnoser, List<ValidationMessage> validationMessages) {
@@ -74,11 +85,12 @@ public class ValidatorUtil {
             Diagnos diagnos = diagnoser.get(i);
 
             /*
-             * R8 För delfråga 6.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
+             * R10 För delfråga 6.2 ska diagnoskod anges med så många positioner som möjligt, men minst tre positioner
              * (t.ex. F32).
-             * R9 För delfråga 6.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
+             * R11 För delfråga 6.2 ska diagnoskod anges med minst fyra positioner då en psykisk diagnos anges.
              * Med psykisk diagnos avses alla diagnoser som börjar med Z73 eller med F (dvs. som tillhör F-kapitlet i
              * ICD-10).
+             * R12: Alla skall ha samma kodverk
              */
             if (Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()) {
                 se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,

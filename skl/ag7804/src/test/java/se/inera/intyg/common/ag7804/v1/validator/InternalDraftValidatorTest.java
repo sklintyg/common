@@ -263,18 +263,18 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateGrundForMUDatumIFramtidenWarning() throws Exception {
+    public void validateGrundForMUFutureDateError() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
-                .setTelefonkontaktMedPatienten(new InternalDate(LocalDate.now().plusDays(10)))
+                .setJournaluppgifter(new InternalDate(LocalDate.now().plusDays(1)))
                 .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
-        assertEquals(0, res.getValidationErrors().size());
-        assertEquals(1, res.getValidationWarnings().size());
-        assertEquals("common.validation.future.datum", res.getValidationWarnings().get(0).getMessage());
-        assertEquals(ValidationMessageType.WARN, res.getValidationWarnings().get(0).getType());
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
+        assertEquals("journaluppgifter", res.getValidationErrors().get(0).getField());
+        assertEquals("common.validation.c-06", res.getValidationErrors().get(0).getMessage());
+        assertEquals(ValidationMessageType.OTHER, res.getValidationErrors().get(0).getType());
     }
 
     @Test
