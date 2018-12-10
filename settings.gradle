@@ -28,6 +28,7 @@ include ':af00251'
 include ':ts-parent'
 include ':ts-bas'
 include ':ts-diabetes'
+include ':tstrk1009'
 include ':sos_parent'
 include ':db'
 include ':doi'
@@ -53,6 +54,7 @@ project(':af00251').projectDir = "$rootDir/af/af00251" as File
 project(':ts-parent').projectDir = "$rootDir/ts/ts-parent" as File
 project(':ts-bas').projectDir = "$rootDir/ts/ts-bas" as File
 project(':ts-diabetes').projectDir = "$rootDir/ts/ts-diabetes" as File
+project(':tstrk1009').projectDir = "$rootDir/ts/tstrk1009" as File
 project(':sos_parent').projectDir = "$rootDir/sos/sos_parent" as File
 project(':db').projectDir = "$rootDir/sos/db" as File
 project(':doi').projectDir = "$rootDir/sos/doi" as File
