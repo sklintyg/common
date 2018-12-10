@@ -211,6 +211,11 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'] }, [{
                             type: 'ue-sjukskrivningar',
                             modelProp: 'sjukskrivningar',
+                            hoursPerWeek: {
+                                labelkey1: 'FRG_32.IFS1.RBK',
+                                labelkey2: 'FRG_32.IFS2.RBK',
+                                hlpKey: 'FRG_32.IFS.HLP'
+                            },
                             code: 'KV_FKMU_0003',
                             fields: [
                                 'EN_FJARDEDEL',

@@ -584,7 +584,8 @@
             'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info': 'Information överförs till fältet {0} vid signering.',
 
             //common.sit.* messages are candidates for a fk-common messages.js
-            'common.sit.label.sjukskrivning.hoursperweek': 'Patienten arbetar i snitt',
+            'common.sit.label.sjukskrivning.hoursperweek.1': 'Patienten arbetar i snitt',
+            'common.sit.label.sjukskrivning.hoursperweek.2': 'timmar/vecka',
             'common.sit.help.sjukskrivning.hoursperweek': 'Ange hur många timmar patienten arbetar i snitt per vecka. Observera att denna funktion endast är ett stöd för att tydliggöra hur många timmar per vecka patienten bedöms kunna arbeta när en viss nedsättning av arbetsförmåga har angivits. Uppgiften lagras inte som en del av intyget då Försäkringskassan inhämtar information från annat håll.',
             'common.sit.label.valj-version-icd-10': 'Välj kodverk:',
             'common.sit.label.diagnoskodverk.fullstandig': 'ICD-10-SE',
