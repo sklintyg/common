@@ -38,7 +38,7 @@ angular.module('common').directive('ueSjukskrivningar', ['common.ArendeListViewS
                     labelkey1: 'common.sit.label.sjukskrivning.hoursperweek.1',
                     labelkey2: 'common.sit.label.sjukskrivning.hoursperweek.2',
                     hlpKey: 'common.sit.help.sjukskrivning.hoursperweek'
-                }
+                };
             }
 
             var validation = $scope.validation = UtkastViewState.validation;
