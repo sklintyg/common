@@ -39,7 +39,6 @@ angular.module('ag7804').constant('ag7804.messages', {
         'ag7804.customize.step.3.pagetitle': 'Ladda ner PDF - steg 3 av 3',
         'ag7804.customize.step.3.pageingress.left': 'Här kan du ladda ner ditt anpassade intyg som en PDF, för att sedan kunna skriva ut det eller mejla till din arbetsgivare. ',
         'ag7804.customize.step.3.pageingress.right': '',
-        'ag7804.customize.step.3.info.fk': 'Intyget <u>ska inte skickas</u> till Försäkringskassan!',
         'ag7804.customize.step.3.download': 'Ladda ner som PDF',
         'ag7804.customize.step.3.download.tooltip': 'Intyget sparas som PDF på din enhet.',
         'ag7804.customize.change': 'Ändra dina val',

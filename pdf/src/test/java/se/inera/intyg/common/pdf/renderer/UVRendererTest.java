@@ -128,6 +128,46 @@ public class UVRendererTest {
         }
     }
 
+    @Test
+    public void testMaximalOptionalfieldsAg7804() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("ag7804/ag7804-maximal.v1.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("ag7804/ag7804-uv-viewmodel.v1.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("ag7804/texterMU_AG7804_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
+        Map<String, String> replacementConfig = new HashMap<>();
+        replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
+        replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
+        replacementConfig.put("funktionsnedsattning", "Denna text är istället för funktionsnedsattning!");
+        replacementConfig.put("onskarFormedlaFunktionsnedsattning", "Denna text är istället för funktionsnedsattning!");
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("Intygsnamnet")
+                .withIntygsKod("AG7804")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AG)
+                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+                .withLeftMarginTypText("AG7804 vänstermaginaltext")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withSignBox(true)
+                .withSignatureLine(true)
+                .withModelPropReplacements(replacementConfig)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-maximal-optionalfields-v1.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     @Test

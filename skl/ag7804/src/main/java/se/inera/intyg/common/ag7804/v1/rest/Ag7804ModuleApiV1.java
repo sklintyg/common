@@ -87,8 +87,17 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
             List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
-        // TODO: implement
-        return null;
+        try {
+            Ag7804UtlatandeV1 utlatande = getInternal(internalModel);
+            IntygTexts texts = getTexts(Ag7804EntryPoint.MODULE_ID, utlatande.getTextVersion());
+            Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
+            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, getMajorVersion(utlatande.getTextVersion()), personId,
+                    texts, statuses,
+                    applicationOrigin, utkastStatus, optionalFields);
+        } catch (Exception e) {
+            LOG.error("Failed to generate pdfEmployer for certificate!", e);
+            throw new ModuleSystemException("Failed to generate (pdfEmployer) PDF for certificate!", e);
+        }
     }
     private String getMajorVersion(String textVersion) {
         return textVersion.split("\\.", 0)[0];

@@ -25,8 +25,7 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
      */
 
     var _fieldConfig = {
-
-        'avstangningSmittskydd': { mandatory: false, selected: true, fields: ['avstangningSmittskydd'] },
+        'avstangningSmittskydd': {mandatory: false, selected: true, fields: ['avstangningSmittskydd']},
         'grund': {
             mandatory: true, selected: true,
             fields: [
@@ -37,62 +36,44 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
                 'annatGrundForMUBeskrivning'
             ]
         },
-        'funktionsnedsattning': { mandatory: false, selected: true, fields: ['funktionsnedsattning'] },
-        'aktivitetsbegransning': { mandatory: false, selected: true, fields: ['aktivitetsbegransning'], warn: true },
-        'diagnoser': { mandatory: false, selected: true, fields: ['diagnoser'] },
-        'pagaendeBehandling': { mandatory: false, selected: true, fields: ['pagaendeBehandling'] },
-        'planeradBehandling': { mandatory: false, selected: true, fields: ['planeradBehandling']},
-        'forsakringsmedicinsktBeslutsstod': {mandatory: false, selected: true, fields: ['forsakringsmedicinsktBeslutsstod'] },
-        'arbetstidsforlaggningMotivering': { mandatory: false, selected: true, fields: ['arbetstidsforlaggningMotivering'], warn: true },
-        'ovrigt': { mandatory: false, selected: true, fields: ['ovrigt']},
-        'kontaktMedAg': { mandatory: false, selected: true, fields: ['kontaktMedAg']},
-        'anledningTillKontakt': {mandatory: false, selected: true, fields: ['anledningTillKontakt']},
-        'sysselsattningOptional': { id:'sysselsattningOptional', mandatory: false, selected: true,
-            fields: [sysselsattningsTypResolver(['STUDIER','ARBETSSOKANDE', 'FORALDRALEDIG'])]
+        'funktionsnedsattningGrupp': {
+            mandatory: false,
+            selected: true,
+            fields: ['onskarFormedlaFunktionsnedsattning', 'funktionsnedsattning']
+        },
+        'aktivitetsbegransning': {mandatory: true, selected: true, fields: ['aktivitetsbegransning']},
+        'sysselsattning': {mandatory: true, selected: true, fields: ['sysselsattning', 'nuvarandeArbete']},
+        'diagnosGrupp': {mandatory: false, selected: true, fields: ['onskarFormedlaDiagnos', 'diagnoser']},
+        'pagaendeBehandling': {mandatory: true, selected: true, fields: ['pagaendeBehandling']},
+        'planeradBehandling': {mandatory: true, selected: true, fields: ['planeradBehandling']},
+        'sjukskrivningar': {mandatory: true, selected: true, fields: ['sjukskrivningar']},
+        'arbetstidsforlaggning': {mandatory: true, selected: true, fields: ['arbetstidsforlaggning']},
+        'arbetsresor': {mandatory: true, selected: true, fields: ['arbetsresor']},
+        'prognos': {mandatory: true, selected: true, fields: ['prognos']},
+        'arbetslivsinriktadeAtgarder': {mandatory: true, selected: true, fields: ['arbetslivsinriktadeAtgarder']},
+        'arbetslivsinriktadeAtgarderBeskrivning': {
+            mandatory: true,
+            selected: true,
+            fields: ['arbetslivsinriktadeAtgarderBeskrivning']
         },
 
-        //Mandatory fields
-        'sysselsattningMandatory': { id:'sysselsattningMandatory', mandatory: true, selected: true, fields: [sysselsattningsTypResolver(['NUVARANDE_ARBETE'])]},
-        'sjukskrivningar': {  mandatory: true, selected: true, fields: ['sjukskrivningar'] },
-        'arbetstidsforlaggning': {  mandatory: true, selected: true, fields: ['arbetstidsforlaggning'] },
-        'arbetsresor': {  mandatory: true, selected: true, fields: ['arbetsresor'] },
-        'prognos': {  mandatory: true, selected: true, fields: ['prognos'] },
-        'arbetslivsinriktadeAtgarder': {  mandatory: true, selected: true, fields: ['arbetslivsinriktadeAtgarder'] },
-        'arbetslivsinriktadeAtgarderBeskrivning': {  mandatory: true, selected: true, fields: ['arbetslivsinriktadeAtgarderBeskrivning'] },
-        'tillaggsfragor': [] //is dynamically configured after cert has been loaded
+        'forsakringsmedicinsktBeslutsstod': {
+            mandatory: true,
+            selected: true,
+            fields: ['forsakringsmedicinsktBeslutsstod']
+        },
+        'arbetstidsforlaggningMotivering': {
+            mandatory: true,
+            selected: true,
+            fields: ['arbetstidsforlaggningMotivering']
+        },
+        'ovrigt': {mandatory: true, selected: true, fields: ['ovrigt']},
+        'kontaktMedAg': {mandatory: true, selected: true, fields: ['kontaktMedAg']},
+        'anledningTillKontakt': {mandatory: true, selected: true, fields: ['anledningTillKontakt']}
     };
 
-    // Return a function that given a certificate model, determines if it contains
-    // any of the specified sysselsattnings types
-    function sysselsattningsTypResolver(typer) {
-        return function checkIfCertHasAnyOfTypes(cert) {
-            var result = false;
-            angular.forEach(cert.sysselsattning, function(s) {
-                angular.forEach(typer, function(st) {
-                    if (s.typ === st) {
-                        result = true;
-                    }
-                });
-            });
-            return result;
-        };
 
-    }
-    // Return a function that given a certificate model, determines if it contains
-    // an answer to the specified tillaggsfraga
-    function tillaggsfragaResolver(frageId) {
-        return function checkIfCertHasValueForFragaWithId(cert) {
-            var result = false;
-            angular.forEach(cert.tillaggsfragor, function(fraga) {
 
-                if (fraga.id === frageId && fraga.svar!=='') {
-                    result = true;
-                }
-            });
-            return result;
-        };
-
-    }
     //Create initial model
     var fieldConfig = angular.copy(_fieldConfig);
 
@@ -111,7 +92,10 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
                 });
 
             } else if (!fc.selected && (!!withWarningOnly ? fc.warn: true)) {
-                    unselectedFieldNames.push(key);
+                angular.forEach(fc.fields, function(field) {
+                    unselectedFieldNames.push(field);
+                });
+
             }
 
 
@@ -144,21 +128,6 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
         return selectedOptionalFields;
     }
 
-    //Tillaggsfragor are dynamically added to the model _after_ the certificate has been loaded
-    //We need to add field config for these dynamically (and just once)
-    function _addTillaggsFragor(tillaggsfragor) {
-        if (tillaggsfragor && fieldConfig.tillaggsfragor.length === 0) {
-            angular.forEach(tillaggsfragor, function(fraga, key) {
-                fieldConfig.tillaggsfragor.push({
-                    mandatory: false,
-                    selected: true,
-                    id: fraga.id,
-                    fields: [ tillaggsfragaResolver(fraga.id) ]
-                });
-            });
-        }
-    }
-
     function _getSendModel() {
         var sendModel = _getSelectedOptionalFields();
         var unselected = _getUnselected();
@@ -176,10 +145,6 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
     return {
         resetModel: function() {
             fieldConfig = angular.copy(_fieldConfig);
-        },
-
-        addTillaggsFragor: function(fragor) {
-            _addTillaggsFragor(fragor);
         },
 
         getModel: function() {

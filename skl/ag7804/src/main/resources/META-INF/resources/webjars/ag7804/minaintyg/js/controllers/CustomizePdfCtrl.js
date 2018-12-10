@@ -31,8 +31,6 @@ angular.module('ag7804').controller('ag7804.CustomizePdfCtrl',
                 if (result !== null) {
                     $scope.cert = result.utlatande;
                     $scope.certMeta = result.meta;
-                    //Tillaggsfragor are dynamic, so we create field config for any such things after cert has been loaded.
-                    customizeViewstate.addTillaggsFragor($scope.cert.tillaggsfragor);
                 } else {
 
                     // show error view
