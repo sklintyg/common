@@ -338,12 +338,12 @@
       background: transparent $url-back-link-icon center left no-repeat;
     }
 
-    &:hover {
-      color: $wc-color-21;
-    }
-
     &.external-link {
       color: $wc-color-17;
+    }
+
+    &:hover {
+      color: $wc-color-21;
     }
   }
 
