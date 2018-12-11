@@ -26,11 +26,11 @@ angular.module('doi').constant('doi.messages', {
 
         'doi.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
-        'doi.validation.forgiftning.orsak.incorrect_combination': 'Orsak får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
-        'doi.validation.forgiftning.datum.incorrect_combination': 'Datum får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
-        'doi.validation.forgiftning.uppkommelse.incorrect_combination': 'Uppkommelse får ej anges om "Dödsfall i samband med skada/förgiftning" besvarats med "Nej".',
+        'doi.validation.forgiftning.orsak.incorrect_combination': 'Ange endast om "Dödsfall i samband med skada/förgiftning" besvarats med "Ja".',
+        'doi.validation.forgiftning.datum.incorrect_combination': 'Ange endast datum om "Dödsfall i samband med skada/förgiftning" besvarats med "Ja".',
+        'doi.validation.forgiftning.uppkommelse.incorrect_combination': 'Ange endast om "Dödsfall i samband med skada/förgiftning" besvarats med "Ja".',
 
-        'operation.operationAnledning.operationNejUppgiftSaknas': 'Beskrivning om tillstånd får inte anges om val anges som Nej eller Uppgift Saknas.',
+        'operation.operationAnledning.operationNejUppgiftSaknas': 'Ange endast om val anges som "Ja"',
         'operation.operationDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
         'operation.operationDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'operation.operationDatum.fyraVeckorForeDodDatum': 'Ange ett datum, samma som eller tidigare än fyra veckor före döden.',

@@ -423,11 +423,11 @@ public class InternalDraftValidatorTest {
 
         assertEquals(3, res.getValidationErrors().size());
 
-        assertEquals("common.validation.diagnos0.length-3", res.getValidationErrors().get(0).getMessage());
+        assertEquals("common.validation.diagnos.length-3", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(0).getType());
-        assertEquals("common.validation.diagnos1.psykisk.length-4", res.getValidationErrors().get(1).getMessage());
+        assertEquals("common.validation.diagnos.psykisk.length-4", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(1).getType());
-        assertEquals("common.validation.diagnos2.psykisk.length-4", res.getValidationErrors().get(2).getMessage());
+        assertEquals("common.validation.diagnos.psykisk.length-4", res.getValidationErrors().get(2).getMessage());
         assertEquals(ValidationMessageType.INVALID_FORMAT, res.getValidationErrors().get(2).getType());
     }
 
@@ -440,7 +440,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(1, res.getValidationErrors().size());
-        assertEquals("common.validation.diagnos0.description.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("common.validation.diagnos.description.missing", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
     }
 

@@ -426,11 +426,11 @@ public class InternalDraftValidatorTest {
 
         assertTrue(3 == validationMessages.size());
 
-        assertValidationMessage("common.validation.diagnos0.length-3", 0);
+        assertValidationMessage("common.validation.diagnos.length-3", 0);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 0);
-        assertValidationMessage("common.validation.diagnos1.psykisk.length-4", 1);
+        assertValidationMessage("common.validation.diagnos.psykisk.length-4", 1);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 1);
-        assertValidationMessage("common.validation.diagnos2.psykisk.length-4", 2);
+        assertValidationMessage("common.validation.diagnos.psykisk.length-4", 2);
         assertValidationMessageType(ValidationMessageType.INVALID_FORMAT, 2);
     }
 
@@ -444,7 +444,7 @@ public class InternalDraftValidatorTest {
 
         assertTrue(1 == validationMessages.size());
 
-        assertValidationMessage("common.validation.diagnos0.description.missing", 0);
+        assertValidationMessage("common.validation.diagnos.description.missing", 0);
         assertValidationMessageType(ValidationMessageType.EMPTY, 0);
     }
 
