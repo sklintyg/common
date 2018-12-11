@@ -125,20 +125,13 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             };
 
             function itereraKategorier(fun) {
-                if (scope.kategorier.gemensamma[scope.getKodTyp()]) {
-                    if (scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder) {
-                        scope.kategorier.gemensamma[scope.getKodTyp()].centralaKoder.forEach(fun);
-                    }
-                    if (scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder) {
-                        scope.kategorier.gemensamma[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
-                    }
+                if (scope.kategorier.gemensamma[scope.getKodTyp()] && 
+                    scope.kategorier.gemensamma[scope.getKodTyp()].icfKoder) {
+                    scope.kategorier.gemensamma[scope.getKodTyp()].icfKoder.forEach(fun);
                 }
                 scope.kategorier.unika.forEach(function(v) {
-                    if (v[scope.getKodTyp()] && v[scope.getKodTyp()].centralaKoder) {
-                        v[scope.getKodTyp()].centralaKoder.forEach(fun);
-                    }
-                    if (v[scope.getKodTyp()] && v[scope.getKodTyp()].kompletterandeKoder) {
-                        v[scope.getKodTyp()].kompletterandeKoder.forEach(fun);
+                    if (v[scope.getKodTyp()] && v[scope.getKodTyp()].icfKoder) {
+                        v[scope.getKodTyp()].icfKoder.forEach(fun);
                     }
                 });
             }
