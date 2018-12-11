@@ -79,6 +79,15 @@ public class InternalDraftValidatorTest {
     @Mock
     WebcertModuleService moduleService;
 
+    private static InternalValidatorHelper internalValidatorHelper = new InternalValidatorHelper();
+
+    public static TsDiabetesUtlatandeV3 setupPassingHypoglykemierDates(TsDiabetesUtlatandeV3 utlatande) {
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getAterkommandeSenasteTidpunkt(), 10);
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getForekomstTrafikTidpunkt(), 10);
+        internalValidatorHelper.setNowMinusDays(utlatande.getHypoglykemier().getSenasteTidpunktVaken(), 10);
+        return utlatande;
+    }
+
     @Test
     public void validateMinimalValidUtkast() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
@@ -91,7 +100,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void validateCompleteValidUtkast() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("pass-complete").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("pass-complete").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -161,7 +171,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule5() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R5").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("fail-R5").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -220,7 +231,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule7() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R7").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("fail-R7").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -236,7 +248,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule8() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R8").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("fail-R8").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -266,7 +279,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule10() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R10").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("fail-R10").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -426,7 +440,8 @@ public class InternalDraftValidatorTest {
 
     @Test
     public void failureDueToRule19() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R19").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
+                ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(6, res.getValidationErrors().size());
