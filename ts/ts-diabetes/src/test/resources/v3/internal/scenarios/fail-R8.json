@@ -64,9 +64,9 @@
     "egenkontrollBlodsocker":true,
     "aterkommandeSenasteAret":true,
     "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
+    "senasteTidpunktVaken":"2018-11-10",
     "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+    "forekomstTrafikTidpunkt":"2018-11-10"
   },
   "synfunktion":{
     "misstankeOgonsjukdom":false,
