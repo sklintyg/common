@@ -49,6 +49,7 @@ angular.module('common').directive('dynamicLabel',
 
                         element.empty();
                         element.append(result);
+                        $compile(element.contents())(scope);
                     }
 
                     scope.$on('dynamicLabels.updated', function() {
