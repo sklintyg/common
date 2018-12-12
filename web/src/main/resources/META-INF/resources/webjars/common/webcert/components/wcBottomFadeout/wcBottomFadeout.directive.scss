@@ -49,6 +49,12 @@ wc-bottom-fadeout {
       overflow-y: visible;
       max-height: none;
     }
+
+    &:after {
+      content: '';
+      display: block;
+      padding-bottom: $wc-text-fadeout-height;
+    }
   }
 }
 
