@@ -26,6 +26,36 @@ fdescribe('PatientService', function() {
     var intyg;
     var intygProperties;
 
+    var tsIntygPatientHelperMock = {
+        showPatientNameChangedIntegration: function(isIntyg) {
+            return !isIntyg;
+        },
+        showPatientNameChangedPU: function(isIntyg) {
+            return isIntyg;
+        },
+        showPatientAddressChangedPU: function(isIntyg) {
+            return isIntyg;
+        },
+        showMissingAddressParameter: function(isIntyg) {
+            return !isIntyg;
+        }
+    };
+
+    var fkIntygPatientHelperMock = {
+        showPatientNameChangedIntegration: function(isIntyg) {
+            return true;
+        },
+        showPatientNameChangedPU: function(isIntyg) {
+            return false;
+        },
+        showPatientAddressChangedPU: function(isIntyg) {
+            return false;
+        },
+        showMissingAddressParameter: function(isIntyg) {
+            return false;
+        }
+    };
+
     beforeEach(angular.mock.module('common', function($provide) {
     }));
 
@@ -65,6 +95,9 @@ fdescribe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return integration;
             });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
+            });
 
             // INTYG
             intygProperties.patientNameChangedInPU = true;
@@ -103,6 +136,9 @@ fdescribe('PatientService', function() {
             spyOn(UserModel, 'isNormalOrigin').and.callFake(function(){
                 return true;
             });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
+            });
 
             // INTYG
             intygProperties.patientAddressChangedInPU = true;
@@ -128,6 +164,10 @@ fdescribe('PatientService', function() {
 
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
+            });
+
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
             });
 
             // INTYG
@@ -157,6 +197,10 @@ fdescribe('PatientService', function() {
 
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
+            });
+
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return fkIntygPatientHelperMock;
             });
 
             // INTYG
@@ -277,6 +321,9 @@ fdescribe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
             });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
+            });
             expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeTruthy();
         });
 
@@ -296,6 +343,9 @@ fdescribe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
             });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
+            });
             expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeFalsy();
         });
 
@@ -314,6 +364,9 @@ fdescribe('PatientService', function() {
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return false;
             });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
+            });
             expect(PatientService.isMissingRequiredAddressIntegrationParameter(false, intygModel)).toBeFalsy();
         });
 
@@ -331,6 +384,9 @@ fdescribe('PatientService', function() {
             ]);
             spyOn(UserModel, 'isDjupintegration').and.callFake(function(){
                 return true;
+            });
+            spyOn(factoryResolverHelper, 'resolvePatientHelper').and.callFake(function(){
+                return tsIntygPatientHelperMock;
             });
             expect(PatientService.isMissingRequiredAddressIntegrationParameter(true, intygModel)).toBeFalsy();
         });
