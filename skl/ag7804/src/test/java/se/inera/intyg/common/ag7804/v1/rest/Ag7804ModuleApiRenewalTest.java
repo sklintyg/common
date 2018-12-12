@@ -63,8 +63,7 @@ public class Ag7804ModuleApiRenewalTest {
 
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+
         Ag7804UtlatandeV1 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -72,14 +71,31 @@ public class Ag7804ModuleApiRenewalTest {
         // Create two instances to compare field by field.
         Ag7804UtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, Ag7804UtlatandeV1.class);
 
+        //Retained values
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
-        // Blanked out values:
+        assertEquals(original.getGrundData().getPatient().getFullstandigtNamn(), renewCopy.getGrundData().getPatient().getFullstandigtNamn());
+        assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
+        assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
+        assertEquals(original.getForsakringsmedicinsktBeslutsstod(), renewCopy.getForsakringsmedicinsktBeslutsstod());
+        assertEquals(original.getNuvarandeArbete(), renewCopy.getNuvarandeArbete());
+        assertEquals(original.getSysselsattning(), renewCopy.getSysselsattning());
+        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+        assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
+
+        // Blanked out values
+        assertNull(renewCopy.getOnskarFormedlaDiagnos());
+        assertNull(renewCopy.getOnskarFormedlaFunktionsnedsattning());
 
         assertNull(renewCopy.getUndersokningAvPatienten());
         assertNull(renewCopy.getTelefonkontaktMedPatienten());
         assertNull(renewCopy.getJournaluppgifter());
         assertNull(renewCopy.getAnnatGrundForMU());
         assertNull(renewCopy.getAnnatGrundForMUBeskrivning());
+
+        assertNull(renewCopy.getPrognos());
+
+        assertNull(renewCopy.getKontaktMedAg());
+        assertNull(renewCopy.getAnledningTillKontakt());
 
     }
 

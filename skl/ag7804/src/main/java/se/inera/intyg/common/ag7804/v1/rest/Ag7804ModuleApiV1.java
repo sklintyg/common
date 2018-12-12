@@ -169,8 +169,6 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
             // Null out applicable fields
             Ag7804UtlatandeV1 renewCopy = internal.toBuilder()
-                    .setKontaktMedAg(false)
-                    .setAnledningTillKontakt(null)
                     .setUndersokningAvPatienten(null)
                     .setTelefonkontaktMedPatienten(null)
                     .setJournaluppgifter(null)
@@ -180,6 +178,10 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
                     .setSjukskrivningar(new ArrayList<>())
                     .setArbetstidsforlaggning(null)
                     .setArbetstidsforlaggningMotivering(null)
+                    .setOnskarFormedlaDiagnos(null)
+                    .setOnskarFormedlaFunktionsnedsattning(null)
+                    .setKontaktMedAg(null)
+                    .setAnledningTillKontakt(null)
                     .build();
 
             Relation relation = draftCopyHolder.getRelation();
