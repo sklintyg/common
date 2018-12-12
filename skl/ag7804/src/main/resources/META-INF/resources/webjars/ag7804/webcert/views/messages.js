@@ -67,12 +67,13 @@ angular.module('ag7804').constant('ag7804.messages', {
             'Uppgifterna i det nya intygsutkastet går att ändra innan det signeras.<br><br>' +
             'De uppgifter som inte kommer med till det nya utkastet är:<br><br>' +
             '<ul>' +
-            '<li>Sjukskrivningsperiod och grad.</li>' +
-            '<li>Valet om man vill ha kontakt med försäkringskassan.</li>' +
-            '<li>Referenser som intyget baseras på.</li>' +
+            '<li>Valet om diagnos ska förmedlas till arbetsgivaren</li>' +
+            '<li>Valet om funktionsnedsättning ska förmedlas till arbetsgivaren</li>' +
+            '<li>Sjukskrivningsperiod och grad</li>' +
+            '<li>Valet om man vill ha kontakt med arbetsgivaren</li>' +
+            '<li>Referenser som intyget baseras på</li>' +
             '</ul>' +
-            'Eventuell kompletteringsbegäran kommer att klarmarkeras.<br><br>' +
-            'Det nya utkastet skapas på den enhet du är  inloggad på.'
+            '<br>Det nya utkastet skapas på den enhet du är  inloggad på.'
     },
     'en': {
         'ag7804.label.pagetitle': 'Show Certificate'
