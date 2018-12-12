@@ -35,8 +35,24 @@ angular.module('common').factory('factoryResolverHelper', [ '$injector', '$log',
             return $injector.get(baseName + '.v' + _extractMajorVersion($stateParams.intygTypeVersion));
     }
 
+    /**
+     * Dynamically looks up the intygstyp-specific PatientHelperService that contains the rules for when certain
+     * info/warn messages should be displayed in the GUI when name- and/or address information doesn't match what's
+     * stored in the utkast compared to djupintegrations-parameters or PU-service data.
+     */
+    function _resolvePatientHelper(intygsTyp) {
+        try {
+            return $injector.get(intygsTyp + '.PatientHelperService');
+        } catch(e) {
+            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ', error: ' + e);
+            throw e;
+        }
+
+    }
+
     // Return public API for the service
     return {
-        resolve: _resolve
+        resolve: _resolve,
+        resolvePatientHelper: _resolvePatientHelper
     };
 } ]);

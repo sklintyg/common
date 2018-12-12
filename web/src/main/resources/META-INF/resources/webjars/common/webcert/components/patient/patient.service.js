@@ -21,8 +21,8 @@
  * certain source and replaces another source.
  */
 angular.module('common').service('common.PatientService',
-    ['$log', 'common.ObjectHelper', 'common.StringHelper', 'common.UserModel',
-        function($log, ObjectHelper, StringHelper, UserModel) {
+    ['$injector','$log', 'common.ObjectHelper', 'common.StringHelper', 'common.UserModel', 'factoryResolverHelper',
+        function($injector, $log, ObjectHelper, StringHelper, UserModel, factoryResolverHelper) {
             'use strict';
 
                 this.getPatientDataChanges = function(isIntyg, intyg, intygProperties) {
@@ -35,18 +35,18 @@ angular.module('common').service('common.PatientService',
 
                     // Do we have enough info to determine messages?
                     // Must have at least intygsdata, and if it's not a draft - we also need to have intygProperties
-                    if(!intyg || (isIntyg && !intygProperties)){
+                    if(!intyg || (isIntyg && !intygProperties) || !intyg.typ){
                         return;
                     }
-    
-                    var tsIntyg = (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
-                    var fkIntyg = !tsIntyg && !(intyg.typ === 'db' || intyg.typ === 'doi');
+
+                    // Dynamically inject the patient helper with intygstyp specific rules.
+                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ);
 
                     // PS-004 -----------------------------------------------------------------------------
                     // 1. Should only displayed for djupintegrerade
                     if (UserModel.isDjupintegration()) {
-                        //Show for ts-utkast and all fk
-                        if ((tsIntyg && !isIntyg) || fkIntyg) {
+                        // Show for ts-utkast and all fk
+                        if (patientHelper.showPatientNameChangedIntegration(isIntyg)) {
                             patient.changedNamePuIntegration = this.hasChangedNameInIntegration(intyg.grundData);
                         }
                     }
@@ -54,14 +54,14 @@ angular.module('common').service('common.PatientService',
 
                     //PS-005 -----------------------------------------------------------------------------
                     // INTYG + TS - > Potentially show PS-005
-                    if(tsIntyg && isIntyg){
+                    if (patientHelper.showPatientNameChangedPU(isIntyg)) {
                         patient.changedNamePu = intygProperties.patientNameChangedInPU;
                     }
 
 
                     // PS-006 -----------------------------------------------------------------------------
                     // Should only be displayed for TS / INTYG / Fristående
-                    if(tsIntyg && isIntyg && UserModel.isNormalOrigin()){
+                    if (patientHelper.showPatientAddressChangedPU(isIntyg) && UserModel.isNormalOrigin()) {
                         patient.changedAddressPu = intygProperties.patientAddressChangedInPU;
                     }
 
@@ -99,7 +99,9 @@ angular.module('common').service('common.PatientService',
                         return false;
                     }
 
-                    var eligibleIntygstyp = !isIntyg && (intyg.typ === 'ts-bas' || intyg.typ === 'ts-diabetes');
+                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ);
+
+                    var eligibleIntygstyp = patientHelper.showMissingAddressParameter(isIntyg);
                     var missingAddressParameter = !ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) ||
                         !ObjectHelper.isDefined(UserModel.getIntegrationParam('postadress')) ||
                         !ObjectHelper.isDefined(UserModel.getIntegrationParam('postnummer'));

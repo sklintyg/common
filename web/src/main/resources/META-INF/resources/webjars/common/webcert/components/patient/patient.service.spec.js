@@ -17,11 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-describe('PatientService', function() {
+fdescribe('PatientService', function() {
     'use strict';
 
     var PatientService;
     var UserModel;
+    var factoryResolverHelper;
     var intyg;
     var intygProperties;
 
@@ -29,11 +30,11 @@ describe('PatientService', function() {
     }));
 
     beforeEach(angular.mock.inject([
-        'common.PatientService', 'common.UserModel',
-        function(_PatientService_, _UserModel_) {
+        'common.PatientService', 'common.UserModel', 'factoryResolverHelper',
+        function(_PatientService_, _UserModel_, _factoryResolverHelper_) {
             PatientService = _PatientService_;
             UserModel = _UserModel_;
-
+            factoryResolverHelper = _factoryResolverHelper_;
             intyg = {
                 typ: 'ts-bas',
                 grundData: {
