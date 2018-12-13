@@ -288,6 +288,8 @@
             'common.arende.draft.delete.question.title': 'Radera påbörjad fråga',
             'common.arende.draft.delete.question.body': 'Är du säker på att du vill radera din påbörjade fråga?',
             'common.arende.draft.delete.yes': 'Ja, radera',
+            'common.arende.draft.error.chosenTopic': 'Ange en rubrik för att kunna skicka frågan.',
+            'common.arende.draft.error.frageText': 'Skriv ett meddelande för att kunna skicka frågan.',
 
             // intyg module messages. Used by several intyg modules.
             'modules.label.field': 'Fält',
