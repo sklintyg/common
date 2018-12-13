@@ -218,7 +218,8 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
                         fraga(25, 'FRG_25.RBK', 'FRG_25.HLP', { }, [{
                             type: 'ue-textarea',
-                            modelProp: 'ovrigt'
+                            modelProp: 'ovrigt',
+                            htmlMaxlength: 3500
                         }])
                     ]),
 

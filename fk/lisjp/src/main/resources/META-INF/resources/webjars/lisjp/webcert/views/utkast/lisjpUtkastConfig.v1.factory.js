@@ -387,7 +387,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                     kategori(categoryIds[8], 'KAT_8.RBK', 'KAT_8.HLP', {}, [
                         fraga(25, '', '', { }, [{
                             modelProp: 'ovrigt',
-                            type: 'ue-textarea'
+                            type: 'ue-textarea',
+                            htmlMaxlength: 3500
                         }])
                     ]),
 
