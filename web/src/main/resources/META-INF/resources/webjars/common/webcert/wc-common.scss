@@ -473,6 +473,13 @@
     left: -14px;
   }
 
+  /*
+  * Hide required asterisks on disabled forms
+  */
+  .cert-form > fieldset[disabled="disabled"] .required{
+    display: none;
+  }
+
   /* Not used? */
   .pointer-labels label {
     cursor: pointer;
