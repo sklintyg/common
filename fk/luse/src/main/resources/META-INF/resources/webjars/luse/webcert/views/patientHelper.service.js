@@ -43,5 +43,5 @@ angular.module('luse').service('luse.PatientHelperService',
                 showPatientNameChangedPU: _showPatientNameChangedPU,
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
-            }
+            };
         }]);

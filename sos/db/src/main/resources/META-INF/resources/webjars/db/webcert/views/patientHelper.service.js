@@ -43,5 +43,5 @@ angular.module('db').service('db.PatientHelperService',
                 showPatientNameChangedPU: _showPatientNameChangedPU,
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
-            }
+            };
         }]);

@@ -43,5 +43,5 @@ angular.module('ag114').service('ag114.PatientHelperService',
                 showPatientNameChangedPU: _showPatientNameChangedPU,
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
-            }
+            };
         }]);
