@@ -59,7 +59,9 @@
     }
   ],
   "aktivitetsbegransning": "Kommer inte in i bilen",
+  "onskarFormedlaFunktionsnedsattning": true,
   "funktionsnedsattning": "Haltar när han dansar",
+  "onskarFormedlaDiagnos": true,
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",
@@ -67,11 +69,11 @@
       "diagnosKod": "S47"
     }
   ],
-  "nuvarandeArbete": "Smed",
   "sysselsattning": [
     {
       "typ": "NUVARANDE_ARBETE"
     }
   ],
+  "nuvarandeArbete": "Smed",
   "telefonkontaktMedPatienten": "2015-12-08"
 }

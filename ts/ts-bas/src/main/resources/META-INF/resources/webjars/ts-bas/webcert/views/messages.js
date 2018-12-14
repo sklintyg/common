@@ -112,10 +112,10 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.validation.somnvakenhet.missing': 'Sömn- och vakenhetsstörningar saknas.',
         'ts-bas.validation.njurar.missing': 'Njursjukdomar saknas.',
         'ts-bas.validation.neurologi.missing': 'Neurologiska sjukdomar saknas.',
-        'ts-bas.validation.neurologi.neurologisksjukdom.missing': 'Du måste välja ett alternativ.',
+        'ts-bas.validation.neurologi.neurologisksjukdom.missing': 'Välj ett alternativ.',
         'ts-bas.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas.',
         'ts-bas.validation.bedomning.missing': 'Bedömning saknas.',
-        'ts-bas.validation.bedomning.korkortstyp.missing': 'Du måste välja ett alternativ.',
+        'ts-bas.validation.bedomning.korkortstyp.missing': 'Välj ett alternativ.',
         'ts-bas.validation.diabetes.missing': 'Diabetes saknas.',
         'ts-bas.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas.',
         'ts-bas.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas.',
@@ -123,15 +123,15 @@ angular.module('ts-bas').constant('ts-bas.messages', {
         'ts-bas.validation.kognitivt.missing': 'Demens och kognitiva störningar saknas.',
         'ts-bas.validation.medicinering.missing': 'Övrig medicinering saknas.',
         'ts-bas.validation.narkotikalakemedel.missing': 'Alkohol, narkotika och läkemedel saknas.',
-        'ts-bas.validation.medvetandestorning.missing': 'Du måste välja ett alternativ.',
+        'ts-bas.validation.medvetandestorning.missing': 'Välj ett alternativ.',
         'ts-bas.validation.syn.missing': 'Synfunktioner saknas.',
         'ts-bas.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas.',
         'ts-bas.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas.',
         'ts-bas.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas.',
-        'ts-bas.validation.syn.out-of-bounds': 'Måste ligga i intervallet 0,0 till 2,0.',
-        'ts-bas.validation.syn.r33': 'Fältet får inte vara tomt.',
-        'ts-bas.validation.syn.r34': 'Fältet får inte vara tomt.',
-        'ts-bas.validation.syn.r35': 'Fältet får inte vara tomt.'
+        'ts-bas.validation.syn.out-of-bounds': 'Ange synskärpa i intervallet 0,0 - 2,0.',
+        'ts-bas.validation.syn.r33': 'Ange ett svar.',
+        'ts-bas.validation.syn.r34': 'Ange ett svar.',
+        'ts-bas.validation.syn.r35': 'Ange ett svar.'
     },
     'en': {
         'ts-bas.label.pagetitle': 'Show Certificate'

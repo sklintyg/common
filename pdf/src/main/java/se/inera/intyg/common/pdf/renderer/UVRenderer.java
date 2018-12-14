@@ -36,6 +36,7 @@ import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.AreaBreakType;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -45,7 +46,17 @@ import se.inera.intyg.common.pdf.eventhandler.MarginTexts;
 import se.inera.intyg.common.pdf.eventhandler.PageNumberEvent;
 import se.inera.intyg.common.pdf.eventhandler.SignBox;
 import se.inera.intyg.common.pdf.eventhandler.WaterMarkerer;
-import se.inera.intyg.common.pdf.model.*;
+import se.inera.intyg.common.pdf.model.UVAlertValue;
+import se.inera.intyg.common.pdf.model.UVBooleanValue;
+import se.inera.intyg.common.pdf.model.UVDelfraga;
+import se.inera.intyg.common.pdf.model.UVFraga;
+import se.inera.intyg.common.pdf.model.UVKategori;
+import se.inera.intyg.common.pdf.model.UVKodverkValue;
+import se.inera.intyg.common.pdf.model.UVList;
+import se.inera.intyg.common.pdf.model.UVSimpleValue;
+import se.inera.intyg.common.pdf.model.UVSkapadAv;
+import se.inera.intyg.common.pdf.model.UVTable;
+import se.inera.intyg.common.pdf.model.UVTemplateString;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
 import javax.script.ScriptEngine;
@@ -141,17 +152,9 @@ public class UVRenderer {
             // Bind the $filter function and other custom functions declared in uvViewConfig.
             engine.eval(new InputStreamReader(new ClassPathResource("customfilter.js").getInputStream(), Charset.forName("UTF-8")));
 
-            // Fix line breaks in the actual answers, the escape-mess below transforms \n to \\n
-            String json = printConfig.getIntygJsonModel().replaceAll("\\\\n", "\\\\\\\\n");
-
-            // Also fix quotation-marks, must have additional escaping.
-            json = json.replaceAll("\\\"", "\\\\\\\"");
-
-            // Also fix quotation-marks, must have additional escaping.
-            json = json.replaceAll("'", "\\\\'");
-
             // Parse JSON intyg into JS object
-            jsIntygModel = (ScriptObjectMirror) engine.eval("JSON.parse('" + json + "');");
+            String script = "JSON.parse('" + escape(printConfig.getIntygJsonModel()) + "');";
+            jsIntygModel = (ScriptObjectMirror) engine.eval(script);
             engine.put("jsIntygModel", jsIntygModel);
 
             // Load unified print JS model
@@ -182,109 +185,8 @@ public class UVRenderer {
         }
     }
 
-    private void renderSummaryPage(PrintConfig printConfig, Document document) {
-
-        if (printConfig.getSummary() == null || printConfig.getSummary().isEmpty()) {
-            return;
-        }
-
-        document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
-        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-        Div summaryDiv = new Div();
-
-        printConfig.getSummary().getSummaryPartList().forEach(summaryPart -> {
-
-            if (summaryPart.getHeading() != null) {
-                summaryDiv.add(new Paragraph(summaryPart.getHeading())
-                        .setMarginBottom(0f)
-                        .setFont(fragaDelFragaFont)
-                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-            }
-
-            summaryDiv.add(new Paragraph(summaryPart.getBodyText() + "\n")
-                    .setMarginTop(0f)
-                    .setFont(svarFont)
-                    .setFontSize(SVAR_FONT_SIZE));
-        });
-
-        document.add(summaryDiv);
-    }
-
     public ScriptObjectMirror getIntygModel() {
         return jsIntygModel;
-    }
-
-    private void render(Div rootDiv, ScriptObjectMirror currentUvNode) {
-
-        boolean renderChildren = false;
-
-        Div currentDiv = new Div();
-        String type = (String) currentUvNode.get("type");
-        switch (type) {
-        case "uv-kategori":
-            renderChildren = new UVKategori(this)
-                    .render(currentDiv, currentUvNode);
-            break;
-        case "uv-fraga":
-            renderChildren = new UVFraga(this)
-                    .render(currentDiv, currentUvNode);
-            break;
-        case "uv-del-fraga":
-            renderChildren = new UVDelfraga(this)
-                    .render(currentDiv, currentUvNode);
-            break;
-        case "uv-simple-value":
-            renderChildren = new UVSimpleValue(this)
-                    .render(currentDiv, currentUvNode);
-            break;
-        case "uv-template-string":
-            renderChildren = new UVTemplateString(this)
-                    .render(currentDiv, currentUvNode);
-            break;
-        case "uv-kodverk-value":
-            renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
-            break;
-        case "uv-boolean-statement":
-        case "uv-boolean-value":
-            renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
-            break;
-        case "uv-list":
-            renderChildren = new UVList(this).render(currentDiv, currentUvNode);
-            break;
-        case "uv-table":
-            renderChildren = new UVTable(this).render(currentDiv, currentUvNode);
-            break;
-        case "uv-alert-value":
-            renderChildren = new UVAlertValue(this).render(currentDiv, currentUvNode);
-            break;
-        case "uv-skapad-av":
-            renderChildren = new UVSkapadAv(this).render(currentDiv, currentUvNode);
-            break;
-        }
-
-        // Recurse into sub-components
-        if (renderChildren && currentUvNode.containsKey("components")) {
-            Object components = currentUvNode.get("components");
-            ScriptObjectMirror array = (ScriptObjectMirror) components;
-            for (Map.Entry<String, Object> entry : array.entrySet()) {
-                render(currentDiv, (ScriptObjectMirror) entry.getValue());
-            }
-        }
-        rootDiv.add(currentDiv);
-
-        // Add a spacer to the parent div _after_ kategori and its subcomponents.
-        if ("uv-kategori".equalsIgnoreCase(type)) {
-            rootDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
-        }
-    }
-
-    private PdfFont loadFont(String name) {
-        try {
-            byte[] fontData = IOUtils.toByteArray(new ClassPathResource(name).getInputStream());
-            return PdfFontFactory.createFont(fontData, "Winansi", true); // Cp1250
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not load font: " + e.getMessage());
-        }
     }
 
     /**
@@ -338,5 +240,111 @@ public class UVRenderer {
     public PdfImageXObject getObservandumIcon() {
         return this.observandumIcon;
     }
-    // CHECKSTYLE:ON MagicNumber
+
+    private String escape(String input) {
+        return StringEscapeUtils.escapeEcmaScript(input);
+    }
+
+    private void renderSummaryPage(PrintConfig printConfig, Document document) {
+
+        if (printConfig.getSummary() == null || printConfig.getSummary().isEmpty()) {
+            return;
+        }
+
+        document.setTopMargin(TOP_MARGIN_SUMMARY_PAGE);
+        document.add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+        Div summaryDiv = new Div();
+
+        printConfig.getSummary().getSummaryPartList().forEach(summaryPart -> {
+
+            if (summaryPart.getHeading() != null) {
+                summaryDiv.add(new Paragraph(summaryPart.getHeading())
+                        .setMarginBottom(0f)
+                        .setFont(fragaDelFragaFont)
+                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            }
+
+            summaryDiv.add(new Paragraph(summaryPart.getBodyText() + "\n")
+                    .setMarginTop(0f)
+                    .setFont(svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+        });
+
+        document.add(summaryDiv);
+    }
+
+    private void render(Div rootDiv, ScriptObjectMirror currentUvNode) {
+
+        boolean renderChildren = false;
+
+        Div currentDiv = new Div();
+        String type = (String) currentUvNode.get("type");
+        switch (type) {
+            case "uv-kategori":
+                renderChildren = new UVKategori(this)
+                        .render(currentDiv, currentUvNode);
+                break;
+            case "uv-fraga":
+                renderChildren = new UVFraga(this)
+                        .render(currentDiv, currentUvNode);
+                break;
+            case "uv-del-fraga":
+                renderChildren = new UVDelfraga(this)
+                        .render(currentDiv, currentUvNode);
+                break;
+            case "uv-simple-value":
+                renderChildren = new UVSimpleValue(this)
+                        .render(currentDiv, currentUvNode);
+                break;
+            case "uv-template-string":
+                renderChildren = new UVTemplateString(this)
+                        .render(currentDiv, currentUvNode);
+                break;
+            case "uv-kodverk-value":
+                renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
+                break;
+            case "uv-boolean-statement":
+            case "uv-boolean-value":
+                renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
+                break;
+            case "uv-list":
+                renderChildren = new UVList(this).render(currentDiv, currentUvNode);
+                break;
+            case "uv-table":
+                renderChildren = new UVTable(this).render(currentDiv, currentUvNode);
+                break;
+            case "uv-alert-value":
+                renderChildren = new UVAlertValue(this).render(currentDiv, currentUvNode);
+                break;
+            case "uv-skapad-av":
+                renderChildren = new UVSkapadAv(this).render(currentDiv, currentUvNode);
+                break;
+        }
+
+        // Recurse into sub-components
+        if (renderChildren && currentUvNode.containsKey("components")) {
+            Object components = currentUvNode.get("components");
+            ScriptObjectMirror array = (ScriptObjectMirror) components;
+            for (Map.Entry<String, Object> entry : array.entrySet()) {
+                render(currentDiv, (ScriptObjectMirror) entry.getValue());
+            }
+        }
+        rootDiv.add(currentDiv);
+
+        // Add a spacer to the parent div _after_ kategori and its subcomponents.
+        if ("uv-kategori".equalsIgnoreCase(type)) {
+            rootDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
+        }
+    }
+
+    private PdfFont loadFont(String name) {
+        try {
+            byte[] fontData = IOUtils.toByteArray(new ClassPathResource(name).getInputStream());
+            return PdfFontFactory.createFont(fontData, "Winansi", true); // Cp1250
+        } catch (IOException e) {
+            throw new IllegalArgumentException("Could not load font: " + e.getMessage());
+        }
+    }
+
 }
+// CHECKSTYLE:ON MagicNumber

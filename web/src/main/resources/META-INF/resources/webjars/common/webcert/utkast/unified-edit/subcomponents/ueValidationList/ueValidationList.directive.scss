@@ -1,9 +1,11 @@
-ue-validation-list {
+ue-validation-list,
+.ue-validation-list{
 
   .validation-error {
     @extend %wc-typo-07;
     color: $wc-color-11;
     margin-top: 13px;
+    display: block;
   }
 
 }

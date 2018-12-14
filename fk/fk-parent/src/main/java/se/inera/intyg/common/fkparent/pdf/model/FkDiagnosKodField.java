@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -29,7 +31,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
@@ -47,7 +48,7 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
     private boolean withTopLabel = false;
 
     public FkDiagnosKodField(String value) {
-        if (value == null || value.length() > 5) {
+        if (!isNullOrEmpty(value) && value.length() > 5) {
             throw new IllegalArgumentException("Invalid diagnoscode '" + value + "':  must be 0-5 characters.");
         }
         this.value = value;
@@ -69,10 +70,14 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
         final PdfContentByte canvas = writer.getDirectContent();
         PdfPTable table = new PdfPTable(5);
         char[] code = new char[] { ' ', ' ', ' ', ' ', ' ' };
-        int b = 0;
-        for (char c : value.toCharArray()) {
-            code[b++] = c;
+
+        if (!isNullOrEmpty(value)) {
+            int b = 0;
+            for (char c : value.toCharArray()) {
+                code[b++] = c;
+            }
         }
+
         float[] columnWidths = new float[] {
                 Utilities.millimetersToPoints(diagnoscodepartWidth),
                 Utilities.millimetersToPoints(diagnoscodepartWidth),

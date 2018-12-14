@@ -30,6 +30,17 @@ angular.module('common').directive('ueSjukskrivningar', ['common.ArendeListViewS
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueSjukskrivningar/ueSjukskrivningar.directive.html',
         link: function($scope) {
 
+            //Support custom IFS text keys
+            if ($scope.config.hoursPerWeek) {
+                $scope.hoursPerWeek = $scope.config.hoursPerWeek;
+            } else {
+                $scope.hoursPerWeek = {
+                    labelkey1: 'common.sit.label.sjukskrivning.hoursperweek.1',
+                    labelkey2: 'common.sit.label.sjukskrivning.hoursperweek.2',
+                    hlpKey: 'common.sit.help.sjukskrivning.hoursperweek'
+                };
+            }
+
             var validation = $scope.validation = UtkastViewState.validation;
 
             $scope.$watch('validation.messagesByField', function() {

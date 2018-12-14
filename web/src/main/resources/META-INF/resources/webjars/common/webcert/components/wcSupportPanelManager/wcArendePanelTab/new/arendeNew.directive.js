@@ -39,6 +39,8 @@ angular.module('common').directive('arendeNew',
                 },
                 controller: function($scope, $element, $attrs) {
 
+                    resetFormValidation();
+
                     // Create viewstate
                     var ArendeNewViewState = ArendeNewViewStateService.reset();
                     ArendeNewViewState.parentViewState = $scope.parentViewState;
@@ -82,6 +84,13 @@ angular.module('common').directive('arendeNew',
                         return notSent && (ArendeNewViewState.parentViewState.arendeList.length < 1);
                     }
 
+                    function resetFormValidation() {
+                        $scope.validate = {
+                            frageText: false,
+                            chosenTopic: false
+                        };
+                    }
+
                     /**
                      * Exposed interactions
                      */
@@ -100,6 +109,7 @@ angular.module('common').directive('arendeNew',
                             button1click: function (modalInstance) {
                                 var onSuccess = function() {
                                     arendeNewModel.reset();
+                                    resetFormValidation();
                                     modalInstance.close();
                                 };
                                 var onError = function() {
@@ -117,28 +127,27 @@ angular.module('common').directive('arendeNew',
                         });
                     };
 
+                    $scope.$watch('arendeNewModel.frageText', function() {
+                        $scope.validate.frageText = false;
+                    });
+
+                    $scope.$watch('arendeNewModel.chosenTopic', function() {
+                        $scope.validate.chosenTopic = false;
+                    });
+
                     $scope.sendNewArende = function() {
-                        if (arendeNewModel.frageText) {
-                            _sendNewArende();
+
+                        $scope.validate = {
+                            frageText: true,
+                            chosenTopic: true
+                        };
+
+                        if($scope.arendeForm.$invalid) {
+                            return;
                         }
-                        else {
-                            var modalInstance = $uibModal.open({
-                                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/new/arendeNewModal.template.html',
-                                size: 'md',
-                                controller: function($scope, $uibModalInstance) {
-                                    $scope.confirm = function() {
-                                        _sendNewArende();
-                                        $uibModalInstance.close();
-                                    };
-                                    $scope.abort = function() {
-                                        $uibModalInstance.close();
-                                    };
-                                }
-                            });
-                            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                            modalInstance.result.catch(function () {}); //jshint ignore:line
-                        }
+                        _sendNewArende();
                     };
+
 
                     function _sendNewArende() {
                         $log.debug('sendQuestion:' + arendeNewModel);
@@ -159,6 +168,7 @@ angular.module('common').directive('arendeNew',
                                             ArendeListViewState.intygProperties.type));
 
                                     arendeNewModel.reset();
+                                    resetFormValidation();
 
                                     // update stats (and bubbles on menu)
                                     statService.refreshStat();
@@ -172,8 +182,10 @@ angular.module('common').directive('arendeNew',
                     }
 
                     $scope.isArendeValidForSubmit = function() {
-                        var validToSend = (arendeNewModel.chosenTopic && !ArendeNewViewState.updateInProgress);
-                        return validToSend;
+                        /*
+                         * Can be submitted if a text is entered or a topic is chosen. But not if it's already updating.
+                         */
+                        return !ArendeNewViewState.updateInProgress && (arendeNewModel.chosenTopic || arendeNewModel.frageText);
                     };
 
                     // Returns false if either a topic has been chosen or a frageText exists. May not be invoked during

@@ -8,12 +8,12 @@
   <div class="formly-field form-inline row hours-wrapper">
     <div>
       <label>
-        <span dynamic-label key="common.sit.label.sjukskrivning.hoursperweek"></span>
+        <span dynamic-label key="{{::hoursPerWeek.labelkey1}}"></span>
         <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek" ue-filter-latin1
-               ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="4"> timmar/vecka
-        <span wc-help-chevron help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
+               ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="4"> <span dynamic-label key="{{::hoursPerWeek.labelkey2}}"></span>
+        <span wc-help-chevron help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
       </label>
-      <span wc-help-chevron-text help-text-key="common.sit.help.sjukskrivning.hoursperweek"></span>
+      <span wc-help-chevron-text help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
     </div>
   </div>
 
@@ -55,7 +55,7 @@
         </div>
       </div>
 
-      <div class="pull-right fold-animation fold-slide-animation"
+      <div class="fold-animation fold-slide-animation"
            ng-if="field != 'HELT_NEDSATT' && viewstate.periods[field].valid">
         Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
         {{viewstate.periods[field].days}} dagar.

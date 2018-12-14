@@ -81,6 +81,8 @@ describe('arendeNew', function() {
     it('Should send new Ärende', function() {
         expect(ArendeListViewState.arendeList.length).toBe(1);
         $scope.arendeNewModel.frageText = 'Fråga';
+        $scope.arendeNewModel.chosenTopic = 'KONTKT';
+        $scope.$digest();
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(200, arende);
@@ -94,6 +96,8 @@ describe('arendeNew', function() {
     it('Should send new Ärende', function() {
         expect(ArendeListViewState.arendeList.length).toBe(1);
         $scope.arendeNewModel.frageText = 'Fråga';
+        $scope.arendeNewModel.chosenTopic = 'KONTKT';
+        $scope.$digest();
         $scope.sendNewArende();
 
         $httpBackend.expectPOST('/moduleapi/arende/intygstyp/intygsid').respond(500);

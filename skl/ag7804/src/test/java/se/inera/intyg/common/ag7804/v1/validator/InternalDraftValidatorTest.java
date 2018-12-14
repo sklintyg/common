@@ -372,9 +372,9 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(2, res.getValidationErrors().size());
-        assertEquals("common.validation.diagnos0.missing", res.getValidationErrors().get(0).getMessage());
+        assertEquals("common.validation.diagnos.codemissing", res.getValidationErrors().get(0).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("common.validation.diagnos0.description.missing", res.getValidationErrors().get(1).getMessage());
+        assertEquals("common.validation.diagnos.description.missing", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
     }
 
