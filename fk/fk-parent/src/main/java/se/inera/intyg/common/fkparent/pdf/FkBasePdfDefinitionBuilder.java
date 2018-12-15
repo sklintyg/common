@@ -133,7 +133,7 @@ public class FkBasePdfDefinitionBuilder {
             return null;
         }
 
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<? extends PdfComponent>> allElements = new ArrayList<>();
 
         // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
         for (int i = 0; i < tillaggsfragor.size(); i++) {

@@ -43,7 +43,7 @@ public class Relation {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof Relation)) {
             return false;
         }
         final Relation that = (Relation) object;

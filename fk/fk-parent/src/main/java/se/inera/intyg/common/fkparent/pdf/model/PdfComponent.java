@@ -61,7 +61,7 @@ public abstract class PdfComponent<T extends PdfComponent> {
     protected int border = Rectangle.NO_BORDER;
     protected BaseColor borderColor = BaseColor.BLACK;
 
-    protected List<PdfComponent> children = new ArrayList<>();
+    protected List<PdfComponent<? extends PdfComponent>> children = new ArrayList<>();
 
     public float getParentOffsetX() {
         return parentOffsetX;
@@ -71,11 +71,11 @@ public abstract class PdfComponent<T extends PdfComponent> {
         return parentOffsetY;
     }
 
-    public List<PdfComponent> getChildren() {
+    public List<PdfComponent<? extends PdfComponent>> getChildren() {
         return children;
     }
 
-    public void addChild(PdfComponent child) {
+    public void addChild(PdfComponent<? extends PdfComponent> child) {
         this.children.add(child);
     }
 
@@ -200,7 +200,7 @@ public abstract class PdfComponent<T extends PdfComponent> {
      *
      * @return This instance and all it's children as a stream
      */
-    public Stream<PdfComponent<?>> flattened() {
+    public Stream<PdfComponent<? extends PdfComponent>> flattened() {
         return Stream.concat(
                 Stream.of(this),
                 getChildren().stream().flatMap(PdfComponent::flattened));

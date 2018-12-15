@@ -18,9 +18,22 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.*;
+
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.FunktionstillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.LakarutlatandeType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.MedicinsktTillstandType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ReferensType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.SysselsattningType;
+import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.VardkontaktType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.PatientType;
@@ -33,13 +46,13 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Converts se.inera.certificate.fk7263.insuranceprocess.healthreporting.mu7263.v3.Lakarutlatande Jaxb structure to
@@ -161,8 +174,6 @@ public final class TransportToInternal {
         case JOURNALUPPGIFTER:
             utlatande.setJournaluppgifter(new InternalDate(source.getDatum()));
             break;
-        default:
-            throw new ConverterException("Unknown ReferensType: " + source.getReferenstyp());
         }
     }
 
@@ -208,8 +219,6 @@ public final class TransportToInternal {
             utlatande.setRekommendationOvrigtCheck(true);
             utlatande.setRekommendationOvrigt(source.getBeskrivning());
             break;
-        default:
-            throw new ConverterException("Unknown Aktivitetskod: " + source.getAktivitetskod());
         }
 
     }
@@ -227,9 +236,6 @@ public final class TransportToInternal {
             case FORALDRALEDIGHET:
                 utlatande.setForaldrarledighet(true);
                 break;
-            default:
-                throw new ConverterException("Unknown SysselsattningType");
-
             }
         }
     }
@@ -340,8 +346,6 @@ public final class TransportToInternal {
                 utlatande.setFunktionsnedsattning(source.getBeskrivning());
             }
             break;
-        default:
-            throw new ConverterException("Unknown FunktionstillstandType: " + source.getTypAvFunktionstillstand());
         }
     }
 
@@ -362,8 +366,6 @@ public final class TransportToInternal {
                 case INTE_ATERSTALLAS:
                     utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosNej);
                     break;
-                default:
-                    throw new ConverterException("Unknown PrognosAngivelse: " + source.getPrognosangivelse());
                 }
             }
             utlatande.setArbetsformagaPrognos(source.getMotivering());
@@ -394,8 +396,6 @@ public final class TransportToInternal {
                 case NEDSATT_MED_1_4:
                     utlatande.setNedsattMed25(makeInterval(nedsattning));
                     break;
-                default:
-                    throw new IllegalArgumentException("Unknown Nedsattningsgrad: " + nedsattning.getNedsattningsgrad());
                 }
             }
         }

@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -35,6 +34,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
+
+import com.google.common.base.Splitter;
 
 /**
  * Utility that aids in creating an XML validator from complex XSD files (which include and/or import other XSD files).
@@ -101,8 +102,8 @@ public class SchemaValidatorBuilder {
 
     private String getLastPathSegment(String path) {
         if (path.contains("/")) {
-            String[] splitString = path.split("/");
-            return splitString[splitString.length - 1];
+            List<String> splitString = Splitter.on('/').splitToList(path);
+            return splitString.get(splitString.size() - 1);
         }
         return path;
     }

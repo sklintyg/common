@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.xml.bind.JAXB;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
@@ -49,8 +48,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
-
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
@@ -73,7 +70,7 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
             messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
         } catch (SOAPException e) {
             LOGGER.error("Failed to initialize RegisterCertificateResponderStub: {}", e.fillInStackTrace());
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -136,10 +133,10 @@ public final class RegisterCertificateResponderStub implements Provider<SOAPMess
             response.saveChanges();
         } catch (SOAPException e) {
             LOGGER.error("Error while invoking response in RegisterCertificateResponderStub: {}", e.fillInStackTrace());
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         } catch (TransformerException e) {
             LOGGER.error("Error while transforming response in RegisterCertificateResponderStub: {}", e.fillInStackTrace());
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
         return response;
     }

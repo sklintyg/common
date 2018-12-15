@@ -18,20 +18,16 @@
  */
 package se.inera.intyg.common.db.v1.model.converter;
 
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1.Builder;
 import se.inera.intyg.common.db.model.internal.Undersokning;
+import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.List;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -57,13 +53,12 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
 public final class TransportToInternal {
-    private static final int TILLAGGSFRAGA_START = 9001;
 
     private TransportToInternal() {
     }
 
     public static DbUtlatandeV1 convert(Intyg intyg) throws ConverterException {
-        Builder utlatande = DbUtlatandeV1.builder();
+        DbUtlatandeV1.Builder utlatande = DbUtlatandeV1.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg, true));
@@ -72,7 +67,7 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
-    private static void setSvar(Builder utlatande, Intyg intyg) throws ConverterException {
+    private static void setSvar(DbUtlatandeV1.Builder utlatande, Intyg intyg) throws ConverterException {
         for (Svar svar : intyg.getSvar()) {
             switch (svar.getId()) {
             case IDENTITET_STYRKT_SVAR_ID:
@@ -102,7 +97,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handlePolisanmalan(Builder utlatande, Svar svar) {
+    private static void handlePolisanmalan(DbUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();
@@ -116,7 +111,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleUndersokning(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleUndersokning(DbUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case UNDERSOKNING_YTTRE_DELSVAR_ID:
@@ -137,7 +132,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleExplosivtImplantat(Builder utlatande, Svar svar) {
+    private static void handleExplosivtImplantat(DbUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case EXPLOSIV_IMPLANTAT_DELSVAR_ID:
@@ -152,7 +147,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleBarn(Builder utlatande, Svar svar) {
+    private static void handleBarn(DbUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();
@@ -166,7 +161,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleDodsplats(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleDodsplats(DbUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case DODSPLATS_KOMMUN_DELSVAR_ID:
@@ -182,7 +177,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleDodsdatum(Builder utlatande, Svar svar) {
+    private static void handleDodsdatum(DbUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case DODSDATUM_SAKERT_DELSVAR_ID:
@@ -200,7 +195,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleIdentitetStyrkt(Builder utlatande, Svar svar) {
+    private static void handleIdentitetStyrkt(DbUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();
@@ -210,21 +205,6 @@ public final class TransportToInternal {
             utlatande.setIdentitetStyrkt(getStringContent(delsvar));
             break;
         default:
-            throw new IllegalArgumentException();
-        }
-    }
-
-    private static void handleTillaggsfraga(List<Tillaggsfraga> tillaggsfragor, Svar svar) {
-        // En tilläggsfråga har endast ett delsvar
-        if (svar.getDelsvar().size() > 1) {
-            throw new IllegalArgumentException();
-        }
-
-        Delsvar delsvar = svar.getDelsvar().get(0);
-        // Kontrollera att ID matchar
-        if (delsvar.getId().equals(svar.getId() + ".1")) {
-            tillaggsfragor.add(Tillaggsfraga.create(svar.getId(), getStringContent(delsvar)));
-        } else {
             throw new IllegalArgumentException();
         }
     }

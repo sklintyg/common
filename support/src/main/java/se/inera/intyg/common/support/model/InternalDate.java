@@ -210,7 +210,7 @@ public class InternalDate {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof  InternalDate)) {
             return false;
         }
         final InternalDate that = (InternalDate) object;

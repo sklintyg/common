@@ -33,7 +33,7 @@ public class GrundData {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof GrundData)) {
             return false;
         }
         final GrundData that = (GrundData) object;

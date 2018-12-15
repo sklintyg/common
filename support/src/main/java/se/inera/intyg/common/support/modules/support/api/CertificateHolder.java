@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
-import se.inera.intyg.schemas.contract.Personnummer;
-
 import java.time.LocalDateTime;
 import java.util.List;
+
+import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public class CertificateHolder {
 
@@ -310,7 +310,7 @@ public class CertificateHolder {
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (!(obj instanceof CertificateHolder)) {
             return false;
         }
         CertificateHolder other = (CertificateHolder) obj;

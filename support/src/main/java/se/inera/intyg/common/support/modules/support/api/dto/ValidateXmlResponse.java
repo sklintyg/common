@@ -18,11 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import org.springframework.util.Assert;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.util.Assert;
 
 /**
  * A validate draft response contains a binary VALID/INVALID status and a list of validation messages.
@@ -41,7 +41,7 @@ public class ValidateXmlResponse {
     }
 
     public boolean hasErrorMessages() {
-        return !(this.validationErrors.isEmpty());
+        return !this.validationErrors.isEmpty();
     }
 
     public List<String> getValidationErrors() {

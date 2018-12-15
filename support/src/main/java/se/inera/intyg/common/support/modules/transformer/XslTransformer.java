@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.transformer;
 
-import com.google.common.base.Throwables;
-import net.sf.saxon.TransformerFactoryImpl;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,11 +36,12 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
+
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+
+import net.sf.saxon.TransformerFactoryImpl;
 
 public class XslTransformer {
 
@@ -66,7 +66,7 @@ public class XslTransformer {
 
             return outputStream.toString(StandardCharsets.UTF_8.name());
         } catch (Exception e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -94,7 +94,7 @@ public class XslTransformer {
         try {
             templates = factory.newTemplates(new StreamSource(getResourceAsStream(xslHref)));
         } catch (TransformerConfigurationException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

@@ -45,7 +45,7 @@ public class Vardenhet {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof Vardenhet)) {
             return false;
         }
         final Vardenhet that = (Vardenhet) object;
@@ -70,16 +70,16 @@ public class Vardenhet {
         return enhetsid;
     }
 
-    public void setEnhetsid(String enhetsId) {
-        this.enhetsid = enhetsId;
+    public void setEnhetsid(String enhetsid) {
+        this.enhetsid = enhetsid;
     }
 
     public String getEnhetsnamn() {
         return enhetsnamn;
     }
 
-    public void setEnhetsnamn(String enhetsNamn) {
-        this.enhetsnamn = enhetsNamn;
+    public void setEnhetsnamn(String enhetsnamn) {
+        this.enhetsnamn = enhetsnamn;
     }
 
     public String getPostadress() {
@@ -94,24 +94,24 @@ public class Vardenhet {
         return postnummer;
     }
 
-    public void setPostnummer(String postNummer) {
-        this.postnummer = postNummer;
+    public void setPostnummer(String postnummer) {
+        this.postnummer = postnummer;
     }
 
     public String getPostort() {
         return postort;
     }
 
-    public void setPostort(String postOrt) {
-        this.postort = postOrt;
+    public void setPostort(String postort) {
+        this.postort = postort;
     }
 
     public String getTelefonnummer() {
         return telefonnummer;
     }
 
-    public void setTelefonnummer(String telefonNummer) {
-        this.telefonnummer = telefonNummer;
+    public void setTelefonnummer(String telefonnummer) {
+        this.telefonnummer = telefonnummer;
     }
 
     public String getEpost() {

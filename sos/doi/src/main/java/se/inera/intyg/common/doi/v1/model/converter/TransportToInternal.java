@@ -18,13 +18,18 @@
  */
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import se.inera.intyg.common.doi.model.internal.Dodsorsak;
 import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1.Builder;
 import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
 import se.inera.intyg.common.doi.model.internal.OmOperation;
 import se.inera.intyg.common.doi.model.internal.Specifikation;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -33,12 +38,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_DELSVAR_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_DELSVAR_ID;
@@ -82,13 +81,12 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
 
 public final class TransportToInternal {
-    private static final int TILLAGGSFRAGA_START = 9001;
 
     private TransportToInternal() {
     }
 
     public static DoiUtlatandeV1 convert(Intyg intyg) throws ConverterException {
-        Builder utlatande = DoiUtlatandeV1.builder();
+        DoiUtlatandeV1.Builder utlatande = DoiUtlatandeV1.builder();
         utlatande.setId(intyg.getIntygsId().getExtension());
         utlatande.setTextVersion(intyg.getVersion());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intyg, true));
@@ -97,7 +95,7 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
-    private static void setSvar(Builder utlatande, Intyg intyg) throws ConverterException {
+    private static void setSvar(DoiUtlatandeV1.Builder utlatande, Intyg intyg) throws ConverterException {
         Map<Integer, Dodsorsak> foljd = new HashMap<>();
         List<Dodsorsak> bidragandeSjukdomar = new ArrayList<>();
         List<Dodsorsaksgrund> grunder = new ArrayList<>();
@@ -150,7 +148,7 @@ public final class TransportToInternal {
         utlatande.setGrunder(grunder);
     }
 
-    private static void handleLand(Builder utlatande, Svar svar) {
+    private static void handleLand(DoiUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();
@@ -178,7 +176,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleForgiftning(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleForgiftning(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case FORGIFTNING_OM_DELSVAR_ID:
@@ -199,7 +197,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleOperation(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleOperation(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case OPERATION_OM_DELSVAR_ID:
@@ -269,7 +267,7 @@ public final class TransportToInternal {
         foljd.put(svar.getInstans(), Dodsorsak.create(description, date, specification));
     }
 
-    private static void handleDodsorsak(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleDodsorsak(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         String description = null;
         InternalDate date = null;
         Specifikation specification = null;
@@ -291,7 +289,7 @@ public final class TransportToInternal {
         utlatande.setTerminalDodsorsak(Dodsorsak.create(description, date, specification));
     }
 
-    private static void handleBarn(Builder utlatande, Svar svar) {
+    private static void handleBarn(DoiUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();
@@ -305,7 +303,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleDodsplats(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleDodsplats(DoiUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case DODSPLATS_KOMMUN_DELSVAR_ID:
@@ -321,7 +319,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleDodsdatum(Builder utlatande, Svar svar) {
+    private static void handleDodsdatum(DoiUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case DODSDATUM_SAKERT_DELSVAR_ID:
@@ -339,7 +337,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleIdentitetStyrkt(Builder utlatande, Svar svar) {
+    private static void handleIdentitetStyrkt(DoiUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         if (delsvar == null) {
             throw new IllegalArgumentException();

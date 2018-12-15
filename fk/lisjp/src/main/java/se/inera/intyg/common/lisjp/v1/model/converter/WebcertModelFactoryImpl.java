@@ -21,18 +21,16 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
-
-import org.springframework.stereotype.Component;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1.Builder;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -61,7 +59,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Builder template = LisjpUtlatandeV1.builder();
+        LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
         GrundData grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
@@ -97,7 +95,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         return templateBuilder.build();
     }
 
-    private void populateWithId(Builder utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(LisjpUtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
         if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
             throw new ConverterException("No certificateID found");
         }

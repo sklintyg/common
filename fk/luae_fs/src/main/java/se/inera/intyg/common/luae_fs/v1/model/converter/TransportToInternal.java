@@ -18,12 +18,14 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.common.primitives.Ints;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
-import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1.Builder;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -32,9 +34,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.DIAGNOS_SVAR_ID_6;
@@ -71,7 +70,7 @@ public final class TransportToInternal {
     }
 
     public static LuaefsUtlatandeV1 convert(Intyg source) throws ConverterException {
-        Builder utlatande = LuaefsUtlatandeV1.builder();
+        LuaefsUtlatandeV1.Builder utlatande = LuaefsUtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
@@ -80,7 +79,7 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
-    private static void setSvar(Builder utlatande, Intyg source) throws ConverterException {
+    private static void setSvar(LuaefsUtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
         List<Diagnos> diagnoser = new ArrayList<>();
         List<Tillaggsfraga> tillaggsfragor = new ArrayList<>();
         List<Underlag> underlag = new ArrayList<>();
@@ -129,7 +128,7 @@ public final class TransportToInternal {
         utlatande.setUnderlag(underlag);
     }
 
-    private static void handleFunktionsnedsattningDebut(Builder utlatande, Svar svar) {
+    private static void handleFunktionsnedsattningDebut(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15:
@@ -141,7 +140,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleFunktionsnedsattningPaverkan(Builder utlatande, Svar svar) {
+    private static void handleFunktionsnedsattningPaverkan(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16:
@@ -154,7 +153,7 @@ public final class TransportToInternal {
     }
 
 
-    private static void handleUnderlagFinns(Builder utlatande, Svar svar) {
+    private static void handleUnderlagFinns(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case UNDERLAGFINNS_DELSVAR_ID_3:
@@ -190,7 +189,7 @@ public final class TransportToInternal {
     }
 
 
-    private static void handleGrundForMedicinsktUnderlag(Builder utlatande, Svar svar) throws ConverterException {
+    private static void handleGrundForMedicinsktUnderlag(LuaefsUtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         InternalDate grundForMedicinsktUnderlagDatum = null;
         RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
         for (Delsvar delsvar : svar.getDelsvar()) {
@@ -228,7 +227,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleKannedom(Builder utlatande, Svar svar) {
+    private static void handleKannedom(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
             case KANNEDOM_DELSVAR_ID_2:
@@ -239,7 +238,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleOvrigt(Builder utlatande, Svar svar) {
+    private static void handleOvrigt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         Delsvar delsvar = svar.getDelsvar().get(0);
         switch (delsvar.getId()) {
         case OVRIGT_DELSVAR_ID_25:
@@ -250,7 +249,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleOnskarKontakt(Builder utlatande, Svar svar) {
+    private static void handleOnskarKontakt(LuaefsUtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case KONTAKT_ONSKAS_DELSVAR_ID_26:

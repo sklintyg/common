@@ -31,7 +31,7 @@ public class Vardgivare {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof  Vardgivare)) {
             return false;
         }
         final Vardgivare that = (Vardgivare) object;
@@ -56,8 +56,8 @@ public class Vardgivare {
         return vardgivarnamn;
     }
 
-    public void setVardgivarnamn(String vardgivarNamn) {
-        this.vardgivarnamn = vardgivarNamn;
+    public void setVardgivarnamn(String vardgivarnamn) {
+        this.vardgivarnamn = vardgivarnamn;
     }
 
 }

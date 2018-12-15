@@ -800,7 +800,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         return fraga13;
     }
 
-    void addPage1MiscFields(LisjpUtlatandeV1 intyg, boolean showFkAddress, List<PdfComponent> allElements)
+    void addPage1MiscFields(LisjpUtlatandeV1 intyg, boolean showFkAddress, List<PdfComponent<?>> allElements)
             throws IOException {
         FkLabel fortsBladText = new FkLabel(
                 "Använd fortsättningsbladet som finns i slutet av blanketten om utrymmet i fälten inte räcker till.")
@@ -877,7 +877,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         }
     }
 
-    void printElectronicCopy(List<PdfComponent> allElements) {
+    void printElectronicCopy(List<PdfComponent<?>> allElements) {
         FkLabel elektroniskKopia = new FkLabel(PdfConstants.ELECTRONIC_COPY_WATERMARK_TEXT)
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_CENTER)
@@ -888,7 +888,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
         allElements.add(elektroniskKopia);
     }
 
-    void printMinimalElectronicCopy(List<PdfComponent> allElements, String text) {
+    void printMinimalElectronicCopy(List<PdfComponent<?>> allElements, String text) {
         FkLabel elektroniskKopia = new FkLabel(text)
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
@@ -901,7 +901,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
     FkPage tillaggsfragorPage(LisjpUtlatandeV1 intyg, List<String> optionalFields) throws IOException, DocumentException {
 
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         // Sida 5 ar en extrasida, har lagger vi ev tillaggsfragor
         for (int i = 0; i < intyg.getTillaggsfragor().size(); i++) {

@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
+import java.util.List;
 
+import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvser;
@@ -29,7 +30,6 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Syn;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil;
@@ -46,6 +46,8 @@ import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
+
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
 public final class InternalToTransportConverter {
 
@@ -74,9 +76,9 @@ public final class InternalToTransportConverter {
         }
 
         if (!Strings.nullToEmpty(utlatande.getTextVersion()).trim().isEmpty()) {
-            String[] versionInfo = utlatande.getTextVersion().split(DELIMITER_REGEXP);
-            result.setUtgava(String.format("%02d", Integer.parseInt(versionInfo[1])));
-            result.setVersion(String.format("%02d", Integer.parseInt(versionInfo[0])));
+            List<String> versionInfo = Splitter.onPattern(DELIMITER_REGEXP).splitToList(utlatande.getTextVersion());
+            result.setUtgava(String.format("%02d", Integer.parseInt(versionInfo.get(1))));
+            result.setVersion(String.format("%02d", Integer.parseInt(versionInfo.get(0))));
         } else {
             result.setUtgava(DEFAULT_UTGAVA);
             result.setVersion(DEFAULT_VERSION);

@@ -143,7 +143,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     private FkPage createPage1(LuaenaUtlatandeV1 intyg, boolean isUtkast, boolean isLocked, List<Status> statuses,
                                ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         boolean showFkAddress;
         if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
@@ -302,7 +302,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
     }
 
     private void addPage1MiscFields(LuaenaUtlatandeV1 intyg, boolean isUtkast, boolean isLocked, boolean showFkAddress,
-                                    List<PdfComponent> allElements)
+                                    List<PdfComponent<?>> allElements)
             throws IOException {
         // Meta information text(s) etc.
         if (!isUtkast && !isLocked) {
@@ -400,7 +400,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     private FkPage createPage2(LuaenaUtlatandeV1 intyg) throws IOException, DocumentException {
 
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         // Diagnos/diagnoser för sjukdom som orsakar nedsatt arbetsförmåga
         FkFieldGroup fraga3 = new FkFieldGroup("3. " + getText("FRG_6.RBK"))
@@ -546,7 +546,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     private FkPage createPage3(LuaenaUtlatandeV1 intyg) throws IOException, DocumentException {
 
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         // Fraga 5. (Fortsattning fran sida 2 - ingen rubrik)
         // --------------------------------------------------------------------------
@@ -667,7 +667,7 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
     private FkPage createPage4(LuaenaUtlatandeV1 intyg) throws IOException, DocumentException {
 
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
         // Fraga 8. Medicinska forutsattningar
         // --------------------------------------------------------------------------
         FkFieldGroup fraga8 = new FkFieldGroup("8. " + getText("KAT_8.RBK"))

@@ -21,13 +21,11 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
-
-import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
-import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1.Builder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -61,7 +59,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Builder template = Af00213UtlatandeV1.builder();
+        Af00213UtlatandeV1.Builder template = Af00213UtlatandeV1.builder();
         GrundData grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
@@ -86,7 +84,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), lisjpUtlatande.getId());
 
-        Builder templateBuilder = lisjpUtlatande.toBuilder();
+        Af00213UtlatandeV1.Builder templateBuilder = lisjpUtlatande.toBuilder();
         GrundData grundData = lisjpUtlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
@@ -97,7 +95,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Af00213Utlat
         return templateBuilder.build();
     }
 
-    private void populateWithId(Builder utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(Af00213UtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
         if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
             throw new ConverterException("No certificateID found");
         }

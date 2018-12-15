@@ -23,10 +23,9 @@ import java.util.EnumSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
-
-import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -44,7 +43,6 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3.Builder;
 
 /**
  * Factory for creating an editable model.
@@ -69,7 +67,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Builder template = TsDiabetesUtlatandeV3.builder();
+        TsDiabetesUtlatandeV3.Builder template = TsDiabetesUtlatandeV3.builder();
         GrundData grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
@@ -110,7 +108,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
         return templateBuilder.build();
     }
 
-    private void populateWithId(Builder utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(TsDiabetesUtlatandeV3.Builder utlatande, String utlatandeId) throws ConverterException {
         if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
             throw new ConverterException("No certificateID found");
         }

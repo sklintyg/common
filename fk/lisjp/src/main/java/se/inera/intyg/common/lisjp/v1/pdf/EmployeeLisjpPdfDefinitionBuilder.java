@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.itextpdf.text.DocumentException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
@@ -25,10 +29,6 @@ import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
 
@@ -66,7 +66,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
         return this.optionalFields != null && this.optionalFields.stream().anyMatch(f -> f.startsWith("!"));
     }
 
-    private void printCopyText(List<PdfComponent> allElements, LisjpUtlatandeV1 intyg, ApplicationOrigin applicationOrigin) {
+    private void printCopyText(List<PdfComponent<?>> allElements, LisjpUtlatandeV1 intyg, ApplicationOrigin applicationOrigin) {
         if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
             if (!hasDeselectedOptionalFields()) {
                 printElectronicCopy(allElements);
@@ -80,7 +80,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
 
     private FkPage createPage1(LisjpUtlatandeV1 intyg, ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
 
         printCopyText(allElements, intyg, applicationOrigin);
@@ -97,7 +97,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     }
 
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga5(intyg, optionalFields));
         allElements.add(fraga6(intyg, optionalFields));
@@ -111,7 +111,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     }
 
     private FkPage createPage3(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga8p3(intyg));
         allElements.add(fraga8p4(intyg, optionalFields));
@@ -125,7 +125,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     }
 
     private FkPage createPage4(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga12(intyg, optionalFields));
         allElements.add(fraga13(intyg));

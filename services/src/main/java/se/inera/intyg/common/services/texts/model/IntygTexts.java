@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
 
+import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 
 /**
@@ -60,12 +61,12 @@ public final class IntygTexts {
     }
 
     public static int compareVersions(IntygTexts candidate1, IntygTexts candidate2) {
-        String[] tokens1 = candidate1.getVersion().split(DELIMITER);
-        String[] tokens2 = candidate2.getVersion().split(DELIMITER);
-        int length = Math.max(tokens1.length, tokens2.length);
+        List<String> tokens1 = Splitter.onPattern(DELIMITER).splitToList(candidate1.getVersion());
+        List<String> tokens2 = Splitter.onPattern(DELIMITER).splitToList(candidate2.getVersion());
+        int length = Math.max(tokens1.size(), tokens2.size());
         for (int i = 0; i < length; i++) {
-            int part1 = i < tokens1.length ? Integer.parseInt(tokens1[i]) : 0;
-            int part2 = i < tokens2.length ? Integer.parseInt(tokens2[i]) : 0;
+            int part1 = i < tokens1.size() ? Integer.parseInt(tokens1.get(i)) : 0;
+            int part2 = i < tokens2.size() ? Integer.parseInt(tokens2.get(i)) : 0;
             if (part1 < part2) {
                 return -1;
             }

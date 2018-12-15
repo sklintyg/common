@@ -45,7 +45,7 @@ public class HoSPersonal {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof HoSPersonal)) {
             return false;
         }
         final HoSPersonal that = (HoSPersonal) object;

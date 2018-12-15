@@ -18,12 +18,7 @@
  */
 package se.inera.intyg.common.ts_parent.integration;
 
-import com.google.common.base.Throwables;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-
+import java.io.StringReader;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,7 +33,11 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
-import java.io.StringReader;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 
 public abstract class SendTSClient {
 
@@ -63,7 +62,7 @@ public abstract class SendTSClient {
             messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
             builderFactory = DocumentBuilderFactory.newInstance();
         } catch (SOAPException e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -95,7 +94,7 @@ public abstract class SendTSClient {
             return dispSOAPMsg.invoke(soapMessage);
 
         } catch (Exception e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 

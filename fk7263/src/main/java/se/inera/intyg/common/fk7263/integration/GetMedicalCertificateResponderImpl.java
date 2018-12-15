@@ -18,10 +18,13 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import com.google.common.base.Throwables;
+import java.io.StringReader;
+import javax.xml.bind.JAXB;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateRequestType;
 import se.inera.intyg.clinicalprocess.healthcond.certificate.getmedicalcertificate.v1.GetMedicalCertificateResponderInterface;
@@ -34,9 +37,6 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
-
-import javax.xml.bind.JAXB;
-import java.io.StringReader;
 
 /**
  * @author andreaskaltenbach
@@ -102,7 +102,7 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
         } catch (Exception e) {
             LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(),
                     e.getStackTrace());
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
     }
 }

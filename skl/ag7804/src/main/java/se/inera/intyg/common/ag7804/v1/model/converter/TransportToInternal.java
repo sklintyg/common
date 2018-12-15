@@ -18,6 +18,28 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import se.inera.intyg.common.ag7804.converter.RespConstants;
+import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.ag7804.model.internal.Prognos;
+import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
+import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
+import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_103;
@@ -68,29 +90,6 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import se.inera.intyg.common.ag7804.converter.RespConstants;
-import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
-import se.inera.intyg.common.ag7804.model.internal.Prognos;
-import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
-import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
-import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
-import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning.SjukskrivningsGrad;
-import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
-import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
-import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1.Builder;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 
@@ -184,7 +183,7 @@ public final class TransportToInternal {
         utlatande.setDiagnoser(diagnoser);
     }
 
-    private static void handleAvstangningSmyttskydd(Builder utlatande, Svar svar) {
+    private static void handleAvstangningSmyttskydd(Ag7804UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27:
@@ -402,8 +401,6 @@ public final class TransportToInternal {
         case ANNAT:
             utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
             break;
-        default:
-            throw new IllegalArgumentException();
         }
     }
 

@@ -57,7 +57,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     private FkPage createPage1(LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast, List<Status> statuses,
                                ApplicationOrigin applicationOrigin)
             throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         boolean showFkAddress;
         if (applicationOrigin.equals(ApplicationOrigin.MINA_INTYG)) {
@@ -84,7 +84,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     }
 
     private FkPage createPage2(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga5(intyg, null));
         allElements.add(fraga6(intyg, null));
@@ -98,7 +98,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     }
 
     private FkPage createPage3(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga8p3(intyg));
         allElements.add(fraga8p4(intyg, null));
@@ -112,7 +112,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     }
 
     private FkPage createPage4(LisjpUtlatandeV1 intyg) throws IOException, DocumentException {
-        List<PdfComponent> allElements = new ArrayList<>();
+        List<PdfComponent<?>> allElements = new ArrayList<>();
 
         allElements.add(fraga12(intyg, null));
         allElements.add(fraga13(intyg));

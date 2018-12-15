@@ -18,13 +18,13 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import java.util.Objects;
+import java.util.Optional;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Strings;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.util.Objects;
-import java.util.Optional;
 
 public class Patient {
 
@@ -53,7 +53,7 @@ public class Patient {
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (!(object instanceof Patient)) {
             return false;
         }
         final Patient that = (Patient) object;

@@ -18,10 +18,17 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
-import com.google.common.base.Throwables;
+import java.io.StringWriter;
+import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import se.inera.intyg.common.support.integration.module.exception.CertificateAlreadyExistsException;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -38,13 +45,6 @@ import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.Regist
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponseType;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.inera.intygstjanster.ts.services.v1.ErrorIdType;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import java.io.StringWriter;
-import java.util.List;
 
 public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesResponderInterface {
 
@@ -100,11 +100,11 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
             LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
         } catch (JAXBException e) {
             LOGGER.error("JAXB error in Webservice: ", e);
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
 
         } catch (Exception e) {
             LOGGER.error("Error in Webservice: ", e);
-            Throwables.propagate(e);
+            throw new RuntimeException(e);
         }
 
         return response;

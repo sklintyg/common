@@ -18,10 +18,19 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.OVRIGT_DELSVAR_ID_8;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
-import static se.inera.intyg.common.ag114.v1.model.converter.TransportToInternalUtil.handleDiagnos;
+import java.util.ArrayList;
+import java.util.List;
+
+import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
@@ -35,28 +44,18 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARAND
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_3;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.OVRIGT_DELSVAR_ID_8;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.OVRIGT_SVAR_ID_8;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_ID_4;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
+import static se.inera.intyg.common.ag114.v1.model.converter.TransportToInternalUtil.handleDiagnos;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getGrundData;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
-import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class TransportToInternal {
 
@@ -67,7 +66,7 @@ public final class TransportToInternal {
         if (source == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
-        Builder utlatande = Ag114UtlatandeV1.builder();
+        Ag114UtlatandeV1.Builder utlatande = Ag114UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setGrundData(getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
@@ -76,7 +75,7 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
-    private static void setSvar(Builder utlatande, Intyg source) throws ConverterException {
+    private static void setSvar(Ag114UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
 
         List<Diagnos> diagnoser = new ArrayList<>();
         List<Sysselsattning> sysselsattningar = new ArrayList<>();
@@ -212,7 +211,7 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleOnskarKontakt(Builder utlatande, Svar svar) {
+    private static void handleOnskarKontakt(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case KONTAKT_ONSKAS_DELSVAR_ID_9:
