@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -40,12 +40,12 @@ import java.io.IOException;
 import static org.junit.Assert.*;
 
 /**
- * Specifically tests the renewal of LISJP where certain fields are nulled out.
+ * Specifically tests the renewal of AF00251 where certain fields are nulled out.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class AF00251ModuleApiV1RenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "classpath:/AF00251ModelCompareUtil/utlatande.json";
+    public static final String TESTFILE_UTLATANDE = "renewal/utlatande.json";
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
@@ -102,14 +102,8 @@ public class AF00251ModuleApiV1RenewalTest {
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-
-        final AF00251UtlatandeV1 utlatande = new CustomObjectMapper().readValue(
-            context.getResource(TESTFILE_UTLATANDE)
-                   .getFile(), AF00251UtlatandeV1.class);
-        context.close();
-
-        return utlatande;
+        return new CustomObjectMapper().readValue(new ClassPathResource(
+            TESTFILE_UTLATANDE).getFile(), AF00251UtlatandeV1.class);
     }
 
 }
