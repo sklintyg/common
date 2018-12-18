@@ -43,7 +43,7 @@
             'common.cancel': 'Avbryt',
             'common.canceldontrevoke': 'Avbryt, makulera ej',
             'common.goback': 'Tillbaka',
-            'common.createfromtemplate': 'Skriv ${intygName}',
+            'common.createfromtemplate': 'Skapa ${intygName}',
             'common.createfromtemplate.tooltip': 'Skapar ett ${newIntygName} utifrån ${currentIntygName}.',
             'common.gotofromtemplate': 'Visa ${intygName}',
             'common.makulera': 'Makulera',
