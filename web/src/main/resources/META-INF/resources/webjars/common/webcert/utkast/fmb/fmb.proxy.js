@@ -37,9 +37,34 @@ angular.module('common').factory('common.fmbProxy', ['$http' , '$q', '$log',
             return deferred.promise;
         }
 
+        /*
+         * validate sjukskrivningstid
+         * sjukskrivningsTid {
+         *  icd10kod1,
+         *  icd10kod2,
+         *  icd10kod3,
+         *  foreslagenSjukskrivningstid,
+         *  personnummer
+         * }
+         */
+        function _getValidateSjukskrivningstid(sjukskrivningsTid) {
+            var deferred = $q.defer(),
+                restPath = '/api/fmb/valideraSjukskrivningstid';
+
+            $http.get(restPath, {params: sjukskrivningsTid}).then(function(response) {
+                deferred.resolve(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                deferred.reject(response.status);
+            });
+
+            return deferred.promise;
+        }
+
         // Return public API for the service
         return {
-            getFMBHelpTextsByCode: _getFMBHelpTextsByCode
+            getFMBHelpTextsByCode: _getFMBHelpTextsByCode,
+            getValidateSjukskrivningstid: _getValidateSjukskrivningstid
         };
     }]);
 

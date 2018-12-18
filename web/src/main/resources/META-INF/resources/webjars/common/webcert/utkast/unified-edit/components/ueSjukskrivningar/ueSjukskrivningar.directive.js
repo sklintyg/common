@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueSjukskrivningar', ['common.ArendeListViewStateService', 'common.SjukskrivningarViewStateService',
-    'common.UtkastValidationService', 'common.messageService', 'common.UtkastViewStateService',
-    function(ArendeListViewState, viewstate, UtkastValidationService, messageService, UtkastViewState) {
+angular.module('common').directive('ueSjukskrivningar', ['$log', 'common.ArendeListViewStateService', 'common.SjukskrivningarViewStateService',
+    'common.UtkastValidationService', 'common.messageService', 'common.UtkastViewStateService', 'common.fmbProxy', 'common.ObjectHelper',
+    function($log, ArendeListViewState, viewstate, UtkastValidationService, messageService, UtkastViewState, FMBProxy, ObjectHelper) {
     'use strict';
     return {
         restrict: 'E',
@@ -101,6 +101,37 @@ angular.module('common').directive('ueSjukskrivningar', ['common.ArendeListViewS
                 UtkastValidationService.validate($scope.model);
             };
             $scope.viewstate = viewstate.reset();
+
+
+            function requestFMBVarningUpdate(){
+                if($scope.model.diagnoser &&
+                    ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
+                    ObjectHelper.isDefined($scope.model.diagnoser[1].diagnosKod) ||
+                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod)) {
+                    FMBProxy.getValidateSjukskrivningstid({
+                        icd10Kod1: $scope.model.diagnoser[0].diagnosKod,
+                        icd10Kod2: $scope.model.diagnoser[1].diagnosKod,
+                        icd10Kod3: $scope.model.diagnoser[2].diagnosKod,
+                        foreslagenSjukskrivningstid: viewstate.totalDays,
+                        personnummer: $scope.model.grundData.patient.personId
+                    }).then(function(data){
+                        viewstate.fmbVarning = data;
+                    }, function(error) {
+                        viewstate.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false };
+                        $log.debug('fmbvarning error: ' + error);
+                    });
+                }
+            }
+
+            $scope.$watch('model.diagnoser', function(newValue, oldValue) {
+                requestFMBVarningUpdate();
+            }, true);
+
+            $scope.$watch('viewstate.totalDays', function(newValue, oldValue){
+                if(newValue !== oldValue) {
+                    requestFMBVarningUpdate();
+                }
+            });
 
             function setup() {
                 viewstate.setModel($scope.model[$scope.config.modelProp]);
