@@ -70,7 +70,7 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
                 else {
                     this.model[index].period.from = undefined;
                     this.model[index].period.tom = undefined;
-                    if (this.model[index].niva != 100) {
+                    if (this.model[index].niva !== 100) {
                         this.model[index].niva = undefined;
                     }
                 }
@@ -123,7 +123,7 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
 
                 this.model.push({
                     checked: false,
-                    niva: "",
+                    niva: '',
                     period: {
                         from: '',
                         tom: ''

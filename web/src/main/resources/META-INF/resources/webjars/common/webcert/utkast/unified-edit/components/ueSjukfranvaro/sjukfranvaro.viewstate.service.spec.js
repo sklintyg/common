@@ -25,7 +25,7 @@ describe('sjukfranvaro', function() {
 
     var dirtyCallback = function() {
 
-    }
+    };
 
     beforeEach(angular.mock.module('common'));
 
@@ -56,9 +56,9 @@ describe('sjukfranvaro', function() {
 
     it('Should be able to calculate workperiod', function() {
 
-        model[0].period.from = '2018-12-03'
-        model[0].period.tom = '2018-12-06'
-        model[0].checked = true
+        model[0].period.from = '2018-12-03';
+        model[0].period.tom = '2018-12-06';
+        model[0].checked = true;
 
         SjukfranvaroViewState.updatePeriods();
 
@@ -67,13 +67,13 @@ describe('sjukfranvaro', function() {
 
     it('Should be able to calculate total workperiod with several periods', function() {
 
-        model[0].period.from = '2018-12-03'
-        model[0].period.tom = '2018-12-06'
-        model[0].checked = true
+        model[0].period.from = '2018-12-03';
+        model[0].period.tom = '2018-12-06';
+        model[0].checked = true;
 
-        model[1].period.from = '2018-12-07'
-        model[1].period.tom = '2018-12-12'
-        model[1].checked = true
+        model[1].period.from = '2018-12-07';
+        model[1].period.tom = '2018-12-12';
+        model[1].checked = true;
 
 
         SjukfranvaroViewState.updatePeriods();
@@ -99,14 +99,14 @@ describe('sjukfranvaro', function() {
 
     it('Should be able to continue period from a higher sjukskrivningsgrad', function() {
 
-        model[0].period.from = '2018-12-03'
-        model[0].period.tom = '2018-12-06'
-        model[0].checked = true
+        model[0].period.from = '2018-12-03';
+        model[0].period.tom = '2018-12-06';
+        model[0].checked = true;
 
         SjukfranvaroViewState.updatePeriods();
 
         // Simulate user enables next row checkbox
-        model[1].checked = true
+        model[1].checked = true;
         SjukfranvaroViewState.updateCheckBox(1);
 
         expect(model[1].period.from).toBe('2018-12-07');

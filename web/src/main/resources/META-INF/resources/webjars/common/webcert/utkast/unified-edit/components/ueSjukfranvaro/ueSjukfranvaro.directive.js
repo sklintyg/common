@@ -39,11 +39,11 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
                 var sjukfranvaroArray = $scope.model[$scope.config.modelProp];
 
 
-                if (sjukfranvaroArray == undefined) {
-                    sjukfranvaroArray = []
+                if (sjukfranvaroArray === undefined) {
+                    sjukfranvaroArray = [];
                 }
 
-                if (sjukfranvaroArray.length == 0) {
+                if (sjukfranvaroArray.length === 0) {
                     sjukfranvaroArray.push({
                         niva: 100,
                         checked: false,
