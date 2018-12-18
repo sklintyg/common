@@ -18,6 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.support.api;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -33,11 +39,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The module API defines methods that interact with one of the tree models that every module handles:
@@ -413,6 +414,17 @@ public interface ModuleApi {
      */
     default PatientDetailResolveOrder getPatientDetailResolveOrder() {
         return PatientDetailResolveOrder.defaultOrder();
+    }
+
+    /**
+     * Returns critera for the intygstype, majorversion and age (time since signed) a source candidate intyg must match in
+     * order to be a copy-from-candicate when creating a new draft with
+     * {@link se.riv.clinicalprocess.healthcond.certificate.createdraftcertificateresponder.v3.CreateDraftCertificateResponderInterface}.
+     *
+     * Since most types does not supports this, the defaults is none.
+     */
+    default Optional<GetCopyFromCriteria> getCopyFromCriteria() {
+        return Optional.empty();
     }
 
 }

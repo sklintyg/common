@@ -273,12 +273,19 @@ angular.module('common').factory('common.IntygCopyActions',
                 var newIntygType = intygCreateFromTemplateRequest.newIntygType;
 
                 createFromTemplateDialogModel.infoMessage = undefined;
+                createFromTemplateDialogModel.notSentInfoMessageKey = undefined;
 
                 if (previousIntyg !== undefined && previousIntyg[newIntygType] && !previousIntyg[newIntygType].sameVardgivare) {
                     var infoMessageKey = intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text.info';
 
                     if (messageService.propertyExists(infoMessageKey)) {
                         createFromTemplateDialogModel.infoMessage = infoMessageKey;
+                    }
+                }
+                if (!viewState.common.isSentIntyg()) {
+                    var notSentInfoMessageKey = intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text.info.notsent';
+                    if (messageService.propertyExists(notSentInfoMessageKey)) {
+                        createFromTemplateDialogModel.notSentInfoMessageKey = notSentInfoMessageKey;
                     }
                 }
 

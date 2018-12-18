@@ -187,7 +187,8 @@ describe('IntygCopyService', function() {
                     common: {
                         intygProperties: {
                             latestChildRelations: {}
-                        }
+                        },
+                        isSentIntyg: function() {return true;}
                     }
                 },
                 dialog: {

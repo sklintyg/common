@@ -18,31 +18,41 @@
  */
 package se.inera.intyg.common.ag7804.v1.model.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.time.LocalDateTime;
+
+import org.json.JSONException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.core.io.ClassPathResource;
+
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
+import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDateTime;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
@@ -50,11 +60,14 @@ public class WebcertModelFactoryTest {
     private static final String INTYG_ID = "intyg-123";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
     private static final String INTYG_TYPE_VERSION_1_2 = "1.2";
+    private static final String LISJP_TESTFILE_UTLATANDE_TEMPLATE = "v1/WebcertModelFactory/lisjp-template.json";
+    private static final String AG7804_TESTFILE_UTLATANDE_EXPECTED = "v1/WebcertModelFactory/ag7804-result-copy.json";
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
     @Mock
     private IntygTextsService intygTextsService;
 
+    private CustomObjectMapper customObjectMapper = new CustomObjectMapper();
 
     @Before
     public void setUp() {
@@ -63,7 +76,45 @@ public class WebcertModelFactoryTest {
     }
 
     @Test
-    public void testHappyPath() throws ConverterException {
+    public void testNormalCopy() throws ConverterException {
+        HoSPersonal newHosPersonal = buildHosPersonal();
+        newHosPersonal.setPersonId("3333");
+        CreateDraftCopyHolder copyHolder = new CreateDraftCopyHolder("123", newHosPersonal);
+
+        Ag7804UtlatandeV1 template = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
+        Ag7804UtlatandeV1 draft = modelFactory.createCopy(copyHolder, template);
+        assertNotNull(draft);
+        assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
+        assertEquals("VE1", draft.getGrundData().getSkapadAv().getVardenhet().getEnhetsid());
+        assertEquals("3333", draft.getGrundData().getSkapadAv().getPersonId());
+        assertEquals("191212121212", draft.getGrundData().getPatient().getPersonId().getPersonnummer());
+        assertEquals(INTYG_TYPE_VERSION_1_2, draft.getTextVersion());
+    }
+
+    @Test
+    public void testCopyFromLisjpTemplate() throws ConverterException, IOException, JSONException {
+        HoSPersonal newHosPersonal = buildHosPersonal();
+        Patient patient = buildPatient();
+
+        CreateDraftCopyHolder copyHolder = new CreateDraftCopyHolder("ag7804-intyg", newHosPersonal);
+        copyHolder.setPatient(patient);
+        copyHolder.setIntygTypeVersion("1.1");
+
+        LisjpUtlatandeV1 template = customObjectMapper.readValue(new ClassPathResource(
+                LISJP_TESTFILE_UTLATANDE_TEMPLATE).getFile(), LisjpUtlatandeV1.class);
+
+        Ag7804UtlatandeV1 expectedUtlatande = customObjectMapper.readValue(new ClassPathResource(
+                AG7804_TESTFILE_UTLATANDE_EXPECTED).getFile(), Ag7804UtlatandeV1.class);
+
+        Ag7804UtlatandeV1 draft = modelFactory.createCopy(copyHolder, template);
+        assertNotNull(draft);
+
+        JSONAssert.assertEquals(serializeUtlatande(expectedUtlatande), serializeUtlatande(draft), false);
+
+    }
+
+    @Test
+    public void testCreateNewDraftHappyPath() throws ConverterException {
         Ag7804UtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
         assertNotNull(draft);
         assertEquals("VG1", draft.getGrundData().getSkapadAv().getVardenhet().getVardgivare().getVardgivarid());
@@ -121,9 +172,23 @@ public class WebcertModelFactoryTest {
         Vardenhet vardenhet = new Vardenhet();
         vardenhet.setEnhetsid("VE1");
         vardenhet.setEnhetsnamn("ve1");
+        vardenhet.setEpost("enhet3@webcert.invalid.se");
+        vardenhet.setPostadress("Nygatan 4");
+        vardenhet.setPostnummer("22233");
+        vardenhet.setPostort("Nyorten");
         vardenhet.setVardgivare(new Vardgivare());
         vardenhet.getVardgivare().setVardgivarid("VG1");
         vardenhet.getVardgivare().setVardgivarnamn("vg1");
         return vardenhet;
+    }
+
+    private String serializeUtlatande(Utlatande utlatande) throws ConverterException {
+        StringWriter jsonWriter = new StringWriter();
+        try {
+            customObjectMapper.writeValue(jsonWriter, utlatande);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonWriter.toString();
     }
 }

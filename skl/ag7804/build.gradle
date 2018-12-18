@@ -1,5 +1,7 @@
 dependencies {
     compile project(':ag-parent')
+    compile project(':fk-parent')
+    compile project(':lisjp')
 
     compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
     apt "com.google.auto.value:auto-value:${autovalueVersion}"

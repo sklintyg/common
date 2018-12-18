@@ -37,6 +37,8 @@ public class CreateDraftCopyHolder {
 
     private Relation relation;
 
+    private String intygTypeVersion;
+
     public CreateDraftCopyHolder(String certificateId, HoSPersonal skapadAv, Relation relation) {
         this(certificateId, skapadAv);
         this.relation = relation;
@@ -90,4 +92,11 @@ public class CreateDraftCopyHolder {
         this.relation = relation;
     }
 
+    public String getIntygTypeVersion() {
+        return intygTypeVersion;
+    }
+
+    public void setIntygTypeVersion(String intygTypeVersion) {
+        this.intygTypeVersion = intygTypeVersion;
+    }
 }

@@ -29,7 +29,6 @@ import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 @Component("ag7804.v1.ag7804ModelCompareUtil")
 public class Ag7804ModelCompareUtil extends AgParentModelCompareUtil implements ModelCompareUtil<Ag7804UtlatandeV1> {
 
-    // TODO: check specs for this, probably same as for lisjp?
     @Override
     public boolean isValidForNotification(Ag7804UtlatandeV1 utlatande) {
         return diagnosesAreValid(utlatande.getDiagnoser())

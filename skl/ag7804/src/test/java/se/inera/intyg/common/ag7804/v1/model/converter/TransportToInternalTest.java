@@ -22,22 +22,28 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
 import se.inera.intyg.common.ag7804.model.internal.PrognosDagarTillArbeteTyp;
 import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
+import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
 import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TransportToInternalTest {
 
     public static Ag7804UtlatandeV1 getUtlatande() {
@@ -46,6 +52,7 @@ public class TransportToInternalTest {
         utlatande.setGrundData(IntygTestDataBuilder.getGrundData());
         utlatande.setTextVersion("1.0");
         utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+        utlatande.setOnskarFormedlaDiagnos(true);
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
                 Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
@@ -57,12 +64,23 @@ public class TransportToInternalTest {
 
         utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.STUDIER)));
         utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
+        utlatande.setArbetsresor(false);
+        utlatande.setSjukskrivningar(createSjukskrivningar());
+        utlatande.setOnskarFormedlaFunktionsnedsattning(true);
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
-//TODO: lägg till sjukskrivningar?
         utlatande.setOvrigt("Trevlig kille");
         utlatande.setKontaktMedAg(true);
         utlatande.setAnledningTillKontakt("Känner mig ensam");
         return utlatande.build();
+    }
+
+    private static List<Sjukskrivning> createSjukskrivningar() {
+        List<Sjukskrivning> result = new ArrayList<>();
+        result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4,
+                new InternalLocalDateInterval("2016-12-01", "2016-12-31")));
+        result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN,
+                new InternalLocalDateInterval("2017-01-01", "2017-02-12")));
+        return result;
     }
 
     @Test

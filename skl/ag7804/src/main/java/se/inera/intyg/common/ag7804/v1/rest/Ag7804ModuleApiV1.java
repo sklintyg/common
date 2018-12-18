@@ -38,6 +38,7 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.pdf.PdfGenerator;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.agparent.rest.AgParentModuleApi;
+import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
@@ -46,6 +47,7 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.modules.support.api.GetCopyFromCriteria;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
@@ -60,6 +62,9 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     public static final String SCHEMATRON_FILE = "ag7804.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(Ag7804ModuleApiV1.class);
+
+    private static final int COPY_FROM_LISJP_MAX_AGE_DAYS = 14;
+    private static final String SUPPORTED_LISJP_MAJOR_VERSION = "1";
 
     public Ag7804ModuleApiV1() {
         super(Ag7804UtlatandeV1.class);
@@ -154,6 +159,11 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
         } catch (ConverterException e) {
             throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
         }
+    }
+
+    @Override
+    public Optional<GetCopyFromCriteria> getCopyFromCriteria() {
+        return Optional.of(new GetCopyFromCriteria(LisjpEntryPoint.MODULE_ID, SUPPORTED_LISJP_MAJOR_VERSION, COPY_FROM_LISJP_MAX_AGE_DAYS));
     }
 
     @Override

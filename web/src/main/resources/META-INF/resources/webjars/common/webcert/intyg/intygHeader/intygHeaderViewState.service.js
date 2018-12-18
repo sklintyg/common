@@ -46,6 +46,14 @@ angular.module('common').service('common.IntygHeaderViewState', [
                         featureService.features.UNIKT_INTYG_INOM_VG,
                         featureService.features.UNIKT_UTKAST_INOM_VG
                     ]
+                },
+                lisjp: {
+                    moduleId: 'ag7804',
+                    name: 'AG7804',
+                    buttonText: '', // generated from name and message string
+                    tooltip: '', // generated from name and message string
+                    features: [],
+                    origins: ['NORMAL']
                 }
             };
 

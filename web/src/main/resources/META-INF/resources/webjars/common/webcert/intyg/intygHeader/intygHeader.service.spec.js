@@ -114,10 +114,10 @@ describe('IntygHeaderService', function() {
                 expect(IntygHeaderViewState.warningForCreateTemplate).not.toBeNull();
             });
 
-            it('should not be shown if intyg type is fk, ts or doi', function() {
+            it('should not be shown if intyg type does not support create from template', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
-                UserModel.user = {};
+                UserModel.user = {origin: 'NORMAL'};
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'doi');
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
@@ -132,7 +132,7 @@ describe('IntygHeaderService', function() {
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'lisjp');
-                expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
+                expect(IntygHeaderService.showCreateFromTemplate()).toBeTruthy();
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'luse');
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();

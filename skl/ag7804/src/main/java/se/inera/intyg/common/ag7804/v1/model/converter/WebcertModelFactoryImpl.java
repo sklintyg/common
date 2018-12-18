@@ -27,6 +27,7 @@ import com.google.common.base.Strings;
 
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -48,7 +49,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
     private IntygTextsService intygTexts;
 
     /**
-     * Create a new lisjp draft pre-populated with the attached data.
+     * Create a new Ag7804UtlatandeV1 draft pre-populated with the attached data.
      *
      * @param newDraftData
      *            {@link CreateNewDraftHolder}
@@ -77,22 +78,49 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
 
     @Override
     public Ag7804UtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!Ag7804UtlatandeV1.class.isInstance(template)) {
-            throw new ConverterException("Template is not of type LisjpUtlatandeV1");
+
+        if (Ag7804UtlatandeV1.class.isInstance(template)) {
+            Ag7804UtlatandeV1 ag7804pUtlatandeV1 = (Ag7804UtlatandeV1) template;
+
+            LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), ag7804pUtlatandeV1.getId());
+
+            Ag7804UtlatandeV1.Builder templateBuilder = ag7804pUtlatandeV1.toBuilder();
+            GrundData grundData = ag7804pUtlatandeV1.getGrundData();
+
+            populateWithId(templateBuilder, copyData.getCertificateId());
+            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
+            resetDataInGrundData(grundData);
+            templateBuilder.setSignature(null);
+            return templateBuilder.build();
+        } else if (LisjpUtlatandeV1.class.isInstance(template)) {
+            return handleFromLisjpCopy(copyData, (LisjpUtlatandeV1) template);
+        } else {
+            throw new ConverterException("Template is of an unsupported type : " + template.getClass());
         }
 
-        Ag7804UtlatandeV1 ag7804pUtlatandeV1 = (Ag7804UtlatandeV1) template;
+    }
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), ag7804pUtlatandeV1.getId());
+    private Ag7804UtlatandeV1 handleFromLisjpCopy(CreateDraftCopyHolder copyData, LisjpUtlatandeV1 lisjpTemplate)
+            throws ConverterException {
+        LOG.trace("Creating copy with id {} from LisjpUtlatandeV1 with id {}", copyData.getCertificateId(), lisjpTemplate.getId());
 
-        Ag7804UtlatandeV1.Builder templateBuilder = ag7804pUtlatandeV1.toBuilder();
-        GrundData grundData = ag7804pUtlatandeV1.getGrundData();
+        Ag7804UtlatandeV1.Builder templateBuilder = Ag7804UtlatandeV1.builder();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        resetDataInGrundData(grundData);
+        // Retain patient and skapadAv
+        GrundData grundData = new GrundData();
+        grundData.setPatient(copyData.getPatient());
+        grundData.setSkapadAv(copyData.getSkapadAv());
+        grundData.setSigneringsdatum(null);
+        grundData.setRelation(null);
+
+        templateBuilder.setGrundData(grundData);
+        templateBuilder.setTextVersion(copyData.getIntygTypeVersion());
         templateBuilder.setSignature(null);
+
+        CopyFromUtlatandeHelper.copyFrom(lisjpTemplate, templateBuilder);
         return templateBuilder.build();
     }
 
