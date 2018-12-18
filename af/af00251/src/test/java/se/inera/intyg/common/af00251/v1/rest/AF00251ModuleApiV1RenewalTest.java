@@ -19,6 +19,8 @@
 package se.inera.intyg.common.af00251.v1.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -102,8 +104,10 @@ public class AF00251ModuleApiV1RenewalTest {
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), AF00251UtlatandeV1.class);
+        return new CustomObjectMapper().readValue(
+            Resources.toString(
+                Resources.getResource(TESTFILE_UTLATANDE), Charsets.UTF_8),
+            AF00251UtlatandeV1.class);
     }
 
 }
