@@ -60,18 +60,24 @@ angular.module('common').service('common.IntygHeaderService',
             };
 
             this.showCreateFromTemplate = function() {
-                return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined && !CommonIntygViewState.isRevoked() &&
-                        !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
-                        !UserModel.getIntegrationParam('inactiveUnit') && !this.showGotoCreatedFromTemplate() &&
-                        this.passesOriginCheck(IntygHeaderViewState.currentCreateFromTemplateConfig.origins, User.getUser().origin);
+                return IntygHeaderViewState.currentCreateFromTemplateConfig !== undefined &&
+                    !CommonIntygViewState.isRevoked() &&
+                    !CommonIntygViewState.isReplaced() &&
+                    !CommonIntygViewState.isComplementedByIntyg() &&
+                    !UserModel.getIntegrationParam('inactiveUnit') &&
+                    !this.showGotoCreatedFromTemplate() &&
+                    this.passesOriginCheck(IntygHeaderViewState.currentCreateFromTemplateConfig.origins, User.getUser().origin) &&
+                    featureService.isFeatureActive(featureService.features.HANTERA_INTYGSUTKAST,
+                        IntygHeaderViewState.currentCreateFromTemplateConfig.moduleId);
             };
 
             this.passesOriginCheck = function(validOriginsContraint, actualOrigin) {
-              if (!validOriginsContraint) {
-                  return true;
-              }
-              return validOriginsContraint.indexOf(actualOrigin)>-1;
+                if (!validOriginsContraint) {
+                    return true;
+                }
+                return validOriginsContraint.indexOf(actualOrigin)>-1;
             };
+
 
             this.showGotoCreatedFromTemplate = function() {
                 var intygTemplateConfig = IntygHeaderViewState.currentCreateFromTemplateConfig;

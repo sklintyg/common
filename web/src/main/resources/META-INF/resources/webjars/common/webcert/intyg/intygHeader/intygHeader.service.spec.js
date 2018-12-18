@@ -52,7 +52,17 @@ describe('IntygHeaderService', function() {
     describe('header show button logic', function() {
 
         beforeEach(function() {
-            UserModel.setUser({parameters:{}});
+            UserModel.setUser({
+                features: {
+                    'HANTERA_INTYGSUTKAST': {
+                        'name': 'HANTERA_INTYGSUTKAST',
+                        'global': true,
+                        'intygstyper': [ 'db', 'doi', 'ag7804' ]
+                    }
+                },
+                origin: 'NORMAL',
+                parameters: {}
+            });
             testIntygViewState = {
                 intygModel: {
                     grundData: {
@@ -69,7 +79,6 @@ describe('IntygHeaderService', function() {
             it('should be shown if intyg type is db and copying is allowed', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
-                UserModel.user = {};
 
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeTruthy();
             });
@@ -80,7 +89,6 @@ describe('IntygHeaderService', function() {
             });
 
             it('should be enabled if no previous intyg exists', function() {
-                UserModel.user = {};
 
                 spyOn(UtkastProxy, 'getPrevious').and.callFake(function(patient, onSuccess) {
                     onSuccess({});
@@ -92,7 +100,6 @@ describe('IntygHeaderService', function() {
             });
 
             it('should not be enabled if previous intyg exists and feature is enabled', function() {
-                UserModel.user = {};
 
                 IntygHeaderViewState.warningForCreateTemplate = null;
 
@@ -117,7 +124,6 @@ describe('IntygHeaderService', function() {
             it('should not be shown if intyg type does not support create from template', function() {
                 CommonIntygViewState.isIntygOnRevokeQueue = false;
                 CommonIntygViewState.intygProperties.isRevoked = false;
-                UserModel.user = {origin: 'NORMAL'};
 
                 IntygHeaderViewState.setIntygViewState(testIntygViewState, 'doi');
                 expect(IntygHeaderService.showCreateFromTemplate()).toBeFalsy();
