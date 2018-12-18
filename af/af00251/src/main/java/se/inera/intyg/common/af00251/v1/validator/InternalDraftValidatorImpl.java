@@ -50,6 +50,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     public static final String CATEGORY_BEDOMNING = "bedomning";
     private static final int OMFATTNING_DELTID_MIN_HOURS = 1;
     private static final int OMFATTNING_DELTID_MAX_HOURS = 40;
+    private static final int MAX_ROWS = 4;
+    private static final int HUNDRED = 100;
 
     @Override
     public ValidateDraftResponse validateDraft(AF00251UtlatandeV1 utlatande) {
@@ -172,7 +174,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
 
     private void validateSjukfranvaro(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         final List<Sjukfranvaro> sjukfranvaroList = nullToEmpty(utlatande.getSjukfranvaro());
-        if (sjukfranvaroList.size() > 4) {
+        if (sjukfranvaroList.size() > MAX_ROWS) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKFRANVARO_SVAR_JSON_ID_6,
                 ValidationMessageType.OTHER, createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "too-many"));
         }
@@ -187,7 +189,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
         }
     }
 
-    private boolean checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, int index, Sjukfranvaro sjukfranvaro,
+    private boolean checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, int index,
+                                                               Sjukfranvaro sjukfranvaro,
                                                                ImmutableList<Sjukfranvaro> sjukfranvaros) {
 
         Optional<Sjukfranvaro> optionalSjukfranvaro = getPeriodIntervalsOverlapping(sjukfranvaro, sjukfranvaros);
@@ -273,7 +276,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 ValidationMessageType.EMPTY);
         } else {
             final int niva = sjukfranvaro.getNiva();
-            if (niva < 1 || niva > 100) {
+            if (niva < 1
+                || niva > HUNDRED) {
                 final String indexedFieldKey = createCompositeFieldKey(indexedKey,
                     SJUKFRANVARO_SVAR_JSON_ID_61);
                 final String fieldKey = createCompositeFieldKey(SJUKFRANVARO_SVAR_JSON_ID_6,
@@ -303,8 +307,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                          .getKanBegransas()
                          .booleanValue()) {
                 if (utlatande.getBegransningSjukfranvaro()
-                             .getBeskrivning() == null ||
-                    utlatande.getBegransningSjukfranvaro()
+                             .getBeskrivning() == null
+                    || utlatande.getBegransningSjukfranvaro()
                              .getBeskrivning()
                              .isEmpty()) {
 
@@ -334,8 +338,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
             if (utlatande.getPrognosAtergang()
                          .getPrognos() == PrognosAtergang.Prognos.MED_ANPASSNING) {
                 if (utlatande.getPrognosAtergang()
-                             .getAnpassningar() == null ||
-                    utlatande.getPrognosAtergang()
+                             .getAnpassningar() == null
+                    || utlatande.getPrognosAtergang()
                              .getAnpassningar()
                              .isEmpty()) {
 

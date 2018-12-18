@@ -122,6 +122,8 @@ public final class TransportToInternal {
             case UNDERSOKNING:
                 utlatande.setUndersokningsDatum(datum);
                 break;
+            default: // Do nothing
+
         }
     }
 

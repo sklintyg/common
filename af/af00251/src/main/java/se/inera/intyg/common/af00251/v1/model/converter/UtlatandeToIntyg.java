@@ -76,8 +76,10 @@ public final class UtlatandeToIntyg {
         }
         if (source.getAnnatDatum() != null) {
             final UnderlagsTyp underlagsTyp = UnderlagsTyp.ANNAT;
+
             final SvarBuilder svarBuilder =
-                aSvar(MEDICINSKUNDERLAG_SVAR_ID_1, medicinsktUnderlagInstans++)
+                aSvar(MEDICINSKUNDERLAG_SVAR_ID_1,
+                    medicinsktUnderlagInstans)
                     .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_11,
                         aCV(UnderlagsTyp.KODVERK, underlagsTyp.getId(), underlagsTyp.getLabel()))
                     .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_12, getInternalDateContent(source.getAnnatDatum()))

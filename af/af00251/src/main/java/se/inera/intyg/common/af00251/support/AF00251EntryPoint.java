@@ -28,8 +28,9 @@ public class AF00251EntryPoint extends AfAbstractModuleEntryPoint {
 
     public static final String ISSUER_TYPE_ID = "AF00251";
     public static final String MODULE_ID = "af00251";
-    public static final String MODULE_NAME = "Läkarintyg för deltagare i arbetsmarknadspolitiska program"; //TODO byt namn
-    public static final String MODULE_DESCRIPTION = "Läkarintyg för deltagare i arbetsmarknadspolitiska program med aktivitetsstöd, utvecklingsersättning eller etableringsersättning"; //TODO byt namn
+    public static final String MODULE_NAME = "Läkarintyg för deltagare i arbetsmarknadspolitiska program";
+    public static final String MODULE_DESCRIPTION = "Läkarintyg för deltagare i arbetsmarknadspolitiska program"
+        + " med aktivitetsstöd, utvecklingsersättning eller etableringsersättning";
 
     @Override
     public String getModuleId() {

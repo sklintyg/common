@@ -53,7 +53,7 @@ angular.module('af00251').factory('af00251.Domain.IntygModel.v1',
 
                         'begransningSjukfranvaro': undefined,
 
-                        'prognosAtergang': undefined,
+                        'prognosAtergang': undefined
 
                     });
                 },

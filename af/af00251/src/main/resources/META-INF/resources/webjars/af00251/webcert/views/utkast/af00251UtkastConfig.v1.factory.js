@@ -103,7 +103,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 modelProp: 'arbetsmarknadspolitisktProgram.omfattning',
                                 label: {
                                     key: 'DFR_2.2.RBK',
-                                    helpKey: 'DFR_2.2.HLP',
+                                    helpKey: 'DFR_2.2.HLP'
                                 },
                                 choices: [
                                     {
@@ -122,7 +122,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                             }, {
                                 type: 'ue-textfield',
                                 modelProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid',
-                                hideExpression: "model.arbetsmarknadspolitisktProgram.omfattning !== 'DELTID'",
+                                hideExpression: 'model.arbetsmarknadspolitisktProgram.omfattning !== \'DELTID\'',
                                 numbersOnly: true,
                                 maxLength: 2,
                                 label: {
@@ -159,14 +159,14 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                             {
                                 required: true,
                                 requiredProp: function (model) {
-                                    return isSjukfranvaroRequired(model['sjukfranvaro'])
+                                    return isSjukfranvaroRequired(model.sjukfranvaro);
                                 },
-                                hideExpression: "!model.harForhinder"
+                                hideExpression: '!model.harForhinder'
                             },
                             [{
                                 type: 'ue-sjukfranvaro',
                                 modelProp: 'sjukfranvaro',
-                                maxRows: 4,
+                                maxRows: 4
                             }]
                         ),
                         fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {
@@ -175,7 +175,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                             },
                             [{
                                 type: 'ue-radio',
-                                modelProp: 'begransningSjukfranvaro.kanBegransas',
+                                modelProp: 'begransningSjukfranvaro.kanBegransas'
                             }, {
                                 type: 'ue-textarea',
                                 modelProp: 'begransningSjukfranvaro.beskrivning',
@@ -211,12 +211,12 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                         {
                                             id: 'ATERGA_MED_ANPASSNING',
                                             label: 'PROGNOS_ATERGANG.ATERGA_MED_ANPASSNING.RBK'
-                                        },
+                                        }
                                     ]
                                 },
                                 {
                                     type: 'ue-textarea',
-                                    hideExpression: "model.prognosAtergang.prognos !== 'ATERGA_MED_ANPASSNING'",
+                                    hideExpression: 'model.prognosAtergang.prognos !== \'ATERGA_MED_ANPASSNING\'',
                                     modelProp: 'prognosAtergang.anpassningar',
                                     label: {
                                         key: 'DFR_8.2.RBK',
