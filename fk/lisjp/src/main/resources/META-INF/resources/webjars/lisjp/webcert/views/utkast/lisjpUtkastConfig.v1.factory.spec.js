@@ -21,14 +21,17 @@ describe('lisjpFormFactory', function() {
 
     var element;
     var $scope;
+    var $httpBackend;
 
     beforeEach(angular.mock.module('common', function($provide) {
         $provide.value('common.anchorScrollService', {scrollTo: function() {}});
         $provide.value('common.IcfProxy', {getIcf: function() {}});
     }));
     beforeEach(angular.mock.module('lisjp'));
-    beforeEach(inject(['$compile', '$rootScope', 'lisjp.UtkastConfigFactory.v1', 'lisjp.Domain.IntygModel.v1',
-        function($compile, $rootScope, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {
+    beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'lisjp.UtkastConfigFactory.v1', 'lisjp.Domain.IntygModel.v1',
+        function($compile, $rootScope, _$httpBackend_, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {
+
+        $httpBackend = _$httpBackend_;
 
         $scope = $rootScope.$new();
         $scope.model = _lisjpIntygModel_._members.build().content;
@@ -74,6 +77,8 @@ describe('lisjpFormFactory', function() {
 
     it('Should clear model values if avstangningSmittskydd is selected', function() {
 
+        $httpBackend.expectGET('/api/fmb/valideraSjukskrivningstid?icd10Kod1=D50&icd10Kod2=G10&icd10Kod3=T241&personnummer=19121212-1212').respond(200);
+
         // Load utkast with all fields populated
         $scope.model.update(utkastData);
         $scope.$digest();
@@ -90,9 +95,6 @@ describe('lisjpFormFactory', function() {
          */
         $scope.model.avstangningSmittskydd = true;
         $scope.$digest();
-
-//console.log(JSON.stringify($scope.model.toSendModel(), null, 1));
-//console.log(JSON.stringify(utkastDataSmittskydd, null, 1));
 
         expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
 

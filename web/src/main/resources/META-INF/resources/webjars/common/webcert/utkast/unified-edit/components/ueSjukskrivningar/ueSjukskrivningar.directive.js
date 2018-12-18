@@ -104,10 +104,10 @@ angular.module('common').directive('ueSjukskrivningar', ['$log', 'common.ArendeL
 
 
             function requestFMBVarningUpdate(){
-                if($scope.model.diagnoser &&
-                    ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
+                if($scope.model && $scope.model.diagnoser && $scope.model.diagnoser.length > 0 &&
+                    (ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
                     ObjectHelper.isDefined($scope.model.diagnoser[1].diagnosKod) ||
-                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod)) {
+                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod))) {
                     FMBProxy.getValidateSjukskrivningstid({
                         icd10Kod1: $scope.model.diagnoser[0].diagnosKod,
                         icd10Kod2: $scope.model.diagnoser[1].diagnosKod,
