@@ -61,7 +61,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
 
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
-        Builder template = AF00251UtlatandeV1.builder();
+        AF00251UtlatandeV1.Builder template = AF00251UtlatandeV1.builder();
         GrundData grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
@@ -82,12 +82,12 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
             throw new ConverterException("Template is not of type AF00251UtlatandeV1");
         }
 
-        AF00251UtlatandeV1 lisjpUtlatande = (AF00251UtlatandeV1) template;
+        AF00251UtlatandeV1 utlatande = (AF00251UtlatandeV1) template;
 
-        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), lisjpUtlatande.getId());
+        LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), utlatande.getId());
 
-        Builder templateBuilder = lisjpUtlatande.toBuilder();
-        GrundData grundData = lisjpUtlatande.getGrundData();
+        Builder templateBuilder = utlatande.toBuilder();
+        GrundData grundData = utlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);

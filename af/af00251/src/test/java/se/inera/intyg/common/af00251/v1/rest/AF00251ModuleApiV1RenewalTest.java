@@ -18,22 +18,13 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.io.IOException;
-
-import org.apache.cxf.helpers.IOUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -43,6 +34,10 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 /**
  * Specifically tests the renewal of LISJP where certain fields are nulled out.
@@ -63,8 +58,7 @@ public class AF00251ModuleApiV1RenewalTest {
 
     @Test
     public void testRenewalTransfersAppropriateFieldsToNewDraft() throws ModuleException, IOException {
-        String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+
         AF00251UtlatandeV1 original = getUtlatandeFromFile();
         String renewalFromTemplate = moduleApi.createRenewalFromTemplate(createCopyHolder(), getUtlatandeFromFile());
         assertNotNull(renewalFromTemplate);
@@ -92,7 +86,7 @@ public class AF00251ModuleApiV1RenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -102,13 +96,14 @@ public class AF00251ModuleApiV1RenewalTest {
         hosPersonal.setPersonId("hsaId");
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());
-        hosPersonal.getVardenhet().setVardgivare(new Vardgivare());
+        hosPersonal.getVardenhet()
+                   .setVardgivare(new Vardgivare());
         return hosPersonal;
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), AF00251UtlatandeV1.class);
+            TESTFILE_UTLATANDE).getFile(), AF00251UtlatandeV1.class);
     }
 
 }
