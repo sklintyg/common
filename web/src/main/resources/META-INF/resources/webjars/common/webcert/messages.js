@@ -638,6 +638,9 @@
             'common.validation.ue-vaguedate.invalid_format': 'åååå måste anges, månad och dag kan anges som 00.',
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
+            'common.validation.ue-sjukfranvaro.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.empty': 'Fältet får inte vara tomt.',
+            'common.validation.ue-sjukfranvaro.invalid_format': 'Fältet har ogiltigt format.',
 
 
             // Specifika valideringsmeddelande från backend
