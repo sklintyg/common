@@ -19,14 +19,12 @@
 package se.inera.intyg.common.af00251.v1.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -47,7 +45,7 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class AF00251ModuleApiV1RenewalTest {
 
-    public static final String TESTFILE_UTLATANDE = "AF00251ModelCompareUtil/utlatande.json";
+    public static final String TESTFILE_UTLATANDE = "classpath:/AF00251ModelCompareUtil/utlatande.json";
 
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
@@ -104,10 +102,14 @@ public class AF00251ModuleApiV1RenewalTest {
     }
 
     private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(
-            Resources.toString(
-                Resources.getResource(TESTFILE_UTLATANDE), Charsets.UTF_8),
-            AF00251UtlatandeV1.class);
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+
+        final AF00251UtlatandeV1 utlatande = new CustomObjectMapper().readValue(
+            context.getResource(TESTFILE_UTLATANDE)
+                   .getFile(), AF00251UtlatandeV1.class);
+        context.close();
+
+        return utlatande;
     }
 
 }
