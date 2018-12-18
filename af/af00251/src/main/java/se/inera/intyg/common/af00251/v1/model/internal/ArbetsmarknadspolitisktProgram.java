@@ -19,8 +19,10 @@ public abstract class ArbetsmarknadspolitisktProgram {
 
     @Nullable
     public abstract String getMedicinskBedomning();
+
     @Nullable
     public abstract Omfattning getOmfattning();
+
     @Nullable
     public abstract Integer getOmfattningDeltid();
 
@@ -49,15 +51,15 @@ public abstract class ArbetsmarknadspolitisktProgram {
         DELTID("DELTID", "Deltid"),
         OKAND("OKAND", "Okänd");
 
-        private String id;
-        private String label;
+        private final String id;
+        private final String label;
 
         Omfattning(String id, String label) {
             this.id = id;
             this.label = label;
         }
 
-        public static String KODVERK = "kv-omfattning-arbetsmarknadspolitiskt-program";
+        public static final String KODVERK = "kv-omfattning-arbetsmarknadspolitiskt-program";
 
         @JsonValue
         public String getId() {

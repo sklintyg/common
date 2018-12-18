@@ -8,7 +8,8 @@ import com.google.auto.value.AutoValue;
 
 import javax.annotation.Nullable;
 
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_81;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_82;
 
 /**
  *
@@ -20,6 +21,7 @@ public abstract class PrognosAtergang {
     // Delfråga 8.1
     @Nullable
     public abstract Prognos getPrognos();
+
     // Delfråga 8.2
     @Nullable
     public abstract String getAnpassningar();
@@ -50,8 +52,8 @@ public abstract class PrognosAtergang {
         EJ_MOJLIGT_AVGORA("EJ_MOJLIGT_AVGORA", "Det inte är möjligt att avgöra om patienten kan återgå");
 
 
-        private String id;
-        private String label;
+        private final String id;
+        private final String label;
 
         Prognos(String id, String label) {
             this.id = id;

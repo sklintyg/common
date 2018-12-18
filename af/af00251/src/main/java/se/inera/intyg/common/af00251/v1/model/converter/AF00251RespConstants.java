@@ -66,7 +66,7 @@ public final class AF00251RespConstants {
     public static final String SJUKFRANVARO_DELSVAR_ID_61 = "6.1";
     public static final String SJUKFRANVARO_SVAR_JSON_ID_61 = "niva";
     public static final String SJUKFRANVARO_DELSVAR_ID_62 = "6.2";
-    public static final String SJUKFRANVARO_SVAR_JSON_ID_62= "period";
+    public static final String SJUKFRANVARO_SVAR_JSON_ID_62 = "period";
     public static final String SJUKFRANVARO_SVAR_JSON_ID_62_FROM = "from";
     public static final String SJUKFRANVARO_SVAR_JSON_ID_62_TOM = "tom";
     public static final String SJUKFRANVARO_SVAR_JSON_CHECKED = "checked";
@@ -76,14 +76,14 @@ public final class AF00251RespConstants {
     public static final String BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71 = "7.1";
     public static final String BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71 = "kanBegransas";
     public static final String BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_72 = "7.2";
-    public static final String BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72= "beskrivning";
+    public static final String BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72 = "beskrivning";
 
     public static final String PROGNOS_ATERGANG_SVAR_ID_8 = "8";
     public static final String PROGNOS_ATERGANG_SVAR_JSON_ID_8 = "prognosAtergang";
     public static final String PROGNOS_ATERGANG_DELSVAR_ID_81 = "8.1";
     public static final String PROGNOS_ATERGANG_SVAR_JSON_ID_81 = "prognos";
     public static final String PROGNOS_ATERGANG_DELSVAR_ID_82 = "8.2";
-    public static final String PROGNOS_ATERGANG_SVAR_JSON_ID_82= "anpassningar";
+    public static final String PROGNOS_ATERGANG_SVAR_JSON_ID_82 = "anpassningar";
 
     public static final String GRUNDDATA_SVAR_JSON_ID = "grundData";
     public static final String TEXTVERSION_JSON_ID = "textVersion";
@@ -101,15 +101,15 @@ public final class AF00251RespConstants {
         ANHORIG("ANHORIG", "Anhörigs beskrivning av patienten"),
         ANNAT("ANNAT", "Annat");
 
-        private String id;
-        private String label;
+        private final String id;
+        private final String label;
 
         UnderlagsTyp(String id, String label) {
             this.id = id;
             this.label = label;
         }
 
-        public static String KODVERK = "FKMU_0001";
+        public static final String KODVERK = "FKMU_0001";
 
         @JsonValue
         public String getId() {
