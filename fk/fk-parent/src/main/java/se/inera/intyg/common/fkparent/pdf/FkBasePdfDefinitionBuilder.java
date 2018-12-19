@@ -32,6 +32,8 @@ import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -154,5 +156,16 @@ public class FkBasePdfDefinitionBuilder {
         FkPage thisPage = new FkPage("Tilläggsfrågor");
         thisPage.getChildren().addAll(allElements);
         return thisPage;
+    }
+
+    protected void clearSkapadAvForUtkast(GrundData grundData) {
+
+        HoSPersonal skapadAv = grundData.getSkapadAv();
+
+        skapadAv.setFullstandigtNamn("");
+        skapadAv.setPersonId("");
+        skapadAv.getVardenhet().setArbetsplatsKod("");
+        skapadAv.getBefattningar().clear();
+        skapadAv.getSpecialiteter().clear();
     }
 }

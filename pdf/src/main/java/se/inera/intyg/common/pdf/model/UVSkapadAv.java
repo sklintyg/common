@@ -18,7 +18,11 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Strings;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.element.Div;
@@ -28,10 +32,7 @@ import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.support.services.BefattningService;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders a uv-skapad-av component.
@@ -56,14 +57,17 @@ public class UVSkapadAv extends UVComponent {
         boolean showSignatureLine = renderer.getPrintConfig().showSignatureLine();
         // Render
         parent.setKeepTogether(true);
-        parent.add(new Paragraph("Intygsutfärdare:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
-        parent.add(new Paragraph(intygsUtfardare.toString())
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+
+        if (!isUtkast) {
+            parent.add(new Paragraph("Intygsutfärdare:")
+                    .setMarginBottom(0f)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+            parent.add(new Paragraph(intygsUtfardare.toString())
+                    .setMarginTop(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
+        }
 
         parent.add(new Paragraph("Kontaktuppgifter:")
                 .setMarginBottom(0f)

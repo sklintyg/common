@@ -26,6 +26,8 @@ import com.itextpdf.text.pdf.PdfStamper;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 /**
@@ -51,6 +53,10 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
             fields = pdfStamper.getAcroFields();
             boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
+
+            if (isUtkast) {
+                clearSkapadAvForUtkast(this.intyg.getGrundData());
+            }
 
             generatePdf();
 
@@ -88,6 +94,17 @@ public class PdfDefaultGenerator extends PdfAbstractGenerator {
         } catch (Exception e) {
             throw new PdfGeneratorException(e);
         }
+    }
+
+    private void clearSkapadAvForUtkast(GrundData grundData) {
+
+        HoSPersonal skapadAv = grundData.getSkapadAv();
+
+        skapadAv.setFullstandigtNamn("");
+        skapadAv.setPersonId("");
+        skapadAv.getVardenhet().setArbetsplatsKod("");
+        skapadAv.getBefattningar().clear();
+        skapadAv.getSpecialiteter().clear();
     }
 
     private void generatePdf() {

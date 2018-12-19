@@ -97,6 +97,10 @@ public class LuaenaPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
             boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
+            if (isUtkast) {
+                clearSkapadAvForUtkast(intyg.getGrundData());
+            }
+
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler(180.3f, 6.4f));
             def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),

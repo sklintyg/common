@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.pdf.AcroFields;
@@ -38,15 +39,16 @@ import com.itextpdf.text.pdf.PdfIndirectReference;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
-import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Diabetes;
@@ -56,7 +58,6 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Syn;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 @Component("ts-diabetes.v2.PdfGeneratorImpl")
@@ -181,6 +182,10 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
             boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
+            if (isUtkast) {
+                clearSkapadAvForUtkast(utlatande.getGrundData());
+            }
+
             populatePdfFields(utlatande, fields);
 
             // Decorate PDF depending on the origin of the pdf-call and the status of the utlatande
@@ -197,6 +202,17 @@ public class PdfGeneratorImpl extends BasePdfGenerator implements PdfGenerator<T
         } catch (Exception e) {
             throw new PdfGeneratorException(e);
         }
+    }
+
+    private void clearSkapadAvForUtkast(GrundData grundData) {
+
+        HoSPersonal skapadAv = grundData.getSkapadAv();
+
+        skapadAv.setFullstandigtNamn("");
+        skapadAv.setPersonId("");
+        skapadAv.getVardenhet().setArbetsplatsKod("");
+        skapadAv.getBefattningar().clear();
+        skapadAv.getSpecialiteter().clear();
     }
 
     private String getPdfPath(TsDiabetesUtlatandeV2 utlatande) throws PdfGeneratorException {

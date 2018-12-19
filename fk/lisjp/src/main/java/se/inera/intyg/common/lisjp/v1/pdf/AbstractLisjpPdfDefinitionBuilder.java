@@ -108,6 +108,10 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
             boolean isUtkast = UtkastStatus.getDraftStatuses().contains(utkastStatus);
             boolean isLockedUtkast = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
+            if (isUtkast) {
+                clearSkapadAvForUtkast(intyg.getGrundData());
+            }
+
             // Add page envent handlers
             def.addPageEvent(new PageNumberingEventHandler());
             def.addPageEvent(new FkFormIdentityEventHandler(intygTexts.getProperties().getProperty(PROPERTY_KEY_FORMID),
