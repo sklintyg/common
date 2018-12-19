@@ -5,4 +5,9 @@ arende-hantera {
   wc-checkbox-wrapper {
     padding-right: 0;
   }
+
+  .handled-label {
+    @extend %wc-typo-07;
+    color: $wc-color-09;
+  }
 }

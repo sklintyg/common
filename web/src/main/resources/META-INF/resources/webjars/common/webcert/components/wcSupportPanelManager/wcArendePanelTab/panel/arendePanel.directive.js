@@ -24,8 +24,8 @@
  * arendePanel directive. Common directive for both unhandled and handled questions/answers
  */
 angular.module('common').directive('arendePanel',
-    [ 'common.ObjectHelper',
-        function(ObjectHelper) {
+    [ 'common.ObjectHelper', 'common.ArendeSvarModel',
+        function(ObjectHelper, ArendeSvarModel) {
             'use strict';
 
             return {
@@ -53,6 +53,17 @@ angular.module('common').directive('arendePanel',
                                 ObjectHelper.isDefined(ArendeSvar.answeredWithIntyg))) ||
                             (ArendeSvar.status === 'ANSWERED');
                     };
+
+                    function _buildArendeSvarModel() {
+                        var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
+                        $scope.arendeSvar = ArendeSvar;
+                        return ArendeSvar;
+                    }
+
+                    var ArendeSvar = _buildArendeSvarModel();
+                    $scope.$on('arenden.updated', function() {
+                        ArendeSvar = _buildArendeSvarModel();
+                    });
 
                     angular.forEach($scope.parentViewState.arendeList, function(arendeListItem) {
                         if (arendeListItem.isOpen()) {
