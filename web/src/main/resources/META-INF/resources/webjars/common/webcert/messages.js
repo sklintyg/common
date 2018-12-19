@@ -629,7 +629,7 @@
             'common.validation.ue-date.empty': 'Ange ett datum.',
             'common.validation.ue-date.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.ue-prognos.empty': 'Välj ett alternativ.',
-            'common.validation.ue-checkgroup-ts.empty': 'Välj ett alternativ.',
+            'common.validation.ue-checkgroup-ts.empty': 'Välj minst ett alternativ.',
             'common.validation.ue-synskarpa.empty': 'Ange ett svar.',
             'common.validation.ue-synskarpa.invalid_format': 'Ange synskärpa i intervallet 0,0 - 2,0.',
             'common.validation.ue-syn.empty': 'Välj ett alternativ.',
