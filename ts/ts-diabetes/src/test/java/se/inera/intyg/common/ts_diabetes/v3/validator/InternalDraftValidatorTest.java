@@ -531,6 +531,6 @@ public class InternalDraftValidatorTest {
         assertEquals("vardenhet", error.getCategory());
         Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer",
                 error.getField());
-        assertEquals(ValidationMessageType.INVALID_FORMAT, error.getType());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 }

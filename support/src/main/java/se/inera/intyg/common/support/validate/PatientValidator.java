@@ -26,9 +26,6 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 
-/**
- * Created by BESA on 2016-08-26.
- */
 public final class PatientValidator {
 
     private static final StringValidator STRING_VALIDATOR = new StringValidator();
@@ -40,21 +37,24 @@ public final class PatientValidator {
         if (patient == null) {
             throw new RuntimeException("No Patient found when attempting to validate");
         }
-        validateString(validationMessages, patient.getPostadress(), "patient", "grunddata.patient.postadress");
+        validateString(validationMessages, patient.getPostadress(), "patient",
+                "grunddata.patient.postadress", "common.validation.patient.postadress.missing");
 
         if (Strings.nullToEmpty(patient.getPostnummer()).trim().isEmpty()) {
             validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
-                    ValidationMessageType.EMPTY));
+                    ValidationMessageType.EMPTY, "common.validation.patient.postnummer.missing"));
         } else if (!STRING_VALIDATOR.validateStringAsPostalCode(patient.getPostnummer())) {
             validationMessages.add(new ValidationMessage("patient", "grunddata.patient.postnummer",
                     ValidationMessageType.INVALID_FORMAT, "common.validation.postnummer.incorrect-format"));
         }
-        validateString(validationMessages, patient.getPostort(), "patient", "grunddata.patient.postort");
+        validateString(validationMessages, patient.getPostort(), "patient",
+                "grunddata.patient.postort", "common.validation.patient.postort.missing");
     }
 
-    private static void validateString(List<ValidationMessage> validationMessages, String text, String category, String field) {
+    private static void validateString(List<ValidationMessage> validationMessages, String text,
+                                       String category, String field, String message) {
         if (Strings.nullToEmpty(text).trim().isEmpty()) {
-            validationMessages.add(new ValidationMessage(category, field, ValidationMessageType.EMPTY));
+            validationMessages.add(new ValidationMessage(category, field, ValidationMessageType.EMPTY, message));
         }
     }
 }

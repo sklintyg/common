@@ -21,7 +21,7 @@
 angular.module('doi').constant('doi.messages', {
     'sv': {
         //Validation messages
-        'common.validation.dodsorsak.empty': 'Beskrivning får inte vara tom.',
+        'common.validation.dodsorsak.empty': 'Ange ett svar.',
         'common.validation.date.incorrect_combination': 'Datumet får inte vara efter efterkommande följd eller terminal dödsorsak.',
 
         'doi.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',

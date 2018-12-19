@@ -178,24 +178,27 @@ public final class ValidatorUtil {
     public static void validateVardenhet(GrundData grundData, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostadress()).trim().isEmpty()) {
             addValidationError(validationMessages, CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postadress",
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY, "common.validation.patient.postadress.missing");
         }
 
-        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()
-                || !STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
+        if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostnummer()).trim().isEmpty()) {
+            addValidationError(validationMessages,
+                    CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.EMPTY,
+                    "common.validation.patient.postnummer.missing");
+        } else if (!STRING_VALIDATOR.validateStringAsPostalCode(grundData.getSkapadAv().getVardenhet().getPostnummer())) {
             addValidationError(validationMessages,
                     CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postnummer", ValidationMessageType.INVALID_FORMAT,
                     "common.validation.postnummer.incorrect-format");
-
         }
 
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getPostort()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postort", ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.postort",
+                    ValidationMessageType.EMPTY, "common.validation.patient.postort.missing");
         }
 
         if (Strings.nullToEmpty(grundData.getSkapadAv().getVardenhet().getTelefonnummer()).trim().isEmpty()) {
-            addValidationError(validationMessages, CATEGORY_VARDENHET,
-                    "grunddata.skapadAv.vardenhet.telefonnummer", ValidationMessageType.EMPTY);
+            addValidationError(validationMessages, CATEGORY_VARDENHET, "grunddata.skapadAv.vardenhet.telefonnummer",
+                    ValidationMessageType.EMPTY, "common.validation.patient.telefon.missing");
         }
     }
 
