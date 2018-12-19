@@ -37,11 +37,8 @@
                popover-append-to-body="true"
                popover-placement="auto top"
                popover-class="z-low">
-              <a ng-click="back()">
-                <i class="material-icons">arrow_back</i>
-              </a><a
-                  id="tillbakaButton"
-                  ng-click="back()">Tillbaka
+              <a id="tillbakaButton" back-link default-route="::backState">
+                <i class="material-icons">arrow_back</i> Tillbaka
               </a>
           </div>
 

@@ -32,10 +32,6 @@ angular.module('common').directive('wcUtkastHeader', [ '$window', '$state', 'com
             $scope.certificateName = moduleService.getModuleName(UtkastHeaderViewState.intygType);
             $scope.backState = 'webcert.create-choose-certtype-index';
             $scope.oldPersonId = UserModel.getIntegrationParam('beforeAlternateSsn');
-
-            $scope.back = function(){
-                $state.go($scope.backState);
-            };
         }
     };
 } ]);
