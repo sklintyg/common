@@ -26,7 +26,7 @@ angular.module('ag7804').constant('ag7804.messages', {
         'ag7804.validation.sysselsattning.too-many': 'sysselsättning.toomany',  // Should never happen because GUI should block this combination
         'ag7804.validation.bedomning.fmb.empty' : 'Beskriv varför arbetsförmågan bedöms vara nedsatt längre tid än den som det försäkringsmedicinska beslutstödet anger kan inte fyllas i med endast blanksteg.',
         'ag7804.validation.bedomning.prognos.dagartillarbete.invalid_combination': 'Dagar till arbete kan bara fyllas i om prognosen "kan återgå helt i nuvarande sysselsättning efter x antal dagar valts".', // Should never happen because GUI should block this combination
-        'ag7804.validation.bedomning.sjukskrivningar.missing': 'Minst en sjukskrivningsperiod måste anges.',
+        'ag7804.validation.bedomning.sjukskrivningar.missing': 'Välj minst ett alternativ.',
         'ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing': 'Välj ett alternativ.',
         'ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.missing': 'Ange motivering.',
         'ag7804.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect': '',
@@ -49,7 +49,6 @@ angular.module('ag7804').constant('ag7804.messages', {
         'ag7804.validation.atgarder.inte_aktuellt_no_combine': 'Inte aktuellt kan inte kombineras med andra val.', // Should never happen because GUI should block this combination
         'ag7804.validation.atgarder.invalid_combination': 'Beskrivning för arbetslivsinriktade åtgärder kan inte kombineras med åtgärd på detta sätt.', // Should never happen because GUI should block this combination
         'ag7804.validation.atgarder.too-many': 'För många val på åtgärder.', // Should never happen because GUI should block this combination
-        'ag7804.validation.atgarder.mastevaljas': 'Åtgärder måste väljas eller Inte aktuellt.',
         'ag7804.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
         'ag7804.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
         'ag7804.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',  // Should never happen because GUI should block this combination

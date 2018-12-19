@@ -516,7 +516,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
         if (utlatande.getArbetslivsinriktadeAtgarder() == null || utlatande.getArbetslivsinriktadeAtgarder().isEmpty()) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_ATGARDER,
                     ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.EMPTY, "ag7804.validation.atgarder.mastevaljas");
+                    ValidationMessageType.EMPTY);
         } else {
 
             // R21 If INTE_AKTUELLT is checked it must be the only selection

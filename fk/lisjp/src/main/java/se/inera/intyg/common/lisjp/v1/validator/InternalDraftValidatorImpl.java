@@ -448,7 +448,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
         // Anything checked at all?
         if (utlatande.getArbetslivsinriktadeAtgarder() == null || utlatande.getArbetslivsinriktadeAtgarder().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ATGARDER, ARBETSLIVSINRIKTADE_ATGARDER_SVAR_JSON_ID_40,
-                    ValidationMessageType.EMPTY, "lisjp.validation.atgarder.mastevaljas");
+                    ValidationMessageType.EMPTY);
         } else {
 
             // R21 If INTE_AKTUELLT is checked it must be the only selection

@@ -26,7 +26,7 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.validation.sysselsattning.too-many': 'sysselsättning.toomany',  // Should never happen because GUI should block this combination
         'lisjp.validation.bedomning.fmb.empty' : 'Beskriv varför arbetsförmågan bedöms vara nedsatt längre tid än den som det försäkringsmedicinska beslutstödet anger kan inte fyllas i med endast blanksteg.',
         'lisjp.validation.bedomning.prognos.dagartillarbete.invalid_combination': 'Dagar till arbete kan bara fyllas i om prognosen "kan återgå helt i nuvarande sysselsättning efter x antal dagar valts".', // Should never happen because GUI should block this combination
-        'lisjp.validation.bedomning.sjukskrivningar.missing': 'Minst en sjukskrivningsperiod måste anges.',
+        'lisjp.validation.bedomning.sjukskrivningar.missing': 'Välj minst ett alternativ.',
         'lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggning.missing': 'Välj ett alternativ.',
         'lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.missing': 'Ange motivering.',
         'lisjp.validation.bedomning.sjukskrivningar.arbetstidsforlaggningmotivering.incorrect': '',
@@ -49,7 +49,6 @@ angular.module('lisjp').constant('lisjp.messages', {
         'lisjp.validation.atgarder.inte_aktuellt_no_combine': 'Inte aktuellt kan inte kombineras med andra val.', // Should never happen because GUI should block this combination
         'lisjp.validation.atgarder.invalid_combination': 'Beskrivning för arbetslivsinriktade åtgärder kan inte kombineras med åtgärd på detta sätt.', // Should never happen because GUI should block this combination
         'lisjp.validation.atgarder.too-many': 'För många val på åtgärder.', // Should never happen because GUI should block this combination
-        'lisjp.validation.atgarder.mastevaljas': 'Åtgärder måste väljas eller Inte aktuellt.',
 
         'lisjp.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden {{lastEffectiveDate}} och sjukskrivningsgraden var {{sjukskrivningsgrad}}.',
         'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering': 'Ange orsak för att starta perioden mer än 7 dagar bakåt i tiden.',
