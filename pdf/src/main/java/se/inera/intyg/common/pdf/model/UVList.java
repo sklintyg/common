@@ -187,13 +187,11 @@ public class UVList extends UVComponent {
                             results.add(value);
                         }
                     }
-                    // Increment index even if the value wasn't shown
-                    index++;
-
                     // Skip null values, if no results will lead to EJ_ANGIVET
                 } else if (evaluatedValue != null) {
                     throw new IllegalStateException("UNHANDLED evaluated value type in uv-list: " + evaluatedValue.getClass().getName());
                 }
+                index++;
             } else {
                 throw new IllegalStateException("UNHANDLED listKey type in uv-list: " + listKey.getClassName());
             }
