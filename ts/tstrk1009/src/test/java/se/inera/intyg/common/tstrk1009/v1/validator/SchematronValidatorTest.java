@@ -20,6 +20,7 @@ package se.inera.intyg.common.tstrk1009.v1.validator;
 
 import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.stream.Collectors;
@@ -36,11 +37,41 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.ts_bas.support.Tstrk1009EntryPoint;
 
 public class SchematronValidatorTest {
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("test-tstrk1009.v1.sch");
 
-    private void doTest(String inputXml) throws ModuleException {
+    @Test
+    public void validMinimalXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-minimal.xml"), Charsets.UTF_8);
+        doPassingTest(inputXml);
+    }
+
+    @Test
+    public void validMaximalXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-maximal.xml"), Charsets.UTF_8);
+        doPassingTest(inputXml);
+    }
+
+    @Test
+    public void validKanInteTaStallningXmlPassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
+        doPassingTest(inputXml);
+    }
+
+    // R8 and R10
+    @Test
+    public void invalidKanInteTaStallningXmlFailsTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/invalid-kan-inte-ta-stallning.xml"), Charsets.UTF_8);
+        doFailingTest(inputXml, 2);
+    }
+
+    private void doPassingTest(String inputXml) throws ModuleException {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertTrue(response.getValidationErrors().stream().collect(Collectors.joining(", ")), response.getValidationErrors().isEmpty());
+    }
 
+    private void doFailingTest(String inputXml, int expectedNumFails) throws ModuleException {
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), expectedNumFails,
+                response.getValidationErrors().size());
     }
 }

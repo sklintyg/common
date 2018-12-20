@@ -75,9 +75,9 @@
       <instans>1</instans>
       <delsvar id="1.1">
         <ns3:cv>
-          <ns3:code>VAR3</ns3:code>
+          <ns3:code>VAR11</ns3:code>
           <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
-          <ns3:displayName>C</ns3:displayName>
+          <ns3:displayName>Kan inte ta ställning</ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>

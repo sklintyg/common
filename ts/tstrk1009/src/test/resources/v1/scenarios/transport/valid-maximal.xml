@@ -1,173 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- ~ Copyright (C) 2016 Inera AB (http://www.inera.se)
- ~
- ~ This file is part of sklintyg (https://github.com/sklintyg).
- ~
- ~ sklintyg is free software: you can redistribute it and/or modify
- ~ it under the terms of the GNU General Public License as published by
- ~ the Free Software Foundation, either version 3 of the License, or
- ~ (at your option) any later version.
- ~
- ~ sklintyg is distributed in the hope that it will be useful,
- ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
- ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- ~ GNU General Public License for more details.
- ~
- ~ You should have received a copy of the GNU General Public License
- ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
- -->
+  ~ Copyright (C) 2016 Inera AB (http://www.inera.se)
+  ~
+  ~ This file is part of sklintyg (https://github.com/sklintyg).
+  ~
+  ~ sklintyg is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ sklintyg is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3" xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
+  <ns2:intyg>
+    <intygs-id>
+      <ns3:root>SE0000000000-1337</ns3:root>
+      <ns3:extension>987654321</ns3:extension>
+    </intygs-id>
+    <typ>
+      <ns3:code>TSTRK1009</ns3:code>
+      <ns3:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns3:codeSystem>
+      <ns3:displayName>Transportstyrelsens läkarintyg</ns3:displayName>
+    </typ>
+    <version>1.0</version>
+    <signeringstidpunkt>2013-08-12T15:57:00</signeringstidpunkt>
+    <skickatTidpunkt>2013-08-12T15:57:00</skickatTidpunkt>
+    <patient>
+      <person-id>
+        <ns3:root>1.2.752.129.2.1.3.1</ns3:root>
+        <ns3:extension>191212121212</ns3:extension>
+      </person-id>
+      <fornamn>Johnny</fornamn>
+      <efternamn>Appleseed</efternamn>
+      <postadress>Testvägen 12</postadress>
+      <postnummer>12345</postnummer>
+      <postort>Testort</postort>
+    </patient>
+    <skapadAv>
+      <personal-id>
+        <ns3:root>1.2.752.129.2.1.4.1</ns3:root>
+        <ns3:extension>SE0000000000-1333</ns3:extension>
+      </personal-id>
+      <fullstandigtNamn>Doktor Thompson</fullstandigtNamn>
+      <enhet>
+        <enhets-id>
+          <ns3:root>1.2.752.129.2.1.4.1</ns3:root>
+          <ns3:extension>SE0000000000-1337</ns3:extension>
+        </enhets-id>
+        <arbetsplatskod>
+          <ns3:root>1.2.752.29.4.71</ns3:root>
+          <ns3:extension>N/A</ns3:extension>
+        </arbetsplatskod>
+        <enhetsnamn>Vårdenhet Väst</enhetsnamn>
+        <postadress>Enhetsvägen 12</postadress>
+        <postnummer>54321</postnummer>
+        <postort>Tumba</postort>
+        <telefonnummer>08-1337</telefonnummer>
+        <vardgivare>
+          <vardgivare-id>
+            <ns3:root>1.2.752.129.2.1.4.1</ns3:root>
+            <ns3:extension>SE0000000000-HAHAHHSAA</ns3:extension>
+          </vardgivare-id>
+          <vardgivarnamn>Vårdgivarnamn</vardgivarnamn>
+        </vardgivare>
+      </enhet>
+    </skapadAv>
+    <svar id="1">
+      <instans>1</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR1</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>2</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR2</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C1E</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>3</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR3</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>C</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>4</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR4</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>CE</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>5</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR5</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>6</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR6</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D1E</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>7</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR7</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>D</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>8</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR8</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>DE</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>9</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR9</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>Taxi</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>10</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR12</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>AM</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>11</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR13</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>A1</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>11</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR14</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>A2</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>12</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR15</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>A</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>13</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR16</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>B</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>14</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR17</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>BE</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="1">
+      <instans>15</instans>
+      <delsvar id="1.1">
+        <ns3:cv>
+          <ns3:code>VAR18</ns3:code>
+          <ns3:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns3:codeSystem>
+          <ns3:displayName>Traktor</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="2">
+      <delsvar id="2.1">
+        <ns3:cv>
+          <ns3:code>IDK6</ns3:code>
+          <ns3:codeSystem>e7cc8f30-a353-4c42-b17a-a189b6876647</ns3:codeSystem>
+          <ns3:displayName>Pass</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="46">
+      <delsvar id="46.1">
+        <ns3:cv>
+          <ns3:code>OLAMPLIGHET</ns3:code>
+          <ns3:codeSystem>1.2.752.129.5.1.4</ns3:codeSystem>
+          <ns3:displayName>Olämplighet</ns3:displayName>
+        </ns3:cv>
+      </delsvar>
+    </svar>
+    <svar id="47">
+      <delsvar id="47.1">Poop</delsvar>
+    </svar>
+    <svar id="48">
+      <delsvar id="48.1">2018-12-12</delsvar>
+    </svar>
+    <svar id="49">
+      <delsvar id="49.1">true</delsvar>
+    </svar>
 
-<ns3:RegisterTSBas xmlns="urn:local:se:intygstjanster:services:1"
-    xmlns:ns2="urn:local:se:intygstjanster:services:types:1"
-    xmlns:ns3="urn:local:se:intygstjanster:services:RegisterTSBasResponder:1">
-  <ns3:intyg>
-    <intygsId>intygsId0</intygsId>
-    <intygsTyp>ts-bas</intygsTyp>
-    <version>06</version>
-    <utgava>07</utgava>
-    <grundData>
-      <signeringsTidstampel>2013-08-12T15:57:00</signeringsTidstampel>
-      <skapadAv>
-        <personId>
-          <ns2:root>1.2.752.129.2.1.4.1</ns2:root>
-          <ns2:extension>SE0000000000-1333</ns2:extension>
-        </personId>
-        <fullstandigtNamn>Doktor Thompson</fullstandigtNamn>
-        <atLakare>false</atLakare>
-        <vardenhet>
-          <enhetsId>
-            <ns2:root>1.2.752.129.2.1.4.1</ns2:root>
-            <ns2:extension>SE0000000000-1337</ns2:extension>
-          </enhetsId>
-          <enhetsnamn>Vårdenhet Väst</enhetsnamn>
-          <postadress>Enhetsvägen 12</postadress>
-          <postnummer>54321</postnummer>
-          <postort>Tumba</postort>
-          <telefonnummer>08-1337</telefonnummer>
-          <vardgivare>
-            <vardgivarid>
-              <ns2:root>1.2.752.129.2.1.4.1</ns2:root>
-              <ns2:extension>SE0000000000-HAHAHHSAA</ns2:extension>
-            </vardgivarid>
-            <vardgivarnamn>Vårdgivarnamn</vardgivarnamn>
-          </vardgivare>
-        </vardenhet>
-        <specialiteter>SPECIALITET</specialiteter>
-        <befattningar>ST_LAKARE</befattningar>
-      </skapadAv>
-      <patient>
-        <personId>
-          <ns2:root>1.2.752.129.2.1.3.1</ns2:root>
-          <ns2:extension>19121212-1212</ns2:extension>
-        </personId>
-        <fullstandigtNamn>Herr Dundersjuk</fullstandigtNamn>
-        <fornamn>Herr</fornamn>
-        <efternamn>Dundersjuk</efternamn>
-        <postadress>Testvägen 12</postadress>
-        <postnummer>12345</postnummer>
-        <postort>Testort</postort>
-      </patient>
-    </grundData>
-    <intygAvser>
-      <korkortstyp>C1</korkortstyp>
-      <korkortstyp>C1E</korkortstyp>
-      <korkortstyp>C</korkortstyp>
-      <korkortstyp>CE</korkortstyp>
-      <korkortstyp>D1</korkortstyp>
-      <korkortstyp>D1E</korkortstyp>
-      <korkortstyp>D</korkortstyp>
-      <korkortstyp>DE</korkortstyp>
-      <korkortstyp>TAXI</korkortstyp>
-      <korkortstyp>ANNAT</korkortstyp>
-    </intygAvser>
-    <identitetStyrkt>
-      <idkontroll>IDK6</idkontroll>
-    </identitetStyrkt>
-    <synfunktion>
-      <harSynfaltsdefekt>true</harSynfaltsdefekt>
-      <harNattblindhet>true</harNattblindhet>
-      <harProgressivOgonsjukdom>true</harProgressivOgonsjukdom>
-      <harDiplopi>true</harDiplopi>
-      <harNystagmus>true</harNystagmus>
-      <synskarpaUtanKorrektion>
-        <hogerOga>0.0</hogerOga>
-        <vansterOga>0.0</vansterOga>
-        <binokulart>0.0</binokulart>
-      </synskarpaUtanKorrektion>
-      <synskarpaMedKorrektion>
-        <hogerOga>0.0</hogerOga>
-        <harKontaktlinsHogerOga>true</harKontaktlinsHogerOga>
-        <vansterOga>0.0</vansterOga>
-        <harKontaktlinsVansterOga>true</harKontaktlinsVansterOga>
-        <binokulart>0.0</binokulart>
-      </synskarpaMedKorrektion>
-      <harGlasStyrkaOver8Dioptrier>true</harGlasStyrkaOver8Dioptrier>
-    </synfunktion>
-    <horselBalanssinne>
-      <harBalansrubbningYrsel>true</harBalansrubbningYrsel>
-      <harSvartUppfattaSamtal4Meter>true</harSvartUppfattaSamtal4Meter>
-    </horselBalanssinne>
-    <rorelseorganensFunktioner>
-      <harRorelsebegransning>true</harRorelsebegransning>
-      <rorelsebegransningBeskrivning>Spik i foten</rorelsebegransningBeskrivning>
-      <harOtillrackligRorelseformagaPassagerare>true</harOtillrackligRorelseformagaPassagerare>
-    </rorelseorganensFunktioner>
-    <hjartKarlSjukdomar>
-      <harRiskForsamradHjarnFunktion>true</harRiskForsamradHjarnFunktion>
-      <harHjarnskadaICNS>true</harHjarnskadaICNS>
-      <harRiskfaktorerStroke>true</harRiskfaktorerStroke>
-      <riskfaktorerStrokeBeskrivning>Förkärlek för Elvismackor</riskfaktorerStrokeBeskrivning>
-    </hjartKarlSjukdomar>
-    <diabetes>
-      <harDiabetes>true</harDiabetes>
-      <diabetesTyp>TYP2</diabetesTyp>
-      <harBehandlingKost>true</harBehandlingKost>
-    </diabetes>
-    <neurologiskaSjukdomar>true</neurologiskaSjukdomar>
-    <medvetandestorning>
-      <harMedvetandestorning>true</harMedvetandestorning>
-      <medvetandestorningBeskrivning>Beskrivning</medvetandestorningBeskrivning>
-    </medvetandestorning>
-    <harNjurSjukdom>true</harNjurSjukdom>
-    <harKognitivStorning>true</harKognitivStorning>
-    <harSomnVakenhetStorning>true</harSomnVakenhetStorning>
-    <alkoholNarkotikaLakemedel>
-      <harTeckenMissbruk>true</harTeckenMissbruk>
-      <harVardinsats>true</harVardinsats>
-      <harVardinsatsProvtagningBehov>true</harVardinsatsProvtagningBehov>
-      <harLakarordineratLakemedelsbruk>true</harLakarordineratLakemedelsbruk>
-      <lakarordineratLakemedelOchDos>Läkemedel och dos</lakarordineratLakemedelOchDos>
-    </alkoholNarkotikaLakemedel>
-    <harPsykiskStorning>true</harPsykiskStorning>
-    <utvecklingsstorning>
-      <harPsykiskUtvecklingsstorning>true</harPsykiskUtvecklingsstorning>
-      <harAndrayndrom>true</harAndrayndrom>
-    </utvecklingsstorning>
-    <sjukhusvard>
-      <harSjukhusvardEllerLakarkontakt>true</harSjukhusvardEllerLakarkontakt>
-      <sjukhusvardEllerLakarkontaktDatum>20 Januari</sjukhusvardEllerLakarkontaktDatum>
-      <sjukhusvardEllerLakarkontaktVardinrattning>Vårdcentralen</sjukhusvardEllerLakarkontaktVardinrattning>
-      <sjukhusvardEllerLakarkontaktAnledning>Akut lungsot</sjukhusvardEllerLakarkontaktAnledning>
-    </sjukhusvard>
-    <ovrigMedicinering>
-      <harStadigvarandeMedicinering>true</harStadigvarandeMedicinering>
-      <stadigvarandeMedicineringBeskrivning>Alvedon</stadigvarandeMedicineringBeskrivning>
-    </ovrigMedicinering>
-    <ovrigKommentar>Här kommer en övrig kommentar</ovrigKommentar>
-    <bedomning>
-      <korkortstyp>C1</korkortstyp>
-      <korkortstyp>C1E</korkortstyp>
-      <korkortstyp>C</korkortstyp>
-      <korkortstyp>CE</korkortstyp>
-      <korkortstyp>D1</korkortstyp>
-      <korkortstyp>D1E</korkortstyp>
-      <korkortstyp>D</korkortstyp>
-      <korkortstyp>DE</korkortstyp>
-      <korkortstyp>TAXI</korkortstyp>
-      <korkortstyp>ANNAT</korkortstyp>
-      <kanInteTaStallning>false</kanInteTaStallning>
-      <behovAvLakareSpecialistKompetens>Spektralanalys</behovAvLakareSpecialistKompetens>
-    </bedomning>
-  </ns3:intyg>
-</ns3:RegisterTSBas>
+  </ns2:intyg>
+</ns2:RegisterCertificate>
