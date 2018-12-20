@@ -240,10 +240,10 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
             $scope.hasValidationError = function(field, index) {
                 return $scope.validation.messagesByField &&
                     (!!$scope.validation.messagesByField['diagnoser[' + index + '].' + field] ||
-                        !!$scope.validation.messagesByField['diagnoser[' + index + '].row'] ||
                         // If no diagnose has been entered the first row should be marked with validation-error
                         (index === 0 && !!$scope.validation.messagesByField.diagnoser));
             };
+
 
             $scope.hasKomplettering = function() {
                 return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
