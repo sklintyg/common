@@ -679,6 +679,7 @@
             'common.validation.d-06': 'Ange ett år, årets eller tidigare.',
             'common.validation.d-09': 'Ange ett datum som infaller under de senaste tolv månaderna',
             'common.validation.d-10': 'Ange ett datum som infaller under de senaste tre månaderna',
+            'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
 
             // Common errors

@@ -61,6 +61,14 @@ public class ValidatorUtilSKL {
             return;
         }
 
+        if (!validateFirstDiagnosIsPresent(diagnoser)) {
+            // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
+                    TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[0].row",
+                    ValidationMessageType.EMPTY, "common.validation.c-05");
+            return;
+        }
+
         // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
         String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
 
@@ -129,6 +137,12 @@ public class ValidatorUtilSKL {
                     ValidationMessageType.INVALID_FORMAT, msgKey);
         }
 
+    }
+
+    private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
+        Diagnos diagnos = diagnoser.get(0);
+        return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
+                || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
     }
 
     public boolean isIntInRange(String intString, int min, int max) {
