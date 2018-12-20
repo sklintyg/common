@@ -92,6 +92,14 @@ public class ValidatorUtilFK {
             return;
         }
 
+        if (!validateFirstDiagnosIsPresent(diagnoser)) {
+            // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
+                    DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
+                    ValidationMessageType.EMPTY, "common.validation.c-05");
+            return;
+        }
+
         // Alla diagnoser måste härröra från samma kodverk, använd huvuddiagnosens kodverk som bas.
         String kodverk = Strings.nullToEmpty(diagnoser.get(0).getDiagnosKodSystem()).trim();
 
@@ -145,6 +153,12 @@ public class ValidatorUtilFK {
                         "common.validation.diagnos.invalid_combination");
             }
         }
+    }
+
+    private Boolean validateFirstDiagnosIsPresent(List<Diagnos> diagnoser) {
+        Diagnos diagnos = diagnoser.get(0);
+        return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
+                || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty();
     }
 
     private void validateDiagnosKod(String diagnosKod, String kodsystem, String msgKey,

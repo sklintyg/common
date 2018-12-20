@@ -46,7 +46,7 @@
                            name="diagnoseCode{{::$index}}"
                            value=""
                            placeholder="Kod"
-                           ng-class="{'validation-error' : hasValidationError('diagnoskod', $index)}"
+                           ng-class="{'validation-error' : hasValidationError('diagnoskod', $index) || hasValidationError('row', $index)}"
                            ng-model="diagnos.diagnosKod"
                            ue-filter-latin1
                            ng-change="onDiagnoseCodeChanged($index)"
@@ -76,7 +76,7 @@
             </div>
             <div class="diagnos-description-column input-wrapper">
                 <input type="text" class="col-xs-12 form-control column-width" ng-attr-id="diagnoseDescription-{{::$index|ueDomIdFilter}}"
-                       ng-class="{'validation-error' : hasValidationError('diagnosbeskrivning', $index)}"
+                       ng-class="{'validation-error' : hasValidationError('diagnosbeskrivning', $index) || hasValidationError('row', $index)}"
                        name="diagnose.description"
                        value=""
                        placeholder="Diagnos"
