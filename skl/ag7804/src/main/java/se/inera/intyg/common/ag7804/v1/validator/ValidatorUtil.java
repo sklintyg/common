@@ -78,7 +78,7 @@ public class ValidatorUtil {
             return;
         }
 
-        if (!validateFirstDiagnosIsPresent(diagnoser)) {
+        if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
                     DIAGNOS_SVAR_JSON_ID_6 + "[0].row",

@@ -61,7 +61,7 @@ public class ValidatorUtilSKL {
             return;
         }
 
-        if (!validateFirstDiagnosIsPresent(diagnoser)) {
+        if (diagnoser.size() > 1 && !validateFirstDiagnosIsPresent(diagnoser)) {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
                     TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[0].row",
