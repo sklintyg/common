@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.common.base.Strings;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.ListItem;
@@ -25,10 +29,6 @@ import com.itextpdf.layout.element.Paragraph;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.springframework.util.StringUtils;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Renders a UVList. This is a complex component that can render values based both on pure
@@ -196,6 +196,9 @@ public class UVList extends UVComponent {
                             results.add(value);
                         }
                     }
+                    // Increment index even if the value wasn't shown
+                    index++;
+
                     // Skip null values, if no results will lead to EJ_ANGIVET
                 } else if (evaluatedValue != null) {
                     throw new IllegalStateException("UNHANDLED evaluated value type in uv-list: " + evaluatedValue.getClass().getName());
