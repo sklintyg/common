@@ -170,7 +170,7 @@ public final class ValidatorUtil {
         // Note that being in the future doesn't make it invalid per se, only WARN
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
             ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.WARN,
-                    "common.validation.future.datum");
+                    "common.validation.c-06");
         }
         return isValid;
     }

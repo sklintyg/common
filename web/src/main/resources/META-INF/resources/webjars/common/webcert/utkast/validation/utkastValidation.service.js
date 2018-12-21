@@ -43,10 +43,6 @@ angular.module('common').factory('common.UtkastValidationService',
                 // Process warning messages. We want to show these regardless if the draft is complete/valid or not.
                 angular.forEach(ValidationViewState.warningMessages, function (message) {
                     var field = message.field.toLowerCase();
-                    var i = message.field.indexOf('.');
-                    if (i >= 0) {
-                        field = message.field.substring(i + 1).toLowerCase();
-                    }
                     if (!ValidationViewState.warningMessagesByField[field]) {
                         ValidationViewState.warningMessagesByField[field] = [];
                     }

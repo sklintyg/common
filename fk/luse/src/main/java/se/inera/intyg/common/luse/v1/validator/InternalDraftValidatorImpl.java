@@ -219,8 +219,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                         UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
                         "luse.validation.underlag.date.missing");
             } else {
-                ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", null);
+                ValidatorUtil.validateDateAndWarnIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
+                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum");
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,

@@ -178,7 +178,7 @@ public class InternalDraftValidatorTest {
 
         assertEquals(0, res.getValidationErrors().size());
         assertEquals(1, res.getValidationWarnings().size());
-        assertEquals("common.validation.future.datum", res.getValidationWarnings().get(0).getMessage());
+        assertEquals("common.validation.c-06", res.getValidationWarnings().get(0).getMessage());
         assertEquals(ValidationMessageType.WARN, res.getValidationWarnings().get(0).getType());
     }
 

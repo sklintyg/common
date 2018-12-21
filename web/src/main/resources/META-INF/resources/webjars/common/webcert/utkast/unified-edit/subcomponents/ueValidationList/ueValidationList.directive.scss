@@ -1,7 +1,7 @@
 ue-validation-list,
 .ue-validation-list{
 
-  .validation-error {
+  .validation-error, .validation-warning {
     @extend %wc-typo-07;
     color: $wc-color-11;
     margin-top: 13px;

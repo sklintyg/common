@@ -107,7 +107,7 @@ public class ValidatorUtilTest {
         boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate(LocalDate.now().plusDays(1)), errors, "testcategory", "testfield");
         assertTrue(valid);
         assertEquals(1, errors.size());
-        assertEquals("common.validation.future.datum", errors.get(0).getMessage());
+        assertEquals("common.validation.c-06", errors.get(0).getMessage());
     }
 
     @Test

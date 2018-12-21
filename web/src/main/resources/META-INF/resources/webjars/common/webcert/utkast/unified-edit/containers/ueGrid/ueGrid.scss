@@ -6,7 +6,8 @@ ue-grid {
     }
   }
 
-  .row ue-validation-list .validation-error{
+  .row ue-validation-list .validation-error,
+  .row ue-validation-list .validation-warning {
     margin-top: 6.5px;
   }
 }

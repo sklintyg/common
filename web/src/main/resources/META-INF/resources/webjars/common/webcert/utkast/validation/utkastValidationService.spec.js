@@ -182,6 +182,6 @@ describe('UtkastValidationService', function() {
         expect(viewState.common.validation.sections).toEqual([]);
 
         expect(viewState.common.validation.warningMessages).toEqual([{'field':'warning.field','type':'WARN','message':'warn.message'}]);
-        expect(viewState.common.validation.warningMessagesByField.field).toBeDefined();
+        expect(viewState.common.validation.warningMessagesByField['warning.field']).toBeDefined();
     });
 });
