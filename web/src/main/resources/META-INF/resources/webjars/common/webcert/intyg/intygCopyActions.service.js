@@ -289,6 +289,12 @@ angular.module('common').factory('common.IntygCopyActions',
                     }
                 }
 
+                var confirmCreateButtonMessageKey = intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.button.continue';
+                if (!messageService.propertyExists(confirmCreateButtonMessageKey)) {
+                    confirmCreateButtonMessageKey = 'common.createfromtemplate.continue';
+                }
+                createFromTemplateDialogModel.confirmCreateButtonMessageKey = confirmCreateButtonMessageKey;
+
                 var createDialog = dialogService.showDialog({
                     dialogId: 'ersatt-dialog',
                     titleId: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.header',
@@ -309,7 +315,7 @@ angular.module('common').factory('common.IntygCopyActions',
                     button2click: function (modalInstance) {
                         modalInstance.close();
                     },
-                    button1text: 'common.createfromtemplate.continue',
+                    button1text: createFromTemplateDialogModel.confirmCreateButtonMessageKey,
                     button2text: 'common.createfromtemplate.cancel',
                     bodyText: intygCreateFromTemplateRequest.intygType + '.createfromtemplate.' + newIntygType + '.modal.text',
                     autoClose: false
