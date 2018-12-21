@@ -87,56 +87,72 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
 
                 var config = [
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
-                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
-                            required: true, requiredProp: ['undersokningAvPatienten', 'journaluppgifter',
-                                'anhorigsBeskrivningAvPatienten', 'annatGrundForMU'] }, [{
-                            label: {
-                                key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
-                                helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'undersokningAvPatienten',
-                            maxDate: today,
-                            paddingBottom: true
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
-                                helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'journaluppgifter',
-                            maxDate: today,
-                            paddingBottom: true
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.ANHORIG.RBK',
-                                helpKey: 'KV_FKMU_0001.ANHORIG.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'anhorigsBeskrivningAvPatienten',
-                            maxDate: today,
-                            paddingBottom: true
-
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.ANNAT.RBK',
-                                helpKey: 'KV_FKMU_0001.ANNAT.HLP',
-                                paddingBottom: true
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'annatGrundForMU',
-                            maxDate: today
-                        }, {
-                            label: {
-                                key: 'DFR_1.3.RBK',
-                                helpKey: 'DFR_1.3.HLP',
+                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {
+                                validationContext: {
+                                    key: 'baseratPa',
+                                    type: 'ue-checkgroup'
+                                },
                                 required: true,
-                                requiredProp: 'annatGrundForMUBeskrivning'
+                                requiredProp: ['undersokningAvPatienten', 'journaluppgifter', 'anhorigsBeskrivningAvPatienten', 'annatGrundForMU']
                             },
-                            type: 'ue-textfield',
-                            hideExpression: '!model.annatGrundForMU',
-                            modelProp: 'annatGrundForMUBeskrivning'
-                        }]),
+                            [{
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [
+                                    // Row 1
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
+                                            helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'undersokningAvPatienten',
+                                        maxDate: today
+                                    }],
+                                    // Row 2
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
+                                            helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'journaluppgifter',
+                                        maxDate: today
+                                    }],
+                                    // Row 3
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.ANHORIG.RBK',
+                                            helpKey: 'KV_FKMU_0001.ANHORIG.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'anhorigsBeskrivningAvPatienten',
+                                        maxDate: today
+                                    }],
+                                    // Row 4
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.ANNAT.RBK',
+                                            helpKey: 'KV_FKMU_0001.ANNAT.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'annatGrundForMU',
+                                        maxDate: today
+                                    }],
+                                    [{
+                                        label: {
+                                            key: 'DFR_1.3.RBK',
+                                            helpKey: 'DFR_1.3.HLP',
+                                            required: true,
+                                            requiredProp: 'annatGrundForMUBeskrivning'
+                                        },
+                                        type: 'ue-textfield',
+                                        hideExpression: '!model.annatGrundForMU',
+                                        modelProp: 'annatGrundForMUBeskrivning'
+                                    }]
+                                ]
+                            }]
+                        ),
                         fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.journaluppgifter || model.anhorigsBeskrivningAvPatienten || model.annatGrundForMU)' }, [{
                             type: 'ue-textarea',
                             modelProp: 'motiveringTillInteBaseratPaUndersokning',

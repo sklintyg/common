@@ -59,54 +59,63 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { validationContext: {key: 'baseratPa', type: 'ue-checkgroup'},
-                            required: true, requiredProp: ['undersokningAvPatienten', 'telefonkontaktMedPatienten',
-                                'journaluppgifter', 'annatGrundForMU']}, [{
-                            label: {
-                                key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
-                                helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
+                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {
+                            validationContext: {
+                                key: 'baseratPa',
+                                type: 'ue-checkgroup'
                             },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'undersokningAvPatienten',
-                            maxDate: today,
-                            paddingBottom: true
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.TELEFONKONTAKT.RBK',
-                                helpKey: 'KV_FKMU_0001.TELEFONKONTAKT.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'telefonkontaktMedPatienten',
-                            maxDate: today,
-                            paddingBottom: true
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
-                                helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'journaluppgifter',
-                            maxDate: today,
-                            paddingBottom: true
-                        }, {
-                            label: {
-                                key: 'KV_FKMU_0001.ANNAT.RBK',
-                                helpKey: 'KV_FKMU_0001.ANNAT.HLP'
-                            },
-                            type: 'ue-checkbox-date',
-                            modelProp: 'annatGrundForMU',
-                            maxDate: today
-                        }, {
-                            label: {
-                                key: 'DFR_1.3.RBK',
-                                helpKey: 'DFR_1.3.HLP',
-                                required: true,
-                                requiredProp: 'annatGrundForMUBeskrivning'
-                            },
-                            type: 'ue-textarea',
-                            hideExpression: '!model.annatGrundForMU',
-                            modelProp: 'annatGrundForMUBeskrivning'
-                        }]), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
+                            required: true,
+                            requiredProp: ['undersokningAvPatienten', 'telefonkontaktMedPatienten', 'journaluppgifter', 'annatGrundForMU']},
+                            [{
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
+                                            helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'undersokningAvPatienten',
+                                        maxDate: today
+                                    }], [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.TELEFONKONTAKT.RBK',
+                                            helpKey: 'KV_FKMU_0001.TELEFONKONTAKT.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'telefonkontaktMedPatienten',
+                                        maxDate: today
+                                    }], [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
+                                            helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'journaluppgifter',
+                                        maxDate: today
+                                    }], [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.ANNAT.RBK',
+                                            helpKey: 'KV_FKMU_0001.ANNAT.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'annatGrundForMU',
+                                        maxDate: today
+                                    }], [{
+                                        label: {
+                                            key: 'DFR_1.3.RBK',
+                                            helpKey: 'DFR_1.3.HLP',
+                                            required: true,
+                                            requiredProp: 'annatGrundForMUBeskrivning'
+                                        },
+                                        type: 'ue-textarea',
+                                        hideExpression: '!model.annatGrundForMU',
+                                        modelProp: 'annatGrundForMUBeskrivning'
+                                    }]
+                                ]
+                            }]
+                        ), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
