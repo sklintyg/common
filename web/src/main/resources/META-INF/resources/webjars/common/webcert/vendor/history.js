@@ -19,15 +19,15 @@
 
 angular.module('ui.router.history', [
     'ui.router'
-]).service('$history', function($state, $rootScope, $window) {
+]).service('$history', function($state) {
     'use strict';
     var history = [];
+    var goingBack = false;
 
     angular.extend(this, {
         push: function(state, params) {
-            if((angular.isDefined(state.data) && angular.isDefined(state.data.intygType)) &&
-                state.name === state.data.intygType + '-edit') {
-                // do not add edit views in history.
+            if(goingBack) {
+                goingBack = false;
                 return;
             }
             history.push({ state: state, params: params });
@@ -36,11 +36,14 @@ angular.module('ui.router.history', [
             return history;
         },
         go: function(step) {
+            step = Math.abs(step || 1);
             var prev = this.previous(step || -1);
+            history = history.splice(0, history.length - step);
+            goingBack = true;
             return $state.go(prev.state, prev.params);
         },
         previous: function(step) {
-            return history[history.length - Math.abs(step || 1)];
+            return history[history.length - step];
         },
         back: function() {
             return this.go(-1);
@@ -51,6 +54,15 @@ angular.module('ui.router.history', [
     'use strict';
     $rootScope.$on('$stateChangeSuccess', function(event, to, toParams, from, fromParams) {
         if (!from.abstract) { // jshint ignore:line
+
+            if(angular.isDefined(from.data) && angular.isDefined(to.data)) {
+
+                if(!!from.data.intygType && !!to.data.intygType &&
+                    from.name === from.data.intygType + '-edit' && to.name === 'webcert.intyg.' + to.data.intygType) {
+                    // We're probably saving a draft, skip adding history
+                    return;
+                }
+            }
             $history.push(from, fromParams);
         }
     });
