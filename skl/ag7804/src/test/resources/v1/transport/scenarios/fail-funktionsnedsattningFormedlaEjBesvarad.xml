@@ -63,7 +63,8 @@
         </vardgivare>
       </enhet>
       <specialistkompetens>
-        <ns3:code>Kirurg</ns3:code>
+        <ns3:code>N/A</ns3:code>
+        <ns3:displayName>Kirurg</ns3:displayName>
       </specialistkompetens>
     </skapadAv>
     <svar id="1">
@@ -72,6 +73,7 @@
         <ns3:cv>
           <ns3:code>UNDERSOKNING</ns3:code>
           <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
+          <ns3:displayName>Min undersökning av patienten</ns3:displayName>
         </ns3:cv>
       </delsvar>
       <delsvar id="1.2">2015-12-08</delsvar>
@@ -82,14 +84,12 @@
         <ns3:cv>
           <ns3:code>NUVARANDE_ARBETE</ns3:code>
           <ns3:codeSystem>KV_FKMU_0002</ns3:codeSystem>
+          <ns3:displayName>Nuvarande arbete</ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>
     <svar id="29">
       <delsvar id="29.1">Smed</delsvar>
-    </svar>
-    <svar id="101">
-      <delsvar id="101.1">true</delsvar>
     </svar>
     <svar id="100">
       <delsvar id="100.1">true</delsvar>
@@ -102,6 +102,10 @@
           <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
         </ns3:cv>
       </delsvar>
+    </svar>
+
+    <svar id="35">
+      <delsvar id="35.1">Haltar när han dansar</delsvar>
     </svar>
     <svar id="17">
       <delsvar id="17.1">Kommer inte in i bilen</delsvar>
@@ -123,7 +127,7 @@
       </delsvar>
     </svar>
     <svar id="37">
-      <delsvar id="37.1">Överskrider inte FMB</delsvar>
+      <delsvar id="37.1">överskrider inte FMB</delsvar>
     </svar>
     <svar id="33">
       <delsvar id="33.1">true</delsvar>
@@ -135,8 +139,9 @@
     <svar id="39">
       <delsvar id="39.1">
         <ns3:cv>
-          <ns3:code>PROGNOS_OKLAR</ns3:code>
+          <ns3:code>STOR_SANNOLIKHET</ns3:code>
           <ns3:codeSystem>KV_FKMU_0006</ns3:codeSystem>
+          <ns3:displayName>Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning</ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>
@@ -146,6 +151,7 @@
         <ns3:cv>
           <ns3:code>OVRIGA_ATGARDER</ns3:code>
           <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
+          <ns3:displayName>Övrigt</ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>

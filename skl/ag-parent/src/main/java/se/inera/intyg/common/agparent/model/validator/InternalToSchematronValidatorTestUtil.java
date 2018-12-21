@@ -46,7 +46,7 @@ public final class InternalToSchematronValidatorTestUtil {
 
     public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().stream()
-                .map(e -> e.getMessage())
+                .map(e -> e.toString())
                 .collect(Collectors.joining(", "));
     }
 

@@ -41,34 +41,36 @@ public final class InternalToTransportUtil {
 
     public static void handleDiagnosSvar(List<Svar> svars, List<Diagnos> diagnoser) {
         SvarBuilder diagnosSvar = aSvar(DIAGNOS_SVAR_ID_6);
-        for (int i = 0; i < diagnoser.size(); i++) {
-            Diagnos diagnos = diagnoser.get(i);
-            if (diagnos.getDiagnosKod() == null) {
-                continue;
+        if (diagnoser != null) {
+            for (int i = 0; i < diagnoser.size(); i++) {
+                Diagnos diagnos = diagnoser.get(i);
+                if (diagnos.getDiagnosKod() == null) {
+                    continue;
+                }
+                Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
+                switch (i) {
+                case 0:
+                    diagnosSvar.withDelsvar(DIAGNOS_DELSVAR_ID_6,
+                            aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                            .withDelsvar(DIAGNOS_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
+                    break;
+                case 1:
+                    diagnosSvar.withDelsvar(BIDIAGNOS_1_DELSVAR_ID_6,
+                            aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                            .withDelsvar(BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
+                    break;
+                case 2:
+                    diagnosSvar.withDelsvar(BIDIAGNOS_2_DELSVAR_ID_6,
+                            aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                            .withDelsvar(BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+                }
             }
-            Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
-            switch (i) {
-            case 0:
-                diagnosSvar.withDelsvar(DIAGNOS_DELSVAR_ID_6,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(DIAGNOS_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
-                break;
-            case 1:
-                diagnosSvar.withDelsvar(BIDIAGNOS_1_DELSVAR_ID_6,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(BIDIAGNOS_1_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
-                break;
-            case 2:
-                diagnosSvar.withDelsvar(BIDIAGNOS_2_DELSVAR_ID_6,
-                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                        .withDelsvar(BIDIAGNOS_2_BESKRIVNING_DELSVAR_ID_6, diagnos.getDiagnosBeskrivning());
-                break;
-            default:
-                throw new IllegalArgumentException();
+            if (!diagnosSvar.delSvars.isEmpty()) {
+                svars.add(diagnosSvar.build());
             }
-        }
-        if (!diagnosSvar.delSvars.isEmpty()) {
-            svars.add(diagnosSvar.build());
         }
     }
 }

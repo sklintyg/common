@@ -23,6 +23,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
+import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;
@@ -364,6 +367,33 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
+    public void validateDiagnosisOnskarFormedlaUnknown() throws Exception {
+        Ag7804UtlatandeV1 utlatande = builderTemplate
+                .setOnskarFormedlaDiagnos(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100, res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateDiagnosisNotWantedButPresent() throws Exception {
+        Ag7804UtlatandeV1 utlatande = builderTemplate
+                .setOnskarFormedlaDiagnos(false)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(DIAGNOS_SVAR_JSON_ID_6, res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
+
+    }
+
+    @Test
     public void validateDiagnosis() throws Exception {
         Ag7804UtlatandeV1 utlatande = builderTemplate
                 .setDiagnoser(Arrays.asList(Diagnos.create(null, null, null, null)))
@@ -389,6 +419,34 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateFunktionsnedsattningMissingButExpected() throws Exception {
+        Ag7804UtlatandeV1 utlatande = builderTemplate
+                .setOnskarFormedlaFunktionsnedsattning(true)
+                .setFunktionsnedsattning(null)
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
+    }
+
+    @Test
+    public void validateFunktionsnedsattningPresentButNotWanted() throws Exception {
+        Ag7804UtlatandeV1 utlatande = builderTemplate
+                .setOnskarFormedlaFunktionsnedsattning(false)
+                .setFunktionsnedsattning("funk")
+                .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        assertEquals(1, res.getValidationErrors().size());
+        assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, res.getValidationErrors().get(0).getField());
+        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
     }
 
     @Test
