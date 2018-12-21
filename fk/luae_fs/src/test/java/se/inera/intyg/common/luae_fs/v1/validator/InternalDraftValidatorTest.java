@@ -272,8 +272,8 @@ public class InternalDraftValidatorTest {
 
         validator.validateGrundForMU(utlatande, validationMessages);
 
-        assertEquals(0, validationMessages.stream().filter(vm -> vm.getType() != ValidationMessageType.WARN).count());
-        assertEquals(1, validationMessages.stream().filter(vm -> vm.getType() == ValidationMessageType.WARN).count());
+        assertEquals(1, validationMessages.stream().filter(vm -> vm.getType() != ValidationMessageType.WARN).count());
+        assertEquals(0, validationMessages.stream().filter(vm -> vm.getType() == ValidationMessageType.WARN).count());
     }
 
     // Kategori 2 - Andra medicinska utredningar och underlag

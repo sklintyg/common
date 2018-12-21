@@ -169,7 +169,7 @@ public final class ValidatorUtil {
         // For structurally valid dates, check if it is a future date
         // Note that being in the future doesn't make it invalid per se, only WARN
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
-            ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.WARN,
+            ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.OTHER,
                     "common.validation.c-06");
         }
         return isValid;
