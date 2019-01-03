@@ -120,8 +120,8 @@ public class InternalValidatorTest {
     @Test
     public void testR3_2() throws ScenarioNotFoundException {
         DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-2").asInternalModel();
-        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
-        internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
+        internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
         internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getUndersokningDatum());
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(1, getNumberOfInternalValidationErrors(internalValidationResponse));

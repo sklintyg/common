@@ -72,10 +72,10 @@
     }
   ],
   "operation": "JA",
-  "operationDatum": "2016-12-31",
+  "operationDatum": "2017-01-15",
   "forgiftning": "true",
   "forgiftningOrsak": "SJALVMORD",
-  "forgiftningDatum": "2017-01-01",
+  "forgiftningDatum": "2017-01-16",
   "forgiftningUppkommelse": "uppkommelse",
   "grunder": [
     "KLINISK_OBDUKTION",

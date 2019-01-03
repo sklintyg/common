@@ -244,7 +244,7 @@
         </svar>
         <svar id="11">
             <delsvar id="11.1">true</delsvar>
-            <delsvar id="11.2">2016-12-31</delsvar>
+            <delsvar id="11.2">2017-01-15</delsvar>
         </svar>
         <svar id="12">
             <delsvar id="12.1">true</delsvar>
@@ -255,7 +255,7 @@
                     <ns3:displayName>Självmord</ns3:displayName>
                 </ns3:cv>
             </delsvar>
-            <delsvar id="12.3">2017-01-01</delsvar>
+            <delsvar id="12.3">2017-01-16</delsvar>
             <delsvar id="12.4">uppkommelse</delsvar>
         </svar>
         <svar id="13">
