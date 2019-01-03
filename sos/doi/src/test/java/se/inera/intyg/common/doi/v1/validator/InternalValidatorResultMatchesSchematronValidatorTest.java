@@ -85,8 +85,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         DoiUtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
 
         if(!fail) {
-            internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
-            internalValidatorHelper.setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
+            internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getDodsdatum());
+            internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getAntraffatDodDatum());
             internalValidatorHelper.setDateToLastYear(utlatandeFromJson.getOperationDatum());
         }
 
