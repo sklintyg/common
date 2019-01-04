@@ -22,6 +22,18 @@
     display: block;
   }
 
+  .form-group {
+    position: relative;
+  }
+
+  .required {
+    top: 3px;
+  }
+
+  .form-group-indent {
+    margin-left: 13px;
+  }
+
   wc-button {
     display: inline-block;
     &+.btn {

@@ -29,6 +29,7 @@
 
         <div class="form-group radio-indent" ng-if="model.answerWithIntyg === true">
           <div class="form-group">
+            <span class="required icon-wc-ikon-38" ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
             Kommentera varför du inte kan ange ytterligare medicinsk information.
             När du skickar svaret skapas en kopia av intyget med din kommentar i fältet "Övriga upplysningar".
             Signera och skicka intyget när du är klar.
@@ -59,11 +60,12 @@
         <wc-alert-message alert-severity="info">
           Ingen medicinsk information får anges.
         </wc-alert-message>
-        <div class="form-group">
+        <div class="form-group" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
+          <span class="required icon-wc-ikon-38" ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
           Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
           så ska du delge Försäkringskassan det genom att svara med ett meddelande.
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
           <textarea id="komplettering-modal-dialog-meddelandetext"
                     class="form-control"
                     ng-model="model.meddelandeText">
