@@ -66,12 +66,17 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
         throws ModuleException {
         AF00251UtlatandeV1 intyg = getInternal(internalModel);
-        IntygTexts texts = getTexts(AF00251EntryPoint.MODULE_ID, intyg.getTextVersion());
 
-        Personnummer personId = intyg.getGrundData()
+        final AF00251UtlatandeV1 filtreratUtlatande = filterUncheckedSjukfranvaro(intyg);
+
+        final String filtreradInternalModel = toInternalModelResponse(filtreratUtlatande);
+
+        IntygTexts texts = getTexts(AF00251EntryPoint.MODULE_ID, filtreratUtlatande.getTextVersion());
+
+        Personnummer personId = filtreratUtlatande.getGrundData()
                                      .getPatient()
                                      .getPersonId();
-        return new PdfGenerator().generatePdf(intyg.getId(), internalModel, "1", personId, texts, statuses, applicationOrigin,
+        return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses, applicationOrigin,
             utkastStatus);
     }
 
