@@ -36,6 +36,9 @@
             </label>
             <textarea id="clarification-{{reason.value}}"
                       rows="3"
+                      maxlength="3500"
+                      ue-filter-latin1
+                      auto-expand
                       class="form-control"
                       ng-model="model.makuleraModel.clarification[reason.value]">
             </textarea>
