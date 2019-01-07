@@ -21,6 +21,7 @@ package se.inera.intyg.common.af00251.v1.model.validator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+import se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioNotFoundException;
@@ -33,6 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
 import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
+import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -56,6 +58,19 @@ public class InternalValidatorTest {
         assertValidationMessage(internalValidationResponse.getValidationErrors()
                                                           .get(0),
             is(CATEGORY_KONSEKVENSER), is("funktionsnedsattning"), is(ValidationMessageType.EMPTY));
+    }
+
+    @Test
+    public void testArbetsMarknadsPolitisktProgramSaknas() throws ScenarioNotFoundException {
+        AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetsMarknadsPolititisktProgramSaknas")
+                                                             .asInternalModel();
+        ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
+        assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
+
+
+        assertValidationMessage(internalValidationResponse.getValidationErrors()
+                                                          .get(0),
+            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2), is(ValidationMessageType.EMPTY));
     }
 
     @Test

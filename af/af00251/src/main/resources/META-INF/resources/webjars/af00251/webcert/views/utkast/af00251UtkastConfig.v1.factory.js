@@ -92,7 +92,8 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                     ]),
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {
-                                required: false
+                                required: true,
+                                requiredProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning'
                             },
                             [{
                                 type: 'ue-textarea',
@@ -103,6 +104,8 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 modelProp: 'arbetsmarknadspolitisktProgram.omfattning',
                                 label: {
                                     key: 'DFR_2.2.RBK',
+                                    required: true,
+                                    requiredProp: 'arbetsmarknadspolitisktProgram.omfattning',
                                     helpKey: 'DFR_2.2.HLP'
                                 },
                                 choices: [
@@ -124,7 +127,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 modelProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid',
                                 hideExpression: 'model.arbetsmarknadspolitisktProgram.omfattning !== \'DELTID\'',
                                 numbersOnly: true,
-                                maxLength: 2,
+                                htmlMaxlength: 2,
                                 label: {
                                     key: 'DFR_2.3.RBK',
                                     required: true,

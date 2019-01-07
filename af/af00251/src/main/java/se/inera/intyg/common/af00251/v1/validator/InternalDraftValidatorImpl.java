@@ -104,8 +104,25 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     private void validateArbetsmasknadsPolitisktProgram(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         final ArbetsmarknadspolitisktProgram arbetsmarknadspolitisktProgram = utlatande.getArbetsmarknadspolitisktProgram();
         if (arbetsmarknadspolitisktProgram == null) {
+            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM, ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+                ValidationMessageType.EMPTY);
             return;
         }
+
+        if (Strings.nullToEmpty(arbetsmarknadspolitisktProgram.getMedicinskBedomning())
+                               .trim()
+                               .isEmpty()) {
+            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
+                createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+                    ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21), ValidationMessageType.EMPTY);
+        }
+
+        if (arbetsmarknadspolitisktProgram.getOmfattning() == null) {
+            addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
+                createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
+                    ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22), ValidationMessageType.EMPTY);
+        }
+
 
         if (arbetsmarknadspolitisktProgram.getOmfattning() == ArbetsmarknadspolitisktProgram.Omfattning.DELTID) {
             if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
