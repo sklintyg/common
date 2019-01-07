@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfProxy',
-    function(ueUtil, $window, IcfProxy) {
+angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfProxy', 'common.fmbViewState',
+    function(ueUtil, $window, IcfProxy, fmbViewState) {
     'use strict';
     return {
         restrict: 'E',
@@ -66,20 +66,42 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             }, true);
 
             scope.diagnosBeskrivningen = function(kod) {
+                var beskrivning;
                 if (angular.isArray(kod)) {
-                    return scope.diagnoser.filter(function(v){
-                        return kod.indexOf(v.diagnosKod) > -1;
-                    }).map(function(v) {
-                        return v.diagnosBeskrivning;
-                    }).join(', ');
+                    var beskrivningar = [];
+                    angular.forEach(fmbViewState.diagnoses, function(d) {
+                        if (kod.indexOf(d.diagnosKod) > -1) {
+                            beskrivning = d.diagnosBeskrivning;
+                            if (d.originalDiagnosKod !== d.diagnosKod) {
+                                beskrivning = popoverBeskrivning(d);
+                            }
+                            beskrivningar.push(beskrivning);
+                        }
+                    });
+                    return beskrivningar.join(' | ');
                 }
-                var icdKod = scope.diagnoser.filter(function(v){
-                        return v.diagnosKod === kod;
+                angular.forEach(fmbViewState.diagnoses, function(d) {
+                    if (kod === d.diagnosKod) {
+                        if (d.originalDiagnosKod !== d.diagnosKod) {
+                            beskrivning = popoverBeskrivning(d);
+                        } else {
+                            beskrivning =  d.diagnosBeskrivning;
+                        }
+                    }
                 });
-                if (icdKod.length === 1) {
-                    return icdKod[0].diagnosBeskrivning;
-                }
+                return beskrivning;
             };
+
+            function popoverBeskrivning(d) {
+                var beskrivning = scope.diagnoser.filter(function(k) {
+                    return k.diagnosKod === d.originalDiagnosKod;
+                })[0].diagnosBeskrivning;
+                beskrivning += ' <i class="material-icons md-18" uib-popover="' + 
+                'Det ICF-stöd som visas är för koden ' + d.diagnosKod + ' - ' +
+                d.diagnosBeskrivning +
+                '" popover-placement="auto top">info_outline</i>';
+                return beskrivning;
+            }
 
             scope.getKodTyp = function () {
                 return scope.config.kategoriProp === 'funktionsKategorier' ?

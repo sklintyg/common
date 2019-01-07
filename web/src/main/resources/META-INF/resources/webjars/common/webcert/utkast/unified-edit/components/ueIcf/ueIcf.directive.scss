@@ -12,22 +12,22 @@ ue-icf {
       top: -25px;
 
       .bluetext {
-        color: #496cec;
+        color: $wc-color-21;
       }
 
       &:hover .bluetext {
-        color: #fff;
+        color: $wc-color-00;
       }
 
       &.disabled:hover {
-        color: #6a6a6a !important;
+        color: $wc-color-09 !important;
 
         .bluetext {
-          color: #6a6a6a;
+          color: $wc-color-09;
         }
       }
       &.disabled .bluetext {
-        color: #6a6a6a;
+        color: $wc-color-09;
       }
     }
 
@@ -38,15 +38,15 @@ ue-icf {
       width: 100%;
       height: 400px;
       overflow: hidden;
-      border: 1px solid #496cec;
+      border: 1px solid $wc-color-21;
       border-radius: 4px;
       top: 17px;
-      background-color: #fff;
+      background-color: $wc-color-00;
       flex-direction: column;
 
       .kategori-header {
-        color: #003c75;
-        background-color: #b3e5fc;
+        color: $wc-color-06;
+        background-color: $wc-color-03;
         flex: 1 0 38px;
 
         span {
@@ -72,11 +72,11 @@ ue-icf {
         }
 
         .kategori:nth-child(even) div {
-          background-color: #fff;
+          background-color: $wc-color-00;
         }
 
         .kategori-label {
-          color: #6a6a6a;
+          color: $wc-color-09;
         }
 
         strong.medborder {
@@ -84,8 +84,11 @@ ue-icf {
           width: 100%;
           margin-bottom: 5px;
           padding-bottom: 5px;
-          color: #212121;
-          border-bottom: 1px solid #9a9a9a;
+          color: $wc-color-07;
+          border-bottom: 1px solid $wc-color-22;
+          i {
+            color: $wc-color-21;
+          }
         }
 
         .kategorier {
@@ -118,7 +121,7 @@ ue-icf {
 
         .beskrivning {
           padding: 10px;
-          color: #6a6a6a;
+          color: $wc-color-09;
         }
       }
 
@@ -133,7 +136,7 @@ ue-icf {
 
       .kategori-footer {
         display: flex;
-        background-color: #e9eaed;
+        background-color: $wc-color-28;
         flex: 1 0 55px;
 
         span {
@@ -159,17 +162,7 @@ ue-icf {
       margin: 10px 0;
       padding: 10px;
       border-radius: 4px;
-      background-color: #fff;
-
-      .funktion-tabort {
-        position: absolute;
-        top: -5px;
-        right: 0;
-        padding: 10px;
-        color: #ccc;
-        font-size: 16px;
-        cursor: pointer;
-      }
+      background-color: $wc-color-00;
 
       h4 {
         display: inline;
@@ -209,7 +202,7 @@ ue-icf {
   }
 
   .problemContainer {
-    background: #e9eaed;
+    background: $wc-color-28;
     margin-bottom: 20px;
     padding: 10px 15px 15px 15px;
 
@@ -221,7 +214,7 @@ ue-icf {
     .problem {
       border: 1px solid #c0c0c0;
       border-radius: 5px;
-      background-color: #fff;
+      background-color: $wc-color-00;
       padding: 5px 7px 5px 7px;
       margin: 5px 5px 5px 0;
       display: inline-block;
@@ -232,7 +225,7 @@ ue-icf {
     position: absolute;
     margin-top: -4px;
     margin-left: 15px;
-    background: #fff;
+    background: $wc-color-00;
     padding: 0 10px;
     font-size: 12px;
     color: $wc-color-21;

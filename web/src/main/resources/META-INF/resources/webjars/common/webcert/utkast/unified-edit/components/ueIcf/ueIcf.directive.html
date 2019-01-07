@@ -22,14 +22,14 @@
       <div class="kategori-content-padding">
       <div ng-if="kategorier.gemensamma[getKodTyp()] && kategorier.gemensamma[getKodTyp()].icfKoder.length > 0">
         <span class="kategori-label">ICF-kategorier gemensamma för:</span><br />
-        <strong class="medborder">{{diagnosBeskrivningen(kategorier.gemensamma[getKodTyp()].icd10Koder)}}</strong>
+        <strong class="medborder" bind-html-compile="diagnosBeskrivningen(kategorier.gemensamma[getKodTyp()].icd10Koder)"></strong>
         <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].icfKoder" class="kategori"></ue-icf-kategori>
       </div>
 
       <div class="unika-wrapper" ng-repeat="unika in kategorier.unika"
             ng-if="unika[getKodTyp()] && unika[getKodTyp()].icfKoder.length > 0">
         <span class="kategori-label">ICF-kategorier för:</span><br />
-        <strong class="medborder">{{diagnosBeskrivningen(unika.icd10Kod)}}</strong>
+        <strong class="medborder" bind-html-compile="diagnosBeskrivningen(unika.icd10Kod)"></strong>
         <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].icfKoder" class="kategori"></ue-icf-kategori>
       </div>
       </div>
