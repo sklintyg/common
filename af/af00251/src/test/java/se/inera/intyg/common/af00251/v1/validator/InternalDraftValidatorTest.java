@@ -142,7 +142,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
+        assertThat(validationErrors, hasSize(1));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
+        assertThat(validationErrors, hasSize(2));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
+        assertThat(validationErrors, hasSize(1));
     }
 
     @Test
@@ -182,7 +182,7 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(0));
+        assertThat(validationErrors, hasSize(1));
     }
 
     @Test
@@ -196,9 +196,11 @@ public class InternalDraftValidatorTest {
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
-        assertThat(validationErrors, hasSize(1));
+        assertThat(validationErrors, hasSize(2));
 
         assertValidationMessage(validationErrors.get(0),
+            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.medicinskBedomning"), is(ValidationMessageType.EMPTY));
+        assertValidationMessage(validationErrors.get(1),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"), is(ValidationMessageType.INCORRECT_COMBINATION));
     }
     @Test
