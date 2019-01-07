@@ -76,6 +76,9 @@ angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorS
                                 newValue = utils.insertAt(newValue, '-', 8);
                                 updateViewValue(newValue);
                             }
+                            if (newValue.length === 13) {
+                                ngModel.$setTouched();
+                            }
                         } else if ((!oldValue || (newValue.length <= oldValue.length)) &&
                             !newValue.match(lookingLikePnr)) {
 
