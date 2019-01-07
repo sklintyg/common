@@ -76,8 +76,8 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
         Personnummer personId = filtreratUtlatande.getGrundData()
                                      .getPatient()
                                      .getPersonId();
-        return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses, applicationOrigin,
-            utkastStatus);
+        return new PdfGenerator().generatePdf(filtreratUtlatande.getId(), filtreradInternalModel, "1", personId, texts, statuses,
+            applicationOrigin, utkastStatus);
     }
 
     @Override
