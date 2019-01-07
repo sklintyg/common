@@ -62,9 +62,8 @@ public class PdfGenerator {
     private static final String PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE = "ag7804-uv-viewmodel.v%s.js";
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
-            + "elektroniskt av intygsutfärdaren. Intyget är avsett för patientens arbetsgivare som längst till och "
-            + "med dag 14 i sjukskrivningsperioden";
-    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
+            + "elektroniskt av intygsutfärdaren. Utskriften är avsedd för patientens arbetsgivare.";
+    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska "
             + "INTE skickas.";
     private static final String SKIP_SYMBOL = "!";
     private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;

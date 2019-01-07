@@ -47,6 +47,7 @@ import se.inera.intyg.common.pdf.eventhandler.PageNumberEvent;
 import se.inera.intyg.common.pdf.eventhandler.SignBox;
 import se.inera.intyg.common.pdf.eventhandler.WaterMarkerer;
 import se.inera.intyg.common.pdf.model.UVAlertValue;
+import se.inera.intyg.common.pdf.model.UVBooleanStatement;
 import se.inera.intyg.common.pdf.model.UVBooleanValue;
 import se.inera.intyg.common.pdf.model.UVDelfraga;
 import se.inera.intyg.common.pdf.model.UVFraga;
@@ -304,6 +305,8 @@ public class UVRenderer {
                 renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);
                 break;
             case "uv-boolean-statement":
+                renderChildren = new UVBooleanStatement(this).render(currentDiv, currentUvNode);
+                break;
             case "uv-boolean-value":
                 renderChildren = new UVBooleanValue(this).render(currentDiv, currentUvNode);
                 break;
