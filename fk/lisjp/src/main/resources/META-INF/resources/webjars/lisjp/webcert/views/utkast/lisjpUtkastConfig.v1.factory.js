@@ -239,7 +239,6 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                                 bold: 'bold',
                                 key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                 helpKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
-                                required: true,
                                 type: 'label',
                                 requiredProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                             },
