@@ -96,8 +96,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
             return;
         }
 
-        validateDate(utlatande.getUndersokningsDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
-        validateDate(utlatande.getAnnatDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
+        validateDate(utlatande.getUndersokningsDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
+            MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
+        validateDate(utlatande.getAnnatDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
+            MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
 
         // Regel R1
         if (utlatande.getAnnatDatum() != null
