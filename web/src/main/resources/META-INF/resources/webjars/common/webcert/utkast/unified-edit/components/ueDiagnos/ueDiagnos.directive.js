@@ -176,7 +176,6 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                 $scope.diagnosKodNoResults = [];
                 $scope.diagnosForm.$setDirty();
-                fmbService.updateFmbText(index, $item.value, diagnoseModel.diagnosKodSystem, $item.beskrivning);
             };
 
             $scope.onDiagnoseCodeChanged = function(index) {

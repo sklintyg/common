@@ -66,13 +66,7 @@
       Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
     </div>
 
-    <wc-alert-message ng-if="viewstate.fmbVarning.overskriderRekommenderadSjukskrivningstid && viewstate.fmbVarning.totalTidigareSjukskrivningstid < 1" alert-severity="warning">
-      Den föreslagna sjukskrivningsperioden är längre än FMBs rekommendationer för diagnosen {{viewstate.fmbVarning.aktuellIcd10Kod}} ({{viewstate.fmbVarning.maximaltRekommenderadSjukskrivningstid}} dagar = {{viewstate.fmbVarning.maximaltRekommenderadSjukskrivningstid / 7 | number: 0}} veckor). Ange en motivering för att underlätta Försäkringskassans handläggning.
-    </wc-alert-message>
-
-    <wc-alert-message ng-if="viewstate.fmbVarning.overskriderRekommenderadSjukskrivningstid && viewstate.fmbVarning.totalTidigareSjukskrivningstid >= 1" alert-severity="warning">
-      Den totala sjukskrivningsperioden är {{viewstate.fmbVarning.totalSjukskrivningstidInklusiveForeslagen}} dagar och därmed längre än FMBs rekommendationer för diagnosen {{viewstate.fmbVarning.aktuellIcd10Kod}} ({{viewstate.fmbVarning.maximaltRekommenderadSjukskrivningstid}} dagar = {{viewstate.fmbVarning.maximaltRekommenderadSjukskrivningstid / 7 | number: 0}} veckor). Ange en motivering för att underlätta Försäkringskassans handläggning. Sjukskrivningsperioden är baserad på patientens sammanhängande intyg på denna vårdenhet.
-    </wc-alert-message>
+    <fmb-varning viewstate="viewstate" model="model"></fmb-varning>
 
     <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
 

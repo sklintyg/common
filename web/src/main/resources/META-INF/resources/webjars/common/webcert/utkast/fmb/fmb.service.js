@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.fmbService', [
-    '$http' , '$q', '$log',
+    '$http' , '$q', '$log', '$rootScope',
     'common.fmbViewState', 'common.fmbProxy', 'common.ObjectHelper',
-    function($http, $q, $log, fmbViewState, fmbProxy, ObjectHelper) {
+    function($http, $q, $log, $rootScope, fmbViewState, fmbProxy, ObjectHelper) {
         'use strict';
 
         function _checkDiagnos(diagnos) {
@@ -85,6 +85,7 @@ angular.module('common').factory('common.fmbService', [
         }
 
         function _updateFmbText(diagnosType, originalDiagnosKod, kodSystem, originalDiagnosBeskrivning) {
+            $rootScope.$broadcast('diagnos.changed');
             if (!ObjectHelper.isDefined(originalDiagnosKod) || originalDiagnosKod.length === 0) {
                 fmbViewState.reset(diagnosType);
                 return false;
