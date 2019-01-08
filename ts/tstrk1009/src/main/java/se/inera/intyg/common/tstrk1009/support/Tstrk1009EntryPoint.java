@@ -26,7 +26,7 @@ import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 
-@Component("TsBasEntryPoint")
+@Component("Tstrk1009EntryPoint")
 public class Tstrk1009EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "tstrk1009";
