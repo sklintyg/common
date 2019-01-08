@@ -2,11 +2,24 @@
 <texter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" giltigFrom="2016-10-25" typ="AF00251" version="1.0"
         xmlns="http://schema.forsakringskassan.se/vardgivare_sjukvard">
 
-    <text id="FRM_1.RBK">Arbetsförmedlingen behöver ett medicinskt utlåtande för att klargöra förutsättningarna för arbetssökande som har ett behov av fördjupat stöd. Bland annat för att kunna:
 
-        – utreda och bedöma om den arbetssökande har en funktionsnedsättning som medför nedsatt arbetsförmåga
-        – göra en lämplig anpassning för en arbetssökande som deltar i ett arbetsmarknadspolitiskt program och som har blivit sjuk
-        – erbjuda (lämpliga) utredande, vägledande, rehabiliterande eller arbetsförberedande insatser</text>
+    <text id="FRM_1.RBK">Läkarintyg för deltagare i arbetsmarknadspolitiska program med aktivitetsstöd, utvecklingsersättning eller
+        etableringsersättning
+
+        Om en programdeltagare är sjuk i mer än 7 dagar behöver hen lämna läkarintyg till Arbetsförmedlingen för att styrka att hen är
+        förhindrad att delta i programmet på grund av sjukdom.
+
+        Arbetsförmedlingen behöver få läkarintyget för att programdeltagaren ska kunna ha möjlighet att få ersättning under sjukfrånvaron.
+        Arbetsförmedlingen använder också informationen i läkarintyget för att utreda om det är möjligt att anpassa aktiviteter i
+        programmet så att programdeltagaren kan delta trots sin sjukdom.</text>
+
+    <text id="UTSK001">Skicka intyg till mottagare
+
+        Du som fått ett intyg utfärdat kan snabbt och säkert hantera detta intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka
+        intyget till mottagaren.
+
+        Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. Det enda du behöver för att logga in är
+        e-legitimation.</text>
 
     <!-- Kategorier -->
     <text id="KAT_1.RBK">Grund för medicinskt underlag</text>
@@ -110,6 +123,7 @@
     <text id="PROGNOS_ATERGANG.ATERGA_MED_ANPASSNING.RBK">Patienten kan återgå med anpassning</text>
     <text id="PROGNOS_ATERGANG.KAN_EJ_ATERGA.RBK">Patienten inte kan återgå</text>
     <text id="PROGNOS_ATERGANG.EJ_MOJLIGT_AVGORA.RBK">Det inte är möjligt att avgöra om patienten kan återgå</text>
+
 
     <text id="DFR_8.2.RBK">Jag bedömer att följande anpassningar skulle kunna underlätta för patienten att återgå till aktiviteter i programmet</text>
     <text id="DFR_8.2.HLP">En anpassning kan exempelvis vara:

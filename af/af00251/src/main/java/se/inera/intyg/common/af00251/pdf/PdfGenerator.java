@@ -44,6 +44,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 public class PdfGenerator {
 
     private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens intyg för arbetsmarknadspolitiska program";
@@ -81,7 +84,9 @@ public class PdfGenerator {
                     .withIntygsKod(AF00251EntryPoint.ISSUER_TYPE_ID)
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                    .withSummary(new Summary().add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK")))
+                    .withSummary(new Summary()
+                        .add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK"))
+                        .add(UTSK001_HEADER, UTSK001_BODY))
                     .withLeftMarginTypText(AF00251EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
                     .withUtfardarLogotyp(logoData)
                     .withIsUtkast(isUtkast)
