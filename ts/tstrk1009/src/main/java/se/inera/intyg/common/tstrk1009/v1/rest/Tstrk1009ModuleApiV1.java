@@ -61,7 +61,7 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
  *
  */
-@Component("moduleapi.ts-bas.v6")
+@Component("moduleapi.tstrk1009.v1")
 public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(Tstrk1009UtlatandeV1.class);

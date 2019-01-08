@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
-@Component("ts-bas.v6.TsBasModelCompareUtil")
+@Component("tstrk1009.v1.TsBasModelCompareUtil")
 public class Tstrk1009ModelCompareUtil implements ModelCompareUtil<Tstrk1009UtlatandeV1> {
 
     @Override
