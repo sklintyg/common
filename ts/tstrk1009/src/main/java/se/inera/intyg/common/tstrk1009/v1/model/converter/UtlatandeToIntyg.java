@@ -18,25 +18,28 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
+import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.NOT_AVAILABLE;
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
+
 import com.google.common.base.Strings;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.ts_bas.support.Tstrk1009EntryPoint;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static se.inera.intyg.common.support.Constants.*;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.*;
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 public final class UtlatandeToIntyg {
 

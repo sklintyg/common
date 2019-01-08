@@ -20,33 +20,26 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static org.junit.Assert.assertFalse;
 
-import java.io.StringWriter;
-import java.util.Collection;
-import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.runners.Parameterized.Parameters;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+import java.io.StringWriter;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 //@RunWith(Parameterized.class)
 public class RoundTripTest {

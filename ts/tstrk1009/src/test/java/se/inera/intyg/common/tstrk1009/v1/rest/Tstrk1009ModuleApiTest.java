@@ -18,43 +18,13 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-
-import se.inera.intyg.common.services.texts.IntygTextsService;
+import org.springframework.core.io.ClassPathResource;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import javax.xml.bind.JAXB;
+import java.io.IOException;
+import java.io.StringWriter;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -62,25 +32,10 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformer;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
-import se.inera.intyg.common.ts_parent.integration.SendTSClient;
-import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.tstrk1009.v1.model.converter.WebcertModelFactoryImpl;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
-import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.inera.intygstjanster.ts.services.v1.IntygMeta;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that

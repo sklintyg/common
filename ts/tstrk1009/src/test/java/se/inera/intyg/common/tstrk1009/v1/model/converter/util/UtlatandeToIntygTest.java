@@ -23,13 +23,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Test;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
-
-import javax.xml.bind.JAXBElement;
-
-import org.junit.Test;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -43,8 +42,6 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 

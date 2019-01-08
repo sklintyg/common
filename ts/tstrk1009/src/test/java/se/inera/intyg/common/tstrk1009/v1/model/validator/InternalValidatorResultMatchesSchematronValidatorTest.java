@@ -21,42 +21,35 @@ package se.inera.intyg.common.tstrk1009.v1.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.base.Charsets;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
+import org.junit.Before;
+import org.junit.runners.Parameterized.Parameters;
+import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.Marshaller;
+import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.Marshaller;
-import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
-
-import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.ts_bas.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.tstrk1009.v1.validator.internal.InternalValidatorInstance;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
 /**
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,

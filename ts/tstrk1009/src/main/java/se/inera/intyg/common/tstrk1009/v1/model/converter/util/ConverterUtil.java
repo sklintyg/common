@@ -19,10 +19,9 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter.util;
 
 import com.google.common.base.Joiner;
-
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_bas.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public final class ConverterUtil {

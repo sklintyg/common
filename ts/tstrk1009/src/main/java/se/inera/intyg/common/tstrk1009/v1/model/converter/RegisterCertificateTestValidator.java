@@ -16,22 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.v6.model.converter;
+package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
+import com.google.common.base.Charsets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
-
-import com.google.common.base.Charsets;
-
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class RegisterCertificateTestValidator {

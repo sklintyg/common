@@ -20,18 +20,6 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
-
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
-import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
-import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
-import se.inera.intygstjanster.ts.services.types.v1.II;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
@@ -40,6 +28,15 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompeten
 import se.riv.clinicalprocess.healthcond.certificate.v3.Enhet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
+import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
+import se.inera.intygstjanster.ts.services.types.v1.II;
 
 /**
  * Test class for TransportToExternal, contains methods for setting up Utlatande using both the transport model and the

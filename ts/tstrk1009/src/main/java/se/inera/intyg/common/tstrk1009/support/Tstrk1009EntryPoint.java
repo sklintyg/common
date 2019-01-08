@@ -16,16 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.support;
+package se.inera.intyg.common.tstrk1009.support;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.util.Optional;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
-
-import java.util.Optional;
 
 @Component("TsBasEntryPoint")
 public class Tstrk1009EntryPoint implements ModuleEntryPoint {

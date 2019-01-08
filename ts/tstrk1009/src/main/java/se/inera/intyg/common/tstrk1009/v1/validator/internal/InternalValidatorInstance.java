@@ -20,7 +20,6 @@ package se.inera.intyg.common.tstrk1009.v1.validator.internal;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;

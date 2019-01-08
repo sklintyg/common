@@ -21,13 +21,9 @@ package se.inera.intyg.common.tstrk1009.v1.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Collection;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import com.google.common.base.Joiner;
-
+import org.junit.Before;
+import java.util.Collection;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;

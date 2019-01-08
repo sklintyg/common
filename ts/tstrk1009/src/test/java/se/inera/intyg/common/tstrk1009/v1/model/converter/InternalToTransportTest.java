@@ -19,29 +19,20 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
-
-import org.junit.Test;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
-import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 
 /**
  * Unit test for InternalToExternalConverter.

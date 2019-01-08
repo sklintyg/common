@@ -20,9 +20,7 @@ package se.inera.intyg.common.tstrk1009.v1.model.validator;
 
 import static org.junit.Assert.fail;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
+import org.junit.BeforeClass;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -30,10 +28,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;

@@ -19,7 +19,6 @@
 package se.inera.intyg.common.tstrk1009.v1.validator;
 
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;

@@ -20,27 +20,22 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_ID_2;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
-
-import java.util.EnumSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import java.util.EnumSet;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
 

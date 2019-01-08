@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.ts_bas.v6.model.util;
+package se.inera.intyg.common.tstrk1009.v1.model.util;
 
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;

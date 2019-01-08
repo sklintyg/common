@@ -20,16 +20,15 @@ package se.inera.intyg.common.tstrk1009.v1.utils;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-
 import javax.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 
 /**
  * Finds and creates scenarios based on scenario files placed in src/test/resources.
