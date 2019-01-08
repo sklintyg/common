@@ -39,7 +39,7 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 /**
  * Factory for creating a editable model.
  */
-@Component("ts-bas.v6.WebcertModelFactoryImpl")
+@Component("tstrk1009.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<Tstrk1009UtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
