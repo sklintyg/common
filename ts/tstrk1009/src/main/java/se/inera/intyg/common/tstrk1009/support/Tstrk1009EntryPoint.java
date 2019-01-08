@@ -32,7 +32,7 @@ public class Tstrk1009EntryPoint implements ModuleEntryPoint {
     public static final String MODULE_ID = "tstrk1009";
     public static final String MODULE_NAME = "Transportstyrelsens läkares anmälan";
     public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
-    public static final String SCHEMATRON_FILE = "test-tstrk1009.v1.sch";
+    public static final String SCHEMATRON_FILE = "tstrk1009.v1.sch";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1009";
     // CHECKSTYLE:OFF LineLength
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
