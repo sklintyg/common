@@ -67,6 +67,8 @@ public class InternalDraftValidatorTest {
                                             .setId("intygsId")
                                             .setGrundData(buildGrundData(LocalDateTime.now()))
                                             .setUndersokningsDatum(new InternalDate(LocalDate.now()))
+                                            .setAnnatDatum(new InternalDate(LocalDate.now()))
+                                            .setAnnatBeskrivning("Annan beskrivning")
                                             .setArbetsmarknadspolitisktProgram(
                                                 ArbetsmarknadspolitisktProgram.builder()
                                                                               .setMedicinskBedomning("Kan jobba")
@@ -107,6 +109,8 @@ public class InternalDraftValidatorTest {
     public void validateMedicinskUnderlagNull() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setUndersokningsDatum(null)
+            .setAnnatDatum(null)
+            .setAnnatBeskrivning(null)
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -114,13 +118,27 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertThat(validationErrors, hasSize(1));
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokningsDatum"), is(ValidationMessageType.EMPTY));
+            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokning"), is(ValidationMessageType.EMPTY));
+    }
+
+    @Test
+    public void validateMedicinskUnderlagInvalidDate() {
+        AF00251UtlatandeV1 utlatande = builderTemplate
+            .setUndersokningsDatum(new InternalDate("123123123321321"))
+            .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        final List<ValidationMessage> validationErrors = res.getValidationErrors();
+        assertThat(validationErrors, hasSize(1));
+        assertValidationMessage(validationErrors.get(0),
+            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokningsDatum"), is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
     public void validateMedicinskUnderlagInvalidInstanceAnnatWithNoDescription() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setAnnatDatum(new InternalDate(LocalDate.now()))
+            .setAnnatBeskrivning(null)
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -322,8 +340,7 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertThat(validationErrors, hasSize(1));
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro"), is(ValidationMessageType.EMPTY),
-            is("af00251.validation.harForhinder.required-sjukfranvaro"));
+            is(CATEGORY_BEDOMNING), is("sjukfranvaro"), is(ValidationMessageType.EMPTY));
     }
 
     @Test
@@ -551,7 +568,7 @@ public class InternalDraftValidatorTest {
 
 
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro"),
+            is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
             is(ValidationMessageType.EMPTY));
     }
     @Test
@@ -586,7 +603,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.beskrivning"),
-            is(ValidationMessageType.INCORRECT_COMBINATION), is("af00251.validation.begransningSjukfranvaro.kanBegransas-no-beskrivning"));
+            is(ValidationMessageType.EMPTY));
     }
     @Test
     public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
@@ -628,7 +645,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessages(validationErrors, 1);
 
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("prognosAtergang"),
+            is(CATEGORY_BEDOMNING), is("prognosAtergang.prognos"),
             is(ValidationMessageType.EMPTY));
     }
     @Test
@@ -677,8 +694,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("prognosAtergang.anpassningar"),
-            is(ValidationMessageType.INCORRECT_COMBINATION),
-            is("af00251.validation.prognosAtergang.prognos-no-anpassning"));
+            is(ValidationMessageType.EMPTY));
     }
 
 

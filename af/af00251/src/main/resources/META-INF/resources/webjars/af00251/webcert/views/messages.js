@@ -22,11 +22,9 @@
 angular.module('af00251').constant('af00251.messages', {
     'sv': {
         //Validation messages
-        'af00251.validation.arbetsmarknadspolitisktProgram.parttime-no-extent': 'Om Deltid anges som omfattning måste antal timmar anges.', // Should never happen because GUI should block this combination
+        'af00251.validation.arbetsmarknadspolitisktProgram.parttime-no-extent': 'När Deltid anges som omfattning måste antal timmar anges.', // Should never happen because GUI should block this combination
         'af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range': 'Antal timmar måste vara mellan 1 - 39',
-        'af00251.validation.harForhinder.required-sjukfranvaro': 'Om patienten har förhinder måste sjukfrånvaro anges.',
         'af00251.validation.harForhinder.forbidden-sjukfranvaro': 'Om patienten inte har förhinder får sjukfrånvaro ej anges.',
-        'af00251.validation.begransningSjukfranvaro.kanBegransas-no-beskrivning': 'Om sjukfrånvaro kan begränsas måste detta beskrivas.', // Should never happen because GUI should block this combination
         'af00251.validation.sjukfranvaro.too-many': 'För många sjukfrånvaroperioder.', // Should never happen because GUI should block this combination
         'af00251.validation.sjukfranvaro.niva.invalid-range': 'Ogiltig omfattning.',
         'af00251.validation.prognosAtergang.prognos-no-anpassning': 'Om anpassning krävs måste detta beskrivas.',

@@ -56,39 +56,54 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {
+                                validationContext: {
+                                    key: 'undersokning',
+                                    type: 'ue-checkgroup'
+                                },
                                 required: true,
                                 requiredProp: ['undersokningsDatum', 'annatDatum', 'annatBeskrivning']
                             },
                             [{
-                                label: {
-                                    key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
-                                    helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
-                                },
-                                type: 'ue-checkbox-date',
-                                modelProp: 'undersokningsDatum',
-                                maxDate: today,
-                                paddingBottom: true
-                            }, {
-                                label: {
-                                    key: 'KV_FKMU_0001.ANNAT.RBK',
-                                    helpKey: 'KV_FKMU_0001.ANNAT.HLP'
-                                },
-                                type: 'ue-checkbox-date',
-                                modelProp: 'annatDatum',
-                                maxDate: today,
-                                paddingBottom: true
-                            }, {
-                                type: 'ue-textarea',
-                                modelProp: 'annatBeskrivning',
-                                hideExpression: '!model.annatDatum',
-                                label: {
-                                    key: 'DFR_1.3.RBK',
-                                    helpKey: 'DFR_1.3.HLP',
-                                    required: true,
-                                    requiredProp: 'annatDatum'
-                                }
-                            }
-                            ])
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [
+                                    // Row 1
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
+                                            helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'undersokningsDatum',
+                                        maxDate: today,
+                                        paddingBottom: true
+                                    }],
+                                    // Row 2
+                                    [{
+                                        label: {
+                                            key: 'KV_FKMU_0001.ANNAT.RBK',
+                                            helpKey: 'KV_FKMU_0001.ANNAT.HLP'
+                                        },
+                                        type: 'ue-checkbox-date',
+                                        modelProp: 'annatDatum',
+                                        maxDate: today,
+                                        paddingBottom: true
+                                    }],
+                                    // Row 3
+                                    [{
+                                        type: 'ue-textarea',
+                                        modelProp: 'annatBeskrivning',
+                                        hideExpression: '!model.annatDatum',
+                                        label: {
+                                            key: 'DFR_1.3.RBK',
+                                            helpKey: 'DFR_1.3.HLP',
+                                            required: true,
+                                            requiredProp: 'annatDatum'
+                                        }
+                                    }]
+                                ]
+                            }]
+                        )
                     ]),
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {
