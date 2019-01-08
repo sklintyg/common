@@ -49,9 +49,7 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHAN
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -81,8 +79,6 @@ import se.inera.intyg.common.support.validate.InternalDraftValidator;
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804UtlatandeV1> {
     static final int MAX_ARBETSLIVSINRIKTADE_ATGARDER = 8;
     static final int MAX_SYSSELSATTNING = 4;
-    static final int VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR = 7;
-    static final int VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER = 6;
 
     @Autowired
     private ValidatorUtil validatorUtil;
@@ -319,12 +315,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
             // R17 Validate no sjukskrivningperiods overlap
             validateSjukskrivningPeriodOverlap(utlatande, validationMessages);
 
-            // INTYG-3207: Show warning if any period starts earlier than 7 days before now
-            validateSjukskrivningIsTooEarly(utlatande, validationMessages);
-
-            // INTYG-3747: Show warning if the total period exceeds 6 months
-            validateSjukskrivningIsTooLong(utlatande, validationMessages);
-
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
                 if (utlatande.getArbetstidsforlaggning() == null) {
@@ -374,44 +364,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
                 .filter(Objects::nonNull)
                 .forEach(sjukskrivning -> checkSjukskrivningPeriodOverlapAgainstList(validationMessages, sjukskrivning,
                         utlatande.getSjukskrivningar()));
-    }
-
-    private void validateSjukskrivningIsTooEarly(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getSjukskrivningar()
-                .stream()
-                .filter(Objects::nonNull)
-                .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
-                        && sjukskrivning.getPeriod().getFrom() != null
-                        && sjukskrivning.getPeriod().getFrom().isValidDate()
-                        && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                    BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.WARN, "ag7804.validation.bedomning.sjukskrivningar.tidigtstartdatum");
-        }
-    }
-
-    private void validateSjukskrivningIsTooLong(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Filter out any null objects and assert as valid period
-        List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(isValidPeriod()).collect(Collectors.toList());
-        if (list.isEmpty()) {
-            return;
-        }
-
-        // 1. Hämta starten för sjukskrivningen
-        Sjukskrivning min = list.stream().min(Comparator.comparing(item -> item.getPeriod().fromAsLocalDate())).get();
-        LocalDate minDate = min.getPeriod().fromAsLocalDate();
-
-        // 2. Hämta slutet för sjukskrivningen
-        Sjukskrivning max = list.stream().max(Comparator.comparing(item -> item.getPeriod().tomAsLocalDate())).get();
-        LocalDate maxDate = max.getPeriod().tomAsLocalDate();
-
-        // 3. Kontrollera att maxDate - 6 månader >= minDate
-        maxDate = maxDate.minusMonths(VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER);
-        if (maxDate.isEqual(minDate) || maxDate.isAfter(minDate)) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                    BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.WARN, "ag7804.validation.bedomning.sjukskrivningar.sentslutdatum");
-        }
     }
 
     private Predicate<Sjukskrivning> isValidPeriod() {
