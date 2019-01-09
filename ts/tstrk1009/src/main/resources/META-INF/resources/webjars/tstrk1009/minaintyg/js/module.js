@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-bas', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('tstrk1009', [ 'ui.bootstrap', 'ngCookies', 'ui.router','ngSanitize', 'common' ]);
+
 
 // Inject language resources
-angular.module('ts-bas').run([ 'common.messageService', 'ts-bas.messages',
-    function(messageService, tsBasMessages) {
+angular.module('tstrk1009').run([ 'common.messageService', 'tstrk1009.messages',
+    function(messageService, tsDiabetesMessages) {
         'use strict';
 
-        messageService.addResources(tsBasMessages);
+        messageService.addResources(tsDiabetesMessages);
     }]);

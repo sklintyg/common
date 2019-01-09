@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,40 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* jshint maxlen: false */
-angular.module('ts-bas').constant('ts-bas.messages', {
+angular.module('tstrk1009').constant('tstrk1009.messages', {
     'sv': {
-
         // Labels
-        'ts-bas.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektronisk, ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
-        'ts-bas.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
-        'ts-bas.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+
+        'tstrk1009.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektronisk, ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'tstrk1009.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
+        'tstrk1009.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 
         // Composite keys - used with dynamic prefix such as <intygstype> or suffixes <true/false> etc.
         // Be careful to investigate if they are used before removing them.
-        'ts-bas.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
-        'ts-bas.inbox.complementaryinfo': 'Avser behörighet',
+        'tstrk1009.compact-header.complementaryinfo-prefix': 'Avser behörighet:',
+        'tstrk1009.inbox.complementaryinfo': 'Avser behörighet',
 
-        'ts-bas.label.syn.binokulart': 'Binokulärt',
-        'ts-bas.label.syn.hogeroga': 'Höger öga',
-        'ts-bas.label.syn.vansteroga': 'Vänster öga',
-        'ts-bas.label.syn.utankorrektion': 'Utan korrektion',
-        'ts-bas.label.syn.medkorrektion': 'Med korrektion',
-        'ts-bas.label.syn.kontaktlins': 'Kontaktlinser',
-        'ts-bas.label.syn.korrektionsglasens-styrka': 'Korrektionsglasens styrka',
+        'tstrk1009.label.syn.binokulart': 'Binokulärt',
+        'tstrk1009.label.syn.hogeroga': 'Höger öga',
+        'tstrk1009.label.syn.vansteroga': 'Vänster öga',
+        'tstrk1009.label.syn.utankorrektion': 'Utan korrektion',
+        'tstrk1009.label.syn.medkorrektion': 'Med korrektion',
+        'tstrk1009.label.syn.kontaktlins': 'Kontaktlinser',
+        'tstrk1009.label.syn.korrektionsglasens-styrka': 'Korrektionsglasens styrka',
 
-        'ts-bas.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
-        'ts-bas.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
+        'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
+        'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
 
-        'ts-bas.label.true': 'JA',
-        'ts-bas.label.false': 'NEJ',
-
-        'ts-bas.error.generic': 'Kunde inte visa intyget',
-        'ts-bas.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
-
-
+        'tstrk1009.label.true': 'JA',
+        'tstrk1009.label.false': 'NEJ',
+        'tstrk1009.error.generic': 'Kunde inte visa intyget',
+        'tstrk1009.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
 
     },
     'en': {
-        'ts-bas.label.pagetitle': 'Show Certificate'
+        'tstrk1009.label.pagetitle': 'Show Certificate'
     }
 });

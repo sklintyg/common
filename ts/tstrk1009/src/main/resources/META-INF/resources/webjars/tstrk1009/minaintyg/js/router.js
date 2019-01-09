@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,28 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Created by stephenwhite on 05/03/15.
- */
-angular.module('ts-bas').config(function($stateProvider) {
+angular.module('tstrk1009').config(function($stateProvider) {
     'use strict';
     $stateProvider.
-        state('ts-bas-view', {
-            url :'/ts-bas/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
-            controller: 'ts-bas.ViewCertCtrl',
+        state('tstrk1009-view', {
+            url :'/tstrk1009/:intygTypeVersion/view/:certificateId',
+            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/view-cert.html',
+            controller: 'tstrk1009.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-                    return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+                    return factoryResolverHelper.resolve('tstrk1009.viewConfigFactory', $stateParams);
                 }
             },
-            data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg']}
+            data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg']}
         }).
-        state('ts-bas-visafel', {
-            url :'/ts-bas/visafel/:errorCode',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/error.html',
-            controller: 'ts-bas.ErrorCtrl',
+        state('tstrk1009-visafel', {
+            url :'/tstrk1009/visafel/:errorCode',
+            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/error.html',
+            controller: 'tstrk1009.ErrorCtrl',
             data : { title: 'Fel', backLink: '/web/start' }
         });
 });

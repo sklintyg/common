@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -17,123 +17,79 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /* jshint maxlen: false */
-angular.module('ts-bas').constant('ts-bas.messages', {
+angular.module('tstrk1009').constant('tstrk1009.messages', {
     'sv': {
-        'ts-bas.label.patient': 'Patientens adressuppgifter',
-        'ts-bas.label.patientadress': 'Patientens adressuppgifter',
-        'ts-bas.label.intygavser': 'Intyget avser',
-        'ts-bas.label.identitet': 'Identiteten är styrkt genom',
-        'ts-bas.label.syn': '1. Synfunktioner',
-        'ts-bas.label.horselbalans': '2. Hörsel och balanssinne',
-        'ts-bas.label.funktionsnedsattning': '3. Rörelseorganens funktioner',
-        'ts-bas.label.hjartkarl': '4. Hjärt- och kärlsjukdomar',
-        'ts-bas.label.diabetes': '5. Diabetes',
-        'ts-bas.label.neurologi': '6. Neurologiska sjukdomar',
-        'ts-bas.label.medvetandestorning': '7. Epilepsi, epileptiskt anfall och annan medvetandestörning',
-        'ts-bas.label.njurar': '8. Njursjukdomar',
-        'ts-bas.label.kognitivt': '9. Demens och andra kognitiva störningar',
-        'ts-bas.label.somnvakenhet': '10. Sömn- och vakenhetsstörningar',
-        'ts-bas.label.narkotikalakemedel': '11. Alkohol, narkotika och läkemedel',
-        'ts-bas.label.psykiskt': '12. Psykiska sjukdomar och störningar',
-        'ts-bas.label.utvecklingsstorning': '13. ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning',
-        'ts-bas.label.sjukhusvard': '14. Sjukhusvård',
-        'ts-bas.label.medicinering': '15. Övrig medicinering',
-        'ts-bas.label.ovrigkommentar': '16. Övrig kommentar',
-        'ts-bas.label.bedomning': 'Bedömning',
-        'ts-bas.label.vardenhet': 'Vårdenhet',
-        
-        'ts-bas.label.identitet.id_kort': 'ID-kort',
-        'ts-bas.label.identitet.foretag_eller_tjanstekort': 'Företagskort eller tjänstekort',
-        'ts-bas.label.identitet.korkort': 'Svenskt körkort',
-        'ts-bas.label.identitet.pers_kannedom': 'Personlig kännedom',
-        'ts-bas.label.identitet.forsakran_kap18': 'Försäkran enligt 18 kap. 4§',
-        'ts-bas.label.identitet.pass': 'Pass',
+        'tstrk1009.form.postadress': 'Postadress',
+        'tstrk1009.form.postnummer': 'Postnummer',
+        'tstrk1009.form.postort': 'Postort',
 
-        'ts-bas.helptext.intyg-avser': '<span style="text-align:left">C1 = medeltung lastbil och enbart ett lätt släpfordon<br/>C1E = medeltung lastbil och ett eller flera släpfordon oavsett vikt<br/>C = tung lastbil och enbart ett lätt släpfordon<br/>CE = tung lastbil och ett eller flera släpfordon oavsett vikt<br/>D1 = mellanstor buss och enbart ett lätt släpfordon<br/>D1E = mellanstor buss och ett eller flera släpfordon oavsett vikt<br/>D = buss och enbart ett lätt släpfordon<br/>DE = buss och ett eller flera släpfordon oavsett vikt<br/>Taxi = taxiförarlegitimation<br/>Annat = (AM,A1,A2,A,B,BE eller Traktor)</span>',
+        'tstrk1009.label.empty': '',
+        'tstrk1009.label.patientadress': 'Patientens adressuppgifter',
+        'tstrk1009.label.intygavser': 'Intyget avser',
+        'tstrk1009.label.identitet': 'Identiteten är styrkt genom',
+        'tstrk1009.label.diabetes': '1. Allmänt',
+        'tstrk1009.label.hypoglykemier': '2. Hypoglykemier (lågt blodsocker)',
+        'tstrk1009.label.syn': '3. Synintyg',
+        'tstrk1009.label.bedomning': '4. Bedömning',
+        'tstrk1009.label.vardenhet': 'Vårdenhet',
+        'tstrk1009.label.diabets.typ1': 'Typ 1',
+        'tstrk1009.label.diabets.typ2': 'Typ 2',
 
-        'ts-bas.helptext.identitet': 'Identitet styrkt genom någon av nedanstående',
+        'tstrk1009.label.identitet.id_kort': 'ID-kort ¹',
+        'tstrk1009.label.identitet.foretag_eller_tjanstekort': 'Företagskort eller tjänstekort ²',
+        'tstrk1009.label.identitet.korkort': 'Svenskt körkort',
+        'tstrk1009.label.identitet.pers_kannedom': 'Personlig kännedom',
+        'tstrk1009.label.identitet.forsakran_kap18': 'Försäkran enligt 18 kap. 4§ ³',
+        'tstrk1009.label.identitet.pass': 'Pass ⁴',
 
-        'ts-bas.helptext.synfunktioner.info-8-dioptrier': 'Intyg om korrektionsglasens styrka måste skickas in.',
-        'ts-bas.helptext.synfunktioner.8-dioptrier-valt': 'Du har kryssat i frågan om 8 dioptrier – Glöm inte att skicka in intyg om korrektionsglasens styrka.',
-        'ts-bas.helptext.synfunktioner.utan-korrektion': 'Uppgiften är obligatorisk',
-        'ts-bas.helptext.synfunktioner.med-korrektion': 'Uppgiften är obligatorisk om föreskriven synskärpa endast uppnås med korrektion. Definition av föreskriven synskärpa finns i Transportstyrelsens föreskrifter.',
+// Visa tstrk1009
+        'tstrk1009.label.patient': 'Patientens adressuppgifter',
 
-        'ts-bas.helptext.bedomning.info': 'Om någon av frågorna har besvarats med ja, ska de krav på ytterligare underlag som framgår av föreskrifterna beaktas.',
+        'tstrk1009.label.syn.binokulart': 'Binokulärt',
+        'tstrk1009.label.syn.hogeroga': 'Höger öga',
+        'tstrk1009.label.syn.vansteroga': 'Vänster öga',
+        'tstrk1009.label.syn.utankorrektion': 'Utan korrektion',
+        'tstrk1009.label.syn.medkorrektion': 'Med korrektion',
+        'tstrk1009.label.syn.kontaktlins': 'Kontaktlinser',
 
-        'ts-bas.helptext.diabetes.behandling': 'Vid tablett- eller insulinbehandlad diabetes krävs det att ett läkarintyg gällande sjukdomen skickas in.',
-        'ts-bas.helptext.narkotika-lakemedel.provtagning': 'Om ja på ovanstående ska resultatet redovisas separat.',
-        'ts-bas.helptext.bedomning': '<span style="text-align:left">C1 - medeltung lastbil och enbart ett lätt släpfordon<br/>C1E - medeltung lastbil och ett eller flera släpfordon oavsett vikt<br/>C - tung lastbil och enbart ett lätt släpfordon<br/>CE - tung lastbil och ett eller flera släpfordon oavsett vikt<br/>D1 - mellanstor buss och enbart ett lätt släpfordon<br/>D1E - mellanstor buss och ett eller flera släpfordon oavsett vikt<br/>D - buss och enbart ett lätt släpfordon<br/>DE - buss och ett eller flera släpfordon oavsett vikt<br/>Taxi = taxiförarlegitimation<br/>Taxi = taxiförarlegitimation<br/>Annat = AM,A1,A2,A,B,BE eller traktor<br/>',
+        'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
+        'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
+        'tstrk1009.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
 
-        'ts-bas.form.postadress': 'Postadress',
-        'ts-bas.form.postnummer': 'Postnummer',
-        'ts-bas.form.postort': 'Postort',
-        'ts-bas.form.telefonnummer': 'Telefonnummer',
-        'ts-bas.form.epost': 'Epost',
+        'tstrk1009.label.bedomning-info-alt-1': 'Patienten uppfyller kraven enligt Transportstyrelsens föreskrifter och allmänna råd om medicinska krav för innehav av körkort m.m. (TSFS 2010:125, senast ändrade genom TSFS 2013:2) för:',
+        'tstrk1009.label.bedomning.kan-inte-ta-stallning': 'Kan inte ta ställning',
+        'tstrk1009.label.bedomning-info-ej-angivet': 'Ej angivet',
 
-        'ts-bas.label.specialkompetens': 'Specialistkompetens',
-        'ts-bas.label.befattningar': 'Befattningar',
-        'ts-bas.label.signera': 'Signera',
+        // Help texts
+        'tstrk1009.helptext.identitet-styrkt-genom': 'ID-kort = SIS-märkt ID-kort, svenskt nationellt ID-kort eller ID-kort utfärdat av Skatteverket.<br/> Företagskort eller tjänstekort = SIS-märkt företagskort eller tjänstekort.<br/> Försäkran enligt 18 kap. 4 § = Försäkran enligt 18 kap 4 § i Transportstyrelsens föreskrifter (TSFS 2010:125, senast ändrade genom TSFS 2013:2): Identiteten får fastställas genom att en förälder, annan vårdnadshavare, make, maka eller sambo, registrerad partner eller myndigt barn skriftligen försäkrar att lämnade uppgifter om sökandens identitet är riktiga. Den som lämnar en sådan försäkran ska vara närvarande vid identitetskontrollen och kunna styrka sin egen identitet.<br/> Pass = Svenskt EU-pass, annat EU-pass utfärdade från och med den 1 september 2006, pass utfärdat av Island, Liechtenstein, Norge eller Schweiz från och med den 1 september 200<br/>',
 
-        'ts-bas.modal.ersatt.text':'<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga intyget. Uppgifterna i det nya utkastet går att ändra innan det signeras. Ett ersatt intyg är endast tillgängligt att läsa och skriva ut. På det ersatta intyget kommer en länk finnas till det nya intyget.</p>' +
+        'tstrk1009.helptext.hypoglykemier.korkortd': 'För innehav av behörigheterna C1, C1E, C, CE, D1, D1E, D, DE och taxiförarlegitimation ska även fråga f-g besvaras',
+        'tstrk1009.helptext.hypoglykemier.date': '(Fyll i åååå-mm-dd)',
+
+        'tstrk1009.helptext.syn.alt1.heading': 'Alternativ 1',
+        'tstrk1009.helptext.syn.alt1.text': 'Vid synnedsättningar av betydelse för innehavet krävs ögonläkarintyg. Detta gäller vid proliferativ retinopati, genomgången laserbehandling av retinopati, signifikant makulaödem eller vid annan ögonsjukdom samt om ögonbottenfoto saknas.',
+        'tstrk1009.helptext.syn.alt2.heading': 'Alternativ 2: (frågorna b-d besvaras)',
+        'tstrk1009.helptext.syn.alt2.text': 'Om ögonläkarintyg inte krävs kan behandlande specialistkompetent läkare med god kännedom om patientens sjukdom här avge intyg om synfunktionen.',
+
+        'tstrk1009.helptext.synfunktioner.synskarpa': 'Synskärpa (alla bokstäver ska kunna läsas på den rad som anger synskärpan. Är synskärpan sämre än 0,1 ska den anges som 0,0).<br/><br/> Uppgifterna om synskärpa med och utan korrektion kan grundas på aktuellt intyg av bl.a. legitimerad optiker eller den som är anställd hos optiker. Alternativt kan kopia av sådant intyg bifogas. Uppgifter från ögonbottenfoto kan också användas.',
+        'tstrk1009.helptext.synfunktioner.utan-korrektion': 'Uppgiften är obligatorisk',
+        'tstrk1009.helptext.synfunktioner.med-korrektion': 'Uppgiften är obligatorisk om föreskriven synskärpa endast uppnås med korrektion. Definition av föreskriven synskärpa finns i Transportstyrelsens föreskrifter.',
+
+        'tstrk1009.modal.ersatt.text':'<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga intyget. Uppgifterna i det nya utkastet går att ändra innan det signeras. Ett ersatt intyg är endast tillgängligt att läsa och skriva ut. På det ersatta intyget kommer en länk finnas till det nya intyget.</p>' +
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
 
 
-        // Labels for showing signed intyg
-        'ts-bas.label.syn.hogeroga': 'Höger öga',
-        'ts-bas.label.syn.vansteroga': 'Vänster öga',
-        'ts-bas.label.syn.utankorrektion': 'Utan korrektion',
-        'ts-bas.label.syn.medkorrektion': 'Med korrektion',
-        'ts-bas.label.syn.kontaktlins': 'Kontaktlinser',
-
-        'ts-bas.label.syn.binokulart': 'Binokulärt',
-        'ts-bas.label.syn.vanster-oga': 'Vänster öga',
-        'ts-bas.label.syn.hoger-oga': 'Höger öga',
-        'ts-bas.label.syn.kontaktlinster': 'Kontaktlinser',
-        'ts-bas.label.syn.utan-korrektion': 'Utan korrektion',
-        'ts-bas.label.syn.med-korrektion': 'Med korrektion',
-        'ts-bas.label.syn.korrektionsglasens-styrka': 'Korrektionsglasens styrka',
-
-        'ts-bas.label.diabetes.diabetestyp.diabetes_typ_1': 'Typ 1',
-        'ts-bas.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
-        'ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_1': 'Typ 1',
-        'ts-bas.label.diabetes.diabetestyp.DIABETES_TYP_2': 'Typ 2',
-
-        'ts-bas.label.kontakt-info': 'Namn och kontaktuppgifter till vårdenheten',
-
-        'ts-bas.label.bedomning-info-undersokas-med-specialkompetens': 'Patienten bör före ärendets avgörande undersökas av läkare med specialistkompetens i',
-        'ts-bas.label.bedomning-info-ej-angivet': 'Ej angivet',
-        'ts-bas.label.nagon-av-foljande-behorigheter': 'Någon av följande behörigheter',
-
-        'ts-bas.label.kommentar-relevant-trafiksakerhet': 'Övriga kommentarer som är relevant ur trafiksäkerhetssynpunkt.',
-
-        // Validation messages starting
-        'ts-bas.validation.utvecklingsstorning.missing': 'ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning måste anges.',
-        'ts-bas.validation.psykiskt.missing': 'Psykiska sjukdomar och störningar saknas.',
-        'ts-bas.validation.somnvakenhet.missing': 'Sömn- och vakenhetsstörningar saknas.',
-        'ts-bas.validation.njurar.missing': 'Njursjukdomar saknas.',
-        'ts-bas.validation.neurologi.missing': 'Neurologiska sjukdomar saknas.',
-        'ts-bas.validation.neurologi.neurologisksjukdom.missing': 'Du måste välja ett alternativ.',
-        'ts-bas.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas.',
-        'ts-bas.validation.bedomning.missing': 'Bedömning saknas.',
-        'ts-bas.validation.bedomning.korkortstyp.missing': 'Du måste välja ett alternativ.',
-        'ts-bas.validation.diabetes.missing': 'Diabetes saknas.',
-        'ts-bas.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas.',
-        'ts-bas.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas.',
-        'ts-bas.validation.horselbalans.missing': 'Hörsel och balanssinne saknas.',
-        'ts-bas.validation.kognitivt.missing': 'Demens och kognitiva störningar saknas.',
-        'ts-bas.validation.medicinering.missing': 'Övrig medicinering saknas.',
-        'ts-bas.validation.narkotikalakemedel.missing': 'Alkohol, narkotika och läkemedel saknas.',
-        'ts-bas.validation.medvetandestorning.missing': 'Du måste välja ett alternativ.',
-        'ts-bas.validation.syn.missing': 'Synfunktioner saknas.',
-        'ts-bas.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas.',
-        'ts-bas.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas.',
-        'ts-bas.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas.',
-        'ts-bas.validation.syn.out-of-bounds': 'Måste ligga i intervallet 0,0 till 2,0.',
-        'ts-bas.validation.syn.r33': 'Fältet får inte vara tomt.',
-        'ts-bas.validation.syn.r34': 'Fältet får inte vara tomt.',
-        'ts-bas.validation.syn.r35': 'Fältet får inte vara tomt.'
+        // Validation messages
+        'tstrk1009.validation.hypoglykemier.missing': 'Hypoglykemier saknas.',
+        'tstrk1009.validation.hypoglykemier.allvarlig-forekomst-vaken-tid.observationstid.incorrect-date': 'Tidpunkt för allvarlig hypoglykemi under vaken tid måste anges som åååå-mm-dd, och får inte vara tidigare än ett år tillbaka eller senare än dagens datum.',
+        'tstrk1009.validation.diabetes.missing': 'Diabetes saknas.',
+        'tstrk1009.validation.diabetes.observationsperiod.incorrect-format': 'År måste anges enligt formatet åååå. Det går inte att ange årtal som är senare än innevarande år eller tidigare än patientens födelseår.',
+        'tstrk1009.validation.diabetes.behandling.missing': 'Välj minst ett alternativ.',
+        'tstrk1009.validation.diabetes.insulin.behandlingsperiod.missing' : 'Ange vilket år behandling med insulin påbörjades.',
+        'tstrk1009.validation.diabetes.insulin.behandlingsperiod.incorrect-format' : 'År måste anges enligt formatet åååå. Det går inte att ange årtal som är senare än innevarande år eller tidigare än år 1900.',
+        'tstrk1009.validation.syn.out-of-bounds': 'Ange synskärpa i intervallet 0,0 - 2,0.'
     },
     'en': {
-        'ts-bas.label.pagetitle': 'Show Certificate'
+        'view.label.pagetitle': 'Show Certificate'
     }
 });

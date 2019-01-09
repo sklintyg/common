@@ -2,8 +2,8 @@
 All styles specific to a certificate should must be wrapped in a namespace rule that is assigned a root element in it's edit/view intyg templates.
 This is to avoid leaking module specific style rules outside of it's intended context i.e globally.
 */
-.ts-bas-ns {
 
+.tstrk1009-ns {
   // The table styles are duplicated between the 2 TS certificates. Earlier these
   // were shared using a _ts-common-layout in common/css, but I though this was better as there aren't that many rules.
   %table-padding-alignment {
@@ -40,15 +40,16 @@ This is to avoid leaking module specific style rules outside of it's intended co
     background-color: transparent;
   }
 
-  /*
+  /* commenting out all classes affecting radios and checkboxes to get control over them. this should prbably be removed after ts is UE
   .table-form-radio > tbody > tr > td:last-child {
     width: 100%;
   }
 
-  input[type="radio"] {
+    input[type="radio"] {
     margin-left: 0;
     margin-right: 0;
   }
+
   .radio {
     span {
       margin-left: 20px;
@@ -69,6 +70,10 @@ This is to avoid leaking module specific style rules outside of it's intended co
     }
   }
 
+  .input-year {
+    width: 4em;
+  }
+
   .intyg-block {
     #vardenhetNamn label {
       font-weight: 500;
@@ -79,5 +84,13 @@ This is to avoid leaking module specific style rules outside of it's intended co
       text-align: left;
     }
   }
-}
 
+  .text-center {
+    text-align: center;
+  }
+
+  .inline-heading {
+    padding: 20px 0 5px;
+  }
+
+}

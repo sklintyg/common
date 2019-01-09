@@ -4,12 +4,12 @@
   <div class="row">
     <div class="col-xs-12 col-sm-7">
       <h1>
-        <span dynamic-label id="viewCertificateHeader" key="modules.page-header.view-intyg.page-title"></span>
+        <span id="viewCertificateHeader" dynamic-label key="modules.page-header.view-intyg.page-title"></span>
       </h1>
 
       <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced"
-                                         default-message-key="ts-bas.label.pageingress"
-                                         replaced-message-key="ts-bas.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
+                                         default-message-key="tstrk1009.label.pageingress"
+                                         replaced-message-key="tstrk1009.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
 
       <div uib-collapse="!isCollapsed1" class="collapse">
         <span dynamic-label key="modules.page-header.info.select-recipients-and-send.ts"></span>
@@ -28,6 +28,7 @@
     </div>
   </div>
 </mi-page-head>
+
 <div class="container">
   <div class="row-fluid">
 
@@ -41,8 +42,11 @@
       <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
       <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig" view-data="cert"></uv-render-components>
 
-      <div ng-if="!errorMessage" class="row col-xs-12 text-muted"><br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span></div>
+      <div ng-if="!errorMessage" class="row col-xs-12 text-muted">
+        <br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span>
+      </div>
     </div>
+
   </div>
 </div>
 

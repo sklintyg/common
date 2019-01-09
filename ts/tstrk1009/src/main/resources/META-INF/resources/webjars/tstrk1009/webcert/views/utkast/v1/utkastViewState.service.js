@@ -16,31 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('tstrk1009').service('tstrk1009.IntygController.ViewStateService',
-    ['$log', 'common.IntygViewStateService', 'common.messageService',
-        function($log, CommonViewState, messageService) {
+angular.module('tstrk1009').service('tstrk1009.UtkastController.ViewStateService.v1',
+    ['$log', '$state', 'common.UtkastViewStateService', 'tstrk1009.Domain.IntygModel.v1',
+        function($log, $state, CommonViewState, IntygModel) {
             'use strict';
 
             this.common = CommonViewState;
-            this.intygModel = {}; //INTYG-3950
+
+            this.intygModel = undefined;
+            this.draftModel = undefined;
+
+            this.setDraftModel = function(draftModel){
+                this.draftModel = draftModel;
+                this.intygModel = draftModel.content;
+            };
 
             this.reset = function() {
-                this.common.reset();
-                this.common.intygProperties.type = 'tstrk1009';
-
-                this.intygAvser = ''; // holds built list of selected körkortstyper for intyg avser
-                this.bedomning = ''; // holds built list of selected körkortstyper for bedomning
+                CommonViewState.reset();
+                CommonViewState.intyg.type = 'tstrk1009';
+                this.setDraftModel(IntygModel._members.build());
                 return this;
             };
 
-            this.getSendContent = function(intygType) {
-
-                var sendContentModel = {
-                    observandumId: undefined,
-                    bodyText: messageService.getProperty(intygType + '.label.send.body')
-                };
-
-                return sendContentModel;
+            this.clearModel = function(){
+                this.intygModel = undefined;
+                this.draftModel = undefined;
             };
 
             this.reset();

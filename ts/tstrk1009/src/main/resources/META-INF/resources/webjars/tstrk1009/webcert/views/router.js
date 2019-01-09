@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -16,31 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Created by stephenwhite on 05/03/15.
- */
-angular.module('ts-bas').config(function($stateProvider) {
+angular.module('tstrk1009').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    //var intygsTypPath = '/web/webjars/ts-bas/webcert/';
+    //var intygsTypPath = '/web/webjars/tstrk1009/webcert/';
 
     var editViewState = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.UtkastController.ViewStateService', $stateParams);
+        return factoryResolverHelper.resolve('tstrk1009.UtkastController.ViewStateService', $stateParams);
     };
 
     var utkastConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.UtkastConfigFactory', $stateParams);
+        return factoryResolverHelper.resolve('tstrk1009.UtkastConfigFactory', $stateParams);
     };
 
     var viewConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+        return factoryResolverHelper.resolve('tstrk1009.viewConfigFactory', $stateParams);
+    };
+
+    var supportPanelConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1009.supportPanelConfigFactory', $stateParams);
     };
 
     $stateProvider.
-        state('ts-bas-edit', {
-            data: { defaultActive : 'index', intygType: 'ts-bas' },
-            url: '/ts-bas/:intygTypeVersion/edit/:certificateId/:focusOn',
+        state('tstrk1009-edit', {
+            data: { defaultActive : 'index', intygType: 'tstrk1009' },
+            url: '/tstrk1009/:intygTypeVersion/edit/:certificateId/:focusOn',
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
@@ -48,7 +49,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     resolve: {
                         ViewState: editViewState,
                         UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+                        supportPanelConfigFactory: supportPanelConfig
                     }
                 },
 
@@ -56,7 +57,7 @@ angular.module('ts-bas').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@ts-bas-edit' : {
+                'header@tstrk1009-edit' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
                     resolve: {
@@ -64,12 +65,12 @@ angular.module('ts-bas').config(function($stateProvider) {
                     }
                 },
 
-                'footer@ts-bas-edit' : {
+                'footer@tstrk1009-edit' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@ts-bas-edit' : {
+                'utkast@tstrk1009-edit' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
                     resolve: {
@@ -79,24 +80,24 @@ angular.module('ts-bas').config(function($stateProvider) {
                 }
             }
         }).
-        state('webcert.intyg.ts-bas', {
-            data: { defaultActive: 'index', intygType: 'ts-bas' },
-            url: '/intyg/ts-bas/:intygTypeVersion/:certificateId/:focusOn?:signed',
+        state('webcert.intyg.tstrk1009', {
+            data: { defaultActive: 'index', intygType: 'tstrk1009' },
+            url: '/intyg/tstrk1009/:intygTypeVersion/:certificateId/:focusOn?:signed',
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
                     controller: 'smi.ViewCertCtrlUv',
                     resolve: {
-                        ViewState: 'ts-bas.IntygController.ViewStateService',
+                        ViewState: 'tstrk1009.IntygController.ViewStateService',
                         ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'ts-bas.supportPanelConfigFactory'
+                        supportPanelConfigFactory: supportPanelConfig
                     }
                 },
-                'header@webcert.intyg.ts-bas': {
+                'header@webcert.intyg.tstrk1009': {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
                     controller: 'common.IntygHeader',
                     resolve: {
-                        IntygViewState: 'ts-bas.IntygController.ViewStateService'
+                        IntygViewState: 'tstrk1009.IntygController.ViewStateService'
                     }
                 }
             }

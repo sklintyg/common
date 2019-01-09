@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Inera AB (http://www.inera.se)
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
  *
@@ -18,11 +18,11 @@
  */
 
 /**
- * Creates the supportpanel config related to working with ts-bas intyg and utkast
+ * Creates the supportpanel config related to working with tstrk1009 intyg and utkast
  *
  * Created by marced on 2018-01-26.
  */
-angular.module('ts-bas').factory('ts-bas.supportPanelConfigFactory', [ function() {
+angular.module('tstrk1009').factory('tstrk1009.supportPanelConfigFactory.v1', [ function() {
     'use strict';
 
     function _getConfig(id, intygTypeVersion, isSigned) {
@@ -30,10 +30,10 @@ angular.module('ts-bas').factory('ts-bas.supportPanelConfigFactory', [ function(
         var config = {
             tabs: [],
             intygContext: {
-                type: 'ts-bas',
+                type: 'tstrk1009',
                 id: id,
-                aboutMsgKey: 'FRM_2.RBK',
                 intygTypeVersion: intygTypeVersion,
+                aboutMsgKey: 'FRM_2.RBK',
                 isSigned: isSigned
             }
         };
