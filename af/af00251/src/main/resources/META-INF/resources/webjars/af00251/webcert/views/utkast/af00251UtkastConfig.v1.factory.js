@@ -98,7 +98,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                             key: 'DFR_1.3.RBK',
                                             helpKey: 'DFR_1.3.HLP',
                                             required: true,
-                                            requiredProp: 'annatDatum'
+                                            requiredProp: 'annatBeskrivning'
                                         }
                                     }]
                                 ]
@@ -142,6 +142,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 modelProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid',
                                 hideExpression: 'model.arbetsmarknadspolitisktProgram.omfattning !== \'DELTID\'',
                                 numbersOnly: true,
+                                size: 3,
                                 htmlMaxlength: 2,
                                 label: {
                                     key: 'DFR_2.3.RBK',
@@ -205,7 +206,10 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 }
                             }
                             ]),
-                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {required: true, requiredProp: ['prognosAtergang.prognos']},
+                        fraga(8, 'FRG_8.RBK', 'FRG_8.HLP', {
+                                required: true,
+                                requiredProp: ['prognosAtergang.prognos']
+                            },
                             [
                                 {
                                     type: 'ue-radiogroup',
@@ -215,20 +219,17 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                             id: 'ATERGA_UTAN_ANPASSNING',
                                             label: 'PROGNOS_ATERGANG.ATERGA_UTAN_ANPASSNING.RBK'
                                         },
-
+                                        {
+                                            id: 'ATERGA_MED_ANPASSNING',
+                                            label: 'PROGNOS_ATERGANG.ATERGA_MED_ANPASSNING.RBK'
+                                        },
                                         {
                                             id: 'KAN_EJ_ATERGA',
                                             label: 'PROGNOS_ATERGANG.KAN_EJ_ATERGA.RBK'
                                         },
-
                                         {
                                             id: 'EJ_MOJLIGT_AVGORA',
                                             label: 'PROGNOS_ATERGANG.EJ_MOJLIGT_AVGORA.RBK'
-                                        },
-
-                                        {
-                                            id: 'ATERGA_MED_ANPASSNING',
-                                            label: 'PROGNOS_ATERGANG.ATERGA_MED_ANPASSNING.RBK'
                                         }
                                     ]
                                 },
@@ -239,6 +240,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                     label: {
                                         key: 'DFR_8.2.RBK',
                                         helpKey: 'DFR_8.2.HLP',
+                                        required: true,
                                         requiredProp: 'prognosAtergang.anpassningar'
                                     }
                                 }
