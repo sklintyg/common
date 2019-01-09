@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
+angular.module('tstrk1009').controller('tstrk1009.ViewCertCtrl',
     [ '$location', '$log', '$rootScope', '$stateParams', '$scope',
         'common.IntygListService', 'common.IntygService', 'common.dialogService', 'common.moduleService',
         'common.messageService', 'viewConfigFactory',
@@ -29,12 +29,12 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
             $scope.messageService = messageService;
 
             $scope.send = function() {
-                $location.path('/send/ts-diabetes/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP');
+                $location.path('/send/tstrk1009/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP');
             };
 
             $scope.errorMessage = null;
             $scope.doneLoading = false;
-            IntygService.getCertificate('ts-diabetes', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
+            IntygService.getCertificate('tstrk1009', $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
                 $scope.doneLoading = true;
                 if (result !== null) {
                     $scope.cert = result.utlatande;
@@ -42,7 +42,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
                     $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/ts-diabetes/visafel/certnotfound');
+                    $location.path('/tstrk1009/visafel/certnotfound');
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;

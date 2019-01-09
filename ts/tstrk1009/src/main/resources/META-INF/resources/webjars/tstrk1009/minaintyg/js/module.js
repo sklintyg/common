@@ -21,8 +21,8 @@ angular.module('tstrk1009', [ 'ui.bootstrap', 'ngCookies', 'ui.router','ngSaniti
 
 // Inject language resources
 angular.module('tstrk1009').run([ 'common.messageService', 'tstrk1009.messages',
-    function(messageService, tsDiabetesMessages) {
+    function(messageService, tstrk1009Messages) {
         'use strict';
 
-        messageService.addResources(tsDiabetesMessages);
+        messageService.addResources(tstrk1009Messages);
     }]);

@@ -20,7 +20,6 @@ angular.module('tstrk1009').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    //var intygsTypPath = '/web/webjars/tstrk1009/webcert/';
 
     var editViewState = function(factoryResolverHelper, $stateParams) {
         return factoryResolverHelper.resolve('tstrk1009.UtkastController.ViewStateService', $stateParams);

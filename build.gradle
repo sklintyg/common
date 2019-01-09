@@ -78,7 +78,7 @@ allprojects {
     }
 }
 
-configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804'].contains(it.name)}) {
+configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name)}) {
 
     apply plugin: 'com.moowork.grunt'
 
