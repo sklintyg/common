@@ -64,8 +64,8 @@ public class PdfGenerator {
             + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_SIGNED_TEXT_COMMON = " Intyget är avsett för patientens arbetsgivare som längst till och "
             + "med dag 14 i sjukskrivningsperioden";
-    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och kan "
-            + "INTE skickas.";
+    private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och "
+            + "ska INTE skickas till arbetsgivaren.";
     private static final String OPTIONAL_FIELD_DIAGNOSER = TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
     private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
     private static final String OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT = "På patientens begäran uppges inte diagnos";
