@@ -38,8 +38,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighetTyp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -135,8 +135,8 @@ public class UtlatandeToIntygTest {
     @Test
     public void testAddIntygAvserSvar() {
         Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
-        EnumSet<IntygAvserKategori> intygAvserKategorier = EnumSet.of(IntygAvserKategori.C1, IntygAvserKategori.TAXI);
-        utlatande = utlatande.toBuilder().setIntygAvser(IntygAvser.create(intygAvserKategorier)).build();
+        EnumSet<IntygetAvserBehorighetTyp> intygAvserKategorier = EnumSet.of(IntygetAvserBehorighetTyp.A_B_TRAKTOR, IntygetAvserBehorighetTyp.TAXI);
+        utlatande = utlatande.toBuilder().setIntygetAvserBehorighet(IntygetAvserBehorighet.create(intygAvserKategorier)).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(2, intyg.getSvar().size());

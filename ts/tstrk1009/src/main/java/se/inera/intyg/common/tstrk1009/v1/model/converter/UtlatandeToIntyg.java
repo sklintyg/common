@@ -37,7 +37,7 @@ import java.util.Optional;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighetTyp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -89,8 +89,8 @@ public final class UtlatandeToIntyg {
 
         int intygAvserInstans = 1;
 
-        if (source.getIntygAvser() != null) {
-            for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
+        if (source.getIntygetAvserBehorighet() != null) {
+            for (IntygetAvserBehorighetTyp korkortstyp : source.getIntygetAvserBehorighet().getBehorighetTyper()) {
                 IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
                         .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,

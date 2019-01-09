@@ -19,10 +19,8 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +31,8 @@ import java.util.EnumSet;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighetTyp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public final class TransportToInternal {
@@ -55,7 +53,7 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(Tstrk1009UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-        EnumSet<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
+        EnumSet<IntygetAvserBehorighetTyp> intygAvserSet = EnumSet.noneOf(IntygetAvserBehorighetTyp.class);
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
                 case INTYG_AVSER_SVAR_ID_1:
@@ -64,15 +62,15 @@ public final class TransportToInternal {
             }
         }
 
-        utlatande.setIntygAvser(IntygAvser.create(intygAvserSet));
+        utlatande.setIntygetAvserBehorighet(IntygetAvserBehorighet.create(intygAvserSet));
     }
 
     private static void handleIntygAvser(Tstrk1009UtlatandeV1.Builder utlatande, Svar svar,
-                                         EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
+                                         EnumSet<IntygetAvserBehorighetTyp> intygAvserSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
-                    intygAvserSet.add(IntygAvserKategori.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                    intygAvserSet.add(IntygetAvserBehorighetTyp.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -83,18 +81,6 @@ public final class TransportToInternal {
     private static void handleIdentitetStyrktGenom(Tstrk1009UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    private static void handleOvrigaKommentarer(Tstrk1009UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-                case OVRIGA_KOMMENTARER_DELSVARSVAR_ID_32:
-                    utlatande.setKommentar(getStringContent(delsvar));
-                    break;
                 default:
                     throw new IllegalArgumentException();
             }

@@ -40,7 +40,7 @@ public final class ConverterUtil {
         certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
         certificateHolder.setType(Tstrk1009EntryPoint.MODULE_ID);
         certificateHolder.setTypeVersion(utlatande.getTextVersion());
-        certificateHolder.setAdditionalInfo(Joiner.on(", ").join(utlatande.getIntygAvser().getKorkortstyp()));
+        certificateHolder.setAdditionalInfo(Joiner.on(", ").join(utlatande.getIntygetAvserBehorighet().getBehorighetTyper()));
         return certificateHolder;
     }
 

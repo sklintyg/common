@@ -25,14 +25,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
-/**
- * Class for validating drafts of the internal model.
- *
- * @author erik
- */
 public class InternalValidatorInstance {
 
     private static final String CATEGORY_INTYG_AVSER = "intygAvser";
@@ -50,15 +45,14 @@ public class InternalValidatorInstance {
      * necessarily
      * complete).
      *
-     * @param utlatande
-     *            an internal {@link Tstrk1009UtlatandeV1}
+     * @param utlatande an internal {@link Tstrk1009UtlatandeV1}
      * @return a ValidateDraftResponseHolder with a status and a list of validationErrors
      */
     public ValidateDraftResponse validate(Tstrk1009UtlatandeV1 utlatande) {
 
         if (utlatande == null) {
             ValidatorUtil.addValidationError(validationMessages, "utlatande", "utlatande", ValidationMessageType.EMPTY,
-                    "ts-bas.validation.utlatande.missing");
+                    "tstrk1009.validation.utlatande.missing");
 
         } else {
 
@@ -66,7 +60,7 @@ public class InternalValidatorInstance {
 
             // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-            validateIntygAvser(utlatande.getIntygAvser());
+            validateIntygAvser(utlatande.getIntygetAvserBehorighet());
             ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
         }
 
@@ -77,14 +71,14 @@ public class InternalValidatorInstance {
         return insulin == null || !insulin;
     }
 
-    private void validateIntygAvser(final IntygAvser intygAvser) {
+    private void validateIntygAvser(final IntygetAvserBehorighet intygetAvserBehorighet) {
 
-        if (intygAvser == null) {
+        if (intygetAvserBehorighet == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
             return;
         }
 
-        if (intygAvser.getKorkortstyp().isEmpty()) {
+        if (intygetAvserBehorighet.getBehorighetTyper().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
                     ValidationMessageType.EMPTY);
         }

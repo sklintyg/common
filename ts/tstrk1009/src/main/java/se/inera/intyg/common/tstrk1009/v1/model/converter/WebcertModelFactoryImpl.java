@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 /**
@@ -72,7 +72,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Tstrk1009Utl
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);
 
-        template.setIntygAvser(IntygAvser.create(null));
+        template.setIntygetAvserBehorighet(IntygetAvserBehorighet.create(null));
 
         return template.build();
     }

@@ -29,40 +29,33 @@ import java.util.Set;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-/**
- * The Korkortstyp[er] a specific Utlatande concerns.
- *
- * @author erik
- */
 @AutoValue
-public abstract class IntygAvser {
+public abstract class IntygetAvserBehorighet {
 
     @JsonCreator
-    public static IntygAvser create(@JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
-        EnumSet<IntygAvserKategori> korkortstyper;
-        if (korkortstyp == null) {
-            korkortstyper = EnumSet.noneOf(IntygAvserKategori.class);
-        } else {
-            korkortstyper = korkortstyp;
-        }
-        return new AutoValue_IntygAvser(korkortstyper);
+    public static IntygetAvserBehorighet create(@JsonProperty("korkortstyp") final EnumSet<IntygetAvserBehorighetTyp> typerToCreate) {
+
+        final EnumSet<IntygetAvserBehorighetTyp> behorighetTyper = (typerToCreate == null)
+                ? EnumSet.noneOf(IntygetAvserBehorighetTyp.class)
+                : typerToCreate;
+
+        return new AutoValue_IntygetAvserBehorighet(behorighetTyper);
     }
 
     @Nullable
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    public abstract Set<IntygAvserKategori> getKorkortstyp();
+    @JsonSerialize(using = IntygetAvserBehorighetEnumSetSerializer.class)
+    @JsonDeserialize(using = IntygetAvserBehorighetEnumSetDeserializer.class)
+    public abstract Set<IntygetAvserBehorighetTyp> getBehorighetTyper();
 
-    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
-        protected IntygAvserEnumSetSerializer() {
-            super(IntygAvserKategori.class);
+    public static class IntygetAvserBehorighetEnumSetSerializer extends AbstractEnumSetSerializer<IntygetAvserBehorighetTyp> {
+        protected IntygetAvserBehorighetEnumSetSerializer() {
+            super(IntygetAvserBehorighetTyp.class);
         }
     }
 
-    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
-        protected IntygAvserEnumSetDeserializer() {
-            super(IntygAvserKategori.class);
+    public static class IntygetAvserBehorighetEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygetAvserBehorighetTyp> {
+        protected IntygetAvserBehorighetEnumSetDeserializer() {
+            super(IntygetAvserBehorighetTyp.class);
         }
     }
-
 }

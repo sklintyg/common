@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
@@ -52,16 +53,30 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
     public abstract String getSignature();
 
     @Nullable
-    public abstract String getKommentar();
+    public abstract IdentitetStyrktGenom getIdentitetStyrktGenom();
 
     @Nullable
-    public abstract IntygAvser getIntygAvser();
+    public abstract AnmalanAvser getAnmalanAvser();
+
+    @Nullable
+    public abstract String getMedicinskaForhallanden();
+
+    @Nullable
+    public abstract InternalDate getSenasteUndersokningsdatum();
+
+    @Nullable
+    public abstract IntygetAvserBehorighet getIntygetAvserBehorighet();
+
+    @Nullable
+    public abstract Boolean getInformationOmTsBeslutOnskas();
 
     public abstract Builder toBuilder();
 
     public static Builder builder() {
         return new AutoValue_Tstrk1009UtlatandeV1.Builder()
-                .setSignature(null);
+                .setSignature(null)
+                .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(null))
+                .setAnmalanAvser(AnmalanAvser.create(null));
     }
 
     @AutoValue.Builder
@@ -70,21 +85,33 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Tstrk1009UtlatandeV1 build();
 
         @JsonProperty("id")
-        public abstract Builder setId(String id);
+        public abstract Builder setId(final String id);
 
         @JsonProperty("grundData")
-        public abstract Builder setGrundData(GrundData grundData);
+        public abstract Builder setGrundData(final GrundData grundData);
 
         @JsonProperty("textVersion")
-        public abstract Builder setTextVersion(String textVersion);
+        public abstract Builder setTextVersion(final String textVersion);
 
         @JsonProperty("signature")
-        public abstract Builder setSignature(String signature);
+        public abstract Builder setSignature(final String signature);
 
-        @JsonProperty("kommentar")
-        public abstract Builder setKommentar(String kommentar);
+        @JsonProperty("identitetStyrktGenom")
+        public abstract Builder setIdentitetStyrktGenom(final IdentitetStyrktGenom identitetStyrktGenom);
 
-        @JsonProperty("intygAvser")
-        public abstract Builder setIntygAvser(IntygAvser intygAvser);
+        @JsonProperty("anmalanAvser")
+        public abstract Builder setAnmalanAvser(final AnmalanAvser anmalanAvser);
+
+        @JsonProperty("medicinskaForhallanden")
+        public abstract Builder setMedicinskaForhallanden(final String medicinskaForhallanden);
+
+        @JsonProperty("senasteUndersokningsdatum")
+        public abstract Builder setSenasteUndersokningsdatum(final InternalDate internalDate);
+
+        @JsonProperty("intygetAvserBehorighet")
+        public abstract Builder setIntygetAvserBehorighet(final IntygetAvserBehorighet intygetAvserBehorighet);
+
+        @JsonProperty("informationOmTsBeslutOnskas")
+        public abstract Builder setInformationOmTsBeslutOnskas(final Boolean informationOmTsBeslutOnskas);
     }
 }
