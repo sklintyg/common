@@ -148,15 +148,15 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             modelProp: 'onskarFormedlaDiagnos'
                         }]),
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {
-                            disabledFunc: function(model) {
-                                return ObjectHelper.isEmpty(model.onskarFormedlaDiagnos);
-                            },
                             required: true,
                             requiredProp: isDiagnoseRequired,
                             hideExpression: 'model.onskarFormedlaDiagnos === false'
                         }, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            disabledFunc: function(model) {
+                                return ObjectHelper.isEmpty(model.onskarFormedlaDiagnos);
+                            },
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
                             diagnosKodLabel: 'DFR_6.2.RBK',
@@ -170,20 +170,21 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                             modelProp: 'onskarFormedlaFunktionsnedsattning'
                         }]),
                         fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {
-                            disabledFunc: function(model) {
-                                return ObjectHelper.isEmpty(model.onskarFormedlaFunktionsnedsattning);
-                            },
                             hideExpression: 'model.onskarFormedlaFunktionsnedsattning === false'
-                        }, [{
-                            type: 'ue-textarea',
-                            modelProp: 'funktionsnedsattning',
-                            label: {
+                        }, [
+                            {   type: 'ue-form-label',
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',
                                 required: true,
                                 requiredProp: isFunktionsNedsattningRequired
-                            }
-                        }]),
+                             },
+                             { type: 'ue-textarea',
+                                 modelProp: 'funktionsnedsattning',
+                                 disabledFunc: function(model) {
+                                    return ObjectHelper.isEmpty(model.onskarFormedlaFunktionsnedsattning);
+                                 }
+                             }
+                        ]),
                         fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{
                             type: 'ue-textarea',
                             modelProp: 'aktivitetsbegransning',
