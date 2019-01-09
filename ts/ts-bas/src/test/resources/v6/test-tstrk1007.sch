@@ -605,14 +605,6 @@
     </iso:rule>
   </iso:pattern>
 
-  <iso:pattern id="q21.1-21.2-R16">
-    <iso:rule context="//gn:delsvar[@id='21.1' and matches(normalize-space(.), 'true|1')]">
-      <iso:assert test="count(../gn:delsvar[@id='21.2']) = 1">
-        Om 'Förekomst av epelepsi, epeleptiskt anfall eller annan medvetandestörning (Delsvar 21.1)' besvarats med  'Ja' är 'Tidpunkt och orsak för annan medvetandestörning (Delsvar 21.2)' obligatorisk att besvara.
-      </iso:assert>
-    </iso:rule>
-  </iso:pattern>
-
   <iso:pattern id="q22">
     <iso:rule context="//gn:svar[@id='22']">
       <iso:assert test="count(gn:delsvar[@id='22.1']) = 1">
