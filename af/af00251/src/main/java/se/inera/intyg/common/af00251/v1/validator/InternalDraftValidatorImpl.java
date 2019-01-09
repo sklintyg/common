@@ -96,16 +96,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
             return;
         }
 
-        validateDate(utlatande.getUndersokningsDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
-            MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
-        validateDate(utlatande.getAnnatDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
-            MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
+        if (utlatande.getUndersokningsDatum() != null) {
+            validateDate(utlatande.getUndersokningsDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
+                MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
+        }
 
-        // Regel R1
-        if (utlatande.getAnnatDatum() != null
-            && utlatande.getAnnatBeskrivning() == null) {
-            addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING,
-                ValidationMessageType.EMPTY);
+        if (utlatande.getAnnatDatum() != null) {
+            validateDate(utlatande.getAnnatDatum(), validationMessages, CATEGORY_MEDICINSKT_UNDERLAG,
+                MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
+
+            // Regel R1
+            if (utlatande.getAnnatBeskrivning() == null) {
+                addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING,
+                    ValidationMessageType.EMPTY);
+            }
         }
     }
 
