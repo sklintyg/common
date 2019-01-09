@@ -219,7 +219,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.medicinskBedomning"), is(ValidationMessageType.EMPTY));
         assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"), is(ValidationMessageType.INCORRECT_COMBINATION));
+            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"), is(ValidationMessageType.EMPTY));
     }
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
@@ -238,7 +238,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
@@ -258,7 +258,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test

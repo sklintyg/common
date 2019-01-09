@@ -136,9 +136,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
             if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
                     createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                        ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
-                    ValidationMessageType.INCORRECT_COMBINATION, createMessageKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
-                        "parttime-no-extent"));
+                        ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23), ValidationMessageType.EMPTY);
             } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid()
                                                      .intValue() <= OMFATTNING_DELTID_MIN_HOURS
                 || arbetsmarknadspolitisktProgram.getOmfattningDeltid()
@@ -146,8 +144,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 final String fieldKey = createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                     ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23);
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                    fieldKey, ValidationMessageType.INVALID_FORMAT,
-                    createMessageKey(fieldKey, "invalid-range"));
+                    fieldKey, ValidationMessageType.INVALID_FORMAT);
             }
         }
     }
