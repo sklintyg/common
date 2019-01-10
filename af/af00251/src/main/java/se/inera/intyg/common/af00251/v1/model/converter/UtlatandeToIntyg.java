@@ -113,7 +113,7 @@ public final class UtlatandeToIntyg {
                 && sjukfranvaro.getChecked()) {
                 final InternalLocalDateInterval period = sjukfranvaro.getPeriod();
                 svars.add(aSvar(SJUKFRANVARO_SVAR_ID_6, sjukfranvaroInstans++)
-                    .withDelsvar(SJUKFRANVARO_DELSVAR_ID_61, Integer.toString(sjukfranvaro.getNiva()))
+                    .withDelsvar(SJUKFRANVARO_DELSVAR_ID_61, fromInteger(sjukfranvaro.getNiva()))
                     .withDelsvar(SJUKFRANVARO_DELSVAR_ID_62,
                         aDatePeriod(period.fromAsLocalDate(), period.tomAsLocalDate()))
                     .build());
@@ -140,6 +140,13 @@ public final class UtlatandeToIntyg {
 
 
         return svars;
+    }
+
+    static String fromInteger(Integer value) {
+        if (value != null) {
+            return value.toString();
+        }
+        return null;
     }
 
 }
