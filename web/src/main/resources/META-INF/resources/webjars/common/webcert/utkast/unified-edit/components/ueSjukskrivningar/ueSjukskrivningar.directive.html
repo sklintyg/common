@@ -9,8 +9,13 @@
     <div>
       <label>
         <span dynamic-label key="{{::hoursPerWeek.labelkey1}}"></span>
-        <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek" ue-filter-latin1
-               ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="4"> <span dynamic-label key="{{::hoursPerWeek.labelkey2}}"></span>
+        <input class="form-control hoursPerWeek" type="text"
+               ng-model="viewstate.hoursPerWeek"
+               wc-number="true"
+               ue-filter-latin1
+               ng-change="viewstate.updateHoursPerWeek()"
+               ng-blur="validate()"
+               maxlength="2"> <span dynamic-label key="{{::hoursPerWeek.labelkey2}}"></span>
         <span wc-help-chevron help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
       </label>
       <span wc-help-chevron-text help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
