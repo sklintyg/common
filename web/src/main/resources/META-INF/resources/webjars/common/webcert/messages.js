@@ -96,7 +96,7 @@
 
             // makulera
             'label.makulera': 'Makulera intyg',
-            'label.makulera.body.common-header': 'Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kommer inte längre att se det makulerade intyget på <LINK:minaintyg>.',
+            'label.makulera.body.common-header': 'Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makulerade intyg på <LINK:minaintyg>.',
             'label.makulera.body.has-arenden.addition': 'Om du går vidare och makulerar intyget kommer dina ej hanterade ärenden markeras som hanterade.',
             'label.makulera.body.common-footer': 'Om du fått ny information om patienten eller av annan anledning behöver korrigera innehållet i intyget, bör du istället ersätta intyget med ett nytt intyg.',
             'db.makulera.body.common-header': 'Ett dödsbevis som är inskickat på fel person kan makuleras. Genom att trycka på ”Makulera” makulerar du dödsbeviset i Webcert, men detta kommer inte att återkalla dödsbeviset hos Skatteverket.<br/><br/>Förutom att trycka på ”Makulera” måste du omedelbart ta kontakt med Skatteverket så att felet kan rättas fort. Du tar kontakt med Skatteverket genom att ringa Skatteupplysningen på telefon 0771-567 567 och ange "folkbokföring - dödsfall".',
