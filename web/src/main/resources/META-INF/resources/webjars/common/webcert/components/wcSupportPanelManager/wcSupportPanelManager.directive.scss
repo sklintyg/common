@@ -204,4 +204,11 @@ wc-support-panel-manager {
 
 }
 
+@media (max-width: 1440px) {
+  wc-support-panel-manager.minimized {
+    position: static;
+    margin-left: 15px;
+    flex-shrink: 0;
+  }
+}
 
