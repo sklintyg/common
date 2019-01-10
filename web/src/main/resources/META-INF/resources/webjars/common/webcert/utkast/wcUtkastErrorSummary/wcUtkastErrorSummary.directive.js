@@ -60,7 +60,7 @@ angular.module('common').directive('wcUtkastErrorSummary',
                         $scope.scrollTo = function(categoryId) {
                             //By convention the ueKategori directive creates an anchor named 'anchor-<categoryId>'
                             // Validation categories are lowercased in utkastValidation.service
-                            anchorScrollService.scrollIntygContainerTo('anchor-' + $filter('ueDomIdFilter')(categoryId));
+                            anchorScrollService.scrollIntygContainerTo('anchor-' + $filter('ueDomIdFilter')(categoryId), parseInt($('#certificate-content-container').offset().top, 10));
                         };
 
                     }
