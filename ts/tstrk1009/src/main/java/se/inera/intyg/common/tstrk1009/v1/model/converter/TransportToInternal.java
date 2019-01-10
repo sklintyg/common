@@ -21,6 +21,7 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 import static com.google.common.base.Strings.emptyToNull;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_SVAR_ID;
@@ -32,12 +33,15 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.I
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_SVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.MEDICINSKA_FORHALLANDEN_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.MEDICINSKA_FORHALLANDEN_SVAR_ID;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_SVAR_ID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.EnumSet;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.AnmalanAvser;
@@ -82,10 +86,14 @@ public final class TransportToInternal {
                 case MEDICINSKA_FORHALLANDEN_SVAR_ID:
                     handleMedicinskaForhallanden(utlatande, svar);
                     break;
+                case SENASTE_UNDERSOKNINGSDATUM_SVAR_ID:
+                    handleSenasteUndersokningsdatum(utlatande, svar);
                 case INTYGET_AVSER_BEHORIGHET_SVAR_ID:
                     handleIntygetAvserBehorighet(intygetAvserBehorigheter, svar);
+                    break;
                 case INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID:
                     handleInformationOmTsBeslutOnskas(utlatande, svar);
+                    break;
             }
 
             if (!intygetAvserBehorigheter.isEmpty()) {
@@ -118,6 +126,16 @@ public final class TransportToInternal {
         for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
             if (MEDICINSKA_FORHALLANDEN_DELSVAR_ID.equals(delsvar.getId())) {
                 utlatande.setMedicinskaForhallanden(emptyToNull(getStringContent(delsvar)));
+            } else {
+                throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSenasteUndersokningsdatum(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
+        for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
+            if (SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID.equals(delsvar.getId())) {
+                utlatande.setSenasteUndersokningsdatum(new InternalDate(getStringContent(delsvar)));
             } else {
                 throw new IllegalArgumentException();
             }
