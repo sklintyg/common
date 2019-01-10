@@ -22,9 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
-import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
 import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
@@ -46,11 +44,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static se.inera.intyg.common.af00251.v1.utils.Asserts.*;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.Omfattning;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.builder;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
 import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -70,10 +71,10 @@ public class InternalDraftValidatorTest {
                                             .setAnnatDatum(new InternalDate(LocalDate.now()))
                                             .setAnnatBeskrivning("Annan beskrivning")
                                             .setArbetsmarknadspolitisktProgram(
-                                                ArbetsmarknadspolitisktProgram.builder()
-                                                                              .setMedicinskBedomning("Kan jobba")
-                                                                              .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.HELTID)
-                                                                              .build())
+                                                builder()
+                                                    .setMedicinskBedomning("Kan jobba")
+                                                    .setOmfattning(Omfattning.HELTID)
+                                                    .build())
                                             .setFunktionsnedsattning("funktionsnedsättning")
                                             .setAktivitetsbegransning("aktivitetsnedsättning")
                                             .setHarForhinder(true)
@@ -81,8 +82,9 @@ public class InternalDraftValidatorTest {
                                                                                        .setChecked(true)
                                                                                        .setNiva(44)
                                                                                        .setPeriod(new InternalLocalDateInterval(
-                                                                                           new InternalDate(LocalDate.now()), new InternalDate(LocalDate.now()
-                                                                                                                                                        .plusDays(5))))
+                                                                                           new InternalDate(LocalDate.now()),
+                                                                                           new InternalDate(LocalDate.now()
+                                                                                                                     .plusDays(5))))
                                                                                        .build()))
                                             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
                                                                                                .setKanBegransas(true)
@@ -166,7 +168,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceEmpty() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder().build())
+            .setArbetsmarknadspolitisktProgram(builder().build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -178,7 +180,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoOmfattning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
+            .setArbetsmarknadspolitisktProgram(builder()
                 .setMedicinskBedomning("bedömning")
                 .build())
             .build();
@@ -192,9 +194,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceNoBedomning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-                                                                             .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.HELTID)
-                                                                             .build())
+            .setArbetsmarknadspolitisktProgram(builder()
+                .setOmfattning(Omfattning.HELTID)
+                .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -206,9 +208,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidNoHours() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-                                                                             .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
-                                                                             .build())
+            .setArbetsmarknadspolitisktProgram(builder()
+                .setOmfattning(Omfattning.DELTID)
+                .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -217,18 +219,21 @@ public class InternalDraftValidatorTest {
         assertThat(validationErrors, hasSize(2));
 
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.medicinskBedomning"), is(ValidationMessageType.EMPTY));
+            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.medicinskBedomning"),
+            is(ValidationMessageType.EMPTY));
         assertValidationMessage(validationErrors.get(1),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"), is(ValidationMessageType.EMPTY));
+            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
+            is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMin() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-                                                                             .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
-                                                                             .setMedicinskBedomning("bedömning")
-                                                                             .setOmfattningDeltid(0)
-                                                                             .build())
+            .setArbetsmarknadspolitisktProgram(builder()
+                .setOmfattning(Omfattning.DELTID)
+                .setMedicinskBedomning("bedömning")
+                .setOmfattningDeltid(0)
+                .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -238,17 +243,18 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT),
+            is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
     }
 
     @Test
     public void validateArbetsmarknadspolitisktProgramInvalidInstanceDeltidInvalidHoursMax() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-                                                                             .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
-                                                                             .setMedicinskBedomning("bedömning")
-                                                                             .setOmfattningDeltid(40)
-                                                                             .build())
+            .setArbetsmarknadspolitisktProgram(builder()
+                .setOmfattning(Omfattning.DELTID)
+                .setMedicinskBedomning("bedömning")
+                .setOmfattningDeltid(40)
+                .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -258,7 +264,8 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT),
+            is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
     }
 
     @Test
@@ -274,6 +281,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_KONSEKVENSER), is("funktionsnedsattning"), is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateFunktionsnedsattningEmtpy() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -301,6 +309,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_KONSEKVENSER), is("aktivitetsbegransning"), is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateAktivitetsbegransningEmtpy() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -328,6 +337,7 @@ public class InternalDraftValidatorTest {
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("harForhinder"), is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateHarForhinderTrueWithNullSjukfranvaro() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -383,6 +393,7 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertThat(validationErrors, hasSize(0));
     }
+
     @Test
     public void validateSjukfranvaroTooMany() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -519,6 +530,7 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.tom"),
             is(ValidationMessageType.PERIOD_OVERLAP));
     }
+
     @Test
     public void validateSjukfranvaroPeriodIntervalOverlapSameStart() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -571,10 +583,12 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
             is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateBegransningSjukfranvaroBooleanNull() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder().build())
+            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
+                                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -587,6 +601,7 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
             is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -605,6 +620,7 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.beskrivning"),
             is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -619,6 +635,7 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 0);
     }
+
     @Test
     public void validateBegransningSjukfranvaroBooleanFalse() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -648,10 +665,12 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("prognosAtergang.prognos"),
             is(ValidationMessageType.EMPTY));
     }
+
     @Test
     public void validatePrognosAtergangEmpty() {
         AF00251UtlatandeV1 utlatande = builderTemplate
-            .setPrognosAtergang(PrognosAtergang.builder().build())
+            .setPrognosAtergang(PrognosAtergang.builder()
+                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -696,7 +715,6 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("prognosAtergang.anpassningar"),
             is(ValidationMessageType.EMPTY));
     }
-
 
 
     private GrundData buildGrundData(LocalDateTime timeStamp) {
