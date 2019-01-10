@@ -14,6 +14,8 @@ wc-support-panel-manager {
 
   width: $wc-max-content-width * 0.4;
   height: 100%;
+  position: relative;
+  margin-left: 8px;
 
   &.minimized{
     width: 110px;
@@ -43,7 +45,7 @@ wc-support-panel-manager {
     flex: auto;
     flex-direction: column;
     height: 100%;
-    padding: 4px 0 2px 8px;
+    padding: 4px 0 2px;
   }
 
   // Tabs
@@ -170,8 +172,6 @@ wc-support-panel-manager {
         transform: translateX(-50%);
       }
     }
-
-
   }
 
   .tab-content-wrapper{
@@ -198,16 +198,24 @@ wc-support-panel-manager {
           margin-left: -25.5px;
         }
       }
-
     }
   }
 
+  // little hack to hide shadow from space between columns
+  &:after{
+    content: '';
+    position: absolute;
+    height: 30px;
+    width: 8px;
+    bottom: 0;
+    right: 100%;
+    background-color: $wc-color-24;
+  }
 }
 
 @media (max-width: 1440px) {
   wc-support-panel-manager.minimized {
-    position: static;
-    margin-left: 15px;
+    position: relative;
     flex-shrink: 0;
   }
 }
