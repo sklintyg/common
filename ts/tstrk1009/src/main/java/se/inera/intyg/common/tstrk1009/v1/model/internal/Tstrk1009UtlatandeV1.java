@@ -25,6 +25,7 @@ import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 
 @AutoValue
@@ -53,7 +54,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
     public abstract String getSignature();
 
     @Nullable
-    public abstract IdentitetStyrktGenom getIdentitetStyrktGenom();
+    public abstract IdKontrollKod getIdentitetStyrktGenom();
 
     @Nullable
     public abstract AnmalanAvser getAnmalanAvser();
@@ -96,7 +97,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Builder setSignature(final String signature);
 
         @JsonProperty("identitetStyrktGenom")
-        public abstract Builder setIdentitetStyrktGenom(final IdentitetStyrktGenom identitetStyrktGenom);
+        public abstract Builder setIdentitetStyrktGenom(final IdKontrollKod identitetStyrktGenom);
 
         @JsonProperty("anmalanAvser")
         public abstract Builder setAnmalanAvser(final AnmalanAvser anmalanAvser);
