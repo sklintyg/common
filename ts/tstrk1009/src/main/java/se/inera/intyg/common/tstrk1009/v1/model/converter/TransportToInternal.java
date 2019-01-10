@@ -19,7 +19,8 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.IDENTITET_STYRKT_GENOM_ID_2;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +55,7 @@ public final class TransportToInternal {
     private static void setSvar(Tstrk1009UtlatandeV1.Builder utlatandeBuilder, final Intyg intygSource) throws ConverterException {
         for (final Svar svar : intygSource.getSvar()) {
             switch (svar.getId()) {
-                case IDENTITET_STYRKT_GENOM_ID_2:
+                case IDENTITET_STYRKT_GENOM_SVAR_ID:
                     handleIdentitetStyrktGenom(utlatandeBuilder, svar);
                     break;
             }
@@ -63,7 +64,7 @@ public final class TransportToInternal {
 
     private static void handleIdentitetStyrktGenom(Tstrk1009UtlatandeV1.Builder utlatandeBuilder, final Svar svar) throws ConverterException {
         for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
-            if (IDENTITET_STYRKT_GENOM_ID_2.equals(delsvar.getId())) {
+            if (IDENTITET_STYRKT_GENOM_DELSVAR_ID.equals(delsvar.getId())) {
                 utlatandeBuilder.setIdentitetStyrktGenom(KvIdKontroll.fromCode(getCVSvarContent(delsvar).getCode()));
             } else {
                 throw new IllegalArgumentException();

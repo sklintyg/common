@@ -18,14 +18,78 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
-import com.google.common.collect.ImmutableSet;
+import java.util.EnumSet;
 import java.util.Set;
 
 public enum IntygetAvserBehorighet {
-    ALLA,
-    A_B_TRAKTOR,
-    C_E,
-    D,
-    TAXI,
-    KAN_INTE_TA_STALLNING
+    AM("VAR12", "AM", "Moped klass I"),
+    A1("VAR13", "A1", "Lätt motorcykel"),
+    A2("VAR14", "A2", "Mellanstor motorcykel"),
+    A("VAR15", "A", "Motorcykel"),
+    B("VAR16", "B", "Personbil och lätt lastbil"),
+    BE("VAR17", "BE", "Personbil, lätt lastbil och ett eller flera släpfordon"),
+    TRAKTOR("VAR18", "Traktor", "Traktor"),
+    C1("VAR1", "C1", "Medeltung lastbil och enbart ett lätt släpfordon"),
+    C1E("VAR2", "C1E", "Medeltung lastbil och ett eller flera släpfordon oavsett vikt"),
+    C("VAR3", "C", "Tung lastbil och enbart ett lätt släpfordon"),
+    CE("VAR4", "CE", "Tung lastbil och ett eller flera släpfordon oavsett vikt"),
+    D1("VAR5", "D1", "Mellanstor buss"),
+    D1E("VAR6", "D1E", "Mellanstor buss och ett eller flera släpfordon oavsett vikt"),
+    D("VAR7", "D", "Buss"),
+    DE("VAR8", "DE", "Buss och enbart ett lätt släpfordon"),
+    TAXI("VAR9", "Taxi", "Taxiförarlegitimation"),
+    ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)", "Annan körkortsbehörighet"),
+    KANINTETASTALLNING("VAR11", "Kan inte ta ställning", "Kan inte ta ställning");
+
+
+    private final String code;
+    private final String value;
+    private final String description;
+
+    IntygetAvserBehorighet(final String code, final String value, final String description) {
+        this.code = code;
+        this.value = value;
+        this.description = description;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Hjälpmetoder för att hämta olika subset av kodverket som
+     * resulterar i att specifika regler ytterligare måste valideras för intyget
+     */
+    public static Set<IntygetAvserBehorighet> getAllaBehorigheter() {
+        return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+    }
+
+    public static Set<IntygetAvserBehorighet> getABTraktorBehorigheter() {
+        return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
+    }
+
+    public static Set<IntygetAvserBehorighet> getCEBehorigHeter() {
+        return EnumSet.of(C1, C1E, C, CE);
+    }
+
+    public static Set<IntygetAvserBehorighet> getDBehorigHeter() {
+        return EnumSet.of(D1, D1E, D, DE);
+    }
+
+    public static IntygetAvserBehorighet getTaxiBehorigheter() {
+        return TAXI;
+    }
+
+    public static IntygetAvserBehorighet getKanintetastallning() {
+        return KANINTETASTALLNING;
+    }
+
 }

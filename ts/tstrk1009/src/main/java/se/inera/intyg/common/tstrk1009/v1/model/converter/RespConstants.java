@@ -1,3 +1,4 @@
+package se.inera.intyg.common.tstrk1009.v1.model.converter;
 /*
  * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
@@ -16,12 +17,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.tstrk1009.v1.model.converter;
+
 
 public final class RespConstants {
 
-
-
     private RespConstants() {
     }
+
+    public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
+    public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
+
+
 }
