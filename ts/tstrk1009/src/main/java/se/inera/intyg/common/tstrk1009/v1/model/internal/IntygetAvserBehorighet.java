@@ -18,44 +18,14 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
-import java.util.EnumSet;
+import com.google.common.collect.ImmutableSet;
 import java.util.Set;
-import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
-import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-@AutoValue
-public abstract class IntygetAvserBehorighet {
-
-    @JsonCreator
-    public static IntygetAvserBehorighet create(@JsonProperty("korkortstyp") final EnumSet<IntygetAvserBehorighetTyp> typerToCreate) {
-
-        final EnumSet<IntygetAvserBehorighetTyp> behorighetTyper = (typerToCreate == null)
-                ? EnumSet.noneOf(IntygetAvserBehorighetTyp.class)
-                : typerToCreate;
-
-        return new AutoValue_IntygetAvserBehorighet(behorighetTyper);
-    }
-
-    @Nullable
-    @JsonSerialize(using = IntygetAvserBehorighetEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygetAvserBehorighetEnumSetDeserializer.class)
-    public abstract Set<IntygetAvserBehorighetTyp> getBehorighetTyper();
-
-    public static class IntygetAvserBehorighetEnumSetSerializer extends AbstractEnumSetSerializer<IntygetAvserBehorighetTyp> {
-        protected IntygetAvserBehorighetEnumSetSerializer() {
-            super(IntygetAvserBehorighetTyp.class);
-        }
-    }
-
-    public static class IntygetAvserBehorighetEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygetAvserBehorighetTyp> {
-        protected IntygetAvserBehorighetEnumSetDeserializer() {
-            super(IntygetAvserBehorighetTyp.class);
-        }
-    }
+public enum IntygetAvserBehorighet {
+    ALLA,
+    A_B_TRAKTOR,
+    C_E,
+    D,
+    TAXI,
+    KAN_INTE_TA_STALLNING
 }

@@ -31,8 +31,8 @@ import java.util.EnumSet;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorigheter;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighetTyp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public final class TransportToInternal {
@@ -53,7 +53,7 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(Tstrk1009UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-        EnumSet<IntygetAvserBehorighetTyp> intygAvserSet = EnumSet.noneOf(IntygetAvserBehorighetTyp.class);
+        EnumSet<IntygetAvserBehorighet> intygAvserSet = EnumSet.noneOf(IntygetAvserBehorighet.class);
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
                 case INTYG_AVSER_SVAR_ID_1:
@@ -62,15 +62,15 @@ public final class TransportToInternal {
             }
         }
 
-        utlatande.setIntygetAvserBehorighet(IntygetAvserBehorighet.create(intygAvserSet));
+        utlatande.setIntygetAvserBehorigheter(IntygetAvserBehorigheter.create(intygAvserSet));
     }
 
     private static void handleIntygAvser(Tstrk1009UtlatandeV1.Builder utlatande, Svar svar,
-                                         EnumSet<IntygetAvserBehorighetTyp> intygAvserSet) throws ConverterException {
+                                         EnumSet<IntygetAvserBehorighet> intygAvserSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
-                    intygAvserSet.add(IntygetAvserBehorighetTyp.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                    intygAvserSet.add(IntygetAvserBehorighet.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
