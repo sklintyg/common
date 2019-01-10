@@ -20,7 +20,7 @@ ext {
     commonsLang3Version = "3.8.1"
     commonsTextVersion = "1.6"
     itextVersion = "5.5.8"
-    jacksonVersion = "2.8.1"
+    jacksonVersion = "2.9.7"
     logbackVersion = "1.2.3"
     phSchematronVersion = "3.0.1"
     saxonVersion = "9.8.0-10"
