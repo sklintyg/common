@@ -212,6 +212,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 hideExpression: '!model.begransningSjukfranvaro.kanBegransas',
                                 label: {
                                     key: 'DFR_7.2.RBK',
+                                    helpKey: 'DFR_7.2.HLP',
                                     required: true,
                                     requiredProp: 'begransningSjukfranvaro.beskrivning'
                                 }
