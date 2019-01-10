@@ -286,9 +286,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
 
             if (fromValid && tomValid && !sjukfranvaro.getPeriod()
                              .isValid()) {
-                addValidationError(validationMessages, CATEGORY_BEDOMNING,
-                    createCompositeFieldKey(indexedKey,
-                        SJUKFRANVARO_SVAR_JSON_ID_62), ValidationMessageType.INVALID_FORMAT);
+                final String fieldKey = createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62);
+                addValidationError(validationMessages, CATEGORY_BEDOMNING, fieldKey, ValidationMessageType.INVALID_FORMAT,
+                    createMessageKey(String.format("%s.%s", SJUKFRANVARO_SVAR_JSON_ID_6, SJUKFRANVARO_SVAR_JSON_ID_62),
+                        "from_after_tom"));
             }
         }
 

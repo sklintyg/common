@@ -486,7 +486,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period"),
-            is(ValidationMessageType.INVALID_FORMAT));
+            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.sjukfranvaro.period.from_after_tom"));
     }
 
     @Test
