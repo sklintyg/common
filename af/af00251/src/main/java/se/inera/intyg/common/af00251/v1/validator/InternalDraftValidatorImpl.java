@@ -38,6 +38,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.*;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
 import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
@@ -136,19 +137,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
         }
 
 
-        if (arbetsmarknadspolitisktProgram.getOmfattning() == ArbetsmarknadspolitisktProgram.Omfattning.DELTID) {
+        if (arbetsmarknadspolitisktProgram.getOmfattning() == Omfattning.DELTID) {
             if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
                     createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                         ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23), ValidationMessageType.EMPTY);
-            } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid()
-                                                     .intValue() <= OMFATTNING_DELTID_MIN_HOURS
-                || arbetsmarknadspolitisktProgram.getOmfattningDeltid()
-                                                 .intValue() >= OMFATTNING_DELTID_MAX_HOURS) {
+            } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() <= OMFATTNING_DELTID_MIN_HOURS
+                || arbetsmarknadspolitisktProgram.getOmfattningDeltid() >= OMFATTNING_DELTID_MAX_HOURS) {
                 final String fieldKey = createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                     ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23);
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
-                    fieldKey, ValidationMessageType.INVALID_FORMAT);
+                    fieldKey, ValidationMessageType.INVALID_FORMAT, createMessageKey(fieldKey, "invalid-range"));
             }
         }
     }

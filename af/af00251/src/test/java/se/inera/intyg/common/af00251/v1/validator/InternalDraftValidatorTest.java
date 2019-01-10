@@ -238,7 +238,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT));
+            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
     }
 
     @Test
@@ -258,7 +258,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is("arbetsmarknadspolitisktProgram.omfattningDeltid"),
-            is(ValidationMessageType.INVALID_FORMAT));
+            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.arbetsmarknadspolitisktProgram.omfattningDeltid.invalid-range"));
     }
 
     @Test
