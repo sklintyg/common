@@ -144,7 +144,7 @@ public class UtlatandeToIntygTest {
         assertEquals(1, intyg.getSvar().get(0).getDelsvar().size());
         assertEquals("1.1", intyg.getSvar().get(0).getDelsvar().get(0).getId());
         JAXBElement<CVType> o = (JAXBElement<CVType>) intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0);
-        assertEquals(IntygAvserKod.C1.getCode(), o.ts/tstrk1009/src/main/java/se/inera/intyg/common/tstrk1009/v1/model/converter/RespConstants.javagetValue().getCode());
+        assertEquals(IntygAvserKod.C1.getCode(), o.getValue().getCode());
         assertNotNull(o.getValue().getCodeSystem());
         assertEquals(IntygAvserKod.C1.getDescription(), o.getValue().getDisplayName());
         assertEquals("1", intyg.getSvar().get(1).getId());

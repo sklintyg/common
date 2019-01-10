@@ -27,5 +27,8 @@ public final class RespConstants {
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
 
+    public static final String ANMALAN_AVSER_SVAR_ID = "46";
+    public static final String ANMALAN_AVSER_DELSVAR_ID = "46.1";
+
 
 }
