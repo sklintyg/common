@@ -22,12 +22,7 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
             'use strict';
 
-            var uppfyllerBehorighetskravFromTransform = function(backendValue) {
-                return tsBaseHelper.setupKorkortstypChoices(backendValue, 'KANINTETASTALLNING');
-            };
-
-
-            var TsDiabetesV3Model = BaseAtticModel._extend({
+            var V1Model = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
                     init._super.call(this, 'IntygModel', {
@@ -37,75 +32,13 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
                         textVersion: undefined,
                         grundData: grundData,
 
-                        // Kategori 1
-                        intygAvser: {
-                            kategorier: undefined
-                        },
-
-                        // Kategori 2
+                        signature: undefined,
                         identitetStyrktGenom: undefined,
-
-                        // Kategori 3
-                        allmant: {
-                            diabetesDiagnosAr: undefined,
-                            typAvDiabetes: undefined,
-                            beskrivningAnnanTypAvDiabetes: undefined,
-                            behandling: {
-                                endastKost: undefined,
-                                tabletter: undefined,
-                                tablettRiskHypoglykemi: undefined,
-                                insulin: undefined,
-                                insulinSedanAr: undefined,
-                                annanBehandling: undefined,
-                                annanBehandlingBeskrivning: undefined
-                            }
-                        },
-
-                        // Kategori 4
-                        hypoglykemier: {
-                            sjukdomenUnderKontroll: undefined,
-                            nedsattHjarnfunktion: undefined,
-                            forstarRisker: undefined,
-                            fortrogenMedSymptom: undefined,
-                            saknarFormagaVarningstecken: undefined,
-                            kunskapLampligaAtgarder: undefined,
-                            egenkontrollBlodsocker: undefined,
-                            aterkommandeSenasteAret: undefined,
-                            aterkommandeSenasteTidpunkt: undefined,
-                            aterkommandeSenasteKvartalet: undefined,
-                            senasteTidpunktVaken: undefined,
-                            forekomstTrafik: undefined,
-                            forekomstTrafikTidpunkt: undefined
-                        },
-
-                        // Kategori 5
-                        synfunktion: {
-                            misstankeOgonsjukdom: undefined,
-                            ogonbottenFotoSaknas: undefined,
-                            hoger: {
-                                utanKorrektion: undefined,
-                                medKorrektion: undefined
-                            },
-                            vanster: {
-                                 utanKorrektion: undefined,
-                                medKorrektion: undefined
-                                },
-                            binokulart: {
-                                utanKorrektion: undefined,
-                                medKorrektion: undefined
-                                }
-                        },
-                        // Kategori 6
-                        ovrigt: undefined,
-
-                        // Kategori 7
-                        bedomning: {
-                            uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
-                                fromTransform: uppfyllerBehorighetskravFromTransform
-                            }),
-                            lampligtInnehav: undefined,
-                            borUndersokasBeskrivning: undefined
-                        }
+                        anmalanAvser: undefined,
+                        medicinskaForhallanden: undefined,
+                        senasteUndersokningsdatum: undefined,
+                        intygetAvserBehorigheter: undefined,
+                        informationOmTsBeslutOnskas: undefined,
                     });
                 },
                 update: function update(content, parent) {
@@ -117,13 +50,13 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
 
             }, {
                 build : function(){
-                    return new DraftModel(new TsDiabetesV3Model());
+                    return new DraftModel(new V1Model());
                 }
             });
 
             /**
              * Return the constructor function IntygModel
              */
-            return TsDiabetesV3Model;
+            return V1Model;
 
         }]);
