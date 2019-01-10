@@ -111,6 +111,9 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
                 this.totalDays = undefined;
                 if (minDate && maxDate) {
                     this.totalDays = maxDate.diff(minDate, 'days') + 1;
+                    if (this.totalDays <= 0) {
+                        this.totalDays = undefined;
+                    }
                 }
 
             };

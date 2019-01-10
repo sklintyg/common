@@ -65,18 +65,32 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
                 var validation = $scope.validation = UtkastViewState.validation;
 
                 $scope.$watch('validation.messages', function () {
-                    $scope.validationMessages = [];
+                        $scope.validationMessages = [];
 
-                    if (!validation.messages) {
-                        return;
-                    }
-
-                    angular.forEach(validation.messages, function (message) {
-                        if (message.field.startsWith($scope.config.modelProp)) {
-                            $scope.validationMessages.push(message);
+                        if (!validation.messages) {
+                            return;
                         }
-                    });
-                });
+
+                        angular.forEach(validation.messages, function (message) {
+                            var fieldName = message.field;
+                            if (fieldName.startsWith($scope.config.modelProp)) {
+                                var regexp = /^\w+\[(\d+)\].*/;
+
+                                var matches = fieldName.match(regexp);
+                                if (matches !== null) {
+
+                                    var index = matches[1];
+
+                                    if (!$scope.validationMessages[index]) {
+                                        $scope.validationMessages[index] = [];
+                                    }
+
+                                    $scope.validationMessages[index].push(message);
+                                }
+                            }
+                        });
+                    }
+                );
 
                 $scope.hasValidationError = function (index, type) {
                     var key = $scope.config.modelProp + '[' + index + '].' + type;
@@ -111,6 +125,8 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
                     viewstate.updatePeriods();
                 }, true);
             }
-        };
+        }
+            ;
 
-    }]);
+    }])
+;
