@@ -111,46 +111,57 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 requiredProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning'
                             },
                             [{
-                                type: 'ue-textarea',
-                                modelProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning',
-                                paddingBottom: true
-                            }, {
-                                type: 'ue-radiogroup',
-                                modelProp: 'arbetsmarknadspolitisktProgram.omfattning',
-                                label: {
-                                    key: 'DFR_2.2.RBK',
-                                    required: true,
-                                    requiredProp: 'arbetsmarknadspolitisktProgram.omfattning',
-                                    helpKey: 'DFR_2.2.HLP'
-                                },
-                                choices: [
-                                    {
-                                        id: 'HELTID',
-                                        label: 'OMFATTNING.PROGRAM_HELTID.RBK'
-                                    },
-                                    {
-                                        id: 'DELTID',
-                                        label: 'OMFATTNING.PROGRAM_DELTID.RBK'
-                                    },
-                                    {
-                                        id: 'OKAND',
-                                        label: 'OMFATTNING.PROGRAM_OKAND.RBK'
-                                    }
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [
+                                    // Row 1
+                                    [{
+                                        type: 'ue-textarea',
+                                        modelProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning',
+                                        paddingBottom: true
+                                    }],
+                                    // Row 2
+                                    [{
+                                        type: 'ue-radiogroup',
+                                        modelProp: 'arbetsmarknadspolitisktProgram.omfattning',
+                                        label: {
+                                            key: 'DFR_2.2.RBK',
+                                            required: true,
+                                            requiredProp: 'arbetsmarknadspolitisktProgram.omfattning',
+                                            helpKey: 'DFR_2.2.HLP'
+                                        },
+                                        choices: [
+                                            {
+                                                id: 'HELTID',
+                                                label: 'OMFATTNING.PROGRAM_HELTID.RBK'
+                                            },
+                                            {
+                                                id: 'DELTID',
+                                                label: 'OMFATTNING.PROGRAM_DELTID.RBK'
+                                            },
+                                            {
+                                                id: 'OKAND',
+                                                label: 'OMFATTNING.PROGRAM_OKAND.RBK'
+                                            }
+                                        ]
+                                    }],
+                                    // Row 3
+                                    [{
+                                        type: 'ue-textfield',
+                                        modelProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid',
+                                        hideExpression: 'model.arbetsmarknadspolitisktProgram.omfattning !== \'DELTID\'',
+                                        numbersOnly: true,
+                                        size: 3,
+                                        htmlMaxlength: 2,
+                                        label: {
+                                            key: 'DFR_2.3.RBK',
+                                            required: true,
+                                            requiredProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid'
+                                        }
+                                    }]
                                 ]
-                            }, {
-                                type: 'ue-textfield',
-                                modelProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid',
-                                hideExpression: 'model.arbetsmarknadspolitisktProgram.omfattning !== \'DELTID\'',
-                                numbersOnly: true,
-                                size: 3,
-                                htmlMaxlength: 2,
-                                label: {
-                                    key: 'DFR_2.3.RBK',
-                                    required: true,
-                                    requiredProp: 'arbetsmarknadspolitisktProgram.omfattningDeltid'
-                                }
-                            }
-                            ])]
+                            }]
+                        )]
                     ),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
