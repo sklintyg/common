@@ -42,7 +42,7 @@ angular.module('common').directive('arendePanelFraga',
 
                        //Since the actual anchor for komplettering target reside inside a "kategori/fraga" we need a small offset so that
                         // the name of the field is visible after scroll.
-                        anchorScroll.scrollIntygContainerTo(target, 60);
+                        anchorScroll.scrollIntygContainerTo(target, parseInt($('#certificate-content-container').offset().top + 60, 10));
                     };
                 }
             };

@@ -1,11 +1,9 @@
 <!-- Utkastheader -->
 <div ui-view="header"></div>
 
-<div class="webcert-workarea-hflex-container centered-constrained-content" id="edit-{{viewState.common.intyg.type}}">
+<div class="webcert-workarea-wrapper">
 
-  <div class="bottom-fadeout-gradient wc-color-27">
-    <div></div>
-  </div>
+<div class="webcert-workarea-hflex-container centered-constrained-content" id="edit-{{viewState.common.intyg.type}}">
 
   <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid edit-form">
 
@@ -51,10 +49,14 @@
         </div>
       </fieldset>
     </form>
+
+    <div class="bottom-fadeout-gradient bottom-fadeout-gradient-main wc-color-27">
+      <div></div>
+    </div>
   </div>
 
-  <div class="webcert-workarea-supportpanel" ng-if="::supportPanelConfig" ng-hide="viewState.common.deleted">
-    <wc-support-panel-manager config="supportPanelConfig"></wc-support-panel-manager>
-  </div>
 
+  <wc-support-panel-manager ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
+
+</div>
 </div>

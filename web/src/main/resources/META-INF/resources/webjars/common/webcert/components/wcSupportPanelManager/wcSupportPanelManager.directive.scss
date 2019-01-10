@@ -12,11 +12,39 @@ wc-support-panel-manager {
   $active-tab-background-color: $wc-color-15;
   $active-tab-border-color: $active-tab-background-color;
 
-  display: flex;
-  flex: auto;
-  flex-direction: column;
+  width: $wc-max-content-width * 0.4;
   height: 100%;
-  padding: 4px 0 2px 8px;
+
+  &.minimized{
+    width: 110px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+
+    .inside-wrapper{
+      background-color: $wc-color-27;
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .minimized-support-tabs{
+      display: block;
+    }
+
+    .support-tabs,
+    .tab-content-wrapper{
+      display: none;
+    }
+  }
+
+  .inside-wrapper{
+    display: flex;
+    flex: auto;
+    flex-direction: column;
+    height: 100%;
+    padding: 4px 0 2px 8px;
+  }
 
   // Tabs
   ul.support-tabs {
@@ -92,12 +120,86 @@ wc-support-panel-manager {
     color: $wc-color-07;
     background-color: $active-tab-background-color;
     padding: 19px 15px;
+    min-height: 70px;
+  }
+
+  .tab-content-title-row-title{
+    display: block;
+    margin-top: 5px;
   }
 
   .footer {
     flex: 1;
     padding: 10px;
     max-height: 40px;
+  }
+
+  // Sidebar when minimized
+  .minimized-support-tabs{
+    display: none;
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+
+    li{
+      margin: 2em 0;
+    }
+
+    a{
+      position: relative;
+      font-weight: 500;
+      text-decoration: none;
+
+      span{
+        display: block;
+      }
+
+      .notification{
+        background-color: $wc-color-11; // $wc-color-04
+        border-radius: 9px;
+        color: $wc-color-00;
+        font-weight: 200;
+        padding: 2px 10px 3px;
+        line-height: 1em;
+        font-size: 13px;
+
+        // position it top right.. ish
+        position: absolute;
+        top: -11px;
+        left: 100%;
+        transform: translateX(-50%);
+      }
+    }
+
+
+  }
+
+  .tab-content-wrapper{
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 1%;
+  }
+
+  .sidebar-minimize{
+    position: absolute;
+    z-index: 5;
+    right: 10px;
+    top: 22px;
+
+    a{
+      text-decoration: none;
+
+      .material-icons{
+        font-size: 28px;
+
+        & + .material-icons{
+          margin-left: -25.5px;
+        }
+      }
+
+    }
   }
 
 }

@@ -763,10 +763,17 @@
             // Högerflikar
             'common.supportpanel.fmb.title': 'FMB',
             'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
+            'common.supportpanel.fmb.title.minimized': 'FMB',
+            'common.supportpanel.fmb.tooltip.minimized': 'Öppnar fliken med det försäkringsmedicinska beslutsstödet.',
             'common.supportpanel.arende.title': 'Ärendekommunikation',
             'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',
+            'common.supportpanel.arende.title.minimized': 'Ärenden',
+            'common.supportpanel.arende.tooltip.minimized': 'Öppnar fliken med ärendekommunikation',
             'common.supportpanel.help.title': 'Tips & Hjälp',
             'common.supportpanel.help.tooltip': 'Läs om intyget.',
+            'common.supportpanel.help.title.minimized': 'Om intyget',
+            'common.supportpanel.help.tooltip.minimized': 'Öppnar fliken med information om intyget.',
+            'common.supportpanel.minimize.tooltip': 'Döljer högerfätet',
 
             // Approve receivers related resources
             'common.receivers.save.btn': 'Spara',

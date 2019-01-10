@@ -16,17 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'common.ArendeListViewStateService', 'common.dynamicLabelService',
-    function($rootScope, ArendeListViewState, dynamicLabelService) {
+angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'common.ArendeListViewStateService',
+    'common.dynamicLabelService', 'common.UserModel', 'common.User',
+    function($rootScope, ArendeListViewState, dynamicLabelService, UserModel, UserService) {
         'use strict';
 
         return {
             restrict: 'E',
             scope: {
-                config: '='
+                config: '=',
+                minimized: '=?'
             },
             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelManager.directive.html',
-            link: function($scope) {
+            link: function($scope, element) {
+
+                $scope.minimized = UserModel.getAnvandarPreference('wc.sidebarMinimized') === 'true';
+                if($scope.minimized) {
+                    element.addClass('minimized');
+                }
 
                 $scope.onSelect = function(newtab, $event) {
                     $event.preventDefault();
@@ -38,10 +45,23 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
                     $scope.$broadcast('panel.activated', newtab.id);
                 };
 
+                $scope.onSelectMinimized = function(newtab, $event) {
+                    // show sidepanel.
+                    $scope.setMinimized(false);
+                    $scope.onSelect(newtab, $event);
+                };
+
                 var hasArende = false;
                 $scope.config.tabs.forEach(function(tab) {
+
+                    setupMinimizedTabConfig(tab);
+
                     if (tab.id === 'wc-arende-panel-tab') {
                         hasArende = true;
+
+                        $rootScope.$on('totalArendenCount.updated', function(event, arenden) {
+                            tab.minimized.notificationCount = arenden.count;
+                        });
                     }
                 });
                 if (!hasArende) {
@@ -53,6 +73,29 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
                 $scope.getText = function(key) {
                     return dynamicLabelService.getProperty(key);
                 };
+
+                $scope.setMinimized = function(value) {
+                    $scope.minimized = value;
+                    UserService.storeAnvandarPreference('wc.sidebarMinimized', value ? 'true' : 'false');
+                    element.toggleClass('minimized', value);
+                };
+
+                function setupMinimizedTabConfig(tab) {
+
+                    tab.minimized = tab.minimized || {};
+
+                    if(tab.id === 'wc-arende-panel-tab') {
+                        tab.minimized.icon = 'message';
+                    } else if(tab.id === 'wc-help-tips-panel-tab') {
+                        tab.minimized.icon = 'icon-wc-ikon-24';
+                        tab.minimized.iconIsCustom = true;
+                    }
+
+                    tab.minimized.notificationCount = 0;
+                    tab.minimized.icon = tab.minimized.icon || tab.icon;
+                    tab.minimized.tooltip = tab.minimized.tooltip || tab.tooltip + '.minimized';
+                    tab.minimized.title = tab.minimized.title || tab.title + '.minimized';
+                }
             }
         };
     }

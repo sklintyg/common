@@ -61,6 +61,9 @@ angular.module('common').directive('wcArendePanelTab', [
                         }
                     }
                 });
+                $rootScope.$emit('totalArendenCount.updated', {
+                    count: $scope.unhandledAdministrativaFragorCount + $scope.unhandledKompletteringCount
+                });
             }
 
             $scope.$on('arenden.updated', function(){
