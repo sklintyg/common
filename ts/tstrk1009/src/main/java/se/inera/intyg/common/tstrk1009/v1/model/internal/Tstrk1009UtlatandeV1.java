@@ -53,7 +53,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
     public abstract String getSignature();
 
     @Nullable
-    public abstract KvIdKontroll getIdentitetStyrktGenom();
+    public abstract IdentitetStyrktGenom getIdentitetStyrktGenom();
 
     @Nullable
     public abstract AnmalanAvser getAnmalanAvser();
@@ -96,7 +96,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Builder setSignature(final String signature);
 
         @JsonProperty("identitetStyrktGenom")
-        public abstract Builder setIdentitetStyrktGenom(final KvIdKontroll kvIdKontroll);
+        public abstract Builder setIdentitetStyrktGenom(final IdentitetStyrktGenom identitetStyrktGenom);
 
         @JsonProperty("anmalanAvser")
         public abstract Builder setAnmalanAvser(final AnmalanAvser anmalanAvser);

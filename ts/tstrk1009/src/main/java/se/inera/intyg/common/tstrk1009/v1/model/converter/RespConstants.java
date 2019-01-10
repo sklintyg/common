@@ -30,5 +30,13 @@ public final class RespConstants {
     public static final String ANMALAN_AVSER_SVAR_ID = "46";
     public static final String ANMALAN_AVSER_DELSVAR_ID = "46.1";
 
+    public static final String MEDICINSKA_FORHALLANDEN_SVAR_ID = "47";
+    public static final String MEDICINSKA_FORHALLANDEN_DELSVAR_ID = "47.1";
 
+    public static final String INTYGET_AVSER_BEHORIGHET_SVAR_ID = "1";
+    public static final String INTYGET_AVSER_BEHORIGHET_DELSVAR_ID = "1.1";
+
+
+    public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID = "49";
+    public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID = "49.1";
 }

@@ -20,6 +20,7 @@ package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public enum IntygetAvserBehorighet {
     AM("VAR12", "AM", "Moped klass I"),
@@ -62,6 +63,11 @@ public enum IntygetAvserBehorighet {
 
     public String getDescription() {
         return description;
+    }
+
+    public static IntygetAvserBehorighet fromCode(final String code) {
+        return Stream.of(IntygetAvserBehorighet.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     /**
