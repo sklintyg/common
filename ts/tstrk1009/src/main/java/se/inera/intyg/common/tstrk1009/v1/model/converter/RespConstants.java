@@ -21,10 +21,10 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 public final class RespConstants {
 
     public static final String CATEGORY_IDENTITET = "identitet"; //KAT_1
-    public static final String CATEGORY_OLAMPLIGHET = "olamplighet"; //KAT_2
-    public static final String CATEGORY_GRUNDFOROLAMPLIGHET = "grundforolamplighet"; //KAT_3
-    public static final String CATEGORY_BEHORIGHET = "behorighet"; //KAT_4
-    public static final String CATEGORY_OMINFOONSKAS = "omextrainfonskas"; //KAT_5
+    public static final String CATEGORY_ANMALAN = "anmalan"; //KAT_2
+    public static final String CATEGORY_MEDICINSKAFORHALLANDEN = "medicinskaforhallanden"; //KAT_3
+    public static final String CATEGORY_BEDOMNING = "bedomning"; //KAT_4
+    public static final String CATEGORY_INFORMATIONOMBESLUT = "informationombeslut"; //KAT_5
 
     public static final String KV_ID_KONTROLL_KODSYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
     public static final String KV_KORKORTSOLAMPLIGHET_KODSYSTEM = "1.2.752.129.5.1.4";

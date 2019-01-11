@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.validator;
 
-import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_BEHORIGHET;
-import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_GRUNDFOROLAMPLIGHET;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_ANMALAN;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_IDENTITET;
-import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_OLAMPLIGHET;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_MEDICINSKAFORHALLANDEN;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,30 +64,36 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     private static void validateIdentitet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Identitet styrkt genom
         if (utlatande.getIdentitetStyrktGenom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.EMPTY);
         }
     }
 
     private static void validateOlamplighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Anmälan avser olämplighet eller sannolik olämplighet
         if (utlatande.getAnmalanAvser() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_OLAMPLIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ANMALAN, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.EMPTY);
         }
     }
 
     private static void validateGrundForOlamplighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Medicinska förhållanden som utgör grund för olämplighet
         if (Strings.isNullOrEmpty(utlatande.getMedicinskaForhallanden())) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFOROLAMPLIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.EMPTY);
         }
 
         // Senaste undersökningsdatum
         if (utlatande.getSenasteUndersokningsdatum() == null || utlatande.getSenasteUndersokningsdatum().getDate().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFOROLAMPLIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.EMPTY);
         } else if (!utlatande.getSenasteUndersokningsdatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFOROLAMPLIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.INVALID_FORMAT);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.INVALID_FORMAT);
         } else if (eligibleForRule1(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFOROLAMPLIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.OTHER);
         }
     }
 
@@ -95,18 +101,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getBehorigheter() == null
                 || utlatande.getIntygetAvserBehorigheter().getBehorigheter().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.EMPTY);
         } else if (utlatande.getIntygetAvserBehorigheter().getBehorigheter().size() > 16) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
+                    ValidationMessageType.OTHER);
         }
     }
 
     private static void validateOmExtraInfoOnskas(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Ej obligatorisk fraga -> ingen validering.
     }
-
 
     private static boolean eligibleForRule1(Tstrk1009UtlatandeV1 utlatande) {
         return utlatande.getSenasteUndersokningsdatum() != null
