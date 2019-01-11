@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.validator;
 
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_BEHORIGHET;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_GRUNDFOROLAMPLIGHET;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_IDENTITET;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_OLAMPLIGHET;
@@ -94,11 +95,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getBehorigheter() == null
                 || utlatande.getIntygetAvserBehorigheter().getBehorigheter().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.EMPTY);
         } else if (utlatande.getIntygetAvserBehorigheter().getBehorigheter().size() > 16) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEHORIGHET, TEMPORARY_JSON_ID_PLACEHOLDER, ValidationMessageType.OTHER);
         }
     }
 
