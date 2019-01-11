@@ -96,7 +96,7 @@ public class ValidatorUtilFK {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
                     DIAGNOS_SVAR_JSON_ID_6 + "[0].row",
-                    ValidationMessageType.EMPTY, "common.validation.c-05");
+                    ValidationMessageType.EMPTY, "common.validation.c-13a");
             return;
         }
 
