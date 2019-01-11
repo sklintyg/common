@@ -24,10 +24,6 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
-/**
- * @author erik
- *
- */
 public final class InternalToTransport {
 
     private InternalToTransport() {
@@ -38,9 +34,9 @@ public final class InternalToTransport {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
-        RegisterCertificateType tsbasType = new RegisterCertificateType();
-        tsbasType.setIntyg(UtlatandeToIntyg.convert(source));
-        tsbasType.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
-        return tsbasType;
+        RegisterCertificateType tstrk1009Certificate = new RegisterCertificateType();
+        tstrk1009Certificate.setIntyg(UtlatandeToIntyg.convert(source));
+        tstrk1009Certificate.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
+        return tstrk1009Certificate;
     }
 }

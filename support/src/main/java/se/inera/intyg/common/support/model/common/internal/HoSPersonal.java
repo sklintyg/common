@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.google.common.base.MoreObjects;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,32 +40,6 @@ public class HoSPersonal {
     private List<String> specialiteter;
 
     private Vardenhet vardenhet;
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof HoSPersonal)) {
-            return false;
-        }
-        final HoSPersonal that = (HoSPersonal) object;
-        return Objects.equals(this.personId, that.personId)
-                && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
-                && Objects.equals(this.forskrivarKod, that.forskrivarKod)
-                && Objects.equals(this.titel, that.titel)
-                && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
-                && Objects.deepEquals(this.befattningar, that.befattningar)
-                && Objects.deepEquals(this.specialiteter, that.specialiteter)
-                && Objects.equals(this.vardenhet, that.vardenhet);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod,
-                this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter);
-    }
 
     public List<String> getSpecialiteter() {
         if (specialiteter == null) {
@@ -128,4 +103,43 @@ public class HoSPersonal {
         this.vardenhet = vardenhet;
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof HoSPersonal)) {
+            return false;
+        }
+        final HoSPersonal that = (HoSPersonal) object;
+        return Objects.equals(this.personId, that.personId)
+                && Objects.equals(this.fullstandigtNamn, that.fullstandigtNamn)
+                && Objects.equals(this.forskrivarKod, that.forskrivarKod)
+                && Objects.equals(this.titel, that.titel)
+                && Objects.equals(this.medarbetarUppdrag, that.medarbetarUppdrag)
+                && Objects.deepEquals(this.befattningar, that.befattningar)
+                && Objects.deepEquals(this.specialiteter, that.specialiteter)
+                && Objects.equals(this.vardenhet, that.vardenhet);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.personId, this.fullstandigtNamn, this.forskrivarKod,
+                this.titel, this.medarbetarUppdrag, this.befattningar, this.specialiteter);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("personId", personId)
+                .add("fullstandigtNamn", fullstandigtNamn)
+                .add("forskrivarKod", forskrivarKod)
+                .add("titel", titel)
+                .add("medarbetarUppdrag", medarbetarUppdrag)
+                .add("befattningar", befattningar)
+                .add("specialiteter", specialiteter)
+                .add("vardenhet", vardenhet)
+                .toString();
+    }
 }

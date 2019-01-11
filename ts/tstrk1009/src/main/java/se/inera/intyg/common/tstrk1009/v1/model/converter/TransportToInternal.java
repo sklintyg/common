@@ -21,7 +21,6 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 import static com.google.common.base.Strings.emptyToNull;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_SVAR_ID;
@@ -66,7 +65,7 @@ public final class TransportToInternal {
 
     private static void setMetaData(Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
         utlatande.setId(intygSource.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, true));
+        utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, false));
         utlatande.setTextVersion(intygSource.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intygSource.getUnderskrift()));
     }
@@ -88,12 +87,15 @@ public final class TransportToInternal {
                     break;
                 case SENASTE_UNDERSOKNINGSDATUM_SVAR_ID:
                     handleSenasteUndersokningsdatum(utlatande, svar);
+                    break;
                 case INTYGET_AVSER_BEHORIGHET_SVAR_ID:
                     handleIntygetAvserBehorighet(intygetAvserBehorigheter, svar);
                     break;
                 case INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID:
                     handleInformationOmTsBeslutOnskas(utlatande, svar);
                     break;
+                default:
+                    throw new IllegalArgumentException();
             }
 
             if (!intygetAvserBehorigheter.isEmpty()) {

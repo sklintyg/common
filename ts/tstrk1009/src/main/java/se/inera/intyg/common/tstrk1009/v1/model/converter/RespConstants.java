@@ -23,6 +23,10 @@ public final class RespConstants {
     private RespConstants() {
     }
 
+    public static final String KV_ID_KONTROLL_KODSYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
+    public static final String KV_KORKORTSOLAMPLIGHET_KODSYSTEM = "1.2.752.129.5.1.4";
+    public static final String KV_KORKORTSBEHORIGHET_KODSYSTEM = "e889fa20-1dee-4f79-8b37-03853e75a9f8";
+
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
 
@@ -37,7 +41,6 @@ public final class RespConstants {
 
     public static final String INTYGET_AVSER_BEHORIGHET_SVAR_ID = "1";
     public static final String INTYGET_AVSER_BEHORIGHET_DELSVAR_ID = "1.1";
-
 
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID = "49";
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID = "49.1";
