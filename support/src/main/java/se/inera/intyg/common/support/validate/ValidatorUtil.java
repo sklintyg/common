@@ -152,7 +152,7 @@ public final class ValidatorUtil {
      * Performs the normal date validation {@link ValidatorUtil#validateDate(InternalDate, List, String, String, String)} as
      * well as
      * checking if the supplied date is in the future. If future, a {@link ValidationMessage} of type
-     * {@link ValidationMessageType#WARN}
+     * {@link ValidationMessageType#OTHER}
      * is added to the supplied list of validationMessages.
      *
      * @param date               Date to validate.
@@ -162,12 +162,11 @@ public final class ValidatorUtil {
      * @return True if date was valid according to
      * {@link ValidatorUtil#validateDate(InternalDate, List, String, String, String)}.
      */
-    public static boolean validateDateAndWarnIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
-            String category, String field) {
+    public static boolean validateDateAndCheckIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
+                                                       String category, String field) {
         boolean isValid = validateDate(date, validationMessages, category, field, null);
 
         // For structurally valid dates, check if it is a future date
-        // Note that being in the future doesn't make it invalid per se, only WARN
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
             ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.OTHER,
                     "common.validation.c-06");

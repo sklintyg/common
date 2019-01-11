@@ -147,7 +147,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         if (utlatande.getKannedomOmPatient() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, ValidationMessageType.EMPTY);
         } else {
-            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
+            boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
                     CATEGORY_GRUNDFORMU, "kannedomOmPatient");
             if (dateIsValid) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
@@ -214,8 +214,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
                         UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
                         "luae_fs.validation.underlag.date.missing");
             } else {
-                ValidatorUtil.validateDate(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", null);
+                ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
+                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum");
             }
             if (underlag.getHamtasFran() == null || underlag.getHamtasFran().trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,

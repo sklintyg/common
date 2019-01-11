@@ -152,7 +152,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         if (utlatande.getKannedomOmPatient() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, ValidationMessageType.EMPTY);
         } else {
-            boolean dateIsValid = ValidatorUtil.validateDateAndWarnIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
+            boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
                     CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2);
             if (dateIsValid) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
@@ -219,7 +219,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                         UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", ValidationMessageType.EMPTY,
                         "luse.validation.underlag.date.missing");
             } else {
-                ValidatorUtil.validateDateAndWarnIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
+                ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
                         UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum");
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {

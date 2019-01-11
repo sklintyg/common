@@ -87,7 +87,7 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForDateWhenBefore1900() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate(LocalDate.now().withYear(1850)), errors, "testcategory", "testfield");
+        boolean valid = ValidatorUtil.validateDateAndCheckIfFuture(new InternalDate(LocalDate.now().withYear(1850)), errors, "testcategory", "testfield");
         assertFalse(valid);
         assertEquals(1, errors.size());
         assertEquals("common.validation.date_out_of_range", errors.get(0).getMessage());
@@ -96,7 +96,7 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForDateWhenOneHundredYearsInTheFuture() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate(LocalDate.now().plusYears(100L)), errors, "testcategory", "testfield");
+        boolean valid = ValidatorUtil.validateDateAndCheckIfFuture(new InternalDate(LocalDate.now().plusYears(100L)), errors, "testcategory", "testfield");
         assertFalse(valid);
         assertEquals(2, errors.size());
     }
@@ -104,7 +104,7 @@ public class ValidatorUtilTest {
     @Test
     public void testDateValidationForDateOnDayInTheFuture() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate(LocalDate.now().plusDays(1)), errors, "testcategory", "testfield");
+        boolean valid = ValidatorUtil.validateDateAndCheckIfFuture(new InternalDate(LocalDate.now().plusDays(1)), errors, "testcategory", "testfield");
         assertTrue(valid);
         assertEquals(1, errors.size());
         assertEquals("common.validation.c-06", errors.get(0).getMessage());
@@ -113,7 +113,7 @@ public class ValidatorUtilTest {
     @Test
     public void testGarbageDateDoesNotReturnFutureMessage() {
         List<ValidationMessage> errors = new ArrayList<>();
-        boolean valid = ValidatorUtil.validateDateAndWarnIfFuture(new InternalDate("notADate"), errors, "testcategory", "testfield");
+        boolean valid = ValidatorUtil.validateDateAndCheckIfFuture(new InternalDate("notADate"), errors, "testcategory", "testfield");
         assertFalse(valid);
         assertEquals(1, errors.size());
     }
