@@ -65,7 +65,7 @@ public class ValidatorUtilSKL {
             // Om första diagnosen saknas, så ska det visas fel för hela första raden. Då ska inga andra fel visas.
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_DIAGNOS,
                     TYP_AV_DIAGNOS_SVAR_JSON_ID_4 + "[0].row",
-                    ValidationMessageType.EMPTY, "common.validation.c-13a");
+                    ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-13a");
             return;
         }
 
