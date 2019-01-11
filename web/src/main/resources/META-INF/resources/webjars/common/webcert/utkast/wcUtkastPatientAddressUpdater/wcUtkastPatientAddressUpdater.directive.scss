@@ -9,4 +9,22 @@ wc-utkast-patient-address-updater {
     margin:5px 0 0 0;
   }
 
+  .btn{
+    padding-top: 8px;
+    padding-bottom: 6px;
+
+    &.idle .glyphicon:before{
+      display: block;
+      animation: rotate360 1.5s linear infinite;
+    }
+  }
+}
+
+@keyframes rotate360 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -3,8 +3,9 @@
           id="fetchPatientButton"
           class="btn btn-secondary"
           ng-click="onUpdateAddressClick()"
+          ng-class="{'idle' : fetchingPatientData}"
           ng-disabled="disableButton">
-    <img ng-if="fetchingPatientData" ng-src="/img/loader-small.gif" /><i ng-if="!fetchingPatientData" class="glyphicon glyphicon-refresh"></i>
+    <i class="glyphicon glyphicon-refresh"></i>
   </button>
   <span class="patient-address-updater-label">Hämta adressuppgifter från personuppgiftstjänsten</span>
   <wc-alert-message ng-show="fetchingPatientDataErrorKey"
