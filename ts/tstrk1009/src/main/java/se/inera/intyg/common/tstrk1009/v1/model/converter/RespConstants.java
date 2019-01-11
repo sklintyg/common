@@ -20,8 +20,11 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 public final class RespConstants {
 
-    private RespConstants() {
-    }
+    public static final String CATEGORY_IDENTITET = "identitet"; //KAT_1
+    public static final String CATEGORY_OLAMPLIGHET = "olamplighet"; //KAT_2
+    public static final String CATEGORY_GRUNDFOROLAMPLIGHET = "grundforolamplighet"; //KAT_3
+    public static final String CATEGORY_BEHORIGHET = "behorighet"; //KAT_4
+    public static final String CATEGORY_OMINFOONSKAS = "omextrainfonskas"; //KAT_5
 
     public static final String KV_ID_KONTROLL_KODSYSTEM = "e7cc8f30-a353-4c42-b17a-a189b6876647";
     public static final String KV_KORKORTSOLAMPLIGHET_KODSYSTEM = "1.2.752.129.5.1.4";
@@ -44,4 +47,7 @@ public final class RespConstants {
 
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID = "49";
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID = "49.1";
+
+    private RespConstants() {
+    }
 }

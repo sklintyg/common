@@ -90,12 +90,12 @@ public enum IntygetAvserBehorighet {
         return EnumSet.of(D1, D1E, D, DE);
     }
 
-    public static IntygetAvserBehorighet getTaxiBehorigheter() {
-        return TAXI;
+    public static Set<IntygetAvserBehorighet> getTaxiBehorigheter() {
+        return EnumSet.of(TAXI);
     }
 
-    public static IntygetAvserBehorighet getKanintetastallning() {
-        return KANINTETASTALLNING;
+    public static Set<IntygetAvserBehorighet> getKanintetastallning() {
+        return EnumSet.of(KANINTETASTALLNING);
     }
 
 }
