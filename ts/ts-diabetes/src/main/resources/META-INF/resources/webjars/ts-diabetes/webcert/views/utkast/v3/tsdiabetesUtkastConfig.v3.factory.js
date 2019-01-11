@@ -448,6 +448,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                             },
                             {
                                 type: 'ue-grid',
+                                independentRowValidation: true,
                                 components: [
                                     // Row 1
                                     [{}, {
