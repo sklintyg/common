@@ -108,6 +108,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                 type: 'ue-percent-field',
                                 modelProp: 'sjukskrivningsgrad',
                                 numbersOnly: true,
+                                independentRowValidation: true,
                                 label: {
                                     key: 'DFR_7.1.RBK',
                                     helpKey: 'DFR_7.1.HLP',
@@ -124,8 +125,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             },
                             {
                                 type: 'ue-grid',
-                                cssClass: 'horizontal',
                                 colSizes: [1,2,1,1,2],
+                                independentRowValidation: true,
                                 components: [
                                     // Row 1
                                     [{
