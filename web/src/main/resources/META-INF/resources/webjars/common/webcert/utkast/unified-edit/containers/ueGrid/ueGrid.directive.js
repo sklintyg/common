@@ -64,7 +64,11 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
 
             $scope.getFirstRowValidations = function(bool) {
                 if (bool) {
-                    return $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
+                    var required;
+                    if ($scope.config.firstRequiredRowKey) {
+                        required = $scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()];
+                    }
+                    return required || $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
                 }
             };
             

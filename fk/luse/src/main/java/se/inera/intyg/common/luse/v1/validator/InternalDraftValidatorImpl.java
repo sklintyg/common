@@ -233,7 +233,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         if (utlatande.getUnderlag().size() > 1 && !validateFirstUnderlagIsPresent(utlatande.getUnderlag())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
                         UNDERLAG_SVAR_JSON_ID_4 + "[0]",
-                        ValidationMessageType.EMPTY,
+                        ValidationMessageType.INCORRECT_COMBINATION,
                         "common.validation.c-05");
         }
     }
