@@ -642,6 +642,7 @@
             'common.validation.ue-sjukfranvaro.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
             'common.validation.ue-sjukfranvaro.empty': 'Fältet får inte vara tomt.',
             'common.validation.ue-sjukfranvaro.invalid_format': 'Fältet har ogiltigt format.',
+            'common.validation.ue-grid.empty': 'Ange ett svar.',
 
 
             // Specifika valideringsmeddelande från backend

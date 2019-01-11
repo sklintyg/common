@@ -168,44 +168,45 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                             modelProp: 'kannedomOmPatient'
 
                         }]),
-                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { validationContext: {key: 'underlag', type: 'ue-underlag'}, required: true, requiredProp: 'underlagFinns'}, [{
+                        fraga(3, 'FRG_3.RBK', 'FRG_3.HLP', { required: true, requiredProp: 'underlagFinns'}, [{
                             type: 'ue-radio',
                             modelProp: 'underlagFinns',
                             paddingBottom: true
-                        },
-                            {
-                                type: 'ue-grid',
-                                hideExpression: '!model.underlagFinns',
-                                colSizes: [3,3,6],
-                                independentRowValidation: true,
-                                components: [
-                                    // Row 1
-                                    [{
-                                        type: 'ue-form-label',
-                                        required: true,
-                                        key: 'FRG_4.RBK',
-                                        helpKey: 'FRG_4.RBK.HLP',
-                                        requiredProp: 'underlag[0].typ'
-                                    },{
-                                        type: 'ue-form-label',
-                                        required: true,
-                                        key: 'common.label.date',
-                                        requiredProp: 'underlag[0].datum'
-                                    },{
-                                        type: 'ue-form-label',
-                                        required: true,
-                                        key: 'DFR_4.3.RBK',
-                                        helpKey: 'DFR_4.3.HLP',
-                                        requiredProp: 'underlag[0].hamtasFran'
-                                    }],
-                                    // Row 2-4
-                                    buildUnderlagConfigRow(0),
-                                    buildUnderlagConfigRow(1),
-                                    buildUnderlagConfigRow(2)
-                                ]
+                        },{
+                            type: 'ue-grid',
+                            hideExpression: '!model.underlagFinns',
+                            colSizes: [3,3,6],
+                            independentRowValidation: true,
+                            modelProp: 'underlag',
+                            firstRequiredRow: 1,
+                            firstRequiredRowKey: 'underlag[0]',
+                            components: [
+                                // Row 1
+                                [{
+                                    type: 'ue-form-label',
+                                    required: true,
+                                    key: 'FRG_4.RBK',
+                                    helpKey: 'FRG_4.RBK.HLP',
+                                    requiredProp: 'underlag[0].typ'
+                                },{
+                                    type: 'ue-form-label',
+                                    required: true,
+                                    key: 'common.label.date',
+                                    requiredProp: 'underlag[0].datum'
+                                },{
+                                    type: 'ue-form-label',
+                                    required: true,
+                                    key: 'DFR_4.3.RBK',
+                                    helpKey: 'DFR_4.3.HLP',
+                                    requiredProp: 'underlag[0].hamtasFran'
+                                }],
+                                // Row 2-4
+                                buildUnderlagConfigRow(0),
+                                buildUnderlagConfigRow(1),
+                                buildUnderlagConfigRow(2)
+                            ]
 
-                            }
-                        ])
+                        }])
                     ]),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [

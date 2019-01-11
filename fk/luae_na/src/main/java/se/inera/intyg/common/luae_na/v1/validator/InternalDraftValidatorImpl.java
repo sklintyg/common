@@ -238,6 +238,20 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
                         "luae_na.validation.underlag.hamtas-fran.missing");
             }
         }
+
+        if (utlatande.getUnderlag().size() > 1 && !validateFirstUnderlagIsPresent(utlatande.getUnderlag())) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                        UNDERLAG_SVAR_JSON_ID_4 + "[0]",
+                        ValidationMessageType.EMPTY,
+                        "common.validation.c-05");
+        }
+    }
+
+    private Boolean validateFirstUnderlagIsPresent(List<Underlag> underlagList) {
+        Underlag underlag = underlagList.get(0);
+        return underlag.getDatum() != null
+                || !Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()
+                || underlag.getTyp() != null;
     }
 
     private void validateSjukdomsforlopp(LuaenaUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {

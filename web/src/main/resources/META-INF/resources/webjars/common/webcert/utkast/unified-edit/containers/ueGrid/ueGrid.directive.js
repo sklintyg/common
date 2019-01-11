@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState',
-    function(UtkastValidationViewState) {
+angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState', '$parse',
+    function(UtkastValidationViewState, $parse) {
     'use strict';
     return {
         restrict: 'E',
@@ -29,6 +29,7 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGrid/ueGrid.directive.html',
         link: function($scope) {
+            var firstRowError =  [{key: $scope.config.firstRequiredRowKey, type: 'ue-grid'}];
             $scope.validation = UtkastValidationViewState;
             $scope.getColSize = function(row, $index) {
                 if ($scope.config.colSizes) {
@@ -39,14 +40,34 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
             };
 
             $scope.useRowValidation = !!$scope.config.validationRows;
-            $scope.getRowValidationKeys = function(row, $index) {
-                return $scope.config.validationRows[$index];
+            $scope.getRowValidationKeys = function(rowIndex, colIndex) {
+                if (!validOrder() && rowIndex === $scope.config.firstRequiredRow) {
+                    return firstRowError;
+                } else {
+                    return $scope.config.validationRows[colIndex];
+                }
             };
+
+            function validOrder() {
+                if (angular.isDefined($scope.config.firstRequiredRow)) {
+                    if ($scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()]) {
+                        return false;
+                    }
+                }
+                return true;
+            }
 
             if ($scope.config.validationContext) {
                 $scope.validationKeys = [];
                 $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
             }
+
+            $scope.getFirstRowValidations = function(bool) {
+                if (bool) {
+                    return $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
+                }
+            };
+            
         }
     };
 
