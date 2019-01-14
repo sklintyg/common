@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.stream.Stream;
 
 public enum AnmalanAvser {
@@ -32,6 +34,26 @@ public enum AnmalanAvser {
         this.description = description;
     }
 
+    @JsonCreator
+    public static AnmalanAvser fromId(@JsonProperty("id") String id) {
+        final String normId = id != null ? id.trim() : null;
+        for (AnmalanAvser typ : values()) {
+            if (typ.name().equals(normId)) {
+                return typ;
+            }
+        }
+        throw new IllegalArgumentException(id);
+    }
+
+    public static AnmalanAvser fromCode(final String code) {
+        return Stream.of(AnmalanAvser.values()).filter(s -> code.equals(s.getCode())).findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
+    }
+
+    public String getId() {
+        return this.name();
+    }
+
     public String getCode() {
         return code;
     }
@@ -40,8 +62,4 @@ public enum AnmalanAvser {
         return description;
     }
 
-    public static AnmalanAvser fromCode(final String code) {
-        return Stream.of(AnmalanAvser.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
-    }
 }
