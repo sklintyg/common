@@ -65,7 +65,7 @@ angular.module('common').directive('wcIntygStatus', [
                 function addIntygStatus1(intygStatus, timestamp, vars) {
                     $scope.intygstatus1.push({
                         code: intygStatus,
-                        timestamp: timestamp,
+                        timestamp: dateToString(timestamp),
                         text: IntygStatusService.getMessageForIntygStatus(intygStatus, vars),
                         modal: IntygStatusService.intygStatusHasModal(intygStatus)
                     });
@@ -74,10 +74,15 @@ angular.module('common').directive('wcIntygStatus', [
                 function addIntygStatus2(intygStatus, timestamp, vars) {
                     $scope.intygstatus2.push({
                         code: intygStatus,
-                        timestamp: timestamp,
+                        timestamp: dateToString(timestamp),
                         text: IntygStatusService.getMessageForIntygStatus(intygStatus, vars),
                         modal: IntygStatusService.intygStatusHasModal(intygStatus)
                     });
+                }
+
+                function dateToString(timestamp) {
+                    // timestamp is sometimes JS date objects, convert those to a comparable string
+                    return typeof timestamp === 'object' ? moment(timestamp).format('YYYY-MM-DD[T]HH:mm:ss.SSS') : timestamp;
                 }
 
                 $scope.$on('intyg.loaded', updateIntygStatus);
