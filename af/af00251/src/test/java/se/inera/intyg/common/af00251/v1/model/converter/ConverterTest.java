@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
@@ -45,11 +46,14 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLHelper;
 
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.rest.AF00251ModuleApiV1;
 import se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.af_parent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
@@ -57,7 +61,8 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Obje
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class ConverterTest {
 
     private InternalDraftValidator internalValidator = new InternalDraftValidatorImpl();
@@ -66,6 +71,10 @@ public class ConverterTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
+    }
+
+    public ConverterTest() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

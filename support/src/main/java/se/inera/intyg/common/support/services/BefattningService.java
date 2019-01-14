@@ -21,92 +21,102 @@ package se.inera.intyg.common.support.services;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.io.Reader;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.PostConstruct;
+
+import org.apache.commons.csv.CSVFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.stereotype.Service;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableBiMap;
+import com.google.common.io.Closeables;
 
-public final class BefattningService {
+@Service
+public class BefattningService {
 
     private static final Logger LOG = LoggerFactory.getLogger(BefattningService.class);
-    private static final String CSV_SEPARATOR = ";";
+    private static final char CSV_DELIMITER = ';';
 
-    private static Map<String, String> codeToDescription;
-    private static Map<String, String> descriptionToCode;
+    private ImmutableBiMap<String, String> codeMap = ImmutableBiMap.of();
 
-    private BefattningService() {
-    }
+    // FIXME: A very dirty construction to be backward compatible and yet be able to externalize the configuration.
+    // This class has to be initialized as a spring component in order to function properly.
+    static BefattningService instance = null;
 
-    static {
-        codeToDescription = new HashMap<>();
-        descriptionToCode = new HashMap<>();
+    @Value("${befattningskoder.file:classpath:codes/befattningskoder.csv}")
+    Resource resource;
 
-        String fileUrl = "codes/befattningskoder.csv";
+    @Autowired
+    ResourceLoader resourceLoader;
 
-        LOG.debug("Loading file '{}'", fileUrl);
-
-        BufferedReader br = null;
-
+    @PostConstruct
+    void initialize() {
+        final Reader reader = open();
         try {
-            Resource resource = new DefaultResourceLoader().getResource(fileUrl);
+            final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 
-            if (!resource.exists()) {
-                String message = "Could not load file since the resource '" + fileUrl + "' does not exists";
-                LOG.error(message);
-                throw new RuntimeException(message);
-            }
+            CSVFormat.DEFAULT.withDelimiter(CSV_DELIMITER).parse(reader).forEach(r -> {
+                codeBuilder.put(r.get(0), r.get(1));
+            });
 
-            br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
-            br.readLine(); // skip headers
-            int i = 1;
+            this.codeMap = codeBuilder.build();
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(CSV_SEPARATOR);
+            LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
 
-                if (values.length < 2) {
-                    LOG.error("Invalid row {}", i);
-                } else if (codeToDescription.containsKey(values[0])) {
-                    LOG.error("Ignoring code " + values[0] + " with description " + values[1] + " since code already exists in file.");
-                } else if (descriptionToCode.containsKey(values[1])) {
-                    LOG.error("Ignoring code " + values[0] + " with description "
-                            + values[1] + " since description already exists in file.");
-                } else {
-                    codeToDescription.put(values[0], values[1]);
-                    descriptionToCode.put(values[1], values[0]);
-                }
-                i++;
-            }
-            LOG.debug("Initialized {} codes with descriptions", codeToDescription.keySet().size());
+            instance = this;
+
         } catch (IOException ioe) {
-            LOG.error("IOException occured when loading file '{}'", fileUrl);
-            throw new RuntimeException("Error occured when loading diagnosis file", ioe);
+            throw new RuntimeException(String.format("Error occurred when parsing: %s", resource), ioe);
         } finally {
-            if (br != null) {
-                try {
-                    br.close();
-                } catch (IOException e) {
-                    LOG.error("Error closing buffered reader {}", e);
-                }
-            }
+            Closeables.closeQuietly(reader);
         }
     }
 
-    public static Optional<String> getDescriptionFromCode(String code) {
-        return !Strings.nullToEmpty(code).trim().isEmpty()
-                ? Optional.ofNullable(codeToDescription.get(code.trim()))
-                : Optional.empty();
+    Reader open() {
+        try {
+            return new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Error occurred when opening: %s", resource), e);
+        }
     }
 
+    public Map<String, String> codeMap() {
+        return this.codeMap;
+    }
+
+    private Optional<String> lookup(final String key, final boolean inverse) {
+        if (Strings.isNullOrEmpty(key)) {
+            return Optional.empty();
+        }
+        final Map<String, String> map = inverse ? this.codeMap.inverse() : this.codeMap;
+        return Optional.ofNullable(map.get(key.trim()));
+    }
+
+    // for legacy compatibility only
+    static BefattningService instance() {
+        if (Objects.isNull(instance)) {
+            throw new IllegalStateException("Not properly initialized");
+        }
+        return instance;
+    }
+
+    // static due to legacy compatibility
+    public static Optional<String> getDescriptionFromCode(String code) {
+        return instance().lookup(code, false);
+    }
+
+    // static due to legacy compatibility
     public static Optional<String> getCodeFromDescription(String description) {
-        return !Strings.nullToEmpty(description).trim().isEmpty()
-                ? Optional.ofNullable(descriptionToCode.get(description.trim()))
-                : Optional.empty();
+        return instance().lookup(description, true);
     }
 }

@@ -35,12 +35,15 @@ import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContextManager;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;
@@ -53,6 +56,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(Parameterized.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class RoundTripTest {
 
     private Scenario scenario;
@@ -76,7 +80,8 @@ public class RoundTripTest {
 
     private String name;
 
-    public RoundTripTest(String name, Scenario scenario) {
+    public RoundTripTest(String name, Scenario scenario) throws Exception {
+        new TestContextManager(getClass()).prepareTestInstance(this);
         this.scenario = scenario;
         this.name = name;
     }

@@ -27,9 +27,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.ag114.pdf.PdfGenerator;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
@@ -58,6 +61,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
@@ -99,7 +103,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class Ag114ModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
@@ -142,6 +147,11 @@ public class Ag114ModuleApiTest {
 
     @InjectMocks
     private Ag114ModuleApiV1 moduleApi;
+
+    public Ag114ModuleApiTest() {
+        MockitoAnnotations.initMocks(this);
+    }
+
 
     @Before
     public void setUp() throws Exception {

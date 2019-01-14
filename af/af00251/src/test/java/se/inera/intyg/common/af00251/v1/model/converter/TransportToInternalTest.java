@@ -20,6 +20,9 @@ package se.inera.intyg.common.af00251.v1.model.converter;
 
 import com.google.common.collect.Lists;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
@@ -27,6 +30,7 @@ import se.inera.intyg.common.af00251.v1.model.internal.PrognosAtergang;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -34,6 +38,8 @@ import java.time.LocalDate;
 
 import static org.junit.Assert.assertEquals;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
     public static AF00251UtlatandeV1 getUtlatande() {

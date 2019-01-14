@@ -23,7 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -42,10 +45,14 @@ import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+import se.inera.intyg.common.support.services.BefattningService;
+
 
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class UVRendererTest {
 
     private static final String PNR = "19121212-1212";

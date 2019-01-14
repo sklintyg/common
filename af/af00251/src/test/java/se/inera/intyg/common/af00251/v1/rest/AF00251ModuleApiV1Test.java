@@ -28,9 +28,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
@@ -52,6 +55,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -90,7 +94,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class AF00251ModuleApiV1Test {
 
     public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-minimal.json";
@@ -122,6 +127,11 @@ public class AF00251ModuleApiV1Test {
 
     @InjectMocks
     private AF00251ModuleApiV1 moduleApi;
+
+
+    public AF00251ModuleApiV1Test() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testSendCertificateShouldUseXml() {
