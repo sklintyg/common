@@ -72,8 +72,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Tstrk1009Utl
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);
 
-        template.setIntygetAvserBehorigheter(IntygetAvserBehorigheter.create(null));
-
         return template.build();
     }
 

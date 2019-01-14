@@ -33,13 +33,13 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 public abstract class IntygetAvserBehorigheter {
 
     @JsonCreator
-    public static IntygetAvserBehorigheter create(@JsonProperty("intygetAvserBehorigheter") final EnumSet<IntygetAvserBehorighet> typerToCreate) {
+    public static IntygetAvserBehorigheter create(@JsonProperty("behorigheter") EnumSet<IntygetAvserBehorighet> behorigheterToCreate) {
 
-        final EnumSet<IntygetAvserBehorighet> behorighetTyper = (typerToCreate == null)
+        final EnumSet<IntygetAvserBehorighet> behorigheter = (behorigheterToCreate == null)
                 ? EnumSet.noneOf(IntygetAvserBehorighet.class)
-                : typerToCreate;
+                : behorigheterToCreate;
 
-        return new AutoValue_IntygetAvserBehorigheter(behorighetTyper);
+        return new AutoValue_IntygetAvserBehorigheter(behorigheter);
     }
 
     @Nullable
