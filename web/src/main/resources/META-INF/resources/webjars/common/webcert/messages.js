@@ -771,7 +771,7 @@
             'common.supportpanel.arende.tooltip': 'Hantera kompletteringsbegäran, frågor och svar.',
             'common.supportpanel.arende.title.minimized': 'Ärenden',
             'common.supportpanel.arende.tooltip.minimized': 'Öppnar fliken med ärendekommunikation',
-            'common.supportpanel.help.title': 'Tips & Hjälp',
+            'common.supportpanel.help.title': 'Om intyget',
             'common.supportpanel.help.tooltip': 'Läs om intyget.',
             'common.supportpanel.help.title.minimized': 'Om intyget',
             'common.supportpanel.help.tooltip.minimized': 'Öppnar fliken med information om intyget.',
