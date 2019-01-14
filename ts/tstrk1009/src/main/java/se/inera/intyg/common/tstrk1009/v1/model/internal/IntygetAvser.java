@@ -6,13 +6,13 @@ import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
 
 @AutoValue
-public abstract class IdentitetStyrktGenom {
+public abstract class IntygetAvser {
 
     @JsonCreator
-    public static IdentitetStyrktGenom create(@JsonProperty("typ") IdKontroll typ) {
-        return new AutoValue_IdentitetStyrktGenom(typ);
+    public static IntygetAvser create(@JsonProperty("typ") KorkortBehorighetGrupp typ) {
+        return new AutoValue_IntygetAvser(typ);
     }
 
     @Nullable
-    public abstract IdKontroll getTyp();
+    public abstract KorkortBehorighetGrupp getTyp();
 }

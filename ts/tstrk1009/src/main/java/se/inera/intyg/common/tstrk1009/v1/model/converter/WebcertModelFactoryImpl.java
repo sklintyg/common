@@ -33,7 +33,6 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorigheter;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 /**

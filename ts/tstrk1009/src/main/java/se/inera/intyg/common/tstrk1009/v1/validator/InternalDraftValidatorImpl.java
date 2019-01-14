@@ -38,7 +38,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 @Component("tstrk1009.v1.InternalDraftValidatorImpl")
@@ -99,11 +100,11 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
 
     private static void validateBehorighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Intyget avser behörighet
-        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getBehorigheter() == null
-                || utlatande.getIntygetAvserBehorigheter().getBehorigheter().isEmpty()) {
+        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null
+                || utlatande.getIntygetAvserBehorigheter().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.EMPTY);
-        } else if (utlatande.getIntygetAvserBehorigheter().getBehorigheter().size() > 16) {
+        } else if (utlatande.getIntygetAvserBehorigheter().size() > 4) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
@@ -124,17 +125,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
 
     private static boolean eligibleForRule2To10(Tstrk1009UtlatandeV1 utlatande) {
         // Regler: R2, R3, R4, R5, R6, R7, R8, R9, R10
-        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getBehorigheter() == null) {
+        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null) {
             return false;
         }
-        Set delfragaSvar = utlatande.getIntygetAvserBehorigheter().getBehorigheter();
+        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter();
         // Note: kollar även implicit att koden ANNAT ej används (vilken ej ingår i detta intyg).
-        return !(delfragaSvar.equals(Collections.emptySet())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getAllaBehorigheter())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getABTraktorBehorigheter())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getCEBehorigHeter())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getDBehorigHeter())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getTaxiBehorigheter())
-                || delfragaSvar.equals(IntygetAvserBehorighet.getKanintetastallning()));
+        return !(delfragaSvar.equals(Collections.emptySet()));
+//                || delfragaSvar.equals(Korkortsbehorighet.getAllaBehorigheter())
+//                || delfragaSvar.equals(Korkortsbehorighet.getABTraktorBehorigheter())
+//                || delfragaSvar.equals(Korkortsbehorighet.getCEBehorigHeter())
+//                || delfragaSvar.equals(Korkortsbehorighet.getDBehorigHeter())
+//                || delfragaSvar.equals(Korkortsbehorighet.getTaxiBehorigheter())
+//                || delfragaSvar.equals(Korkortsbehorighet.getKanintetastallning()));
     }
 }

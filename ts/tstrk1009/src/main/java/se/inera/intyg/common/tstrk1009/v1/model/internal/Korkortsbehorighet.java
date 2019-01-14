@@ -19,10 +19,9 @@
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
 import java.util.EnumSet;
-import java.util.Set;
 import java.util.stream.Stream;
 
-public enum IntygetAvserBehorighet {
+public enum Korkortsbehorighet {
     AM("VAR12", "AM", "Moped klass I"),
     A1("VAR13", "A1", "Lätt motorcykel"),
     A2("VAR14", "A2", "Mellanstor motorcykel"),
@@ -47,7 +46,7 @@ public enum IntygetAvserBehorighet {
     private final String value;
     private final String description;
 
-    IntygetAvserBehorighet(final String code, final String value, final String description) {
+    Korkortsbehorighet(final String code, final String value, final String description) {
         this.code = code;
         this.value = value;
         this.description = description;
@@ -65,8 +64,8 @@ public enum IntygetAvserBehorighet {
         return description;
     }
 
-    public static IntygetAvserBehorighet fromCode(final String code) {
-        return Stream.of(IntygetAvserBehorighet.values()).filter(s -> code.equals(s.getCode())).findFirst()
+    public static Korkortsbehorighet fromCode(final String code) {
+        return Stream.of(Korkortsbehorighet.values()).filter(s -> code.equals(s.getCode())).findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
@@ -74,28 +73,30 @@ public enum IntygetAvserBehorighet {
      * Hjälpmetoder för att hämta olika subset av kodverket som
      * resulterar i att specifika regler ytterligare måste valideras för intyget
      */
-    public static Set<IntygetAvserBehorighet> getAllaBehorigheter() {
+    public static EnumSet<Korkortsbehorighet> getAllaBehorigheter() {
         return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
     }
 
-    public static Set<IntygetAvserBehorighet> getABTraktorBehorigheter() {
+    public static EnumSet<Korkortsbehorighet> getABTraktorBehorigheter() {
         return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
     }
 
-    public static Set<IntygetAvserBehorighet> getCEBehorigHeter() {
+    public static EnumSet<Korkortsbehorighet> getCEBehorigHeter() {
         return EnumSet.of(C1, C1E, C, CE);
     }
 
-    public static Set<IntygetAvserBehorighet> getDBehorigHeter() {
+    public static EnumSet<Korkortsbehorighet> getDBehorigHeter() {
         return EnumSet.of(D1, D1E, D, DE);
     }
 
-    public static Set<IntygetAvserBehorighet> getTaxiBehorigheter() {
+    public static EnumSet<Korkortsbehorighet> getTaxiBehorigheter() {
         return EnumSet.of(TAXI);
     }
 
-    public static Set<IntygetAvserBehorighet> getKanintetastallning() {
+    public static EnumSet<Korkortsbehorighet> getKanintetastallning() {
         return EnumSet.of(KANINTETASTALLNING);
     }
+
+
 
 }

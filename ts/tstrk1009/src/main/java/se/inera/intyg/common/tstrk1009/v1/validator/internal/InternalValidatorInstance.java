@@ -20,12 +20,13 @@ package se.inera.intyg.common.tstrk1009.v1.validator.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorigheter;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public class InternalValidatorInstance {
@@ -67,18 +68,14 @@ public class InternalValidatorInstance {
         return new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
     }
 
-    private boolean isNullOrFalse(Boolean insulin) {
-        return insulin == null || !insulin;
-    }
-
-    private void validateIntygAvser(final IntygetAvserBehorigheter intygetAvserBehorigheter) {
+    private void validateIntygAvser(final Set<KorkortBehorighetGrupp> intygetAvserBehorigheter) {
 
         if (intygetAvserBehorigheter == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
             return;
         }
 
-        if (intygetAvserBehorigheter.getBehorigheter().isEmpty()) {
+        if (intygetAvserBehorigheter.isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
                     ValidationMessageType.EMPTY);
         }

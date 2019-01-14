@@ -27,8 +27,9 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.AnmalanAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdentitetStyrktGenom;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorigheter;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IdKontroll;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public class TransportToInternalTest {
@@ -38,11 +39,11 @@ public class TransportToInternalTest {
                 .setId("1234567")
                 .setGrundData(IntygTestDataBuilder.getGrundData())
                 .setTextVersion("1.0")
-                .setIdentitetStyrktGenom(IdentitetStyrktGenom.ID_KORT)
-                .setAnmalanAvser(AnmalanAvser.OLAMPLIGHET)
+                .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.ID_KORT))
+                .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
                 .setMedicinskaForhallanden("sjukt sjuk")
                 .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
-                .setIntygetAvserBehorigheter(IntygetAvserBehorigheter.create(EnumSet.of(IntygetAvserBehorighet.C)))
+                .setIntygetAvserBehorigheter(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR))
                 .build();
     }
 

@@ -53,7 +53,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.List;
 import java.util.Optional;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvserBehorighet;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -107,7 +108,7 @@ public final class UtlatandeToIntyg {
             svarList.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
                     .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
                             aCV(KV_ID_KONTROLL_KODSYSTEM,
-                                    utlatande.getIdentitetStyrktGenom().getCode(), utlatande.getIdentitetStyrktGenom().getDescription()))
+                                    utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp().getDescription()))
                     .build());
         }
 
@@ -115,7 +116,7 @@ public final class UtlatandeToIntyg {
             svarList.add(aSvar(ANMALAN_AVSER_SVAR_ID)
                     .withDelsvar(ANMALAN_AVSER_DELSVAR_ID,
                             aCV(KV_KORKORTSOLAMPLIGHET_KODSYSTEM,
-                                    utlatande.getAnmalanAvser().getCode(), utlatande.getAnmalanAvser().getDescription()))
+                                    utlatande.getAnmalanAvser().getTyp().getCode(), utlatande.getAnmalanAvser().getTyp().getDescription()))
                     .build());
         }
 
@@ -129,12 +130,14 @@ public final class UtlatandeToIntyg {
         }
 
         int intygetAvserBehorigheterInstans = 1;
-        if (nonNull(utlatande.getIntygetAvserBehorigheter()) && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getBehorigheter())) {
-            for (final IntygetAvserBehorighet behorighet : utlatande.getIntygetAvserBehorigheter().getBehorigheter()) {
-                svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
+        if (nonNull(utlatande.getIntygetAvserBehorigheter()) && isNotEmpty(utlatande.getIntygetAvserBehorigheter())) {
+            for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter()) {
+                for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {
+                    svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
                         .withDelsvar(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, behorighet.getCode(), behorighet.getDescription()))
+                                aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
                         .build());
+                }
             }
         }
 

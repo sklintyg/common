@@ -18,10 +18,15 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter.util;
 
-import com.google.common.base.Joiner;
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 public final class ConverterUtil {
@@ -40,7 +45,16 @@ public final class ConverterUtil {
         certificateHolder.setSignedDate(utlatande.getGrundData().getSigneringsdatum());
         certificateHolder.setType(Tstrk1009EntryPoint.MODULE_ID);
         certificateHolder.setTypeVersion(utlatande.getTextVersion());
-        certificateHolder.setAdditionalInfo(Joiner.on(", ").join(utlatande.getIntygetAvserBehorigheter().getBehorigheter()));
+
+        if (isNotEmpty(utlatande.getIntygetAvserBehorigheter())) {
+            final String additional = utlatande.getIntygetAvserBehorigheter().stream()
+                    .map(KorkortBehorighetGrupp::getKorkortsbehorigheter)
+                    .flatMap(Collection::stream)
+                    .map(Korkortsbehorighet::name)
+                    .collect(Collectors.joining(", "));
+            certificateHolder.setAdditionalInfo(additional);
+        }
+
         return certificateHolder;
     }
 

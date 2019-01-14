@@ -22,6 +22,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.Set;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -65,7 +67,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
     public abstract InternalDate getSenasteUndersokningsdatum();
 
     @Nullable
-    public abstract IntygetAvserBehorigheter getIntygetAvserBehorigheter();
+    public abstract Set<KorkortBehorighetGrupp> getIntygetAvserBehorigheter();
 
     @Nullable
     public abstract Boolean getInformationOmTsBeslutOnskas();
@@ -74,7 +76,6 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Tstrk1009UtlatandeV1.Builder()
-                .setIntygetAvserBehorigheter(IntygetAvserBehorigheter.create(null))
                 .setSignature(null);
     }
 
@@ -108,7 +109,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Builder setSenasteUndersokningsdatum(final InternalDate internalDate);
 
         @JsonProperty("intygetAvserBehorigheter")
-        public abstract Builder setIntygetAvserBehorigheter(final IntygetAvserBehorigheter intygetAvserBehorigheter);
+        public abstract Builder setIntygetAvserBehorigheter(final Set<KorkortBehorighetGrupp> intygetAvserBehorigheter);
 
         @JsonProperty("informationOmTsBeslutOnskas")
         public abstract Builder setInformationOmTsBeslutOnskas(final Boolean informationOmTsBeslutOnskas);
