@@ -21,29 +21,12 @@ package se.inera.intyg.common.services.texts.repo;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.isNull;
 
-import com.google.common.base.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Repository;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import javax.annotation.PostConstruct;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
@@ -53,17 +36,38 @@ import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.annotation.PostConstruct;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Repository;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 
 @Repository
 public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
-    private static final Logger LOG = LoggerFactory.getLogger(IntygTextsRepository.class);
+    static final Logger LOG = LoggerFactory.getLogger(IntygTextsRepository.class);
 
-    private static final String TILLAGGSFRAGA_REGEX = "\\d{4}";
-    private static final String TEXTDATA_FILE_EXTENSION = ".xml";
+    static final Pattern TILLAGGSFRAGA_REGEX = Pattern.compile("\\d{4}");
+    static final String TEXTDATA_FILE_EXTENSION = ".xml";
+    static final String LOCATION_NAME = "location";
 
     /**
      * The in-memory database of the texts available.
@@ -73,15 +77,64 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     protected Set<IntygTexts> intygTexts;
 
     @Value("${texts.file.directory}")
-    private String fileDirectory;
+    private String location;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     /**
      * Initial setup of the in-memory database.
      */
     @PostConstruct
-    public void init() {
-        intygTexts = new HashSet<>();
+    public void init() throws IOException {
+        if (!location.endsWith("/*")) {
+            location += location.endsWith("/") ? "*" : "/*";
+        }
         update();
+    }
+
+
+    // returns all matching text resources
+    Set<IntygTexts> update0() throws IOException {
+        return Stream.of(ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(location))
+                .filter(this::isTextsResource)
+                .map(this::parse)
+                .filter(Objects::nonNull)
+                .map(this::of)
+                .collect(Collectors.toSet());
+    }
+
+
+    // parses resource, source resource is included as an attribute
+    Element parse(Resource resource) {
+        try {
+            LOG.debug("Parse: " + resource);
+            final Document doc = DocumentBuilderFactory.newInstance()
+                    .newDocumentBuilder()
+                    .parse(resource.getInputStream());
+            final Element el = doc.getDocumentElement();
+            el.setAttribute(LOCATION_NAME, resource.getURL().toExternalForm());
+            return el;
+        } catch (Exception e) {
+            LOG.error("Error while parsing resource {}", resource, e);
+        }
+        return null;
+    }
+
+    // creates IntygsText from element
+    IntygTexts of(Element element) {
+        String version = element.getAttribute("version");
+        String intygsTyp = element.getAttribute("typ").toLowerCase();
+        LocalDate giltigFrom = getDate(element, "giltigFrom");
+        LocalDate giltigTo = getDate(element, "giltigTom");
+        SortedMap<String, String> texts = getTexter(element);
+        List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(element);
+
+        IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor,
+                getTextVersionProperties0(element.getAttribute(LOCATION_NAME)));
+
+        return newIntygTexts;
+
     }
 
     /**
@@ -90,38 +143,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      * Will parse all files once more and add those not already in memory.
      */
     @Scheduled(cron = "${texts.update.cron}")
-    public void update() {
-        try (Stream<Path> stream = Files.walk(Paths.get(fileDirectory))) {
-            stream.filter(IntygTextsRepositoryImpl::isIntygTextsFile).forEach((file) -> {
-                try (InputStream fileInSt = Files.newInputStream(file)) {
-                    LOG.debug("Updating intygtexts versions for " + file.getFileName());
-                    Document doc = DocumentBuilderFactory.newInstance()
-                            .newDocumentBuilder()
-                            .parse(fileInSt);
-
-                    Element root = doc.getDocumentElement();
-                    String version = root.getAttribute("version");
-                    String intygsTyp = root.getAttribute("typ").toLowerCase();
-                    LocalDate giltigFrom = getDate(root, "giltigFrom");
-                    LocalDate giltigTo = getDate(root, "giltigTom");
-                    SortedMap<String, String> texts = getTexter(root);
-                    List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(doc);
-
-                    IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor,
-                            getTextVersionProperties(file));
-                    if (!intygTexts.contains(newIntygTexts)) {
-                        LOG.debug("Adding new version of {} with version name {}", intygsTyp, version);
-                        intygTexts.add(newIntygTexts);
-                    }
-                } catch (IllegalArgumentException e) {
-                    LOG.error("Bad file in directory {}: {}", fileDirectory, e);
-                } catch (IOException | ParserConfigurationException | SAXException e) {
-                    LOG.error("Error while reading file {}", file.getFileName(), e);
-                }
-            });
-        } catch (IOException e) {
-            LOG.error("Error while reading from directory {}", fileDirectory, e);
-        }
+    public void update() throws IOException {
+        this.intygTexts = update0();
     }
 
     protected LocalDate getDate(Element root, String id) {
@@ -139,9 +162,9 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         return texts;
     }
 
-    protected List<Tillaggsfraga> getTillaggsfragor(Document doc) {
+    protected List<Tillaggsfraga> getTillaggsfragor(Element el) {
         List<Tillaggsfraga> tillaggsFragor = new ArrayList<>();
-        NodeList tillaggList = doc.getElementsByTagName("tillaggsfraga");
+        NodeList tillaggList = el.getElementsByTagName("tillaggsfraga");
         for (int i = 0; i < tillaggList.getLength(); i++) {
             tillaggsFragor.add(getTillaggsFraga((Element) tillaggList.item(i)));
         }
@@ -151,48 +174,46 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     /**
      * Retrieve the corresponding property file for a intyg texts xml file.
      */
-    private Properties getTextVersionProperties(Path file) {
-        String baseName = com.google.common.io.Files.getNameWithoutExtension(file.getName(file.getNameCount() - 1).toString());
-        final Path propertiesFilePath = file.resolveSibling(baseName + ".properties");
-        Properties props = new Properties();
-        try (InputStream fileInSt = Files.newInputStream(propertiesFilePath)) {
-            props.load(fileInSt);
-            LOG.debug("Loaded " + props.stringPropertyNames().size() + " properties for " + propertiesFilePath);
-        } catch (IOException e) {
-            LOG.error("Failed to load properties for text file " + propertiesFilePath, e);
+    Properties getTextVersionProperties0(final String sourceName) {
+        final Properties props = new Properties();
+        String location = sourceName;
+        final int index = sourceName.lastIndexOf('.');
+        if (index != -1) {
+            location = sourceName.substring(0, index);
         }
-
+        location += ".properties";
+        try {
+            final Resource res = resourceLoader.getResource(location);
+            props.load(res.getInputStream());
+        } catch (IOException e) {
+            LOG.error("Failed to load properties for text file " + location, e);
+        }
         return props;
     }
 
     /**
      * Determines if the given file is a intyg texts XML source file candidate.
      */
-    private static boolean isIntygTextsFile(Path file) {
-        return Files.isRegularFile(file)
-                && file.getName(file.getNameCount() - 1).toString().toLowerCase().endsWith(TEXTDATA_FILE_EXTENSION);
+    boolean isTextsResource(final Resource resource) {
+        return resource.exists() && resource.getFilename().endsWith(TEXTDATA_FILE_EXTENSION);
     }
 
     private Tillaggsfraga getTillaggsFraga(Element element) {
-        String id = getTillaggsFragaId(element);
-
+        final String id = getTillaggsFragaId(element);
         return new Tillaggsfraga(id);
     }
 
     private String getTillaggsFragaId(Element element) {
         String id = element.getAttribute("id");
-        if (id != null) {
-            Pattern p = Pattern.compile(TILLAGGSFRAGA_REGEX);
-            Matcher m = p.matcher(id);
+        if (Objects.nonNull(id)) {
+            final Matcher m = TILLAGGSFRAGA_REGEX.matcher(id);
             if (m.find()) {
-                id = m.group();
+                return m.group();
             } else {
                 throw new IllegalArgumentException("Tillaggsfraga with id " + id + "is of wrong format");
             }
-        } else {
-            throw new IllegalArgumentException("Tillaggsfraga has null id");
         }
-        return id;
+        throw new IllegalArgumentException("Tillaggsfraga has null id");
     }
 
     @Override

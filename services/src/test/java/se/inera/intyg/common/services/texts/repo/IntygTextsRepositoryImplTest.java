@@ -21,24 +21,28 @@ package se.inera.intyg.common.services.texts.repo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+
 import java.time.LocalDate;
 import java.util.HashSet;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {RepoTestConfig.class})
 public class IntygTextsRepositoryImplTest {
 
     private static final String DEFAULT_INTYGSTYP = "test";
     private static final String DEFAULT_VERSION = "1.0";
+
+    @Autowired
     private IntygTextsRepositoryImpl repo;
 
-    @Before
-    public void setup() {
-        repo = new IntygTextsRepositoryImpl();
-    }
 
     @Test
     public void testGetLatestVersion() {
