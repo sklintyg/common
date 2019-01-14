@@ -24,108 +24,80 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
         var viewConfig = [
             {
                 type: 'uv-kategori',
-                labelKey: 'KAT_99.RBK',
-                components: [
-                    {
-                        type: 'uv-fraga',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [{
-                                type: 'uv-list',
-                                labelKey: 'KORKORT_{var}.RBK',
-                                listKey: function(model) {
-                                    return model.selected ? model.type : null;
-                                },
-                                separator: ', ',
-                                modelProp: 'intygAvser.korkortstyp'
-                            }]
-                        }]
-                    }
-                ]
-            },
-            {
-                type: 'uv-kategori',
-                labelKey: 'KAT_100.RBK',
+                labelKey: 'KAT_1.RBK',
                 components: [{
                     type: 'uv-fraga',
                     components: [{
                         type: 'uv-kodverk-value',
-                        kvModelProps: ['vardkontakt.idkontroll'],
+                        kvModelProps: ['identitetStyrktGenom.typ'],
                         kvLabelKeys: ['IDENTITET_{var}.RBK']
                     }]
                 }]
             },
             {
                 type: 'uv-kategori',
-                labelKey: 'KAT_1.RBK',
+                labelKey: 'KAT_2.RBK',
+                components: [{
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_46.RBK',
+                    components: [{
+                        type: 'uv-del-fraga',
+                        components: [{
+                            type: 'uv-kodverk-value',
+                            kvModelProps: ['anmalanAvser.typ'],
+                            kvLabelKeys: ['KV_SVAR_OLAMPLIGHET.{var}.RBK']
+                        }]
+                    }]
+                }]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_3.RBK',
                 components: [
                     {
                         type: 'uv-fraga',
-                        labelKey: 'FRG_35.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [{
+                        labelKey: 'FRG_47.RBK',
+                        components: [
+                            {
                                 type: 'uv-simple-value',
-                                modelProp: 'diabetes.observationsperiod'
-                            }]
-                        }]
+                                modelProp: 'medicinskaForhallanden'
+                            }
+                        ]
                     },
                     {
                         type: 'uv-fraga',
-                        labelKey: 'FRG_18.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [{
-                                type: 'uv-kodverk-value',
-                                kvModelProps: ['diabetes.diabetestyp'],
-                                kvLabelKeys: ['ts-bas.label.diabetes.diabetestyp.{var}']
-                            }]
-                        }]
-                    },
+                        labelKey: 'FRG_48.RBK',
+                        components: [
+                            {
+                                type: 'uv-simple-value',
+                                modelProp: 'senasteUndersokningsdatum'
+                            }
+                        ]
+                    }]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_4.RBK',
+                components: [
                     {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_19.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-list',
-                                    labelKey: 'DFR_19.{var}.RBK',
-                                    listKey: function(model, index, count) {
-                                        return model ? index+1 : null; // return index for {var} if true, otherwise null -> list item will not be shown
-                                    },
-                                    separator: ', ',
-                                    modelProp: ['diabetes.endastKost', 'diabetes.tabletter',
-                                        'diabetes.insulin']
-                                },
-                                {
-                                    type: 'uv-del-fraga',
-                                    labelKey: 'DFR_19.4.RBK',
-                                    components: [{
-                                        type: 'uv-simple-value',
-                                        modelProp: 'diabetes.insulinBehandlingsperiod'
-                                    }]
-                                },
-                                {
-                                    type: 'uv-del-fraga',
-                                    labelKey: 'DFR_19.5.RBK',
-                                    components: [{
-                                        type: 'uv-simple-value',
-                                        modelProp: 'diabetes.annanBehandlingBeskrivning'
-                                    }]
-                                }
-                            ]
-                        }]
+                        type: 'uv-list',
+                        labelKey: 'KORKORT_{var}.RBK',
+                        listKey: function(model) {
+                            return model.selected ? model.type : null;
+                        },
+                        separator: ', ',
+                        modelProp: 'intygetAvserBehorigheter.korkortstyp',
+                        noValue: 'DFR_33.2.RBK'
                     }
                 ]
             },
             {
                 type: 'uv-kategori',
-                labelKey: 'KAT_2.RBK',
+                labelKey: 'KAT_5.RBK',
                 components: [
                     {
                         type: 'uv-fraga',
-                        labelKey: 'FRG_36.RBK',
+                        labelKey: 'FRG_49.RBK',
                         components: [{
                             type: 'uv-del-fraga',
                             components: [
@@ -135,256 +107,6 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                                 }
                             ]
                         }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_37.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.teckenNedsattHjarnfunktion'
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_38.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.saknarFormagaKannaVarningstecken'
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_39.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.allvarligForekomst'
-                                },
-                                {
-                                    type: 'uv-del-fraga',
-                                    labelKey: 'DFR_39.2.RBK',
-                                    components: [
-                                        {
-                                            type: 'uv-simple-value',
-                                            modelProp: 'hypoglykemier.allvarligForekomstBeskrivning'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_40.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.allvarligForekomstTrafiken'
-                                },
-                                {
-                                    type: 'uv-del-fraga',
-                                    labelKey: 'DFR_40.2.RBK',
-                                    components: [
-                                        {
-                                            type: 'uv-simple-value',
-                                            modelProp: 'hypoglykemier.allvarligForekomstTrafikBeskrivning'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_41.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.egenkontrollBlodsocker'
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_42.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.allvarligForekomstVakenTid'
-                                },
-                                {
-                                    type: 'uv-del-fraga',
-                                    labelKey: 'DFR_42.2.RBK',
-                                    components: [
-                                        {
-                                            type: 'uv-simple-value',
-                                            modelProp: 'hypoglykemier.allvarligForekomstVakenTidObservationstid'
-                                        }
-                                    ]
-                                }
-                            ]
-                        }]
-                    }
-                ]
-            },
-            {
-                type: 'uv-kategori',
-                labelKey: 'KAT_3.RBK',
-                components: [
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_43.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'syn.separatOgonlakarintyg'
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_44.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [
-                                {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'syn.synfaltsprovningUtanAnmarkning'
-                                }
-                            ]
-                        }]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_8.RBK',
-                        components: [
-                            {
-                                type: 'uv-del-fraga',
-                                components: [{
-                                    type: 'uv-table',
-                                    contentUrl: 'ts',
-                                    modelProp: 'syn',
-                                    headers: ['', 'tstrk1009.label.syn.utankorrektion',
-                                        'tstrk1009.label.syn.medkorrektion'],
-                                    colProps: ['hoger', 'vanster', 'binokulart'],
-                                    valueProps: [
-                                        function(model, rowIndex, colIndex, colProp) {
-
-                                            var message = 'tstrk1009.label.syn.';
-                                            switch (rowIndex){
-                                            case 0:
-                                                message += 'hogeroga'; break;
-                                            case 1:
-                                                message += 'vansteroga'; break;
-                                            case 2:
-                                                message += 'binokulart'; break;
-                                            }
-                                            return message;
-                                        },
-                                        function(model) {
-                                            return $filter('number')(model.utanKorrektion, 1);
-                                        },
-                                        function(model) {
-                                            return $filter('number')(model.medKorrektion, 1);
-                                        }
-                                    ]
-                                }]
-                            }
-                        ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_6.RBK',
-                        components: [{
-                            type: 'uv-del-fraga',
-                            components: [{
-                                type: 'uv-boolean-value',
-                                modelProp: 'syn.diplopi'
-                            }]
-                        }]
-                    }
-                ]
-            },
-            {
-                type: 'uv-kategori',
-                labelKey: 'KAT_4.RBK',
-                components: [
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_33.RBK',
-                        components: [
-                            {
-                                type: 'uv-del-fraga',
-                                labelKey: 'DFR_33.1.RBK',
-                                components: [{
-                                    type: 'uv-list',
-                                    labelKey: 'KORKORT_{var}.RBK',
-                                    listKey: function(model) {
-                                        return model.selected ? model.type : null;
-                                    },
-                                    separator: ', ',
-                                    modelProp: 'bedomning.korkortstyp',
-                                    noValue: 'DFR_33.2.RBK'
-                                }]
-                            }
-                        ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_34.RBK',
-                        components: [
-                            {
-                                type: 'uv-simple-value',
-                                modelProp: 'bedomning.lakareSpecialKompetens'
-                            }
-                        ]
-                    },
-                    {
-                        type: 'uv-fraga',
-                        labelKey: 'FRG_45.RBK',
-                        components: [
-                            {
-                                type: 'uv-boolean-value',
-                                modelProp: 'bedomning.lamplighetInnehaBehorighet'
-                            }
-                        ]
-                    }
-                ]
-            },
-            {
-                type: 'uv-kategori',
-                labelKey: 'FRG_32.RBK',
-                components: [
-                    {
-                        type: 'uv-fraga',
-                        components: [
-                            {
-                                type: 'uv-simple-value',
-                                modelProp: 'kommentar'
-                            }
-                        ]
                     }
                 ]
             },
