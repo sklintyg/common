@@ -56,7 +56,7 @@
   </div>
 
 
-  <wc-support-panel-manager ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
+  <wc-support-panel-manager ng-hide="viewState.common.deleted" ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
 
 </div>
 </div>
