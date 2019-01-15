@@ -2,17 +2,36 @@ package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
+import java.util.Set;
+import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
+import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
 @AutoValue
 public abstract class IntygetAvser {
 
     @JsonCreator
-    public static IntygetAvser create(@JsonProperty("typ") KorkortBehorighetGrupp typ) {
-        return new AutoValue_IntygetAvser(typ);
+    public static IntygetAvser create(@JsonProperty("typer") Set<KorkortBehorighetGrupp> korkortBehorigheter) {
+        return new AutoValue_IntygetAvser(korkortBehorigheter);
     }
 
     @Nullable
-    public abstract KorkortBehorighetGrupp getTyp();
+    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
+    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
+    public abstract Set<KorkortBehorighetGrupp> getKorkortBehorigheter();
+
+    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<KorkortBehorighetGrupp> {
+        protected IntygAvserEnumSetSerializer() {
+            super(KorkortBehorighetGrupp.class);
+        }
+    }
+
+    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<KorkortBehorighetGrupp> {
+        protected IntygAvserEnumSetDeserializer() {
+            super(KorkortBehorighetGrupp.class);
+        }
+    }
 }
