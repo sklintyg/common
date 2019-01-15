@@ -18,8 +18,9 @@
  */
 
 angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
-    ['$log', '$timeout', 'common.ObjectHelper', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.ueTSFactoryTemplatesHelper',
-        function ($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates, ueTSFactoryTemplates) {
+    ['$log', '$timeout', 'common.ObjectHelper', 'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
+        'common.ueTSFactoryTemplatesHelper',
+        function($log, $timeout, ObjectHelper, DateUtils, ueFactoryTemplates, ueTSFactoryTemplates) {
             'use strict';
 
             function _getCategoryIds() {
@@ -42,20 +43,22 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                 var config = [
 
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
-                        fraga(1, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'identitetStyrktGenom.typ'}, [{
-                            type: 'ue-radiogroup',
-                            modelProp: 'identitetStyrktGenom.typ',
-                            htmlClass: 'col-md-6 no-padding',
-                            paddingBottom: true,
-                            choices: [
-                                {label: 'IDENTITET_ID_KORT.RBK', id: 'ID_KORT'},
-                                {label: 'IDENTITET_FORETAG_ELLER_TJANSTEKORT.RBK', id: 'FORETAG_ELLER_TJANSTEKORT'},
-                                {label: 'IDENTITET_KORKORT.RBK', id: 'KORKORT'},
-                                {label: 'IDENTITET_PERS_KANNEDOM.RBK', id: 'PERS_KANNEDOM'},
-                                {label: 'IDENTITET_FORSAKRAN_KAP18.RBK', id: 'FORSAKRAN_KAP18'},
-                                {label: 'IDENTITET_PASS.RBK', id: 'PASS'}
-                            ]
-                        }])
+                        fraga(1, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'identitetStyrktGenom.typ'}, [
+                            {
+                                type: 'ue-radiogroup',
+                                modelProp: 'identitetStyrktGenom.typ',
+                                htmlClass: 'col-md-6 no-padding',
+                                paddingBottom: true,
+                                choices: [
+                                    {label: 'IDENTITET_ID_KORT.RBK', id: 'ID_KORT'},
+                                    {label: 'IDENTITET_FORETAG_ELLER_TJANSTEKORT.RBK', id: 'FORETAG_ELLER_TJANSTEKORT'},
+                                    {label: 'IDENTITET_KORKORT.RBK', id: 'KORKORT'},
+                                    {label: 'IDENTITET_PERS_KANNEDOM.RBK', id: 'PERS_KANNEDOM'},
+                                    {label: 'IDENTITET_FORSAKRAN_KAP18.RBK', id: 'FORSAKRAN_KAP18'},
+                                    {label: 'IDENTITET_PASS.RBK', id: 'PASS'}
+                                ]
+                            }
+                        ])
                     ]),
 
                     kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {}, [
@@ -72,32 +75,37 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
-                        fraga(47, 'FRG_47.RBK', 'FRG_47.HLP', {required: true, requiredProp: 'medicinskaForhallanden'}, [{
-                            type: 'ue-textarea',
-                            modelProp: 'medicinskaForhallanden'
-                        }]),
-                        fraga(48, 'FRG_48.RBK', 'FRG_48.HLP', {required: true, requiredProp: 'senasteUndersokningsdatum'}, [{
-                            type: 'ue-date',
-                            maxDate: today,
-                            modelProp: 'senasteUndersokningsdatum'
+                        fraga(47, 'FRG_47.RBK', 'FRG_47.HLP', {required: true, requiredProp: 'medicinskaForhallanden'},
+                            [{
+                                type: 'ue-textarea',
+                                modelProp: 'medicinskaForhallanden'
+                            }]),
+                        fraga(48, 'FRG_48.RBK', 'FRG_48.HLP',
+                            {required: true, requiredProp: 'senasteUndersokningsdatum'}, [{
+                                type: 'ue-date',
+                                maxDate: today,
+                                modelProp: 'senasteUndersokningsdatum'
+                            }]),
+                    ]),
+
+                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+                        fraga(null, '', '', {}, [{
+                            type: 'ue-checkgroup-ts',
+                            modelProp: 'intygetAvserBehorigheter',
+                            htmlClass: 'no-padding',
+                            labelTemplate: 'SVAR_{0}.RBK'
                         }]),
                     ]),
 
-                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [{
-                        type: 'ue-korkort-bedomning',
-                        modelProp: 'intygetAvserBehorigheter',
-                        labelTemplate: 'SVAR_{0}.RBK'
-                    }]),
-
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
-                        {
+                        fraga(null, '', '', {}, [{
                             type: 'ue-checkbox',
                             modelProp: 'informationOmTsBeslutOnskas',
                             label: {
                                 key: 'FRG_49.RBK'
                             },
                             paddingBottom: true
-                        }
+                        }]),
                     ]),
 
                     ueFactoryTemplates.vardenhet
