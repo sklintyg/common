@@ -21,6 +21,7 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import java.net.URL;
 import java.util.Arrays;
@@ -64,7 +65,7 @@ public class InternalToTransportTest {
     }
 
     public static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
 
         if (relationKod != null) {
@@ -78,13 +79,12 @@ public class InternalToTransportTest {
         return utlatande;
     }
 
-    //@Test
+    @Test
     public void testInternalToTransportConversion() throws Exception {
         Tstrk1009UtlatandeV1 expected = getUtlatande();
         RegisterCertificateType transport = InternalToTransport.convert(expected);
         Tstrk1009UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
-//        assertEquals(expected, actual); // Switch after INTYG-6980
         ObjectMapper objectMapper = new CustomObjectMapper();
         assertEquals(objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
     }

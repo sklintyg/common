@@ -40,11 +40,11 @@ public final class ScenarioFinder {
 
     private static final String TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/transport/";
 
-    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/rivtav3/";
+    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/v1/scenarios/rivtav3/";
 
-    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/rivtav1/";
+    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/v1/scenarios/rivtav1/";
 
-    private static final String INTERNAL_MODEL_PATH = "classpath:/v6/scenarios/internal/";
+    private static final String INTERNAL_MODEL_PATH = "classpath:/v1/scenarios/internal/";
 
     private static final String TRANSPORT_MODEL_EXT = ".xml";
 

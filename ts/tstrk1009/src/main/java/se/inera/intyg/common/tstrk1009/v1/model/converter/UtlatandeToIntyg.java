@@ -34,6 +34,7 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.A
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_SVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_SVAR_ID;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_SVAR_ID;
@@ -143,7 +144,7 @@ public final class UtlatandeToIntyg {
             }
         }
 
-        addIfNotNull(svarList, INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID, INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
+        addIfNotNull(svarList, INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID, INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID,
                 utlatande.getInformationOmTsBeslutOnskas());
 
         return svarList;
