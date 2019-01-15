@@ -123,18 +123,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     }
 
     private static boolean eligibleForRule2To10(Tstrk1009UtlatandeV1 utlatande) {
-        // Regler: R2, R3, R4, R5, R6, R7, R8, R9, R10
-        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null) {
+        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter().getTyper() == null) {
             return false;
         }
-        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter().getTyper();
-        // Note: kollar även implicit att koden ANNAT ej används (vilken ej ingår i detta intyg).
-        return !(delfragaSvar.equals(Collections.emptySet()));
-//                || delfragaSvar.equals(Korkortsbehorighet.getAllaBehorigheter())
-//                || delfragaSvar.equals(Korkortsbehorighet.getABTraktorBehorigheter())
-//                || delfragaSvar.equals(Korkortsbehorighet.getCEBehorigHeter())
-//                || delfragaSvar.equals(Korkortsbehorighet.getDBehorigHeter())
-//                || delfragaSvar.equals(Korkortsbehorighet.getTaxiBehorigheter())
-//                || delfragaSvar.equals(Korkortsbehorighet.getKanintetastallning()));
+        Set<KorkortBehorighetGrupp> behorighetsGrupper = utlatande.getIntygetAvserBehorigheter().getTyper();
+
+        // R2
+        if (behorighetsGrupper.contains(KorkortBehorighetGrupp.ALLA) && behorighetsGrupper.size() != 1) {
+            return true;
+        }
+
+        // R8
+        if (behorighetsGrupper.contains(KorkortBehorighetGrupp.KANINTETASTALLNING) && behorighetsGrupper.size() != 1) {
+            return true;
+        }
+
+        return false;
     }
 }
