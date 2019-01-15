@@ -60,21 +60,20 @@
         </div>
       </div>
 
-      <div class="fold-animation fold-slide-animation"
-           ng-if="field != 'HELT_NEDSATT' && viewstate.periods[field].valid">
+      <div class="fold-animation fold-slide-animation arbetstid"
+           ng-if="viewstate.periods[field].valid">
         Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
         {{viewstate.periods[field].days}} dagar.
       </div>
     </div>
 
+    <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
+    
     <div ng-if="viewstate.totalDays" class="fold-animation fold-slide-animation">
       Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
     </div>
 
     <fmb-varning viewstate="viewstate" model="model"></fmb-varning>
-
-    <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
-
   </ue-validation-wrapper>
 
 </div>
