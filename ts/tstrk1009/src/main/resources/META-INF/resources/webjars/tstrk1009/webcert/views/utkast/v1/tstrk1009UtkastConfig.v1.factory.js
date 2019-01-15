@@ -97,7 +97,8 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             colSize: {
                                 md: 12,
                                 sm: 12
-                            }
+                            },
+                            watcher: ueTSFactoryTemplates.getBedomningGroupListenerConfig('typer')
                         }]),
                     ]),
 

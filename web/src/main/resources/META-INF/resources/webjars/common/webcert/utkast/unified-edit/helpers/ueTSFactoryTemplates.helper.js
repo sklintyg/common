@@ -67,9 +67,51 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
             }];
         }
 
+        function _getBedomningGroupListenerConfig(modelProp) {
+            return [{
+                type: '$watch',
+                watchDeep: true,
+                expression: 'model.intygetAvserBehorigheter.' + modelProp, // this way or $parse the string everywhere
+                /*jshint maxcomplexity:11*/
+                listener: function(newValue, oldValue, scope) {
+
+                    if (oldValue && newValue !== oldValue) {
+
+                        function checkUncheckOther(targetName) {
+                            var targetIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', targetName);
+                            var targetChanged = oldValue[targetIndex].selected !== newValue[targetIndex].selected;
+
+                            if(targetChanged) {
+                                // enable or disable all but "Kan inte ta ställning"
+                                var targetSelected = newValue[targetIndex].selected;
+                                for(var i = 0; i < scope.model.intygetAvserBehorigheter[modelProp].length; i++) {
+                                    if(targetIndex === i) {
+                                        continue;
+                                    }
+                                    scope.model.intygetAvserBehorigheter[modelProp][i].disabled = targetSelected;
+                                    if(targetSelected) {
+                                        scope.model.intygetAvserBehorigheter[modelProp][i].selected = false;
+                                    }
+                                }
+                                return;
+                            }
+                        }
+
+                        // R2	Om "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med "SVAR_ALLA.RBK" ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1	-
+                        checkUncheckOther('ALLA')
+
+                        // R8	Om "Behörigheter som avses (Delsvar)" besvaras med "SVAR_KANINTETASTALLNING.RBK" ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1
+                        // R10	Om frågan "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med något annat värde än "SVAR_KANINTETASTALLNING.RBK" kan värdet "SVAR_KANINTETASTALLNING.RBK" inte också anges. 	1.1
+                        checkUncheckOther('KANINTETASTALLNING')
+
+                    }
+                }
+            }];
+        }
 
         return {
             patient: _patient,
-            getBedomningListenerConfig: _getBedomningListenerConfig
+            getBedomningListenerConfig: _getBedomningListenerConfig,
+            getBedomningGroupListenerConfig: _getBedomningGroupListenerConfig
         };
     }]);
