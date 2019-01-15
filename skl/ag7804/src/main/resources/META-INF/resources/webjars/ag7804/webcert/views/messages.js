@@ -50,8 +50,8 @@ angular.module('ag7804').constant('ag7804.messages', {
         'ag7804.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
         'ag7804.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
         'ag7804.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',  // Should never happen because GUI should block this combination
-        'ag7804.validation.funktionsnedsattning.missing': 'Ange ett svar',
-        'ag7804.validation.aktivitetsbegransning.missing': 'Ange ett svar',
+        'ag7804.validation.funktionsnedsattning.missing': 'Ange ett svar.',
+        'ag7804.validation.aktivitetsbegransning.missing': 'Ange ett svar.',
 
         'ag7804.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden {{lastEffectiveDate}} och sjukskrivningsgraden var {{sjukskrivningsgrad}}.',
         /// IS-14c / Modal-02c
