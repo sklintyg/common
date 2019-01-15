@@ -27,7 +27,7 @@ public abstract class IntygetAvser {
     @Nullable
     @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
     @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    public abstract Set<KorkortBehorighetGrupp> getKorkortBehorigheter();
+    public abstract Set<KorkortBehorighetGrupp> getTyper();
 
     public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<KorkortBehorighetGrupp> {
         protected IntygAvserEnumSetSerializer() {

@@ -48,8 +48,8 @@ public final class ConverterUtil {
         certificateHolder.setTypeVersion(utlatande.getTextVersion());
 
         if (nonNull(utlatande.getIntygetAvserBehorigheter())
-                && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter())) {
-            final String additional = utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().stream()
+                && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
+            final String additional = utlatande.getIntygetAvserBehorigheter().getTyper().stream()
                     .map(KorkortBehorighetGrupp::getKorkortsbehorigheter)
                     .flatMap(Collection::stream)
                     .map(Korkortsbehorighet::name)

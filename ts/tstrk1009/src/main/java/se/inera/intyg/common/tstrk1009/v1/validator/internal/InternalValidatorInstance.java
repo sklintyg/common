@@ -61,7 +61,7 @@ public class InternalValidatorInstance {
 
             // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-            validateIntygAvser(utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter());
+            validateIntygAvser(utlatande.getIntygetAvserBehorigheter().getTyper());
             ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
         }
 

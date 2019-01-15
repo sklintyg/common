@@ -39,7 +39,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 @Component("tstrk1009.v1.InternalDraftValidatorImpl")
@@ -101,10 +100,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     private static void validateBehorighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null
-                || utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().isEmpty()) {
+                || utlatande.getIntygetAvserBehorigheter().getTyper().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.EMPTY);
-        } else if (utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().size() > 4) {
+        } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > 4) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
@@ -128,7 +127,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null) {
             return false;
         }
-        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter();
+        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter().getTyper();
         // Note: kollar även implicit att koden ANNAT ej används (vilken ej ingår i detta intyg).
         return !(delfragaSvar.equals(Collections.emptySet()));
 //                || delfragaSvar.equals(Korkortsbehorighet.getAllaBehorigheter())
