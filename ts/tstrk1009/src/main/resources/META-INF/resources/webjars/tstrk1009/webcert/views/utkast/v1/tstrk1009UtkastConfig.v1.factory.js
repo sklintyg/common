@@ -93,7 +93,11 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygetAvserBehorigheter.typer',
                             htmlClass: 'no-padding',
-                            labelTemplate: 'SVAR_{0}.RBK'
+                            labelTemplate: 'SVAR_{0}.RBK',
+                            colSize: {
+                                md: 12,
+                                sm: 12
+                            }
                         }]),
                     ]),
 
