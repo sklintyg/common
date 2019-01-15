@@ -35,7 +35,6 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.M
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_SVAR_ID;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -178,29 +177,29 @@ public final class TransportToInternal {
     private static void handleKorkortsBehorigheter(
             EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter, EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
 
-        if (CollectionUtils.isEqualCollection(Korkortsbehorighet.getAllaBehorigheter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getAllaBehorigheter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.ALLA);
             return;
         }
 
-        if (CollectionUtils.containsAll(Korkortsbehorighet.getCEBehorigHeter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.KANINTETASTALLNING);
             return;
         }
 
-        if (CollectionUtils.containsAll(Korkortsbehorighet.getABTraktorBehorigheter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getABTraktorBehorigheter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.A_B_TRAKTOR);
         }
 
-        if (CollectionUtils.containsAll(Korkortsbehorighet.getCEBehorigHeter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.C_E);
         }
 
-        if (CollectionUtils.containsAll(Korkortsbehorighet.getDBehorigHeter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getDBehorigHeter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.D);
         }
 
-        if (CollectionUtils.containsAll(Korkortsbehorighet.getTaxiBehorigheter(), korkortsbehorigheter)) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getTaxiBehorigheter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.TAXI);
         }
     }
