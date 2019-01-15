@@ -130,8 +130,10 @@ public final class UtlatandeToIntyg {
         }
 
         int intygetAvserBehorigheterInstans = 1;
-        if (nonNull(utlatande.getIntygetAvserBehorigheter()) && isNotEmpty(utlatande.getIntygetAvserBehorigheter())) {
-            for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter()) {
+        if (nonNull(utlatande.getIntygetAvserBehorigheter())
+                && nonNull(utlatande.getIntygetAvserBehorigheter())
+                && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter())) {
+            for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter()) {
                 for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {
                     svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
                         .withDelsvar(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,

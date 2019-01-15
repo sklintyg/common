@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.Set;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
@@ -15,7 +16,12 @@ public abstract class IntygetAvser {
 
     @JsonCreator
     public static IntygetAvser create(@JsonProperty("typer") Set<KorkortBehorighetGrupp> korkortBehorigheter) {
-        return new AutoValue_IntygetAvser(korkortBehorigheter);
+
+        final Set<KorkortBehorighetGrupp> behorigheter = (korkortBehorigheter == null)
+                ? EnumSet.noneOf(KorkortBehorighetGrupp.class)
+                : korkortBehorigheter;
+
+        return new AutoValue_IntygetAvser(behorigheter);
     }
 
     @Nullable

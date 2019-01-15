@@ -35,6 +35,7 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.M
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_SVAR_ID;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -46,6 +47,7 @@ import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.AnmalanAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdentitetStyrktGenom;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
@@ -101,8 +103,8 @@ public final class TransportToInternal {
                     throw new IllegalArgumentException();
             }
 
-            if (!intygetAvserBehorigheter.isEmpty()) {
-                utlatande.setIntygetAvserBehorigheter(intygetAvserBehorigheter);
+            if (CollectionUtils.isNotEmpty(intygetAvserBehorigheter)) {
+                utlatande.setIntygetAvserBehorigheter(IntygetAvser.create(intygetAvserBehorigheter));
             }
         }
     }

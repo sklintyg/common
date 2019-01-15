@@ -27,6 +27,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.AnmalanAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdentitetStyrktGenom;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
@@ -43,7 +44,7 @@ public class TransportToInternalTest {
                 .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
                 .setMedicinskaForhallanden("sjukt sjuk")
                 .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
-                .setIntygetAvserBehorigheter(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR))
+                .setIntygetAvserBehorigheter(IntygetAvser.create(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR)))
                 .build();
     }
 

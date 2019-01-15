@@ -38,6 +38,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -135,7 +136,7 @@ public class UtlatandeToIntygTest {
     public void testAddIntygAvserSvar() {
         Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
         EnumSet<KorkortBehorighetGrupp> intygAvserKategorier = EnumSet.of(KorkortBehorighetGrupp.TAXI);
-        utlatande = utlatande.toBuilder().setIntygetAvserBehorigheter(intygAvserKategorier).build();
+        utlatande = utlatande.toBuilder().setIntygetAvserBehorigheter(IntygetAvser.create(intygAvserKategorier)).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertEquals(2, intyg.getSvar().size());

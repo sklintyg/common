@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter.util;
 
+import static java.util.Objects.nonNull;
 import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 import java.util.Collection;
@@ -46,8 +47,9 @@ public final class ConverterUtil {
         certificateHolder.setType(Tstrk1009EntryPoint.MODULE_ID);
         certificateHolder.setTypeVersion(utlatande.getTextVersion());
 
-        if (isNotEmpty(utlatande.getIntygetAvserBehorigheter())) {
-            final String additional = utlatande.getIntygetAvserBehorigheter().stream()
+        if (nonNull(utlatande.getIntygetAvserBehorigheter())
+                && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter())) {
+            final String additional = utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().stream()
                     .map(KorkortBehorighetGrupp::getKorkortsbehorigheter)
                     .flatMap(Collection::stream)
                     .map(Korkortsbehorighet::name)

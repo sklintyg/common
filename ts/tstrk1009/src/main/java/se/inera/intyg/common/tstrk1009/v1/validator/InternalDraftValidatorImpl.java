@@ -101,10 +101,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     private static void validateBehorighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null
-                || utlatande.getIntygetAvserBehorigheter().isEmpty()) {
+                || utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.EMPTY);
-        } else if (utlatande.getIntygetAvserBehorigheter().size() > 4) {
+        } else if (utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter().size() > 4) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, TEMPORARY_JSON_ID_PLACEHOLDER,
                     ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
@@ -128,7 +128,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null) {
             return false;
         }
-        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter();
+        Set<KorkortBehorighetGrupp> delfragaSvar = utlatande.getIntygetAvserBehorigheter().getKorkortBehorigheter();
         // Note: kollar även implicit att koden ANNAT ej används (vilken ej ingår i detta intyg).
         return !(delfragaSvar.equals(Collections.emptySet()));
 //                || delfragaSvar.equals(Korkortsbehorighet.getAllaBehorigheter())

@@ -67,7 +67,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
     public abstract InternalDate getSenasteUndersokningsdatum();
 
     @Nullable
-    public abstract Set<KorkortBehorighetGrupp> getIntygetAvserBehorigheter();
+    public abstract IntygetAvser getIntygetAvserBehorigheter();
 
     @Nullable
     public abstract Boolean getInformationOmTsBeslutOnskas();
@@ -76,6 +76,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Tstrk1009UtlatandeV1.Builder()
+                .setIntygetAvserBehorigheter(IntygetAvser.create(null))
                 .setSignature(null);
     }
 
@@ -109,7 +110,7 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Builder setSenasteUndersokningsdatum(final InternalDate internalDate);
 
         @JsonProperty("intygetAvserBehorigheter")
-        public abstract Builder setIntygetAvserBehorigheter(final Set<KorkortBehorighetGrupp> intygetAvserBehorigheter);
+        public abstract Builder setIntygetAvserBehorigheter(final IntygetAvser intygetAvserBehorigheter);
 
         @JsonProperty("informationOmTsBeslutOnskas")
         public abstract Builder setInformationOmTsBeslutOnskas(final Boolean informationOmTsBeslutOnskas);
