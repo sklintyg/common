@@ -121,13 +121,17 @@ wc-support-panel-manager {
     @extend %wc-typo-05;
     color: $wc-color-07;
     background-color: $active-tab-background-color;
-    padding: 19px 15px;
+    padding: 9px 45px 19px 15px;
     min-height: 70px;
+
+    .navbar-nav > li{
+      margin-top: 10px;
+    }
   }
 
   .tab-content-title-row-title{
     display: block;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   .footer {
@@ -165,11 +169,9 @@ wc-support-panel-manager {
         padding: 2px 10px 3px;
         line-height: 1em;
         font-size: 13px;
-
-        // position it top right.. ish
         position: absolute;
         top: -11px;
-        left: 100%;
+        left: 63%;
         transform: translateX(-50%);
       }
     }
@@ -185,7 +187,6 @@ wc-support-panel-manager {
 
   .sidebar-minimize{
     position: absolute;
-    z-index: 5;
     right: 10px;
     top: 22px;
 
