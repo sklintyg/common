@@ -94,6 +94,9 @@
 
             'common.notset': 'Ej angivet',
 
+            'common.favourite.add.tooltip': 'Markera intyget som favorit och fäst högst upp i listan.',
+            'common.favourite.remove.tooltip': 'Ta bort som favoritmarkerat intyg.',
+
             // makulera
             'label.makulera': 'Makulera intyg',
             'label.makulera.body.common-header': 'Ett intyg kan makuleras om det innehåller allvarliga fel. Exempel på ett allvarligt fel är om intyget är utfärdat på fel patient. Om intyget har skickats elektroniskt till en mottagare kommer denna att informeras om makuleringen. Invånaren kan inte se makulerade intyg på <LINK:minaintyg>.',
