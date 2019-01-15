@@ -91,7 +91,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
                         fraga(null, '', '', {}, [{
                             type: 'ue-checkgroup-ts',
-                            modelProp: 'intygetAvserBehorigheter',
+                            modelProp: 'intygetAvserBehorigheter.typer',
                             htmlClass: 'no-padding',
                             labelTemplate: 'SVAR_{0}.RBK'
                         }]),
