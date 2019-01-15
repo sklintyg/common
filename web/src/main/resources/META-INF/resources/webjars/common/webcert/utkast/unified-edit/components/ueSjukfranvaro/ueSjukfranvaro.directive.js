@@ -73,20 +73,18 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
 
                         angular.forEach(validation.messages, function (message) {
                             var fieldName = message.field;
-                            if (fieldName.startsWith($scope.config.modelProp)) {
-                                var regexp = /^\w+\[(\d+)\].*/;
 
-                                var matches = fieldName.match(regexp);
-                                if (matches !== null) {
+                            var regexp = new RegExp('^' + $scope.config.modelProp + '\\[(\\d+)\\].*');
 
-                                    var index = matches[1];
+                            var matches = fieldName.match(regexp);
+                            if (matches !== null) {
+                                var index = matches[1];
 
-                                    if (!$scope.validationMessages[index]) {
-                                        $scope.validationMessages[index] = [];
-                                    }
-
-                                    $scope.validationMessages[index].push(message);
+                                if (!$scope.validationMessages[index]) {
+                                    $scope.validationMessages[index] = [];
                                 }
+
+                                $scope.validationMessages[index].push(message);
                             }
                         });
                     }
