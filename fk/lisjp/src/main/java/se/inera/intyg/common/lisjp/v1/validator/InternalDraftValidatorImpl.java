@@ -265,9 +265,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             // INTYG-3207: Show warning if any period starts earlier than 7 days before now
             validateSjukskrivningIsTooEarly(utlatande, validationMessages);
 
-            // INTYG-3747: Show warning if the total period exceeds 6 months
-            validateSjukskrivningIsTooLong(utlatande, validationMessages);
-
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
                 if (utlatande.getArbetstidsforlaggning() == null) {
@@ -325,29 +322,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                         && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
                     ValidationMessageType.WARN, "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
-        }
-    }
-
-    private void validateSjukskrivningIsTooLong(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        // Filter out any null objects and assert as valid period
-        List<Sjukskrivning> list = utlatande.getSjukskrivningar().stream().filter(isValidPeriod()).collect(Collectors.toList());
-        if (list.isEmpty()) {
-            return;
-        }
-
-        // 1. Hämta starten för sjukskrivningen
-        Sjukskrivning min = list.stream().min(Comparator.comparing(item -> item.getPeriod().fromAsLocalDate())).get();
-        LocalDate minDate = min.getPeriod().fromAsLocalDate();
-
-        // 2. Hämta slutet för sjukskrivningen
-        Sjukskrivning max = list.stream().max(Comparator.comparing(item -> item.getPeriod().tomAsLocalDate())).get();
-        LocalDate maxDate = max.getPeriod().tomAsLocalDate();
-
-        // 3. Kontrollera att maxDate - 6 månader >= minDate
-        maxDate = maxDate.minusMonths(VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER);
-        if (maxDate.isEqual(minDate) || maxDate.isAfter(minDate)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.WARN, "lisjp.validation.bedomning.sjukskrivningar.sentslutdatum");
         }
     }
 

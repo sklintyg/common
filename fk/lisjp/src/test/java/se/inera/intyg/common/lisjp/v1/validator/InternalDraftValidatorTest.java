@@ -648,28 +648,6 @@ public class InternalDraftValidatorTest {
     }
 
     @Test
-    public void validateSjukskrivningIsTooLong() throws Exception {
-        LocalDate startDate = LocalDate.now();
-        LocalDate endDate = LocalDate.now().plusMonths(InternalDraftValidatorImpl.VARNING_FOR_LANG_SJUKSKRIVNING_ANTAL_MANADER).plusDays(1);
-
-        Sjukskrivning one = Sjukskrivning.create(SjukskrivningsGrad.HELT_NEDSATT,
-            new InternalLocalDateInterval(new InternalDate(startDate), new InternalDate(startDate.plusDays(2))));
-        Sjukskrivning two = Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
-            new InternalDate(startDate.plusDays(3)), new InternalDate(endDate)));
-
-        LisjpUtlatandeV1 utlatande = builderTemplate
-            .setSjukskrivningar(Arrays.asList(one, two))
-            .setArbetstidsforlaggning(false)
-            .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationWarnings().size());
-        assertEquals("lisjp.validation.bedomning.sjukskrivningar.sentslutdatum", res.getValidationWarnings().get(0).getMessage());
-        assertEquals(ValidationMessageType.WARN, res.getValidationWarnings().get(0).getType());
-    }
-
-    @Test
     public void validateSjukskrivningArbetstidsforlaggningFalse() throws Exception {
         LisjpUtlatandeV1 utlatande = builderTemplate
                 .setSjukskrivningar(Arrays.asList(Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN, new InternalLocalDateInterval(
