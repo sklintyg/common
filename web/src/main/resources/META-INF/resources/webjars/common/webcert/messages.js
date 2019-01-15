@@ -428,7 +428,7 @@
             'fk7263.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
             'lisjp.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
 
-    // Status - signed but not sent
+            // Status - signed but not sent
             'common.label.status.signed.patient-dead': 'Intyget är signerat.<br>',
             // Same status for fk7263 & lisjp
             'fk7263.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.',

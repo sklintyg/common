@@ -25,11 +25,11 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
 
             function _getCategoryIds() {
                 return {
-                    1: '',
-                    2: '',
-                    3: '',
-                    4: '',
-                    5: '',
+                    1: 'identitet',
+                    2: 'anmalan',
+                    3: 'medicinskaforhallanden',
+                    4: 'bedomning',
+                    5: 'informationombeslut',
                 };
             }
 
@@ -88,7 +88,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             }]),
                     ]),
 
-                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
+                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {required: true, requiredProp: 'intygetAvserBehorigheter.typer'}, [
                         fraga(null, '', '', {}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygetAvserBehorigheter.typer',
