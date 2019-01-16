@@ -21,6 +21,8 @@ package se.inera.intyg.common.tstrk1009.v1.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,18 +30,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
@@ -48,6 +55,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -55,6 +63,8 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 /**
@@ -86,15 +96,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
     @PostConstruct
     public void init() {
-        /*
-        Map<RegisterCertificateVersionType, SendTSClient> map = Stream.of(
-                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V1, new RegisterCertificateV1Client()),
-                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V3, new RegisterCertificateV3Client()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
-
-        SendTSClientFactory sendTSClientFactory = new SendTSClientFactory();
-        */
         if (registerCertificateVersion == null) {
             registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
         }
@@ -168,6 +170,38 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
         return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
+    }
+
+    @Override
+    public String getAdditionalInfo(Intyg intyg) throws ModuleException {
+        List<CVType> types = new ArrayList<>();
+        try {
+            for (Svar svar : intyg.getSvar()) {
+                if (INTYG_AVSER_SVAR_ID_1.equals(svar.getId())) {
+                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                        if (INTYG_AVSER_DELSVAR_ID_1.equals(delsvar.getId())) {
+                            CVType cv = TransportConverterUtil.getCVSvarContent(delsvar);
+                            if (cv != null) {
+                                types.add(cv);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (ConverterException e) {
+            LOG.error("Failed retrieving additionalInfo for certificate {}: {}", intyg.getIntygsId().getExtension(), e.getMessage());
+            return null;
+        }
+
+        if (types.isEmpty()) {
+            LOG.error("Failed retrieving additionalInfo for certificate {}: Found no types.", intyg.getIntygsId().getExtension());
+            return null;
+        }
+
+        return types.stream()
+                .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
+                .map(Korkortsbehorighet::name)
+                .collect(Collectors.joining(", "));
     }
 
 }
