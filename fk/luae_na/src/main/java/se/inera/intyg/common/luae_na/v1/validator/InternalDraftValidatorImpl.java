@@ -33,7 +33,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
@@ -44,8 +43,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDER
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -131,18 +128,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaena
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtilFK.GrundForMu.ANNAT);
-        }
-
-        // INTYG-3314
-        boolean existsOtherMU = Stream.of(
-                utlatande.getJournaluppgifter(),
-                utlatande.getAnhorigsBeskrivningAvPatienten(),
-                utlatande.getAnnatGrundForMU()).filter(Objects::nonNull).findAny().isPresent();
-        if (utlatande.getUndersokningAvPatienten() == null
-                && existsOtherMU
-                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1,
-                    ValidationMessageType.EMPTY);
         }
 
         // R2

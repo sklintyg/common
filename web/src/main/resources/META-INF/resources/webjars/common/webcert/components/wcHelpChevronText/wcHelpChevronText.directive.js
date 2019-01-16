@@ -20,8 +20,8 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('wcHelpChevronText',
-    [ '$rootScope', '$log', 'common.messageService', 'common.dynamicLabelService', 'common.ObjectHelper',
-        function($rootScope, $log, messageService, dynamicLabelService, ObjectHelper) {
+    [ '$rootScope', 'common.ObjectHelper',
+        function($rootScope, ObjectHelper) {
             'use strict';
 
             var animationCount = 0;

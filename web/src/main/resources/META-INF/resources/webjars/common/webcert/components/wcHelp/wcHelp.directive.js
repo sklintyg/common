@@ -27,7 +27,8 @@ angular.module('common').directive('wcHelp',
             return {
                 restrict: 'E',
                 scope: {
-                    helpKey: '@'
+                    helpKey: '@',
+                    variableLabelKey: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcHelp/wcHelp.directive.html'
             };

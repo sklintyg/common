@@ -150,15 +150,8 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
-                                required: true,
-                                type: 'label',
-                                requiredProp: 'motiveringTillInteBaseratPaUndersokning'
-                            }
-                        }, {
-                            type: 'ue-text',
-                            label: {
-                                htmlClass: 'info-transfer',
-                                key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info',
+                                materialIcon: 'lightbulb_outline',
+                                helpKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.help',
                                 variableLabelKey: 'FRG_25.RBK'
                             }
                         }]),

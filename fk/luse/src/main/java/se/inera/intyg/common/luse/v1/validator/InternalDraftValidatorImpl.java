@@ -49,7 +49,6 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
@@ -127,14 +126,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtilFK.GrundForMu.ANNAT);
-        }
-
-        // INTYG-2949
-        if (utlatande.getUndersokningAvPatienten() == null && (utlatande.getJournaluppgifter() != null
-                || utlatande.getAnhorigsBeskrivningAvPatienten() != null || utlatande.getAnnatGrundForMU() != null)
-                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1,
-                    ValidationMessageType.EMPTY);
         }
 
         // R2

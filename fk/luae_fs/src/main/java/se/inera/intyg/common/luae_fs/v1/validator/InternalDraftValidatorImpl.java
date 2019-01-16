@@ -26,15 +26,12 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUND
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KANNEDOM_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_26;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -117,18 +114,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Luaefs
         }
         if (utlatande.getAnnatGrundForMU() != null) {
             ValidatorUtilFK.validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, ValidatorUtilFK.GrundForMu.ANNAT);
-        }
-
-        // INTYG-3315
-        boolean existsOtherMU = Stream.of(
-                utlatande.getJournaluppgifter(),
-                utlatande.getAnhorigsBeskrivningAvPatienten(),
-                utlatande.getAnnatGrundForMU()).filter(Objects::nonNull).findAny().isPresent();
-        if (utlatande.getUndersokningAvPatienten() == null
-                && existsOtherMU
-                && Strings.nullToEmpty(utlatande.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, MOTIVERING_TILL_INTE_BASERAT_PA_UNDERLAG_ID_1,
-                    ValidationMessageType.EMPTY);
         }
 
         // R2

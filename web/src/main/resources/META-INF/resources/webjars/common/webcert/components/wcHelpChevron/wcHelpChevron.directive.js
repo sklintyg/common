@@ -27,7 +27,8 @@ angular.module('common').directive('wcHelpChevron',
             return {
                 restrict: 'AE',
                 scope: {
-                    helpTextKey: '@'
+                    helpTextKey: '@',
+                    variableLabelKey: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcHelpChevron/wcHelpChevron.directive.html',
                 link: function($scope, element, attr) {
@@ -51,7 +52,19 @@ angular.module('common').directive('wcHelpChevron',
 
                     function updateMessage() {
                         if(!ObjectHelper.isEmpty($scope.helpTextKey)) {
-                            setText(dynamicLabelService.getProperty($scope.helpTextKey));
+                            var helpText = dynamicLabelService.getProperty($scope.helpTextKey);
+                            if ($scope.variableLabelKey) {
+                                var statLabel;
+                                if (messageService.propertyExists($scope.variableLabelKey)) {
+                                    statLabel = messageService.getProperty($scope.variableLabelKey);
+                                } else {
+                                    statLabel = dynamicLabelService.getProperty($scope.variableLabelKey);
+                                }
+                                if (statLabel) {
+                                    helpText = helpText.replace('{0}', statLabel);
+                                }
+                            }
+                            setText(helpText);
                         }
                     }
 

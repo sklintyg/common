@@ -586,7 +586,7 @@
             //////////////////////////////////////////////////////////////////////////////////////////////////
 
             'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning': 'Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten',
-            'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.info': 'Information överförs till fältet {0} vid signering.',
+            'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.help': 'Detta är ett stöd för ifyllnad och ingen fråga från Försäkringskassan. Informationen du anger här kan vara till hjälp för Försäkringskassan i deras handläggning.\nInformationen du anger nedan, kommer att överföras till fältet "{0}" vid signering.',
 
             //common.sit.* messages are candidates for a fk-common messages.js
             'common.sit.label.sjukskrivning.hoursperweek.1': 'Patienten arbetar i snitt',
