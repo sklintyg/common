@@ -97,12 +97,15 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
 
                     if (oldValue && newValue !== oldValue) {
 
-                        // R2	Om "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med "SVAR_ALLA.RBK" ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1	-
-                        checkUncheckOther('ALLA')
+                        // R2	Om "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med "SVAR_ALLA.RBK"
+                        // ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1	-
+                        checkUncheckOther('ALLA');
 
-                        // R8	Om "Behörigheter som avses (Delsvar)" besvaras med "SVAR_KANINTETASTALLNING.RBK" ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1
-                        // R10	Om frågan "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med något annat värde än "SVAR_KANINTETASTALLNING.RBK" kan värdet "SVAR_KANINTETASTALLNING.RBK" inte också anges. 	1.1
-                        checkUncheckOther('KANINTETASTALLNING')
+                        // R8	Om "Behörigheter som avses (Delsvar)" besvaras med "SVAR_KANINTETASTALLNING.RBK"
+                        // ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1
+                        // R10	Om frågan "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med något annat värde än "SVAR_KANINTETASTALLNING.RBK"
+                        // kan värdet "SVAR_KANINTETASTALLNING.RBK" inte också anges. 	1.1
+                        checkUncheckOther('KANINTETASTALLNING');
 
                     }
                 }
