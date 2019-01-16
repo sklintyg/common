@@ -75,27 +75,27 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
                 /*jshint maxcomplexity:11*/
                 listener: function(newValue, oldValue, scope) {
 
-                    if (oldValue && newValue !== oldValue) {
+                    function checkUncheckOther(targetName) {
+                        var targetIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', targetName);
+                        var targetChanged = oldValue[targetIndex].selected !== newValue[targetIndex].selected;
 
-                        function checkUncheckOther(targetName) {
-                            var targetIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', targetName);
-                            var targetChanged = oldValue[targetIndex].selected !== newValue[targetIndex].selected;
-
-                            if(targetChanged) {
-                                // enable or disable all but "Kan inte ta ställning"
-                                var targetSelected = newValue[targetIndex].selected;
-                                for(var i = 0; i < scope.model.intygetAvserBehorigheter[modelProp].length; i++) {
-                                    if(targetIndex === i) {
-                                        continue;
-                                    }
-                                    scope.model.intygetAvserBehorigheter[modelProp][i].disabled = targetSelected;
-                                    if(targetSelected) {
-                                        scope.model.intygetAvserBehorigheter[modelProp][i].selected = false;
-                                    }
+                        if(targetChanged) {
+                            // enable or disable all but "Kan inte ta ställning"
+                            var targetSelected = newValue[targetIndex].selected;
+                            for(var i = 0; i < scope.model.intygetAvserBehorigheter[modelProp].length; i++) {
+                                if(targetIndex === i) {
+                                    continue;
                                 }
-                                return;
+                                scope.model.intygetAvserBehorigheter[modelProp][i].disabled = targetSelected;
+                                if(targetSelected) {
+                                    scope.model.intygetAvserBehorigheter[modelProp][i].selected = false;
+                                }
                             }
+                            return;
                         }
+                    }
+
+                    if (oldValue && newValue !== oldValue) {
 
                         // R2	Om "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med "SVAR_ALLA.RBK" ska inga andra svarsalternativ för frågan kunna väljas samtidigt. 	1.1	-
                         checkUncheckOther('ALLA')
