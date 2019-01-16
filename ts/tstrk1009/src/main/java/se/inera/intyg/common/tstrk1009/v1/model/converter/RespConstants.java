@@ -32,21 +32,27 @@ public final class RespConstants {
 
     public static final String IDENTITET_STYRKT_GENOM_SVAR_ID = "2";
     public static final String IDENTITET_STYRKT_GENOM_DELSVAR_ID = "2.1";
+    public static final String IDENTITET_STYRKT_GENOM_JSON_ID = "identitetStyrktGenom";
 
     public static final String ANMALAN_AVSER_SVAR_ID = "46";
     public static final String ANMALAN_AVSER_DELSVAR_ID = "46.1";
+    public static final String ANMALAN_AVSER_JSON_ID = "anmalanAvser";
 
     public static final String MEDICINSKA_FORHALLANDEN_SVAR_ID = "47";
     public static final String MEDICINSKA_FORHALLANDEN_DELSVAR_ID = "47.1";
+    public static final String MEDICINSKA_FORHALLANDEN_JSON_ID = "medicinskaForhallanden";
 
     public static final String SENASTE_UNDERSOKNINGSDATUM_SVAR_ID = "48";
     public static final String SENASTE_UNDERSOKNINGSDATUM_DELSVAR_ID = "48.1";
+    public static final String SENASTE_UNDERSOKNINGSDATUM_JSON_ID = "senasteUndersokningsdatum";
 
     public static final String INTYGET_AVSER_BEHORIGHET_SVAR_ID = "1";
     public static final String INTYGET_AVSER_BEHORIGHET_DELSVAR_ID = "1.1";
+    public static final String INTYGET_AVSER_BEHORIGHET_JSON_ID = "intygetAvserBehorigheter";
 
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID = "49";
     public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_DELSVAR_ID = "49.1";
+    public static final String INFORMATION_OM_TS_BESLUT_ONSKAS_JSON_ID = "informationOmTsBeslutOnskas";
 
     private RespConstants() {
     }
