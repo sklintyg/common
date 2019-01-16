@@ -67,7 +67,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     private static void validateIdentitet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Identitet styrkt genom
         if (utlatande.getIdentitetStyrktGenom() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_IDENTITET, IDENTITET_STYRKT_GENOM_JSON_ID + ".typ",
                     ValidationMessageType.EMPTY);
         }
     }
@@ -75,7 +75,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
     private static void validateOlamplighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Anmälan avser olämplighet eller sannolik olämplighet
         if (utlatande.getAnmalanAvser() == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ANMALAN, ANMALAN_AVSER_JSON_ID,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ANMALAN, ANMALAN_AVSER_JSON_ID + ".typ",
                     ValidationMessageType.EMPTY);
         }
     }
@@ -104,13 +104,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
         // Intyget avser behörighet
         if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null
                 || utlatande.getIntygetAvserBehorigheter().getTyper().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
                     ValidationMessageType.EMPTY);
         } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > 4) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
                     ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
                     ValidationMessageType.OTHER);
         }
     }
