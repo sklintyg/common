@@ -32,7 +32,6 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,6 +55,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
@@ -95,7 +95,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
 
 
     // returns all matching text resources
-    Set<IntygTexts> update0() throws IOException {
+    private Set<IntygTexts> update0() throws IOException {
         return Stream.of(ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(location))
                 .filter(this::isTextsResource)
                 .map(this::parse)
@@ -126,12 +126,12 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         String version = element.getAttribute("version");
         String intygsTyp = element.getAttribute("typ").toLowerCase();
         LocalDate giltigFrom = getDate(element, "giltigFrom");
-        LocalDate giltigTo = getDate(element, "giltigTom");
+        LocalDate giltigTo = getDate(element, "gBiltigTom");
         SortedMap<String, String> texts = getTexter(element);
-        List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor(element);
+        List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor0(element);
 
         IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor,
-                getTextVersionProperties0(element.getAttribute(LOCATION_NAME)));
+                getTextVersionProperties(element.getAttribute(LOCATION_NAME)));
 
         return newIntygTexts;
 
@@ -153,8 +153,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     }
 
     protected SortedMap<String, String> getTexter(Element element) {
-        SortedMap<String, String> texts = new TreeMap<>();
-        NodeList textsList = element.getElementsByTagName("text");
+        final SortedMap<String, String> texts = Maps.newTreeMap();
+        final NodeList textsList = element.getElementsByTagName("text");
         for (int i = 0; i < textsList.getLength(); i++) {
             Element textElement = (Element) textsList.item(i);
             texts.put(textElement.getAttribute("id"), textElement.getTextContent());
@@ -162,7 +162,11 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         return texts;
     }
 
-    protected List<Tillaggsfraga> getTillaggsfragor(Element el) {
+    protected List<Tillaggsfraga> getTillaggsfragor(Document doc) {
+        return getTillaggsfragor0(doc.getDocumentElement());
+    }
+
+    private List<Tillaggsfraga> getTillaggsfragor0(Element el) {
         List<Tillaggsfraga> tillaggsFragor = new ArrayList<>();
         NodeList tillaggList = el.getElementsByTagName("tillaggsfraga");
         for (int i = 0; i < tillaggList.getLength(); i++) {
@@ -170,11 +174,10 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         }
         return tillaggsFragor;
     }
-
     /**
      * Retrieve the corresponding property file for a intyg texts xml file.
      */
-    Properties getTextVersionProperties0(final String sourceName) {
+    private Properties getTextVersionProperties(final String sourceName) {
         final Properties props = new Properties();
         String location = sourceName;
         final int index = sourceName.lastIndexOf('.');

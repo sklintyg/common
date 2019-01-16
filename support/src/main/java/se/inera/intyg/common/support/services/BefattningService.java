@@ -51,7 +51,7 @@ public class BefattningService {
     // This class has to be initialized as a spring component in order to function properly.
     static BefattningService instance = null;
 
-    @Value("${befattningskoder.file:classpath:codes/befattningskoder.csv}")
+    @Value("${befattningskoder.file:classpath:codes/befattningskoder-default.csv}")
     Resource resource;
 
     @PostConstruct
