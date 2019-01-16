@@ -29,6 +29,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -36,10 +38,10 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -135,25 +137,28 @@ public class UtlatandeToIntygTest {
     @Test
     public void testAddIntygAvserSvar() {
         Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
-        EnumSet<KorkortBehorighetGrupp> intygAvserKategorier = EnumSet.of(KorkortBehorighetGrupp.TAXI);
+        EnumSet<KorkortBehorighetGrupp> intygAvserKategorier = EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR);
         utlatande = utlatande.toBuilder().setIntygetAvserBehorigheter(IntygetAvser.create(intygAvserKategorier)).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        assertEquals(2, intyg.getSvar().size());
+
+        assertEquals(KorkortBehorighetGrupp.A_B_TRAKTOR.getKorkortsbehorigheter().size(), intyg.getSvar().size());
         assertEquals("1", intyg.getSvar().get(0).getId());
         assertEquals(1, intyg.getSvar().get(0).getDelsvar().size());
         assertEquals("1.1", intyg.getSvar().get(0).getDelsvar().get(0).getId());
+
+        final Set<String> codes = KorkortBehorighetGrupp.A_B_TRAKTOR.getKorkortsbehorigheter().stream()
+                .map(Korkortsbehorighet::getCode)
+                .collect(Collectors.toSet());
+
         JAXBElement<CVType> o = (JAXBElement<CVType>) intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0);
-        assertEquals(IntygAvserKod.C1.getCode(), o.getValue().getCode());
-        assertNotNull(o.getValue().getCodeSystem());
-        assertEquals(IntygAvserKod.C1.getDescription(), o.getValue().getDisplayName());
+        assertTrue(codes.contains(o.getValue().getCode()));
         assertEquals("1", intyg.getSvar().get(1).getId());
         assertEquals(1, intyg.getSvar().get(1).getDelsvar().size());
         assertEquals("1.1", intyg.getSvar().get(1).getDelsvar().get(0).getId());
         o = (JAXBElement<CVType>) intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0);
-        assertEquals(IntygAvserKod.TAXI.getCode(), o.getValue().getCode());
+        assertTrue(codes.contains(o.getValue().getCode()));
         assertNotNull(o.getValue().getCodeSystem());
-        assertEquals(IntygAvserKod.TAXI.getDescription(), o.getValue().getDisplayName());
     }
 
     @Test
@@ -195,7 +200,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void testConvertSetsDefaultVersionIfTextVersionIsNullOrEmpty() {
-        final String defaultVersion = "6.7";
+        final String defaultVersion = "1.0";
         Tstrk1009UtlatandeV1 utlatande = buildUtlatande();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();
 
