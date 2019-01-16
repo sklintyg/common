@@ -184,7 +184,7 @@ public final class TransportToInternal {
             return;
         }
 
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
+        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getKanintetastallning())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.KANINTETASTALLNING);
             return;
         }

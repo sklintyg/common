@@ -19,7 +19,9 @@
           "vardgivarnamn": "NMT vg3"
         },
         "arbetsplatsKod": "1234567890"
-      }
+      },
+      "befattningar": [
+        "203010"]
     },
     "patient": {
       "personId": "191212121212",

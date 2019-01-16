@@ -18,11 +18,15 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -31,16 +35,12 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
+import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-/**
- * Unit test for InternalToExternalConverter.
- *
- * @author erik
- *
- */
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
@@ -66,7 +66,7 @@ public class InternalToTransportTest {
 
     public static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
-        utlatande.getGrundData().setSkapadAv(buildHosPersonal(SPECIALIST_KOMPETENS));
+        utlatande.getGrundData().setSkapadAv(buildHosPersonal());
 
         if (relationKod != null) {
             Relation relation = new Relation();
@@ -89,9 +89,11 @@ public class InternalToTransportTest {
         assertEquals(objectMapper.writeValueAsString(expected), objectMapper.writeValueAsString(actual));
     }
 
-  /*  @Test(expected = ConverterException.class)
-    public void testInternalToTransportSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+    @Test
+    public void testInternalToTransportSourceNullShouldThrow() {
+        assertThatThrownBy(() -> InternalToTransport.convert(null))
+                .isExactlyInstanceOf(ConverterException.class)
+                .hasMessage("Source utlatande was null, cannot convert");
     }
 
     @Test
@@ -133,10 +135,7 @@ public class InternalToTransportTest {
     public void testConvertWithSpecialistkompetens() throws ScenarioNotFoundException, ConverterException {
         String specialistkompetens1 = "Kirurgi";
         String specialistkompetens2 = "Allergi";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().clear();
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens1);
-        utlatande.getGrundData().getSkapadAv().getSpecialiteter().add(specialistkompetens2);
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-specialitet").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         HosPersonal skapadAv = res.getIntyg().getSkapadAv();
         assertEquals(2, skapadAv.getSpecialistkompetens().size());
@@ -148,9 +147,7 @@ public class InternalToTransportTest {
     public void testConvertMapsBefattningCodeToDescriptionIfPossible() throws ScenarioNotFoundException, ConverterException {
         final String befattning = "203010";
         final String description = "Läkare legitimerad, specialiseringstjänstgöring";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
-        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattning);
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-befattning").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         HosPersonal skapadAv = res.getIntyg().getSkapadAv();
         assertEquals(1, skapadAv.getBefattning().size());
@@ -159,42 +156,25 @@ public class InternalToTransportTest {
     }
 
     @Test
-    public void testConvertKeepBefattningCodeIfDescriptionNotFound() throws ScenarioNotFoundException, ConverterException {
-        String befattningskod = "kod";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande.getGrundData().getSkapadAv().getBefattningar().clear();
-        utlatande.getGrundData().getSkapadAv().getBefattningar().add(befattningskod);
-        RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        HosPersonal skapadAv = res.getIntyg().getSkapadAv();
-        assertEquals(1, skapadAv.getBefattning().size());
-        assertEquals(befattningskod, skapadAv.getBefattning().get(0).getCode());
-    }
-
-    @Test
     public void testConvertSetsVersionAndUtgavaFromTextVersion() throws ScenarioNotFoundException, ConverterException {
-        final String version = "07";
-        final String utgava = "08";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
-        utlatande = utlatande.toBuilder().setTextVersion(version + "." + utgava).build();
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        assertEquals(version + "." + utgava, res.getIntyg().getVersion());
+        assertEquals("1.0", res.getIntyg().getVersion());
     }
 
     @Test
     public void testConvertSetsDefaultVersionAndUtgavaIfTextVersionIsNullOrEmpty() throws ScenarioNotFoundException, ConverterException {
-        final String defaultVersion = "6";
-        final String defaultUtgava = "7";
-        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-minimal").asInternalModel();
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         utlatande = utlatande.toBuilder().setTextVersion(null).build();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
-        assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
+        assertEquals("1.0", res.getIntyg().getVersion());
 
         utlatande = utlatande.toBuilder().setTextVersion("").build();
         res = InternalToTransport.convert(utlatande);
-        assertEquals(defaultVersion + "." + defaultUtgava, res.getIntyg().getVersion());
-    }*/
+        assertEquals("1.0", res.getIntyg().getVersion());
+    }
 
-    private static HoSPersonal buildHosPersonal(List<String> specialistKompetens) {
+    private static HoSPersonal buildHosPersonal() {
         HoSPersonal hosPersonal = new HoSPersonal();
         hosPersonal.setPersonId(PERSONID);
         hosPersonal.setFullstandigtNamn(FULLSTANDIGT_NAMN);

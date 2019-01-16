@@ -2,6 +2,8 @@ dependencies {
   compile project(':ts-parent')
   compile project(":common-pdf")
 
+  testCompile "org.assertj:assertj-core:${assertjVersion}"
+  
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
   apt "com.google.auto.value:auto-value:${autovalueVersion}"
 }
