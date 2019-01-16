@@ -81,13 +81,12 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                 components: [
                     {
                         type: 'uv-list',
-                        labelKey: 'KORKORT_{var}.RBK',
+                        labelKey: 'SVAR_{var}.RBK',
                         listKey: function(model) {
                             return model.selected ? model.type : null;
                         },
                         separator: ', ',
-                        modelProp: 'intygetAvserBehorigheter.korkortstyp',
-                        noValue: 'DFR_33.2.RBK'
+                        modelProp: 'intygetAvserBehorigheter.typer'
                     }
                 ]
             },
@@ -102,8 +101,8 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                             type: 'uv-del-fraga',
                             components: [
                                 {
-                                    type: 'uv-boolean-value',
-                                    modelProp: 'hypoglykemier.kunskapOmAtgarder'
+                                    type: 'uv-boolean-statement',
+                                    modelProp: 'informationOmTsBeslutOnskas'
                                 }
                             ]
                         }]
