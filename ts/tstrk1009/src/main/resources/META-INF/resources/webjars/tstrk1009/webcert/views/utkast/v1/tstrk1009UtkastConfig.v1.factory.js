@@ -69,7 +69,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             paddingBottom: true,
                             choices: [
                                 {label: 'KV_SVAR_OLAMPLIGHET.OLAMPLIGHET.RBK', id: 'OLAMPLIGHET'},
-                                {label: 'KV_SVAR_OLAMPLIGHET.SANNOLIKOLAMPLIGHET.RBK', id: 'SANNOLIK_OLAMPLIGHET'}
+                                {label: 'KV_SVAR_OLAMPLIGHET.SANNOLIK_OLAMPLIGHET.RBK', id: 'SANNOLIK_OLAMPLIGHET'}
                             ]
                         }])
                     ]),
