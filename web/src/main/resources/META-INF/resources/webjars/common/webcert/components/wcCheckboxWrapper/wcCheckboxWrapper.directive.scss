@@ -51,7 +51,6 @@ wc-checkbox-wrapper {
 
     input[type="checkbox"] {
       opacity: 0.01; //Important: 0.01 is not practically visible, but if we set it to 0, protractor won't find it..
-      z-index: 1;
 
       margin: 0;
       position: absolute;
