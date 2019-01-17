@@ -111,6 +111,12 @@ body {
       z-index: 5;
     }
   }
+
+  .webcert-workarea-intyg-header{
+    flex: 1 0 auto;
+    position: relative; // needed for box shadow to show above intyg/utkast
+    z-index: 5;
+  }
 }
 
 .webcert-landing {
