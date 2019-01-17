@@ -33,9 +33,13 @@ wc-bottom-fadeout {
 
     &:after {
       content: '';
-      display: table;
-      clear: both;
+      display: block;
+      padding-bottom: $wc-text-fadeout-height;
     }
+  }
+
+  .wc-bottom-fadeout-background-02{
+    background-color: $wc-color-02;
   }
 }
 
