@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_BOTTOM;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_BOTTOM_WITH_SIGNBOX;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
@@ -75,13 +75,13 @@ public class SignBox implements IEventHandler {
         if (shouldRender(pdf, page)) {
             canvas.showTextAligned("Signatur",
                     pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(13f),
-                    pageSize.getBottom() + PAGE_MARGIN_BOTTOM + 17f,
+                    pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 17f,
                     TextAlignment.LEFT, VerticalAlignment.MIDDLE, 0);
 
             final float width = 50f;
             final float height = 15f;
             final float x = (page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT) - millimetersToPoints(width));
-            final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM + 25f;
+            final float y = pageSize.getBottom() + PAGE_MARGIN_BOTTOM_WITH_SIGNBOX + 25f;
             pdfCanvas.rectangle(x, y, millimetersToPoints(width), millimetersToPoints(height));
             pdfCanvas.stroke();
             pdfCanvas.release();

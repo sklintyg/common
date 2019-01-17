@@ -18,14 +18,14 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
 
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
-
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders a kategori. Note that we wrap the actual kategori iText Div for correct border rendering.
@@ -44,9 +44,6 @@ public class UVKategori extends UVComponent {
         String kategori = renderer.getText(labelKey);
 
         Div borderDiv = new Div();
-        parent.setBorder(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH))
-                .setPaddingBottom(KATEGORI_PADDING_BOTTOM);
-
         borderDiv.add(new Paragraph(kategori.toUpperCase())
                 .setMarginTop(0f)
                 .setMarginBottom(0f)
@@ -59,8 +56,13 @@ public class UVKategori extends UVComponent {
                 .setPaddingBottom(1f))
                 .setKeepTogether(true);
         borderDiv.setBorderBottom(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH));
-        parent.setKeepTogether(true);
         parent.add(borderDiv);
+
+        //Add border around entire category content (could span several pages)
+        parent.setBorder(new SolidBorder(wcColor07, DEFAULT_BORDER_WIDTH))
+                .setPaddingBottom(KATEGORI_PADDING_BOTTOM)
+                .setKeepTogether(false);
+
 
         return true;
     }

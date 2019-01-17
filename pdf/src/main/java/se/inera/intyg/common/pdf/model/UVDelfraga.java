@@ -53,7 +53,7 @@ public class UVDelfraga extends UVComponent {
                         .setKeepTogether(true)
                 );
             }
-            // Allow page breaks in parent Fraga
+            // Allow page breaks (separating delfraga title from answer)
             parent.setKeepTogether(false);
         }
         return render;

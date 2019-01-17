@@ -86,7 +86,8 @@ public class UVRenderer {
 
     // In millimeters
     public static final float PAGE_MARGIN_LEFT = 20f;
-    public static final float PAGE_MARGIN_BOTTOM = 40f;
+    public static final float PAGE_MARGIN_BOTTOM_WITH_SIGNBOX = 40f;
+    public static final float PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX = 15f;
     public static final float PAGE_MARGIN_TOP = 58f;
     private static final float MARGIN_BETWEEN_KATEGORIER = 5f;
 
@@ -144,8 +145,11 @@ public class UVRenderer {
 
             // Initialize document
             Document document = new Document(pdf, PageSize.A4);
-            document.setMargins(millimetersToPoints(PAGE_MARGIN_TOP), millimetersToPoints(PAGE_MARGIN_LEFT),
-                    millimetersToPoints(PAGE_MARGIN_BOTTOM), millimetersToPoints(PAGE_MARGIN_LEFT));
+            document.setMargins(
+                    millimetersToPoints(PAGE_MARGIN_TOP),
+                    millimetersToPoints(PAGE_MARGIN_LEFT),
+                    millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
+                    millimetersToPoints(PAGE_MARGIN_LEFT));
 
             // Initialize script engine
             engine = new ScriptEngineManager().getEngineByName("nashorn");
@@ -274,7 +278,7 @@ public class UVRenderer {
         document.add(summaryDiv);
     }
 
-    private void render(Div rootDiv, ScriptObjectMirror currentUvNode) {
+    private void render(Div parentDiv, ScriptObjectMirror currentUvNode) {
 
         boolean renderChildren = false;
 
@@ -332,11 +336,11 @@ public class UVRenderer {
                 render(currentDiv, (ScriptObjectMirror) entry.getValue());
             }
         }
-        rootDiv.add(currentDiv);
+        parentDiv.add(currentDiv);
 
         // Add a spacer to the parent div _after_ kategori and its subcomponents.
         if ("uv-kategori".equalsIgnoreCase(type)) {
-            rootDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
+            parentDiv.add(new Div().setMarginTop(millimetersToPoints(MARGIN_BETWEEN_KATEGORIER)));
         }
     }
 

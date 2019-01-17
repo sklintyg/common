@@ -20,6 +20,7 @@ package se.inera.intyg.common.pdf.model;
 
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
@@ -34,13 +35,8 @@ public class UVFraga extends UVComponent {
 
     @Override
     public boolean render(Div parent, ScriptObjectMirror currentUvNode) {
-        //if (!currentUvNode.containsKey(LABEL_KEY)) {
-        //    return false;
-        //}
-
         String labelKey = (String) currentUvNode.get(LABEL_KEY);
         String fraga = labelKey != null ? renderer.getText(labelKey) : "";
-
 
         parent.add(new Paragraph(fraga)
                 .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
@@ -49,9 +45,8 @@ public class UVFraga extends UVComponent {
                 .setFont(renderer.fragaDelFragaFont)
                 .setFontColor(wcColor07)
                 .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
-                .setKeepTogether(true)
-        );
-        parent.setKeepTogether(true);
+                .setKeepTogether(true));
+        parent.setKeepTogether(false);
         return true;
     }
 }
