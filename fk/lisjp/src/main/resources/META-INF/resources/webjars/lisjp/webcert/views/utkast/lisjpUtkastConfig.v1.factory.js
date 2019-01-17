@@ -231,19 +231,14 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
+                                materialIcon: 'lightbulb_outline',
+                                variableLabelKey: 'FRG_25.RBK',
                                 key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                 helpKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
                                 type: 'label',
                                 requiredProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                             },
                             modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
-                        }, {
-                            type: 'ue-text',
-                            label : {
-                                htmlClass: 'info-transfer',
-                                key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                variableLabelKey: 'FRG_25.RBK'
-                            }
                         }]),
                         fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [{
                             type: 'ue-textarea',
