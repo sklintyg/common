@@ -17,6 +17,7 @@ wc-support-panel-manager {
   height: 100%;
   position: relative;
   margin-left: 8px;
+  z-index: 4;
 
   &.minimized{
     width: 110px;
