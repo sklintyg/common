@@ -50,6 +50,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -87,6 +88,10 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
      */
     @PostConstruct
     public void init() throws IOException {
+        // FIXME: Legacy support, can be removed when local config has been substituted by refdata (INTYG-7701)
+        if (!ResourceUtils.isUrl(location)) {
+            location = "file://" + location;
+        }
         if (!location.endsWith("/*")) {
             location += location.endsWith("/") ? "*" : "/*";
         }
