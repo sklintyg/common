@@ -1,0 +1,43 @@
+/*
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+package se.inera.intyg.common.ts_tstrk1062.v1.validator;
+
+import org.springframework.stereotype.Component;
+
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
+import se.inera.intyg.common.ts_tstrk1062.v1.validator.internal.InternalValidatorInstance;
+
+@Component("ts-tstrk1062.v1.TsTstrk1062Validator")
+public class TsTstrk1062Validator implements InternalDraftValidator<TsTstrk1062UtlatandeV1> {
+
+    /**
+     * Validates an internal Utlatande.
+     *
+     * @param utlatande TsTstrk1062UtlatandeV1
+     * @return List of validation errors, or an empty string if validated correctly.
+     */
+    @Override
+    public ValidateDraftResponse validateDraft(TsTstrk1062UtlatandeV1 utlatande) {
+        InternalValidatorInstance instance = new InternalValidatorInstance();
+        return instance.validate(utlatande);
+    }
+
+}
