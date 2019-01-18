@@ -38,7 +38,11 @@ angular.module('af00251').factory('af00251.Domain.IntygModel.v1',
                         'annatBeskrivning': undefined,
 
                         // Kategori 2
-                        'arbetsmarknadspolitisktProgram': undefined,
+                        'arbetsmarknadspolitisktProgram': {
+                            'medicinskBedomning': undefined,
+                            'omfattning': undefined,
+                            'omfattningDeltid': undefined
+                        },
 
                         // Kategori 3
                         'funktionsnedsattning': undefined,
@@ -51,9 +55,15 @@ angular.module('af00251').factory('af00251.Domain.IntygModel.v1',
                             defaultValue: []
                         }),
 
-                        'begransningSjukfranvaro': undefined,
+                        'begransningSjukfranvaro': {
+                            'kanBegransas': undefined,
+                            'beskrivning': undefined
+                        },
 
-                        'prognosAtergang': undefined
+                        'prognosAtergang': {
+                            'prognos': undefined,
+                            'anpassningar': undefined
+                        }
 
                     });
                 },
