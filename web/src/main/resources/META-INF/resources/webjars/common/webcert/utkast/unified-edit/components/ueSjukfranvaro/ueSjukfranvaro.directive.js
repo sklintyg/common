@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStateService', 'common.SjukfranvaroViewStateService',
-    'common.UtkastValidationService', 'common.messageService', 'common.UtkastViewStateService', 'common.AtticHelper',
-    function (ArendeListViewState, viewstate, UtkastValidationService, messageService, UtkastViewState, AtticHelper) {
+angular.module('common').directive('ueSjukfranvaro', ['common.SjukfranvaroViewStateService',
+    'common.UtkastValidationService', 'common.messageService', 'common.UtkastViewStateService', 'common.AtticHelper', '$timeout',
+    function (viewstate, UtkastValidationService, messageService, UtkastViewState, AtticHelper, $timeout) {
         'use strict';
         return {
             restrict: 'E',
@@ -64,6 +64,8 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
 
                 var validation = $scope.validation = UtkastViewState.validation;
 
+                var indexFieldMatcher = new RegExp('^' + $scope.config.modelProp + '\\[(\\d+)\\]\\.(.*)');
+
                 $scope.$watch('validation.messages', function () {
                         $scope.validationMessages = [];
 
@@ -74,17 +76,19 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
                         angular.forEach(validation.messages, function (message) {
                             var fieldName = message.field;
 
-                            var regexp = new RegExp('^' + $scope.config.modelProp + '\\[(\\d+)\\].*');
-
-                            var matches = fieldName.match(regexp);
+                            var matches = fieldName.match(indexFieldMatcher);
                             if (matches !== null) {
                                 var index = matches[1];
+                                var field = matches[2];
 
                                 if (!$scope.validationMessages[index]) {
-                                    $scope.validationMessages[index] = [];
+                                    $scope.validationMessages[index] = {};
                                 }
 
-                                $scope.validationMessages[index].push(message);
+                                if (!$scope.validationMessages[index][field]) {
+                                    $scope.validationMessages[index][field] = [];
+                                }
+                                $scope.validationMessages[index][field].push(message);
                             }
                         });
                     }
@@ -97,11 +101,13 @@ angular.module('common').directive('ueSjukfranvaro', ['common.ArendeListViewStat
                         validation.messagesByField[key];
                 };
 
-                $scope.hasKompletteringar = function () {
-                    return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
-                };
                 $scope.validate = function () {
-                    UtkastValidationService.validate($scope.model);
+                    // When a date is selected from the date popup a blur event is sent.
+                    // In the current version of Angular UI this blur event is sent before utkast model is updated
+                    // This timeout ensures we get the new value in $scope.model
+                    $timeout(function() {
+                        UtkastValidationService.validate($scope.model);
+                    });
                 };
                 $scope.viewstate = viewstate.reset();
 

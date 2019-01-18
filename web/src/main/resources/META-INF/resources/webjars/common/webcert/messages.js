@@ -642,9 +642,11 @@
             'common.validation.ue-vaguedate.invalid_format': 'åååå måste anges, månad och dag kan anges som 00.',
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
-            'common.validation.ue-sjukfranvaro.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
-            'common.validation.ue-sjukfranvaro.empty': 'Fältet får inte vara tomt.',
-            'common.validation.ue-sjukfranvaro.invalid_format': 'Fältet har ogiltigt format.',
+            'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-99',
+            'common.validation.ue-sjukfranvaro.period.from.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
+            'common.validation.ue-sjukfranvaro.period.tom.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
+            'common.validation.ue-sjukfranvaro.period.from.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.period.tom.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
             'common.validation.ue-grid.empty': 'Ange ett svar.',
 
 

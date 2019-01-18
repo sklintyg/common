@@ -21,8 +21,6 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
         function(DateUtilsService) {
             'use strict';
 
-
-
             this.reset = function() {
                 this.model = undefined;
                 this.totalDays = undefined;
@@ -76,15 +74,14 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
                 }
             };
 
-
             this.updatePeriods = function() {
 
                 var minDate, maxDate;
 
                 angular.forEach(this.model, function(value) {
 
-                    // Om det står något i både fälten kryssa i checkboxen
-                    if (value.period.from && value.period.tom) {
+                    // Om det står något i något av fälten kryssa i checkboxen
+                    if (value.period.from || value.period.tom || value.niva) {
                         value.checked = true;
                     }
 
@@ -104,8 +101,6 @@ angular.module('common').service('common.SjukfranvaroViewStateService',
                     if (!value.period.from && !value.period.tom) {
                         value.checked = false;
                     }
-
-                    // Uppdatera värden för arbetstid och period
                 }, this);
 
                 this.totalDays = undefined;

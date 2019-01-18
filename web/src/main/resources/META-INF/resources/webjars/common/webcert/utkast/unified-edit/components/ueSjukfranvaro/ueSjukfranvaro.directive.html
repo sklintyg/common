@@ -42,35 +42,52 @@
           <span wc-date-period-field model="model" field="{{config.modelProp}}" index="{{$index}}" type="from"
                 ng-model="row.period"
                 on-blur="validate()"
-                ng-class="{'validation-error' : hasValidationError({{$index}}, 'period') || hasValidationError({{$index}}, 'period.from')}"></span>
+                ng-class="{'validation-error' : hasValidationError({{$index}}, 'period') || hasValidationError({{$index}}, 'period.from')}">
+
+          </span>
         </div>
 
         <div class="col-xs-5">
           <label for="{{config.modelProp}}-{{$index}}-tom">t.o.m</label>
           <span wc-date-period-field model="model" field="{{config.modelProp}}" index="{{$index}}" type="tom"
                 on-blur="validate()"
-                ng-class="{'validation-error' : hasValidationError({{$index}}, 'period') || hasValidationError({{$index}}, 'period.tom')}"></span>
+                ng-class="{'validation-error' : hasValidationError({{$index}}, 'period') || hasValidationError({{$index}}, 'period.tom')}">
+
+          </span>
 
           <button type="button" ng-if="$index > 1" class="btn btn-type-8" ng-click="viewstate.deleteRow($index)" id="{{config.modelProp}}-{{$index}}-deleteRow">
             <i class="material-icons">remove_circle</i> Ta bort
           </button>
         </div>
 
-        <ue-validation-list field-type="ue-sjukfranvaro"
-                            validations="validationMessages[$index]"></ue-validation-list>
+        <div class="col-xs-12">
+          <ue-validation-list field-type="ue-sjukfranvaro.niva"
+                              validations="validationMessages[$index]['niva']"></ue-validation-list>
+          <ue-validation-list field-type="ue-sjukfranvaro.period.from"
+                              validations="validationMessages[$index]['period.from']"></ue-validation-list>
+          <ue-validation-list field-type="ue-sjukfranvaro.period.tom"
+                              validations="validationMessages[$index]['period.tom']"></ue-validation-list>
+          <ue-validation-list field-type="ue-sjukfranvaro.period"
+                              validations="validationMessages[$index]['period']"></ue-validation-list>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <button type="button" ng-disabled="viewstate.model.length >= config.maxRows" class="btn btn-type-8" id="{{config.modelProp}}-addRow"
-                ng-click="viewstate.addRow()"><i class="material-icons">add_circle</i> Lägg till period
-        </button>
+      <div class="row">
+        <div class="col-xs-12">
+          <button type="button" ng-disabled="viewstate.model.length >= config.maxRows" class="btn btn-type-8"
+                  id="{{config.modelProp}}-addRow"
+                  ng-click="viewstate.addRow()"><i class="material-icons">add_circle</i> Lägg till period
+          </button>
+        </div>
+      </div>
+
+      <div ng-if="viewstate.totalDays" class="row fold-animation fold-slide-animation ifyllnadsstod">
+        <div class="col-xs-12">
+          <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
+        </div>
       </div>
     </div>
   </ue-validation-wrapper>
 
-  <div ng-if="viewstate.totalDays" class="fold-animation fold-slide-animation ifyllnadsstod">
-    <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
-  </div>
+
 </div>
