@@ -36,4 +36,11 @@ ue-sjukfranvaro {
   .row {
       padding-bottom: 10px;
   }
+
+  .ifyllnadsstod {
+    i {
+      margin-left: -4px;
+    }
+    color: $wc-color-21;
+  }
 }
