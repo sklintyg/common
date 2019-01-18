@@ -131,7 +131,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         String version = element.getAttribute("version");
         String intygsTyp = element.getAttribute("typ").toLowerCase();
         LocalDate giltigFrom = getDate(element, "giltigFrom");
-        LocalDate giltigTo = getDate(element, "gBiltigTom");
+        LocalDate giltigTo = getDate(element, "giltigTom");
         SortedMap<String, String> texts = getTexter(element);
         List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor0(element);
 
