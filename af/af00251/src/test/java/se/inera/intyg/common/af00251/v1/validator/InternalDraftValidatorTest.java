@@ -152,6 +152,36 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatBeskrivning"),
             is(ValidationMessageType.EMPTY));
     }
+    @Test
+    public void validateMedicinskUnderlagFutureAnnatDatum() {
+        AF00251UtlatandeV1 utlatande = builderTemplate
+            .setAnnatDatum(new InternalDate(LocalDate.now().plusDays(5)))
+            .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        final List<ValidationMessage> validationErrors = res.getValidationErrors();
+        assertThat(validationErrors, hasSize(1));
+
+        assertValidationMessage(validationErrors.get(0),
+            is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatDatum"),
+            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.undersokning.future-date"));
+    }
+    @Test
+    public void validateMedicinskUnderlagFutureUndersokningsDatum() {
+        AF00251UtlatandeV1 utlatande = builderTemplate
+            .setUndersokningsDatum(new InternalDate(LocalDate.now().plusDays(5)))
+            .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        final List<ValidationMessage> validationErrors = res.getValidationErrors();
+        assertThat(validationErrors, hasSize(1));
+
+        assertValidationMessage(validationErrors.get(0),
+            is(CATEGORY_MEDICINSKT_UNDERLAG), is("undersokningsDatum"),
+            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.undersokning.future-date"));
+    }
 
     @Test
     public void validateArbetsmarknadspolitisktProgramNull() {
@@ -350,7 +380,8 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertThat(validationErrors, hasSize(1));
         assertValidationMessage(validationErrors.get(0),
-            is(CATEGORY_BEDOMNING), is("sjukfranvaro"), is(ValidationMessageType.EMPTY));
+            is(CATEGORY_BEDOMNING), is("sjukfranvaro"), is(ValidationMessageType.EMPTY),
+            is("af00251.validation.sjukfranvaro.missing"));
     }
 
     @Test
@@ -399,6 +430,7 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
+                                                       .setChecked(true)
                                                        .setPeriod(new InternalLocalDateInterval("2018-08-01", "2018-08-30"))
                                                        .setNiva(100)
                                                        .build(),
@@ -453,7 +485,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].niva"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.sjukfranvaro.niva.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
@@ -475,7 +507,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].niva"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.sjukfranvaro.niva.invalid-range"));
+            is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
@@ -497,7 +529,7 @@ public class InternalDraftValidatorTest {
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period"),
-            is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.sjukfranvaro.period.from_after_tom"));
+            is(ValidationMessageType.INCORRECT_COMBINATION));
     }
 
     @Test
@@ -529,6 +561,31 @@ public class InternalDraftValidatorTest {
         assertValidationMessage(validationErrors.get(1),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.tom"),
             is(ValidationMessageType.PERIOD_OVERLAP));
+    }
+    @Test
+    public void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
+        AF00251UtlatandeV1 utlatande = builderTemplate
+            .setHarForhinder(true)
+            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
+                                                       .setPeriod(new InternalLocalDateInterval("qwerty", "asd"))
+                                                       .setNiva(90)
+                                                       .setChecked(true)
+                                                       .build()))
+            .build();
+
+        ValidateDraftResponse res = validator.validateDraft(utlatande);
+
+        final List<ValidationMessage> validationErrors = res.getValidationErrors();
+        assertValidationMessages(validationErrors, 2);
+
+
+        assertValidationMessage(validationErrors.get(0),
+            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
+            is(ValidationMessageType.INVALID_FORMAT));
+
+        assertValidationMessage(validationErrors.get(1),
+            is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.tom"),
+            is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
