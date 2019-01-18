@@ -68,13 +68,9 @@
         </button>
       </div>
     </div>
-
-    <div ng-if="viewstate.totalDays" class="row fold-animation fold-slide-animation">
-      <div class="col-xs-12 ifyllnadsstod">
-        <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
-      </div>
-    </div>
   </ue-validation-wrapper>
 
-
+  <div ng-if="viewstate.totalDays" class="fold-animation fold-slide-animation ifyllnadsstod">
+    <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
+  </div>
 </div>
