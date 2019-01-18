@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.services;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -55,8 +56,9 @@ public class BefattningService {
     Resource resource;
 
     @PostConstruct
-    void initialize() {
-        final Reader reader = open();
+    @SuppressFBWarnings
+    void initialize() throws IOException {
+        final Reader reader = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
         try {
             final ImmutableBiMap.Builder<String, String> codeBuilder = ImmutableBiMap.builder();
 
@@ -69,19 +71,8 @@ public class BefattningService {
             LOG.info("{} codes loaded from {}", this.codeMap.size() - 1, this.resource);
 
             instance = this;
-
-        } catch (IOException ioe) {
-            throw new RuntimeException(String.format("Error occurred when parsing: %s", resource), ioe);
-        } finally {
+       } finally {
             Closeables.closeQuietly(reader);
-        }
-    }
-
-    Reader open() {
-        try {
-            return new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
-        } catch (IOException e) {
-            throw new RuntimeException(String.format("Error occurred when opening: %s", resource), e);
         }
     }
 
