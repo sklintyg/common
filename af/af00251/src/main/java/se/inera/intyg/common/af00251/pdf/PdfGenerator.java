@@ -61,7 +61,7 @@ public class PdfGenerator {
             + "skickas till Arbetsförmedlingen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "af_arbetsmarknadspolitiskt_program_";
+    private static final String CERTIFICATE_FILE_PREFIX = "af_lakarintyg_arbetsmarknadspolitiskt_program_";
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
             List<Status> statuses,

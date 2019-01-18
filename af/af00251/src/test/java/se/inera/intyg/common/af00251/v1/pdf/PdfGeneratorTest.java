@@ -71,7 +71,7 @@ public class PdfGeneratorTest {
         Files.write(path, pdfResponse.getPdfData(), StandardOpenOption.CREATE);
 
         assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^af_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        Pattern p = Pattern.compile("^af_lakarintyg_arbetsmarknadspolitiskt_program_[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
 
     }
