@@ -179,7 +179,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
                         fraga(5, 'FRG_5.RBK', 'FRG_5.HLP',
-                            {required: true, requiredProp: ['harForhinder']},
+                            {required: true, requiredProp: 'harForhinder'},
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'harForhinder',
