@@ -36,23 +36,15 @@ angular.module('common').directive('autoExpand', ['$window', '$interval', functi
 
             var windowNode = angular.element($window);
             var node = element[0];
-            var jqueryNode = angular.element(node);
-            var offset = node.offsetHeight - node.clientHeight;
             var defaultHeight = 0;
-            var changedHeight = false;
 
             function resizeTextarea() {
-                jqueryNode.css('height', 'auto');
-                var newHeight = node.scrollHeight;
+                node.style.height = 'inherit';
+                var height = node.scrollHeight;
 
-                if (newHeight > defaultHeight) {
-                    if (!changedHeight) {
-                        offset = node.offsetHeight - node.clientHeight;
-                        defaultHeight = node.clientHeight;
-                        changedHeight = true;
-                    }
-
-                    jqueryNode.css('height', newHeight + offset);
+                if (height > defaultHeight) {
+                    defaultHeight = height;
+                    node.style.height = height + 'px';
                 }
             }
 
