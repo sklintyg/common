@@ -110,8 +110,12 @@ angular.module('db').factory('db.UtkastConfigFactory.v1',
                                 listener: function _maxDateUndersokningListener(newValue, oldValue, scope) {
                                     if (scope.model.dodsdatumSakert) {
                                         scope.config.maxDate = scope.model.dodsdatum || today;
+                                        var minDate = (scope.model.dodsdatum ? moment(scope.model.dodsdatum)
+                                            .subtract(4, 'week').format('YYYY-MM-DD') : undefined);
+                                        scope.config.minDate = minDate;
                                     } else {
                                         scope.config.maxDate = scope.model.antraffatDodDatum || today;
+                                        scope.config.minDate = undefined;
                                     }
                                 }
                             }
