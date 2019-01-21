@@ -34,8 +34,8 @@ angular.module('af00251').constant('af00251.messages', {
 
         // Composite keys - used with dynamic prefix such as <intygstype>.
         // Be careful to investigate if they are used before removing them.
-        'af00251.inbox.complementaryinfo': '',
-        'af00251.compact-header.complementaryinfo-prefix': ''
+        'af00251.inbox.complementaryinfo': 'Intygsperiod',
+        'af00251.compact-header.complementaryinfo-prefix': 'Gäller intygsperiod:'
     },
     'en': {
         'af00251.label.pagetitle': 'Show Certificate'

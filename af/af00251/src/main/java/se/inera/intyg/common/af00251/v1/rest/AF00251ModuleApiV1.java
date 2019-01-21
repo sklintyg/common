@@ -18,9 +18,15 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.af00251.pdf.PdfGenerator;
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af00251.v1.model.converter.InternalToTransport;
@@ -30,6 +36,7 @@ import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
 import se.inera.intyg.common.af_parent.rest.AfParentModuleApi;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -44,10 +51,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component(value = "moduleapi.af00251.v1")
 public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
@@ -115,7 +118,22 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
     @Override
     public String getAdditionalInfo(Intyg intyg) throws ModuleException {
-        return null;
+        try {
+            String additionalInfo = null;
+            final AF00251UtlatandeV1 af00251UtlatandeV1 = transportToInternal(intyg);
+            if (af00251UtlatandeV1.getSjukfranvaro() != null && af00251UtlatandeV1.getSjukfranvaro().size() > 0) {
+                additionalInfo = af00251UtlatandeV1.getSjukfranvaro().stream()
+                        .map(Sjukfranvaro::getPeriod)
+                        .sorted(Comparator.comparing(InternalLocalDateInterval::fromAsLocalDate))
+                        .reduce((a, b) -> new InternalLocalDateInterval(a.getFrom(), b.getTom()))
+                        .map(interval -> interval.getFrom().toString() + " - " + interval.getTom().toString())
+                        .orElse(null);
+            }
+            return additionalInfo;
+
+        } catch (ConverterException e) {
+            throw new ModuleException("Could not convert Intyg to Utlatande and as a result could not get additional info", e);
+        }
     }
 
     @Override
