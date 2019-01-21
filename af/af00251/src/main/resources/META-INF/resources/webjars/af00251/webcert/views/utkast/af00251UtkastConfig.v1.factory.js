@@ -105,7 +105,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                             }]
                         )
                     ]),
-                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {}, [
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {
                                 required: true,
                                 requiredProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning'
