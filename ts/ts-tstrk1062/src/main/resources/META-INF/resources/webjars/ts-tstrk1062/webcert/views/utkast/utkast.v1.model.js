@@ -74,16 +74,22 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                     intygAvser: {
                         'korkortstyp': new ModelAttr('korkortstyp',
                             {defaultValue:[
-                                {'type': 'C1', 'selected': false},
-                                {'type': 'C1E', 'selected': false},
-                                {'type': 'C', 'selected': false},
-                                {'type': 'CE', 'selected': false},
-                                {'type': 'D1', 'selected': false},
-                                {'type': 'D1E', 'selected': false},
-                                {'type': 'D', 'selected': false},
-                                {'type': 'DE', 'selected': false},
-                                {'type': 'TAXI', 'selected': false},
-                                {'type': 'ANNAT', 'selected': false}
+                                {'type': 'IAV11', 'selected': false},
+                                {'type': 'IAV12', 'selected': false},
+                                {'type': 'IAV13', 'selected': false},
+                                {'type': 'IAV14', 'selected': false},
+                                {'type': 'IAV15', 'selected': false},
+                                {'type': 'IAV16', 'selected': false},
+                                {'type': 'IAV17', 'selected': false},
+                                {'type': 'IAV1', 'selected': false},
+                                {'type': 'IAV2', 'selected': false},
+                                {'type': 'IAV3', 'selected': false},
+                                {'type': 'IAV4', 'selected': false},
+                                {'type': 'IAV5', 'selected': false},
+                                {'type': 'IAV6', 'selected': false},
+                                {'type': 'IAV7', 'selected': false},
+                                {'type': 'IAV8', 'selected': false},
+                                {'type': 'IAV9', 'selected': false}
                         ]})
                     }
                 });

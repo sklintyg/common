@@ -24,17 +24,16 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
         var viewConfig = [
             {
                 type: 'uv-kategori',
-                labelKey: 'KAT_99.RBK',
+                labelKey: 'KAT_1.RBK',
                 components: [
                     {
                         type: 'uv-fraga',
                         labelKey: 'FRG_1.RBK',
                         components: [{
                             type: 'uv-del-fraga',
-                            labelKey: 'FRG_1.2.RBK',
                             components: [{
                                 type: 'uv-list',
-                                labelKey: 'KORKORT.{var}.RBK',
+                                labelKey: 'KV_INTYGET_AVSER.{var}.RBK',
                                 listKey: function(model) {
                                     return model.selected ? model.type : null;
                                 },

@@ -28,6 +28,7 @@ import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 
+// test
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsTstrk1062UtlatandeV1.Builder.class)
 public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {

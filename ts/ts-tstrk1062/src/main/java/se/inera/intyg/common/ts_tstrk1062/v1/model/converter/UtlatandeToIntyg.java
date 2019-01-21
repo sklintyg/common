@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
 import static se.inera.intyg.common.support.Constants.*;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import java.util.Optional;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
@@ -74,15 +73,6 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static void formatPersonId(Intyg intyg) {
-        String personId = intyg.getPatient().getPersonId().getExtension();
-
-        Optional<Personnummer> personnummer = Personnummer.createPersonnummer(personId);
-        if (personnummer.isPresent()) {
-            intyg.getPatient().getPersonId().setExtension(personnummer.get().getPersonnummerWithDash());
-        }
-    }
-
     private static List<Svar> getSvar(TsTstrk1062UtlatandeV1 source) {
         List<Svar> svars = new ArrayList<>();
 
@@ -90,7 +80,7 @@ public final class UtlatandeToIntyg {
 
         if (source.getIntygAvser() != null) {
             for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
-                IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
+                IntygAvserKod intygAvser = IntygAvserKod.fromCode(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
                         .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
                                 aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))

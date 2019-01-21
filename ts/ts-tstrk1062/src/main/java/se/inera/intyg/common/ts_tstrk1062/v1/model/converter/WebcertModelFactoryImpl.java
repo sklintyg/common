@@ -97,13 +97,4 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
 
         utlatande.setId(utlatandeId);
     }
-
-    private void resetDataInGrundData(GrundData grundData) {
-        Patient patient = new Patient();
-        patient.setPersonId(grundData.getPatient().getPersonId());
-        grundData.setPatient(patient);
-
-        grundData.setSigneringsdatum(null);
-    }
-
 }

@@ -20,8 +20,8 @@ angular.module('ts-tstrk1062', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSa
 
 // Inject language resources
 angular.module('ts-tstrk1062').run([ 'common.messageService', 'ts-tstrk1062.messages',
-    function(messageService, tsBasMessages) {
+    function(messageService, tsTstrk1062Messages) {
         'use strict';
 
-        messageService.addResources(tsBasMessages);
+        messageService.addResources(tsTstrk1062Messages);
     }]);

@@ -19,8 +19,7 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
 
 import java.util.EnumSet;
 

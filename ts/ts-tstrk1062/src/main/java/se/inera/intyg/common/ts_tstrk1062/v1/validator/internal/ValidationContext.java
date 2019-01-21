@@ -19,7 +19,6 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.validator.internal;
 
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
 
 public class ValidationContext {
@@ -30,13 +29,4 @@ public class ValidationContext {
         this.utlatande = utlatande;
     }
 
-    public boolean isPersontransportContext() {
-        for (IntygAvserKategori intygAvser : utlatande.getIntygAvser().getKorkortstyp()) {
-            IntygAvserKod intygAvserEnum = IntygAvserKod.valueOf(intygAvser.name());
-            if (intygAvserEnum != null && IntygAvserKod.isPersontransport(intygAvserEnum)) {
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -82,7 +82,8 @@ public class InternalValidatorInstance {
     private void validateIntygAvser(final IntygAvser intygAvser) {
 
         if (intygAvser == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY,
+                    "ts-tstrk1062.validation.intygavses.missing");
             return;
         }
 

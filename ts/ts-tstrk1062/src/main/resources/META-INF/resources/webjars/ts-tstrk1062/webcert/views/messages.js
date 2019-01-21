@@ -107,30 +107,7 @@ angular.module('ts-tstrk1062').constant('ts-tstrk1062.messages', {
         'ts-tstrk1062.label.kommentar-relevant-trafiksakerhet': 'Övriga kommentarer som är relevant ur trafiksäkerhetssynpunkt.',
 
         // Validation messages starting
-        'ts-tstrk1062.validation.utvecklingsstorning.missing': 'ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning måste anges.',
-        'ts-tstrk1062.validation.psykiskt.missing': 'Psykiska sjukdomar och störningar saknas.',
-        'ts-tstrk1062.validation.somnvakenhet.missing': 'Sömn- och vakenhetsstörningar saknas.',
-        'ts-tstrk1062.validation.njurar.missing': 'Njursjukdomar saknas.',
-        'ts-tstrk1062.validation.neurologi.missing': 'Neurologiska sjukdomar saknas.',
-        'ts-tstrk1062.validation.neurologi.neurologisksjukdom.missing': 'Välj ett alternativ.',
-        'ts-tstrk1062.validation.sjukhusvard.missing': 'Objektet sjukhusvård saknas.',
-        'ts-tstrk1062.validation.bedomning.missing': 'Bedömning saknas.',
-        'ts-tstrk1062.validation.diabetes.missing': 'Diabetes saknas.',
-        'ts-tstrk1062.validation.funktionsnedsattning.missing': 'Funktionsnedsättning saknas.',
-        'ts-tstrk1062.validation.hjartkarl.missing': 'Hjärt- och kärlsjukdomar saknas.',
-        'ts-tstrk1062.validation.horselbalans.missing': 'Hörsel och balanssinne saknas.',
-        'ts-tstrk1062.validation.kognitivt.missing': 'Demens och kognitiva störningar saknas.',
-        'ts-tstrk1062.validation.medicinering.missing': 'Övrig medicinering saknas.',
-        'ts-tstrk1062.validation.narkotikalakemedel.missing': 'Alkohol, narkotika och läkemedel saknas.',
-        'ts-tstrk1062.validation.medvetandestorning.missing': 'Välj ett alternativ.',
-        'ts-tstrk1062.validation.syn.missing': 'Synfunktioner saknas.',
-        'ts-tstrk1062.validation.syn.hogeroga.missing': 'Synfunktioner relaterade till höger öga saknas.',
-        'ts-tstrk1062.validation.syn.vansteroga.missing': 'Synfunktioner relaterade till vänster öga saknas.',
-        'ts-tstrk1062.validation.syn.binokulart.missing': 'Binokulära synfunktioner saknas.',
-        'ts-tstrk1062.validation.syn.out-of-bounds': 'Ange synskärpa i intervallet 0,0 - 2,0.',
-        'ts-tstrk1062.validation.syn.r33': 'Ange ett svar.',
-        'ts-tstrk1062.validation.syn.r34': 'Ange ett svar.',
-        'ts-tstrk1062.validation.syn.r35': 'Ange ett svar.'
+        'ts-tstrk1062.validation.intygavses.missing': 'Intyget avser saknas.',
     },
     'en': {
         'ts-tstrk1062.label.pagetitle': 'Show Certificate'

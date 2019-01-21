@@ -18,14 +18,22 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
-import java.util.Set;
-
-import com.google.common.collect.ImmutableSet;
-
 public enum IntygAvserKategori {
-    C1, C1E, C, CE, D1, D1E, D, DE, TAXI, ANNAT;
-
-    public static Set<IntygAvserKategori> getNormalCategories() {
-        return ImmutableSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
-    }
+    IAV11,
+    IAV12,
+    IAV13,
+    IAV14,
+    IAV15,
+    IAV16,
+    IAV17,
+    IAV1,
+    IAV2,
+    IAV3,
+    IAV4,
+    IAV5,
+    IAV6,
+    IAV7,
+    IAV8,
+    IAV9
 }
+

@@ -18,23 +18,11 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.rest;
 
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
-
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -56,15 +44,23 @@ import se.inera.intyg.common.ts_tstrk1062.v1.model.converter.InternalToTransport
 import se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.transformer.TsTstrk1062TransformerType;
 import se.inera.intyg.common.ts_tstrk1062.v1.pdf.PdfGenerator;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXB;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import java.io.StringReader;
+import java.util.Arrays;
+import java.util.List;
+
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
+
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
- *
  */
 @Component("moduleapi.ts-tstrk1062.v1")
 public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062UtlatandeV1> {

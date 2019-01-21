@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
 
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
