@@ -28,7 +28,9 @@ import org.slf4j.LoggerFactory;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
@@ -61,6 +63,9 @@ public final class TransportToInternal {
                 case INTYG_AVSER_SVAR_ID_1:
                     handleIntygAvser(utlatande, svar, intygAvserSet);
                     break;
+                case ID_KONTROLL_SVAR_ID_1:
+                    handleIdKontroll(utlatande, svar);
+                    break;
             }
         }
 
@@ -73,6 +78,19 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
                     intygAvserSet.add(IntygAvserKategori.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleIdKontroll(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ID_KONTROLL_DELSVAR_ID_1:
+                    final IdKontroll idKontroll = IdKontroll.create(IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()));
+                    utlatande.setIdKontroll(idKontroll);
                     break;
                 default:
                     throw new IllegalArgumentException();

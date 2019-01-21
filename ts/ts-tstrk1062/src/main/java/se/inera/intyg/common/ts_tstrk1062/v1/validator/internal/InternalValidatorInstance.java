@@ -26,8 +26,13 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
+
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
+
 
 /**
  * Class for validating drafts of the internal model.
@@ -37,6 +42,7 @@ import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062Utlatande
 public class InternalValidatorInstance {
 
     private static final String CATEGORY_INTYG_AVSER = "intygAvser";
+    private static final String CATEGORY_ID_KONTROLL = "idKontroll";
 
     private List<ValidationMessage> validationMessages;
 
@@ -51,8 +57,7 @@ public class InternalValidatorInstance {
      * necessarily
      * complete).
      *
-     * @param utlatande
-     *            an internal {@link TsTstrk1062UtlatandeV1}
+     * @param utlatande an internal {@link TsTstrk1062UtlatandeV1}
      * @return a ValidateDraftResponseHolder with a status and a list of validationErrors
      */
     public ValidateDraftResponse validate(TsTstrk1062UtlatandeV1 utlatande) {
@@ -68,6 +73,7 @@ public class InternalValidatorInstance {
             // OBS! Utökas formuläret i framtiden, lägg in validering i rätt ordning nedan.
             PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
             validateIntygAvser(utlatande.getIntygAvser());
+            validateIdKontroll(utlatande.getIdKontroll());
 
             ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
         }
@@ -75,20 +81,24 @@ public class InternalValidatorInstance {
         return new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
     }
 
-    private boolean isNullOrFalse(Boolean insulin) {
-        return insulin == null || !insulin;
+    private void validateIdKontroll(IdKontroll idKontroll) {
+        if (idKontroll == null) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_ID_KONTROLL, ID_KONTROLL_SVAR_JSON_ID + ".typ", ValidationMessageType.EMPTY,
+                    "ts-tstrk1062.validation.idkontroll.missing");
+            return;
+        }
     }
 
     private void validateIntygAvser(final IntygAvser intygAvser) {
 
         if (intygAvser == null) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser", ValidationMessageType.EMPTY,
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, INTYG_AVSER_SVAR_JSON_ID, ValidationMessageType.EMPTY,
                     "ts-tstrk1062.validation.intygavses.missing");
             return;
         }
 
         if (intygAvser.getKorkortstyp().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, INTYG_AVSER_SVAR_JSON_ID + ".korkortstyp",
                     ValidationMessageType.EMPTY);
         }
     }

@@ -30,6 +30,7 @@ import java.util.Optional;
 import com.google.common.base.Strings;
 
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
@@ -86,6 +87,14 @@ public final class UtlatandeToIntyg {
                                 aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
                         .build());
             }
+        }
+
+        if (source.getIdKontroll() != null) {
+            final IdKontrollKod idKontrollKod = source.getIdKontroll().getTyp();
+            svars.add(aSvar(ID_KONTROLL_SVAR_ID_1, intygAvserInstans++)
+                    .withDelsvar(ID_KONTROLL_DELSVAR_ID_1,
+                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontrollKod.getCode(), idKontrollKod.getDescription()))
+                    .build());
         }
 
         return svars;

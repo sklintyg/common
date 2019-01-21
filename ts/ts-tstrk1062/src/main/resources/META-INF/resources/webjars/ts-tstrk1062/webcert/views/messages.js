@@ -108,6 +108,7 @@ angular.module('ts-tstrk1062').constant('ts-tstrk1062.messages', {
 
         // Validation messages starting
         'ts-tstrk1062.validation.intygavses.missing': 'Intyget avser saknas.',
+        'ts-tstrk1062.validation.idkontroll.missing': 'Id kontroll saknas.'
     },
     'en': {
         'ts-tstrk1062.label.pagetitle': 'Show Certificate'

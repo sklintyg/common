@@ -22,39 +22,6 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u, tsBaseHelper) {
         'use strict';
 
-        var bedomningFromTransform = function(backendBedomning) {
-
-            var korkortstyp = backendBedomning.korkortstyp;
-
-            korkortstyp.push({
-                type:'KAN_INTE_TA_STALLNING',
-                selected: angular.isDefined(backendBedomning.kanInteTaStallning) && backendBedomning.kanInteTaStallning
-            });
-
-            return {
-                korkortstyp: tsBaseHelper.setupKorkortstypChoices(korkortstyp, 'KAN_INTE_TA_STALLNING'),
-                lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
-            };
-        };
-
-        var bedomningToTransform = function(frontendObject) {
-
-            var transformedFrontendObject = angular.copy(frontendObject);
-            var index = u.findIndexWithPropertyValue(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
-            var kanInteTaStallning;
-            if(index !== -1) {
-                kanInteTaStallning = transformedFrontendObject.korkortstyp[index].selected;
-                transformedFrontendObject.korkortstyp.splice(index);
-            }
-
-            var backendBedomning = {
-                korkortstyp: transformedFrontendObject.korkortstyp,
-                kanInteTaStallning: kanInteTaStallning,
-                lakareSpecialKompetens: transformedFrontendObject.lakareSpecialKompetens
-            };
-            return backendBedomning;
-        };
-
         /**
          * Constructor, with class name
          */
@@ -91,7 +58,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                                 {'type': 'IAV8', 'selected': false},
                                 {'type': 'IAV9', 'selected': false}
                         ]})
-                    }
+                    },
+                    idKontroll: undefined
                 });
             },
             update: function update(content, parent) {

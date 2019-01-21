@@ -25,24 +25,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
             function _getCategoryIds() {
                 return {
                     1: 'intygavser',
-                    100: 'identitet',
-                    1: 'syn',
-                    2: 'horselbalans',
-                    3: 'funktionsnedsattning',
-                    4: 'hjartkarl',
-                    5: 'diabetes',
-                    6: 'neurologi',
-                    7: 'medvetandestorning',
-                    8: 'njurar',
-                    9: 'kognitivt',
-                    10: 'somnvakenhet',
-                    11: 'narkotikalakemedel',
-                    12: 'psykiskt',
-                    13: 'utvecklingsstorning',
-                    14: 'sjukhusvard',
-                    15: 'medicinering',
-                    16: 'ovrigt',
-                    101: 'bedomning'
+                    2: 'idkontroll'
                 };
             }
 
@@ -63,35 +46,6 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                     return korkortsarray;
                 }
 
-                var noKravYtterligareUnderlagFieldsFilledExpression = '!(' +
-                    'model.syn.synfaltsdefekter === true || '+
-                    'model.syn.nattblindhet === true || '+
-                    'model.syn.progressivOgonsjukdom === true || '+
-                    'model.syn.diplopi === true || '+
-                    'model.syn.nystagmus === true || '+
-                    'model.horselBalans.balansrubbningar === true || '+
-                    'model.horselBalans.svartUppfattaSamtal4Meter === true || '+
-                    'model.funktionsnedsattning.funktionsnedsattning === true || '+
-                    'model.funktionsnedsattning.otillrackligRorelseformaga === true || '+
-                    'model.hjartKarl.hjartKarlSjukdom === true || '+
-                    'model.hjartKarl.hjarnskadaEfterTrauma === true || '+
-                    'model.hjartKarl.riskfaktorerStroke === true || '+
-                    'model.diabetes.harDiabetes === true ||  '+
-                    'model.neurologi.neurologiskSjukdom === true || '+
-                    'model.medvetandestorning.medvetandestorning === true || '+
-                    'model.njurar.nedsattNjurfunktion === true || '+
-                    'model.kognitivt.sviktandeKognitivFunktion === true || '+
-                    'model.somnVakenhet.teckenSomnstorningar === true || '+
-                    'model.narkotikaLakemedel.teckenMissbruk === true || '+
-                    'model.narkotikaLakemedel.foremalForVardinsats === true || '+
-                    'model.narkotikaLakemedel.provtagningBehovs === true || '+
-                    'model.narkotikaLakemedel.lakarordineratLakemedelsbruk || '+
-                    'model.psykiskt.psykiskSjukdom === true || '+
-                    'model.utvecklingsstorning.psykiskUtvecklingsstorning === true || '+
-                    'model.utvecklingsstorning.harSyndrom === true || '+
-                    'model.sjukhusvard.sjukhusEllerLakarkontakt === true || '+
-                    'model.medicinering.stadigvarandeMedicinering === true)';
-
                 var config = [
 
                     patient,
@@ -103,6 +57,24 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                             modelProp: 'intygAvser.korkortstyp',
                             labelTemplate:'KV_INTYGET_AVSER.{0}.RBK',
                             label: {}
+                        }])
+                    ]),
+
+                    // ID kontroll
+                    kategori(categoryIds[1], 'KAT_2.RBK', {}, {}, [
+                        fraga(1, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'idKontroll.typ'}, [{
+                            type: 'ue-radiogroup',
+                            modelProp: 'idKontroll.typ',
+                            htmlClass: 'col-md-6 no-padding',
+                            paddingBottom: true,
+                            choices: [
+                                {label: 'IDENTITET_ID_KORT.RBK', id: 'ID_KORT'},
+                                {label: 'IDENTITET_FORETAG_ELLER_TJANSTEKORT.RBK', id: 'FORETAG_ELLER_TJANSTEKORT'},
+                                {label: 'IDENTITET_KORKORT.RBK', id: 'KORKORT'},
+                                {label: 'IDENTITET_PERS_KANNEDOM.RBK', id: 'PERS_KANNEDOM'},
+                                {label: 'IDENTITET_FORSAKRAN_KAP18.RBK', id: 'FORSAKRAN_KAP18'},
+                                {label: 'IDENTITET_PASS.RBK', id: 'PASS'}
+                            ]
                         }])
                     ]),
 

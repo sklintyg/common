@@ -63,6 +63,9 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract IntygAvser getIntygAvser();
 
+    @Nullable
+    public abstract IdKontroll getIdKontroll();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
@@ -95,5 +98,8 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("intygAvser")
         public abstract Builder setIntygAvser(IntygAvser intygAvser);
+
+        @JsonProperty("idKontroll")
+        public abstract Builder setIdKontroll(IdKontroll idKontroll);
     }
 }
