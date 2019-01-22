@@ -33,7 +33,7 @@ import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
  */
 public class PdfEmployeeGenerator extends PdfAbstractGenerator {
 
-    private static final int MARK_AS_EMPLOYER_WC_HEIGTH = 55;
+    private static final int MARK_AS_EMPLOYER_WC_HEIGTH = 68;
     private static final int MARK_AS_EMPLOYER_WC_WIDTH = 478;
     private static final int MARK_AS_EMPLOYER_MI_HEIGHT = 35;
     private static final int MARK_AS_EMPLOYER_MI_WIDTH = 478;
@@ -41,7 +41,7 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private static final int MARK_AS_EMPLOYER_START_Y = 670;
 
     // CHECKSTYLE:OFF LineLength
-    private static final String WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg.";
+    private static final String WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY = "Detta är en utskrift av ett elektroniskt intyg med minimalt innehåll. Det uppfyller sjuklönelagens krav, om inget annat regleras i kollektivavtal. Det minimala intyget kan ge arbetsgivaren sämre möjligheter att bedöma behovet av rehabilitering än ett fullständigt intyg. Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort.";
     // CHECKSTYLE:ON LineLength
 

@@ -59,13 +59,14 @@ public abstract class AbstractSoSPdfGenerator {
 
     public static final String PDF_PATH_PROPERTY_KEY = "pdfPath";
 
-    protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg.";
+    protected static final String ELECTRONIC_COPY_WATERMARK_TEXT = "Detta är en utskrift av ett elektroniskt intyg. "
+            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     protected static final String WEBCERT_MARGIN_TEXT = "Intyget är utskrivet från Webcert.";
     protected static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     // Constants used for watermarking
     private static final int MARK_AS_COPY_HEIGTH = 25;
-    private static final int MARK_AS_COPY_WIDTH = 200;
-    private static final int MARK_AS_COPY_START_X = 324;
+    private static final int MARK_AS_COPY_WIDTH = 350;
+    private static final int MARK_AS_COPY_START_X = 210;
     private static final int MARK_AS_COPY_START_Y = 704;
     private static final int WATERMARK_TEXT_PADDING = 4;
     private static final int WATERMARK_FONTSIZE = 10;
