@@ -18,23 +18,21 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
-import java.util.EnumSet;
-import java.util.Set;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
-
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.IDENTITET_STYRKT_GENOM_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INFORMATION_OM_TS_BESLUT_ONSKAS_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.MEDICINSKA_FORHALLANDEN_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_JSON_ID;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import javax.annotation.Nullable;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Tstrk1009UtlatandeV1.Builder.class)

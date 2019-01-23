@@ -109,7 +109,8 @@ public final class UtlatandeToIntyg {
             svarList.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
                     .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
                             aCV(KV_ID_KONTROLL_KODSYSTEM,
-                                    utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp().getDescription()))
+                                    utlatande.getIdentitetStyrktGenom().getTyp().getCode(), utlatande.getIdentitetStyrktGenom().getTyp()
+                                            .getDescription()))
                     .build());
         }
 
@@ -132,7 +133,6 @@ public final class UtlatandeToIntyg {
 
         int intygetAvserBehorigheterInstans = 1;
         if (nonNull(utlatande.getIntygetAvserBehorigheter())
-                && nonNull(utlatande.getIntygetAvserBehorigheter())
                 && isNotEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
             for (final KorkortBehorighetGrupp behorighetsGrupp : utlatande.getIntygetAvserBehorigheter().getTyper()) {
                 for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {

@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.internal;
 
-import java.util.EnumSet;
+import com.google.common.collect.ImmutableSet;
 import java.util.stream.Stream;
 
 public enum Korkortsbehorighet {
@@ -40,7 +40,6 @@ public enum Korkortsbehorighet {
     TAXI("VAR9", "Taxi", "Taxiförarlegitimation"),
     ANNAT("VAR10", "Annat (AM, A1, A2, A, B, BE eller Traktor)", "Annan körkortsbehörighet"),
     KANINTETASTALLNING("VAR11", "Kan inte ta ställning", "Kan inte ta ställning");
-
 
     private final String code;
     private final String value;
@@ -71,30 +70,30 @@ public enum Korkortsbehorighet {
 
     /**
      * Hjälpmetoder för att hämta olika subset av kodverket som
-     * resulterar i att specifika regler ytterligare måste valideras för intyget
+     * resulterar i att specifika regler ytterligare måste valideras för intyget.
      */
-    public static EnumSet<Korkortsbehorighet> getAllaBehorigheter() {
-        return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
+    public static ImmutableSet<Korkortsbehorighet> getAllaBehorigheter() {
+        return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
     }
 
-    public static EnumSet<Korkortsbehorighet> getABTraktorBehorigheter() {
-        return EnumSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
+    public static ImmutableSet<Korkortsbehorighet> getABTraktorBehorigheter() {
+        return ImmutableSet.of(AM, A1, A2, A, B, BE, TRAKTOR);
     }
 
-    public static EnumSet<Korkortsbehorighet> getCEBehorigHeter() {
-        return EnumSet.of(C1, C1E, C, CE);
+    public static ImmutableSet<Korkortsbehorighet> getCEBehorigHeter() {
+        return ImmutableSet.of(C1, C1E, C, CE);
     }
 
-    public static EnumSet<Korkortsbehorighet> getDBehorigHeter() {
-        return EnumSet.of(D1, D1E, D, DE);
+    public static ImmutableSet<Korkortsbehorighet> getDBehorigHeter() {
+        return ImmutableSet.of(D1, D1E, D, DE);
     }
 
-    public static EnumSet<Korkortsbehorighet> getTaxiBehorigheter() {
-        return EnumSet.of(TAXI);
+    public static ImmutableSet<Korkortsbehorighet> getTaxiBehorigheter() {
+        return ImmutableSet.of(TAXI);
     }
 
-    public static EnumSet<Korkortsbehorighet> getKanintetastallning() {
-        return EnumSet.of(KANINTETASTALLNING);
+    public static ImmutableSet<Korkortsbehorighet> getKanintetastallning() {
+        return ImmutableSet.of(KANINTETASTALLNING);
     }
 
 

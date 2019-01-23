@@ -25,7 +25,7 @@ import static se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorigh
 import static se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet.getKanintetastallning;
 import static se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet.getTaxiBehorigheter;
 
-import java.util.EnumSet;
+import com.google.common.collect.ImmutableSet;
 
 public enum KorkortBehorighetGrupp {
     ALLA(getAllaBehorigheter()),
@@ -35,13 +35,13 @@ public enum KorkortBehorighetGrupp {
     TAXI(getTaxiBehorigheter()),
     KANINTETASTALLNING(getKanintetastallning());
 
-    private final EnumSet<Korkortsbehorighet> korkortsbehorigheter;
+    private final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter;
 
-    KorkortBehorighetGrupp(final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
+    KorkortBehorighetGrupp(final ImmutableSet<Korkortsbehorighet> korkortsbehorigheter) {
         this.korkortsbehorigheter = korkortsbehorigheter;
     }
 
-    public EnumSet<Korkortsbehorighet> getKorkortsbehorigheter() {
+    public ImmutableSet<Korkortsbehorighet> getKorkortsbehorigheter() {
         return korkortsbehorigheter;
     }
 }

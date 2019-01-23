@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.validator;
 
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.ANMALAN_AVSER_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_ANMALAN;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.CATEGORY_BEDOMNING;
@@ -28,16 +29,12 @@ import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.I
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.MEDICINSKA_FORHALLANDEN_JSON_ID;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.SENASTE_UNDERSOKNINGSDATUM_JSON_ID;
 
+import com.google.common.base.Strings;
+import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -48,6 +45,8 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
 @Component("tstrk1009.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1009UtlatandeV1> {
+
+    public static final int FOUR = 4;
 
     @Override
     public ValidateDraftResponse validateDraft(Tstrk1009UtlatandeV1 utlatande) {
@@ -102,11 +101,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
 
     private static void validateBehorighet(Tstrk1009UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Intyget avser behörighet
-        if (utlatande.getIntygetAvserBehorigheter() == null || utlatande.getIntygetAvserBehorigheter() == null
-                || utlatande.getIntygetAvserBehorigheter().getTyper().isEmpty()) {
+        if (utlatande.getIntygetAvserBehorigheter() == null || isEmpty(utlatande.getIntygetAvserBehorigheter().getTyper())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
                     ValidationMessageType.EMPTY);
-        } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > 4) {
+        } else if (utlatande.getIntygetAvserBehorigheter().getTyper().size() > FOUR) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, INTYGET_AVSER_BEHORIGHET_JSON_ID + ".typer",
                     ValidationMessageType.OTHER);
         } else if (eligibleForRule2To10(utlatande)) {

@@ -29,7 +29,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                     2: 'anmalan',
                     3: 'medicinskaforhallanden',
                     4: 'bedomning',
-                    5: 'informationombeslut',
+                    5: 'informationombeslut'
                 };
             }
 
@@ -85,7 +85,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                                 type: 'ue-date',
                                 maxDate: today,
                                 modelProp: 'senasteUndersokningsdatum'
-                            }]),
+                            }])
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {required: true, requiredProp: 'intygetAvserBehorigheter.typer'}, [
@@ -99,7 +99,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                                 sm: 12
                             },
                             watcher: ueTSFactoryTemplates.getBedomningGroupListenerConfig('typer')
-                        }]),
+                        }])
                     ]),
 
                     kategori(categoryIds[5], 'KAT_5.RBK', 'KAT_5.HLP', {}, [
@@ -110,7 +110,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                                 key: 'FRG_49.RBK'
                             },
                             paddingBottom: true
-                        }]),
+                        }])
                     ]),
 
                     ueFactoryTemplates.vardenhet

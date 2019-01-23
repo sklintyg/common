@@ -38,7 +38,7 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
                         medicinskaForhallanden: undefined,
                         senasteUndersokningsdatum: undefined,
                         intygetAvserBehorigheter: undefined,
-                        informationOmTsBeslutOnskas: undefined,
+                        informationOmTsBeslutOnskas: undefined
                     });
                 },
                 update: function update(content, parent) {

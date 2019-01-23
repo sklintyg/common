@@ -29,11 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.services.texts.model.IntygTexts;
-import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.inera.intyg.common.tstrk1009.v1.pdf.PdfGenerator;
-import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -47,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -58,9 +54,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolv
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -68,13 +64,13 @@ import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
+import se.inera.intyg.common.tstrk1009.v1.pdf.PdfGenerator;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
- *
  */
 @Component("moduleapi.tstrk1009.v1")
 public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1> {
@@ -114,12 +110,15 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
     }
 
     @Override
-    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+    public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
+            throws ModuleException {
         try {
             Tstrk1009UtlatandeV1 utlatande = getInternal(internalModel);
             IntygTexts texts = getTexts(Tstrk1009EntryPoint.MODULE_ID, utlatande.getTextVersion());
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-            return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin, utkastStatus);
+            return new PdfGenerator().generatePdf(
+                    utlatande.getId(), internalModel, personId, texts,
+                    statuses, applicationOrigin, utkastStatus);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
