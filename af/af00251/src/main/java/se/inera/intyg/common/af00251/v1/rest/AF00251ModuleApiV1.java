@@ -176,7 +176,11 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
 
             // Null out applicable fields
             AF00251UtlatandeV1 renewCopy = internal.toBuilder()
-                                                   .build();
+                    .setSjukfranvaro(null)
+                    .setUndersokningsDatum(null)
+                    .setAnnatDatum(null)
+                    .setAnnatBeskrivning(null)
+                    .build();
 
             Relation relation = draftCopyHolder.getRelation();
             draftCopyHolder.setRelation(relation);
