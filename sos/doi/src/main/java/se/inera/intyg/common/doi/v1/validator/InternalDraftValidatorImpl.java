@@ -186,7 +186,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                             "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum");
                 }
                 ValidatorUtil.validateDate(bidragandeSjukdom.getDatum(), validationMessages, "utlatandeOrsak",
-                        validationField,"common.validation.ue-date.invalid_format");
+                        validationField, "common.validation.ue-date.invalid_format");
             }
         }
     }
