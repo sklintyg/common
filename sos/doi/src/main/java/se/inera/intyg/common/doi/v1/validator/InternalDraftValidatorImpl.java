@@ -133,7 +133,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                         ValidationMessageType.EMPTY);
             }
             if (foljd.getDatum() != null) {
-
                 String validationField = FOLJD_JSON_ID + "[" + i + "].datum";
                 Boolean validDate = ValidatorUtil.validateDate(foljd.getDatum(),
                         validationMessages, "utlatandeOrsak", validationField, null);
@@ -167,6 +166,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
         for (int i = 0; i < utlatande.getBidragandeSjukdomar().size(); i++) {
+
             Dodsorsak bidragandeSjukdom = utlatande.getBidragandeSjukdomar().get(i);
             if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil
@@ -174,9 +174,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                                 + DODSORSAK_OM_JSON_ID, ValidationMessageType.EMPTY);
             }
             if (bidragandeSjukdom.getDatum() != null) {
+                String validationField = BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]." + DODSORSAK_DATUM_JSON_ID;
+                if (bidragandeSjukdom.getDatum().isValidDate()
+                        && ValidatorUtil.isDateAfter(bidragandeSjukdom.getDatum(), utlatande.getDodsdatum())) {
+                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
+                            ValidationMessageType.INCORRECT_COMBINATION, "doi.validation.terminalDodsorsak.datum.efterDodsdatum");
+                } else if (bidragandeSjukdom.getDatum().isValidDate()
+                        && ValidatorUtil.isDateAfter(bidragandeSjukdom.getDatum(), utlatande.getAntraffatDodDatum())) {
+                    ValidatorUtil.addValidationError(validationMessages, "utlatandeOrsak", validationField,
+                            ValidationMessageType.INCORRECT_COMBINATION,
+                            "doi.validation.terminalDodsorsak.datum.efterAntraffatDodsdatum");
+                }
                 ValidatorUtil.validateDate(bidragandeSjukdom.getDatum(), validationMessages, "utlatandeOrsak",
-                        BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]." + DODSORSAK_DATUM_JSON_ID,
-                        "common.validation.ue-date.invalid_format");
+                        validationField,"common.validation.ue-date.invalid_format");
             }
         }
     }

@@ -17,6 +17,9 @@
   td {
     padding-right: 4px;
     padding-bottom: 10px;
+    &.dodsorsak-validation .validation-error {
+      margin-top: 0;
+    }
   }
 
   .description-width {
