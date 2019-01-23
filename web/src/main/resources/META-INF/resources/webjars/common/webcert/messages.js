@@ -61,7 +61,7 @@
             'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
             'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggat på.',
             'common.fornya': 'Förnya',
-            'common.fornya.tooltip': 'Skapar en kopia av detta intyg som du kan redigera.',
+            'common.fornya.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
             'common.fornya.sjukskrivning.tooltip': 'Skapar ett nytt intygsutkast för förlängning av sjukskrivning, där en del information från detta intyg följer med.',
             'common.createfromtemplate.continue': 'Fortsätt',
             'common.createfromtemplate.cancel': 'Avbryt',
@@ -368,6 +368,9 @@
             'af00213.button.send': 'Skicka till Arbetsförmedlingen',
             'af00213.label.send': 'Skicka intyg till Arbetsförmedlingen',
 
+            'af00251.button.send': 'Skicka till Arbetsförmedlingen',
+            'af00251.label.send': 'Skicka intyg till Arbetsförmedlingen',
+
             // Send fk
             'luse.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
             'luae_na.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
@@ -384,6 +387,7 @@
 
              // Send AF
             'af00213.label.send.body': 'Om du går vidare kommer intyget att skickas till Arbetsförmedlingens system, vilket ska göras i samråd med patienten.',
+            'af00251.label.send.body': 'Om du går vidare kommer intyget att skickas till Arbetsförmedlingens system, vilket ska göras i samråd med patienten.',
 
             'sjukpenning.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
 

@@ -33,7 +33,7 @@ angular.module('af00251').constant('af00251.messages', {
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
 
         'af00251.fornya.tooltip': '',
-        'af00251.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av sjukfrånvaroperioden. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>De uppgifter som inte kommer med till det nya utkastet är:<br><br><ul><li>Sjukfrånvaroperiod och nivå.</li><li>Referenser som intyget baseras på.</li></ul>',
+        'af00251.modal.fornya.text': 'Förnya intyg kan användas vid förlängning av sjukfrånvaroperioden. När ett intyg förnyas skapas ett nytt intygsutkast med viss information från det ursprungliga intyget. Uppgifterna i det nya intygsutkastet går att ändra innan det signeras. Om intyget är utfärdat på en annan enhet kommer det nya utkastet utfärdas på den enhet du är inloggad på.<br><br>De uppgifter som inte kommer med till det nya utkastet är:<br><br><ul><li>Sjukfrånvaroperiod och nivå.</li><li>Referenser som intyget baseras på.</li></ul>'
     },
     'en': {
         'af00251.label.pagetitle': 'Show Certificate'
