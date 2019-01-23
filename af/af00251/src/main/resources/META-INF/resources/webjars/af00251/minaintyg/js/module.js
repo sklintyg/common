@@ -31,7 +31,7 @@ angular.module('af00251').config(function($stateProvider) {
           }
         },
         data: {
-            title: 'Läkarintyg för sjukpenning',
+            title: 'Läkarintyg för deltagare i arbetsmarknadspolitiska program',
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
         }
