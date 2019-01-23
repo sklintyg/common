@@ -38,11 +38,7 @@ public final class ScenarioFinder {
     private ScenarioFinder() {
     }
 
-    private static final String TRANSPORT_MODEL_PATH = "classpath:/v6/scenarios/transport/";
-
-    private static final String RIVTA_V3_TRANSPORT_MODEL_PATH = "classpath:/v1/scenarios/rivtav3/";
-
-    private static final String RIVTA_V1_TRANSPORT_MODEL_PATH = "classpath:/v1/scenarios/rivtav1/";
+    private static final String TRANSPORT_MODEL_PATH = "classpath:/v1/scenarios/transport/";
 
     private static final String INTERNAL_MODEL_PATH = "classpath:/v1/scenarios/internal/";
 
@@ -158,37 +154,11 @@ public final class ScenarioFinder {
          * {@inheritDoc}
          */
         @Override
-        public RegisterTSBasType asTransportModel() throws ScenarioNotFoundException {
+        public RegisterCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterTSBasType.class);
+                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "transport", e);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException {
-            try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
-            } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
-            }
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
-                throws ScenarioNotFoundException {
-            try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V1_TRANSPORT_MODEL_PATH),
-                        se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class);
-            } catch (IOException e) {
-                throw new ScenarioNotFoundException(getName(), "transformed transport", e);
             }
         }
 

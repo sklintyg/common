@@ -48,26 +48,7 @@ public interface Scenario {
      * @throws ScenarioNotFoundException
      *             if the scenario wasn't found.
      */
-    RegisterTSBasType asTransportModel() throws ScenarioNotFoundException;
-
-    /**
-     * Returns the scenario as a rivta v3 transport model.
-     *
-     * @return The scenario as a rivta v3 transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
-     */
-    RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException;
-
-    /**
-     * Returns the scenario as a transformed transport model.
-     *
-     * @return The scenario as a transformed transport model.
-     * @throws ScenarioNotFoundException
-     *             if the scenario wasn't found.
-     */
-    se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType asRivtaV1TransportModel()
-            throws ScenarioNotFoundException;
+    RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
 
     /**
      * Returns the scenario as a internal Mina Intyg model.

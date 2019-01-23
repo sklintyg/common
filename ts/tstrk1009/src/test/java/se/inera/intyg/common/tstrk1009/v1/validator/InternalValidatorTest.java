@@ -78,11 +78,11 @@ public class InternalValidatorTest {
         assertThat(vdr.getValidationErrors())
                 .hasSize(5)
                 .extracting("category", "field", "type")
-                .contains(tuple("identitet", "identitetStyrktGenom", ValidationMessageType.EMPTY),
-                        tuple("anmalan", "anmalanAvser", ValidationMessageType.EMPTY),
+                .contains(tuple("identitet", "identitetStyrktGenom.typ", ValidationMessageType.EMPTY),
+                        tuple("anmalan", "anmalanAvser.typ", ValidationMessageType.EMPTY),
                         tuple("medicinskaforhallanden", "medicinskaForhallanden", ValidationMessageType.EMPTY),
                         tuple("medicinskaforhallanden", "senasteUndersokningsdatum", ValidationMessageType.EMPTY),
-                        tuple("bedomning", "intygetAvserBehorigheter", ValidationMessageType.EMPTY));
+                        tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.EMPTY));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 
@@ -100,7 +100,7 @@ public class InternalValidatorTest {
         assertThat(vdr.getValidationErrors())
                 .hasSize(1)
                 .extracting("category", "field", "type")
-                .contains(tuple("bedomning", "intygetAvserBehorigheter", ValidationMessageType.OTHER));
+                .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 
@@ -118,7 +118,7 @@ public class InternalValidatorTest {
         assertThat(vdr.getValidationErrors())
                 .hasSize(1)
                 .extracting("category", "field", "type")
-                .contains(tuple("bedomning", "intygetAvserBehorigheter", ValidationMessageType.OTHER));
+                .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 }

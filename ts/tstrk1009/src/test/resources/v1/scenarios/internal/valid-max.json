@@ -1,11 +1,13 @@
 {
-  "id": "cf7283c1-96c6-4105-9a74-eebcfb21ad1b",
-  "typ": "tstrk1009",
-  "textVersion": "1.0",
+  "id": "dd5d686b-7425-4716-8c2d-ea249e5839f5",
   "grundData": {
+    "signeringsdatum": "2019-01-23T12:49:15.000",
     "skapadAv": {
       "personId": "TSTNMT2321000156-1079",
       "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
       "vardenhet": {
         "enhetsid": "TSTNMT2321000156-1077",
         "enhetsnamn": "NMT vg3 ve1",
@@ -28,24 +30,25 @@
       "samordningsNummer": false
     }
   },
+  "textVersion": "1.0",
   "identitetStyrktGenom": {
-    "typ": "PASS"
+    "typ": "ID_KORT"
   },
   "anmalanAvser": {
-    "typ": "SANNOLIK_OLAMPLIGHET"
+    "typ": "OLAMPLIGHET"
   },
-  "medicinskaForhallanden": "mycket besvärliga saker",
-  "senasteUndersokningsdatum": "2019-01-08",
+  "medicinskaForhallanden": "Väldigt olämplig",
+  "senasteUndersokningsdatum": "2019-01-16",
   "intygetAvserBehorigheter": {
     "typer": [{
       "type": "ALLA",
-      "selected": false
+      "selected": true
     }, {
       "type": "A_B_TRAKTOR",
-      "selected": true
+      "selected": false
     }, {
       "type": "C_E",
-      "selected": true
+      "selected": false
     }, {
       "type": "D",
       "selected": false
@@ -57,5 +60,6 @@
       "selected": false
     }]
   },
-  "informationOmTsBeslutOnskas": true
+  "informationOmTsBeslutOnskas": true,
+  "typ": "tstrk1009"
 }

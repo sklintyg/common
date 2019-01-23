@@ -87,7 +87,7 @@ public class UtlatandeToIntygTest {
         assertNotNull(intyg.getVersion());
         assertEquals("TSTRK1009", intyg.getTyp().getCode());
         assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
-        assertEquals("Transportstyrelsens läkarintyg", intyg.getTyp().getDisplayName());
+        assertEquals("Transportstyrelsens läkares anmälan", intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
         assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
         assertEquals(PNR_TOLVAN_EXPECTED, intyg.getPatient().getPersonId().getExtension());

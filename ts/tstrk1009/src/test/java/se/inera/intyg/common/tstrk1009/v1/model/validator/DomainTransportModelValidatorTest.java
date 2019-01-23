@@ -21,6 +21,7 @@ package se.inera.intyg.common.tstrk1009.v1.model.validator;
 import static org.junit.Assert.fail;
 
 import org.junit.BeforeClass;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -75,7 +76,7 @@ public class DomainTransportModelValidatorTest {
     private void validateUtlatande(Scenario scenario) {
         try {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"), RegisterTSBasType.class, scenario.asTransportModel());
+            JAXBElement<RegisterCertificateType> jaxbElement = new JAXBElement<>(new QName("ns3:RegisterCertificateType"), RegisterCertificateType.class, scenario.asTransportModel());
             JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
             context.createMarshaller().marshal(jaxbElement, output);
 

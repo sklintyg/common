@@ -25,6 +25,9 @@ import com.google.common.base.Charsets;
 import com.helger.commons.debug.GlobalDebug;
 import com.helger.schematron.svrl.SVRLHelper;
 import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -51,15 +54,7 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.tstrk1009.v1.validator.internal.InternalValidatorInstance;
 
-/**
- * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
- * uses test data from internal/scenarios and transport/scenarios, so in order to create new tests, just add
- * corresponding json- and XML-files in these directories.
- * 
- * @author erik
- *
- */
-//@RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
     private Scenario scenario;
 
@@ -90,26 +85,26 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * Process test data and supply it to the test.
      * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
      * outcome of the test}.
-     * 
-     * @return Collection<Object[]>
+     *
+     * @return Collection<Object   [   ]>
      */
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
 
         List<Object[]> retList = new ArrayList<>();
         // Failing tests
-        retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
-                .map(u -> new Object[] { u.getName(), u, true })
-                .collect(Collectors.toList()));
+//        retList.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
+//                .map(u -> new Object[] { u.getName(), u, true })
+//                .collect(Collectors.toList()));
         // Passing tests
         retList.addAll(
-                ScenarioFinder.getInternalScenarios("valid-*").stream()
-                        .map(u -> new Object[] { u.getName(), u, false })
+                ScenarioFinder.getInternalScenarios("valid-max*").stream()
+                        .map(u -> new Object[]{u.getName(), u, false})
                         .collect(Collectors.toList()));
         return retList;
     }
 
-    //@Test
+    @Test
     public void testScenarios() throws Exception {
         doInternalAndSchematronValidation(scenario, shouldFail);
     }
@@ -124,7 +119,15 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
         ValidateDraftResponse internalValidationResponse = internalValidator.validate(utlatandeFromJson);
 
-        RegisterCertificateType intyg = scenario.asRivtaV3TransportModel();
+        final List<ValidationMessage> filteredValidations = internalValidationResponse.getValidationErrors().stream()
+                .filter(error -> !error.getCategory().equals("patient"))
+                .collect(Collectors.toList());
+
+        internalValidationResponse = new ValidateDraftResponse(
+                filteredValidations.isEmpty() ? ValidationStatus.VALID : ValidationStatus.INVALID,
+                filteredValidations);
+
+        RegisterCertificateType intyg = scenario.asTransportModel();
         String convertedXML = getXmlFromIntyg(intyg);
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
@@ -138,7 +141,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-            String internalValidationErrors, String transportValidationErrors) {
+                              String internalValidationErrors, String transportValidationErrors) {
         if (fail) {
             assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
                     name, transportValidationErrors, internalValidationErrors),

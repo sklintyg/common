@@ -67,17 +67,16 @@ public final class TransportToInternal {
         return utlatande.build();
     }
 
-    private static void setMetaData(Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
+    private static void setMetaData(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
         utlatande.setId(intygSource.getIntygsId().getExtension());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(intygSource, false));
         utlatande.setTextVersion(intygSource.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(intygSource.getUnderskrift()));
     }
 
-    private static void setSvar(Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
+    private static void setSvar(final Tstrk1009UtlatandeV1.Builder utlatande, final Intyg intygSource) throws ConverterException {
 
-        EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter = EnumSet.noneOf(KorkortBehorighetGrupp.class);
-        EnumSet<Korkortsbehorighet> korkortsbehorigheter = EnumSet.noneOf(Korkortsbehorighet.class);
+        final EnumSet<Korkortsbehorighet> korkortsbehorigheter = EnumSet.noneOf(Korkortsbehorighet.class);
 
         for (final Svar svar : intygSource.getSvar()) {
             switch (svar.getId()) {
@@ -94,7 +93,7 @@ public final class TransportToInternal {
                     handleSenasteUndersokningsdatum(utlatande, svar);
                     break;
                 case INTYGET_AVSER_BEHORIGHET_SVAR_ID:
-                    handleIntygetAvserBehorighet(intygetAvserBehorigheter, korkortsbehorigheter, svar);
+                    handleIntygetAvserBehorighet(korkortsbehorigheter, svar);
                     break;
                 case INFORMATION_OM_TS_BESLUT_ONSKAS_SVAR_ID:
                     handleInformationOmTsBeslutOnskas(utlatande, svar);
@@ -103,10 +102,9 @@ public final class TransportToInternal {
                     throw new IllegalArgumentException();
             }
 
-            if (CollectionUtils.isNotEmpty(intygetAvserBehorigheter)) {
-                utlatande.setIntygetAvserBehorigheter(IntygetAvser.create(intygetAvserBehorigheter));
-            }
         }
+
+        handleKorkortsBehorigheter(utlatande, korkortsbehorigheter);
     }
 
     private static void handleIdentitetStyrktGenom(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) throws ConverterException {
@@ -150,7 +148,6 @@ public final class TransportToInternal {
     }
 
     private static void handleIntygetAvserBehorighet(
-            EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter,
             EnumSet<Korkortsbehorighet> korkortsbehorigheter,
             final Svar svar) throws ConverterException {
 
@@ -161,9 +158,6 @@ public final class TransportToInternal {
                 throw new IllegalArgumentException();
             }
         }
-
-        handleKorkortsBehorigheter(intygetAvserBehorigheter, korkortsbehorigheter);
-
     }
 
     private static void handleInformationOmTsBeslutOnskas(Tstrk1009UtlatandeV1.Builder utlatande, final Svar svar) {
@@ -177,32 +171,36 @@ public final class TransportToInternal {
     }
 
     private static void handleKorkortsBehorigheter(
-            EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter, EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
+            final Tstrk1009UtlatandeV1.Builder utlatande,
+            final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
+
+        final EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter = EnumSet.noneOf(KorkortBehorighetGrupp.class);
 
         if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getAllaBehorigheter())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.ALLA);
-            return;
-        }
-
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getKanintetastallning())) {
+        } else if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getKanintetastallning())) {
             intygetAvserBehorigheter.add(KorkortBehorighetGrupp.KANINTETASTALLNING);
-            return;
+        } else {
+
+            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getABTraktorBehorigheter())) {
+                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.A_B_TRAKTOR);
+            }
+
+            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
+                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.C_E);
+            }
+
+            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getDBehorigHeter())) {
+                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.D);
+            }
+
+            if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getTaxiBehorigheter())) {
+                intygetAvserBehorigheter.add(KorkortBehorighetGrupp.TAXI);
+            }
         }
 
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getABTraktorBehorigheter())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.A_B_TRAKTOR);
-        }
-
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getCEBehorigHeter())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.C_E);
-        }
-
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getDBehorigHeter())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.D);
-        }
-
-        if (korkortsbehorigheter.containsAll(Korkortsbehorighet.getTaxiBehorigheter())) {
-            intygetAvserBehorigheter.add(KorkortBehorighetGrupp.TAXI);
+        if (CollectionUtils.isNotEmpty(intygetAvserBehorigheter)) {
+            utlatande.setIntygetAvserBehorigheter(IntygetAvser.create(intygetAvserBehorigheter));
         }
     }
 }

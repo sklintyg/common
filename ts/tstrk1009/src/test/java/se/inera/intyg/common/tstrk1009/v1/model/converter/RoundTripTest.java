@@ -18,14 +18,20 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
+import org.xmlunit.diff.Difference;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import javax.xml.bind.JAXBContext;
@@ -34,6 +40,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 import java.io.StringWriter;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.Scenario;
@@ -41,11 +48,12 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-//@RunWith(Parameterized.class)
+@RunWith(Parameterized.class)
 public class RoundTripTest {
 
     private Scenario scenario;
 
+    @SuppressWarnings("unused") // It is used to name the test
     private String name;
 
     public RoundTripTest(String name, Scenario scenario) {
@@ -55,8 +63,8 @@ public class RoundTripTest {
 
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        return ScenarioFinder.getInternalScenarios("valid-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
+        return ScenarioFinder.getInternalScenarios("valid-max*").stream()
+                .map(u -> new Object[]{u.getName(), u})
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +72,7 @@ public class RoundTripTest {
      * Test that no information is lost when mapping json -> xml -> json.
      * This represents the case where the certificate is originally from Webcert and is read from Intygstjansten.
      */
-    //@Test
+    @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
@@ -73,7 +81,7 @@ public class RoundTripTest {
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
@@ -83,7 +91,12 @@ public class RoundTripTest {
                 .ignoreWhitespace()
                 .checkForSimilar()
                 .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
+
+        final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
+                .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath().contains("patient")) //patientdetails should be trimmed
+                .collect(Collectors.toList());
+
+        assertTrue(differences.isEmpty());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -95,10 +108,10 @@ public class RoundTripTest {
      * This represents the case where the certificate is from another medical journaling system and is read from
      * Intygstjansten.
      */
-    //@Test
+    @Test
     public void testRoundTripTransportFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        Tstrk1009UtlatandeV1 internal = TransportToInternal.convert(scenario.asRivtaV3TransportModel().getIntyg());
+        Tstrk1009UtlatandeV1 internal = TransportToInternal.convert(scenario.asTransportModel().getIntyg());
 
         JsonNode tree = objectMapper.valueToTree(internal);
         JsonNode expectedTree = objectMapper.valueToTree(scenario.asInternalModel());
@@ -108,7 +121,7 @@ public class RoundTripTest {
         Marshaller marshaller = jaxbContext.createMarshaller();
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
-        marshaller.marshal(wrapJaxb(scenario.asRivtaV3TransportModel()), expected);
+        marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
@@ -118,13 +131,17 @@ public class RoundTripTest {
                 .ignoreWhitespace()
                 .checkForSimilar()
                 .build();
-        assertFalse(diff.toString(), diff.hasDifferences());
+
+        final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
+                .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath().contains("patient")) //patientdetails should be trimmed
+                .collect(Collectors.toList());
+
+        assertTrue(differences.toString(), differences.isEmpty());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        JAXBElement<?> jaxbElement = new JAXBElement<>(
+        return new JAXBElement<>(
                 new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
                 RegisterCertificateType.class, ws);
-        return jaxbElement;
     }
 }

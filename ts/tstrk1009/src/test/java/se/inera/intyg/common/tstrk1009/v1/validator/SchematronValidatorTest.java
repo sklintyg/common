@@ -36,13 +36,13 @@ public class SchematronValidatorTest {
 
     @Test
     public void validMinimalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-minimal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-min.xml"), Charsets.UTF_8);
         doPassingTest(inputXml);
     }
 
     @Test
     public void validMaximalXmlPassesTest() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-maximal.xml"), Charsets.UTF_8);
+        String inputXml = Resources.toString(getResource("v1/scenarios/transport/valid-max.xml"), Charsets.UTF_8);
         doPassingTest(inputXml);
     }
 
