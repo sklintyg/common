@@ -18,27 +18,32 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
-import static se.inera.intyg.common.support.Constants.*;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import com.google.common.base.Strings;
-
+import com.google.common.collect.ImmutableList;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosFritext;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosKodad;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
-import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+
+import static se.inera.intyg.common.support.Constants.*;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD;
 
 public final class UtlatandeToIntyg {
 
@@ -97,6 +102,49 @@ public final class UtlatandeToIntyg {
                     .build());
         }
 
+        if (source.getDiagnosRegistrering() != null) {
+            switch (source.getDiagnosRegistrering().getTyp()) {
+                case DIAGNOS_KODAD:
+                    handleDiagnosKodad(source.getDiagnosKodad(), svars);
+                    break;
+                case DIAGNOS_FRITEXT:
+                    handleDiagnosFritext(source.getDiagnosFritext(), svars);
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+
+        }
+
         return svars;
+    }
+
+    private static void handleDiagnosFritext(DiagnosFritext diagnosFritext, List<Svar> svars) {
+        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID);
+        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
+                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID,
+                        aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnosFritext.getDiagnosArtal())))
+                );
+
+        if (!diagnosSvar.delSvars.isEmpty()) {
+            svars.add(diagnosSvar.build());
+        }
+    }
+
+    private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
+        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_SVAR_ID);
+        for (DiagnosKodad diagnos : diagnosKodad) {
+            diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_DELSVAR_ID,
+                    aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
+                            diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_ARTAL_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt("2017")))//diagnos.getDiagnosArtal()))) TODO: Fixa till när nya komponenten finns.
+                    );
+        }
+
+        if (!diagnosSvar.delSvars.isEmpty()) {
+            svars.add(diagnosSvar.build());
+        }
     }
 }

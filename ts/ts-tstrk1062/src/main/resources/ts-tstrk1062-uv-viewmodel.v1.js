@@ -54,6 +54,38 @@ var viewConfig = [
         }]
     },
     {
+        type: 'uv-kategori',
+        labelKey: 'KAT_3.RBK',
+        components: [
+            {
+                type: 'uv-fraga',
+                labelKey: 'FRG_51.RBK',
+                components: [{
+                    type: 'uv-table',
+                    headers: ['DFR_51.1.RBK', '', 'DFR_51.3.RBK'], // labels for th cells
+                    valueProps: ['diagnosKod', 'diagnosBeskrivning', 'diagnosArtal'], // properties on diagnoser entries to use in each rows cells
+                    modelProp: 'diagnosKodad'
+                }]
+            }, {
+                type: 'uv-fraga',
+                labelKey: 'FRG_52.RBK',
+                components: [{
+                    type: 'uv-del-fraga',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'diagnosFritext.diagnosFritext'
+                    }]
+                }, {
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR.52.2.RBK',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'diagnosFritext.diagnosArtal'
+                    }]
+                }]
+            }]
+    },
+    {
         type: 'uv-skapad-av',
         modelProp: 'grundData.skapadAv'
     }];

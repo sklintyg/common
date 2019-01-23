@@ -18,7 +18,7 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
 
 import java.util.EnumSet;
@@ -30,13 +30,12 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IdKontroll;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+
+import javax.annotation.Nullable;
 
 public final class TransportToInternal {
 
@@ -65,6 +64,12 @@ public final class TransportToInternal {
                     break;
                 case ID_KONTROLL_SVAR_ID_1:
                     handleIdKontroll(utlatande, svar);
+                    break;
+                case ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_SVAR_ID:
+                    handleDiagnosKodad(utlatande, svar);
+                    break;
+                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID:
+                    handleDiagnosFritext(utlatande, svar);
                     break;
             }
         }
@@ -96,5 +101,38 @@ public final class TransportToInternal {
                     throw new IllegalArgumentException();
             }
         }
+    }
+
+    private static void handleDiagnosKodad(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD));
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_DELSVAR_ID:
+                    System.out.println(delsvar.toString());
+
+            }
+        }
+    }
+
+    private static void handleDiagnosFritext(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+        utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT));
+        String diagnosFritext = "";
+        String diagnosArtal = "";
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID:
+                    diagnosFritext = getStringContent(delsvar);
+                    break;
+                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID:
+                    diagnosArtal = getPartialDateContent(delsvar).getValue().toString();
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+
+        utlatande.setDiagnosFritext(DiagnosFritext.create(diagnosFritext, diagnosArtal));
     }
 }

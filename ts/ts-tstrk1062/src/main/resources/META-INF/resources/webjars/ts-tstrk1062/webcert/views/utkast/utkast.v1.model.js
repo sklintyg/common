@@ -18,8 +18,8 @@
  */
 angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-        'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
-        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, u, tsBaseHelper) {
+        'common.domain.ModelTransformService', 'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
+        function(GrundData, DraftModel, ModelAttr, ModelTransform, BaseAtticModel, u, tsBaseHelper) {
         'use strict';
 
         /**
@@ -59,7 +59,14 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                                 {'type': 'IAV9', 'selected': false}
                         ]})
                     },
-                    idKontroll: undefined
+                    idKontroll: undefined,
+                    diagnosRegistrering: undefined,
+                    // Kategori 3 diagnos
+                    'diagnosKodad':new ModelAttr('diagnosKodad', {
+                        fromTransform: ModelTransform.diagnosFromTransform,
+                        toTransform: ModelTransform.diagnosToTransform
+                    }),
+                    diagnosFritext: undefined
                 });
             },
             update: function update(content, parent) {

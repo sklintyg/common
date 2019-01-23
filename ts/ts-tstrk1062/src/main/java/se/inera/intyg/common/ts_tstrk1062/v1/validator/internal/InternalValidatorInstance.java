@@ -75,6 +75,7 @@ public class InternalValidatorInstance {
             validateIntygAvser(utlatande.getIntygAvser());
             validateIdKontroll(utlatande.getIdKontroll());
 
+
             ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
         }
 

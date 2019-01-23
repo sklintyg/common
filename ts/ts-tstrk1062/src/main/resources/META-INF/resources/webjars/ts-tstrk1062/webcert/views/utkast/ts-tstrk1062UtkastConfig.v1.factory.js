@@ -25,12 +25,15 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
             function _getCategoryIds() {
                 return {
                     1: 'intygavser',
-                    2: 'idkontroll'
+                    2: 'idkontroll',
+                    3: 'diagnos'
                 };
             }
 
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
+
+                var thisYear = moment().format('YYYY');
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
@@ -40,10 +43,24 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                     var antalKorkort = 16;
                     var korkortsarray = [];
                     for (var i = 0; i < antalKorkort; i++) {
-                        korkortsarray.push( field + '.korkortstyp[' + i + '].selected');
+                        korkortsarray.push(field + '.korkortstyp[' + i + '].selected');
                     }
                     korkortsarray.push(extraproperty);
                     return korkortsarray;
+                }
+
+                function diagnosRegistreringKodad(scope) {
+                    if (!scope.model.diagnosRegistrering || !scope.model.diagnosRegistrering.typ) {
+                        return true;
+                    }
+                    return !(scope.model.diagnosRegistrering.typ === 'DIAGNOS_KODAD');
+                }
+
+                function diagnosRegistreringFritext(scope) {
+                    if (!scope.model.diagnosRegistrering || !scope.model.diagnosRegistrering.typ) {
+                        return true;
+                    }
+                    return !(scope.model.diagnosRegistrering.typ === 'DIAGNOS_FRITEXT');
                 }
 
                 var config = [
@@ -52,17 +69,18 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
 
                     // Intyget avser
                     kategori(categoryIds[1], 'KAT_1.RBK', {}, {}, [
-                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
-                            type: 'ue-checkgroup-ts',
-                            modelProp: 'intygAvser.korkortstyp',
-                            labelTemplate:'KV_INTYGET_AVSER.{0}.RBK',
-                            label: {}
-                        }])
+                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP',
+                            {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
+                                type: 'ue-checkgroup-ts',
+                                modelProp: 'intygAvser.korkortstyp',
+                                labelTemplate: 'KV_INTYGET_AVSER.{0}.RBK',
+                                label: {}
+                            }])
                     ]),
 
                     // ID kontroll
-                    kategori(categoryIds[1], 'KAT_2.RBK', {}, {}, [
-                        fraga(1, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'idKontroll.typ'}, [{
+                    kategori(categoryIds[2], 'KAT_2.RBK', {}, {}, [
+                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'idKontroll.typ'}, [{
                             type: 'ue-radiogroup',
                             modelProp: 'idKontroll.typ',
                             htmlClass: 'col-md-6 no-padding',
@@ -76,6 +94,44 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 {label: 'IDENTITET_PASS.RBK', id: 'PASS'}
                             ]
                         }])
+                    ]),
+
+                    // Diagnos
+                    kategori(categoryIds[3], 'KAT_3.RBK', {}, {}, [
+                        fraga(50, 'FRG_50.RBK', 'FRG_50.HLP', {required: true, requiredProp: 'diagnosRegistrering'},
+                            [{
+                                type: 'ue-radiogroup',
+                                modelProp: 'diagnosRegistrering.typ',
+                                htmlClass: 'col-md-6 no-padding',
+                                paddingBottom: true,
+                                choices: [
+                                    {label: 'SVAR_KODAD.RBK', id: 'DIAGNOS_KODAD'},
+                                    {label: 'SVAR_FRITEXT.RBK', id: 'DIAGNOS_FRITEXT'}
+                                ]
+                            }]),
+                        fraga(51, 'FRG_51.RBK', '', { required: true, hideExpression: diagnosRegistreringKodad,
+                                requiredProp: 'diagnosKodad[0].diagnosKod'},
+                            [{
+                                type: 'ue-diagnos',
+                                modelProp: 'diagnosKodad',
+                                diagnosKodLabel: 'DFR_51.1.RBK'
+                            }]),
+                        fraga(52, 'FRG_52.RBK', '', { required: true, hideExpression: diagnosRegistreringFritext,
+                            requiredProp: 'diagnosFritext.diagnosFritext'}, [{
+                            type: 'ue-textarea',
+                            modelProp: 'diagnosFritext.diagnosFritext',
+                        },
+                            {
+                                type: 'ue-year-picker',
+                                modelProp: 'diagnosFritext.diagnosArtal',
+                                maxYear: thisYear,
+                                label: {
+                                    key: 'DFR_52.2.RBK',
+                                    required: true,
+                                    requiredProp: 'diagnosFritext.diagnosArtal'
+                                }
+                            }
+                        ]),
                     ]),
 
                     ueFactoryTemplates.vardenhet/*,

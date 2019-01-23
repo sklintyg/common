@@ -24,9 +24,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
+import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
+
+import java.util.List;
 
 // test
 @AutoValue
@@ -66,10 +69,20 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract IdKontroll getIdKontroll();
 
+    @Nullable
+    public abstract DiagnosRegistrering getDiagnosRegistrering();
+
+    @Nullable
+    public abstract ImmutableList<DiagnosKodad> getDiagnosKodad();
+
+    @Nullable
+    public abstract DiagnosFritext getDiagnosFritext();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
         return new AutoValue_TsTstrk1062UtlatandeV1.Builder()
+                .setDiagnosKodad(ImmutableList.<DiagnosKodad> of())
                 .setSignature(null);
     }
 
@@ -101,5 +114,18 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("idKontroll")
         public abstract Builder setIdKontroll(IdKontroll idKontroll);
+
+        @JsonProperty("diagnosRegistrering")
+        public abstract Builder setDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering);
+
+        @JsonProperty("diagnosKodad")
+        public Builder setDiagnosKodad(List<DiagnosKodad> diagnosKodadList) {
+            return setDiagnosKodad(ImmutableList.copyOf(diagnosKodadList));
+        }
+
+        abstract Builder setDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad);
+
+        @JsonProperty("diagnosFritext")
+        public abstract Builder setDiagnosFritext(DiagnosFritext diagnosFritext);
     }
 }
