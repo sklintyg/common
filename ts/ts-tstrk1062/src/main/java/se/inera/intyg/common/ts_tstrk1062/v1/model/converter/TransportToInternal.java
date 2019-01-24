@@ -107,6 +107,9 @@ public final class TransportToInternal {
                 case SYMPTOM_PROGNOS_SVAR_ID:
                     handlePrognosTillstand(utlatande, svar);
                     break;
+                case OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID:
+                    handleOvrigaKommentarer(utlatande, svar);
+                    break;
             }
         }
 
@@ -178,7 +181,7 @@ public final class TransportToInternal {
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID:
-                     harHaft = getBooleanContent(delsvar);
+                    harHaft = getBooleanContent(delsvar);
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -285,6 +288,19 @@ public final class TransportToInternal {
                 case SYMPTOM_PROGNOS_DELSVAR_ID:
                     utlatande.setPrognosTillstand(PrognosTillstand.create(
                             PrognosTillstand.PrognosTillstandTyp.fromCode(getCVSvarContent(delsvar).getCode())));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleOvrigaKommentarer(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID:
+                    utlatande.setOvrigaKommentarer(getStringContent(delsvar));
                     break;
                 default:
                     throw new IllegalArgumentException();

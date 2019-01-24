@@ -69,7 +69,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                     diagnosFritext: undefined,
                     lakemedelsbehandling: undefined,
                     bedomningAvSymptom: undefined,
-                    prognosTillstand: undefined
+                    prognosTillstand: undefined,
+                    ovrigaKommentarer: undefined
                 });
             },
             update: function update(content, parent) {

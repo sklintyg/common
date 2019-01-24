@@ -239,13 +239,20 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 htmlClass: 'col-md-6 no-padding',
                                 paddingBottom: true,
                                 choices: [
-                                    {label: 'SVAR_JA.RBK', id: 'true'},
-                                    {label: 'SVAR_NEJ.RBK', id: 'false'},
-                                    {label: 'SVAR_KANEJBEDOMA.RBK', id: 'NI'}
+                                    {label: 'SVAR_JA.RBK', id: 'JA'},
+                                    {label: 'SVAR_NEJ.RBK', id: 'NEJ'},
+                                    {label: 'SVAR_KANEJBEDOMA.RBK', id: 'KANEJBEDOMA'}
                                 ]
                             }]),
                     ]),
-
+                    // Ovrigt
+                    kategori(categoryIds[6], 'KAT_6.RBK', {}, {}, [
+                        fraga(32, 'FRG_32.RBK', '', {},
+                            [{
+                                type: 'ue-textarea',
+                                modelProp: 'ovrigaKommentarer',
+                            }]),
+                    ]),
                     ueFactoryTemplates.vardenhet/*,
 
     Befattning and specialitet was present in code but not working in 5.4

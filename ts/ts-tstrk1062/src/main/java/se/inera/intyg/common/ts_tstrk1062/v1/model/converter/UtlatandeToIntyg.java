@@ -116,8 +116,8 @@ public final class UtlatandeToIntyg {
 
         if (source.getBedomningAvSymptom() != null) {
             svars.add(aSvar(SYMPTOM_BEDOMNING_SVAR_ID)
-            .withDelsvar(SYMPTOM_BEDOMNING_DELSVAR_ID, source.getBedomningAvSymptom())
-            .build());
+                    .withDelsvar(SYMPTOM_BEDOMNING_DELSVAR_ID, source.getBedomningAvSymptom())
+                    .build());
         }
 
         if (source.getPrognosTillstand() != null) {
@@ -125,7 +125,13 @@ public final class UtlatandeToIntyg {
             svars.add(aSvar(SYMPTOM_PROGNOS_SVAR_ID)
                     .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID,
                             aCV("", prognosTillstandTyp.getCode(), prognosTillstandTyp.getDescription()))
-            .build());
+                    .build());
+        }
+
+        if (source.getOvrigaKommentarer() != null) {
+            svars.add(aSvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID)
+                    .withDelsvar(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID, source.getOvrigaKommentarer())
+                    .build());
         }
 
         return svars;

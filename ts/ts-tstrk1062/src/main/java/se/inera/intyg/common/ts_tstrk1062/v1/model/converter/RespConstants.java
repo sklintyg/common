@@ -49,4 +49,8 @@ public class RespConstants {
     public static final String SYMPTOM_BEDOMNING_DELSVAR_ID = "60.1";
     public static final String SYMPTOM_PROGNOS_SVAR_ID = "61";
     public static final String SYMPTOM_PROGNOS_DELSVAR_ID = "61.1";
+
+    // Kat 6 - Övrigt
+    public static final String OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID = "32";
+    public static final String OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
 }

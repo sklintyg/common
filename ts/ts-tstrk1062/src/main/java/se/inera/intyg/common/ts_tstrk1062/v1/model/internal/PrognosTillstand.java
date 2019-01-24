@@ -10,18 +10,18 @@ import java.util.stream.Stream;
 @AutoValue
 public abstract class PrognosTillstand {
     @JsonCreator
-    public static PrognosTillstand create(@JsonProperty("typ") se.inera.intyg.common.ts_tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp typ) {
+    public static PrognosTillstand create(@JsonProperty("typ") PrognosTillstandTyp typ) {
         return new AutoValue_PrognosTillstand(typ);
     }
 
     @Nullable
-    public abstract se.inera.intyg.common.ts_tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp getTyp();
+    public abstract PrognosTillstandTyp getTyp();
 
     public enum PrognosTillstandTyp {
 
         JA("true", "Ja"),
         NEJ("false", "Nej"),
-        KAN_EJ_BEDOMA("NI", "Kan ej bedöma");
+        KANEJBEDOMA("NI", "Kan ej bedöma");
 
         final String code;
         final String description;
@@ -39,8 +39,8 @@ public abstract class PrognosTillstand {
             return description;
         }
 
-        public static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp fromCode(String code) {
-            return Stream.of(se.inera.intyg.common.ts_tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp.values()).filter(s -> code.equals(s.getCode())).findFirst()
+        public static PrognosTillstandTyp fromCode(String code) {
+            return Stream.of(PrognosTillstandTyp.values()).filter(s -> code.equals(s.getCode())).findFirst()
                     .orElseThrow(() -> new IllegalArgumentException(code));
         }
     }

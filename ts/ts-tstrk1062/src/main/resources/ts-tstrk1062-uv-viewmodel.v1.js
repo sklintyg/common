@@ -192,7 +192,18 @@ var viewConfig = [
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['prognosTillstand.typ'],
-                kvLabelKeys: ['IDENTITET_{var}.RBK']
+                kvLabelKeys: ['SVAR_{var}.RBK']
+            }]
+        }]
+    }, {
+        type: 'uv-kategori',
+        labelKey: 'KAT_6.RBK',
+        components: [{
+            type: 'uv-fraga',
+            labelKey: 'FRG_32.RBK',
+            components: [{
+                type: 'uv-simple-value',
+                modelProp: 'ovrigaKommentarer'
             }]
         }]
     },

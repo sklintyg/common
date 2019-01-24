@@ -87,6 +87,9 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract PrognosTillstand getPrognosTillstand();
 
+    @Nullable
+    public abstract String getOvrigaKommentarer();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
@@ -145,5 +148,8 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("prognosTillstand")
         public abstract Builder setPrognosTillstand(PrognosTillstand prognosTillstand);
+
+        @JsonProperty("ovrigaKommentarer")
+        public abstract  Builder setOvrigaKommentarer(String ovrigaKommentarer);
     }
 }
