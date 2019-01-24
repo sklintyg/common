@@ -21,18 +21,24 @@ package se.inera.intyg.common.tstrk1009.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import java.util.EnumSet;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.AnmalanAvser;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IdentitetStyrktGenom;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
-import se.inera.intyg.common.tstrk1009.v1.model.internal.IdKontroll;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsolamplighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
 
     private Tstrk1009UtlatandeV1 getUtlatande() {
