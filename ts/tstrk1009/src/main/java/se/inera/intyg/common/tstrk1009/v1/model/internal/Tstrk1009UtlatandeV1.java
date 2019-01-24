@@ -91,33 +91,33 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
         public abstract Tstrk1009UtlatandeV1 build();
 
         @JsonProperty("id")
-        public abstract Builder setId(final String id);
+        public abstract Builder setId(String id);
 
         @JsonProperty("grundData")
-        public abstract Builder setGrundData(final GrundData grundData);
+        public abstract Builder setGrundData(GrundData grundData);
 
         @JsonProperty("textVersion")
-        public abstract Builder setTextVersion(final String textVersion);
+        public abstract Builder setTextVersion(String textVersion);
 
         @JsonProperty("signature")
-        public abstract Builder setSignature(final String signature);
+        public abstract Builder setSignature(String signature);
 
         @JsonProperty(IDENTITET_STYRKT_GENOM_JSON_ID)
-        public abstract Builder setIdentitetStyrktGenom(final IdentitetStyrktGenom identitetStyrktGenom);
+        public abstract Builder setIdentitetStyrktGenom(IdentitetStyrktGenom identitetStyrktGenom);
 
         @JsonProperty(ANMALAN_AVSER_JSON_ID)
-        public abstract Builder setAnmalanAvser(final AnmalanAvser anmalanAvser);
+        public abstract Builder setAnmalanAvser(AnmalanAvser anmalanAvser);
 
         @JsonProperty(MEDICINSKA_FORHALLANDEN_JSON_ID)
-        public abstract Builder setMedicinskaForhallanden(final String medicinskaForhallanden);
+        public abstract Builder setMedicinskaForhallanden(String medicinskaForhallanden);
 
         @JsonProperty(SENASTE_UNDERSOKNINGSDATUM_JSON_ID)
-        public abstract Builder setSenasteUndersokningsdatum(final InternalDate internalDate);
+        public abstract Builder setSenasteUndersokningsdatum(InternalDate internalDate);
 
         @JsonProperty(INTYGET_AVSER_BEHORIGHET_JSON_ID)
-        public abstract Builder setIntygetAvserBehorigheter(final IntygetAvser intygetAvserBehorigheter);
+        public abstract Builder setIntygetAvserBehorigheter(IntygetAvser intygetAvserBehorigheter);
 
         @JsonProperty(INFORMATION_OM_TS_BESLUT_ONSKAS_JSON_ID)
-        public abstract Builder setInformationOmTsBeslutOnskas(final Boolean informationOmTsBeslutOnskas);
+        public abstract Builder setInformationOmTsBeslutOnskas(Boolean informationOmTsBeslutOnskas);
     }
 }
