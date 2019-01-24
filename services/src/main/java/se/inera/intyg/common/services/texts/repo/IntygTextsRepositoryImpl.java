@@ -90,7 +90,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     public void init() throws IOException {
         // FIXME: Legacy support, can be removed when local config has been substituted by refdata (INTYG-7701)
         if (!ResourceUtils.isUrl(location)) {
-            location = "file://" + location;
+            location = "file:" + location;
         }
         if (!location.endsWith("/*")) {
             location += location.endsWith("/") ? "*" : "/*";
