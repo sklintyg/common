@@ -78,6 +78,9 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract DiagnosFritext getDiagnosFritext();
 
+    @Nullable
+    public abstract Lakemedelsbehandling getLakemedelsbehandling();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
@@ -127,5 +130,8 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("diagnosFritext")
         public abstract Builder setDiagnosFritext(DiagnosFritext diagnosFritext);
+
+        @JsonProperty("lakemedelsbehandling")
+        public abstract Builder setLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling);
     }
 }

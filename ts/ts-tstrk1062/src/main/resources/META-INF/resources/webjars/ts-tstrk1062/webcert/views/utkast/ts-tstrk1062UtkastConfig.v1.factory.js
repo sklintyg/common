@@ -26,7 +26,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                 return {
                     1: 'intygavser',
                     2: 'idkontroll',
-                    3: 'diagnos'
+                    3: 'diagnos',
+                    4: 'lakemedelsbehandling'
                 };
             }
 
@@ -34,6 +35,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                 var categoryIds = _getCategoryIds();
 
                 var thisYear = moment().format('YYYY');
+                var today = moment().format('YYYY-MM-DD');
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
@@ -61,6 +63,34 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                         return true;
                     }
                     return !(scope.model.diagnosRegistrering.typ === 'DIAGNOS_FRITEXT');
+                }
+
+                function lakemedelsbehandlingSaknas(scope) {
+                    if (scope.model.lakemedelsbehandling === undefined ||
+                        scope.model.lakemedelsbehandling.harHaft === undefined) {
+                        return true;
+                    }
+                    return scope.model.lakemedelsbehandling.harHaft === false;
+                }
+
+                function lakemedelsbehandlingPagar(scope) {
+                    if (scope.model.lakemedelsbehandling === undefined ||
+                        scope.model.lakemedelsbehandling.harHaft === undefined ||
+                        scope.model.lakemedelsbehandling.harHaft === false ||
+                        scope.model.lakemedelsbehandling.pagar === undefined) {
+                        return true;
+                    }
+                    return scope.model.lakemedelsbehandling.pagar === true;
+                }
+
+                function lakemedelsbehandlingAvslutad(scope) {
+                    if (scope.model.lakemedelsbehandling === undefined ||
+                        scope.model.lakemedelsbehandling.harHaft === undefined ||
+                        scope.model.lakemedelsbehandling.harHaft === false ||
+                        scope.model.lakemedelsbehandling.pagar === undefined) {
+                        return true;
+                    }
+                    return scope.model.lakemedelsbehandling.pagar === false;
                 }
 
                 var config = [
@@ -109,15 +139,19 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                     {label: 'SVAR_FRITEXT.RBK', id: 'DIAGNOS_FRITEXT'}
                                 ]
                             }]),
-                        fraga(51, 'FRG_51.RBK', '', { required: true, hideExpression: diagnosRegistreringKodad,
-                                requiredProp: 'diagnosKodad[0].diagnosKod'},
+                        fraga(51, 'FRG_51.RBK', '', {
+                                required: true, hideExpression: diagnosRegistreringKodad,
+                                requiredProp: 'diagnosKodad[0].diagnosKod'
+                            },
                             [{
                                 type: 'ue-diagnos',
                                 modelProp: 'diagnosKodad',
                                 diagnosKodLabel: 'DFR_51.1.RBK'
                             }]),
-                        fraga(52, 'FRG_52.RBK', '', { required: true, hideExpression: diagnosRegistreringFritext,
-                            requiredProp: 'diagnosFritext.diagnosFritext'}, [{
+                        fraga(52, 'FRG_52.RBK', '', {
+                            required: true, hideExpression: diagnosRegistreringFritext,
+                            requiredProp: 'diagnosFritext.diagnosFritext'
+                        }, [{
                             type: 'ue-textarea',
                             modelProp: 'diagnosFritext.diagnosFritext',
                         },
@@ -132,6 +166,63 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 }
                             }
                         ]),
+                    ]),
+
+                    // Lakemedelsbehandling
+                    kategori(categoryIds[4], 'KAT_4.RBK', {}, {}, [
+                        fraga(53, 'FRG_53.RBK', '', {required: true, requiredProp: 'lakemedelsbehandling.harHaft'},
+                            [{
+                                type: 'ue-radio',
+                                modelProp: 'lakemedelsbehandling.harHaft',
+                                paddingBottom: true,
+                            }]),
+                        fraga(54, 'FRG_54.RBK', '', {required: true, hideExpression: lakemedelsbehandlingSaknas ,requiredProp: 'lakemedelsbehandling.pagar'},
+                            [{
+                                type: 'ue-radio',
+                                modelProp: 'lakemedelsbehandling.pagar',
+                                paddingBottom: true,
+                            }]),
+                        fraga(55, 'FRG_55.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.aktuell'},
+                            [{
+                                type: 'ue-textarea',
+                                modelProp: 'lakemedelsbehandling.aktuell'
+                            }]),
+                        fraga(56, 'FRG_56.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.pagatt'},
+                            [{
+                                type: 'ue-radio',
+                                modelProp: 'lakemedelsbehandling.pagatt',
+                                paddingBottom: true,
+                            }]),
+                        fraga(57, 'FRG_57.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.effekt'},
+                            [{
+                                type: 'ue-radio',
+                                modelProp: 'lakemedelsbehandling.effekt',
+                                paddingBottom: true,
+                            }]),
+                        fraga(58, 'FRG_58.RBK', '',
+                            {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.foljsamhet'},
+                            [{
+                                type: 'ue-radio',
+                                modelProp: 'lakemedelsbehandling.foljsamhet',
+                                paddingBottom: true,
+                            }]),
+                        fraga(58, 'FRG_59.RBK', '',
+                            {required: true, hideExpression: lakemedelsbehandlingPagar ,requiredProp: 'lakemedelsbehandling.avslutadTidpunkt'},
+                            [{
+                                type: 'ue-date',
+                                modelProp: 'lakemedelsbehandling.avslutadTidpunkt',
+                                maxDate: today
+                            },
+                                {
+                                    type: 'ue-textarea',
+                                    modelProp: 'lakemedelsbehandling.avslutadOrsak',
+                                    label: {
+                                        key: 'DFR_59.2.RBK',
+                                        required: true,
+                                        requiredProp: 'lakemedelsbehandling.avslutadOrsak'
+                                    }
+                                }
+                            ]),
                     ]),
 
                     ueFactoryTemplates.vardenhet/*,

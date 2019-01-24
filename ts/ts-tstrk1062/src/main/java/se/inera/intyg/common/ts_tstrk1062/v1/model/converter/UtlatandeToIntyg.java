@@ -25,10 +25,7 @@ import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosFritext;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosKodad;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -42,8 +39,6 @@ import static se.inera.intyg.common.support.Constants.*;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD;
 
 public final class UtlatandeToIntyg {
 
@@ -113,22 +108,13 @@ public final class UtlatandeToIntyg {
                 default:
                     throw new IllegalArgumentException();
             }
+        }
 
+        if (source.getLakemedelsbehandling() != null) {
+            handleLakemedelsbehandling(source.getLakemedelsbehandling(), svars);
         }
 
         return svars;
-    }
-
-    private static void handleDiagnosFritext(DiagnosFritext diagnosFritext, List<Svar> svars) {
-        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID);
-        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
-                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID,
-                        aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnosFritext.getDiagnosArtal())))
-                );
-
-        if (!diagnosSvar.delSvars.isEmpty()) {
-            svars.add(diagnosSvar.build());
-        }
     }
 
     private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
@@ -145,6 +131,63 @@ public final class UtlatandeToIntyg {
 
         if (!diagnosSvar.delSvars.isEmpty()) {
             svars.add(diagnosSvar.build());
+        }
+    }
+
+    private static void handleDiagnosFritext(DiagnosFritext diagnosFritext, List<Svar> svars) {
+        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID);
+        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
+                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID,
+                        aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnosFritext.getDiagnosArtal())))
+                );
+
+        if (!diagnosSvar.delSvars.isEmpty()) {
+            svars.add(diagnosSvar.build());
+        }
+    }
+
+    private static void handleLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<Svar> svars) {
+        if (lakemedelsbehandling.getHarHaft() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID, InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getHarHaft()))
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getPagar() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID, InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagar()))
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getAktuell() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID, lakemedelsbehandling.getAktuell())
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getPagatt() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID, InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getPagatt()))
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getEffekt() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID, InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getEffekt()))
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getFoljsamhet() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID, InternalConverterUtil.getBooleanContent(lakemedelsbehandling.getFoljsamhet()))
+                    .build());
+        }
+
+        if (lakemedelsbehandling.getAvslutadTidpunkt() != null) {
+            svars.add(aSvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID)
+                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID, InternalConverterUtil.getInternalDateContent(lakemedelsbehandling.getAvslutadTidpunkt()))
+                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID, lakemedelsbehandling.getAvslutadOrsak())
+                    .build());
         }
     }
 }

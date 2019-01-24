@@ -86,6 +86,88 @@ var viewConfig = [
             }]
     },
     {
+        type: 'uv-kategori',
+        labelKey: 'KAT_4.RBK',
+        components: [{
+            type: 'uv-fraga',
+            labelKey: 'FRG_53.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.harHaft'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_54.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.pagar'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_55.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'lakemedelsbehandling.aktuell'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_56.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.pagatt'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_57.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.effekt'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_58.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.foljsamhet'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_59.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'lakemedelsbehandling.avslutadTidpunkt'
+                }]
+            }, {
+                type: 'uv-del-fraga',
+                labelKey: 'DFR.59.2.RBK',
+                components: [{
+                    type: 'uv-simple-value',
+                    modelProp: 'lakemedelsbehandling.avslutadOrsak'
+                }]
+            }]
+        }]
+    },
+    {
         type: 'uv-skapad-av',
         modelProp: 'grundData.skapadAv'
     }];

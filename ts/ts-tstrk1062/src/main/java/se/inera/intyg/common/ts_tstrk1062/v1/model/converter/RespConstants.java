@@ -26,4 +26,21 @@ public class RespConstants {
     public static final String ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID = "52.1";
     public static final String ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID = "52.2";
     public static final String ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID = "diagnosFritext";
+
+    // Kat 4 - Läkemedelsbehandling
+    public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID = "53";
+    public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID = "53.1";
+    public static final String LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID = "54";
+    public static final String LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID = "54.1";
+    public static final String LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID = "55";
+    public static final String LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID = "55.1";
+    public static final String LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID = "56";
+    public static final String LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID = "56.1";
+    public static final String LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID = "57";
+    public static final String LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID = "57.1";
+    public static final String LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID = "58";
+    public static final String LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID = "58.1";
+    public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID = "59";
+    public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID = "59.1";
+    public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID = "59.2";
 }
