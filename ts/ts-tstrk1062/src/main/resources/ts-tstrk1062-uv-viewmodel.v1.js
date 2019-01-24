@@ -165,6 +165,35 @@ var viewConfig = [
                     modelProp: 'lakemedelsbehandling.avslutadOrsak'
                 }]
             }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_58.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.foljsamhet'
+                }]
+            }]
+        }]
+    }, {
+        type: 'uv-kategori',
+        labelKey: 'KAT_5.RBK',
+        components: [{
+            type: 'uv-fraga',
+            labelKey: 'FRG_60.RBK',
+            components: [{
+                type: 'uv-simple-value',
+                modelProp: 'bedomningAvSymptom'
+            }]
+        }, {
+            type: 'uv-fraga',
+            labelKey: 'FRG_61.RBK',
+            components: [{
+                type: 'uv-kodverk-value',
+                kvModelProps: ['prognosTillstand.typ'],
+                kvLabelKeys: ['IDENTITET_{var}.RBK']
+            }]
         }]
     },
     {

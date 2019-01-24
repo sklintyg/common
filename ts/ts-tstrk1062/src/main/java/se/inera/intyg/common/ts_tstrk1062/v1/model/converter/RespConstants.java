@@ -43,4 +43,10 @@ public class RespConstants {
     public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID = "59";
     public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID = "59.1";
     public static final String LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID = "59.2";
+
+    // Kat 5 - Symptom, funktionshinder och prognos
+    public static final String SYMPTOM_BEDOMNING_SVAR_ID = "60";
+    public static final String SYMPTOM_BEDOMNING_DELSVAR_ID = "60.1";
+    public static final String SYMPTOM_PROGNOS_SVAR_ID = "61";
+    public static final String SYMPTOM_PROGNOS_DELSVAR_ID = "61.1";
 }

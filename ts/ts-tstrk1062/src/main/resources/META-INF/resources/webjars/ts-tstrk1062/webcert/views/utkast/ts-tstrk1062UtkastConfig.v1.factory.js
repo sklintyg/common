@@ -27,7 +27,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                     1: 'intygavser',
                     2: 'idkontroll',
                     3: 'diagnos',
-                    4: 'lakemedelsbehandling'
+                    4: 'lakemedelsbehandling',
+                    5: 'symptom'
                 };
             }
 
@@ -223,6 +224,26 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                     }
                                 }
                             ]),
+                    ]),
+                    // Symptom (Symptom, funktionshinder och prognos)
+                    kategori(categoryIds[5], 'KAT_5.RBK', {}, {}, [
+                        fraga(60, 'FRG_60.RBK', 'FRG_60.HLP', {required: true, requiredProp: 'bedomningAvSymptom'},
+                            [{
+                                type: 'ue-textarea',
+                                modelProp: 'bedomningAvSymptom',
+                            }]),
+                        fraga(61, 'FRG_61.RBK', '', {required: true, requiredProp: 'prognosTillstand.typ'},
+                            [{
+                                type: 'ue-radiogroup',
+                                modelProp: 'prognosTillstand.typ',
+                                htmlClass: 'col-md-6 no-padding',
+                                paddingBottom: true,
+                                choices: [
+                                    {label: 'SVAR_JA.RBK', id: 'true'},
+                                    {label: 'SVAR_NEJ.RBK', id: 'false'},
+                                    {label: 'SVAR_KANEJBEDOMA.RBK', id: 'NI'}
+                                ]
+                            }]),
                     ]),
 
                     ueFactoryTemplates.vardenhet/*,

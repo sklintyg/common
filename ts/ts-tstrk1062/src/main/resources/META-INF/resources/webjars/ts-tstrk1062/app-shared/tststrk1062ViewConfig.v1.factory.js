@@ -169,6 +169,25 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                         }]
                     }]
                 }]
+            }, {
+                type: 'uv-kategori',
+                labelKey: 'KAT_5.RBK',
+                components: [{
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_60.RBK',
+                    components: [{
+                        type: 'uv-simple-value',
+                        modelProp: 'bedomningAvSymptom'
+                    }]
+                }, {
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_61.RBK',
+                    components: [{
+                        type: 'uv-kodverk-value',
+                        kvModelProps: ['prognosTillstand.typ'],
+                        kvLabelKeys: ['IDENTITET_{var}.RBK']
+                    }]
+                }]
             },
             {
                 type: 'uv-skapad-av',

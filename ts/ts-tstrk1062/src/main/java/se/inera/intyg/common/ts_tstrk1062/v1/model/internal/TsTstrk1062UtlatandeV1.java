@@ -81,6 +81,12 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract Lakemedelsbehandling getLakemedelsbehandling();
 
+    @Nullable
+    public abstract String getBedomningAvSymptom();
+
+    @Nullable
+    public abstract PrognosTillstand getPrognosTillstand();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
@@ -133,5 +139,11 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("lakemedelsbehandling")
         public abstract Builder setLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling);
+
+        @JsonProperty("bedomningAvSymptom")
+        public abstract Builder setBedomningAvSymptom(String bedomningAvSymptom);
+
+        @JsonProperty("prognosTillstand")
+        public abstract Builder setPrognosTillstand(PrognosTillstand prognosTillstand);
     }
 }

@@ -114,6 +114,20 @@ public final class UtlatandeToIntyg {
             handleLakemedelsbehandling(source.getLakemedelsbehandling(), svars);
         }
 
+        if (source.getBedomningAvSymptom() != null) {
+            svars.add(aSvar(SYMPTOM_BEDOMNING_SVAR_ID)
+            .withDelsvar(SYMPTOM_BEDOMNING_DELSVAR_ID, source.getBedomningAvSymptom())
+            .build());
+        }
+
+        if (source.getPrognosTillstand() != null) {
+            final PrognosTillstand.PrognosTillstandTyp prognosTillstandTyp = source.getPrognosTillstand().getTyp();
+            svars.add(aSvar(SYMPTOM_PROGNOS_SVAR_ID)
+                    .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID,
+                            aCV("", prognosTillstandTyp.getCode(), prognosTillstandTyp.getDescription()))
+            .build());
+        }
+
         return svars;
     }
 

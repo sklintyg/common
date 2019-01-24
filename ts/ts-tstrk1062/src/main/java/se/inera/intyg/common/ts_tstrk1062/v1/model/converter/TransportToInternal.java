@@ -101,6 +101,12 @@ public final class TransportToInternal {
                 case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
                     handleLakemedelsbehandlingAvslutad(utlatande, svar, avslutadTidpunkt, avslutadOrsak);
                     break;
+                case SYMPTOM_BEDOMNING_SVAR_ID:
+                    handleSymptomBedomning(utlatande, svar);
+                    break;
+                case SYMPTOM_PROGNOS_SVAR_ID:
+                    handlePrognosTillstand(utlatande, svar);
+                    break;
             }
         }
 
@@ -253,6 +259,33 @@ public final class TransportToInternal {
                     break;
                 case LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID:
                     avslutadOrsak = getStringContent(delsvar);
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleSymptomBedomning(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case SYMPTOM_BEDOMNING_DELSVAR_ID:
+                    utlatande.setBedomningAvSymptom(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handlePrognosTillstand(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case SYMPTOM_PROGNOS_DELSVAR_ID:
+                    utlatande.setPrognosTillstand(PrognosTillstand.create(
+                            PrognosTillstand.PrognosTillstandTyp.fromCode(getCVSvarContent(delsvar).getCode())));
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
