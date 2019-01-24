@@ -4,7 +4,8 @@
       <a href ng-click="onSelect(tab, $event)"
          ng-attr-id="{{::'tab-link-' + tab.id}}"
          uib-popover="{{::getText(tab.tooltip)}}"
-         popover-placement="auto top">
+         popover-placement="auto top"
+         popover-append-to-body="true">
         <i data-ng-if="tab.icon" class="material-icons">{{::tab.icon}}</i>
         <span dynamic-label key="{{::tab.title}}"></span>
       </a>
