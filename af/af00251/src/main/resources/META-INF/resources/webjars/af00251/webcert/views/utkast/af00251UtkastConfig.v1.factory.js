@@ -197,7 +197,28 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 type: 'ue-sjukfranvaro',
                                 modelProp: 'sjukfranvaro',
                                 maxRows: 4
-                            }]
+                            },
+                            {
+                                type: 'ue-alert',
+                                alertType: 'warning',
+                                key: 'AF-001.ALERT',
+                                hideExpression: function (scope) {
+                                    var sjukskrivningar = scope.model.sjukfranvaro;
+
+                                    var foundEarlyDate = false;
+                                    angular.forEach(sjukskrivningar, function(item, key) {
+                                        if (item.period &&
+                                            DateUtils.isDate(item.period.from) &&
+                                            DateUtils.isDate(item.period.tom) &&
+                                            DateUtils.olderThanAWeek(DateUtils.toMoment(item.period.from))) {
+                                            foundEarlyDate = true;
+                                        }
+                                    });
+
+                                    return !foundEarlyDate;
+                                }
+                            }
+                            ]
                         ),
                         fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {
                                 required: true,
