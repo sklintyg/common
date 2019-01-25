@@ -35,7 +35,8 @@ describe('lisjpFormFactory', function() {
 
         $scope = $rootScope.$new();
         $scope.model = _lisjpIntygModel_._members.build().content;
-        $scope.ueConfig = _lisjpUtkastConfigFactory_.getConfig();
+        var viewStateMock = {common: {intyg: {isLocked: false}}};
+        $scope.ueConfig = _lisjpUtkastConfigFactory_.getConfig(viewStateMock);
         element = angular.element(
             '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
         $compile(element)($scope);

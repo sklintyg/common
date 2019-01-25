@@ -45,6 +45,11 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var today = moment().format('YYYY-MM-DD');
 
+                var isLocked = viewState.common.intyg.isLocked;
+                var lockedExpression = isLocked ? '&& model.motiveringTillInteBaseratPaUndersokning' : '';
+                var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.telefonkontaktMedPatienten || ' + 
+                'model.journaluppgifter || model.annatGrundForMU)' + lockedExpression + ')';
+            
                 var config = [
 
                     kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', {signingDoctor: true}, [
@@ -115,13 +120,14 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                                     }]
                                 ]
                             }]
-                        ), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
+                        ), fraga(1, '', '', { hideExpression: motiveringBaseratHideExpression }, [{
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                                 type: 'label',
                                 materialIcon: 'lightbulb_outline',
+                                isLocked: isLocked,
                                 helpKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.help',
                                 variableLabelKey: 'FRG_25.RBK'
                             },
@@ -226,12 +232,16 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                                     }
                                 });
                             }
+                            if (isLocked && !scope.model.motiveringTillTidigtStartdatumForSjukskrivning) {
+                                hide = true;
+                            }
                             return hide;
                         } }, [ {
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
                                 materialIcon: 'lightbulb_outline',
+                                isLocked: isLocked,
                                 variableLabelKey: 'FRG_25.RBK',
                                 key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                 helpKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',

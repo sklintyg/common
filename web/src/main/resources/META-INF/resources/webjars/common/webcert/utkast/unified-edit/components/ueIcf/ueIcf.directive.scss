@@ -236,3 +236,7 @@ ue-icf {
     padding-top: 10px;
   }
 }
+
+fieldset[disabled] .icf-button {
+  display: none;
+}

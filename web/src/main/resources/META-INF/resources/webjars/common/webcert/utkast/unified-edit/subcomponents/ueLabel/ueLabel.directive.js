@@ -47,7 +47,9 @@ angular.module('common').directive('ueLabel',
                             template = generateRequired(template);
                         }
                         if (scope.config.materialIcon) {
-                            template += '<i class="material-icons">' + scope.config.materialIcon + '</i>';
+                            template += '<i class="material-icons ' + 
+                                (scope.config.isLocked ? 'is-locked' : '') + 
+                                '">' + scope.config.materialIcon + '</i>';
                         }
                         if (scope.config.key) {
                             template += '<span class="label-slot">' + dynamicLabelService.getProperty(scope.config.key) + '</span>\n';
