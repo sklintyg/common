@@ -118,4 +118,14 @@ public interface ModuleEntryPoint {
         return false;
     }
 
+    /**
+     * For legacy reasons, some intyg types (e.g fk7263) do not always specify an version in persisted module
+     * utlatande json. This method provided a fallback version to be overridden in each module implementation.
+     *
+     * @return fallbackversion or null if not applicable.
+     */
+    default String getDefaultFallbackIntygTypeVersion() {
+        return null;
+    }
+
 }

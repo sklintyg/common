@@ -18,9 +18,12 @@
  */
 package se.inera.intyg.common.support.modules.registry;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -31,7 +34,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -52,6 +54,8 @@ public class IntygModuleRegistryImplTest {
     private static final String MODULE_CSS_PATH_1 = "moduleCssPath1";
     private static final String MODULE_SCRIPT_PATH_1 = "moduleScriptPath1";
     private static final String MODULE_DEPENDENCY_DEFINITION_PATH_1 = "moduleDependencyDefinitionPath1";
+    private static final String MODULE_ID_1_DEFAULT_FALLBACK_INTYG_VERSION = null;
+
     private static final String MODULE_ID_2 = "moduleId2";
     private static final String EXTERNAL_ID_2 = "externalId2";
     private static final String MODULE_NAME_2 = "moduleName2";
@@ -61,6 +65,7 @@ public class IntygModuleRegistryImplTest {
     private static final String MODULE_SCRIPT_PATH_2 = "moduleScriptPath2";
     private static final String MODULE_DEPENDENCY_DEFINITION_PATH_2 = "moduleDependencyDefinitionPath2";
     private static final String INTYG_VERSION = "1.0";
+    private static final String MODULE_ID_2_DEFAULT_FALLBACK_INTYG_VERSION = "4.0";
 
 
     @Mock
@@ -87,6 +92,8 @@ public class IntygModuleRegistryImplTest {
         when(entryPointMock1.getModuleCssPath(ORIGIN)).thenReturn(MODULE_CSS_PATH_1);
         when(entryPointMock1.getModuleScriptPath(ORIGIN)).thenReturn(MODULE_SCRIPT_PATH_1);
         when(entryPointMock1.getModuleDependencyDefinitionPath(ORIGIN)).thenReturn(MODULE_DEPENDENCY_DEFINITION_PATH_1);
+        when(entryPointMock1.getDefaultFallbackIntygTypeVersion()).thenReturn(MODULE_ID_1_DEFAULT_FALLBACK_INTYG_VERSION);
+
         when(entryPointMock2.getModuleId()).thenReturn(MODULE_ID_2);
         when(entryPointMock2.getExternalId()).thenReturn(EXTERNAL_ID_2);
         when(entryPointMock2.getModuleName()).thenReturn(MODULE_NAME_2);
@@ -95,6 +102,7 @@ public class IntygModuleRegistryImplTest {
         when(entryPointMock2.getModuleCssPath(ORIGIN)).thenReturn(MODULE_CSS_PATH_2);
         when(entryPointMock2.getModuleScriptPath(ORIGIN)).thenReturn(MODULE_SCRIPT_PATH_2);
         when(entryPointMock2.getModuleDependencyDefinitionPath(ORIGIN)).thenReturn(MODULE_DEPENDENCY_DEFINITION_PATH_2);
+        when(entryPointMock2.getDefaultFallbackIntygTypeVersion()).thenReturn(MODULE_ID_2_DEFAULT_FALLBACK_INTYG_VERSION);
 
         when(applicationContext.getBean(anyString())).thenReturn(moduleAPiMockBean);
 
@@ -203,4 +211,28 @@ public class IntygModuleRegistryImplTest {
         assertEquals(MODULE_ID_2, res2);
         assertNull(res3);
     }
+
+    @Test
+    public void testResolveVersionFromUtlatandeJsonWhenTextVersionExists() throws ModuleNotFoundException {
+        String version = registry.resolveVersionFromUtlatandeJson(MODULE_ID_1, buildUtlatandeJson(MODULE_ID_1, "2.1"));
+
+        assertEquals("2.1", version);
+    }
+
+    @Test
+    public void testResolveVersionFromUtlatandeJsonViaTypeWhenNoTextVersionPropertyExists() throws ModuleNotFoundException {
+        String version = registry.resolveVersionFromUtlatandeJson(MODULE_ID_2, buildUtlatandeJson(MODULE_ID_2, ""));
+
+        assertEquals(MODULE_ID_2_DEFAULT_FALLBACK_INTYG_VERSION, version);
+    }
+
+    @Test(expected = ModuleNotFoundException.class)
+    public void testResolveVersionFail() throws ModuleNotFoundException {
+        registry.resolveVersionFromUtlatandeJson(MODULE_ID_1, buildUtlatandeJson(MODULE_ID_1, ""));
+    }
+
+    private String buildUtlatandeJson(String moduleId, String textVersion) {
+        return "{\"typ\": \"" + moduleId + "\", \"textVersion\": \"" + textVersion + "\"}";
+    }
+
 }

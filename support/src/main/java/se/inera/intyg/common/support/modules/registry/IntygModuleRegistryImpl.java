@@ -156,20 +156,26 @@ public class IntygModuleRegistryImpl implements IntygModuleRegistry, Application
     }
 
     @Override
-    public String resolveVersionFromUtlatandeJson(String internalModel) throws ModuleNotFoundException {
+    public String resolveVersionFromUtlatandeJson(String intygType, String internalModel) throws ModuleNotFoundException {
         try {
-            final JsonNode jsonNode = new ObjectMapper().readTree(internalModel);
-            final JsonNode textVersionNode = jsonNode.get(JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME);
-            final String version = textVersionNode != null ? textVersionNode.asText() : null;
+            // First, try extracting textVersion from Utlatande Json
+            final JsonNode utlatandeModelNode = new ObjectMapper().readTree(internalModel);
+            final JsonNode textVersionNode = utlatandeModelNode.get(JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME);
+            String version = textVersionNode != null ? textVersionNode.asText() : null;
+            if (Strings.isNullOrEmpty(version)) {
+                // Not found in json: look for default fallback version using the types entrypoint
+                version = getModuleEntryPoint(intygType).getDefaultFallbackIntygTypeVersion();
+            }
+
             if (Strings.isNullOrEmpty(version)) {
                 throw new ModuleNotFoundException(
-                        "Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME + "' from utlatande json model string");
+                        "Could not extract version for " + intygType + " type utlatande json model string");
             }
 
             return version;
         } catch (IOException e) {
             throw new ModuleNotFoundException(
-                    "Could not extract '" + JSON_UTLATANDE_VERSION_JSON_PROPERTY_NAME + "' from utlatande json model string", e);
+                    "Could not extract version for " + intygType + " utlatande json model string", e);
         }
     }
 

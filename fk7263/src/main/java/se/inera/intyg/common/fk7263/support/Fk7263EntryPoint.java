@@ -117,4 +117,8 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
         return DISPLAY_DEPRECATED;
     }
 
+    @Override
+    public String getDefaultFallbackIntygTypeVersion() {
+        return DEFAULT_LOCKED_TYPE_VERSION;
+    }
 }
