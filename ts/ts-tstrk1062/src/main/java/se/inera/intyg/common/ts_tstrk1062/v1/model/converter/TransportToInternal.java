@@ -22,6 +22,7 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
 
 import java.util.EnumSet;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -57,6 +59,9 @@ public final class TransportToInternal {
 
     private static void setSvar(TsTstrk1062UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
         EnumSet<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
+
+        Bedomning.Builder bedomning = Bedomning.builder();
+        Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(Bedomning.BehorighetsTyp.class);
 
         Boolean harHaft = null;
         Boolean pagar = null;
@@ -110,11 +115,19 @@ public final class TransportToInternal {
                 case OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID:
                     handleOvrigaKommentarer(utlatande, svar);
                     break;
+                case BEDOMNING_UPPFYLLER_SVAR_ID:
+                    handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
+                    break;
             }
+        }
+
+        if (!bedomningUppfyllerBehorighetskrav.isEmpty()) {
+            bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
         }
 
         utlatande.setIntygAvser(IntygAvser.create(intygAvserSet));
         utlatande.setLakemedelsbehandling(Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
+        utlatande.setBedomning(bedomning.build());
     }
 
     private static void handleIntygAvser(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar,
@@ -301,6 +314,18 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID:
                     utlatande.setOvrigaKommentarer(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    private static void handleBedomning(Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav, Svar svar) throws ConverterException {
+        for (Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case BEDOMNING_UPPFYLLER_SVAR_ID:
+                    bedomningUppfyllerBehorighetskrav.add(Bedomning.BehorighetsTyp.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
                     throw new IllegalArgumentException();

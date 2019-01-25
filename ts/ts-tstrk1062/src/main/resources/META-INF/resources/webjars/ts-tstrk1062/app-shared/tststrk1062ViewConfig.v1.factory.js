@@ -199,8 +199,23 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                         modelProp: 'ovrigaKommentarer'
                     }]
                 }]
-            },
-            {
+            }, {
+                type: 'uv-kategori',
+                labelKey: 'KAT_7.RBK',
+                components: [{
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_33.RBK',
+                    components: [{
+                        type: 'uv-list',
+                        labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
+                        listKey: function(model) {
+                            return model.selected ? model.type : null;
+                        },
+                        separator: ', ',
+                        modelProp: 'bedomning.uppfyllerBehorighetskrav',
+                    }]
+                }]
+            }, {
                 type: 'uv-skapad-av',
                 modelProp: 'grundData.skapadAv'
             }];

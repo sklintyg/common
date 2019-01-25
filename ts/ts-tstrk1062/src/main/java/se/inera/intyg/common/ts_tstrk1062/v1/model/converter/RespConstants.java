@@ -53,4 +53,8 @@ public class RespConstants {
     // Kat 6 - Övrigt
     public static final String OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID = "32";
     public static final String OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID = "32.1";
+
+    // Kat 7 - Bedomning
+    public static final String BEDOMNING_UPPFYLLER_SVAR_ID = "33";
+    public static final String BEDOMNING_UPPFYLLER_DELSVAR_ID = "33.1";
 }

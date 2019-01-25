@@ -28,7 +28,9 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                     2: 'idkontroll',
                     3: 'diagnos',
                     4: 'lakemedelsbehandling',
-                    5: 'symptom'
+                    5: 'symptom',
+                    6: 'ovrigt',
+                    7: 'bedomning'
                 };
             }
 
@@ -42,8 +44,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var patient = ueTSFactoryTemplates.patient(viewState);
 
-                function requiredKorkortProperties(field, extraproperty) {
-                    var antalKorkort = 16;
+                function requiredKorkortProperties(field, antalKorkort, extraproperty) {
                     var korkortsarray = [];
                     for (var i = 0; i < antalKorkort; i++) {
                         korkortsarray.push(field + '.korkortstyp[' + i + '].selected');
@@ -101,7 +102,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                     // Intyget avser
                     kategori(categoryIds[1], 'KAT_1.RBK', {}, {}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP',
-                            {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
+                            {required: true, requiredProp: requiredKorkortProperties('intygAvser', 16)}, [{
                                 type: 'ue-checkgroup-ts',
                                 modelProp: 'intygAvser.korkortstyp',
                                 labelTemplate: 'KV_INTYGET_AVSER.{0}.RBK',
@@ -177,38 +178,62 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 modelProp: 'lakemedelsbehandling.harHaft',
                                 paddingBottom: true,
                             }]),
-                        fraga(54, 'FRG_54.RBK', '', {required: true, hideExpression: lakemedelsbehandlingSaknas ,requiredProp: 'lakemedelsbehandling.pagar'},
+                        fraga(54, 'FRG_54.RBK', '', {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingSaknas,
+                                requiredProp: 'lakemedelsbehandling.pagar'
+                            },
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.pagar',
                                 paddingBottom: true,
                             }]),
-                        fraga(55, 'FRG_55.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.aktuell'},
+                        fraga(55, 'FRG_55.RBK', '', {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingAvslutad,
+                                requiredProp: 'lakemedelsbehandling.aktuell'
+                            },
                             [{
                                 type: 'ue-textarea',
                                 modelProp: 'lakemedelsbehandling.aktuell'
                             }]),
-                        fraga(56, 'FRG_56.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.pagatt'},
+                        fraga(56, 'FRG_56.RBK', '', {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingAvslutad,
+                                requiredProp: 'lakemedelsbehandling.pagatt'
+                            },
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.pagatt',
                                 paddingBottom: true,
                             }]),
-                        fraga(57, 'FRG_57.RBK', '', {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.effekt'},
+                        fraga(57, 'FRG_57.RBK', '', {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingAvslutad,
+                                requiredProp: 'lakemedelsbehandling.effekt'
+                            },
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.effekt',
                                 paddingBottom: true,
                             }]),
                         fraga(58, 'FRG_58.RBK', '',
-                            {required: true, hideExpression: lakemedelsbehandlingAvslutad ,requiredProp: 'lakemedelsbehandling.foljsamhet'},
+                            {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingAvslutad,
+                                requiredProp: 'lakemedelsbehandling.foljsamhet'
+                            },
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.foljsamhet',
                                 paddingBottom: true,
                             }]),
                         fraga(58, 'FRG_59.RBK', '',
-                            {required: true, hideExpression: lakemedelsbehandlingPagar ,requiredProp: 'lakemedelsbehandling.avslutadTidpunkt'},
+                            {
+                                required: true,
+                                hideExpression: lakemedelsbehandlingPagar,
+                                requiredProp: 'lakemedelsbehandling.avslutadTidpunkt'
+                            },
                             [{
                                 type: 'ue-date',
                                 modelProp: 'lakemedelsbehandling.avslutadTidpunkt',
@@ -253,6 +278,21 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 modelProp: 'ovrigaKommentarer',
                             }]),
                     ]),
+                    // Bedomning
+                    kategori(categoryIds[7], 'KAT_7.RBK', '', {}, [
+                        fraga(33, 'FRG_33.RBK', 'FRG_33.HLP', {
+                                required: true,
+                                requiredProp: requiredKorkortProperties('bedomning.uppfyllerBehorighetskrav', 17)
+                            },
+                            [{
+                                type: 'ue-checkgroup-ts',
+                                modelProp: 'bedomning.uppfyllerBehorighetskrav',
+                                labelTemplate: 'KV_KORKORTSBEHORIGHET.{0}.RBK',
+                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav', 'VAR11')
+                            }])
+                    ]),
+
+
                     ueFactoryTemplates.vardenhet/*,
 
     Befattning and specialitet was present in code but not working in 5.4

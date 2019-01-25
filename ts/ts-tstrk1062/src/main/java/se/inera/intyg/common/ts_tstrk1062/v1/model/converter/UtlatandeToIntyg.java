@@ -24,6 +24,7 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
@@ -132,6 +133,18 @@ public final class UtlatandeToIntyg {
             svars.add(aSvar(OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID)
                     .withDelsvar(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID, source.getOvrigaKommentarer())
                     .build());
+        }
+
+        if (source.getBedomning() != null) {
+            int behorighetskravInstans = 1;
+            for (Bedomning.BehorighetsTyp behorighetsTyp : source.getBedomning().getUppfyllerBehorighetskrav()) {
+                KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(behorighetsTyp.name());
+                svars.add(aSvar(BEDOMNING_UPPFYLLER_SVAR_ID, behorighetskravInstans++)
+                        .withDelsvar(BEDOMNING_UPPFYLLER_DELSVAR_ID,
+                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
+                                        korkortsbehorighetKod.getDescription()))
+                        .build());
+            }
         }
 
         return svars;

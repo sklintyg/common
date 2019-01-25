@@ -206,6 +206,22 @@ var viewConfig = [
                 modelProp: 'ovrigaKommentarer'
             }]
         }]
+    }, {
+        type: 'uv-kategori',
+        labelKey: 'KAT_7.RBK',
+        components: [{
+            type: 'uv-fraga',
+            labelKey: 'FRG_33.RBK',
+            components: [{
+                type: 'uv-list',
+                labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
+                listKey: function(model) {
+                    return model.selected ? model.type : null;
+                },
+                separator: ', ',
+                modelProp: 'bedomning.uppfyllerBehorighetskrav',
+            }]
+        }]
     },
     {
         type: 'uv-skapad-av',

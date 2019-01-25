@@ -90,6 +90,9 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     @Nullable
     public abstract String getOvrigaKommentarer();
 
+    @Nullable
+    public abstract Bedomning getBedomning();
+
     public abstract Builder toBuilder();
 
     public static Builder builder() {
@@ -151,5 +154,8 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("ovrigaKommentarer")
         public abstract  Builder setOvrigaKommentarer(String ovrigaKommentarer);
+
+        @JsonProperty("bedomning")
+        public abstract  Builder setBedomning(Bedomning bedomning);
     }
 }

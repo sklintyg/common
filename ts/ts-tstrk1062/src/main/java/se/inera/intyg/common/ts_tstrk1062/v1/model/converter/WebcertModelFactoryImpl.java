@@ -35,8 +35,11 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
+import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.Bedomning;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
+
+import java.util.EnumSet;
 
 /**
  * Factory for creating a editable model.
@@ -65,6 +68,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
 
         template.setIntygAvser(IntygAvser.create(null));
 
+        template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(Bedomning.BehorighetsTyp.class)).build());
+
+
         return template.build();
     }
 
@@ -83,6 +89,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
         resetDataInCopy(grundData);
         templateBuilder.setSignature(null);
+
         return templateBuilder.build();
     }
 
