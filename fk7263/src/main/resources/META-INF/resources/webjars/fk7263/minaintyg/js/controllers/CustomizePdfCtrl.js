@@ -90,7 +90,7 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
 
             $scope.backToViewCertificate = function() {
                 customizeViewstate.resetModel();
-                $location.path('/fk7263/view/' + $stateParams.certificateId);
+                $location.path('/fk7263/' + $stateParams.intygTypeVersion + '/view/' + $stateParams.certificateId);
             };
 
 
