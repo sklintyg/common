@@ -38,7 +38,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                                     return model.selected ? model.type : null;
                                 },
                                 separator: ', ',
-                                modelProp: 'intygAvser.korkortstyp'
+                                modelProp: 'intygAvser.behorigheter'
                             }]
                         }]
                     }
@@ -65,8 +65,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                         labelKey: 'FRG_51.RBK',
                         components: [{
                             type: 'uv-table',
-                            headers: ['DFR_51.1.RBK', '', 'DFR_51.3.RBK'], // labels for th cells
-                            valueProps: ['diagnosKod', 'diagnosBeskrivning', 'diagnosArtal'], // properties on diagnoser entries to use in each rows cells
+                            headers: ['DFR_51.1.RBK', '', 'DFR_51.3.RBK'],
+                            valueProps: ['diagnosKod', 'diagnosBeskrivning', 'diagnosArtal'],
                             modelProp: 'diagnosKodad'
                         }]
                     }, {
@@ -80,7 +80,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                             }]
                         }, {
                             type: 'uv-del-fraga',
-                            labelKey: 'DFR.52.2.RBK',
+                            labelKey: 'DFR_52.2.RBK',
                             components: [{
                                 type: 'uv-simple-value',
                                 modelProp: 'diagnosFritext.diagnosArtal'
@@ -97,7 +97,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
-                            type: 'uv-simple-value',
+                            type: 'uv-boolean-value',
                             modelProp: 'lakemedelsbehandling.harHaft'
                         }]
                     }]
@@ -107,7 +107,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
-                            type: 'uv-simple-value',
+                            type: 'uv-boolean-value',
                             modelProp: 'lakemedelsbehandling.pagar'
                         }]
                     }]
@@ -127,7 +127,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
-                            type: 'uv-simple-value',
+                            type: 'uv-boolean-value',
                             modelProp: 'lakemedelsbehandling.pagatt'
                         }]
                     }]
@@ -137,7 +137,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
-                            type: 'uv-simple-value',
+                            type: 'uv-boolean-value',
                             modelProp: 'lakemedelsbehandling.effekt'
                         }]
                     }]
@@ -147,7 +147,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
-                            type: 'uv-simple-value',
+                            type: 'uv-boolean-value',
                             modelProp: 'lakemedelsbehandling.foljsamhet'
                         }]
                     }]
@@ -162,7 +162,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.viewConfigFactory.v1', [
                         }]
                     }, {
                         type: 'uv-del-fraga',
-                        labelKey: 'DFR.59.2.RBK',
+                        labelKey: 'DFR_59.2.RBK',
                         components: [{
                             type: 'uv-simple-value',
                             modelProp: 'lakemedelsbehandling.avslutadOrsak'

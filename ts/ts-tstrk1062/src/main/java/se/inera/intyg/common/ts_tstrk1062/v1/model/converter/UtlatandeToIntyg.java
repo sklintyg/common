@@ -81,8 +81,8 @@ public final class UtlatandeToIntyg {
         int intygAvserInstans = 1;
 
         if (source.getIntygAvser() != null) {
-            for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
-                IntygAvserKod intygAvser = IntygAvserKod.fromCode(korkortstyp.name());
+            for (IntygAvser.BehorighetsTyp behorighetsTyp : source.getIntygAvser().getBehorigheter()) {
+                IntygAvserKod intygAvser = IntygAvserKod.fromCode(behorighetsTyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
                         .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
                                 aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))

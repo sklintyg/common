@@ -18,27 +18,22 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
-
-import java.util.EnumSet;
-import java.util.Set;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.Set;
+
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
 
 public final class TransportToInternal {
 
@@ -58,7 +53,7 @@ public final class TransportToInternal {
     }
 
     private static void setSvar(TsTstrk1062UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-        EnumSet<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
+        EnumSet<IntygAvser.BehorighetsTyp> intygAvserBehorigheter = EnumSet.noneOf(IntygAvser.BehorighetsTyp.class);
 
         Bedomning.Builder bedomning = Bedomning.builder();
         Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(Bedomning.BehorighetsTyp.class);
@@ -75,7 +70,7 @@ public final class TransportToInternal {
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
                 case INTYG_AVSER_SVAR_ID_1:
-                    handleIntygAvser(utlatande, svar, intygAvserSet);
+                    handleIntygAvser(intygAvserBehorigheter, svar);
                     break;
                 case ID_KONTROLL_SVAR_ID_1:
                     handleIdKontroll(utlatande, svar);
@@ -121,21 +116,23 @@ public final class TransportToInternal {
             }
         }
 
+        if (!intygAvserBehorigheter.isEmpty()) {
+            utlatande.setIntygAvser(IntygAvser.create(intygAvserBehorigheter));
+        }
+
+        utlatande.setLakemedelsbehandling(Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
+
         if (!bedomningUppfyllerBehorighetskrav.isEmpty()) {
             bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
         }
-
-        utlatande.setIntygAvser(IntygAvser.create(intygAvserSet));
-        utlatande.setLakemedelsbehandling(Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
         utlatande.setBedomning(bedomning.build());
     }
 
-    private static void handleIntygAvser(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar,
-                                         EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
+    private static void handleIntygAvser(EnumSet<IntygAvser.BehorighetsTyp> intygAvserBehorigheter, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
-                    intygAvserSet.add(IntygAvserKategori.valueOf(IntygAvserKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                    intygAvserBehorigheter.add(IntygAvser.BehorighetsTyp.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:
                     throw new IllegalArgumentException();

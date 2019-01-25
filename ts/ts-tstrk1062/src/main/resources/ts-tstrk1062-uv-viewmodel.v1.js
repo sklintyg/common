@@ -35,7 +35,7 @@ var viewConfig = [
                             return model.selected ? model.type : null;
                         },
                         separator: ', ',
-                        modelProp: 'intygAvser.korkortstyp'
+                        modelProp: 'intygAvser.behorigheter'
                     }]
                 }]
             }
@@ -62,8 +62,8 @@ var viewConfig = [
                 labelKey: 'FRG_51.RBK',
                 components: [{
                     type: 'uv-table',
-                    headers: ['DFR_51.1.RBK', '', 'DFR_51.3.RBK'], // labels for th cells
-                    valueProps: ['diagnosKod', 'diagnosBeskrivning', 'diagnosArtal'], // properties on diagnoser entries to use in each rows cells
+                    headers: ['DFR_51.1.RBK', '', 'DFR_51.3.RBK'],
+                    valueProps: ['diagnosKod', 'diagnosBeskrivning', 'diagnosArtal'],
                     modelProp: 'diagnosKodad'
                 }]
             }, {
@@ -77,7 +77,7 @@ var viewConfig = [
                     }]
                 }, {
                     type: 'uv-del-fraga',
-                    labelKey: 'DFR.52.2.RBK',
+                    labelKey: 'DFR_52.2.RBK',
                     components: [{
                         type: 'uv-simple-value',
                         modelProp: 'diagnosFritext.diagnosArtal'
@@ -150,6 +150,16 @@ var viewConfig = [
             }]
         }, {
             type: 'uv-fraga',
+            labelKey: 'FRG_58.RBK',
+            components: [{
+                type: 'uv-del-fraga',
+                components: [{
+                    type: 'uv-boolean-value',
+                    modelProp: 'lakemedelsbehandling.foljsamhet'
+                }]
+            }]
+        }, {
+            type: 'uv-fraga',
             labelKey: 'FRG_59.RBK',
             components: [{
                 type: 'uv-del-fraga',
@@ -159,20 +169,10 @@ var viewConfig = [
                 }]
             }, {
                 type: 'uv-del-fraga',
-                labelKey: 'DFR.59.2.RBK',
+                labelKey: 'DFR_59.2.RBK',
                 components: [{
                     type: 'uv-simple-value',
                     modelProp: 'lakemedelsbehandling.avslutadOrsak'
-                }]
-            }]
-        }, {
-            type: 'uv-fraga',
-            labelKey: 'FRG_58.RBK',
-            components: [{
-                type: 'uv-del-fraga',
-                components: [{
-                    type: 'uv-boolean-value',
-                    modelProp: 'lakemedelsbehandling.foljsamhet'
                 }]
             }]
         }]
@@ -215,6 +215,7 @@ var viewConfig = [
             components: [{
                 type: 'uv-list',
                 labelKey: 'KV_KORKORTSBEHORIGHET.{var}.RBK',
+                useLabelKeyForPrint: true,
                 listKey: function(model) {
                     return model.selected ? model.type : null;
                 },

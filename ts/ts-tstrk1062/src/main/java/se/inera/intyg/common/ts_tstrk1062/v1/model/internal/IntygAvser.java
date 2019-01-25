@@ -33,40 +33,47 @@ import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
-/**
- * The Korkortstyp[er] a specific Utlatande concerns.
- *
- * @author erik
- */
 @AutoValue
 public abstract class IntygAvser {
 
     @JsonCreator
-    public static IntygAvser create(@JsonProperty("korkortstyp") EnumSet<IntygAvserKategori> korkortstyp) {
-        EnumSet<IntygAvserKategori> korkortstyper;
-        if (korkortstyp == null) {
-            korkortstyper = EnumSet.noneOf(IntygAvserKategori.class);
-        } else {
-            korkortstyper = korkortstyp;
-        }
-        return new AutoValue_IntygAvser(korkortstyper);
+    public static IntygAvser create(@JsonProperty("behorigheter") Set<BehorighetsTyp> behorigheter) {
+        return new AutoValue_IntygAvser(behorigheter);
     }
 
     @Nullable
-    @JsonSerialize(using = IntygAvserEnumSetSerializer.class)
-    @JsonDeserialize(using = IntygAvserEnumSetDeserializer.class)
-    public abstract Set<IntygAvserKategori> getKorkortstyp();
+    @JsonSerialize(using = IntygAvser.BehorighetsTypSetEnumSetSerializer.class)
+    @JsonDeserialize(using = IntygAvser.BehorighetsTypSetDeserializer.class)
+    public abstract Set<IntygAvser.BehorighetsTyp> getBehorigheter();
 
-    public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
-        protected IntygAvserEnumSetSerializer() {
-            super(IntygAvserKategori.class);
+    public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
+        protected BehorighetsTypSetEnumSetSerializer() {
+            super(BehorighetsTyp.class);
         }
     }
 
-    public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
-        protected IntygAvserEnumSetDeserializer() {
-            super(IntygAvserKategori.class);
+    public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
+        protected BehorighetsTypSetDeserializer() {
+            super(BehorighetsTyp.class);
         }
     }
 
+    public enum BehorighetsTyp {
+        IAV11,
+        IAV12,
+        IAV13,
+        IAV14,
+        IAV15,
+        IAV16,
+        IAV17,
+        IAV1,
+        IAV2,
+        IAV3,
+        IAV4,
+        IAV5,
+        IAV6,
+        IAV7,
+        IAV8,
+        IAV9
+    }
 }

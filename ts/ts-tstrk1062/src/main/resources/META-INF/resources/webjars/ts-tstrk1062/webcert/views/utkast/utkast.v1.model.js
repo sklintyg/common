@@ -43,43 +43,50 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                             typ: undefined,
                             idkontroll: undefined
                         },
+
+                        // Kategori 1 - Intyget avses
                         intygAvser: {
-                            'korkortstyp': new ModelAttr('korkortstyp',
-                                {
-                                    defaultValue: [
-                                        {'type': 'IAV11', 'selected': false},
-                                        {'type': 'IAV12', 'selected': false},
-                                        {'type': 'IAV13', 'selected': false},
-                                        {'type': 'IAV14', 'selected': false},
-                                        {'type': 'IAV15', 'selected': false},
-                                        {'type': 'IAV16', 'selected': false},
-                                        {'type': 'IAV17', 'selected': false},
-                                        {'type': 'IAV1', 'selected': false},
-                                        {'type': 'IAV2', 'selected': false},
-                                        {'type': 'IAV3', 'selected': false},
-                                        {'type': 'IAV4', 'selected': false},
-                                        {'type': 'IAV5', 'selected': false},
-                                        {'type': 'IAV6', 'selected': false},
-                                        {'type': 'IAV7', 'selected': false},
-                                        {'type': 'IAV8', 'selected': false},
-                                        {'type': 'IAV9', 'selected': false}
-                                    ]
-                                })
+                            behorigheter: undefined
                         },
+
+                        // Kategori 2 - ID kontroll
                         idKontroll: undefined,
-                        diagnosRegistrering: undefined,
-                        // Kategori 3 diagnos
+
+                        // Kategori 3 - Diagnos
+                        diagnosRegistrering: {
+                            typ: undefined
+                        },
                         'diagnosKodad': new ModelAttr('diagnosKodad', {
                             fromTransform: ModelTransform.diagnosFromTransform,
                             toTransform: ModelTransform.diagnosToTransform
                         }),
-                        diagnosFritext: undefined,
-                        lakemedelsbehandling: undefined,
+                        diagnosFritext: {
+                            diagnosFritext: undefined,
+                            diagnosArtal: undefined
+                        },
+
+                        // Kategori 4 - Läkemedelsbehandling
+                        lakemedelsbehandling: {
+                          harHaft: undefined,
+                          pagar: undefined,
+                          aktuell: undefined,
+                          pagatt: undefined,
+                          effekt: undefined,
+                          foljsamhet: undefined,
+                          avslutadTidpunkt: undefined,
+                          avslutadOrsak: undefined
+                        },
+
+                        // Kategori 5 - Symptom
                         bedomningAvSymptom: undefined,
-                        prognosTillstand: undefined,
+                        prognosTillstand: {
+                            typ: undefined
+                        },
+
+                        // Kategori 6 - Övrigt
                         ovrigaKommentarer: undefined,
 
-                        // Kategori 7
+                        // Kategori 7 - Bedömning
                         bedomning: {
                             uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
                                 fromTransform: uppfyllerBehorighetskravFromTransform

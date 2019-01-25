@@ -98,8 +98,8 @@ public class InternalValidatorInstance {
             return;
         }
 
-        if (intygAvser.getKorkortstyp().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, INTYG_AVSER_SVAR_JSON_ID + ".korkortstyp",
+        if (intygAvser.getBehorigheter().isEmpty()) {
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, INTYG_AVSER_SVAR_JSON_ID + ".behorigheter",
                     ValidationMessageType.EMPTY);
         }
     }

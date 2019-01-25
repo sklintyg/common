@@ -66,10 +66,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);
 
-        template.setIntygAvser(IntygAvser.create(null));
+        template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)));
 
         template.setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.noneOf(Bedomning.BehorighetsTyp.class)).build());
-
 
         return template.build();
     }
