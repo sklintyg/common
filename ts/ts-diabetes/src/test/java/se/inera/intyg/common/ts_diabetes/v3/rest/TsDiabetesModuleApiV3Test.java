@@ -43,6 +43,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
@@ -50,6 +51,8 @@ import org.springframework.core.io.ClassPathResource;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -66,6 +69,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
@@ -85,7 +89,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class TsDiabetesModuleApiV3Test {
 
     public static final String TESTFILE_UTLATANDE = "v3/internal/scenarios/pass-minimal.json";
@@ -116,6 +121,10 @@ public class TsDiabetesModuleApiV3Test {
 
     @InjectMocks
     private TsDiabetesModuleApiV3 moduleApi;
+
+    public TsDiabetesModuleApiV3Test() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testSendCertificateShouldUseXml() {

@@ -27,11 +27,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -46,6 +49,7 @@ import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
@@ -89,7 +93,8 @@ import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CE
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
  * response headers and response statuses etc are correct.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class TsBasModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
@@ -111,6 +116,10 @@ public class TsBasModuleApiTest {
 
     @Mock
     private SendTSClient sendTsBasClient;
+
+    public TsBasModuleApiTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Before
     public void setup() throws Exception {

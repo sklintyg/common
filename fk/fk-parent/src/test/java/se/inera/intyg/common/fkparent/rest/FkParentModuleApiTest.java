@@ -29,6 +29,8 @@ import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.fkparent.model.converter.SvarIdHelper;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -44,6 +46,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -81,7 +84,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class FkParentModuleApiTest {
 
     private static final String INTYG_ID = "test-id";
@@ -113,6 +117,10 @@ public class FkParentModuleApiTest {
     private RevokeCertificateResponderInterface revokeCertificateClient;
     @Spy
     private ObjectMapper objectMapper = new CustomObjectMapper();
+
+    public FkParentModuleApiTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @BeforeClass
     public static void set() throws Exception {

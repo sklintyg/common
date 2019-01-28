@@ -59,9 +59,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -89,6 +92,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -108,7 +112,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 /**
  * Created by marced on 26/04/16.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class LuaefsModuleApiTest {
 
     private static final String LOGICAL_ADDRESS = "logical address";
@@ -142,6 +147,10 @@ public class LuaefsModuleApiTest {
 
     @InjectMocks
     private LuaefsModuleApiV1 moduleApi;
+
+    public LuaefsModuleApiTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Before
     public void setUp() throws Exception {

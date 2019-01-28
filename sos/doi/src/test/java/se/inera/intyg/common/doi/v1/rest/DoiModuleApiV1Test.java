@@ -27,7 +27,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.doi.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.utils.ScenarioFinder;
@@ -44,6 +47,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -72,7 +76,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class DoiModuleApiV1Test {
     private static final String LOGICAL_ADDRESS = "logical address";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
@@ -100,6 +105,10 @@ public class DoiModuleApiV1Test {
 
     @InjectMocks
     private DoiModuleApiV1 moduleApi;
+
+    public DoiModuleApiV1Test() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnNullModelHolder() throws ModuleException {
