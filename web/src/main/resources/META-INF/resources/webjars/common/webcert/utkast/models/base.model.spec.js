@@ -109,7 +109,7 @@ describe('common.domain.BaseModel', function() {
             });
         });
 
-        xdescribe('enums', function(){
+        describe('enums', function(){
             it('can handle an array of objects ', function(){
 
                 var modelDef = {

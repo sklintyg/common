@@ -34,13 +34,13 @@ describe('uvAlertValue Directive', function() {
         )($scope);
 
     }]));
-
+/*
+TO BE CONTINUED IN 2018
     xit('should display message by default', function() {
         $scope.$digest();
         expect(true).toBe(true);
     });
-/*
-TO BE CONTINUED IN 2018
+
     xit('should not display message if showexpression returns false', function() {
         var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
         $scope.configMock.showExpression = fakeExpression;

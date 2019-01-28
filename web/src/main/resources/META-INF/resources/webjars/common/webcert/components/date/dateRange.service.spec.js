@@ -302,16 +302,6 @@ describe('DateRangeService', function() {
             expect(result).toBeTruthy();
         });
 
-        xit ('can validate that the lowest date is within 7 days of now', function () {
-            var fromTos = DateRangeService.FromTos.build(['range1']);
-            var now = moment();
-
-            now.add(8, 'days');
-            fromTos.range1.from.update(now);
-
-            expect(fromTos.datesOutOfRange).toBeTruthy();
-        });
-
 
     });
 
