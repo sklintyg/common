@@ -38,7 +38,8 @@ import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC
 public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
 
     static final String CUSTOMIZED_ELECTRONIC_COPY_WATERMARK_TEXT =
-            "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
+            "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort. "
+            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
 
     private List<String> optionalFields;
 
