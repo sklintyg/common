@@ -79,6 +79,8 @@
                   id="{{config.modelProp}}-addRow"
                   ng-click="viewstate.addRow()"><i class="material-icons">add_circle</i> Lägg till period
           </button>
+          <ue-validation-list field-type="ue-sjukfranvaro"
+                              validations="overlapValidations"></ue-validation-list>
         </div>
       </div>
 

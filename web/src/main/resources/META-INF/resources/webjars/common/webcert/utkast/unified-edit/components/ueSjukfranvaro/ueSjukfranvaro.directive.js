@@ -68,6 +68,7 @@ angular.module('common').directive('ueSjukfranvaro', ['common.SjukfranvaroViewSt
 
                 $scope.$watch('validation.messages', function () {
                         $scope.validationMessages = [];
+                        $scope.overlapValidations = [];
 
                         if (!validation.messages) {
                             return;
@@ -80,15 +81,21 @@ angular.module('common').directive('ueSjukfranvaro', ['common.SjukfranvaroViewSt
                             if (matches !== null) {
                                 var index = matches[1];
                                 var field = matches[2];
+                                if (message.type === 'PERIOD_OVERLAP') {
+                                    if ($scope.overlapValidations.length < 1) {
+                                        $scope.overlapValidations.push(message);
+                                    }
+                                } else {
+                                    if (!$scope.validationMessages[index]) {
+                                        $scope.validationMessages[index] = {};
+                                    }
 
-                                if (!$scope.validationMessages[index]) {
-                                    $scope.validationMessages[index] = {};
+                                    if (!$scope.validationMessages[index][field]) {
+                                        $scope.validationMessages[index][field] = [];
+                                    }
+                                    $scope.validationMessages[index][field].push(message);
                                 }
 
-                                if (!$scope.validationMessages[index][field]) {
-                                    $scope.validationMessages[index][field] = [];
-                                }
-                                $scope.validationMessages[index][field].push(message);
                             }
                         });
                     }
