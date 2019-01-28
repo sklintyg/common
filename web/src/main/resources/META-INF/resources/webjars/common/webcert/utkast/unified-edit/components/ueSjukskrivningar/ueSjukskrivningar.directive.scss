@@ -32,6 +32,9 @@ ue-sjukskrivningar {
       margin-left: -4px;
     }
     color: $wc-color-21;
+    &.period {
+      padding-bottom: 18px;
+    }
   }
 
   .sjukskrivningar_period label {

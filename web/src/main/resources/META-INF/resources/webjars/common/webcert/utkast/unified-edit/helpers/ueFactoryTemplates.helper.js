@@ -52,7 +52,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 hideExpression: options.hideExpression,
                 validationContext: options.validationContext,
                 disabledFunc: options.disabledFunc,
-                cssClass: options.cssClass
+                cssClass: options.cssClass,
+                viewState: options.viewState
             };
             if (labelKey) {
                 fraga.label = {

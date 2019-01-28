@@ -69,11 +69,10 @@
 
     <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
     
-    <div ng-if="viewstate.totalDays && !intygIsLocked" class="fold-animation fold-slide-animation ifyllnadsstod">
+    <div ng-if="viewstate.totalDays && !intygIsLocked" class="fold-animation fold-slide-animation ifyllnadsstod period">
       <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
     </div>
 
-    <fmb-varning viewstate="viewstate" model="model"></fmb-varning>
   </ue-validation-wrapper>
 
 </div>

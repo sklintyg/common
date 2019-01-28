@@ -6,8 +6,16 @@ wc-inline-komplettering {
     .alert {
       display: block;
       margin-bottom: 0;
+    }
+  }
+
+  wc-bottom-fadeout {
+
+    .bottom-fadeout-gradient {
+      padding: 0 4px;
+    }
+    .scrollable-body:after {
       padding-bottom: 0;
-      padding-right: 20px;
     }
   }
 

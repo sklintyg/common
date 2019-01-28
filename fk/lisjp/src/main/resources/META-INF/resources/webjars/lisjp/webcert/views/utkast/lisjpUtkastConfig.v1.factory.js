@@ -19,8 +19,8 @@
 
 angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
     ['$log', '$timeout',
-        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
-        function($log, $timeout, DateUtils, ueFactoryTemplates) {
+        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.SjukskrivningarViewStateService',
+        function($log, $timeout, DateUtils, ueFactoryTemplates, SjukskrivningarViewStateService) {
             'use strict';
 
             function _getCategoryIds() {
@@ -45,6 +45,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var today = moment().format('YYYY-MM-DD');
 
+                var SjukskrivningarViewState = SjukskrivningarViewStateService.reset();
                 var isLocked = viewState.common.intyg.isLocked;
                 var lockedExpression = isLocked ? '&& model.motiveringTillInteBaseratPaUndersokning' : '';
                 var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.telefonkontaktMedPatienten || ' + 
@@ -210,7 +211,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { required: true, requiredProp: ['sjukskrivningar["EN_FJARDEDEL"].period.from', 'sjukskrivningar["HALFTEN"].period.from',
-                            'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'] }, [{
+                            'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'],
+                            viewState: SjukskrivningarViewState }, [{
                             type: 'ue-sjukskrivningar',
                             modelProp: 'sjukskrivningar',
                             code: 'KV_FKMU_0003',
