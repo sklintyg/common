@@ -88,7 +88,10 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             }])
                     ]),
 
-                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {required: true, requiredProp: 'intygetAvserBehorigheter.typer'}, [
+                    kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {required: true, requiredProp: 
+                            ['intygetAvserBehorigheter.typer[0].selected', 'intygetAvserBehorigheter.typer[1].selected',
+                            'intygetAvserBehorigheter.typer[2].selected', 'intygetAvserBehorigheter.typer[3].selected',
+                            'intygetAvserBehorigheter.typer[4].selected', 'intygetAvserBehorigheter.typer[5].selected']}, [
                         fraga(null, '', '', {}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygetAvserBehorigheter.typer',
