@@ -166,8 +166,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
                     ValidationMessageType.INCORRECT_COMBINATION);
         }
         for (int i = 0; i < utlatande.getBidragandeSjukdomar().size(); i++) {
-
             Dodsorsak bidragandeSjukdom = utlatande.getBidragandeSjukdomar().get(i);
+            //Skip if all fields are empty.
+            if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty() && bidragandeSjukdom.getDatum() == null
+                && bidragandeSjukdom.getSpecifikation() == null) {
+                continue;
+            }
             if (Strings.nullToEmpty(bidragandeSjukdom.getBeskrivning()).trim().isEmpty()) {
                 ValidatorUtil
                         .addValidationError(validationMessages, "utlatandeOrsak", BIDRAGANDE_SJUKDOM_JSON_ID + "[" + i + "]."
