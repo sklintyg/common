@@ -46,6 +46,7 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 @Component("tstrk1009.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1009UtlatandeV1> {
 
+    protected static final String VALIDATION_COMMON_EXCEEDS_MAXDATE = "common.validation.date.today.or.earlier";
     public static final int FOUR = 4;
 
     @Override
@@ -95,7 +96,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
                     ValidationMessageType.INVALID_FORMAT);
         } else if (eligibleForRule1(utlatande)) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                    ValidationMessageType.OTHER);
+                    ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
         }
     }
 
