@@ -82,6 +82,9 @@ public class AF00251ModuleApiV1RenewalTest {
         assertEquals(original.getPrognosAtergang(), renewCopy.getPrognosAtergang());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
+        // Relation should contain last one
+        assertEquals(original.getSjukfranvaro().get(3).getPeriod().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+        assertEquals(original.getSjukfranvaro().get(3).getNiva().toString(), renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 
     private CreateDraftCopyHolder createCopyHolder() {

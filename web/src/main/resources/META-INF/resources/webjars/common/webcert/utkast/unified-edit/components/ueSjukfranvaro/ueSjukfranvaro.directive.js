@@ -125,6 +125,12 @@ angular.module('common').directive('ueSjukfranvaro', ['common.SjukfranvaroViewSt
                     });
 
                     viewstate.updatePeriods();
+                    if ($scope.model.grundData.relation.sistaGiltighetsDatum) {
+                        $scope.lastEffectiveDateNoticeText = messageService
+                            .getProperty($scope.model.typ + '.help.sjukskrivningar.sista-giltighets-datum')
+                            .replace('{{lastEffectiveDate}}', $scope.model.grundData.relation.sistaGiltighetsDatum)
+                            .replace('{{sjukskrivningsgrad}}', $scope.model.grundData.relation.sistaSjukskrivningsgrad);
+                    }
                 }
 
                 setup();

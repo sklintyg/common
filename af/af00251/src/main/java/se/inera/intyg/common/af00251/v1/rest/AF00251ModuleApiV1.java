@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -183,6 +185,18 @@ public class AF00251ModuleApiV1 extends AfParentModuleApi<AF00251UtlatandeV1> {
                     .build();
 
             Relation relation = draftCopyHolder.getRelation();
+            if (internal.getSjukfranvaro() != null) {
+                Optional<LocalDate> lastDateOfLastIntyg = internal.getSjukfranvaro().stream()
+                        .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                        .map(sjukskrivning -> sjukskrivning.getPeriod().getTom().asLocalDate())
+                        .findFirst();
+                relation.setSistaGiltighetsDatum(lastDateOfLastIntyg.orElse(LocalDate.now()));
+                Optional<Integer> lastSjukskrivningsgradOfLastIntyg = internal.getSjukfranvaro().stream()
+                        .sorted((s1, s2) -> s2.getPeriod().getTom().asLocalDate().compareTo(s1.getPeriod().getTom().asLocalDate()))
+                        .map(sjukskrivning -> sjukskrivning.getNiva())
+                        .findFirst();
+                lastSjukskrivningsgradOfLastIntyg.ifPresent(grad -> relation.setSistaSjukskrivningsgrad(grad.toString()));
+            }
             draftCopyHolder.setRelation(relation);
 
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCopyHolder, renewCopy));
