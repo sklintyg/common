@@ -648,6 +648,39 @@ public class UVRendererTest {
         }
     }
 
+    @Test
+    public void testTstrk1009() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("tstrk1009/tstrk1009.v1.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tstrk1009/tstrk1009-uv-viewmodel.v1.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("tstrk1009/texterTS_TSTRK_1009_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("TSTRRK1009 namn")
+                .withIntygsKod("TSTRK1009")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AF)
+                .withSummary(new Summary().add("TSTRK1009 summary 1", "TSTRK1009 summary 1"))
+                .withLeftMarginTypText("TSTRK1009 Left side text")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tstrk1009.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private JsonNode loadAndCleanIntygJson(String intygJsonFile) throws IOException {
         InputStream inputStream = loadJsonModel(intygJsonFile);
         String jsonModel = IOUtils.toString(inputStream, Charset.forName("UTF-8"));
