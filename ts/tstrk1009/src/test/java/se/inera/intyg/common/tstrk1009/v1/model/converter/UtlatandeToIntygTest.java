@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.tstrk1009.v1.model.converter.util;
+package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -109,12 +110,12 @@ public class UtlatandeToIntygTest {
         assertEquals(vardgivarid, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivareId().getExtension());
         assertEquals(vardgivarNamn, intyg.getSkapadAv().getEnhet().getVardgivare().getVardgivarnamn());
         assertEquals(forskrivarKod, intyg.getSkapadAv().getForskrivarkod());
-        assertEquals(fornamn, intyg.getPatient().getFornamn());
-        assertEquals(efternamn, intyg.getPatient().getEfternamn());
-        assertEquals(mellannamn, intyg.getPatient().getMellannamn());
-        assertEquals(patientPostadress, intyg.getPatient().getPostadress());
-        assertEquals(patientPostnummer, intyg.getPatient().getPostnummer());
-        assertEquals(patientPostort, intyg.getPatient().getPostort());
+        assertEquals("", intyg.getPatient().getFornamn());
+        assertEquals("", intyg.getPatient().getEfternamn());
+        assertNull(intyg.getPatient().getMellannamn());
+        assertEquals("", intyg.getPatient().getPostadress());
+        assertEquals("", intyg.getPatient().getPostnummer());
+        assertEquals("", intyg.getPatient().getPostort());
         assertTrue(intyg.getRelation().isEmpty());
     }
 

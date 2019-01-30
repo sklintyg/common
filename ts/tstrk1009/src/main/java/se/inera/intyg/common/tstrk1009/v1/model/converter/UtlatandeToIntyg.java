@@ -67,7 +67,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(Tstrk1009UtlatandeV1 utlatande) {
-        Intyg intyg = getIntyg(utlatande, true);
+        Intyg intyg = getIntyg(utlatande, false);
 
         complementArbetsplatskodIfMissing(intyg);
 
