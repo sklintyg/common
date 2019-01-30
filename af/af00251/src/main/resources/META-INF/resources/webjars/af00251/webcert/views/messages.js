@@ -28,7 +28,7 @@ angular.module('af00251').constant('af00251.messages', {
         'af00251.validation.sjukfranvaro.too-many': 'För många sjukfrånvaroperioder.', // Should never happen because GUI should block this combination
         'af00251.validation.sjukfranvaro.missing': 'Välj minst ett alternativ.',
         'af00251.validation.prognosAtergang.prognos-no-anpassning': 'Om anpassning krävs måste detta beskrivas.',
-        'af00251.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista sjukskrivningsperioden {{lastEffectiveDate}} och sjukskrivningsgraden var {{sjukskrivningsgrad}} %.',
+        'af00251.help.sjukskrivningar.sista-giltighets-datum': 'På det ursprungliga intyget var slutdatumet för den sista frånvaroperioden {{lastEffectiveDate}} och omfattningen var {{sjukskrivningsgrad}} %.',
 
         'af00251.modal.ersatt.text':'<p>Ett intyg kan ersättas om det innehåller felaktiga uppgifter eller om ny information tillkommit efter att intyget utfärdades. När ett intyg ersätts med ett nytt, skapas ett utkast med samma information som i det ursprungliga intyget. Uppgifterna i det nya utkastet går att ändra innan det signeras. Invånaren kommer på Mina intyg, som nås via 1177.se, se att intyget är ersatt. Ett ersatt intyg är endast tillgängligt att läsa och skriva ut. På det ersatta intyget kommer en länk finnas till det nya intyget.</p>' +
         '<p><b>Notera</b>: Om intyget innehåller ett allvarligt fel, till exempel om intyget är utfärdat på fel patient bör du istället makulera intyget. Det kommer då inte vara tillgängligt för invånaren via Mina intyg.</p>',
