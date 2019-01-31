@@ -19,12 +19,45 @@
 angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
         'common.domain.ModelTransformService', 'common.domain.BaseAtticModel', 'common.UtilsService',
-        'common.tsBaseHelper',
-        function(GrundData, DraftModel, ModelAttr, ModelTransform, BaseAtticModel, u, tsBaseHelper) {
+        'common.tsBaseHelper', 'common.ObjectHelper',
+        function(GrundData, DraftModel, ModelAttr, ModelTransform, BaseAtticModel, u, tsBaseHelper, ObjectHelper) {
             'use strict';
 
             var uppfyllerBehorighetskravFromTransform = function(backendValue) {
                 return tsBaseHelper.setupKorkortstypChoices(backendValue, 'KANINTETASTALLNING');
+            };
+
+            var diagnosFromTransform = function(diagnosArray) {
+
+                // We now always have a specific amount of underlag so add that number of empty elements
+                for(var i = 0; diagnosArray.length < 4; i++){
+                    diagnosArray.push({
+                        diagnosKodSystem: 'ICD_10_SE',
+                        diagnosKod : undefined,
+                        diagnosBeskrivning : undefined,
+                        diagnosArtal : undefined
+                    });
+                }
+
+                return diagnosArray;
+            };
+
+            var diagnosToTransform = function(diagnosArray) {
+                var diagnosCopy = angular.copy(diagnosArray);
+
+                // delete all rows with no values at all so as to not confuse backend with non-errors
+                var i = diagnosCopy.length - 1;
+                while(i >= 0) {
+                    if(ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
+                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)){
+                        diagnosCopy.splice(i, 1);
+                    } else {
+                        break;
+                    }
+                    i--;
+                }
+
+                return diagnosCopy;
             };
 
             /**
@@ -57,8 +90,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
                             typ: undefined
                         },
                         'diagnosKodad': new ModelAttr('diagnosKodad', {
-                            fromTransform: ModelTransform.diagnosFromTransform,
-                            toTransform: ModelTransform.diagnosToTransform
+                            fromTransform: diagnosFromTransform,
+                            toTransform: diagnosToTransform
                         }),
                         diagnosFritext: {
                             diagnosFritext: undefined,

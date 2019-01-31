@@ -113,9 +113,10 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 requiredProp: 'diagnosKodad[0].diagnosKod'
                             },
                             [{
-                                type: 'ue-diagnos',
+                                type: 'ue-diagnos-date',
                                 modelProp: 'diagnosKodad',
-                                diagnosKodLabel: 'DFR_51.1.RBK'
+                                diagnosKodLabel: 'DFR_51.1.RBK',
+                                maxYear: thisYear
                             }]),
                         fraga(52, 'FRG_52.RBK', '', {
                             required: true,

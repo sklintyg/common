@@ -37,6 +37,7 @@ public final class InternalToTransport {
         RegisterCertificateType tsTstrk1062Type = new RegisterCertificateType();
         tsTstrk1062Type.setIntyg(UtlatandeToIntyg.convert(source));
         tsTstrk1062Type.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
+
         return tsTstrk1062Type;
     }
 }
