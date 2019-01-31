@@ -20,8 +20,8 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('wcHelpChevronText',
-    [ '$rootScope', 'common.ObjectHelper',
-        function($rootScope, ObjectHelper) {
+    [ '$rootScope', '$compile', '$timeout', 'common.ObjectHelper',
+        function($rootScope, $compile, $timeout, ObjectHelper) {
             'use strict';
 
             var animationCount = 0;
@@ -32,9 +32,33 @@ angular.module('common').directive('wcHelpChevronText',
                     helpTextKey: '@'
                 },
                 templateUrl: '/web/webjars/common/webcert/components/wcHelpChevronText/wcHelpChevronText.directive.html',
+                link: function(scope, element){
+
+                    scope.text = '';
+
+                    function setText(text) {
+                        if(!ObjectHelper.isEmpty(text)){
+                            scope.text = text;
+                        } else {
+                            scope.text = '';
+                        }
+                    }
+
+                    scope.$on('help-chevron-' + scope.helpTextKey, function(event, data){
+
+                        if(!ObjectHelper.isDefined(data.id) || !ObjectHelper.isDefined(scope.helpTextKey) ||
+                            data.id !== scope.helpTextKey){
+                            return;
+                        }
+
+                        switch(data.action){
+                            case 'setText': setText(data.text); break;
+                        }
+
+                    });
+                },
                 controller: function($scope) {
 
-                    $scope.text = '';
                     $scope.isCollapsed = true;
 
                     // Apparently animation end is called but not animation start when we start with isCollapsed=true
@@ -48,20 +72,11 @@ angular.module('common').directive('wcHelpChevronText',
                         }
 
                         switch(data.action){
-                        case 'setText': setText(data.text); break;
                         case 'toggle':
                             $scope.isCollapsed = !$scope.isCollapsed;
                         }
 
                     });
-
-                    function setText(text) {
-                        if(!ObjectHelper.isEmpty(text)){
-                            $scope.text = text;
-                        } else {
-                            $scope.text = '';
-                        }
-                    }
 
                     // These events will prevent wcHeaderHeightSync to match the header size while uib-collapse is animating
                     $scope.start = function() {

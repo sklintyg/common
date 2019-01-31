@@ -52,13 +52,13 @@ angular.module('common').directive('wcHelpChevron',
 
                     function updateMessage() {
                         if(!ObjectHelper.isEmpty($scope.helpTextKey)) {
-                            var helpText = dynamicLabelService.getProperty($scope.helpTextKey);
+                            var helpText = dynamicLabelService.getProperty($scope.helpTextKey, true);
                             if ($scope.variableLabelKey) {
                                 var statLabel;
                                 if (messageService.propertyExists($scope.variableLabelKey)) {
                                     statLabel = messageService.getProperty($scope.variableLabelKey);
                                 } else {
-                                    statLabel = dynamicLabelService.getProperty($scope.variableLabelKey);
+                                    statLabel = dynamicLabelService.getProperty($scope.variableLabelKey, true);
                                 }
                                 if (statLabel) {
                                     helpText = helpText.replace('{0}', statLabel);
