@@ -652,9 +652,9 @@
             'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.period.from.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.ue-sjukfranvaro.period.tom.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
-            'common.validation.ue-sjukfranvaro.period.from.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
-            'common.validation.ue-sjukfranvaro.period.tom.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
-            'common.validation.ue-sjukfranvaro.period_overlap': 'Ange sjukfrånvaroperioder som inte överlappar varandra.',
+            'common.validation.ue-sjukfranvaro.period.from.period_overlap': 'Frånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.period.tom.period_overlap': 'Frånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.period_overlap': 'Ange frånvaroperioder som inte överlappar varandra.',
             'common.validation.ue-sjukfranvaro.period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.ue-grid.empty': 'Ange ett svar.',
 
