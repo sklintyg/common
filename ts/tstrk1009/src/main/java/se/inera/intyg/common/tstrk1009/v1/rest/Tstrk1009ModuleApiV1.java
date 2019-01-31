@@ -45,7 +45,6 @@ import java.util.stream.Collectors;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -147,12 +146,6 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
-    }
-
-    @Override
-    // INTYG-7449, INTYG-7529: Saved patient data should not be overwritten for this intyg.
-    public String updateBeforeViewing(String internalModel, Patient patient) {
-        return internalModel;
     }
 
     @Override
