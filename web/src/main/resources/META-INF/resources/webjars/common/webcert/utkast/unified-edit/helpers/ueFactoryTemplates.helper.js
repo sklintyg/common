@@ -62,7 +62,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     required: options.required,
                     requiredMode: options.requiredMode,
                     requiredProp: options.requiredProp,
-                    labelType: 'h4'
+                    labelType: 'h4',
+                    hideHelpExpression: options.hideHelpExpression
                 };
             }
             return fraga;

@@ -56,7 +56,9 @@ angular.module('common').directive('ueLabel',
                         }
                         if (scope.config.helpKey) {
                             template += '<wc-help help-key="' + scope.config.helpKey + '" variable-label-key="' + 
-                            scope.config.variableLabelKey + '"></wc-help>\n';
+                            scope.config.variableLabelKey + '" ' + (scope.config.hideHelpExpression ? 
+                            'ng-if="!config.hideHelpExpression || !$eval(config.hideHelpExpression)"' : '') +
+                            '></wc-help>\n';
                         }
                         template += '</' + scope.config.labelType + '>\n';
                         element.empty();
