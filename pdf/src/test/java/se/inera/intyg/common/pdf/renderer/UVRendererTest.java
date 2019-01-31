@@ -667,7 +667,6 @@ public class UVRendererTest {
                 .withIntygsKod("TSTRK1009")
                 .withPersonnummer(PNR)
                 .withInfoText(INFO_TEXT_AF)
-                .withSummary(new Summary().add("TSTRK1009 summary 1", "TSTRK1009 summary 1"))
                 .withLeftMarginTypText("TSTRK1009 Left side text")
                 .withUtfardarLogotyp(logoData)
                 .withApplicationOrigin(ApplicationOrigin.WEBCERT)
