@@ -25,7 +25,6 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -43,9 +42,6 @@ import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 public class PdfGenerator {
 
