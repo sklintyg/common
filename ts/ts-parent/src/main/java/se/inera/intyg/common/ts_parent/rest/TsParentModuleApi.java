@@ -295,7 +295,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
         return types.stream()
                 .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-                .map(IntygAvserKod::name)
+                .map(IntygAvserKod::getDescription)
                 .collect(Collectors.joining(", "));
     }
 

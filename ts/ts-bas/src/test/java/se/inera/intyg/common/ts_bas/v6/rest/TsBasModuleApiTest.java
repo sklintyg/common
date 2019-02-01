@@ -257,7 +257,7 @@ public class TsBasModuleApiTest {
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
         String result = moduleApi.getAdditionalInfo(intyg);
-        assertEquals("C1, C1E, C, CE, D1, D1E, D, DE, TAXI, ANNAT", result);
+        assertEquals("C1, C1E, C, CE, D1, D1E, D, DE, Taxi, Annat", result);
     }
 
     @Test
@@ -305,7 +305,7 @@ public class TsBasModuleApiTest {
         intyg.getSvar().add(s3);
 
         String result = moduleApi.getAdditionalInfo(intyg);
-        assertEquals("C1, C, TAXI", result);
+        assertEquals("C1, C, Taxi", result);
     }
 
     @Test

@@ -205,7 +205,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
         return types.stream()
                 .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
-                .map(Korkortsbehorighet::name)
+                .map(Korkortsbehorighet::getValue)
                 .collect(Collectors.joining(", "));
     }
 }
