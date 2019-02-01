@@ -157,10 +157,7 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {required: true, requiredProp: requiredKorkortProperties('intygAvser')}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygAvser.korkortstyp',
-                            labelTemplate:'KORKORT.{0}.RBK',
-                            label: {
-                                key: 'FRG_1.2.RBK'
-                            }
+                            labelTemplate:'KORKORT.{0}.RBK'
                         }])
                     ]),
 
