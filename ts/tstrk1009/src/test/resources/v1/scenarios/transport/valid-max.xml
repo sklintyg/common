@@ -103,7 +103,7 @@
         <ns5:cv>
           <ns5:code>VAR12</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Moped klass I</ns5:displayName>
+          <ns5:displayName>AM</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -113,7 +113,7 @@
         <ns5:cv>
           <ns5:code>VAR13</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Lätt motorcykel</ns5:displayName>
+          <ns5:displayName>A1</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -123,7 +123,7 @@
         <ns5:cv>
           <ns5:code>VAR14</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Mellanstor motorcykel</ns5:displayName>
+          <ns5:displayName>A2</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -133,7 +133,7 @@
         <ns5:cv>
           <ns5:code>VAR15</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Motorcykel</ns5:displayName>
+          <ns5:displayName>A</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -143,7 +143,7 @@
         <ns5:cv>
           <ns5:code>VAR16</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Personbil och lätt lastbil</ns5:displayName>
+          <ns5:displayName>B</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -153,7 +153,7 @@
         <ns5:cv>
           <ns5:code>VAR17</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Personbil, lätt lastbil och ett eller flera släpfordon</ns5:displayName>
+          <ns5:displayName>BE</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -173,7 +173,7 @@
         <ns5:cv>
           <ns5:code>VAR1</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Medeltung lastbil och enbart ett lätt släpfordon</ns5:displayName>
+          <ns5:displayName>C1</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -183,7 +183,7 @@
         <ns5:cv>
           <ns5:code>VAR2</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Medeltung lastbil och ett eller flera släpfordon oavsett vikt</ns5:displayName>
+          <ns5:displayName>C1E</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -193,7 +193,7 @@
         <ns5:cv>
           <ns5:code>VAR3</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Tung lastbil och enbart ett lätt släpfordon</ns5:displayName>
+          <ns5:displayName>C</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -203,7 +203,7 @@
         <ns5:cv>
           <ns5:code>VAR4</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Tung lastbil och ett eller flera släpfordon oavsett vikt</ns5:displayName>
+          <ns5:displayName>CE</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -213,7 +213,7 @@
         <ns5:cv>
           <ns5:code>VAR5</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Mellanstor buss</ns5:displayName>
+          <ns5:displayName>D1</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -223,7 +223,7 @@
         <ns5:cv>
           <ns5:code>VAR6</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Mellanstor buss och ett eller flera släpfordon oavsett vikt</ns5:displayName>
+          <ns5:displayName>D1E</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -233,7 +233,7 @@
         <ns5:cv>
           <ns5:code>VAR7</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Buss</ns5:displayName>
+          <ns5:displayName>D</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -243,7 +243,7 @@
         <ns5:cv>
           <ns5:code>VAR8</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Buss och enbart ett lätt släpfordon</ns5:displayName>
+          <ns5:displayName>DE</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>
@@ -253,7 +253,7 @@
         <ns5:cv>
           <ns5:code>VAR9</ns5:code>
           <ns5:codeSystem>e889fa20-1dee-4f79-8b37-03853e75a9f8</ns5:codeSystem>
-          <ns5:displayName>Taxiförarlegitimation</ns5:displayName>
+          <ns5:displayName>Taxi</ns5:displayName>
         </ns5:cv>
       </ns3:delsvar>
     </ns3:svar>

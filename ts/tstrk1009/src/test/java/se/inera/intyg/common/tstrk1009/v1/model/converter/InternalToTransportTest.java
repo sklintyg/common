@@ -22,17 +22,20 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_DELSVAR_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
-import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -40,10 +43,14 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -166,6 +173,25 @@ public class InternalToTransportTest {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         assertEquals("1.0", res.getIntyg().getVersion());
+    }
+
+    @Test
+    public void testConvertToTransportSetsCorrectBehorighetDisplayName() throws ScenarioNotFoundException, ConverterException {
+        Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
+        RegisterCertificateType res = InternalToTransport.convert(utlatande);
+        final Svar.Delsvar taxiDelsvar = res.getIntyg().getSvar().stream()
+                .flatMap(svar -> svar.getDelsvar().stream())
+                .filter(delsvar -> {
+                    try {
+                        return delsvar.getId().equals(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID)
+                                && getCVSvarContent(delsvar).getCode().equals(Korkortsbehorighet.TAXI.getCode());
+                    } catch (ConverterException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .findAny().orElse(null);
+        assertNotNull(taxiDelsvar);
+        assertEquals(Korkortsbehorighet.TAXI.getValue(), getCVSvarContent(taxiDelsvar).getDisplayName());
     }
 
     @Test

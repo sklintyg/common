@@ -138,7 +138,7 @@ public final class UtlatandeToIntyg {
                 for (final Korkortsbehorighet korkortsbehorighet : behorighetsGrupp.getKorkortsbehorigheter()) {
                     svarList.add(aSvar(INTYGET_AVSER_BEHORIGHET_SVAR_ID, intygetAvserBehorigheterInstans++)
                         .withDelsvar(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID,
-                                aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                                aCV(KV_KORKORTSBEHORIGHET_KODSYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getValue()))
                         .build());
                 }
             }
