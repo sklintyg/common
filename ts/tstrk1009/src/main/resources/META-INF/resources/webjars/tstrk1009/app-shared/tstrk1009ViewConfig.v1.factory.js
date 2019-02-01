@@ -80,14 +80,21 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                 labelKey: 'KAT_4.RBK',
                 components: [
                     {
-                        type: 'uv-list',
-                        labelKey: 'SVAR_{var}.RBK',
-                        listKey: function(model) {
-                            return model.selected ? model.type : null;
-                        },
-                        separator: ', ',
-                        modelProp: 'intygetAvserBehorigheter.typer'
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_1.RBK',
+                        components: [
+                            {
+                                type: 'uv-list',
+                                labelKey: 'SVAR_{var}.RBK',
+                                listKey: function(model) {
+                                    return model.selected ? model.type : null;
+                                },
+                                separator: ', ',
+                                modelProp: 'intygetAvserBehorigheter.typer'
+                            }
+                        ]
                     }
+
                 ]
             },
             {
