@@ -221,7 +221,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
-                        fraga(25, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
+                        fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
                             type: 'ue-checkbox',
                             modelProp: 'kontaktMedFk',
                             label: {
