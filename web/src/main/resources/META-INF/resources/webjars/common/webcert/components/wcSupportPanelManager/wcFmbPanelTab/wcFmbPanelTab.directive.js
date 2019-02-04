@@ -153,20 +153,6 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                     angular.element('#fmb-panel-scrollable-body').scrollTop(0);
                 }
             });
-
-            $scope.getDiagnoses = function() {
-                var diagnoser = [];
-                var unikaDiagnoser = [];
-                for (var d in fmbViewState.diagnoses) {
-                    if (angular.isDefined(d) && 
-                        unikaDiagnoser.indexOf(fmbViewState.diagnoses[d].diagnosKod) === -1) {
-                        unikaDiagnoser.push(fmbViewState.diagnoses[d].diagnosKod);
-                        diagnoser.push(fmbViewState.diagnoses[d]);
-                    }
-                }
-                
-                return diagnoser;
-            };
         }
     };
 } ]);

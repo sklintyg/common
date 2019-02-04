@@ -30,8 +30,11 @@ wc-fmb-panel-tab {
           &.active {
             @extend %wc-typo-08;
             text-decoration: none !important;
-            span {
+            span > span {
               text-decoration: underline;
+              .no-underline {
+                text-decoration: none;
+              }
             }
           }
           &.disabled {
@@ -41,6 +44,11 @@ wc-fmb-panel-tab {
           span {
             display: inline-block;
           }
+        }
+        
+        .diagnosinfo {
+          color: $wc-color-21;
+          vertical-align: text-top;
         }
       }
     }
