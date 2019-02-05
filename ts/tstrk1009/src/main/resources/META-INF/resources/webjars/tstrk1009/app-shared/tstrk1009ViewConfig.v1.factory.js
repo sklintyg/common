@@ -27,6 +27,7 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                 labelKey: 'KAT_1.RBK',
                 components: [{
                     type: 'uv-fraga',
+                    labelKey: 'FRG_2.RBK',
                     components: [{
                         type: 'uv-kodverk-value',
                         kvModelProps: ['identitetStyrktGenom.typ'],
