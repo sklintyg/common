@@ -26,7 +26,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                 return {
                     1: 'intygavser',
                     2: 'idkontroll',
-                    3: 'diagnos',
+                    3: 'allmant',
                     4: 'lakemedelsbehandling',
                     5: 'symptom',
                     6: 'ovrigt',
@@ -96,7 +96,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
 
                     // Diagnos
                     kategori(categoryIds[3], 'KAT_3.RBK', {}, {}, [
-                        fraga(50, 'FRG_50.RBK', 'FRG_50.HLP', {required: true, requiredProp: 'diagnosRegistrering'},
+                        fraga(50, 'FRG_50.RBK', 'FRG_50.HLP', {required: true, requiredProp: 'diagnosRegistrering.typ'},
                             [{
                                 type: 'ue-radiogroup',
                                 modelProp: 'diagnosRegistrering.typ',

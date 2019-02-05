@@ -12,6 +12,8 @@ import javax.annotation.Nullable;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
 public abstract class Bedomning {
@@ -41,7 +43,7 @@ public abstract class Bedomning {
     public abstract static class Builder {
         public abstract Bedomning build();
 
-        @JsonProperty("uppfyllerBehorighetskrav")
+        @JsonProperty(BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID)
         @JsonDeserialize(using = Bedomning.BehorighetsTypSetDeserializer.class)
         public abstract Builder setUppfyllerBehorighetskrav(Set<BehorighetsTyp> uppfyllerBehorighetskrav);
     }

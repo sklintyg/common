@@ -33,7 +33,7 @@ import java.util.EnumSet;
 import java.util.Set;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 public final class TransportToInternal {
 
@@ -75,10 +75,10 @@ public final class TransportToInternal {
                 case ID_KONTROLL_SVAR_ID_1:
                     handleIdKontroll(utlatande, svar);
                     break;
-                case ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_SVAR_ID:
+                case ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID:
                     handleDiagnosKodad(utlatande, svar);
                     break;
-                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID:
+                case ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID:
                     handleDiagnosFritext(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
@@ -158,7 +158,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_DELSVAR_ID:
+                case ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID:
                     System.out.println(delsvar.toString());
 
             }
@@ -172,10 +172,10 @@ public final class TransportToInternal {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID:
+                case ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID:
                     diagnosFritext = getStringContent(delsvar);
                     break;
-                case ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID:
+                case ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID:
                     diagnosArtal = getPartialDateContent(delsvar).getValue().toString();
                     break;
                 default:

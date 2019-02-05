@@ -39,7 +39,7 @@ import java.util.List;
 import static se.inera.intyg.common.support.Constants.*;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.RespConstants.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 public final class UtlatandeToIntyg {
 
@@ -151,14 +151,14 @@ public final class UtlatandeToIntyg {
     }
 
     private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
-        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_SVAR_ID);
+        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID);
         for (DiagnosKodad diagnos : diagnosKodad) {
-            diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_DELSVAR_ID,
+            diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
                     aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
                             diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_ALLMANT_KOD_ARTAL_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt("2017")))//diagnos.getDiagnosArtal()))) TODO: Fixa till när nya komponenten finns.
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnos.getDiagnosArtal())))
                     );
         }
 
@@ -168,9 +168,9 @@ public final class UtlatandeToIntyg {
     }
 
     private static void handleDiagnosFritext(DiagnosFritext diagnosFritext, List<Svar> svars) {
-        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_SVAR_ID);
-        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
-                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ALLMANT_FRITEXT_ARTAL_DELSVAR_ID,
+        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID);
+        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
+                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
                         aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnosFritext.getDiagnosArtal())))
                 );
 

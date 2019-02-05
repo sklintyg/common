@@ -82,7 +82,7 @@
                        placeholder="åååå"
                        maxlength="4"
                        class="form-control"
-                       ng-class="{'text-invalid': invalid}"
+                       ng-class="{'validation-error' : hasValidationError('diagnosartal', $index) || hasValidationError('row', $index)}"
                        ng-model="diagnos.diagnosArtal"
                        ng-model-options="{ getterSetter: true, allowInvalid: true}"
                        is-open="pickerState[$index].isOpen"

@@ -667,6 +667,8 @@
             'common.validation.diagnos.length-3': 'Ange diagnoskod med så många positioner som möjligt, men minst tre positioner.',
             'common.validation.diagnos.psykisk.length-4': 'Ange diagnosrad med minst fyra positioner på en psykisk diagnos.',
             'common.validation.diagnos.description.missing': 'Ange diagnostext.',
+            'common.validation.diagnos.artal.future': 'Ange ett årtal som inte ligger i framtiden',
+            'common.validation.diagnos.kodsystem': 'Felaktigt kodsystem.',
             'common.validation.sjukskrivning_period.empty': 'Ange ett svar.',
             'common.validation.sjukskrivning_period.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.sjukskrivning_period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
