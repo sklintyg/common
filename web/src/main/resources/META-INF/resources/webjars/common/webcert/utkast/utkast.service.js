@@ -223,6 +223,10 @@ angular.module('common').factory('common.UtkastService',
                         relation.status = data.status;
                     }
                 }, intygState.relations);
+                
+                if (intygState.formPristine) {
+                    intygState.formPristine();
+                }
 
                 _saveFinally(extras);
             }
