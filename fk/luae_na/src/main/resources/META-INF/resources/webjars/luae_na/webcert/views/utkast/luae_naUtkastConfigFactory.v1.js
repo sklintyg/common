@@ -407,7 +407,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                             modelProp: 'avslutadBehandling',
                             label: { key: 'DFR_18.1.RBK', helpKey: 'DFR_18.1.HLP' }
                         }]),
-                        fraga(18, 'FRG_19.RBK', 'FRG_19.HLP', { }, [{
+                        fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'pagaendeBehandling',
                             label: { key: 'DFR_19.1.RBK', helpKey: 'DFR_19.1.HLP' }
