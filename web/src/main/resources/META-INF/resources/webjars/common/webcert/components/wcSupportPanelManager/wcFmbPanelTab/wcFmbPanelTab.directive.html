@@ -13,7 +13,7 @@
                 popover-popup-delay="300" popover-append-to-body="true"
                 popover-placement="top">
                 <span>{{d.originalDiagnosBeskrivning}}</span> <i class="material-icons md-18 diagnosinfo"
-                   ng-if="d.diagnosKod !== d.originalDiagnosKod"
+                   ng-if="d.diagnosKod !== d.originalDiagnosKod && d.hasInfo"
                    uib-popover="Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}."
                    popover-popup-delay="300" popover-append-to-body="true"
                   popover-placement="top">info_outline</i>
