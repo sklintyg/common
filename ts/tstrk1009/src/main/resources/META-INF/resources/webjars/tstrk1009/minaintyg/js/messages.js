@@ -42,9 +42,7 @@ angular.module('tstrk1009').constant('tstrk1009.messages', {
         'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
 
         'tstrk1009.label.true': 'JA',
-        'tstrk1009.label.false': 'NEJ',
-        'tstrk1009.error.generic': 'Kunde inte visa intyget',
-        'tstrk1009.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
+        'tstrk1009.label.false': 'NEJ'
 
     },
     'en': {

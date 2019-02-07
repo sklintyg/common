@@ -33,11 +33,5 @@ angular.module('ts-bas').config(function($stateProvider) {
             },
             data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('ts-bas-visafel', {
-            url :'/ts-bas/visafel/:errorCode',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/error.html',
-            controller: 'ts-bas.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

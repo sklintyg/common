@@ -87,21 +87,6 @@ angular.module('ag7804').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('ag7804-fel', {
-        url: '/ag7804/fel/:errorCode',
-        templateUrl: '/web/webjars/ag7804/minaintyg/views/error.html',
-        controller: 'ag7804.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('ag7804-visafel', {
-        url: '/ag7804/visafel/:errorCode',
-        templateUrl: '/web/webjars/ag7804/minaintyg/views/error.html',
-        controller: 'ag7804.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
-        }
     });
 });
 

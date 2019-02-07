@@ -42,7 +42,7 @@ angular.module('ts-diabetes').controller('ts-diabetes.ViewCertCtrl',
                     $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/ts-diabetes/visafel/certnotfound');
+                    $location.path('/fel/certnotfound');
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;

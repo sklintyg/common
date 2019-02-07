@@ -42,7 +42,7 @@ angular.module('tstrk1009').controller('tstrk1009.ViewCertCtrl',
                     $scope.errorMessage = null;
                 } else {
                     // show error view
-                    $location.path('/tstrk1009/visafel/certnotfound');
+                    $location.path('/fel/certnotfound');
                 }
             }, function(errorMsgKey) {
                 $scope.doneLoading = true;

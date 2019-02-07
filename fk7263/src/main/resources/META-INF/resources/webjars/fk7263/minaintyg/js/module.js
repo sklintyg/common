@@ -81,19 +81,7 @@ angular.module('fk7263').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('fk7263-fel', {
-            url : '/fk7263/fel/:errorCode',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/error.html',
-            controller: 'fk7263.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('fk7263-visafel', {
-            url :'/fk7263/visafel/:errorCode',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/error.html',
-            controller: 'fk7263.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
-        });
+    });
 });
 
 // Inject language resources

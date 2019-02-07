@@ -33,11 +33,5 @@ angular.module('ts-diabetes').config(function($stateProvider) {
             },
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('ts-diabetes-visafel', {
-            url :'/ts-diabetes/visafel/:errorCode',
-            templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/error.html',
-            controller: 'ts-diabetes.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

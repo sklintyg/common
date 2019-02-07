@@ -30,11 +30,5 @@ angular.module('tstrk1009').config(function($stateProvider) {
             },
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('tstrk1009-visafel', {
-            url :'/tstrk1009/visafel/:errorCode',
-            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/error.html',
-            controller: 'tstrk1009.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

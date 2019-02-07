@@ -33,11 +33,11 @@ angular.module('fk7263').controller('fk7263.CustomizePdfCtrl',
                     $scope.certMeta = result.meta;
                 } else {
                     // show error view
-                    $location.path('/fk7263/visafel/certnotfound');
+                    $location.path('/fel/certnotfound');
                 }
             }, function() {
                 $log.debug('got error');
-                $location.path('/fk7263/visafel/certnotfound');
+                $location.path('/fel/certnotfound');
             });
 
             var dialogInstance;
