@@ -36,7 +36,7 @@
         <!-- Loading spinner: visibility defined by $scope.doneLoading  -->
         <div mi-spinner label="modules.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
           <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
-          <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
+          <mi-certificate-action-buttons cert-model="cert" enable-archive="true" enable-print="true"
                                          is-replaced="certMeta.isReplaced"></mi-certificate-action-buttons>
 
           <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
