@@ -64,6 +64,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
  */
 @Component("moduleapi.ts-tstrk1062.v1")
 public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062UtlatandeV1> {
+    public static final String SCHEMATRON_FILE = "tstrk1062.v1.sch";
 
     private static final Logger LOG = LoggerFactory.getLogger(TsTstrk1062ModuleApiV1.class);
 

@@ -64,7 +64,7 @@ public final class UtlatandeToIntyg {
     private static TypAvIntyg getTypAvIntyg() {
         TypAvIntyg typAvIntyg = new TypAvIntyg();
         typAvIntyg.setCode(TsTstrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE);
-        typAvIntyg.setCodeSystem(KV_UTLATANDETYP_INTYG_CODE_SYSTEM);
+        typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(TsTstrk1062EntryPoint.ISSUER_MODULE_NAME);
         return typAvIntyg;
     }
@@ -151,19 +151,16 @@ public final class UtlatandeToIntyg {
     }
 
     private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
-        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID);
+        int diagnosKodadInstans = 1;
         for (DiagnosKodad diagnos : diagnosKodad) {
-            diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
-                    aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
-                            diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+            svars.add(aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, diagnosKodadInstans++)
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
+                            aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
+                                    diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
                     .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
                     .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnos.getDiagnosArtal())))
-                    );
-        }
-
-        if (!diagnosSvar.delSvars.isEmpty()) {
-            svars.add(diagnosSvar.build());
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnos.getDiagnosArtal()))))
+                    .build());
         }
     }
 
