@@ -18,6 +18,15 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
+import static se.inera.intyg.common.pdf.model.UVComponent.KATEGORI_FONT_SIZE;
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.google.common.base.Strings;
 import com.itextpdf.io.font.otf.Glyph;
 import com.itextpdf.io.font.otf.GlyphLine;
@@ -36,16 +45,8 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
+
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
-import static se.inera.intyg.common.pdf.model.UVComponent.KATEGORI_FONT_SIZE;
-import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders the header elements.
@@ -189,7 +190,8 @@ public class IntygHeader implements IEventHandler {
     }
 
     private String getIntygsKod(PrintConfig printConfig) {
-        return printConfig.getIntygsKod() + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
+        return printConfig.getIntygsKod()
+                + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
 
     }
 
