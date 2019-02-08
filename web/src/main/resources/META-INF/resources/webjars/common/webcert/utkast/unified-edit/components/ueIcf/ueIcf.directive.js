@@ -121,6 +121,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                     }
                 });
                 scope.closePlate();
+                scope.form.$setDirty();
             };
 
             function itereraKategorier(fun) {
