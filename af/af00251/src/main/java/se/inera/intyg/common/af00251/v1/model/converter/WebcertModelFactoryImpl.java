@@ -21,13 +21,12 @@ package se.inera.intyg.common.af00251.v1.model.converter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
 
-import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
-import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1.Builder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -86,7 +85,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), utlatande.getId());
 
-        Builder templateBuilder = utlatande.toBuilder();
+        AF00251UtlatandeV1.Builder templateBuilder = utlatande.toBuilder();
         GrundData grundData = utlatande.getGrundData();
 
         populateWithId(templateBuilder, copyData.getCertificateId());
@@ -97,7 +96,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
         return templateBuilder.build();
     }
 
-    private void populateWithId(Builder utlatande, String utlatandeId) throws ConverterException {
+    private void populateWithId(AF00251UtlatandeV1.Builder utlatande, String utlatandeId) throws ConverterException {
         if (Strings.nullToEmpty(utlatandeId).trim().isEmpty()) {
             throw new ConverterException("No certificateID found");
         }
