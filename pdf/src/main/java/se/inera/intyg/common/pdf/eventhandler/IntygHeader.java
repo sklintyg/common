@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
+import com.google.common.base.Strings;
 import com.itextpdf.io.font.otf.Glyph;
 import com.itextpdf.io.font.otf.GlyphLine;
 import com.itextpdf.io.image.ImageData;
@@ -180,11 +181,16 @@ public class IntygHeader implements IEventHandler {
         float calculatedWidth = measureTextWidth(printConfig.getIntygsNamn(), INTYG_FONT_SIZE, kategoriFont);
 
         // Intygskod
-        Paragraph intygskod = new Paragraph("(" + printConfig.getIntygsKod() + ")");
+        Paragraph intygskod = new Paragraph("(" + getIntygsKod(printConfig) + ")");
         intygskod.setFont(svarFont).setFontSize(KATEGORI_FONT_SIZE);
         canvas.showTextAligned(intygskod,
                 millimetersToPoints(PAGE_MARGIN_LEFT) + calculatedWidth + SPACING_POINTS,
                 pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
+    }
+
+    private String getIntygsKod(PrintConfig printConfig) {
+        return printConfig.getIntygsKod() + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
+
     }
 
     private void renderHorizontalLine(Rectangle pageSize, PdfCanvas pdfCanvas) {
