@@ -43,6 +43,7 @@ public class PrintConfig {
     private byte[] utfardarLogotyp;
     private String intygsNamn;
     private String intygsKod;
+    private String intygsVersion;
     private String infoText;
 
     private String intygsId;
@@ -55,6 +56,7 @@ public class PrintConfig {
     private boolean isMakulerad;
     private boolean showSignBox;
     private boolean showSignatureLine;
+
     //Defines a override (String) value to be rendered instead of actual modelProp.
     // This is used when creating a employer print where certain values are not to be included
     private Map<String, String> modelPropReplacements;
@@ -83,6 +85,10 @@ public class PrintConfig {
 
     public String getIntygsKod() {
         return intygsKod;
+    }
+
+    public String getIntygsVersion() {
+        return intygsVersion;
     }
 
     public String getInfoText() {
@@ -139,6 +145,7 @@ public class PrintConfig {
         private byte[] utfardarLogotyp;
         private String intygsNamn;
         private String intygsKod;
+        private String intygsVersion;
         private String infoText;
         private String intygsId;
         private String leftMarginTypText;
@@ -185,6 +192,11 @@ public class PrintConfig {
 
         public PrintConfigBuilder withIntygsKod(String intygsKod) {
             this.intygsKod = intygsKod;
+            return this;
+        }
+
+        public PrintConfigBuilder withIntygsVersion(String intygsVersion) {
+            this.intygsVersion = intygsVersion;
             return this;
         }
 
@@ -252,6 +264,7 @@ public class PrintConfig {
             printConfig.upJsModel = this.upJsModel;
             printConfig.infoText = this.infoText;
             printConfig.intygsKod = this.intygsKod;
+            printConfig.intygsVersion = this.intygsVersion;
             printConfig.summary = this.summary;
             printConfig.applicationOrigin = this.applicationOrigin;
             printConfig.intygsNamn = this.intygsNamn;
