@@ -33,12 +33,22 @@ ext {
     xmlUnitVersion = "2.6.2"
     equalsVerifierVersion = "2.5.2"
     assertjVersion = "3.6.2"
+
+    nodeJsVersion = "10.15.1"
+    npmVersion = "6.4.1"
 }
 
 allprojects {
     apply plugin: 'se.inera.intyg.plugin.common'
     apply plugin: 'maven'
     apply plugin: 'idea'
+
+    idea {
+        module {
+            excludeDirs += file('bower_components')
+            excludeDirs += file('node_modules')
+        }
+    }
 
     repositories {
         mavenLocal()
@@ -86,10 +96,12 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     }
 
     node {
-        version = '10.10.0'
+        version = "${nodeJsVersion}"
+        npmVersion = "${npmVersion}"
         download = true
         distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
-        workDir = rootProject.projectDir
+        workDir = file("${rootProject.projectDir}/.gradle/nodejs")
+        npmWorkDir = file("${rootProject.projectDir}/.gradle/npm")
         nodeModulesDir = rootProject.projectDir
     }
 
