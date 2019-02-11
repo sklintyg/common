@@ -75,23 +75,65 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
                 /*jshint maxcomplexity:11*/
                 listener: function(newValue, oldValue, scope) {
 
-                    function checkUncheckOther(targetName) {
-                        var targetIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', targetName);
-                        var targetChanged = oldValue[targetIndex].selected !== newValue[targetIndex].selected;
+                    // Count selected of A_B_TRAKTOR, C_E, D and TAXI in oldValue and newValue
+                    function countSelected(value, othersNamesArray){
+                        var selected = 0;
 
-                        if(targetChanged) {
-                            // enable or disable all but "Kan inte ta ställning"
-                            var targetSelected = newValue[targetIndex].selected;
-                            for(var i = 0; i < scope.model.intygetAvserBehorigheter[modelProp].length; i++) {
-                                if(targetIndex === i) {
-                                    continue;
+                        value.forEach(function(choice)  {
+                            othersNamesArray.forEach(function(choiceName)  {
+                                if(choice.type === choiceName && choice.selected) {
+                                    selected++; 
                                 }
-                                scope.model.intygetAvserBehorigheter[modelProp][i].disabled = targetSelected;
-                                if(targetSelected) {
-                                    scope.model.intygetAvserBehorigheter[modelProp][i].selected = false;
+                            });
+                        });
+
+                        return selected;
+                    }
+
+                    function setChoiceEnabled(targetName, enabled){
+                        var targetIndex = UtilsService.findIndexWithPropertyValue(scope.model.intygetAvserBehorigheter[modelProp], 'type', targetName);
+                        scope.model.intygetAvserBehorigheter[modelProp][targetIndex].disabled = !enabled;
+                    }
+
+                    function checkUncheckOther(targetName) {
+
+                        if(Array.isArray(targetName)){
+                            // targetName is array of all names but ALLA or KANINTETASTALLNING
+
+                            var othersNamesArray = targetName;
+
+                            var oldSelected = countSelected(oldValue, othersNamesArray);
+                            var newSelected = countSelected(newValue, othersNamesArray);
+
+                            if(oldSelected > 0 && newSelected === 0){
+                                // if newValue compared to oldValue went from something selected to none selected -> enable ALLA and KANINTETASTALLNING
+                                setChoiceEnabled('ALLA', true);
+                                setChoiceEnabled('KANINTETASTALLNING', true);
+                            } else if(oldSelected === 0 && newSelected > 0){
+                                // if newValue compared to oldValue moved from none selected to something selected -> disable ALLA and KANINTETASTALLNING
+                                setChoiceEnabled('ALLA', false);
+                                setChoiceEnabled('KANINTETASTALLNING', false);
+                            }
+
+                        } else {
+                            // targetName is ALLA or KANINTETASTALLNING
+
+                            var targetIndex = UtilsService.findIndexWithPropertyValue(newValue, 'type', targetName);
+                            var targetChanged = oldValue[targetIndex].selected !== newValue[targetIndex].selected;
+    
+                            if(targetChanged) {
+                                // enable or disable all but targetName
+                                var targetSelected = newValue[targetIndex].selected;
+                                for(var i = 0; i < scope.model.intygetAvserBehorigheter[modelProp].length; i++) {
+                                    if(targetIndex === i) {
+                                        continue;
+                                    }
+                                    scope.model.intygetAvserBehorigheter[modelProp][i].disabled = targetSelected;
+                                    if(targetSelected) {
+                                        scope.model.intygetAvserBehorigheter[modelProp][i].selected = false;
+                                    }
                                 }
                             }
-                            return;
                         }
                     }
 
@@ -106,6 +148,9 @@ angular.module('common').factory('common.ueTSFactoryTemplatesHelper', [
                         // R10	Om frågan "Behörigheter som avses (Delsvar)" (DFR 1.1) besvaras med något annat värde än "SVAR_KANINTETASTALLNING.RBK"
                         // kan värdet "SVAR_KANINTETASTALLNING.RBK" inte också anges. 	1.1
                         checkUncheckOther('KANINTETASTALLNING');
+
+                        // If anything else is selected ALLA/KANINTETASTALLNING should be grayed out/enabled instead depending on if these are selected/unselected
+                        checkUncheckOther(['A_B_TRAKTOR', 'C_E', 'D', 'TAXI']);
 
                     }
                 }

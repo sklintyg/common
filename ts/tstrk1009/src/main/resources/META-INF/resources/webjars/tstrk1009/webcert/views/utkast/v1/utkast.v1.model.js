@@ -22,6 +22,17 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
         function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
             'use strict';
 
+            var intygetAvserBehorigheterFromTransform = function(backendBedomning) {
+                return {
+                    typer: tsBaseHelper.setupKorkortstypChoices(backendBedomning.typer, ['ALLA', 'KANINTETASTALLNING'])
+                };
+            };
+    
+            var intygetAvserBehorigheterToTransform = function(frontendObject) {
+                return frontendObject;
+            };
+    
+
             var V1Model = BaseAtticModel._extend({
                 init: function init() {
                     var grundData = GrundData.build();
@@ -37,7 +48,10 @@ angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
                         anmalanAvser: undefined,
                         medicinskaForhallanden: undefined,
                         senasteUndersokningsdatum: undefined,
-                        intygetAvserBehorigheter: undefined,
+                        intygetAvserBehorigheter: new ModelAttr('intygetAvserBehorigheter', {
+                            toTransform: intygetAvserBehorigheterToTransform,
+                            fromTransform: intygetAvserBehorigheterFromTransform
+                        }),
                         informationOmTsBeslutOnskas: undefined
                     });
                 },
