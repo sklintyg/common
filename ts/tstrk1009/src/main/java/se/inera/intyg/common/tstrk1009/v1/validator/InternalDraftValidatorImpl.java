@@ -87,16 +87,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Tstrk1
                     ValidationMessageType.EMPTY);
         }
 
-        // Senaste undersökningsdatum
-        if (utlatande.getSenasteUndersokningsdatum() == null || utlatande.getSenasteUndersokningsdatum().getDate().isEmpty()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                    ValidationMessageType.EMPTY);
-        } else if (!utlatande.getSenasteUndersokningsdatum().isValidDate()) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                    ValidationMessageType.INVALID_FORMAT);
-        } else if (eligibleForRule1(utlatande)) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
-                    ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
+        if (ValidatorUtil.validateDate(utlatande.getSenasteUndersokningsdatum(), validationMessages,
+                CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID, null)) {
+
+            if (eligibleForRule1(utlatande)) {
+                ValidatorUtil.addValidationError(validationMessages, CATEGORY_MEDICINSKAFORHALLANDEN, SENASTE_UNDERSOKNINGSDATUM_JSON_ID,
+                        ValidationMessageType.OTHER, VALIDATION_COMMON_EXCEEDS_MAXDATE);
+            }
         }
     }
 
