@@ -386,11 +386,6 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
                                     }
                                 ]
                             }]
-                        },
-                        {
-                            type: 'uv-alert-value',
-                            labelKey: 'TSDIA-002.ALERT',
-                            alertLevel: 'info'
                         }
                     ]
                 }
