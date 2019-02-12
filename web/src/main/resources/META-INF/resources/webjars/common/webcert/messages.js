@@ -697,6 +697,7 @@
             'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
+            'common.validation.b-04': 'Välj minst ett alternativ.',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',
