@@ -259,7 +259,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -281,7 +281,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.senasteTidpunktVaken'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -303,7 +303,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -345,6 +345,13 @@ var viewConfig = [
                 labelKey: 'FRG_8.RBK',
                 components: [
                     {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-001.ALERT',
+                        alertLevel: 'warning',
+                        showExpression: function(model) {
+                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                    },
+                    {
                         type: 'uv-del-fraga',
                         components: [{
                             type: 'uv-table',
@@ -375,6 +382,11 @@ var viewConfig = [
                                 }
                             ]
                         }]
+                    },
+                    {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-002.ALERT',
+                        alertLevel: 'info'
                     }
                 ]
             }
