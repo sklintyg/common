@@ -382,11 +382,6 @@ var viewConfig = [
                                 }
                             ]
                         }]
-                    },
-                    {
-                        type: 'uv-alert-value',
-                        labelKey: 'TSDIA-002.ALERT',
-                        alertLevel: 'info'
                     }
                 ]
             }
