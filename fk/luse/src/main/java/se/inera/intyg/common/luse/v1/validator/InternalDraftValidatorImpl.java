@@ -82,10 +82,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
         validateGrundForMU(utlatande, validationMessages);
         // Kategori 2 – Andra medicinska utredningar och underlag
         validateUnderlag(utlatande, validationMessages);
-        // Kategori 3 – Sjukdomsförlopp
-        validateSjukdomsforlopp(utlatande, validationMessages);
-        // Kategori 4 – Diagnos
+        // Kategori 3 – Diagnos
         validatorUtilFK.validateDiagnose(utlatande.getDiagnoser(), validationMessages);
+        // Kategori 4 – Sjukdomsförlopp
+        validateSjukdomsforlopp(utlatande, validationMessages);
         // Diagnosgrund
         validateDiagnosgrund(utlatande, validationMessages);
         // Kategori 5 – Funktionsnedsättning
