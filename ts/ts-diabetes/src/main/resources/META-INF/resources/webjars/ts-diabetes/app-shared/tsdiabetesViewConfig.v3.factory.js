@@ -349,6 +349,13 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
                     labelKey: 'FRG_8.RBK',
                     components: [
                         {
+                            type: 'uv-alert-value',
+                            labelKey: 'TSDIA-001.ALERT',
+                            alertLevel: 'warning',
+                            showExpression: function(model) {
+                                return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                        },
+                        {
                             type: 'uv-del-fraga',
                             components: [{
                                 type: 'uv-table',
@@ -379,6 +386,11 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
                                     }
                                 ]
                             }]
+                        },
+                        {
+                            type: 'uv-alert-value',
+                            labelKey: 'TSDIA-002.ALERT',
+                            alertLevel: 'info'
                         }
                     ]
                 }

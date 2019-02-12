@@ -56,8 +56,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
              * @return {boolean}
              */
             function R11(scope) {
-                return ObjectHelper.deepGet(scope, 'model.synfunktion.ogonbottenFotoSaknas') === true ||
-                    ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
+                return ObjectHelper.deepGet(scope, 'model.synfunktion.misstankeOgonsjukdom') === true;
             }
 
             /**

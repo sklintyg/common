@@ -56,11 +56,25 @@ public abstract class UVComponent {
 
     protected final UVRenderer renderer;
 
-    Color wcColor02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
-    Color miColor25 = new DeviceRgb(0xFC, 0xF9, 0xE4);
-    Color wcColor05 = new DeviceRgb(0x76, 0x5A, 0x20);
-    Color wcColor07 = new DeviceRgb(33, 33, 33);
-    Color wcColor09 = new DeviceRgb(106, 106, 106);
+    /*
+     Color names taken from design specification pages on confluence:
+      - https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/166985991/B+-+WC+F+rgskala
+      - https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/112375002/B+-+MI+F+rgskala
+      */
+    //alert warning
+    protected static final Color WC_COLOR_02 = new DeviceRgb(0xFF, 0xEB, 0xBA);
+    protected static final Color WC_COLOR_05 = new DeviceRgb(0x76, 0x5A, 0x20);
+    protected static final Color MI_COLOR_27 = new DeviceRgb(0x9A, 0x6C, 0x41);
+    protected static final Color MI_COLOR_01 = new DeviceRgb(0x33, 0x33, 0x33);
+
+    protected static final Color WC_COLOR_07 = new DeviceRgb(33, 33, 33);
+    protected static final Color WC_COLOR_09 = new DeviceRgb(106, 106, 106);
+
+    //alert info bg/text colors
+    protected static final Color WC_COLOR_03 = new DeviceRgb(0xB3, 0xE5, 0xFC);
+    protected static final Color WC_COLOR_06 = new DeviceRgb(0x02, 0x3C, 0x75);
+    protected static final Color MI_COLOR_25 = new DeviceRgb(0xFC, 0xF9, 0xE4);
+    protected static final Color MI_COLOR_23 = new DeviceRgb(0xD8, 0xEE, 0xF7);
 
     static final String LABEL_KEY = "labelKey";
     static final String MODEL_PROP = "modelProp";

@@ -104,6 +104,7 @@ public class UVRenderer {
     private ScriptEngine engine;
 
     private PdfImageXObject observandumIcon;
+    private PdfImageXObject observandumInfoIcon;
 
     public byte[] startRendering(PrintConfig printConfig, IntygTexts intygTexts) {
         this.intygTexts = intygTexts;
@@ -123,9 +124,11 @@ public class UVRenderer {
             // Initialize PDF document
             PdfDocument pdf = new PdfDocument(writer);
 
-            // Load icon for observandum
+            // Load icons for observandum
             this.observandumIcon = new PdfImageXObject(
                     ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
+            this.observandumInfoIcon = new PdfImageXObject(
+                    ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
 
             // Initialize event handlers for header, footer etc.
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
@@ -244,6 +247,10 @@ public class UVRenderer {
 
     public PdfImageXObject getObservandumIcon() {
         return this.observandumIcon;
+    }
+
+    public PdfImageXObject getObservandumInfoIcon() {
+        return this.observandumInfoIcon;
     }
 
     private String escape(String input) {

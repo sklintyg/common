@@ -272,7 +272,7 @@ public class UVRendererTest {
                 .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText("AG1-14")
                 .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
                 .withSignBox(true)
                 .withSignatureLine(true)
                 .withModelPropReplacements(replacementConfig)
@@ -308,7 +308,7 @@ public class UVRendererTest {
                 .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText("TSTRK1031 (U03) 181024")
                 .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);

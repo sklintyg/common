@@ -28,6 +28,7 @@ var viewConfig = [
                     components: [{
                         type: 'uv-list',
                         labelKey: 'KORKORT_{var}.RBK',
+                        useLabelKeyForPrint: true,
                         listKey: function(model) {
                             return model.selected ? model.type : null;
                         },
@@ -75,7 +76,15 @@ var viewConfig = [
                         kvModelProps: ['allmant.typAvDiabetes'],
                         kvLabelKeys: ['SVAR_{var}.RBK']
                     }]
-                }]
+                },{
+                    type: 'uv-del-fraga',
+                    labelKey: 'DFR_18.2.RBK',
+                    components: [
+                        {
+                            type: 'uv-simple-value',
+                            modelProp: 'allmant.beskrivningAnnanTypAvDiabetes'
+                        }
+                    ]}]
             },
             {
                 type: 'uv-fraga',
@@ -87,16 +96,22 @@ var viewConfig = [
                             type: 'uv-list',
                             labelKey: 'DFR_109.{var}.RBK',
                             listKey: function(model, index) {
-                                switch(index) {
-                                case 2:
-                                    index = 4;
-                                    break;
-                                case 3:
-                                    index = 6;
-                                    break;
-                                default:
-                                    index = index + 1;
-                                }
+                                    switch (index) {
+                                    case 0: //endastKost
+                                        index = 1; //DRF_109.1.RBK
+                                        break;
+                                    case 1: //tabletter
+                                        index = 2; //DRF_109.2.RBK
+                                        break;
+                                    case 2: //insulin
+                                        index = 4; //DRF_109.4.RBK
+                                        break;
+                                    case 3: //annanBehandling
+                                        index = 6; //DRF_109.6.RBK
+                                        break;
+                                    default:
+                                        index = 0;
+                                    }
                                 return model ? index : null; // return index for {var} if true, otherwise null -> list item will not be shown
                             },
                             separator: ', ',
@@ -244,7 +259,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -266,7 +281,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.senasteTidpunktVaken'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -288,7 +303,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -330,6 +345,13 @@ var viewConfig = [
                 labelKey: 'FRG_8.RBK',
                 components: [
                     {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-001.ALERT',
+                        alertLevel: 'warning',
+                        showExpression: function(model) {
+                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                    },
+                    {
                         type: 'uv-del-fraga',
                         components: [{
                             type: 'uv-table',
@@ -360,6 +382,11 @@ var viewConfig = [
                                 }
                             ]
                         }]
+                    },
+                    {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-002.ALERT',
+                        alertLevel: 'info'
                     }
                 ]
             }
@@ -394,6 +421,7 @@ var viewConfig = [
                         components: [{
                             type: 'uv-list',
                             labelKey: 'KV_KORKORTSBEHORIGHET_{var}.RBK',
+                            useLabelKeyForPrint: true,
                             listKey: function(model) {
                                 return model.selected ? model.type : null;
                             },

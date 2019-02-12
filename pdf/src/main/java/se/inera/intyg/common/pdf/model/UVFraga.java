@@ -43,7 +43,7 @@ public class UVFraga extends UVComponent {
                 .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
                 .setMarginBottom(0f)
                 .setFont(renderer.fragaDelFragaFont)
-                .setFontColor(wcColor07)
+                .setFontColor(WC_COLOR_07)
                 .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
                 .setKeepTogether(true));
         parent.setKeepTogether(false);
