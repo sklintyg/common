@@ -28,6 +28,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
             components: [
                 {
                     type: 'uv-fraga',
+                    labelKey: 'FRG_1.RBK',
                     components: [{
                         type: 'uv-del-fraga',
                         components: [{
@@ -48,6 +49,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewConfigFactory.v3', [
             labelKey: 'KAT_2.RBK',
             components: [{
                 type: 'uv-fraga',
+                labelKey: 'FRG_2.RBK',
                 components: [{
                     type: 'uv-kodverk-value',
                     kvModelProps: ['identitetStyrktGenom.typ'],

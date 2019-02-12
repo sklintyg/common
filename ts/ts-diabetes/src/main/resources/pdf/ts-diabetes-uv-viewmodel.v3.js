@@ -23,6 +23,7 @@ var viewConfig = [
         components: [
             {
                 type: 'uv-fraga',
+                labelKey: 'FRG_1.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [{
@@ -44,6 +45,7 @@ var viewConfig = [
         labelKey: 'KAT_2.RBK',
         components: [{
             type: 'uv-fraga',
+            labelKey: 'FRG_2.RBK',
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['identitetStyrktGenom.typ'],
