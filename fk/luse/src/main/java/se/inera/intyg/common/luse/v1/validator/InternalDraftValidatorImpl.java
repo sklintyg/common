@@ -145,7 +145,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, ValidationMessageType.EMPTY);
         } else {
             boolean dateIsValid = ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getKannedomOmPatient(), validationMessages,
-                    CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2);
+                    CATEGORY_GRUNDFORMU, KANNEDOM_SVAR_JSON_ID_2, "common.validation.c-06");
             if (dateIsValid && utlatande.getKannedomOmPatient().asLocalDate().isBefore(LocalDate.now())) {
                 if (utlatande.getUndersokningAvPatienten() != null && utlatande.getUndersokningAvPatienten().isValidDate()
                         && utlatande.getKannedomOmPatient().asLocalDate().isAfter(utlatande.getUndersokningAvPatienten().asLocalDate())) {
@@ -212,7 +212,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LuseUt
                         "luse.validation.underlag.date.missing");
             } else {
                 ValidatorUtil.validateDateAndCheckIfFuture(underlag.getDatum(), validationMessages, CATEGORY_GRUNDFORMU,
-                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum");
+                        UNDERLAG_SVAR_JSON_ID_4 + "[" + i + "].datum", "common.validation.c-06");
             }
             if (Strings.nullToEmpty(underlag.getHamtasFran()).trim().isEmpty()) {
                 ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
