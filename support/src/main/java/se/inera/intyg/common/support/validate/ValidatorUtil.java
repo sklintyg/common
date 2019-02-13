@@ -159,17 +159,18 @@ public final class ValidatorUtil {
      * @param validationMessages List of validationMessages. Any validation errors and/or warnings are added to this list.
      * @param category           Category identifier, used if a validation entry has to be added.
      * @param field              Field identifier, used if a validation entry has to be added.
+     * @param futureErrorMessage Validation message for future.
      * @return True if date was valid according to
-     * {@link ValidatorUtil#validateDate(InternalDate, List, String, String, String)}.
+     * {@link ValidatorUtil#validateDate(InternalDate, List, String, String, String, String)}.
      */
     public static boolean validateDateAndCheckIfFuture(InternalDate date, List<ValidationMessage> validationMessages,
-                                                       String category, String field) {
+                                                       String category, String field, String futureErrorMessage) {
         boolean isValid = validateDate(date, validationMessages, category, field, null);
 
         // For structurally valid dates, check if it is a future date
         if (date.isValidDate() && date.asLocalDate().isAfter(LocalDate.now())) {
             ValidatorUtil.addValidationError(validationMessages, category, field, ValidationMessageType.OTHER,
-                    "common.validation.c-06");
+                    futureErrorMessage);
         }
         return isValid;
     }

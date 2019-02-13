@@ -177,6 +177,7 @@ public class ValidatorUtilFK {
     }
 
     public static void validateGrundForMuDate(InternalDate date, List<ValidationMessage> validationMessages, GrundForMu type) {
-        ValidatorUtil.validateDateAndCheckIfFuture(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName());
+        ValidatorUtil.validateDateAndCheckIfFuture(date, validationMessages, CATEGORY_GRUNDFORMU, type.getFieldName(),
+                                                    "common.validation.c-06");
     }
 }
