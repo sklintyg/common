@@ -33,8 +33,9 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                 if($scope.model && $scope.model.diagnoser && $scope.model.diagnoser.length > 0 &&
                     (ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
                     ObjectHelper.isDefined($scope.model.diagnoser[1].diagnosKod) ||
-                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod))) {
-                    $log.debug('fmbvarning - diagnoses available');
+                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod)) &&
+                    $scope.viewstate.totalDays && $scope.viewstate.totalDays > 0) {
+                    $log.debug('fmbvarning - diagnoses available and period entered - requesting fmbvarning info');
                     FMBProxy.getValidateSjukskrivningstid({
                         icd10Kod1: $scope.model.diagnoser[0].diagnosKod,
                         icd10Kod2: $scope.model.diagnoser[1].diagnosKod,
@@ -70,7 +71,7 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                     });
                 } else {
                     $scope.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false };
-                    $log.debug('fmbvarning - diagnoses not available');
+                    $log.debug('fmbvarning - diagnoses or period not entered yet');
                 }
             }
 
