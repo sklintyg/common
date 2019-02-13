@@ -223,7 +223,7 @@ public final class UtlatandeToIntyg {
             }
 
             // Here we rely on withDelsvar not adding a delsvar if content is null
-            svars.add(aSvar(ALLMANT_BEHANDLING_SVAR_ID)
+            Svar behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
                     .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
                             InternalConverterUtil.getBooleanContent(allmant.getBehandling().getEndastKost()))
                     .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
@@ -238,7 +238,11 @@ public final class UtlatandeToIntyg {
                             InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnanBehandling()))
                     .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
                             allmant.getBehandling().getAnnanBehandlingBeskrivning())
-                    .build());
+                    .build();
+            boolean validElementInIntygXmlSchema = behandlingSvar.getDelsvar().size() != 0;
+            if (validElementInIntygXmlSchema) {
+                svars.add(behandlingSvar);
+            }
         }
     }
 
