@@ -81,25 +81,36 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
             }
         }
         // Sjukskrivningsperiod
-        if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getFrom() == null
-                || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate()) {
+        if (utlatande.getSjukskrivningsperiod() == null ||
+            (
+                (utlatande.getSjukskrivningsperiod().getFrom() == null || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate()) &&
+                (utlatande.getSjukskrivningsperiod().getTom() == null || !utlatande.getSjukskrivningsperiod().getTom().isValidDate())
+            )) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
                     SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
-                    ValidationMessageType.EMPTY);
-        }
-
-        if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getTom() == null
-                || !utlatande.getSjukskrivningsperiod().getTom().isValidDate()) {
+                    ValidationMessageType.OTHER, "common.validation.ue-sjukfranvaro.period.invalid");
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
                     SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
-                    ValidationMessageType.EMPTY);
-        }
+                    ValidationMessageType.OTHER);
+        } else {
+            if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getFrom() == null
+                    || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate()) {
+                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
+                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
+                        ValidationMessageType.EMPTY);
+            } else if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getTom() == null
+                    || !utlatande.getSjukskrivningsperiod().getTom().isValidDate()) {
+                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
+                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
+                        ValidationMessageType.EMPTY);
+            }
 
-        if (utlatande.getSjukskrivningsperiod() != null && utlatande.getSjukskrivningsperiod().getTom() != null
-                && utlatande.getSjukskrivningsperiod().getFrom() != null && !utlatande.getSjukskrivningsperiod().isValid()) {
-            ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
-                    ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
+            if (utlatande.getSjukskrivningsperiod() != null && utlatande.getSjukskrivningsperiod().getTom() != null
+                    && utlatande.getSjukskrivningsperiod().getFrom() != null && !utlatande.getSjukskrivningsperiod().isValid()) {
+                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
+                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
+                        ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
+            }
         }
 
     }

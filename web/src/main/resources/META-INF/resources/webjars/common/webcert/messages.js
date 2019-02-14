@@ -648,6 +648,7 @@
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-99',
+            'common.validation.ue-sjukfranvaro.period.invalid': 'Ange en datumperiod.',
             'common.validation.ue-sjukfranvaro.period.from.empty': 'Ange ett datum.',
             'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett datum.',
             'common.validation.ue-sjukfranvaro.period.from.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
@@ -658,9 +659,7 @@
             'common.validation.ue-sjukfranvaro.period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.ue-grid.empty': 'Ange ett svar.',
 
-
             // Specifika valideringsmeddelande från backend
-
             'common.validation.date.year.not_selected': 'Ange år och månad.',
             'common.validation.date.month.not_selected': 'Ange månad.',
             'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
