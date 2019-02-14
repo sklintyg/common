@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -35,14 +36,22 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IdKontroll;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synskarpevarden;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 
-    private final String PNR_TOLVAN = "191212121212";
+    private static final String PNR_TOLVAN = "191212121212";
 
     @Test
     public void testConvert() throws Exception {
@@ -75,7 +84,7 @@ public class UtlatandeToIntygTest {
                 telefonNummer,
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
                 patientPostort,
-                null, null);
+                null, null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -119,7 +128,7 @@ public class UtlatandeToIntygTest {
     public void testConvertWithRelation() {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
-        TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId);
+        TsDiabetesUtlatandeV3 utlatande = buildUtlatande(relationKod, relationIntygsId).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
         assertNotNull(intyg.getRelation());
@@ -130,11 +139,48 @@ public class UtlatandeToIntygTest {
         assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
     }
 
-    private TsDiabetesUtlatandeV3 buildUtlatande() {
+    @Test
+    public void emptyUtlatandeShouldHaveNoIncompleteSvar() {
+        // Given
+        TsDiabetesUtlatandeV3 utlatande = buildUtlatande().build();
+
+        // When
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        // Then
+        assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+    }
+
+    @Test
+    public void svarWithoutDelsvarInJsonShouldNotPropagateToXml() {
+        // Given
+        TsDiabetesUtlatandeV3 utlatande = buildUtlatande()
+                .setIntygAvser(IntygAvser.create(null))
+                .setIdentitetStyrktGenom(IdKontroll.create(null))
+                .setAllmant(Allmant.builder()
+                        .setBehandling(Behandling.builder().build())
+                        .build())
+                .setHypoglykemier(Hypoglykemier.builder().build())
+                .setSynfunktion(Synfunktion.builder()
+                        .setBinokulart(Synskarpevarden.builder().build())
+                        .setHoger(Synskarpevarden.builder().build())
+                        .setVanster(Synskarpevarden.builder().build())
+                        .build())
+                .setBedomning(Bedomning.builder().build())
+                .build();
+
+        // When
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        // Then
+        assertThat(intyg.getSvar()).allMatch(svar -> svar.getDelsvar().size() != 0);
+    }
+
+    private static TsDiabetesUtlatandeV3.Builder buildUtlatande() {
         return buildUtlatande(null, null);
     }
 
-    private TsDiabetesUtlatandeV3 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
+    private static TsDiabetesUtlatandeV3.Builder buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
                 "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
                 "postOrt",
@@ -143,7 +189,7 @@ public class UtlatandeToIntygTest {
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
-    private TsDiabetesUtlatandeV3 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
+    private static TsDiabetesUtlatandeV3.Builder buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
             String arbetsplatsKod,
             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
@@ -200,6 +246,6 @@ public class UtlatandeToIntygTest {
         }
         template.setGrundData(grundData);
 
-        return template.build();
+        return template;
     }
 }

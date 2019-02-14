@@ -88,16 +88,14 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
-import com.google.common.base.Strings;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import javax.xml.bind.JAXBElement;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -111,6 +109,11 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
@@ -137,7 +140,8 @@ public final class UtlatandeToIntyg {
         List<Svar> svars = new ArrayList<>();
 
         // Kat 1 - Intyget avser
-        if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier().size() > 0) {
+        if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier() != null
+                && source.getIntygAvser().getKategorier().size() > 0) {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
                 IntygAvserKod intygAvserKod = IntygAvserKod.valueOf(intygAvserKategori.name());
