@@ -25,15 +25,21 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.inera.intyg.common.ts_diabetes.v2.util.TSDiabetesCertificateMetaTypeConverter;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intygstjanster.ts.services.v1.GrundData;
+import se.inera.intygstjanster.ts.services.v1.IntygMeta;
+import se.inera.intygstjanster.ts.services.v1.IntygStatus;
+import se.inera.intygstjanster.ts.services.v1.SkapadAv;
+import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
+import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 
 public class TSDiabetesCertificateMetaTypeConverterTest {
 
@@ -149,5 +155,24 @@ public class TSDiabetesCertificateMetaTypeConverterTest {
         assertEquals(target, res.getTarget());
         assertEquals(LocalDateTime.parse(timestamp), res.getTimestamp());
         assertEquals(CertificateState.RECEIVED, res.getType());
+    }
+
+    @Test
+    public void testConvertFromKodverkValues() {
+        final String timestamp = "2016-10-11T10:10:00";
+        IntygMeta source = new IntygMeta();
+
+        source.setAvailable("true");
+        TSDiabetesIntyg intyg = new TSDiabetesIntyg();
+        intyg.setGrundData(new GrundData());
+        intyg.getGrundData().setSkapadAv(new SkapadAv());
+        intyg.getGrundData().getSkapadAv().setVardenhet(new Vardenhet());
+        intyg.getGrundData().setSigneringsTidstampel(timestamp);
+        source.setAdditionalInfo("C, TAXI, TRAKTOR,B, UNKNOWN");
+
+        CertificateMetaData res = TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(source, intyg);
+
+        assertNotNull(res);
+        assertEquals("C, Taxi, Traktor, B, UNKNOWN", res.getAdditionalInfo());
     }
 }
