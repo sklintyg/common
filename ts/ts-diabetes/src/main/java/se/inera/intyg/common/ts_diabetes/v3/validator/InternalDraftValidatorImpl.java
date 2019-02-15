@@ -610,8 +610,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         // R8
         if (eligibleForRule8(utlatande)) {
-            ValidatorUtil.validateDate(hypoglykemier.getAterkommandeSenasteTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, null);
+            if (!ValidatorUtil.validateDate(hypoglykemier.getAterkommandeSenasteTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_JSON_ID, null)) {
+                return;
+            }
         }
 
         // R20 The date should be within last 12 months
@@ -637,8 +639,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         // R9
         if (eligibleForRule9(utlatande)) {
-            ValidatorUtil.validateDate(hypoglykemier.getSenasteTidpunktVaken(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, null);
+            if (!ValidatorUtil.validateDate(hypoglykemier.getSenasteTidpunktVaken(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_JSON_ID, null)) {
+                return;
+            }
         }
 
         // R21 The date should be within the last 3 months
@@ -664,8 +668,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiab
 
         // R10
         if (eligibleForRule10(utlatande)) {
-            ValidatorUtil.validateDate(hypoglykemier.getForekomstTrafikTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
-                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, null);
+            if (!ValidatorUtil.validateDate(hypoglykemier.getForekomstTrafikTidpunkt(), validationMessages, CATEGORY_HYPOGLYKEMIER,
+                    HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_JSON_ID, null)) {
+                return;
+            }
         }
 
         // R22 The date should be within the last 12 months

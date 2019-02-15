@@ -202,72 +202,70 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v3',
                                 'allmant.behandling.endastKost',
                                 'allmant.behandling.tabletter',
                                 'allmant.behandling.insulin',
-                                'allmant.behandling.annanBehandling']}, [
-                            {
-                                type: 'ue-checkbox',
-                                modelProp: 'allmant.behandling.endastKost',
-                                label: {
-                                    key: 'DFR_109.1.RBK'
-                                }
-                            },
-                            {
-                                type: 'ue-checkbox',
-                                modelProp: 'allmant.behandling.tabletter',
-                                label: {
-                                    key: 'DFR_109.2.RBK'
-                                }
-                            },
-                            {
-                                type: 'ue-radio',
-                                yesLabel: 'SVAR_JA.RBK',
-                                noLabel: 'SVAR_NEJ.RBK',
-                                modelProp: 'allmant.behandling.tablettRiskHypoglykemi',
-                                hideExpression: '!model.allmant.behandling.tabletter',
-                                label: {
-                                    key: 'DFR_109.3.RBK',
-                                    required: true,
-                                    requiredProp: 'allmant.behandling.tablettRiskHypoglykemi'
-                                }
-                            },
-                            {
-                                type: 'ue-checkbox',
-                                modelProp: 'allmant.behandling.insulin',
-                                label: {
-                                    key: 'DFR_109.4.RBK'
-                                }
-                            },
-                            {
-                                type: 'ue-year-picker',
-                                modelProp: 'allmant.behandling.insulinSedanAr',
-                                maxYear: thisYear,
-                                hideExpression: '!model.allmant.behandling.insulin',
-                                label: {
-                                    key: 'DFR_109.5.RBK',
-                                    required: true,
-                                    requiredProp: 'allmant.behandling.insulinSedanAr'
-                                }
-                            },
-                            {
-                                type: 'ue-checkbox',
-                                modelProp: 'allmant.behandling.annanBehandling',
-                                label: {
-                                    key: 'DFR_109.6.RBK'
-                                },
-                                paddingBottom: true
-                            },
-                            {
-                                type: 'ue-textfield',
-                                modelProp: 'allmant.behandling.annanBehandlingBeskrivning',
-                                hideExpression: '!model.allmant.behandling.annanBehandling',
-                                htmlMaxlength: '53',
-                                label: {
-                                    key: 'DFR_109.7.RBK',
-                                    required: true,
-                                    requiredProp: 'allmant.behandling.annanBehandlingBeskrivning'
-                                }
+                                'allmant.behandling.annanBehandling']},
+                            [{
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [[
+                                    {
+                                        type: 'ue-checkbox',
+                                        modelProp: 'allmant.behandling.endastKost',
+                                        label: {
+                                            key: 'DFR_109.1.RBK'
+                                        }
+                                    }], [{
+                                    type: 'ue-checkbox',
+                                    modelProp: 'allmant.behandling.tabletter',
+                                    label: {
+                                        key: 'DFR_109.2.RBK'
+                                    }
+                                }], [{
+                                    type: 'ue-radio',
+                                    yesLabel: 'SVAR_JA.RBK',
+                                    noLabel: 'SVAR_NEJ.RBK',
+                                    modelProp: 'allmant.behandling.tablettRiskHypoglykemi',
+                                    hideExpression: '!model.allmant.behandling.tabletter',
+                                    label: {
+                                        key: 'DFR_109.3.RBK',
+                                        required: true,
+                                        requiredProp: 'allmant.behandling.tablettRiskHypoglykemi'
+                                    }
+                                }], [{
+                                    type: 'ue-checkbox',
+                                    modelProp: 'allmant.behandling.insulin',
+                                    label: {
+                                        key: 'DFR_109.4.RBK'
+                                    }
+                                }], [{
+                                    type: 'ue-year-picker',
+                                    modelProp: 'allmant.behandling.insulinSedanAr',
+                                    maxYear: thisYear,
+                                    hideExpression: '!model.allmant.behandling.insulin',
+                                    label: {
+                                        key: 'DFR_109.5.RBK',
+                                        required: true,
+                                        requiredProp: 'allmant.behandling.insulinSedanAr'
+                                    }
+                                }], [{
+                                    type: 'ue-checkbox',
+                                    modelProp: 'allmant.behandling.annanBehandling',
+                                    label: {
+                                        key: 'DFR_109.6.RBK'
+                                    },
+                                    paddingBottom: true
+                                }], [{
+                                    type: 'ue-textfield',
+                                    modelProp: 'allmant.behandling.annanBehandlingBeskrivning',
+                                    hideExpression: '!model.allmant.behandling.annanBehandling',
+                                    htmlMaxlength: '53',
+                                    label: {
+                                        key: 'DFR_109.7.RBK',
+                                        required: true,
+                                        requiredProp: 'allmant.behandling.annanBehandlingBeskrivning'
+                                    }
+                                }]]
                             }])
-                        ]
-                    ),
+                    ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {
                         hideExpression: function (scope) { return !R6_OR_R17(scope.model);}}, [
