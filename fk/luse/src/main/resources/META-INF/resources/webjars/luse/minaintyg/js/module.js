@@ -25,10 +25,13 @@ angular.module('luse').config(function($stateProvider) {
         state('luse-view', {
             url :'/luse/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luse/minaintyg/views/view-cert.html',
-            controller: 'luse.ViewCertCtrl',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luse.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,

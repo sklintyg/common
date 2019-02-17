@@ -25,7 +25,15 @@ angular.module('fk7263').config(function($stateProvider) {
         state('fk7263-view', {
             url :'/fk7263/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/fk7263/minaintyg/views/view-cert.html',
-            controller: 'fk7263.ViewCertCtrl',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: ['fk7263.viewConfigFactory', function(viewConfigFactory) {
+                    return viewConfigFactory;
+                }],
+                viewFactory: ['fk7263.viewFactory', function(viewFactory) {
+                    return viewFactory;
+                }]
+            },
             data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
     }).state('fk7263-customize', {

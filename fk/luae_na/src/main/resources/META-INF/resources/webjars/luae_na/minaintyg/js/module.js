@@ -25,10 +25,13 @@ angular.module('luae_na').config(function($stateProvider) {
         state('luae_na-view', {
             url :'/luae_na/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luae_na/minaintyg/views/view-cert.html',
-            controller: 'luae_na.ViewCertCtrl',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('luae_na.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_na.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,

@@ -17,34 +17,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller(
-        'common.ViewCertCtrl',
-        [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'intygType',
-                function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, intygType) {
-                    'use strict';
-                    $scope.certificateId = $stateParams.certificateId;
-                    $scope.cert = undefined;
+    'common.ViewCertCtrl',
+    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'viewFactory',
+        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, viewFactory) {
+            'use strict';
+            $scope.certificateId = $stateParams.certificateId;
+            $scope.cert = undefined;
 
-                    $scope.send = function() {
-                        $location.path('/send/' + intygType + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF');
-                    };
+            $scope.send = function() {
+                $location.path(viewFactory.getSendUrl());
+            };
 
+            $scope.customizeCertificate = function() {
+                viewFactory.customizeCertificate();
+            };
+
+            $scope.errorMessage = null;
+            $scope.doneLoading = false;
+            certificateService.getCertificate(viewFactory.intygsTyp, $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
+                $scope.doneLoading = true;
+                if (result !== null) {
+                    $scope.cert = result.utlatande;
+                    $scope.certMeta = result.meta;
                     $scope.errorMessage = null;
-                    $scope.doneLoading = false;
-                    certificateService.getCertificate(intygType, $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
-                        $scope.doneLoading = true;
-                        if (result !== null) {
-                            $scope.cert = result.utlatande;
-                            $scope.certMeta = result.meta;
-                            $scope.errorMessage = null;
-                        } else {
-                            $scope.errorMessage = 'error.certnotfound';
-                        }
-                    }, function(errorMsgKey) {
-                        $scope.doneLoading = true;
-                        $log.debug('getCertificate got error ' + errorMsgKey);
-                        $scope.errorMessage = errorMsgKey;
-                    });
+                } else {
+                    $scope.errorMessage = 'error.certnotfound';
+                }
+            }, function(errorMsgKey) {
+                $scope.doneLoading = true;
+                $log.debug('getCertificate got error ' + errorMsgKey);
+                $scope.errorMessage = errorMsgKey;
+            });
 
-                    $scope.pagefocus = true;
-                    $scope.uvConfig = viewConfigFactory.getViewConfig();
-                } ]);
+            $scope.pagefocus = true;
+            $scope.uvConfig = viewConfigFactory.getViewConfig();
+        } ]);

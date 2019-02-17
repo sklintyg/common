@@ -26,10 +26,13 @@ angular.module('luae_fs').config(function($stateProvider) {
         state('luae_fs-view', {
             url :'/luae_fs/:intygTypeVersion/view/:certificateId',
             templateUrl: '/web/webjars/luae_fs/minaintyg/views/view-cert.html',
-            controller: 'luae_fs.ViewCertCtrl',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('luae_fs.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_fs.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,

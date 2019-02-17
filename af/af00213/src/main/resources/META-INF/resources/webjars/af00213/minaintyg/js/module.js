@@ -24,11 +24,14 @@ angular.module('af00213').config(function($stateProvider) {
     $stateProvider.state('af00213-view', {
         url: '/af00213/:intygTypeVersion/view/:certificateId',
         templateUrl: '/web/webjars/af00213/minaintyg/views/view-cert.html',
-        controller: 'af00213.ViewCertCtrl',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
               return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
-          }
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('af00213.viewFactory', $stateParams);
+            }
         },
         data: {
             title: 'Läkarintyg för sjukpenning',
