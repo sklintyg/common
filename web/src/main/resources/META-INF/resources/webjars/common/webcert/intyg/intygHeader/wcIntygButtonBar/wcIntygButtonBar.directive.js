@@ -130,7 +130,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                     var sendContentModel = $scope.viewState.getSendContent && $scope.viewState.getSendContent(intygType);
 
                     IntygSend.send($scope.viewState.intygModel, $scope.viewState.intygModel.id, intygType, recipient,
-                        intygType + '.label.send', sendContentModel, function() {
+                                    sendContentModel, function() {
                             // After a send request we shouldn't reload right away due to async reasons.
                             CommonIntygViewState.intygProperties.isSent = true;
                             CommonIntygViewState.intygProperties.sentTimestamp = new Date();
