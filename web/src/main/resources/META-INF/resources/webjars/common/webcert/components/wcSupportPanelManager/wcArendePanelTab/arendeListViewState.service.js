@@ -130,7 +130,7 @@ angular.module('common').service('common.ArendeListViewStateService',
             };
 
             //Get matching kompletteringar for single arendeModel
-            function addMatchingFrageKomplettering(result, frageId, arendeModel) {
+            function addMatchingUnhandledFrageKomplettering(result, frageId, arendeModel) {
                 if (arendeModel.isKomplettering() && arendeModel.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
                     angular.forEach(arendeModel.kompletteringar, function(komplettering) {
                         if (parseInt(komplettering.id, 10) === parseInt(frageId, 10)) {
@@ -140,7 +140,27 @@ angular.module('common').service('common.ArendeListViewStateService',
                 }
             }
 
+            function addMatchingFrageKomplettering(result, frageId, arendeModel) {
+                if (arendeModel.isKomplettering()) {
+                    angular.forEach(arendeModel.kompletteringar, function(komplettering) {
+                        if (parseInt(komplettering.id, 10) === parseInt(frageId, 10)) {
+                            result.push(komplettering);
+                        }
+                    });
+                }
+            }
+
             //Return array with all unhandled kompletteringar for the given frageId
+            this.getUnhandledKompletteringarForFraga = function(frageId) {
+                var result = [];
+
+                angular.forEach(this.arendeList, function(arendeModel) {
+                    addMatchingUnhandledFrageKomplettering(result, frageId, arendeModel);
+                });
+
+                return result;
+            };
+
             this.getKompletteringarForFraga = function(frageId) {
                 var result = [];
 
