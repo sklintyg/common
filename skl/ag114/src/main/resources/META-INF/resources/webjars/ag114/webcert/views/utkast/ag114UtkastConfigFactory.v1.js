@@ -127,6 +127,9 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                 type: 'ue-grid',
                                 colSizes: [1,2,1,1,2],
                                 independentRowValidation: true,
+                                firstRequiredRow: 0,
+                                firstRequiredRowKey: 'sjukskrivningsperiod.period',
+                                modelProp: 'sjukskrivningsperiod',
                                 components: [
                                     // Row 1
                                     [{

@@ -85,11 +85,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
             || ((utlatande.getSjukskrivningsperiod().getFrom() == null || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate())
                 && (utlatande.getSjukskrivningsperiod().getTom() == null || !utlatande.getSjukskrivningsperiod().getTom().isValidDate()))) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
-                    ValidationMessageType.OTHER, "common.validation.ue-sjukfranvaro.period.invalid");
-            ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
-                    ValidationMessageType.OTHER);
+                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".period",
+                    ValidationMessageType.EMPTY, "common.validation.ue-sjukfranvaro.period.invalid");
         } else {
             if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getFrom() == null
                     || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate()) {
