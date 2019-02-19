@@ -23,6 +23,7 @@ var viewConfig = [
         components: [
             {
                 type: 'uv-fraga',
+                labelKey: 'FRG_1.RBK',
                 components: [{
                     type: 'uv-del-fraga',
                     components: [{
@@ -44,6 +45,7 @@ var viewConfig = [
         labelKey: 'KAT_2.RBK',
         components: [{
             type: 'uv-fraga',
+            labelKey: 'FRG_2.RBK',
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['identitetStyrktGenom.typ'],
@@ -259,7 +261,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.aterkommandeSenasteTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -281,7 +283,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.senasteTidpunktVaken'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -303,7 +305,7 @@ var viewConfig = [
                                 type: 'uv-simple-value',
                                 modelProp: 'hypoglykemier.forekomstTrafikTidpunkt'
                             }]
-                        },
+                        }
 
                     ]
                 }]
@@ -344,6 +346,13 @@ var viewConfig = [
                 type: 'uv-fraga',
                 labelKey: 'FRG_8.RBK',
                 components: [
+                    {
+                        type: 'uv-alert-value',
+                        labelKey: 'TSDIA-001.ALERT',
+                        alertLevel: 'warning',
+                        showExpression: function(model) {
+                            return model.synfunktion && model.synfunktion.misstankeOgonsjukdom === true;}
+                    },
                     {
                         type: 'uv-del-fraga',
                         components: [{

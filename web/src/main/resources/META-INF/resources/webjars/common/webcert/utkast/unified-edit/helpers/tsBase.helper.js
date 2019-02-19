@@ -21,26 +21,34 @@ angular.module('common').factory('common.tsBaseHelper', [
     function($log, ObjectHelper, UserModel, ueFactoryTemplates, UtilsService) {
         'use strict';
 
-        function _setupKorkortstypChoices(choices, kanInteTaStallningType) {
-            var somethingElseSelected = false,
-                index = UtilsService.findIndexWithPropertyValue(choices, 'type', kanInteTaStallningType),
-                kanInteTaStallningSelected = (index > -1 && choices[index].selected);
+        function _setupKorkortstypChoices(choices, exclusiveChoicesArray) {
 
-            if(!kanInteTaStallningSelected) {
-                // check if something else is selected
-                somethingElseSelected = choices.filter(function(choice) {
-                    return choice.type !== kanInteTaStallningType && choice.selected;
-                }).length > 0;
+            function processExclusiveChoice(choices, choiceType) {
+                var somethingElseSelected = false,
+                index = UtilsService.findIndexWithPropertyValue(choices, 'type', choiceType),
+                choiceSelected = (index > -1 && choices[index].selected);
+
+                if(!choiceSelected) {
+                    // check if something else is selected
+                    somethingElseSelected = choices.filter(function(choice) {
+                        return choice.type !== choice && choice.selected;
+                    }).length > 0;
+                }
+
+                return choices.map(function(choice) {
+                    if ((choiceSelected && choice.type !== choiceType) || (somethingElseSelected && choice.type === choiceType)) {
+                        choice.disabled = true;
+                        choice.selected = false;
+                    }
+                    return choice;
+                });
             }
 
-            return choices.map(function(choice) {
-                if ((kanInteTaStallningSelected && choice.type !== kanInteTaStallningType) ||
-                    (somethingElseSelected && choice.type === kanInteTaStallningType)) {
-                    choice.disabled = true;
-                    choice.selected = false;
-                }
-                return choice;
+            exclusiveChoicesArray.forEach(function (choice) {
+                choices = processExclusiveChoice(choices, choice);
             });
+
+            return choices;
         }
 
         return {

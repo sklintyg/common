@@ -45,7 +45,7 @@ public class UVDelfraga extends UVComponent {
                         .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
                         .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
                         .setFont(renderer.fragaDelFragaFont)
-                        .setFontColor(wcColor09)
+                        .setFontColor(WC_COLOR_09)
                         .setFontSize(FRAGA_DELFRAGA_FONT_SIZE)
                         .setPadding(0f)
                         .setMarginTop(0f)
@@ -53,7 +53,7 @@ public class UVDelfraga extends UVComponent {
                         .setKeepTogether(true)
                 );
             }
-            // Allow page breaks in parent Fraga
+            // Allow page breaks (separating delfraga title from answer)
             parent.setKeepTogether(false);
         }
         return render;

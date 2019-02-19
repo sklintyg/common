@@ -19,8 +19,8 @@
 
 angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
     ['$log', '$timeout',
-        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper',
-        function($log, $timeout, DateUtils, ueFactoryTemplates) {
+        'common.DateUtilsService', 'common.ueFactoryTemplatesHelper', 'common.SjukskrivningarViewStateService',
+        function($log, $timeout, DateUtils, ueFactoryTemplates, SjukskrivningarViewStateService) {
             'use strict';
 
             function _getCategoryIds() {
@@ -45,6 +45,12 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var today = moment().format('YYYY-MM-DD');
 
+                var SjukskrivningarViewState = SjukskrivningarViewStateService.reset();
+                var isLocked = viewState.common.intyg.isLocked;
+                var lockedExpression = isLocked ? '&& model.motiveringTillInteBaseratPaUndersokning' : '';
+                var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.telefonkontaktMedPatienten || ' + 
+                'model.journaluppgifter || model.annatGrundForMU)' + lockedExpression + ')';
+            
                 var config = [
 
                     kategori(categoryIds[10], 'KAT_10.RBK', 'KAT_10.HLP', {signingDoctor: true}, [
@@ -115,13 +121,14 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                                     }]
                                 ]
                             }]
-                        ), fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.telefonkontaktMedPatienten || model.journaluppgifter || model.annatGrundForMU)' }, [{
+                        ), fraga(1, '', '', { hideExpression: motiveringBaseratHideExpression }, [{
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                                 type: 'label',
                                 materialIcon: 'lightbulb_outline',
+                                isLocked: isLocked,
                                 helpKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.help',
                                 variableLabelKey: 'FRG_25.RBK'
                             },
@@ -204,7 +211,8 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', {}, [
                         fraga(32, 'FRG_32.RBK', 'FRG_32.HLP', { required: true, requiredProp: ['sjukskrivningar["EN_FJARDEDEL"].period.from', 'sjukskrivningar["HALFTEN"].period.from',
-                            'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'] }, [{
+                            'sjukskrivningar["TRE_FJARDEDEL"].period.from', 'sjukskrivningar["HELT_NEDSATT"].period.from'],
+                            viewState: SjukskrivningarViewState }, [{
                             type: 'ue-sjukskrivningar',
                             modelProp: 'sjukskrivningar',
                             code: 'KV_FKMU_0003',
@@ -216,34 +224,34 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                             ]
                         }]),
                         fraga(null, '', '', { hideExpression: function(scope) {
-                            var hide = true;
-                            var warnings = scope.validation.warningMessagesByField;
-                            if (warnings) {
-                                angular.forEach(warnings.sjukskrivningar, function(w) {
-                                    if (w.message ===
-                                        'lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
-                                        hide = false;
-                                    }
-                                });
+                            var foundEarlyDate = false;
+                            angular.forEach(scope.model.sjukskrivningar, function(item, key) {
+                                if (item.period &&
+                                    DateUtils.isDate(item.period.from) &&
+                                    DateUtils.isDate(item.period.tom) &&
+                                    DateUtils.olderThanAWeek(DateUtils.toMoment(item.period.from))) {
+                                    foundEarlyDate = true;
+                                }
+                            });
+
+                            if (isLocked && !scope.model.motiveringTillTidigtStartdatumForSjukskrivning) {
+                                return true;
+                            } else {
+                                return !foundEarlyDate;
                             }
-                            return hide;
                         } }, [ {
                             type: 'ue-textarea',
                             label: {
                                 bold: 'bold',
+                                materialIcon: 'lightbulb_outline',
+                                isLocked: isLocked,
+                                variableLabelKey: 'FRG_25.RBK',
                                 key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering',
                                 helpKey: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.help',
                                 type: 'label',
                                 requiredProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
                             },
                             modelProp: 'motiveringTillTidigtStartdatumForSjukskrivning'
-                        }, {
-                            type: 'ue-text',
-                            label : {
-                                htmlClass: 'info-transfer',
-                                key: 'lisjp.label.sjukskrivningar.tidigtstartdatum.motivering.info',
-                                variableLabelKey: 'FRG_25.RBK'
-                            }
                         }]),
                         fraga(37, 'FRG_37.RBK', 'FRG_37.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [{
                             type: 'ue-textarea',

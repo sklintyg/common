@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class Vardenhet {
@@ -39,32 +40,6 @@ public class Vardenhet {
     private Vardgivare vardgivare;
 
     private String arbetsplatsKod;
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof Vardenhet)) {
-            return false;
-        }
-        final Vardenhet that = (Vardenhet) object;
-        return Objects.equals(this.enhetsid, that.enhetsid)
-                && Objects.equals(this.enhetsnamn, that.enhetsnamn)
-                && Objects.equals(this.postadress, that.postadress)
-                && Objects.equals(this.postnummer, that.postnummer)
-                && Objects.equals(this.postort, that.postort)
-                && Objects.equals(this.telefonnummer, that.telefonnummer)
-                && Objects.equals(this.epost, that.epost)
-                && Objects.equals(this.vardgivare, that.vardgivare)
-                && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.enhetsid, this.enhetsnamn, this.postadress, this.postnummer, this.postort,
-                this.telefonnummer, this.epost, this.vardgivare, this.arbetsplatsKod);
-    }
 
     public String getEnhetsid() {
         return enhetsid;
@@ -136,5 +111,46 @@ public class Vardenhet {
 
     public void setArbetsplatsKod(String arbetsplatsKod) {
         this.arbetsplatsKod = arbetsplatsKod;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof Vardenhet)) {
+            return false;
+        }
+        final Vardenhet that = (Vardenhet) object;
+        return Objects.equals(this.enhetsid, that.enhetsid)
+                && Objects.equals(this.enhetsnamn, that.enhetsnamn)
+                && Objects.equals(this.postadress, that.postadress)
+                && Objects.equals(this.postnummer, that.postnummer)
+                && Objects.equals(this.postort, that.postort)
+                && Objects.equals(this.telefonnummer, that.telefonnummer)
+                && Objects.equals(this.epost, that.epost)
+                && Objects.equals(this.vardgivare, that.vardgivare)
+                && Objects.equals(this.arbetsplatsKod, that.arbetsplatsKod);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.enhetsid, this.enhetsnamn, this.postadress, this.postnummer, this.postort,
+                this.telefonnummer, this.epost, this.vardgivare, this.arbetsplatsKod);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("enhetsid", enhetsid)
+                .add("enhetsnamn", enhetsnamn)
+                .add("postadress", postadress)
+                .add("postnummer", postnummer)
+                .add("postort", postort)
+                .add("telefonnummer", telefonnummer)
+                .add("epost", epost)
+                .add("vardgivare", vardgivare)
+                .add("arbetsplatsKod", arbetsplatsKod)
+                .toString();
     }
 }

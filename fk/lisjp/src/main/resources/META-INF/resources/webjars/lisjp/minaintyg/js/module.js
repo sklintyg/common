@@ -87,21 +87,6 @@ angular.module('lisjp').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('lisjp-fel', {
-        url: '/lisjp/fel/:errorCode',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/error.html',
-        controller: 'lisjp.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('lisjp-visafel', {
-        url: '/lisjp/visafel/:errorCode',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/error.html',
-        controller: 'lisjp.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
-        }
     });
 });
 

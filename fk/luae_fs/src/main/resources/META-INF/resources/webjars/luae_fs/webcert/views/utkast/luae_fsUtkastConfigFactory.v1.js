@@ -55,6 +55,11 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var today = moment().format('YYYY-MM-DD');
 
+                var isLocked = viewState.common.intyg.isLocked;
+                var lockedExpression = viewState.common.intyg.isLocked ? '&& model.motiveringTillInteBaseratPaUndersokning' : '';
+                var motiveringBaseratHideExpression = '!(!model.undersokningAvPatienten && (model.anhorigsBeskrivningAvPatienten || ' + 
+                'model.journaluppgifter || model.annatGrundForMU)' + lockedExpression + ')';
+
                 var buildUnderlagConfigRow = function(row) {
                     return [ {
                         type: 'ue-dropdown',
@@ -144,13 +149,14 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                                 ]
                             }]
                         ),
-                        fraga(1, '', '', { hideExpression: 'model.undersokningAvPatienten || !(model.journaluppgifter || model.anhorigsBeskrivningAvPatienten || model.annatGrundForMU)' }, [{
+                        fraga(1, '', '', { hideExpression: motiveringBaseratHideExpression }, [{
                             type: 'ue-textarea',
                             modelProp: 'motiveringTillInteBaseratPaUndersokning',
                             label: {
                                 bold: 'bold',
                                 key: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning',
                                 materialIcon: 'lightbulb_outline',
+                                isLocked: isLocked,
                                 helpKey: 'smi.label.grund-for-mu.motivering_utlatande_baseras_inte_pa_undersokning.help',
                                 variableLabelKey: 'FRG_25.RBK'
                             }
@@ -233,7 +239,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
-                        fraga(25, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
+                        fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
                             type: 'ue-checkbox',
                             modelProp: 'kontaktMedFk',
                             label: {

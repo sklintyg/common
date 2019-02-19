@@ -30,6 +30,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.JSONCompareResult;
 import org.skyscreamer.jsonassert.comparator.DefaultComparator;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContextManager;
 import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
@@ -42,6 +44,7 @@ import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.fk7263.utils.Scenario;
 import se.inera.intyg.common.fk7263.utils.ScenarioFinder;
 import se.inera.intyg.common.fk7263.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
@@ -60,6 +63,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class RoundTripTest {
 
     private Scenario scenario;
@@ -84,7 +88,8 @@ public class RoundTripTest {
 
     private String name;
 
-    public RoundTripTest(String name, Scenario scenario) {
+    public RoundTripTest(String name, Scenario scenario) throws Exception {
+        new TestContextManager(getClass()).prepareTestInstance(this);
         this.scenario = scenario;
         this.name = name;
     }

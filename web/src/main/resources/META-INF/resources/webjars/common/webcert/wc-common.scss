@@ -175,6 +175,8 @@
 
   html {
     @extend %font-common;
+    position: fixed;
+    width: 100%;
   }
 
   body {

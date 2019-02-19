@@ -20,12 +20,20 @@ package se.inera.intyg.common.ts_diabetes.v2.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.google.common.base.Splitter;
 
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.inera.intygstjanster.ts.services.v1.*;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intygstjanster.ts.services.v1.IntygMeta;
+import se.inera.intygstjanster.ts.services.v1.IntygStatus;
+import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 
 public final class TSDiabetesCertificateMetaTypeConverter {
 
@@ -40,11 +48,38 @@ public final class TSDiabetesCertificateMetaTypeConverter {
         metaData.setFacilityName(tsDiabetesIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
         metaData.setSignDate(
                 LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-        metaData.setAdditionalInfo(intygMeta.getAdditionalInfo());
+        metaData.setAdditionalInfo(convertFromKodverkValues(intygMeta.getAdditionalInfo()));
         metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
         List<Status> statuses = toStatusList(intygMeta.getStatus());
         metaData.setStatus(statuses);
         return metaData;
+    }
+
+    /**
+     * TsDiabetes 2.x IntygMeta.additionalInfo is stored when registered in Intygstjansten by
+     * se.inera.intyg.common.ts_diabetes.v2.util.ConverterUtil#toCertificateHolder as a list of raw KV values
+     * (se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori), and not their displaynames.
+     * To be backwards compatible with existing data, we keep that behaviour and transform the values here when fetching
+     * data.
+     *
+     * @param additionalInfo
+     * @return Commaseparated string of intygAvser descriptions
+     */
+    private static String convertFromKodverkValues(String additionalInfo) {
+        if (additionalInfo != null) {
+            List<String> codes = Splitter.on(',').trimResults().splitToList(additionalInfo);
+            return codes.stream().map(c -> getIntygAvserDescription(c)).collect(Collectors.joining(", "));
+        }
+        return "";
+    }
+
+    private static String getIntygAvserDescription(String intygAvserCode) {
+        try {
+            return IntygAvserKod.valueOf(intygAvserCode).getDescription();
+        } catch (IllegalArgumentException iie) {
+            // Fall back: return code as-is.
+            return intygAvserCode;
+        }
     }
 
     public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {

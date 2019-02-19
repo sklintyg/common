@@ -9,6 +9,16 @@ wc-inline-komplettering {
     }
   }
 
+  wc-bottom-fadeout {
+
+    .bottom-fadeout-gradient {
+      padding: 0 4px;
+    }
+    .scrollable-body:after {
+      padding-bottom: 0;
+    }
+  }
+
   .inline-komplettering-text {
     white-space: pre-line;
     word-break: break-all;

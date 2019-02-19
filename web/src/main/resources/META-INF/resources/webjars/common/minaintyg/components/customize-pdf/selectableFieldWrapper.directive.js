@@ -24,7 +24,6 @@ angular.module('common').directive('selectableFieldWrapper', ['$parse', 'common.
         transclude: true,
         scope: {
             labelKey: '@',
-            subLabelKey: '@',
             fieldConfig: '=',
             fieldId: '=',
             certModel: '=',

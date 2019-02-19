@@ -30,13 +30,10 @@ angular.module('ag114').factory('ag114.customizeViewstate', function() {
         'nuvarandeArbete': { mandatory: true, selected: true, fields: ['nuvarandeArbete'] },
         'diagnosGrupp': { mandatory: false, selected: true, fields: ['onskarFormedlaDiagnos', 'diagnoser'] },
         'nedsattArbetsformaga': { mandatory: true, selected: true, fields: ['nedsattArbetsformaga'] },
-        'arbetsformagaTrotsSjukdom': { mandatory: true, selected: true, fields: ['arbetsformagaTrotsSjukdom']},
-        'arbetsformagaTrotsSjukdomBeskrivning': {mandatory: true, selected: true, fields: ['arbetsformagaTrotsSjukdomBeskrivning'] },
-        'sjukskrivningsgrad': { mandatory: true, selected: true, fields: ['sjukskrivningsgrad'] },
-        'sjukskrivningsperiod': { mandatory: true, selected: true, fields: ['sjukskrivningsperiod']},
+        'arbetsformagaTrotsSjukdom': { mandatory: true, selected: true, fields: ['arbetsformagaTrotsSjukdom', 'arbetsformagaTrotsSjukdomBeskrivning']},
+        'sjukskrivningsgrad': { mandatory: true, selected: true, fields: ['sjukskrivningsgrad', 'sjukskrivningsperiod'] },
         'ovrigaUpplysningar': { mandatory: true, selected: true, fields: ['ovrigaUpplysningar']},
-        'kontaktMedArbetsgivaren': { mandatory: true, selected: true, fields: ['kontaktMedArbetsgivaren']},
-        'anledningTillKontakt': { mandatory: true, selected: true, fields: ['anledningTillKontakt']}
+        'kontaktMedArbetsgivaren': { mandatory: true, selected: true, fields: ['kontaktMedArbetsgivaren', 'anledningTillKontakt']}
 
     };
 

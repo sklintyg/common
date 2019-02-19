@@ -4,5 +4,8 @@ dependencies {
 
   compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
   compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-  apt "com.google.auto.value:auto-value:${autovalueVersion}"
+  compile "com.google.auto.value:auto-value:${autovalueVersion}"
+annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+
+  testCompile "org.assertj:assertj-core:${assertjVersion}"
 }

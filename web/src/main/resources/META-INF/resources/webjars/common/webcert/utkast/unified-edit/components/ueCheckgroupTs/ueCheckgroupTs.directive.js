@@ -30,6 +30,21 @@ angular.module('common').directive('ueCheckgroupTs', [ '$parse',  'ueUtil',
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.html',
         link: function($scope) {
             ueUtil.standardSetup($scope);
+
+            var md = 'col-md-4';
+            var sm = 'col-sm-2';
+
+            if($scope.config.colSize){
+                if($scope.config.colSize.md){
+                    md = 'col-md-' + $scope.config.colSize.md;
+                }
+
+                if($scope.config.colSize.sm){
+                    sm += ' col-sm-' + $scope.config.colSize.sm;
+                }
+            }
+
+            $scope.colStyle = md + ' ' + sm;
         }
     };
 

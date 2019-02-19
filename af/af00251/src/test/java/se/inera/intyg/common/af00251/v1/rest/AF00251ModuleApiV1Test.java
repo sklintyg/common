@@ -18,9 +18,30 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
-import com.google.common.io.Resources;
+import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,9 +49,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import se.inera.intyg.common.af00251.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.Sjukfranvaro;
@@ -52,6 +80,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -64,36 +93,16 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class AF00251ModuleApiV1Test {
 
     public static final String TESTFILE_UTLATANDE = "internal/scenarios/pass-minimal.json";
+    public static final String TESTFILE_COMPLETE_UTLATANDE = "internal/scenarios/pass-complete.json";
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
 
     private final String LOGICAL_ADDRESS = "logical address";
@@ -122,6 +131,11 @@ public class AF00251ModuleApiV1Test {
 
     @InjectMocks
     private AF00251ModuleApiV1 moduleApi;
+
+
+    public AF00251ModuleApiV1Test() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testSendCertificateShouldUseXml() {
@@ -454,6 +468,35 @@ public class AF00251ModuleApiV1Test {
         assertNotEquals("", res);
     }
 
+    @Test
+    public void getAdditionalInfoFromUtlatandeTest() throws Exception {
+        AF00251UtlatandeV1 utlatande = getUtlatandeFromFile(TESTFILE_COMPLETE_UTLATANDE);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertEquals("2018-09-01 - 2018-12-31", result);
+    }
+
+    @Test
+    public void getAdditionalInfoFromUtlatandeNoSjukfranvaroTest() throws Exception {
+        AF00251UtlatandeV1 utlatande = getUtlatandeFromFile(TESTFILE_UTLATANDE);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+
+        String result = moduleApi.getAdditionalInfo(intyg);
+
+        assertNull(result);
+    }
+
+    private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
+        return getUtlatandeFromFile(TESTFILE_UTLATANDE);
+    }
+
+    private AF00251UtlatandeV1 getUtlatandeFromFile(String path) throws IOException {
+        return new CustomObjectMapper().readValue(new ClassPathResource(
+                path).getFile(), AF00251UtlatandeV1.class);
+    }
+
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
         GetCertificateResponseType res = new GetCertificateResponseType();
         RegisterCertificateType registerType = ScenarioFinder.getInternalScenario("pass-minimal").asTransportModel();
@@ -505,11 +548,6 @@ public class AF00251ModuleApiV1Test {
         value.setResultCode(res);
         retVal.setResult(value);
         return retVal;
-    }
-
-    private AF00251UtlatandeV1 getUtlatandeFromFile() throws IOException {
-        return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), AF00251UtlatandeV1.class);
     }
 
 }

@@ -33,19 +33,6 @@ angular.module('luae_na').config(function($stateProvider) {
             },
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luae_na-fel', {
-            url : '/luae_na/fel/:errorCode',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/error.html',
-            controller: 'luae_na.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('luae_na-visafel', {
-            url :'/luae_na/visafel/:errorCode',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/error.html',
-            controller: 'luae_na.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
         });
 });
 

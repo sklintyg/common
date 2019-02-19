@@ -177,7 +177,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
         return types.stream()
                 .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-                .map(IntygAvserKod::name)
+                .map(IntygAvserKod::getDescription)
                 .collect(Collectors.joining(", "));
     }
 

@@ -46,6 +46,7 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
 
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
+                console.log(viewState);
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
@@ -150,7 +151,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', {
                             required: true,
                             requiredProp: isDiagnoseRequired,
-                            hideExpression: 'model.onskarFormedlaDiagnos === false'
+                            hideExpression: 'model.onskarFormedlaDiagnos === false',
+                            hideHelpExpression: 'model.onskarFormedlaDiagnos !== true'
                         }, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
@@ -176,7 +178,8 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',
                                 required: true,
-                                requiredProp: isFunktionsNedsattningRequired
+                                requiredProp: isFunktionsNedsattningRequired,
+                                hideHelpExpression: 'model.onskarFormedlaFunktionsnedsattning !== true'
                              },
                              { type: 'ue-textarea',
                                  modelProp: 'funktionsnedsattning',

@@ -14,3 +14,7 @@ wc-help {
     }
   }
 }
+
+fieldset[disabled] wc-help {
+  display: none;
+} 

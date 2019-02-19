@@ -34,19 +34,6 @@ angular.module('luae_fs').config(function($stateProvider) {
             },
             data : { title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luae_fs-fel', {
-            url : '/luae_fs/fel/:errorCode',
-            templateUrl: '/web/webjars/luae_fs/minaintyg/views/error.html',
-            controller: 'luae_fs.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('luae_fs-visafel', {
-            url :'/luae_fs/visafel/:errorCode',
-            templateUrl: '/web/webjars/luae_fs/minaintyg/views/error.html',
-            controller: 'luae_fs.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
         });
 });
 

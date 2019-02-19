@@ -27,8 +27,14 @@ ue-sjukskrivningar {
     }
   }
 
-  .arbetstid {
+  .ifyllnadsstod {
+    i {
+      margin-left: -4px;
+    }
     color: $wc-color-21;
+    &.period {
+      padding-bottom: 18px;
+    }
   }
 
   .sjukskrivningar_period label {

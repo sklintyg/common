@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class Vardgivare {
@@ -44,6 +45,14 @@ public class Vardgivare {
         return Objects.hash(this.vardgivarid, this.vardgivarnamn);
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("vardgivarid", vardgivarid)
+                .add("vardgivarnamn", vardgivarnamn)
+                .toString();
+    }
+
     public String getVardgivarid() {
         return vardgivarid;
     }
@@ -59,5 +68,7 @@ public class Vardgivare {
     public void setVardgivarnamn(String vardgivarnamn) {
         this.vardgivarnamn = vardgivarnamn;
     }
+
+
 
 }

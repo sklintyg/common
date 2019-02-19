@@ -24,8 +24,18 @@ package se.inera.intyg.common.ts_diabetes.v3.model.internal;
  * The subset is in specified in
  * https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/459374755/
  * Informationsspecifikation+TS+Diabetes+-+nytt+intygsformat+ppen+info
+ *
+ * Note - the order is also adjusted to match requirements above.
+ *
  */
 public enum BedomningKorkortstyp {
+    AM,
+    A1,
+    A2,
+    A,
+    B,
+    BE,
+    TRAKTOR,
     C1,
     C1E,
     C,
@@ -35,12 +45,5 @@ public enum BedomningKorkortstyp {
     D,
     DE,
     TAXI,
-    AM,
-    A1,
-    A2,
-    A,
-    B,
-    BE,
-    TRAKTOR,
     KANINTETASTALLNING
 }

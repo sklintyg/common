@@ -24,7 +24,7 @@
 angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
     'use strict';
 
-    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked) {
 
         var config = {
             tabs: [],
@@ -33,7 +33,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 aboutMsgKey: 'FRM_2.RBK',
                 id: id,
                 intygTypeVersion: intygTypeVersion,
-                isSigned: isSigned
+                isSigned: isSigned,
+                isLocked: isLocked
             }
         };
 
@@ -49,8 +50,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             });
         }
 
-        //Bara visas i utkastläge, default aktiv bara om det inte är ett kompletteringsutkast
-        if (!config.intygContext.isSigned) {
+        //Bara visas i utkastläge men inte låst, default aktiv bara om det inte är ett kompletteringsutkast
+        if (!config.intygContext.isSigned && !config.intygContext.isLocked) {
             config.tabs.push({
                 id: 'wc-fmb-panel-tab',
                 title: 'common.supportpanel.fmb.title',

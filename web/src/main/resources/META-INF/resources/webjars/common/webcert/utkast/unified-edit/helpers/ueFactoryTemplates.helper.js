@@ -52,7 +52,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                 hideExpression: options.hideExpression,
                 validationContext: options.validationContext,
                 disabledFunc: options.disabledFunc,
-                cssClass: options.cssClass
+                cssClass: options.cssClass,
+                viewState: options.viewState
             };
             if (labelKey) {
                 fraga.label = {
@@ -61,7 +62,8 @@ angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.Pr
                     required: options.required,
                     requiredMode: options.requiredMode,
                     requiredProp: options.requiredProp,
-                    labelType: 'h4'
+                    labelType: 'h4',
+                    hideHelpExpression: options.hideHelpExpression
                 };
             }
             return fraga;

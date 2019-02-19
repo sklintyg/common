@@ -23,6 +23,7 @@ angular.module('doi').constant('doi.messages', {
         //Validation messages
         'common.validation.dodsorsak.empty': 'Ange ett svar.',
         'common.validation.date.incorrect_combination': 'Datumet får inte vara efter efterkommande följd eller terminal dödsorsak.',
+        'common.validation.date.e-06': 'Ange ett datum, samma som eller tidigare än fyra veckor före döden.',
 
         'doi.validation.datum.innanDodsdatum': 'Ange ett datum, samma som eller senare än "Dödsdatum".',
 
@@ -33,7 +34,6 @@ angular.module('doi').constant('doi.messages', {
         'operation.operationAnledning.operationNejUppgiftSaknas': 'Ange endast om val anges som "Ja"',
         'operation.operationDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',
         'operation.operationDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
-        'operation.operationDatum.fyraVeckorForeDodDatum': 'Ange ett datum, samma som eller tidigare än fyra veckor före döden.',
         'forgiftning.forgiftningDatum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än  "Dödsdatum".',
         'forgiftning.forgiftningDatum.efterAntraffatDodDatum': 'Ange ett datum, samma som eller tidigare än "Anträffad död".',
         'doi.validation.terminalDodsorsak.datum.efterDodsdatum': 'Ange ett datum, samma som eller tidigare än "Dödsdatum".',

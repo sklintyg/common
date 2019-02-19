@@ -1,4 +1,4 @@
-xdescribe('Proxy: DynamicLabelProxy', function() {
+describe('Proxy: DynamicLabelProxy', function() {
     'use strict';
 
     // Load the module and mock away everything that is not necessary.
@@ -10,17 +10,18 @@ xdescribe('Proxy: DynamicLabelProxy', function() {
     var textResponse = {'text':''};
 
     // Initialize the controller and a mock scope
-    beforeEach(inject(function(_$rootScope_, _$httpBackend_, _DynamicLabelProxy_) {
-        $httpBackend = _$httpBackend_;
-        DynamicLabelProxy = _DynamicLabelProxy_;
-        $rootScope = _$rootScope_;
-    }));
+    beforeEach(angular.mock.inject(['$rootScope', '$httpBackend', 'common.DynamicLabelProxy',
+        function(_$rootScope_, _$httpBackend_, _dynamicLabelProxy_) {
+            $httpBackend = _$httpBackend_;
+            DynamicLabelProxy = _dynamicLabelProxy_;
+            $rootScope = _$rootScope_;
+        }]));
 
     describe('getDynamicLabels', function() {
         it('should get the dynamiclabels for intystyp and version', function() {
             var onSuccess = jasmine.createSpy('onSuccess');
             var onError = jasmine.createSpy('onError');
-            $httpBackend.expectGET('/api/text').respond(textResponse);
+            $httpBackend.expectGET('/api/utkast/questions/luse/1.0').respond(textResponse);
 
             DynamicLabelProxy.getDynamicLabels('luse', '1.0').then(onSuccess, onError);
             $httpBackend.flush();

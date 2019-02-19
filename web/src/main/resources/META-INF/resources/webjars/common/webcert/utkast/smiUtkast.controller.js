@@ -71,17 +71,19 @@ angular.module('common').controller('smi.EditCertCtrl',
             });
 
             $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
-                //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast)
-                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false, isKomplettering);
+                //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked)
+                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false, isKomplettering, viewState.draftModel.isLocked());
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {
                 $scope.certForm.$commitViewValue();
-                $scope.certForm.$setPristine();
                 var intygState = {
                     viewState : viewState,
-                    formFail : function(){
+                    formFail : function() {
                         $scope.certForm.$setDirty();
+                    },
+                    formPristine : function() {
+                        $scope.certForm.$setPristine();
                     }
                 };
                 saveDeferred.resolve(intygState);

@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfProxy', 'common.fmbViewState',
-    function(ueUtil, $window, IcfProxy, fmbViewState) {
+angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfProxy', 'common.fmbViewState', 'common.AtticHelper',
+    function(ueUtil, $window, IcfProxy, fmbViewState, AtticHelper) {
     'use strict';
     return {
         restrict: 'E',
@@ -30,6 +30,9 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueIcf/ueIcf.directive.html',
         link: function(scope) {
             ueUtil.standardSetup(scope);
+
+            AtticHelper.restoreFromAttic(scope.model, scope.config.kategoriProp);
+            AtticHelper.updateToAttic(scope, scope.model, scope.config.kategoriProp);
 
             scope.kategorier = {};
             scope.diagnoser = [];
@@ -144,6 +147,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                     }
                 });
                 scope.closePlate();
+                scope.form.$setDirty();
             };
 
             function itereraKategorier(fun) {

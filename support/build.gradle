@@ -9,10 +9,12 @@ dependencies {
   compile "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
   compile "com.google.guava:guava:${guavaVersion}"
   compile "net.sf.saxon:Saxon-HE:${saxonVersion}"
+  compile "org.apache.commons:commons-csv:${commonsTextVersion}"
 
   compile "com.google.auto.value:auto-value:${autovalueVersion}"
 
   testCompile "org.assertj:assertj-core:${assertjVersion}"
 
-  apt "com.google.auto.value:auto-value:${autovalueVersion}"
+  compile "com.google.auto.value:auto-value:${autovalueVersion}"
+annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }

@@ -23,7 +23,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -42,10 +45,14 @@ import java.util.Properties;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
+import se.inera.intyg.common.support.services.BefattningService;
+
 
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
 import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class UVRendererTest {
 
     private static final String PNR = "19121212-1212";
@@ -265,7 +272,7 @@ public class UVRendererTest {
                 .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText("AG1-14")
                 .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
                 .withSignBox(true)
                 .withSignatureLine(true)
                 .withModelPropReplacements(replacementConfig)
@@ -301,7 +308,7 @@ public class UVRendererTest {
                 .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
                 .withLeftMarginTypText("TSTRK1031 (U03) 181024")
                 .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
                 .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
@@ -635,6 +642,38 @@ public class UVRendererTest {
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-makulerad.pdf")) {
+            fos.write(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testTstrk1009() throws IOException {
+        JsonNode intygJsonNode = loadAndCleanIntygJson("tstrk1009/tstrk1009.v1.json");
+        String cleanedJson = new ObjectMapper().writeValueAsString(intygJsonNode);
+
+        ClassPathResource cpr = new ClassPathResource("tstrk1009/tstrk1009-uv-viewmodel.v1.js");
+        String upJsModel = IOUtils.toString(cpr.getInputStream(), Charset.forName("UTF-8"));
+
+        IntygTexts intygTexts = loadTexts("tstrk1009/texterTS_TSTRK_1009_v1.0.xml");
+        byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
+
+        PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
+                .withIntygJsonModel(cleanedJson)
+                .withUpJsModel(upJsModel)
+                .withIntygsId(UUID.randomUUID().toString())
+                .withIntygsNamn("TSTRRK1009 namn")
+                .withIntygsKod("TSTRK1009")
+                .withPersonnummer(PNR)
+                .withInfoText(INFO_TEXT_AF)
+                .withLeftMarginTypText("TSTRK1009 Left side text")
+                .withUtfardarLogotyp(logoData)
+                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+                .build();
+
+        byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
+        try (FileOutputStream fos = new FileOutputStream("build/tmp/tstrk1009.pdf")) {
             fos.write(data);
         } catch (IOException e) {
             e.printStackTrace();

@@ -22,7 +22,7 @@ angular.module('common').directive('wcFragaKomplettering', [ 'common.ArendeListV
 
     function _updateKompletteringActive(numericFrageId, $element) {
         // lookup if there's an unhandled komplettering for this frage-id
-        var list = ArendeListViewStateService.getKompletteringarForFraga(numericFrageId);
+        var list = ArendeListViewStateService.getUnhandledKompletteringarForFraga(numericFrageId);
         if (list.length > 0) {
             // Not using ng-class for performance (IE 11)
             $element.addClass('komplettering-active');

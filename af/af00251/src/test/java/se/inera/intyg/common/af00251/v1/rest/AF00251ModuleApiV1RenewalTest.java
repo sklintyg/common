@@ -67,21 +67,24 @@ public class AF00251ModuleApiV1RenewalTest {
         AF00251UtlatandeV1 renewCopy = new CustomObjectMapper().readValue(renewalFromTemplate, AF00251UtlatandeV1.class);
 
         // Blanked out values:
+        assertNull(renewCopy.getSjukfranvaro());
+        assertNull(renewCopy.getUndersokningsDatum());
+        assertNull(renewCopy.getAnnatDatum());
+        assertNull(renewCopy.getAnnatBeskrivning());
         assertNull(renewCopy.getSignature());
 
         // Retained values
-        assertEquals(original.getUndersokningsDatum(), renewCopy.getUndersokningsDatum());
-        assertEquals(original.getAnnatDatum(), renewCopy.getAnnatDatum());
-        assertEquals(original.getAnnatBeskrivning(), renewCopy.getAnnatBeskrivning());
         assertEquals(original.getArbetsmarknadspolitisktProgram(), renewCopy.getArbetsmarknadspolitisktProgram());
         assertEquals(original.getFunktionsnedsattning(), renewCopy.getFunktionsnedsattning());
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getHarForhinder(), renewCopy.getHarForhinder());
-        assertEquals(original.getSjukfranvaro(), renewCopy.getSjukfranvaro());
         assertEquals(original.getBegransningSjukfranvaro(), renewCopy.getBegransningSjukfranvaro());
         assertEquals(original.getPrognosAtergang(), renewCopy.getPrognosAtergang());
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
+        // Relation should contain last one
+        assertEquals(original.getSjukfranvaro().get(3).getPeriod().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+        assertEquals(original.getSjukfranvaro().get(3).getNiva().toString(), renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 
     private CreateDraftCopyHolder createCopyHolder() {

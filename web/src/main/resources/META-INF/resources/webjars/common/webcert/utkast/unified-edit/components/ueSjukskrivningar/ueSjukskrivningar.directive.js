@@ -42,6 +42,7 @@ angular.module('common').directive('ueSjukskrivningar', ['$log', '$rootScope', '
             }
 
             var validation = $scope.validation = UtkastViewState.validation;
+            $scope.intygIsLocked = UtkastViewState.isLocked;
 
             $scope.$watch('validation.messagesByField', function() {
                 $scope.validationsForPeriod = {};

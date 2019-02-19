@@ -95,7 +95,7 @@ public class UVSkapadAv extends UVComponent {
             lineDiv.setWidth(millimetersToPoints(50f));
             lineDiv.setMarginTop(20f);
             final SolidLine lineDrawer = new SolidLine(1f);
-            lineDrawer.setColor(wcColor07);
+            lineDrawer.setColor(WC_COLOR_07);
             lineDiv.add(new LineSeparator(lineDrawer));
             parent.add(lineDiv);
 

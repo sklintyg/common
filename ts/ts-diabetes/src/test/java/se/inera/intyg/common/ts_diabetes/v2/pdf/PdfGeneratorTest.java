@@ -18,24 +18,8 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.test.util.ReflectionTestUtils;
-import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
-import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
-import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import static org.junit.Assert.assertNotNull;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -44,11 +28,33 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 
-@RunWith(MockitoJUnitRunner.class)
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
+import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
+import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
     private static final String TRANSPORTSTYRELSEN_RECIPIENT_ID = "TRANSP";
@@ -66,6 +72,10 @@ public class PdfGeneratorTest {
     @Before
     public void setup() {
         ReflectionTestUtils.setField(pdfGen, "formFlattening", true);
+    }
+
+    public PdfGeneratorTest() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test

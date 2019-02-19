@@ -687,14 +687,15 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
 
         StringBuilder ovrigt = new StringBuilder();
 
-        if (!Strings.nullToEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
-            ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
-                    .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
-                    .append("\n");
+        if (!Strings.nullToEmpty(intyg.getOvrigt()).trim().isEmpty()) {
+            ovrigt
+                    .append(intyg.getOvrigt())
+                    .append("\n\n");
         }
 
-        if (!Strings.nullToEmpty(intyg.getOvrigt()).trim().isEmpty()) {
-            ovrigt.append(intyg.getOvrigt());
+        if (!Strings.nullToEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
+            ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
+                    .append(intyg.getMotiveringTillInteBaseratPaUndersokning());
         }
 
         // OBS: Övrigt fältet skall behålla radbytformattering eftersom detta kan vara sammanslaget med motiveringstext
@@ -897,7 +898,7 @@ public abstract class AbstractLisjpPdfDefinitionBuilder extends FkBasePdfDefinit
                 .offset(14f, 50f)
                 .withHorizontalAlignment(PdfPCell.ALIGN_LEFT)
                 .withVerticalAlignment(Element.ALIGN_MIDDLE)
-                .size(145f, 12f)
+                .size(170f, 12f)
                 .withFont(PdfConstants.FONT_BOLD_9)
                 .withBorders(Rectangle.BOX, BaseColor.RED);
         allElements.add(elektroniskKopia);

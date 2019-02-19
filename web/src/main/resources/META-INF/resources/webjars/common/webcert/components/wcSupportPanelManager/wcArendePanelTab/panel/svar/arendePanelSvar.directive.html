@@ -49,7 +49,7 @@
   </div>
 
   <!-- Svarsdelen -->
-  <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg" class="kompletterad">
+  <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg && panelId == 'kompletteringar'" class="kompletterad">
     <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
   </div>
 

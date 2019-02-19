@@ -35,21 +35,6 @@ angular.module('af00213').config(function($stateProvider) {
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
         }
-    }).state('af00213-fel', {
-        url: '/af00213/fel/:errorCode',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/error.html',
-        controller: 'af00213.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('af00213-visafel', {
-        url: '/af00213/visafel/:errorCode',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/error.html',
-        controller: 'af00213.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
-        }
     });
 });
 

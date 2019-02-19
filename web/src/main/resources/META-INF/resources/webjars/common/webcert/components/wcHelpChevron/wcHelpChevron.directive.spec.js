@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-xdescribe('wcHelpMark', function() {
+describe('wcHelpMark', function() {
     'use strict';
 
     var $q;

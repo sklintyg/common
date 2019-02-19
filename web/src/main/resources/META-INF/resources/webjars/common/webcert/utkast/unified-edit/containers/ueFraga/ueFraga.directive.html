@@ -6,7 +6,7 @@
       <ue-render-components form="::form" config="::config.components" model="::model" />
     </ue-validation-wrapper>
     <wc-inline-komplettering frage-id="::config.frageId"></wc-inline-komplettering>
-
+    <fmb-varning ng-if="config.viewState" viewstate="config.viewState" model="model"></fmb-varning>
     <div ng-repeat="cvk in validationKeys">
       <!-- show error for: {{cvk}} -->
 

@@ -86,19 +86,7 @@ angular.module('ag114').config(function($stateProvider) {
                 index: 2
             }
 
-        }).state('ag114-fel', {
-                url : '/ag114/fel/:errorCode',
-                templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
-                controller: 'ag114.ErrorCtrl',
-                data : { title: 'Fel' }
-            }).
-            state('ag114-visafel', {
-                url :'/ag114/visafel/:errorCode',
-                templateUrl: '/web/webjars/ag114/minaintyg/views/error.html',
-                controller: 'ag114.ErrorCtrl',
-                data : { title: 'Fel',
-                        backLink: '/web/start' }
-            });
+        });
 });
 
 // Inject language resources

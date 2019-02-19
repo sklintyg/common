@@ -61,7 +61,7 @@
             'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
             'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggat på.',
             'common.fornya': 'Förnya',
-            'common.fornya.tooltip': 'Skapar en kopia av detta intyg som du kan redigera.',
+            'common.fornya.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
             'common.fornya.sjukskrivning.tooltip': 'Skapar ett nytt intygsutkast för förlängning av sjukskrivning, där en del information från detta intyg följer med.',
             'common.createfromtemplate.continue': 'Fortsätt',
             'common.createfromtemplate.cancel': 'Avbryt',
@@ -364,9 +364,14 @@
             'ts-bas.label.send': 'Skicka intyg till Transportstyrelsen',
             'ts-diabetes.button.send': 'Skicka till Transportstyrelsen',
             'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
+            'ts-tstrk1062.button.send': 'Skicka till Transportstyrelsen',
+            'ts-tstrk1062.label.send': 'Skicka intyg till Transportstyrelsen',
 
             'af00213.button.send': 'Skicka till Arbetsförmedlingen',
             'af00213.label.send': 'Skicka intyg till Arbetsförmedlingen',
+
+            'af00251.button.send': 'Skicka till Arbetsförmedlingen',
+            'af00251.label.send': 'Skicka intyg till Arbetsförmedlingen',
 
             // Send fk
             'luse.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Försäkringskassans system vilket ska göras i samråd med patienten.',
@@ -384,6 +389,7 @@
 
              // Send AF
             'af00213.label.send.body': 'Om du går vidare kommer intyget att skickas till Arbetsförmedlingens system, vilket ska göras i samråd med patienten.',
+            'af00251.label.send.body': 'Om du går vidare kommer intyget att skickas till Arbetsförmedlingens system, vilket ska göras i samråd med patienten.',
 
             'sjukpenning.label.send.obs.short.duration': 'Om sjukperioden är kortare än 15 dagar ska intyget inte skickas till Försäkringskassan utom i vissa undantagsfall.',
 
@@ -424,7 +430,7 @@
             'fk7263.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
             'lisjp.modalbody.intygstatus.is-008': '<p>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg></p><p>Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning.</p><p>Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.</p>',
 
-    // Status - signed but not sent
+            // Status - signed but not sent
             'common.label.status.signed.patient-dead': 'Intyget är signerat.<br>',
             // Same status for fk7263 & lisjp
             'fk7263.label.status.signed.patient-alive': 'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Intyget går även att nå via Försäkringskassans e-tjänst för ansökan om sjukpenning. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten.',
@@ -642,14 +648,20 @@
             'common.validation.ue-vaguedate.invalid_format': 'åååå måste anges, månad och dag kan anges som 00.',
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
-            'common.validation.ue-sjukfranvaro.period_overlap': 'Sjukfrånvaroperioder med överlappande datum har angetts.',
-            'common.validation.ue-sjukfranvaro.empty': 'Fältet får inte vara tomt.',
-            'common.validation.ue-sjukfranvaro.invalid_format': 'Fältet har ogiltigt format.',
+            'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',
+            'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-99',
+            'common.validation.ue-sjukfranvaro.period.invalid': 'Ange en datumperiod.',
+            'common.validation.ue-sjukfranvaro.period.from.empty': 'Ange ett datum.',
+            'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett datum.',
+            'common.validation.ue-sjukfranvaro.period.from.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
+            'common.validation.ue-sjukfranvaro.period.tom.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
+            'common.validation.ue-sjukfranvaro.period.from.period_overlap': 'Frånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.period.tom.period_overlap': 'Frånvaroperioder med överlappande datum har angetts.',
+            'common.validation.ue-sjukfranvaro.period_overlap': 'Ange frånvaroperioder som inte överlappar varandra.',
+            'common.validation.ue-sjukfranvaro.period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.ue-grid.empty': 'Ange ett svar.',
 
-
             // Specifika valideringsmeddelande från backend
-
             'common.validation.date.year.not_selected': 'Ange år och månad.',
             'common.validation.date.month.not_selected': 'Ange månad.',
             'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
@@ -667,9 +679,7 @@
             'common.validation.diagnos.length-3': 'Ange diagnoskod med så många positioner som möjligt, men minst tre positioner.',
             'common.validation.diagnos.psykisk.length-4': 'Ange diagnosrad med minst fyra positioner på en psykisk diagnos.',
             'common.validation.diagnos.description.missing': 'Ange diagnostext.',
-            'common.validation.diagnos.artal.future': 'Ange ett årtal som inte ligger i framtiden',
-            'common.validation.diagnos.kodsystem': 'Felaktigt kodsystem.',
-            'common.validation.sjukskrivning_period.empty': 'Ange ett svar.',
+            'common.validation.sjukskrivning_period.empty': 'Ange ett datum.',
             'common.validation.sjukskrivning_period.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.sjukskrivning_period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.sjukskrivning_period.period_overlap': 'Ange sjukskrivningsperioder som inte överlappar varandra.',
@@ -688,6 +698,7 @@
             'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
+            'common.validation.b-04': 'Välj minst ett alternativ.',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',

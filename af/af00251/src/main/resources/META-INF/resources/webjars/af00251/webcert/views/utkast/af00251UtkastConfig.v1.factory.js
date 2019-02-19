@@ -105,7 +105,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                             }]
                         )
                     ]),
-                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {signingDoctor: true}, [
+                    kategori(categoryIds[2], 'KAT_2.RBK', 'KAT_2.HLP', {}, [
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {
                                 required: true,
                                 requiredProp: 'arbetsmarknadspolitisktProgram.medicinskBedomning'
@@ -179,7 +179,7 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', {}, [
                         fraga(5, 'FRG_5.RBK', 'FRG_5.HLP',
-                            {required: true, requiredProp: ['harForhinder']},
+                            {required: true, requiredProp: 'harForhinder'},
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'harForhinder',
@@ -197,7 +197,28 @@ angular.module('af00251').factory('af00251.UtkastConfigFactory.v1',
                                 type: 'ue-sjukfranvaro',
                                 modelProp: 'sjukfranvaro',
                                 maxRows: 4
-                            }]
+                            },
+                            {
+                                type: 'ue-alert',
+                                alertType: 'warning',
+                                key: 'AF-001.ALERT',
+                                hideExpression: function (scope) {
+                                    var sjukskrivningar = scope.model.sjukfranvaro;
+
+                                    var foundEarlyDate = false;
+                                    angular.forEach(sjukskrivningar, function(item, key) {
+                                        if (item.period &&
+                                            DateUtils.isDate(item.period.from) &&
+                                            DateUtils.isDate(item.period.tom) &&
+                                            DateUtils.olderThanAWeek(DateUtils.toMoment(item.period.from))) {
+                                            foundEarlyDate = true;
+                                        }
+                                    });
+
+                                    return !foundEarlyDate;
+                                }
+                            }
+                            ]
                         ),
                         fraga(7, 'FRG_7.RBK', 'FRG_7.HLP', {
                                 required: true,

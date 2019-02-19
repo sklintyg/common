@@ -33,19 +33,6 @@ angular.module('luse').config(function($stateProvider) {
             },
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luse-fel', {
-            url : '/luse/fel/:errorCode',
-            templateUrl: '/web/webjars/luse/minaintyg/views/error.html',
-            controller: 'luse.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('luse-visafel', {
-            url :'/luse/visafel/:errorCode',
-            templateUrl: '/web/webjars/luse/minaintyg/views/error.html',
-            controller: 'luse.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
         });
 });
 

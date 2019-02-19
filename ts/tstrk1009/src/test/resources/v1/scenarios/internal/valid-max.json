@@ -1,0 +1,65 @@
+{
+  "id": "dd5d686b-7425-4716-8c2d-ea249e5839f5",
+  "grundData": {
+    "signeringsdatum": "2019-01-23T12:49:15.000",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    }
+  },
+  "textVersion": "1.0",
+  "identitetStyrktGenom": {
+    "typ": "ID_KORT"
+  },
+  "anmalanAvser": {
+    "typ": "OLAMPLIGHET"
+  },
+  "medicinskaForhallanden": "Väldigt olämplig",
+  "senasteUndersokningsdatum": "2019-01-16",
+  "intygetAvserBehorigheter": {
+    "typer": [{
+      "type": "ALLA",
+      "selected": true
+    }, {
+      "type": "A_B_TRAKTOR",
+      "selected": false
+    }, {
+      "type": "C_E",
+      "selected": false
+    }, {
+      "type": "D",
+      "selected": false
+    }, {
+      "type": "TAXI",
+      "selected": false
+    }, {
+      "type": "KANINTETASTALLNING",
+      "selected": false
+    }]
+  },
+  "informationOmTsBeslutOnskas": true,
+  "typ": "tstrk1009"
+}

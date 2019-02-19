@@ -33,12 +33,15 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.lisjp.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.converter.WebcertModelFactoryImpl;
@@ -68,6 +71,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -104,7 +108,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGN
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
 import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class LisjpModuleApiTest {
 
     public static final String TESTFILE_UTLATANDE = "v1/internal/scenarios/pass-flera-sysselsattningar.json";
@@ -139,6 +144,10 @@ public class LisjpModuleApiTest {
 
     @InjectMocks
     private LisjpModuleApiV1 moduleApi;
+
+    public LisjpModuleApiTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test(expected = ModuleSystemException.class)
     public void testPdfEmployerNotAllowedForSmittskydd() throws Exception {

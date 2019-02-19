@@ -33,8 +33,9 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                 if($scope.model && $scope.model.diagnoser && $scope.model.diagnoser.length > 0 &&
                     (ObjectHelper.isDefined($scope.model.diagnoser[0].diagnosKod) ||
                     ObjectHelper.isDefined($scope.model.diagnoser[1].diagnosKod) ||
-                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod))) {
-                    $log.debug('fmbvarning - diagnoses available');
+                    ObjectHelper.isDefined($scope.model.diagnoser[2].diagnosKod)) &&
+                    $scope.viewstate.totalDays && $scope.viewstate.totalDays > 0) {
+                    $log.debug('fmbvarning - diagnoses available and period entered - requesting fmbvarning info');
                     FMBProxy.getValidateSjukskrivningstid({
                         icd10Kod1: $scope.model.diagnoser[0].diagnosKod,
                         icd10Kod2: $scope.model.diagnoser[1].diagnosKod,
@@ -57,8 +58,8 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                                 $scope.fmbVarning.text = 'Den totala sjukskrivningsperioden är ' +
                                     fmbVarning.totalSjukskrivningstidInklusiveForeslagen +
                                     ' dagar och därmed längre än FMBs rekommendationer för diagnosen ' +
-                                    '{{fmbVarning.aktuellIcd10Kod}} ({{fmbVarning.maximaltRekommenderadSjukskrivningstid}} ' +
-                                    'dagar = {{fmbVarning.maximaltRekommenderadSjukskrivningstid / 7 | number: 0}} veckor).' +
+                                    fmbVarning.aktuellIcd10Kod + ' (' + fmbVarning.maximaltRekommenderadSjukskrivningstid +
+                                    'dagar = ' + $filter('number')(fmbVarning.maximaltRekommenderadSjukskrivningstid / 7, 0) + 'veckor).' +
                                     ' Ange en motivering för att underlätta Försäkringskassans handläggning.' +
                                     ' Sjukskrivningsperioden är baserad på patientens sammanhängande intyg på denna vårdenhet.';
                             }
@@ -70,7 +71,7 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                     });
                 } else {
                     $scope.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false };
-                    $log.debug('fmbvarning - diagnoses not available');
+                    $log.debug('fmbvarning - diagnoses or period not entered yet');
                 }
             }
 

@@ -46,6 +46,8 @@ import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidat
 @Component("db.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtlatandeV1> {
 
+    public static final int FOUR_WEEKS = 4;
+
     @Override
     public ValidateDraftResponse validateDraft(DbUtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
@@ -101,6 +103,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DbUtla
                             .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
                                     ValidationMessageType.INCORRECT_COMBINATION,
                                     "db.validation.undersokningDatum.after.dodsdatum");
+                } else if (utlatande.getDodsdatumSakert() != null && utlatande.getDodsdatumSakert()
+                        && utlatande.getDodsdatum() != null && utlatande.getDodsdatum().isValidDate()
+                        && utlatande.getUndersokningDatum().asLocalDate()
+                            .isBefore(utlatande.getDodsdatum().asLocalDate().minusWeeks(FOUR_WEEKS))) {
+                    ValidatorUtil
+                            .addValidationError(validationMessages, "yttreUndersokning", UNDERSOKNING_DATUM_JSON_ID,
+                                    ValidationMessageType.INCORRECT_COMBINATION,
+                                    "common.validation.date.e-06");
                 } else if ((utlatande.getDodsdatumSakert() != null && !utlatande.getDodsdatumSakert())
                         && (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate())
                         && utlatande.getUndersokningDatum().asLocalDate().isAfter(utlatande.getAntraffatDodDatum().asLocalDate())) {

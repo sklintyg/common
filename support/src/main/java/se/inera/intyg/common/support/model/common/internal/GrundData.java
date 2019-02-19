@@ -18,6 +18,7 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 import java.time.LocalDateTime;
@@ -27,26 +28,6 @@ public class GrundData {
     private HoSPersonal skapadAv;
     private Patient patient;
     private Relation relation;
-
-    @Override
-    public boolean equals(Object object) {
-        if (object == null) {
-            return false;
-        }
-        if (!(object instanceof GrundData)) {
-            return false;
-        }
-        final GrundData that = (GrundData) object;
-        return Objects.equals(this.signeringsdatum, that.signeringsdatum)
-                && Objects.equals(this.skapadAv, that.skapadAv)
-                && Objects.equals(this.patient, that.patient)
-                && Objects.equals(this.relation, that.relation);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient, this.relation);
-    }
 
     public LocalDateTime getSigneringsdatum() {
         return signeringsdatum;
@@ -78,5 +59,35 @@ public class GrundData {
 
     public void setRelation(Relation relation) {
         this.relation = relation;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof GrundData)) {
+            return false;
+        }
+        final GrundData that = (GrundData) object;
+        return Objects.equals(this.signeringsdatum, that.signeringsdatum)
+                && Objects.equals(this.skapadAv, that.skapadAv)
+                && Objects.equals(this.patient, that.patient)
+                && Objects.equals(this.relation, that.relation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.signeringsdatum, this.skapadAv, this.patient, this.relation);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("signeringsdatum", signeringsdatum)
+                .add("skapadAv", skapadAv)
+                .add("patient", patient)
+                .add("relation", relation)
+                .toString();
     }
 }

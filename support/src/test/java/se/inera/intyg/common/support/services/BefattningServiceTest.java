@@ -21,15 +21,18 @@ package se.inera.intyg.common.support.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-import java.lang.reflect.Field;
-import java.util.Map;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class BefattningServiceTest {
 
     @Test
-    public void getDescriptionFromCodeTest() throws Exception {
+    public void getDescriptionFromCodeTest() {
         assertEquals("Läkare legitimerad, specialiseringstjänstgöring", BefattningService.getDescriptionFromCode("203010").get());
         assertEquals("Överläkare", BefattningService.getDescriptionFromCode("201010").get());
         assertEquals("Distriktssköterska", BefattningService.getDescriptionFromCode("206011").get());
@@ -45,7 +48,7 @@ public class BefattningServiceTest {
     }
 
     @Test
-    public void getCodeFromDescriptionTest() throws Exception {
+    public void getCodeFromDescriptionTest() {
         assertEquals("203010", BefattningService.getCodeFromDescription("Läkare legitimerad, specialiseringstjänstgöring").get());
         assertEquals("201010", BefattningService.getCodeFromDescription("Överläkare").get());
         assertEquals("206011", BefattningService.getCodeFromDescription("Distriktssköterska").get());

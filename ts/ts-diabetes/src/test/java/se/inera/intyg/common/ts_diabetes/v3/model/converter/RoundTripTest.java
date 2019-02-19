@@ -34,6 +34,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContextManager;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -42,6 +44,7 @@ import org.xmlunit.diff.ElementSelectors;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
@@ -52,6 +55,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
 @RunWith(Parameterized.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class RoundTripTest {
 
     private Scenario scenario;
@@ -59,7 +63,8 @@ public class RoundTripTest {
     @SuppressWarnings("unused") // It is actually used to name the test
     private String name;
 
-    public RoundTripTest(String name, Scenario scenario) {
+    public RoundTripTest(String name, Scenario scenario) throws Exception {
+        new TestContextManager(getClass()).prepareTestInstance(this);
         this.scenario = scenario;
         this.name = name;
     }

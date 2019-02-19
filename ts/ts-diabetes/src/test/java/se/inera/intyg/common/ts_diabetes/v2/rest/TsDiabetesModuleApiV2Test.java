@@ -196,7 +196,7 @@ public class TsDiabetesModuleApiV2Test {
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
         String result = moduleApi.getAdditionalInfo(intyg);
-        assertEquals("AM, A1, A2, A, B, BE, TRAKTOR, C1, C1E, C, CE, D1, D1E, D, DE, TAXI", result);
+        assertEquals("AM, A1, A2, A, B, BE, Traktor, C1, C1E, C, CE, D1, D1E, D, DE, Taxi", result);
     }
 
     @Test
@@ -213,7 +213,7 @@ public class TsDiabetesModuleApiV2Test {
         intyg.getSvar().add(s);
 
         String result = moduleApi.getAdditionalInfo(intyg);
-        assertEquals("TRAKTOR", result);
+        assertEquals("Traktor", result);
     }
 
     @Test
@@ -244,7 +244,7 @@ public class TsDiabetesModuleApiV2Test {
         intyg.getSvar().add(s3);
 
         String result = moduleApi.getAdditionalInfo(intyg);
-        assertEquals("C1, C, TAXI", result);
+        assertEquals("C1, C, Taxi", result);
     }
 
     @Test

@@ -19,6 +19,10 @@
 package se.inera.intyg.common.fkparent.pdf;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
 import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
@@ -34,6 +38,8 @@ import static org.junit.Assert.*;
 /**
  * Created 24/11-16
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class PdfGeneratorTest {
 
     private FkPdfDefinition buildPdfDefinition() throws java.lang.Exception {

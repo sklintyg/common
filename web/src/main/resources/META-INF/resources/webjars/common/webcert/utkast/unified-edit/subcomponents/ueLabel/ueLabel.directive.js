@@ -47,14 +47,18 @@ angular.module('common').directive('ueLabel',
                             template = generateRequired(template);
                         }
                         if (scope.config.materialIcon) {
-                            template += '<i class="material-icons">' + scope.config.materialIcon + '</i>';
+                            template += '<i class="material-icons label-icon' +
+                                (scope.config.isLocked ? 'is-locked' : '') + 
+                                '">' + scope.config.materialIcon + '</i>';
                         }
                         if (scope.config.key) {
                             template += '<span class="label-slot">' + dynamicLabelService.getProperty(scope.config.key) + '</span>\n';
                         }
                         if (scope.config.helpKey) {
                             template += '<wc-help help-key="' + scope.config.helpKey + '" variable-label-key="' + 
-                            scope.config.variableLabelKey + '"></wc-help>\n';
+                            scope.config.variableLabelKey + '" ' + (scope.config.hideHelpExpression ? 
+                            'ng-if="!config.hideHelpExpression || !$eval(config.hideHelpExpression)"' : '') +
+                            '></wc-help>\n';
                         }
                         template += '</' + scope.config.labelType + '>\n';
                         element.empty();

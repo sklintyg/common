@@ -29,8 +29,12 @@ import com.helger.schematron.svrl.SVRLHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.support.services.BefattningService;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
@@ -53,13 +57,18 @@ import se.inera.intyg.common.ts_diabetes.v3.rest.TsDiabetesModuleApiV3;
 import se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {BefattningService.class})
 public class ConverterTest {
 
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;
 
     private ObjectMapper objectMapper = new CustomObjectMapper();
+
+    public ConverterTest() {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void doSchematronValidationTsDiabetesV3() throws Exception {

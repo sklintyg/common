@@ -459,14 +459,15 @@ public class LuaefsPdfDefinitionBuilder extends FkBasePdfDefinitionBuilder {
 
         StringBuilder ovrigt = new StringBuilder();
 
-        if (!Strings.isNullOrEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
-            ovrigt.append("Motivering till varför utlåtandet inte baseras på undersökning av patienten: ")
-                    .append(intyg.getMotiveringTillInteBaseratPaUndersokning())
-                    .append("\n");
+        if (!Strings.isNullOrEmpty(intyg.getOvrigt())) {
+            ovrigt
+                    .append(intyg.getOvrigt())
+                    .append("\n\n");
         }
 
-        if (!Strings.isNullOrEmpty(intyg.getOvrigt())) {
-            ovrigt.append(intyg.getOvrigt());
+        if (!Strings.isNullOrEmpty(intyg.getMotiveringTillInteBaseratPaUndersokning())) {
+            ovrigt.append("Motivering till varför det medicinska underlaget inte baseras på en undersökning av patienten: ")
+                    .append(intyg.getMotiveringTillInteBaseratPaUndersokning());
         }
 
         // OBS: Övrigt fältet skall behålla radbytformattering eftersom detta kan vara sammanslaget med motiveringstext
