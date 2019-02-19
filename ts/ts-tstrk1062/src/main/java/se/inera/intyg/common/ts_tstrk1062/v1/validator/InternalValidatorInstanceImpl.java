@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 
@@ -32,7 +34,6 @@ import java.util.List;
 import java.util.Set;
 
 import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
-import static se.inera.intyg.common.support.validate.ValidatorUtil.getValidationStatus;
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 @Component("ts-tstrk1062.v1.InternalDraftValidator")
@@ -45,6 +46,9 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     @Override
     public ValidateDraftResponse validateDraft(TsTstrk1062UtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
+
+        // Patient validering
+        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
 
         // Kategori 1 - Intyget avser
         validateIntygAvser(utlatande.getIntygAvser(), validationMessages);
@@ -70,7 +74,10 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         // Kategori 7 - Bedomning
         validateBedomning(utlatande.getBedomning(), validationMessages);
 
-        return new ValidateDraftResponse(getValidationStatus(validationMessages), validationMessages);
+        // Enhetsvalidering
+        ValidatorUtil.validateVardenhet(utlatande.getGrundData(), validationMessages);
+
+        return new ValidateDraftResponse(ValidatorUtil.getValidationStatus(validationMessages), validationMessages);
     }
 
     private void validateIntygAvser(final IntygAvser intygAvser, List<ValidationMessage> validationMessages) {
@@ -117,7 +124,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ALLMANT_KATEGORI,
                         "diagnosKodad",
                         ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.codemissing");
+                        "ts-tstrk1062.validation.diagnos.missing");
                 return;
             }
 
@@ -148,17 +155,20 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY,
+                    "common.validation.ue-year-picker.empty");
         } else if (!isYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.INVALID_FORMAT);
+                    ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.ue-year-picker.invalid_format");
         } else if (isFutureYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.OTHER);
+                    ValidationMessageType.OTHER,
+                    "ts-tstrk1062.validation.diagnos.artal");
         }
     }
 
@@ -170,7 +180,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ALLMANT_KATEGORI,
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.codemissing");
+                        "common.validation.diagnos0.missing");
             }
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,
@@ -203,7 +213,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ALLMANT_KATEGORI,
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.OTHER,
-                        "common.validation.diagnos.artal.future");
+                        "ts-tstrk1062.validation.diagnos.artal");
             }
 
             diagnosNr++;
@@ -272,7 +282,8 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
                             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
-                            ValidationMessageType.OTHER);
+                            ValidationMessageType.OTHER,
+                            "ts-tstrk1062.validation.lakemedelsbehandling.avslutad");
                 }
 
                 if (isNull(lakemedelsbehandling.getAvslutadOrsak()) || lakemedelsbehandling.getAvslutadOrsak().isEmpty()) {

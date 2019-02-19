@@ -29,11 +29,14 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.internal.PrognosTillstand.*;
 
 public final class TransportToInternal {
 
@@ -58,6 +61,8 @@ public final class TransportToInternal {
         Bedomning.Builder bedomning = Bedomning.builder();
         Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(Bedomning.BehorighetsTyp.class);
 
+        List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>();
+
         Boolean harHaft = null;
         Boolean pagar = null;
         String aktuell = null;
@@ -76,30 +81,32 @@ public final class TransportToInternal {
                     handleIdKontroll(utlatande, svar);
                     break;
                 case ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID:
-                    handleDiagnosKodad(utlatande, svar);
+                    handleDiagnosKodad(diagnosKodadList, svar);
                     break;
                 case ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID:
                     handleDiagnosFritext(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
-                    handleLakemedelsbehandlingForekommit(utlatande, svar, harHaft);
+                    harHaft = handleLakemedelsbehandlingForekommit(utlatande, svar);
+                    break;
                 case LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID:
-                    handleLakemedelsbehandlingPagar(utlatande, svar, pagar);
+                    pagar = handleLakemedelsbehandlingPagar(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID:
-                    handleLakemedelsbehandlingAktuell(utlatande, svar, aktuell);
+                    aktuell = handleLakemedelsbehandlingAktuell(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID:
-                    handleLakemedelsbehandlingPagatt(utlatande, svar, pagatt);
+                    pagatt = handleLakemedelsbehandlingPagatt(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID:
-                    handleLakemedelsbehandlingEffekt(utlatande, svar, effekt);
+                    effekt = handleLakemedelsbehandlingEffekt(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID:
-                    handleLakemedelsbehandlingFoljsamhet(utlatande, svar, foljsamhet);
+                    foljsamhet = handleLakemedelsbehandlingFoljsamhet(utlatande, svar);
                     break;
                 case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
-                    handleLakemedelsbehandlingAvslutad(utlatande, svar, avslutadTidpunkt, avslutadOrsak);
+                    avslutadTidpunkt = handleLakemedelsbehandlingAvslutadTidpunkt(utlatande, svar);
+                    avslutadOrsak = handleLakemedelsbehandlingAvslutadOrsak(utlatande, svar);
                     break;
                 case SYMPTOM_BEDOMNING_SVAR_ID:
                     handleSymptomBedomning(utlatande, svar);
@@ -126,6 +133,11 @@ public final class TransportToInternal {
             bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
         }
         utlatande.setBedomning(bedomning.build());
+
+        if (diagnosKodadList.size() > 0) {
+            utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD));
+            utlatande.setDiagnosKodad(diagnosKodadList);
+        }
     }
 
     private static void handleIntygAvser(EnumSet<IntygAvser.BehorighetsTyp> intygAvserBehorigheter, Svar svar) throws ConverterException {
@@ -153,15 +165,36 @@ public final class TransportToInternal {
         }
     }
 
-    private static void handleDiagnosKodad(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD));
+    private static void handleDiagnosKodad(List<DiagnosKodad> diagnosKodadList, Svar svar) throws ConverterException {
+        String diagnosKod = null;
+        String diagnosKodSystem = null;
+        String diagnosBeskrivning = null;
+        String diagnosDisplayName = null;
+        String diagnosArtal = null;
+
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID:
-                    System.out.println(delsvar.toString());
+                    diagnosKod = getCVSvarContent(delsvar).getCode();
+                    diagnosKodSystem = getCVSvarContent(delsvar).getCodeSystem();
+                    diagnosDisplayName = getCVSvarContent(delsvar).getDisplayName();
+                    break;
+                case ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID:
+                    diagnosBeskrivning = getStringContent(delsvar);
+                    break;
+                case ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID:
+                    diagnosArtal = getPartialDateContent(delsvar).getValue().toString();
+                    break;
+                default:
+                    throw new IllegalArgumentException();
 
             }
+        }
+
+        if (diagnosKod != null && diagnosKodSystem != null && diagnosBeskrivning != null && diagnosArtal != null) {
+            final DiagnosKodad diagnosKodad = DiagnosKodad.create(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName, diagnosArtal);
+            diagnosKodadList.add(diagnosKodad);
         }
     }
 
@@ -186,96 +219,104 @@ public final class TransportToInternal {
         utlatande.setDiagnosFritext(DiagnosFritext.create(diagnosFritext, diagnosArtal));
     }
 
-    private static void handleLakemedelsbehandlingForekommit(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, Boolean harHaft) {
+    private static Boolean handleLakemedelsbehandlingForekommit(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID:
-                    harHaft = getBooleanContent(delsvar);
-                    break;
+                    return getBooleanContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingPagar(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, Boolean pagar) {
+    private static Boolean handleLakemedelsbehandlingPagar(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID:
-                    pagar = getBooleanContent(delsvar);
-                    break;
+                    return getBooleanContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingAktuell(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, String aktuell) {
+    private static String handleLakemedelsbehandlingAktuell(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID:
-                    aktuell = getStringContent(delsvar);
+                    return getStringContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingPagatt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, Boolean pagatt) {
+    private static Boolean handleLakemedelsbehandlingPagatt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID:
-                    pagatt = getBooleanContent(delsvar);
-                    break;
+                    return getBooleanContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingEffekt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, Boolean effekt) {
+    private static Boolean handleLakemedelsbehandlingEffekt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID:
-                    effekt = getBooleanContent(delsvar);
-                    break;
+                    return getBooleanContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingFoljsamhet(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, Boolean foljsamhet) {
+    private static Boolean handleLakemedelsbehandlingFoljsamhet(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID:
-                    foljsamhet = getBooleanContent(delsvar);
-                    break;
+                    return getBooleanContent(delsvar);
                 default:
                     throw new IllegalArgumentException();
             }
         }
+        return null;
     }
 
-    private static void handleLakemedelsbehandlingAvslutad(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar, InternalDate avslutadTidpunkt, String avslutadOrsak) {
+    private static InternalDate handleLakemedelsbehandlingAvslutadTidpunkt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
         for (Delsvar delsvar :
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID:
-                    avslutadTidpunkt = new InternalDate(getStringContent(delsvar));
-                    break;
-                case LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID:
-                    avslutadOrsak = getStringContent(delsvar);
-                default:
-                    throw new IllegalArgumentException();
+                    return new InternalDate(getPartialDateContent(delsvar).getValue().toString());
             }
         }
+        return null;
+    }
+
+    private static String handleLakemedelsbehandlingAvslutadOrsak(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        for (Delsvar delsvar :
+                svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID:
+                    return getStringContent(delsvar);
+            }
+        }
+        return null;
     }
 
     private static void handleSymptomBedomning(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
@@ -296,6 +337,19 @@ public final class TransportToInternal {
                 svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case SYMPTOM_PROGNOS_DELSVAR_ID:
+                    if (!isStringContent(delsvar)) {
+                        if (PrognosTillstandTyp.KANEJBEDOMA.getCode().equals(getCVSvarContent(delsvar).getCode())) {
+                            utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.KANEJBEDOMA));
+                        } else {
+                            throw new IllegalArgumentException("Unknown code");
+                        }
+                    } else {
+                        if (getBooleanContent(delsvar)) {
+                            utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.JA));
+                        } else {
+                            utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.NEJ));
+                        }
+                    }
                     utlatande.setPrognosTillstand(PrognosTillstand.create(
                             PrognosTillstand.PrognosTillstandTyp.fromCode(getCVSvarContent(delsvar).getCode())));
                     break;
@@ -321,7 +375,7 @@ public final class TransportToInternal {
     private static void handleBedomning(Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav, Svar svar) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
-                case BEDOMNING_UPPFYLLER_SVAR_ID:
+                case BEDOMNING_UPPFYLLER_DELSVAR_ID:
                     bedomningUppfyllerBehorighetskrav.add(Bedomning.BehorighetsTyp.valueOf(getCVSvarContent(delsvar).getCode()));
                     break;
                 default:

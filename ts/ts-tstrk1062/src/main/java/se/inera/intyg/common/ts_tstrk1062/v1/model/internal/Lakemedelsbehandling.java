@@ -20,8 +20,7 @@ public abstract class Lakemedelsbehandling {
                                               @JsonProperty(LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID) Boolean effekt,
                                               @JsonProperty(LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID) Boolean foljsamhet,
                                               @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID) InternalDate avslutadTidpunkt,
-                                              @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID) String avslutadOrsak
-    ) {
+                                              @JsonProperty(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID) String avslutadOrsak) {
         return new AutoValue_Lakemedelsbehandling(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak);
     }
 

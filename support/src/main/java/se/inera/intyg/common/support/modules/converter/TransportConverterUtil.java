@@ -228,12 +228,17 @@ public final class TransportConverterUtil {
                 }
                 switch (partialDateType.getFormat()) {
                     case YYYY:
+                        if (partialDateValue != null) {
+                            partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
+                        }
+                        break;
+                    case YYYY_MM_DD:
+                        if (partialDateValue != null) {
+                            partialDateType.setValue(LocalDate.parse(partialDateValue));
+                        }
                         break;
                     default:
                         throw new ConverterException("Unexpected format while converting PartialDateType");
-                }
-                if (partialDateValue != null) {
-                    partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
                 }
                 return partialDateType;
             }

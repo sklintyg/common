@@ -123,10 +123,24 @@ public final class UtlatandeToIntyg {
 
         if (source.getPrognosTillstand() != null) {
             final PrognosTillstand.PrognosTillstandTyp prognosTillstandTyp = source.getPrognosTillstand().getTyp();
-            svars.add(aSvar(SYMPTOM_PROGNOS_SVAR_ID)
-                    .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID,
-                            aCV("", prognosTillstandTyp.getCode(), prognosTillstandTyp.getDescription()))
-                    .build());
+
+            Object content = null;
+            switch (prognosTillstandTyp) {
+                case JA:
+                case NEJ:
+                    content = prognosTillstandTyp.getCode();
+                    break;
+                case KANEJBEDOMA:
+                    content = aCV(KV_V3_CODE_SYSTEM_NULLFLAVOR_SYSTEM, prognosTillstandTyp.getCode(),
+                            prognosTillstandTyp.getDescription());
+                    break;
+            }
+
+            if (content != null) {
+                svars.add(aSvar(SYMPTOM_PROGNOS_SVAR_ID)
+                        .withDelsvar(SYMPTOM_PROGNOS_DELSVAR_ID, content)
+                        .build());
+            }
         }
 
         if (source.getOvrigaKommentarer() != null) {
@@ -215,7 +229,8 @@ public final class UtlatandeToIntyg {
 
         if (lakemedelsbehandling.getAvslutadTidpunkt() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID, InternalConverterUtil.getInternalDateContent(lakemedelsbehandling.getAvslutadTidpunkt()))
+                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, lakemedelsbehandling.getAvslutadTidpunkt().asLocalDate()))
                     .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID, lakemedelsbehandling.getAvslutadOrsak())
                     .build());
         }

@@ -192,13 +192,7 @@
       <ns2:delsvar id="60.1">Bedömning av aktuella symptom</ns2:delsvar>
     </ns2:svar>
     <ns2:svar id="61">
-      <ns2:delsvar id="61.1">
-        <ns4:cv>
-          <ns4:code>false</ns4:code>
-          <ns4:codeSystem></ns4:codeSystem>
-          <ns4:displayName>Nej</ns4:displayName>
-        </ns4:cv>
-      </ns2:delsvar>
+      <ns2:delsvar id="61.1">false</ns2:delsvar>
     </ns2:svar>
     <ns2:svar id="32">
       <ns2:delsvar id="32.1">Inga övriga kommentarer</ns2:delsvar>

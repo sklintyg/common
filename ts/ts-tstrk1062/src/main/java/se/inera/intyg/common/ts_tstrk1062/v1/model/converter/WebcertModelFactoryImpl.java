@@ -65,6 +65,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);
+        template.setSignature(null);
 
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)));
 
@@ -78,14 +79,18 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
         if (!TsTstrk1062UtlatandeV1.class.isInstance(template)) {
             throw new ConverterException("Template is not of type TsTstrk1062UtlatandeV1");
         }
+
         TsTstrk1062UtlatandeV1 tsTstrk1062Utlatande = (TsTstrk1062UtlatandeV1) template;
+
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsTstrk1062Utlatande.getId());
 
         TsTstrk1062UtlatandeV1.Builder templateBuilder = tsTstrk1062Utlatande.toBuilder();
 
-        populateWithId(templateBuilder, copyData.getCertificateId());
         GrundData grundData = tsTstrk1062Utlatande.getGrundData();
+
+        populateWithId(templateBuilder, copyData.getCertificateId());
         WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+
         resetDataInCopy(grundData);
         templateBuilder.setSignature(null);
 
@@ -93,6 +98,9 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
     }
 
     private void resetDataInCopy(GrundData grundData) {
+        Patient patient = new Patient();
+        patient.setPersonId(grundData.getPatient().getPersonId());
+        grundData.setPatient(patient);
         grundData.setSigneringsdatum(null);
     }
 

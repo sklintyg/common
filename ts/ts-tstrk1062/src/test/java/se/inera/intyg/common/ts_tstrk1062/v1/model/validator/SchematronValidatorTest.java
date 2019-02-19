@@ -7,18 +7,17 @@ import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
-import se.inera.intyg.common.ts_tstrk1062.v1.rest.TsTstrk1062ModuleApiV1;
+import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsTstrk1062ModuleApiV1.SCHEMATRON_FILE);
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsTstrk1062EntryPoint.SCHEMATRON_FILE);
 
     static {
         // avoid com.helger debug log
@@ -144,6 +143,20 @@ public class SchematronValidatorTest {
     }
 
     @Test
+    public void failOnRule10() throws Exception {
+        final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule10.xml");
+
+        assertOneError(validationErrors, "'Årtal för diagnos'");
+    }
+
+    @Test
+    public void failOnRule11() throws Exception {
+        final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule11.xml");
+
+        assertOneError(validationErrors, "'Tidpunkt då läkemedelsbehandling avslutades'");
+    }
+
+    @Test
     public void failOnRule12And13() throws Exception {
         final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule12-13.xml");
 
@@ -192,6 +205,13 @@ public class SchematronValidatorTest {
         assertOneError(validationErrors, "'Prognos för fortsatt stabilt tillstånd är god'");
     }
 
+    @Test
+    public void failOnUnexpectedCodeForQ61() throws Exception {
+        final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failUnexpectedCodeForQ61.xml");
+
+        assertOneError(validationErrors, "'code' kan endast vara NI");
+    }
+
     private List<String> validateXML(String href) throws Exception {
         String inputXml = Resources.toString(getResource(href), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -201,7 +221,7 @@ public class SchematronValidatorTest {
     private void assertOneError(List<String> validationErrors, String containsError) throws Exception {
         assertFalse(String.join("\n", validationErrors), validationErrors.isEmpty());
         assertEquals(1, validationErrors.size());
-        assertTrue(validationErrors.get(0).contains(containsError));
+        assertTrue(validationErrors.get(0) + "should contain: " + containsError, validationErrors.get(0).contains(containsError));
     }
 
     private void assertNoError(List<String> validationErrors) throws Exception {
