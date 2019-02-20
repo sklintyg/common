@@ -24,7 +24,7 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.Domain.IntygModel.v1',
             'use strict';
 
             var uppfyllerBehorighetskravFromTransform = function(backendValue) {
-                return tsBaseHelper.setupKorkortstypChoices(backendValue, 'KANINTETASTALLNING');
+                return tsBaseHelper.setupKorkortstypChoices(backendValue, ['KANINTETASTALLNING']);
             };
 
             var diagnosFromTransform = function(diagnosArray) {
