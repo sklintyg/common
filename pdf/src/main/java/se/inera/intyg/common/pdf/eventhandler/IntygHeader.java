@@ -189,8 +189,8 @@ public class IntygHeader implements IEventHandler {
     }
 
     private String getIntygsKod(PrintConfig printConfig) {
-        return printConfig.getIntygsKod() + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
-
+        return printConfig.getIntygsKod()
+                + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
     }
 
     private void renderHorizontalLine(Rectangle pageSize, PdfCanvas pdfCanvas) {
