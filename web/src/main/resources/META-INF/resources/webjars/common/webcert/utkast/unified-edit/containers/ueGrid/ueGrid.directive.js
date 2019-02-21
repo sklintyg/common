@@ -49,7 +49,7 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
             };
 
             function validOrder() {
-                if (angular.isDefined($scope.config.firstRequiredRow)) {
+                if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
                     if ($scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()]) {
                         return false;
                     }
@@ -64,11 +64,10 @@ angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState
 
             $scope.getFirstRowValidations = function(index) {
                 if (index === $scope.config.firstRequiredRow && $scope.config.modelProp) {
-                    var required;
-                    if ($scope.config.firstRequiredRowKey) {
-                        required = $scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()];
+                    if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
+                        var required = $scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()];
+                        return required || $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
                     }
-                    return required || $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
                 }
             };
             
