@@ -128,7 +128,7 @@ angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config);
+                    config = uvUtil.convertToWebcert(config, true);
                 }
 
                 return config;
