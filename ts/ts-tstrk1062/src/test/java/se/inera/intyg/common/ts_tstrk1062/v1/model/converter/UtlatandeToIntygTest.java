@@ -1,16 +1,13 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
-import se.inera.intyg.common.ts_tstrk1062.v1.validator.InternalValidatorInstanceImpl;
-import se.inera.intyg.common.ts_tstrk1062.v1.validator.SvarsWrapper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -21,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import static junit.framework.TestCase.assertEquals;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 
 public class UtlatandeToIntygTest {
 
@@ -65,13 +63,13 @@ public class UtlatandeToIntygTest {
         assertEquals("Intygstyp.displayName is not equal", TsTstrk1062EntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
     }
 
-    private void assertSvar(TsTstrk1062UtlatandeV1 utlatande, Intyg intyg) {
+    private void assertSvar(TsTstrk1062UtlatandeV1 utlatande, Intyg intyg) throws ConverterException {
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
 
         assertIntygAvser(utlatande.getIntygAvser(), svar.getAllDelsvar(TSTRK1062Constants.INTYG_AVSER_SVAR_ID_1, TSTRK1062Constants.INTYG_AVSER_DELSVAR_ID_1));
     }
 
-    private void assertIntygAvser(IntygAvser intygAvser, List<Svar.Delsvar> delsvarList) {
+    private void assertIntygAvser(IntygAvser intygAvser, List<Svar.Delsvar> delsvarList) throws ConverterException {
         final Set<IntygAvser.BehorighetsTyp> behorighetsTyper = intygAvser.getBehorigheter();
 
         assertEquals("Number of IntygAvser not equal", behorighetsTyper.size(), delsvarList.size());
@@ -79,7 +77,7 @@ public class UtlatandeToIntygTest {
         int i = 0;
         for (IntygAvser.BehorighetsTyp behorighetsTyp: behorighetsTyper) {
             final Svar.Delsvar delsvar = delsvarList.get(i++);
-//            assertEquals("Behorighetstyp not equal", behorighetsTyp.toString().equalsIgnoreCase())
+            assertEquals("Behorighetstyp not equal", behorighetsTyp.toString().equalsIgnoreCase(getCVSvarContent(delsvar).getCode()));
         }
     }
 

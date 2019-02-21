@@ -1,4 +1,4 @@
-package se.inera.intyg.common.ts_tstrk1062.v1.validator;
+package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
