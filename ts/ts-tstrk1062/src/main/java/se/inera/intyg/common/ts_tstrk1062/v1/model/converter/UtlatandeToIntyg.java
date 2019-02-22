@@ -106,8 +106,6 @@ public final class UtlatandeToIntyg {
                 case DIAGNOS_FRITEXT:
                     handleDiagnosFritext(source.getDiagnosFritext(), svars);
                     break;
-                default:
-                    throw new IllegalArgumentException();
             }
         }
 
