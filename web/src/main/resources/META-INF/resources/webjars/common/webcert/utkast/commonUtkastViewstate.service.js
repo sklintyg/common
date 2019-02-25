@@ -147,6 +147,14 @@ angular.module('common').service('common.UtkastViewStateService',
             this.previousUtkast = prevUtkast;
         };
 
+        this.utkastCreatedFrom = function() {
+            return IntygHeaderViewState.utkastCreatedFrom;
+        };
+
+        this.clearUtkastCreatedFrom = function() {
+            IntygHeaderViewState.utkastCreatedFrom = null;
+        };
+
         this.reset();
     }
     ]);
