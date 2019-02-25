@@ -42,7 +42,7 @@ angular.module('common').factory('common.IntygCopyActions',
             ersattDialogModel.errormessageid = 'error.failedtoersattintyg';
 
             var createFromTemplateDialogModel = angular.copy(baseDialogModel);
-            ersattDialogModel.errormessageid = 'error.failedtocreateintyg';
+            createFromTemplateDialogModel.errormessageid = 'error.failedtocreateintyg';
 
             function resetViewStateErrorKeys (viewState) {
                 //The copy actions service is used both in an viewIntyg context as well as in patient list view.

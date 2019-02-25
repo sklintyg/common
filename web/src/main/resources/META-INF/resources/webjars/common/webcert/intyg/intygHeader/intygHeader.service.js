@@ -46,6 +46,7 @@ angular.module('common').service('common.IntygHeaderService',
                     $log.debug('intyg or intyg.grundData is undefined. Aborting fornya.');
                     return;
                 }
+                IntygHeaderViewState.utkastCreatedFrom = intyg.id;
                 var isOtherCareUnit = User.getValdVardenhet().id !== intyg.grundData.skapadAv.vardenhet.enhetsid;
                 _intygActionDialog = intygServiceMethod(IntygHeaderViewState.intygViewState,
                     buildIntygRequestModel({
