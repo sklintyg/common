@@ -24,7 +24,7 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     $stateProvider.
         state('ts-diabetes-view', {
             url :'/ts-diabetes/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

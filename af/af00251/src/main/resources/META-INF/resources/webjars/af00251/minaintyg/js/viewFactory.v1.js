@@ -22,6 +22,7 @@ angular.module('af00251').factory('af00251.viewFactory.v1', [
         'use strict';
 
         var intygsTyp = 'af00251';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.af';
         
         var _sendUrl = function() {
             return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF';
@@ -29,6 +30,7 @@ angular.module('af00251').factory('af00251.viewFactory.v1', [
 
         return {
             intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
             getSendUrl: _sendUrl
         };
     }]);

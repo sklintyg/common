@@ -25,7 +25,7 @@ angular.module('ag114').config(function($stateProvider) {
     $stateProvider.
         state('ag114-view', {
             url :'/ag114/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ag114/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

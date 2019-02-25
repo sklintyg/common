@@ -24,7 +24,7 @@ angular.module('ag7804').factory('ag7804.viewFactory.v1', [
         var intygsTyp = 'ag7804';
         
         var _sendUrl = function() {
-            return '';
+            return null;
         };
 
         var _customizeCertificate = function() {
@@ -32,9 +32,14 @@ angular.module('ag7804').factory('ag7804.viewFactory.v1', [
             $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customize-ag7804/' + $stateParams.certificateId + '/step1');
         };
 
+        var _enableCustomizeCertificate = function(cert) {
+            return !cert.avstangningSmittskydd && (cert.onskarFormedlaDiagnos || cert.onskarFormedlaFunktionsnedsattning);
+        };
+
         return {
             intygsTyp: intygsTyp,
             getSendUrl: _sendUrl,
-            customizeCertificate: _customizeCertificate
+            customizeCertificate: _customizeCertificate,
+            enableCustomizeCertificate: _enableCustomizeCertificate
         };
     }]);

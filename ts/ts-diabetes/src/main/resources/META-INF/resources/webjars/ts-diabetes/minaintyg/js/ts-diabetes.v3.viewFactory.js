@@ -22,6 +22,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewFactory.v3', [
         'use strict';
 
         var intygsTyp = 'ts-diabetes';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
 
         var _sendUrl = function() {
             return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
@@ -29,6 +30,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.viewFactory.v3', [
 
         return {
             intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
             getSendUrl: _sendUrl
         };
     }]);

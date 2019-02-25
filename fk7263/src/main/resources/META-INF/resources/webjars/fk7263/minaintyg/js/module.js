@@ -24,7 +24,7 @@ angular.module('fk7263').config(function($stateProvider) {
     $stateProvider.
         state('fk7263-view', {
             url :'/fk7263/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: ['fk7263.viewConfigFactory', function(viewConfigFactory) {

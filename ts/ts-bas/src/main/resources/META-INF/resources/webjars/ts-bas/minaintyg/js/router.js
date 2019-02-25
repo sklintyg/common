@@ -24,7 +24,7 @@ angular.module('ts-bas').config(function($stateProvider) {
     $stateProvider.
         state('ts-bas-view', {
             url :'/ts-bas/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

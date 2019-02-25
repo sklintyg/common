@@ -27,6 +27,10 @@ angular.module('ag114').factory('ag114.viewFactory.v1', [
             return '';
         };
 
+        var _enableCustomizeCertificate = function(cert) {
+          return cert.onskarFormedlaDiagnos;
+        };
+
         var _customizeCertificate = function() {
             customizeViewstate.resetModel();
             $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customize-ag114/' + $stateParams.certificateId + '/step1');
@@ -35,6 +39,7 @@ angular.module('ag114').factory('ag114.viewFactory.v1', [
         return {
             intygsTyp: intygsTyp,
             getSendUrl: _sendUrl,
-            customizeCertificate: _customizeCertificate
+            customizeCertificate: _customizeCertificate,
+            enableCustomizeCertificate: _enableCustomizeCertificate
         };
     }]);

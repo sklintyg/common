@@ -22,6 +22,7 @@ angular.module('fk7263').factory('fk7263.viewFactory', [
         'use strict';
 
         var intygsTyp = 'fk7263';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send';
         
         var _sendUrl = function() {
             return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
@@ -32,9 +33,15 @@ angular.module('fk7263').factory('fk7263.viewFactory', [
             $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customizepdf/' + $stateParams.certificateId + '/step1');
         };
 
+        var _enableCustomizeCertificate = function(cert) {
+            return !cert.avstangningSmittskydd;
+        };
+
         return {
             intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
             getSendUrl: _sendUrl,
-            customizeCertificate: _customizeCertificate
+            customizeCertificate: _customizeCertificate,
+            enableCustomizeCertificate: _enableCustomizeCertificate
         };
     }]);

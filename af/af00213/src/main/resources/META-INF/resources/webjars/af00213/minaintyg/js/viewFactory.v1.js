@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00213').factory('af00213.viewFactory.v1', [
-    '$stateParams',
-    function($stateParams) {
+angular.module('af00213').factory('af00213.viewFactory.v1',
+    function() {
         'use strict';
 
         var intygsTyp = 'af00213';
-        
+
         var _sendUrl = function() {
-            return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF';
+            return null;
         };
 
         return {
             intygsTyp: intygsTyp,
             getSendUrl: _sendUrl
         };
-    }]);
+    });

@@ -24,7 +24,7 @@ angular.module('luae_na').config(function($stateProvider) {
     $stateProvider.
         state('luae_na-view', {
             url :'/luae_na/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

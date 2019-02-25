@@ -23,7 +23,7 @@ angular.module('af00213').config(function($stateProvider) {
 
     $stateProvider.state('af00213-view', {
         url: '/af00213/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/view-cert.html',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
         controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {

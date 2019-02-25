@@ -24,6 +24,14 @@ angular.module('common').controller(
             $scope.certificateId = $stateParams.certificateId;
             $scope.cert = undefined;
 
+            $scope.intygsTyp = viewFactory.intygsTyp;
+            $scope.enableSend = !!viewFactory.getSendUrl();
+            $scope.selectRecipientKey = viewFactory.selectRecipientKey;
+
+            $scope.enableCustomize = function() {
+                return angular.isFunction(viewFactory.enableCustomizeCertificate) && viewFactory.enableCustomizeCertificate($scope.cert);
+            };
+
             $scope.send = function() {
                 $location.path(viewFactory.getSendUrl());
             };

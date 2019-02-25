@@ -24,7 +24,7 @@ angular.module('luse').config(function($stateProvider) {
     $stateProvider.
         state('luse-view', {
             url :'/luse/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/luse/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

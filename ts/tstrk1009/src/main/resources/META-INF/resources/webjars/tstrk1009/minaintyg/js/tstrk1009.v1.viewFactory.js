@@ -16,19 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('tstrk1009').factory('tstrk1009.viewFactory.v1', [
-    '$stateParams',
-    function($stateParams) {
+angular.module('tstrk1009').factory('tstrk1009.viewFactory.v1',
+    function() {
         'use strict';
 
         var intygsTyp = 'tstrk1009';
         
         var _sendUrl = function() {
-            return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
+            return null;
         };
 
         return {
             intygsTyp: intygsTyp,
             getSendUrl: _sendUrl
         };
-    }]);
+    });

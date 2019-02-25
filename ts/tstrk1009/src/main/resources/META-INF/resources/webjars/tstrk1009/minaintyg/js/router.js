@@ -21,7 +21,7 @@ angular.module('tstrk1009').config(function($stateProvider) {
     $stateProvider.
         state('tstrk1009-view', {
             url :'/tstrk1009/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/view-cert.html',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
             controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {

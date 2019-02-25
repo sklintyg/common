@@ -22,6 +22,7 @@ angular.module('luse').factory('luse.viewFactory.v1', [
         'use strict';
 
         var intygsTyp = 'luse';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send';
         
         var _sendUrl = function() {
             return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
@@ -29,6 +30,7 @@ angular.module('luse').factory('luse.viewFactory.v1', [
 
         return {
             intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
             getSendUrl: _sendUrl
         };
     }]);
