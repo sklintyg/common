@@ -186,12 +186,11 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
 
                         // Kontakt
                         kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
-                        fraga(26, undefined, 'FRG_9.HLP', { }, [{
+                        fraga(9, '', '', { }, [{
                             type: 'ue-checkbox',
                             modelProp: 'kontaktMedArbetsgivaren',
                             label: {
-                                key: 'DFR_9.1.RBK',
-                                helpKey: 'DFR_9.1.HLP'
+                                key: 'FRG_9.RBK'
                             }
                         }, {
                             type: 'ue-textarea',

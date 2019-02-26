@@ -161,7 +161,7 @@ var viewConfig = [
         labelKey: 'KAT_6.RBK',
         components: [{
             type: 'uv-fraga',
-            labelKey: 'DFR_9.1.RBK',
+            labelKey: 'FRG_9.RBK',
             components: [{
                 type: 'uv-boolean-value',
                 modelProp: 'kontaktMedArbetsgivaren'
