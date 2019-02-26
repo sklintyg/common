@@ -1,18 +1,18 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID;
+
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
+
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
-
-import javax.annotation.Nullable;
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
@@ -68,4 +68,3 @@ public abstract class Bedomning {
         VAR11
     }
 }
-

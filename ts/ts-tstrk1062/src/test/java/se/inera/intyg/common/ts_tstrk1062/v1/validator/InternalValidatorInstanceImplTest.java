@@ -1,11 +1,18 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.validator;
 
-import com.google.common.collect.ImmutableList;
+import static org.junit.Assert.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -14,13 +21,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.*;
-
-import static org.junit.Assert.*;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorInstanceImplTest {
@@ -236,7 +236,7 @@ public class InternalValidatorInstanceImplTest {
 
     @Test
     public void validateNullDiagnos() throws Exception {
-        final  DiagnosKodad diagnosKodad = DiagnosKodad.create(null,
+        final DiagnosKodad diagnosKodad = DiagnosKodad.create(null,
                 null, null, null, null);
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
@@ -269,7 +269,7 @@ public class InternalValidatorInstanceImplTest {
 
     @Test
     public void validateEmptyDiagnos() throws Exception {
-        final  DiagnosKodad diagnosKodad = DiagnosKodad.create("", "",
+        final DiagnosKodad diagnosKodad = DiagnosKodad.create("", "",
                 "", "", "");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
@@ -302,7 +302,7 @@ public class InternalValidatorInstanceImplTest {
 
     @Test
     public void validateInvalidDiagnosArtal() throws Exception {
-        final  DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
+        final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
                 "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
@@ -324,7 +324,7 @@ public class InternalValidatorInstanceImplTest {
     public void validateFutureDiagnosArtal() throws Exception {
         final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
-        final  DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
+        final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
                 "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", futureYear);
 
         final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
@@ -632,7 +632,7 @@ public class InternalValidatorInstanceImplTest {
 
     private Map<String, ValidationMessage> buildMapFromMessages(List<ValidationMessage> validationMessages) {
         final Map<String, ValidationMessage> validationsMap = new HashMap<>(validationMessages.size());
-        for (ValidationMessage validationMessage: validationMessages) {
+        for (ValidationMessage validationMessage : validationMessages) {
             validationsMap.put(validationMessage.getField(), validationMessage);
         }
         return validationsMap;
@@ -648,12 +648,14 @@ public class InternalValidatorInstanceImplTest {
         assertOneValidationMessages(validationMessage, ValidationMessageType.EMPTY, category, field);
     }
 
-    private void assertOneValidationMessages(List<ValidationMessage> validationMessage, ValidationMessageType validationMessageType, String category, String field) {
+    private void assertOneValidationMessages(List<ValidationMessage> validationMessage, ValidationMessageType validationMessageType,
+            String category, String field) {
         assertEquals("Should have error messages", 1, validationMessage.size());
         assertValidationMessage(validationMessage.get(0), validationMessageType, category, field);
     }
 
-    private void assertValidationMessage(ValidationMessage validationMessage,ValidationMessageType validationMessageType, String category, String field) {
+    private void assertValidationMessage(ValidationMessage validationMessage, ValidationMessageType validationMessageType, String category,
+            String field) {
         assertEquals("Should have Empty message type", validationMessageType, validationMessage.getType());
         assertEquals("Should have category: " + category, category, validationMessage.getCategory());
         assertEquals("Should have field: " + field, field, validationMessage.getField());

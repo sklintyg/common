@@ -1,11 +1,12 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-
-import javax.annotation.Nullable;
-import java.util.stream.Stream;
 
 @AutoValue
 public abstract class DiagnosRegistrering {

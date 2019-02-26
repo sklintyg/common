@@ -54,14 +54,4 @@
     <constructor-arg ref="registerCertificateClientMap"/>
   </bean>
 
-
-  <util:map id="xslHrefMap">
-    <entry key="#{ T(se.inera.intyg.common.ts_tstrk1062.v1.model.transformer.TsTstrk1062TransformerType).TRANSPORT_TO_V1 }" value="xsl/transportToV1.xsl" />
-  </util:map>
-
-  <bean id="tsTstrk1062XslTransformerFactory" class=" se.inera.intyg.common.ts_tstrk1062.v1.model.transformer.TsTstrk1062TransformerFactory">
-    <constructor-arg ref="xslHrefMap"/>
-  </bean>
-
-
 </beans>

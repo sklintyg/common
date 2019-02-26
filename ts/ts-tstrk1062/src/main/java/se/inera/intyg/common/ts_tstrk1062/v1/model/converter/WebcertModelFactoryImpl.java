@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
+import java.util.EnumSet;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +40,6 @@ import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.Bedomning;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.IntygAvser;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.TsTstrk1062UtlatandeV1;
-
-import java.util.EnumSet;
 
 /**
  * Factory for creating a editable model.

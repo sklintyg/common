@@ -50,7 +50,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
-
 @Component("ts-tstrk1062.v1.PdfGenerator")
 public class PdfGenerator {
 
@@ -58,19 +57,18 @@ public class PdfGenerator {
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-tstrk1062-uv-viewmodel.v1.js";
     private static final String PDF_SUMMARY_HEADER = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
 
-
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. "
             + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-     + "skickas till Transportstyrelsen.";
+            + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-                                   ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -108,12 +106,10 @@ public class PdfGenerator {
         }
     }
 
-
     private String getCleanModuleDescription(IntygTexts intygTexts) {
         String rawText = intygTexts.getTexter().get("FRM_1.RBK");
         return rawText != null ? rawText.replace("<LINK:transportstyrelsen>", "www.transportstyrelsen.se") : rawText;
     }
-
 
     private String buildInfoText(boolean isUtkast, List<Status> statuses) {
         StringBuilder buf = new StringBuilder();

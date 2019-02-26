@@ -1,19 +1,21 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.validator;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import com.helger.commons.debug.GlobalDebug;
-import org.junit.Test;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
-import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.validate.XmlValidator;
-import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
+import static org.junit.Assert.*;
 
 import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+import com.helger.commons.debug.GlobalDebug;
+
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.validate.XmlValidator;
+import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 
 public class SchematronValidatorTest {
 
@@ -232,4 +234,3 @@ public class SchematronValidatorTest {
         return Thread.currentThread().getContextClassLoader().getResource(href);
     }
 }
-

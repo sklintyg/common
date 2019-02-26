@@ -38,7 +38,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeIntygsTyp() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .build();
 
         final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
@@ -48,7 +48,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeIntygsVersion() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setTextVersion("TextVersion")
                 .build();
 
@@ -59,7 +59,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeIntygAvses() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
                 .build();
 
@@ -71,7 +71,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeIdKontroll() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
                 .build();
 
@@ -83,7 +83,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeDiagnosFritext() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
                 .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
                 .build();
@@ -121,7 +121,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeLakemedelsbehandlingNej() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(false, null, null, null, null, null, null,
                         null))
                 .build();
@@ -134,7 +134,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeLakemedelsbehandlingJaPagande() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell behandling", true, true, true, null,
                         null))
                 .build();
@@ -147,7 +147,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, new InternalDate("2018-01-20"),
                         "Avslutad orsak."))
                 .build();
@@ -160,7 +160,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeBedomningAvSymptom() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomningAvSymptom("Bedömning av...")
                 .build();
 
@@ -209,7 +209,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeOvrigaKommentarer() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setOvrigaKommentarer("Ovriga kommentarer")
                 .build();
 
@@ -222,7 +222,7 @@ public class UtlatandeToIntygTest {
 
     @Test
     public void convertUtlatandeBedomning() throws Exception {
-        TsTstrk1062UtlatandeV1 utlatande = builderTemplate
+        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
                 .build();
 
@@ -244,7 +244,7 @@ public class UtlatandeToIntygTest {
         }
     }
 
-    private void assertIntygsTyp(TsTstrk1062UtlatandeV1 utlatande, Intyg intyg) {
+    private void assertIntygsTyp(final TsTstrk1062UtlatandeV1 utlatande, Intyg intyg) {
         assertEquals("Intygstyp.code is not equal", TsTstrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE, intyg.getTyp().getCode());
         assertEquals("Intygstyp.codeSystem is not equal", Constants.KV_INTYGSTYP_CODE_SYSTEM, intyg.getTyp().getCodeSystem());
         assertEquals("Intygstyp.displayName is not equal", TsTstrk1062EntryPoint.ISSUER_MODULE_NAME, intyg.getTyp().getDisplayName());
@@ -384,7 +384,8 @@ public class UtlatandeToIntygTest {
         assertNull("AvslutadOrsak should be null", delsvarAvslutadOrsak);
     }
 
-    private void assertLakemedelsbehandlingJaAvslutad(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar) throws ConverterException {
+    private void assertLakemedelsbehandlingJaAvslutad(Lakemedelsbehandling lakemedelsbehandling, SvarsWrapper svar)
+            throws ConverterException {
         final Svar.Delsvar delsvarHarHaft = svar.getDelsvar(LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID,
                 LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
         assertNotNull("HarHaft should not be null", delsvarHarHaft);

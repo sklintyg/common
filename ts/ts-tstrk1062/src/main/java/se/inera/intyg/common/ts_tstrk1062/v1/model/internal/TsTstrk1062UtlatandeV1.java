@@ -63,9 +63,6 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
     public abstract String getKommentar();
 
     @Nullable
-    public abstract Vardkontakt getVardkontakt();
-
-    @Nullable
     public abstract IntygAvser getIntygAvser();
 
     @Nullable
@@ -122,9 +119,6 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         @JsonProperty("kommentar")
         public abstract Builder setKommentar(String kommentar);
-
-        @JsonProperty("vardkontakt")
-        public abstract Builder setVardkontakt(Vardkontakt vardkontakt);
 
         @JsonProperty("intygAvser")
         public abstract Builder setIntygAvser(IntygAvser intygAvser);

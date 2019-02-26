@@ -18,12 +18,13 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
-import javax.annotation.Nullable;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 
 @AutoValue
 public abstract class IdKontroll {

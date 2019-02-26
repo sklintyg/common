@@ -18,8 +18,18 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.validator;
 
-import com.google.common.collect.ImmutableList;
+import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
+
+import com.google.common.collect.ImmutableList;
+
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -27,14 +37,6 @@ import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 @Component("ts-tstrk1062.v1.InternalDraftValidator")
 public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsTstrk1062UtlatandeV1> {
@@ -59,8 +61,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         // Kategori 3 - Allmänt
         validateDiagnosRegistrering(utlatande.getDiagnosRegistrering(),
                 utlatande.getDiagnosKodad(),
-                utlatande.getDiagnosFritext()
-                , validationMessages);
+                utlatande.getDiagnosFritext(), validationMessages);
 
         // Kategori 4 - Lakemedelsbehandling
         validateLakemedelsbehandling(utlatande.getLakemedelsbehandling(), validationMessages);
@@ -107,9 +108,9 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     }
 
     private void validateDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering,
-                                             ImmutableList<DiagnosKodad> diagnosKodad,
-                                             DiagnosFritext diagnosFritext,
-                                             List<ValidationMessage> validationMessages) {
+            ImmutableList<DiagnosKodad> diagnosKodad,
+            DiagnosFritext diagnosFritext,
+            List<ValidationMessage> validationMessages) {
         if (isNull(diagnosRegistrering) || isNull(diagnosRegistrering.getTyp())) {
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
@@ -178,40 +179,46 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(diagnos.getDiagnosKod()) || diagnos.getDiagnosKod().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos0.missing");
             }
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos.kodsystem");
             }
             if (isNull(diagnos.getDiagnosBeskrivning()) || diagnos.getDiagnosBeskrivning().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos.description.missing");
             }
             if (isNull(diagnos.getDiagnosArtal()) || diagnos.getDiagnosArtal().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.ue-year-picker.empty");
-            } else if(!isYear(diagnos.getDiagnosArtal())) {
+            } else if (!isYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.INVALID_FORMAT,
                         "common.validation.ue-year-picker.invalid_format");
-            } else if(isFutureYear(diagnos.getDiagnosArtal())) {
+            } else if (isFutureYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID +"["+diagnosNr+"]"+ PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.OTHER,
                         "ts-tstrk1062.validation.diagnos.artal");
             }
@@ -322,8 +329,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                     ValidationMessageType.EMPTY);
         } else {
             final Set<Bedomning.BehorighetsTyp> behorighetsTypSet = bedomning.getUppfyllerBehorighetskrav();
-            for (Bedomning.BehorighetsTyp behorighetsTyp :
-                    behorighetsTypSet) {
+            for (Bedomning.BehorighetsTyp behorighetsTyp : behorighetsTypSet) {
                 if (behorighetsTyp == Bedomning.BehorighetsTyp.VAR11) {
                     if (behorighetsTypSet.size() > 1) {
                         addValidationError(validationMessages,
@@ -344,7 +350,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         try {
             Integer.parseInt(artal);
             return true;
-        } catch(NumberFormatException nfe) {
+        } catch (NumberFormatException nfe) {
             return false;
         }
     }

@@ -40,7 +40,7 @@ public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
     private static final String MODULE_DESCRIPTION = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
-     // CHECKSTYLE:ON LineLength
+    // CHECKSTYLE:ON LineLength
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
@@ -121,7 +121,7 @@ public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getIssuerTypeId() {
-        //Same as externalId for ts
+        // Same as externalId for ts
         return KV_UTLATANDETYP_INTYG_CODE;
     }
 

@@ -1,13 +1,14 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_JSON_ID;
+
+import java.util.stream.Stream;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-
-import javax.annotation.Nullable;
-import java.util.stream.Stream;
-
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_JSON_ID;
 
 @AutoValue
 public abstract class PrognosTillstand {

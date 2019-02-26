@@ -42,7 +42,6 @@ public class TSTRK1062Constants {
     public static final String ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID = "52.2";
     public static final String ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID = "diagnosArtal";
 
-
     // Kat 4 - Läkemedelsbehandling
     public static final String LAKEMEDELSBEHANDLING_KATEGORI = "lakemedelsbehandling";
     public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID = "53";

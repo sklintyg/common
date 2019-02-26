@@ -16,26 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
-import javax.annotation.Nullable;
+public class TsTstrk1062UtlatandeV1Test {
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.auto.value.AutoValue;
-
-@AutoValue
-public abstract class Vardkontakt {
-
-    @JsonCreator
-    public static Vardkontakt create(@JsonProperty("typ") String typ,
-                                     @JsonProperty("idkontroll") String idkontroll) {
-        return new AutoValue_Vardkontakt(typ, idkontroll);
-    }
-
-    @Nullable
-    public abstract String getTyp();
-
-    @Nullable
-    public abstract String getIdkontroll();
 }

@@ -18,10 +18,24 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.rest;
 
-import com.google.common.base.Strings;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
+
+import java.io.StringReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Base64;
+import java.util.List;
+
+import javax.xml.bind.JAXB;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -46,20 +60,13 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.StringReader;
-import java.nio.charset.Charset;
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.List;
-
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
-
 @Component("moduleapi.ts-tstrk1062.v1")
 public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062UtlatandeV1> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TsTstrk1062ModuleApiV1.class);
+
+    @Autowired
+    private PdfGenerator pdfGenerator;
 
     public TsTstrk1062ModuleApiV1() {
         super(TsTstrk1062UtlatandeV1.class);
@@ -72,7 +79,7 @@ public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062Utlatan
         IntygTexts texts = getTexts(TsTstrk1062EntryPoint.MODULE_ID, utlatande.getTextVersion());
 
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
-        return new PdfGenerator().generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
+        return pdfGenerator.generatePdf(utlatande.getId(), internalModel, personId, texts, statuses, applicationOrigin,
                 utkastStatus);
     }
 
