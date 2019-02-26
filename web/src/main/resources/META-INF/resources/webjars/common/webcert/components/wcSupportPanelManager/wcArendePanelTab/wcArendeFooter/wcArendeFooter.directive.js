@@ -30,11 +30,11 @@ angular.module('common').directive('wcArendeFooter',
         'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService', 'common.statService', 'common.messageService',
         'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel',
         'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper', 'common.authorityService',
-        'common.IntygHelper',
+        'common.IntygHelper', 'common.IntygHeaderViewState',
         function($log, $rootScope, $q, $state, $timeout, $window,
             UserModel, ObjectHelper, ArendeListViewState, statService, messageService,
             DialogService, IntygProxy, IntygCopyRequestModel,
-            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService, IntygHelper) {
+            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService, IntygHelper, IntygHeaderViewState) {
             'use strict';
 
             return {
@@ -110,6 +110,7 @@ angular.module('common').directive('wcArendeFooter',
                         // The actual process of answering with a new intyg is rather complex, so defer that
                         // to calling code, and act on outcome of it here (keep dialog or close it)
                         _answerWithIntyg().then(function(result) {
+                            IntygHeaderViewState.utkastCreatedFrom = ArendeListViewState.intyg.id;
 
                             statService.refreshStat();
                             IntygHelper.goToDraft(result.intygsTyp, result.intygTypeVersion, result.intygsUtkastId);

@@ -76,7 +76,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
-                                if (CommonViewState.utkastCreatedFrom()) {
+                                if (CommonViewState.isCreatedFromIntygInSession()) {
                                     CommonViewState.clearUtkastCreatedFrom();
                                     draftDeleteDialog.close({direct:back});
                                 } else {

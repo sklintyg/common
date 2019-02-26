@@ -147,8 +147,8 @@ angular.module('common').service('common.UtkastViewStateService',
             this.previousUtkast = prevUtkast;
         };
 
-        this.utkastCreatedFrom = function() {
-            return IntygHeaderViewState.utkastCreatedFrom;
+        this.isCreatedFromIntygInSession = function() {
+            return !!IntygHeaderViewState.utkastCreatedFrom;
         };
 
         this.clearUtkastCreatedFrom = function() {
