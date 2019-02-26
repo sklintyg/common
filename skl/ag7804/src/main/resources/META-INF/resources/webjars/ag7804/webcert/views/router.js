@@ -51,7 +51,7 @@ angular.module('ag7804').config(function($stateProvider) {
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
