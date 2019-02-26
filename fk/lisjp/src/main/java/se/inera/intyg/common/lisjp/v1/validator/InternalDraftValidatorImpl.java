@@ -382,9 +382,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private boolean isArbetstidsforlaggningMandatory(LisjpUtlatandeV1 utlatande) {
         return !isAvstangningSmittskydd(utlatande) && utlatande.getSjukskrivningar()
                 .stream()
-                .anyMatch(e -> e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4
+                .anyMatch(e -> e.getPeriod() != null && e.getPeriod().isValid()
+                        && (e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4
                         || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN
-                        || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4);
+                        || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4));
     }
 
     private boolean isArbetstidsforlaggningMotiveringForbidden(LisjpUtlatandeV1 utlatande) {
