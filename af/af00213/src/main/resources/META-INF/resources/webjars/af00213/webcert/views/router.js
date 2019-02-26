@@ -45,8 +45,8 @@ angular.module('af00213').config(function($stateProvider) {
             },
             resolve: {
                 ViewState: editViewState,
-                    UtkastConfigFactory: utkastConfig,
-                    supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
             },
             views : {
                 'content@' : {
@@ -82,17 +82,13 @@ angular.module('af00213').config(function($stateProvider) {
             resolve: {
                 ViewState: 'af00213.IntygController.ViewStateService',
                 ViewConfigFactory: viewConfig,
-                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
+                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory',
+                IntygViewState: 'af00213.IntygController.ViewStateService'
             },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'af00213.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.af00213' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',

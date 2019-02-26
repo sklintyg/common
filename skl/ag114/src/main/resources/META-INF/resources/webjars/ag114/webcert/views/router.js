@@ -34,9 +34,12 @@ angular.module('ag114').config(function($stateProvider) {
     };
 
     $stateProvider.
-        state('ag114-edit', {
+        state('ag114', {
+            url: '/ag114'
+        }).
+        state('ag114.utkast', {
             data: { defaultActive : 'index', intygType: 'ag114' },
-            url : '/ag114/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
             params: {
                 focusOn: ''
             },
@@ -55,16 +58,16 @@ angular.module('ag114').config(function($stateProvider) {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@ag114-edit' : {
+                'header@ag114.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader'
                 },
 
-                'footer@ag114-edit' : {
+                'footer@ag114.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'utkast@ag114-edit' : {
+                'utkast@ag114.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl'
                 }

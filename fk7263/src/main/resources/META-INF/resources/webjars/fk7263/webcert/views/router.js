@@ -31,7 +31,7 @@ angular.module('fk7263').config(function($stateProvider) {
     }).
     state('fk7263.utkast', {
         data: { defaultActive : 'index', intygType: 'fk7263'},
-        url : '/fk7263/:intygTypeVersion/edit/:certificateId/:focusOn',
+        url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
         params: {
             focusOn: ''
         },
@@ -88,10 +88,7 @@ angular.module('fk7263').config(function($stateProvider) {
                 },
                 'header@webcert.fragasvar.fk7263' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).state('fk7263-readonly', {
