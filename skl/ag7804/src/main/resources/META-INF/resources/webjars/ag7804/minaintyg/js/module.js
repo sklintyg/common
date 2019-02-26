@@ -23,11 +23,14 @@ angular.module('ag7804').config(function($stateProvider) {
 
     $stateProvider.state('ag7804-view', {
         url: '/ag7804/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/ag7804/minaintyg/views/view-cert.html',
-        controller: 'ag7804.ViewCertCtrl',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                 return factoryResolverHelper.resolve('ag7804.viewConfigFactory', $stateParams);
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('ag7804.viewFactory', $stateParams);
             }
         },
         data: {

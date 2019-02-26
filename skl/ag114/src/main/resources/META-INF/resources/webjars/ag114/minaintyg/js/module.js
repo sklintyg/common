@@ -25,11 +25,14 @@ angular.module('ag114').config(function($stateProvider) {
     $stateProvider.
         state('ag114-view', {
             url :'/ag114/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ag114/minaintyg/views/view-cert.html',
-            controller: 'ag114.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('ag114.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ag114.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Arbetsgivarintyg ', keepInboxTabActive: true,

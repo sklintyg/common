@@ -10,11 +10,12 @@
         </h1>
 
         <mi-certificate-header-pageingress is-replaced="certMeta.isReplaced"
-                                           default-message-key="luse.label.pageingress"
-                                           replaced-message-key="luse.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
+                                           default-message-key="{{::intygsTyp}}.label.pageingress"
+                                           replaced-message-key="{{::intygsTyp}}.label.pageingress.{{certMeta.replacedBy.relationKod == 'KOMPLT' ? 'kompletterat' : 'ersatt'}}"></mi-certificate-header-pageingress>
 
         <div uib-collapse="!isCollapsed1" class="collapse">
-          <span dynamic-label key="modules.page-header.info.select-recipients-and-send"></span>
+          <span data-ng-if="enableSend" dynamic-label key="{{::selectRecipientKey}}"></span>
+          <span data-ng-if="enableCustomize()" dynamic-label key="modules.page-header.info.customize-pdf"></span>
           <span dynamic-label key="modules.page-header.info.download-pdf"></span>
           <span dynamic-label key="modules.page-header.info.archive"></span>
         </div>
@@ -29,24 +30,39 @@
         <latest-events cert-id="{{cert.id}}" events="certMeta.events"></latest-events>
       </div>
     </div>
+
   </mi-page-head>
 
   <div class="container">
     <div class="row-fluid">
 
       <div mi-spinner label="modules.message.certificateloading" show-spinner="!doneLoading" show-content="doneLoading">
-        <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
-        <mi-certificate-action-buttons cert-model="cert" on-send="send(cert)" enable-archive="true" enable-print="true"
-                                       is-replaced="certMeta.isReplaced">
 
-        </mi-certificate-action-buttons>
+        <mi-certificate-replaced cert-meta-model="certMeta"></mi-certificate-replaced>
+
+        <div id="customize-disabled-message" class="alert alert-warning"
+             ng-if="!enableCustomize() && cert.avstangningSmittskydd && !certMeta.isReplaced">
+          <span dynamic-label key="modules.customize.message.customize.disabled"></span>
+        </div>
+
+        <mi-certificate-action-buttons cert-model="cert"
+                                       enable-archive="true"
+                                       enable-print="true"
+                                       enable-send="enableSend"
+                                       enable-customize="enableCustomize()"
+                                       is-replaced="certMeta.isReplaced"
+                                       on-send="send(cert)"
+                                       on-customize-pdf="customizeCertificate()"
+        ></mi-certificate-action-buttons>
+
 
         <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
-        <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig"
+        <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}"
+                              config="uvConfig"
                               view-data="cert"></uv-render-components>
 
-        <div ng-if="!errorMessage" class="row col-xs-12 text-muted"><br><span dynamic-label
-                                                                              key="modules.view-intyg.end-of-intyg.text"></span>
+        <div ng-if="!errorMessage" class="row col-xs-12 text-muted">
+          <br><span dynamic-label key="modules.view-intyg.end-of-intyg.text"></span>
         </div>
       </div>
       <!-- eof spinner -->

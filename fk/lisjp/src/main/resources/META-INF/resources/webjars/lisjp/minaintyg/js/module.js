@@ -23,11 +23,14 @@ angular.module('lisjp').config(function($stateProvider) {
 
     $stateProvider.state('lisjp-view', {
         url: '/lisjp/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
-        controller: 'lisjp.ViewCertCtrl',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                 return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('lisjp.viewFactory', $stateParams);
             }
         },
         data: {

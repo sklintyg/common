@@ -33,6 +33,8 @@ angular.module('common').service('common.IntygHeaderViewState', [
 
             this.reset();
 
+            this.utkastCreatedFrom = null;
+
             /*
             // Create from template state
             */
