@@ -85,9 +85,14 @@ public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062Utlatan
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
-        if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
+        if (Strings.isNullOrEmpty(xmlBody)) {
             throw new ModuleException("Request does not contain the original xml");
         }
+
+        if (Strings.isNullOrEmpty(logicalAddress)) {
+            throw new ModuleException("Request does not contain a logical address");
+        }
+
         RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
 
         try {
@@ -109,7 +114,7 @@ public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062Utlatan
     public TsTstrk1062UtlatandeV1 getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
-        } catch (ConverterException e) {
+        } catch (Exception e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
@@ -136,34 +141,11 @@ public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062Utlatan
     }
 
     @Override
-    public String updateAfterSigning(String jsonModel, String signatureXml) throws ModuleException {
-        if (signatureXml == null) {
-            return jsonModel;
-        }
-        String base64EncodedSignatureXml = Base64.getEncoder().encodeToString(signatureXml.getBytes(Charset.forName("UTF-8")));
-        return updateInternalAfterSigning(jsonModel, base64EncodedSignatureXml);
-    }
-
-    @Override
     public PatientDetailResolveOrder getPatientDetailResolveOrder() {
         List<ResolveOrder> adressStrat = Arrays.asList(PARAMS, PU);
         List<ResolveOrder> avlidenStrat = Arrays.asList(PARAMS_OR_PU);
         List<ResolveOrder> otherStrat = Arrays.asList(PU, PARAMS);
 
         return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
-    }
-
-    private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
-            throws ModuleException {
-        try {
-            TsTstrk1062UtlatandeV1 utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
-            return toInternalModelResponse(utlatande);
-        } catch (ModuleException e) {
-            throw new ModuleException("Error while updating internal model with signature", e);
-        }
-    }
-
-    private TsTstrk1062UtlatandeV1 decorateWithSignature(TsTstrk1062UtlatandeV1 utlatande, String base64EncodedSignatureXml) {
-        return utlatande.toBuilder().setSignature(base64EncodedSignatureXml).build();
     }
 }
