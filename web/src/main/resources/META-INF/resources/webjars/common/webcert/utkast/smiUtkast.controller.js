@@ -80,7 +80,9 @@ angular.module('common').controller('smi.EditCertCtrl',
                 var intygState = {
                     viewState : viewState,
                     formFail : function() {
-                        $scope.certForm.$setDirty();
+                        if($scope.certForm){
+                            $scope.certForm.$setDirty();
+                        }
                     },
                     formPristine : function() {
                         $scope.certForm.$setPristine();
