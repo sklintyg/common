@@ -155,7 +155,7 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     }
 }
 
-configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'lisjp', 'af00213', 'af00251'].contains(it.name) }) {
+configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name) }) {
     configurations {
         jstests
     }
