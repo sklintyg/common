@@ -2,8 +2,6 @@ package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_JSON_ID;
 
-import java.util.stream.Stream;
-
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -40,11 +38,6 @@ public abstract class PrognosTillstand {
 
         public String getDescription() {
             return description;
-        }
-
-        public static PrognosTillstandTyp fromCode(String code) {
-            return Stream.of(PrognosTillstandTyp.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException(code));
         }
     }
 }

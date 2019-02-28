@@ -31,5 +31,4 @@ public class TsTstrk1062ModelCompareUtil implements ModelCompareUtil<TsTstrk1062
         // Until someone actually specifies metrics for this, we assume TS-tstrk1062 is always valid for change notifications.
         return true;
     }
-
 }

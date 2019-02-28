@@ -31,10 +31,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_tstrk1062.v1.model.internal.*;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
@@ -47,23 +49,27 @@ public final class TransportToInternal {
     }
 
     public static TsTstrk1062UtlatandeV1 convert(Intyg source) throws ConverterException {
-        TsTstrk1062UtlatandeV1.Builder utlatande = TsTstrk1062UtlatandeV1.builder();
+        final TsTstrk1062UtlatandeV1.Builder utlatande = TsTstrk1062UtlatandeV1.builder();
+
         utlatande.setId(source.getIntygsId().getExtension());
-        utlatande.setGrundData(TransportConverterUtil.getGrundData(source, true));
         utlatande.setTextVersion(source.getVersion());
-        utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));
+
+        final GrundData grundData = TransportConverterUtil.getGrundData(source, true);
+        utlatande.setGrundData(grundData);
+
+        final String signature = TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift());
+        utlatande.setSignature(signature);
+
         setSvar(utlatande, source);
+
         return utlatande.build();
     }
 
     private static void setSvar(TsTstrk1062UtlatandeV1.Builder utlatande, Intyg source) throws ConverterException {
-        EnumSet<IntygAvser.BehorighetsTyp> intygAvserBehorigheter = EnumSet.noneOf(IntygAvser.BehorighetsTyp.class);
-
-        Bedomning.Builder bedomning = Bedomning.builder();
-        Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(Bedomning.BehorighetsTyp.class);
-
-        List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>();
-
+        final EnumSet<IntygAvser.BehorighetsTyp> intygAvserList = EnumSet.noneOf(IntygAvser.BehorighetsTyp.class);
+        IdKontroll idKontroll = null;
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>();
+        DiagnosFritext diagnosFritext = null;
         Boolean harHaft = null;
         Boolean pagar = null;
         String aktuell = null;
@@ -72,276 +78,293 @@ public final class TransportToInternal {
         Boolean foljsamhet = null;
         InternalDate avslutadTidpunkt = null;
         String avslutadOrsak = null;
+        String bedomningAvSymptom = null;
+        PrognosTillstand prognosTillstand = null;
+        String ovrigaKommentarer = null;
+        final Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav = EnumSet.noneOf(Bedomning.BehorighetsTyp.class);
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
             case INTYG_AVSER_SVAR_ID_1:
-                handleIntygAvser(intygAvserBehorigheter, svar);
+                final IntygAvser.BehorighetsTyp intygAvser = getIntygAvser(svar.getDelsvar());
+                if (intygAvser != null) {
+                    intygAvserList.add(intygAvser);
+                }
                 break;
             case ID_KONTROLL_SVAR_ID_1:
-                handleIdKontroll(utlatande, svar);
+                idKontroll = getIdKontroll(svar);
                 break;
             case ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID:
-                handleDiagnosKodad(diagnosKodadList, svar);
+                final DiagnosKodad diagnosKodad = getDiagnosKodad(svar.getDelsvar());
+                if (diagnosKodad != null) {
+                    diagnosKodadList.add(diagnosKodad);
+                }
                 break;
             case ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID:
-                handleDiagnosFritext(utlatande, svar);
+                diagnosFritext = getDiagnosFritext(svar.getDelsvar());
                 break;
             case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
-                harHaft = handleLakemedelsbehandlingForekommit(utlatande, svar);
+                harHaft = getLakemedelsbehandlingForekommit(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID:
-                pagar = handleLakemedelsbehandlingPagar(utlatande, svar);
+                pagar = getLakemedelsbehandlingPagar(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID:
-                aktuell = handleLakemedelsbehandlingAktuell(utlatande, svar);
+                aktuell = getLakemedelsbehandlingAktuell(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID:
-                pagatt = handleLakemedelsbehandlingPagatt(utlatande, svar);
+                pagatt = getLakemedelsbehandlingPagatt(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID:
-                effekt = handleLakemedelsbehandlingEffekt(utlatande, svar);
+                effekt = getLakemedelsbehandlingEffekt(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID:
-                foljsamhet = handleLakemedelsbehandlingFoljsamhet(utlatande, svar);
+                foljsamhet = getLakemedelsbehandlingFoljsamhet(utlatande, svar);
                 break;
             case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
-                avslutadTidpunkt = handleLakemedelsbehandlingAvslutadTidpunkt(utlatande, svar);
-                avslutadOrsak = handleLakemedelsbehandlingAvslutadOrsak(utlatande, svar);
+                avslutadTidpunkt = getLakemedelsbehandlingAvslutadTidpunkt(utlatande, svar);
+                avslutadOrsak = getLakemedelsbehandlingAvslutadOrsak(utlatande, svar);
                 break;
             case SYMPTOM_BEDOMNING_SVAR_ID:
-                handleSymptomBedomning(utlatande, svar);
+                bedomningAvSymptom = getSymptomBedomning(svar.getDelsvar());
                 break;
             case SYMPTOM_PROGNOS_SVAR_ID:
-                handlePrognosTillstand(utlatande, svar);
+                prognosTillstand = getPrognosTillstand(svar.getDelsvar());
                 break;
             case OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID:
-                handleOvrigaKommentarer(utlatande, svar);
+                ovrigaKommentarer = getOvrigaKommentarer(svar.getDelsvar());
                 break;
             case BEDOMNING_UPPFYLLER_SVAR_ID:
-                handleBedomning(bedomningUppfyllerBehorighetskrav, svar);
-                break;
-            }
-        }
-
-        if (!intygAvserBehorigheter.isEmpty()) {
-            utlatande.setIntygAvser(IntygAvser.create(intygAvserBehorigheter));
-        }
-
-        utlatande.setLakemedelsbehandling(
-                Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
-
-        if (!bedomningUppfyllerBehorighetskrav.isEmpty()) {
-            bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
-        }
-        utlatande.setBedomning(bedomning.build());
-
-        if (diagnosKodadList.size() > 0) {
-            utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD));
-            utlatande.setDiagnosKodad(diagnosKodadList);
-        }
-    }
-
-    private static void handleIntygAvser(EnumSet<IntygAvser.BehorighetsTyp> intygAvserBehorigheter, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case INTYG_AVSER_DELSVAR_ID_1:
-                intygAvserBehorigheter.add(IntygAvser.BehorighetsTyp.valueOf(getCVSvarContent(delsvar).getCode()));
-                break;
-            }
-        }
-    }
-
-    private static void handleIdKontroll(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case ID_KONTROLL_DELSVAR_ID_1:
-                final IdKontroll idKontroll = IdKontroll.create(IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()));
-                utlatande.setIdKontroll(idKontroll);
-                break;
-            }
-        }
-    }
-
-    private static void handleDiagnosKodad(List<DiagnosKodad> diagnosKodadList, Svar svar) throws ConverterException {
-        String diagnosKod = null;
-        String diagnosKodSystem = null;
-        String diagnosBeskrivning = null;
-        String diagnosDisplayName = null;
-        String diagnosArtal = null;
-
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID:
-                diagnosKod = getCVSvarContent(delsvar).getCode();
-                diagnosKodSystem = getCVSvarContent(delsvar).getCodeSystem();
-                diagnosDisplayName = getCVSvarContent(delsvar).getDisplayName();
-                break;
-            case ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID:
-                diagnosBeskrivning = getStringContent(delsvar);
-                break;
-            case ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID:
-                diagnosArtal = getPartialDateContent(delsvar).getValue().toString();
-                break;
-            }
-        }
-
-        if (diagnosKod != null && diagnosKodSystem != null && diagnosBeskrivning != null && diagnosArtal != null) {
-            final DiagnosKodad diagnosKodad = DiagnosKodad.create(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName,
-                    diagnosArtal);
-            diagnosKodadList.add(diagnosKodad);
-        }
-    }
-
-    private static void handleDiagnosFritext(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT));
-        String diagnosFritext = "";
-        String diagnosArtal = "";
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID:
-                diagnosFritext = getStringContent(delsvar);
-                break;
-            case ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID:
-                diagnosArtal = getPartialDateContent(delsvar).getValue().toString();
-                break;
-            }
-        }
-
-        utlatande.setDiagnosFritext(DiagnosFritext.create(diagnosFritext, diagnosArtal));
-    }
-
-    private static Boolean handleLakemedelsbehandlingForekommit(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID:
-                return getBooleanContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static Boolean handleLakemedelsbehandlingPagar(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID:
-                return getBooleanContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static String handleLakemedelsbehandlingAktuell(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID:
-                return getStringContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static Boolean handleLakemedelsbehandlingPagatt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID:
-                return getBooleanContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static Boolean handleLakemedelsbehandlingEffekt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID:
-                return getBooleanContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static Boolean handleLakemedelsbehandlingFoljsamhet(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID:
-                return getBooleanContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static InternalDate handleLakemedelsbehandlingAvslutadTidpunkt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar)
-            throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID:
-                return new InternalDate(getPartialDateContent(delsvar).getValue().toString());
-            }
-        }
-        return null;
-    }
-
-    private static String handleLakemedelsbehandlingAvslutadOrsak(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID:
-                return getStringContent(delsvar);
-            }
-        }
-        return null;
-    }
-
-    private static void handleSymptomBedomning(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case SYMPTOM_BEDOMNING_DELSVAR_ID:
-                utlatande.setBedomningAvSymptom(getStringContent(delsvar));
-                break;
-            }
-        }
-    }
-
-    private static void handlePrognosTillstand(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case SYMPTOM_PROGNOS_DELSVAR_ID:
-                if (!isStringContent(delsvar)) {
-                    if (PrognosTillstandTyp.KANEJBEDOMA.getCode().equals(getCVSvarContent(delsvar).getCode())) {
-                        utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.KANEJBEDOMA));
-                    } else {
-                        throw new IllegalArgumentException("Unknown code");
-                    }
-                } else {
-                    if (getBooleanContent(delsvar)) {
-                        utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.JA));
-                    } else {
-                        utlatande.setPrognosTillstand(PrognosTillstand.create(PrognosTillstandTyp.NEJ));
-                    }
+                final Bedomning.BehorighetsTyp bedomningsTyp = getBehorighetsTyp(svar.getDelsvar());
+                if (bedomningsTyp != null) {
+                    bedomningUppfyllerBehorighetskrav.add(bedomningsTyp);
                 }
                 break;
             }
         }
-    }
 
-    private static void handleOvrigaKommentarer(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID:
-                utlatande.setOvrigaKommentarer(getStringContent(delsvar));
-                break;
-            }
+        if (intygAvserList.size() > 0) {
+            utlatande.setIntygAvser(IntygAvser.create(intygAvserList));
+        }
+
+        if (idKontroll != null) {
+            utlatande.setIdKontroll(idKontroll);
+        }
+
+        if (diagnosKodadList.size() > 0) {
+            utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD));
+            utlatande.setDiagnosKodad(diagnosKodadList);
+        } else if (diagnosFritext != null) {
+            utlatande.setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT));
+            utlatande.setDiagnosFritext(diagnosFritext);
+        }
+
+        if (harHaft != null) {
+            utlatande.setLakemedelsbehandling(
+                    Lakemedelsbehandling.create(harHaft, pagar, aktuell, pagatt, effekt, foljsamhet, avslutadTidpunkt, avslutadOrsak));
+        }
+
+        if (bedomningAvSymptom != null) {
+            utlatande.setBedomningAvSymptom(bedomningAvSymptom);
+        }
+
+        if (prognosTillstand != null) {
+            utlatande.setPrognosTillstand(prognosTillstand);
+        }
+
+        if (ovrigaKommentarer != null) {
+            utlatande.setOvrigaKommentarer(ovrigaKommentarer);
+        }
+
+        if (bedomningUppfyllerBehorighetskrav.size() > 0) {
+            final Bedomning.Builder bedomning = Bedomning.builder();
+            bedomning.setUppfyllerBehorighetskrav(bedomningUppfyllerBehorighetskrav);
+            utlatande.setBedomning(bedomning.build());
         }
     }
 
-    private static void handleBedomning(Set<Bedomning.BehorighetsTyp> bedomningUppfyllerBehorighetskrav, Svar svar)
+    private static IntygAvser.BehorighetsTyp getIntygAvser(List<Delsvar> delsvarList) throws ConverterException {
+        IntygAvser.BehorighetsTyp intygAvser = null;
+
+        final CVType cvTypeValue = getCVValue(delsvarList, INTYG_AVSER_DELSVAR_ID_1);
+        if (cvTypeValue != null) {
+            intygAvser = IntygAvser.BehorighetsTyp.valueOf(cvTypeValue.getCode());
+        }
+
+        return intygAvser;
+    }
+
+    private static IdKontroll getIdKontroll(Svar svar) throws ConverterException {
+        IdKontroll idKontroll = null;
+        final CVType cvTypeValue = getCVValue(svar.getDelsvar(), ID_KONTROLL_DELSVAR_ID_1);
+        if (cvTypeValue != null) {
+            idKontroll = IdKontroll.create(IdKontrollKod.fromCode(cvTypeValue.getCode()));
+        }
+        return idKontroll;
+    }
+
+    private static DiagnosKodad getDiagnosKodad(List<Delsvar> delsvarList) throws ConverterException {
+        DiagnosKodad diagnosKodad = null;
+
+        String diagnosKod = null;
+        String diagnosKodSystem = null;
+        String diagnosDisplayName = null;
+        final CVType diagnosCVValue = getCVValue(delsvarList, ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
+        if (diagnosCVValue != null) {
+            diagnosKod = diagnosCVValue.getCode();
+            diagnosKodSystem = diagnosCVValue.getCodeSystem();
+            diagnosDisplayName = diagnosCVValue.getDisplayName();
+        }
+
+        final String diagnosBeskrivning = getStringValue(delsvarList, ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID);
+
+        String diagnosArtal = null;
+        final InternalDate partialDateArtal = getPartialDateValue(delsvarList, ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID);
+        if (partialDateArtal != null) {
+            diagnosArtal = partialDateArtal.toString();
+        }
+
+        if (diagnosKod != null && diagnosKodSystem != null && diagnosBeskrivning != null && diagnosArtal != null) {
+            diagnosKodad = DiagnosKodad.create(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName,
+                    diagnosArtal);
+        }
+
+        return diagnosKodad;
+    }
+
+    private static DiagnosFritext getDiagnosFritext(List<Delsvar> delsvarList) throws ConverterException {
+        String diagnosText = getStringValue(delsvarList, ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID);
+
+        String diagnosArtal = null;
+        final InternalDate partialDateArtal = getPartialDateValue(delsvarList, ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID);
+        if (partialDateArtal != null) {
+            diagnosArtal = partialDateArtal.toString();
+        }
+
+        DiagnosFritext diagnosFritext = null;
+        if (diagnosText != null && diagnosArtal != null) {
+            diagnosFritext = DiagnosFritext.create(diagnosText, diagnosArtal);
+        }
+
+        return diagnosFritext;
+    }
+
+    private static Boolean getLakemedelsbehandlingForekommit(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
+    }
+
+    private static Boolean getLakemedelsbehandlingPagar(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
+    }
+
+    private static String getLakemedelsbehandlingAktuell(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
+    }
+
+    private static Boolean getLakemedelsbehandlingPagatt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
+    }
+
+    private static Boolean getLakemedelsbehandlingEffekt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
+    }
+
+    private static Boolean getLakemedelsbehandlingFoljsamhet(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
+    }
+
+    private static InternalDate getLakemedelsbehandlingAvslutadTidpunkt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar)
             throws ConverterException {
-        for (Delsvar delsvar : svar.getDelsvar()) {
-            switch (delsvar.getId()) {
-            case BEDOMNING_UPPFYLLER_DELSVAR_ID:
-                bedomningUppfyllerBehorighetskrav.add(Bedomning.BehorighetsTyp.valueOf(getCVSvarContent(delsvar).getCode()));
-                break;
+        return getPartialDateValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+    }
+
+    private static String getLakemedelsbehandlingAvslutadOrsak(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
+    }
+
+    private static String getSymptomBedomning(List<Delsvar> delsvarList) {
+        return getStringValue(delsvarList, SYMPTOM_BEDOMNING_DELSVAR_ID);
+    }
+
+    private static PrognosTillstand getPrognosTillstand(List<Delsvar> delsvarList) throws ConverterException {
+        PrognosTillstandTyp prognosTillstandTyp = null;
+
+        for (Delsvar delsvar : delsvarList) {
+            if (delsvar.getId().equalsIgnoreCase(SYMPTOM_PROGNOS_DELSVAR_ID)) {
+                if (!isStringContent(delsvar)) {
+                    if (PrognosTillstandTyp.KANEJBEDOMA.getCode().equals(getCVSvarContent(delsvar).getCode())) {
+                        prognosTillstandTyp = PrognosTillstandTyp.KANEJBEDOMA;
+                    }
+                } else {
+                    if (getBooleanContent(delsvar)) {
+                        prognosTillstandTyp = PrognosTillstandTyp.JA;
+                    } else {
+                        prognosTillstandTyp = PrognosTillstandTyp.NEJ;
+                    }
+                }
             }
         }
+
+        PrognosTillstand prognosTillstand = null;
+        if (prognosTillstandTyp != null) {
+            prognosTillstand = PrognosTillstand.create(prognosTillstandTyp);
+        }
+
+        return prognosTillstand;
+    }
+
+    private static String getOvrigaKommentarer(List<Delsvar> delsvarList) {
+        return getStringValue(delsvarList, OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID);
+    }
+
+    private static Bedomning.BehorighetsTyp getBehorighetsTyp(List<Delsvar> delsvarList) throws ConverterException {
+        Bedomning.BehorighetsTyp behorighetsTyp = null;
+
+        final CVType behorighetsTypCVValue = getCVValue(delsvarList, BEDOMNING_UPPFYLLER_DELSVAR_ID);
+        if (behorighetsTypCVValue != null) {
+            behorighetsTyp = Bedomning.BehorighetsTyp.valueOf(behorighetsTypCVValue.getCode());
+        }
+
+        return behorighetsTyp;
+    }
+
+    private static Boolean getBooleanValue(List<Delsvar> delsvarList, String delsvarId) {
+        Boolean booleanValue = null;
+        for (Delsvar delsvar : delsvarList) {
+            if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+                booleanValue = getBooleanContent(delsvar);
+            }
+        }
+        return booleanValue;
+    }
+
+    private static String getStringValue(List<Delsvar> delsvarList, String delsvarId) {
+        String stringValue = null;
+        for (Delsvar delsvar : delsvarList) {
+            if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+                stringValue = getStringContent(delsvar);
+            }
+        }
+        return stringValue;
+    }
+
+    private static InternalDate getPartialDateValue(List<Delsvar> delsvarList, String delsvarId) throws ConverterException {
+        InternalDate partialDateValue = null;
+        for (Delsvar delsvar : delsvarList) {
+            if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+                partialDateValue = new InternalDate(getPartialDateContent(delsvar).getValue().toString());
+            }
+        }
+        return partialDateValue;
+    }
+
+    private static CVType getCVValue(List<Delsvar> delsvarList, String delsvarId) throws ConverterException {
+        CVType cvTypeValue = null;
+        for (Delsvar delsvar : delsvarList) {
+            if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+                cvTypeValue = getCVSvarContent(delsvar);
+            }
+        }
+        return cvTypeValue;
     }
 }

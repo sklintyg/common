@@ -55,7 +55,9 @@ public class PdfGenerator {
 
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "transportstyrelsens_logotyp_rgb.png";
     private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-tstrk1062-uv-viewmodel.v1.js";
+    // CHECKSTYLE:OFF LineLength
     private static final String PDF_SUMMARY_HEADER = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
+    // CHECKSTYLE:ON LineLength
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 

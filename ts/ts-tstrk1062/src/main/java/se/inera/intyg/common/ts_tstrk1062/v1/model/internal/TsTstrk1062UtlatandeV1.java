@@ -33,7 +33,6 @@ import java.util.List;
 
 import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
-// test
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsTstrk1062UtlatandeV1.Builder.class)
 public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
@@ -96,7 +95,7 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsTstrk1062UtlatandeV1.Builder()
-                .setDiagnosKodad(ImmutableList.<DiagnosKodad> of())
+                .setDiagnosKodad(ImmutableList.of())
                 .setSignature(null);
     }
 

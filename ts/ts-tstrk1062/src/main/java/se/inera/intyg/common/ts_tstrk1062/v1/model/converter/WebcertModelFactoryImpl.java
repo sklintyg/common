@@ -49,19 +49,25 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
-    @Autowired(required = false)
     private IntygTextsService intygTexts;
+
+    @Autowired(required = false)
+    public WebcertModelFactoryImpl(IntygTextsService intygTexts) {
+        this.intygTexts = intygTexts;
+    }
 
     @Override
     public TsTstrk1062UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
-        TsTstrk1062UtlatandeV1.Builder template = TsTstrk1062UtlatandeV1.builder();
-        GrundData grundData = new GrundData();
+
+        final TsTstrk1062UtlatandeV1.Builder template = TsTstrk1062UtlatandeV1.builder();
+
+        final GrundData grundData = new GrundData();
 
         template.setId(newDraftData.getCertificateId());
-        // Default to latest minor version available for major version of intygtype
-        template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(TsTstrk1062EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+
+        template.setTextVersion(intygTexts.getLatestVersionForSameMajorVersion(TsTstrk1062EntryPoint.MODULE_ID,
+                newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);
@@ -76,22 +82,25 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
 
     @Override
     public TsTstrk1062UtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-        if (!TsTstrk1062UtlatandeV1.class.isInstance(template)) {
+        TsTstrk1062UtlatandeV1 tsTstrk1062Utlatande;
+        if (template instanceof TsTstrk1062UtlatandeV1) {
+            tsTstrk1062Utlatande = (TsTstrk1062UtlatandeV1) template;
+        } else {
             throw new ConverterException("Template is not of type TsTstrk1062UtlatandeV1");
         }
-
-        TsTstrk1062UtlatandeV1 tsTstrk1062Utlatande = (TsTstrk1062UtlatandeV1) template;
 
         LOG.trace("Creating copy with id {} from {}", copyData.getCertificateId(), tsTstrk1062Utlatande.getId());
 
         TsTstrk1062UtlatandeV1.Builder templateBuilder = tsTstrk1062Utlatande.toBuilder();
 
         GrundData grundData = tsTstrk1062Utlatande.getGrundData();
+        if (grundData != null) {
+            WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
+            resetDataInCopy(grundData);
+        }
 
         populateWithId(templateBuilder, copyData.getCertificateId());
-        WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
 
-        resetDataInCopy(grundData);
         templateBuilder.setSignature(null);
 
         return templateBuilder.build();
@@ -108,7 +117,6 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTstrk1062U
         if (Strings.isNullOrEmpty(utlatandeId)) {
             throw new ConverterException("No certificateID found");
         }
-
         utlatande.setId(utlatandeId);
     }
 }

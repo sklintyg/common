@@ -50,7 +50,9 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
         // Patient validering
-        PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+        if (utlatande.getGrundData() != null) {
+            PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
+        }
 
         // Kategori 1 - Intyget avser
         validateIntygAvser(utlatande.getIntygAvser(), validationMessages);
@@ -89,7 +91,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             return;
         }
 
-        if (intygAvser.getBehorigheter().isEmpty()) {
+        if (intygAvser.getBehorigheter() != null && intygAvser.getBehorigheter().isEmpty()) {
             addValidationError(validationMessages,
                     INTYG_AVSER_CATEGORY,
                     INTYG_AVSER_SVAR_JSON_ID + PUNKT + INTYG_AVSER_DELSVAR_JSON_ID,
@@ -103,7 +105,6 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                     ID_KONTROLL_CATEGORY,
                     ID_KONTROLL_SVAR_JSON_ID + ".typ",
                     ValidationMessageType.EMPTY);
-            return;
         }
     }
 
@@ -158,7 +159,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
                     ValidationMessageType.EMPTY,
                     "common.validation.ue-year-picker.empty");
-        } else if (!isYear(diagnosFritext.getDiagnosArtal())) {
+        } else if (isNotYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
@@ -207,7 +208,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.ue-year-picker.empty");
-            } else if (!isYear(diagnos.getDiagnosArtal())) {
+            } else if (isNotYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
@@ -343,15 +344,15 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     }
 
     private boolean isNull(Object objectToValidate) {
-        return objectToValidate == null ? true : false;
+        return objectToValidate == null;
     }
 
-    private boolean isYear(String artal) {
+    private boolean isNotYear(String artal) {
         try {
             Integer.parseInt(artal);
-            return true;
-        } catch (NumberFormatException nfe) {
             return false;
+        } catch (NumberFormatException nfe) {
+            return true;
         }
     }
 

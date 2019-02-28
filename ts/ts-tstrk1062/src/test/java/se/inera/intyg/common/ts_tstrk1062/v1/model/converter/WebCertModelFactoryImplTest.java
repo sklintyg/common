@@ -23,6 +23,7 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -50,14 +51,14 @@ public class WebCertModelFactoryImplTest {
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
     private static final String INTYG_TYPE_VERSION_1_2 = "1.0";
 
-    @InjectMocks
-    WebcertModelFactoryImpl modelFactory;
-
-    @Mock
     private IntygTextsService intygTextsService;
+
+    private WebcertModelFactoryImpl modelFactory;
 
     @Before
     public void setUp() {
+        intygTextsService = mock(IntygTextsService.class);
+        modelFactory = new WebcertModelFactoryImpl(intygTextsService);
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(TsTstrk1062EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
                 .thenReturn(INTYG_TYPE_VERSION_1_2);
     }

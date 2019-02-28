@@ -1,6 +1,7 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.validator;
 
 import static org.junit.Assert.*;
+import static se.inera.intyg.common.ts_tstrk1062.v1.rest.TsTstrk1062ModuleApiV1.SCHEMATRON_FILE;
 
 import java.net.URL;
 import java.util.List;
@@ -15,11 +16,10 @@ import com.helger.commons.debug.GlobalDebug;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
-import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(TsTstrk1062EntryPoint.SCHEMATRON_FILE);
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(SCHEMATRON_FILE);
 
     static {
         // avoid com.helger debug log

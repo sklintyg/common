@@ -29,6 +29,7 @@ import java.util.List;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.sun.istack.NotNull;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
@@ -76,37 +77,43 @@ public final class UtlatandeToIntyg {
         }
     }
 
-    private static List<Svar> getSvar(TsTstrk1062UtlatandeV1 source) {
+    private static List<Svar> getSvar(@NotNull TsTstrk1062UtlatandeV1 source) {
+        final List<Svar> svars = new ArrayList<>();
 
-        List<Svar> svars = new ArrayList<>();
-
-        int intygAvserInstans = 1;
-
-        if (source.getIntygAvser() != null) {
+        if (source.getIntygAvser() != null && source.getIntygAvser().getBehorigheter() != null) {
+            int intygAvserInstans = 1;
             for (IntygAvser.BehorighetsTyp behorighetsTyp : source.getIntygAvser().getBehorigheter()) {
                 IntygAvserKod intygAvser = IntygAvserKod.fromCode(behorighetsTyp.name());
-                svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
-                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
-                        .build());
+                if (intygAvser != null) {
+                    svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
+                            .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                                    aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                            .build());
+                }
             }
         }
 
-        if (source.getIdKontroll() != null) {
+        if (source.getIdKontroll() != null && source.getIdKontroll().getTyp() != null) {
             final IdKontrollKod idKontrollKod = source.getIdKontroll().getTyp();
-            svars.add(aSvar(ID_KONTROLL_SVAR_ID_1, intygAvserInstans++)
+            svars.add(aSvar(ID_KONTROLL_SVAR_ID_1)
                     .withDelsvar(ID_KONTROLL_DELSVAR_ID_1,
                             aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontrollKod.getCode(), idKontrollKod.getDescription()))
                     .build());
         }
 
-        if (source.getDiagnosRegistrering() != null) {
+        if (source.getDiagnosRegistrering() != null && source.getDiagnosRegistrering().getTyp() != null) {
             switch (source.getDiagnosRegistrering().getTyp()) {
             case DIAGNOS_KODAD:
-                handleDiagnosKodad(source.getDiagnosKodad(), svars);
+                final ImmutableList<DiagnosKodad> diagnosKodad = source.getDiagnosKodad();
+                if (diagnosKodad != null) {
+                    handleDiagnosKodad(diagnosKodad, svars);
+                }
                 break;
             case DIAGNOS_FRITEXT:
-                handleDiagnosFritext(source.getDiagnosFritext(), svars);
+                final DiagnosFritext diagnosFritext = source.getDiagnosFritext();
+                if (diagnosFritext != null) {
+                    handleDiagnosFritext(diagnosFritext, svars);
+                }
                 break;
             }
         }
@@ -121,7 +128,7 @@ public final class UtlatandeToIntyg {
                     .build());
         }
 
-        if (source.getPrognosTillstand() != null) {
+        if (source.getPrognosTillstand() != null && source.getPrognosTillstand().getTyp() != null) {
             final PrognosTillstand.PrognosTillstandTyp prognosTillstandTyp = source.getPrognosTillstand().getTyp();
 
             Object content = null;
@@ -149,7 +156,7 @@ public final class UtlatandeToIntyg {
                     .build());
         }
 
-        if (source.getBedomning() != null) {
+        if (source.getBedomning() != null && source.getBedomning().getUppfyllerBehorighetskrav() != null) {
             int behorighetskravInstans = 1;
             for (Bedomning.BehorighetsTyp behorighetsTyp : source.getBedomning().getUppfyllerBehorighetskrav()) {
                 KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(behorighetsTyp.name());
@@ -173,7 +180,7 @@ public final class UtlatandeToIntyg {
                                     diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
                     .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
                     .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnos.getDiagnosArtal()))))
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYear(diagnos.getDiagnosArtal())))
                     .build());
         }
     }
@@ -182,11 +189,19 @@ public final class UtlatandeToIntyg {
         SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID);
         diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
                 .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
-                        aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(diagnosFritext.getDiagnosArtal()))));
+                        aPartialDate(PartialDateTypeFormatEnum.YYYY, getYear(diagnosFritext.getDiagnosArtal())));
 
         if (!diagnosSvar.delSvars.isEmpty()) {
             svars.add(diagnosSvar.build());
         }
+    }
+
+    private static Year getYear(String artalAsString) {
+        int artalAsInt = 0;
+        if (artalAsString != null) {
+            artalAsInt = Integer.parseInt(artalAsString);
+        }
+        return Year.of(artalAsInt);
     }
 
     private static void handleLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<Svar> svars) {

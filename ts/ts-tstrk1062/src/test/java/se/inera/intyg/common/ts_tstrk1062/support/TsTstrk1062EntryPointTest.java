@@ -20,18 +20,37 @@
 package se.inera.intyg.common.ts_tstrk1062.support;
 
 import static junit.framework.TestCase.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint.MODULE_ID;
 
+import java.util.Optional;
+import java.util.SortedMap;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import se.inera.intyg.common.services.texts.model.IntygTexts;
+import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TsTstrk1062EntryPointTest {
 
-    @InjectMocks
+    private IntygTextsRepository mockIntygTextsRepository;
+
     private TsTstrk1062EntryPoint tsTstrk1062EntryPoint;
+
+    private static String LATEST_VERSION = "1.0";
+
+    @Before
+    public void setUp() {
+        mockIntygTextsRepository = mock(IntygTextsRepository.class);
+        tsTstrk1062EntryPoint = new TsTstrk1062EntryPoint(Optional.of(mockIntygTextsRepository));
+    }
 
     @Test
     public void testGetModuleId() throws Exception {
@@ -52,6 +71,41 @@ public class TsTstrk1062EntryPointTest {
         final String actualModuleDescription = tsTstrk1062EntryPoint.getModuleDescription();
         assertNotNull("ModuleDescription should not be null", actualModuleDescription);
         assertFalse("ModuleDescription should not be empty", actualModuleDescription.isEmpty());
+    }
+
+    @Test
+    public void testGetDetailedModuleDescription() throws Exception {
+        final String expectedDetailedModuleDescription = "Text";
+        final SortedMap<String, String> mockedTextMap = mock(SortedMap.class);
+        doReturn(expectedDetailedModuleDescription).when(mockedTextMap).get(any());
+
+        final IntygTexts expectedIntygTexts = new IntygTexts("1.0", "ts-tstrk1062", null, null, mockedTextMap, null, null);
+
+        doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
+        doReturn(expectedIntygTexts).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
+
+        final String actualDetailedModuleDescription = tsTstrk1062EntryPoint.getDetailedModuleDescription();
+
+        assertNotNull("DetailedModuleDescription should not be null", actualDetailedModuleDescription);
+        assertEquals("DetailedModuleDescription not equal", expectedDetailedModuleDescription, actualDetailedModuleDescription);
+    }
+
+    @Test
+    public void testGetDetailedModuleDescriptionMissingTexts() throws Exception {
+        doReturn(LATEST_VERSION).when(mockIntygTextsRepository).getLatestVersion(MODULE_ID);
+        doReturn(null).when(mockIntygTextsRepository).getTexts(MODULE_ID, LATEST_VERSION);
+
+        final String actualDetailedModuleDescription = tsTstrk1062EntryPoint.getDetailedModuleDescription();
+
+        assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
+    }
+
+    @Test
+    public void testGetDetailedModuleDescriptionMissingRepo() throws Exception {
+        final TsTstrk1062EntryPoint tsTstrk1062EntryPointWithoutRepo = new TsTstrk1062EntryPoint(Optional.empty());
+        final String actualDetailedModuleDescription = tsTstrk1062EntryPointWithoutRepo.getDetailedModuleDescription();
+
+        assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
     }
 
     @Test

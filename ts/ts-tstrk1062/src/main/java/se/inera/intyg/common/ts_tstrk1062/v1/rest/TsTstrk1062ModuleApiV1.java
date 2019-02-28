@@ -21,9 +21,7 @@ package se.inera.intyg.common.ts_tstrk1062.v1.rest;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
 
 import java.io.StringReader;
-import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
@@ -62,6 +60,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 
 @Component("moduleapi.ts-tstrk1062.v1")
 public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062UtlatandeV1> {
+
+    public static final String SCHEMATRON_FILE = "tstrk1062.v1.sch";
 
     private static final Logger LOG = LoggerFactory.getLogger(TsTstrk1062ModuleApiV1.class);
 
@@ -127,7 +127,7 @@ public class TsTstrk1062ModuleApiV1 extends TsParentModuleApi<TsTstrk1062Utlatan
 
     @Override
     protected RegisterCertificateValidator getRegisterCertificateValidator() {
-        return new RegisterCertificateValidator(TsTstrk1062EntryPoint.SCHEMATRON_FILE);
+        return new RegisterCertificateValidator(SCHEMATRON_FILE);
     }
 
     @Override

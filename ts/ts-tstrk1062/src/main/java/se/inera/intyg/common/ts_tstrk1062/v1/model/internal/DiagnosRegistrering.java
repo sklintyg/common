@@ -1,7 +1,5 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
-import java.util.stream.Stream;
-
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -38,11 +36,6 @@ public abstract class DiagnosRegistrering {
 
         public String getDescription() {
             return description;
-        }
-
-        public static DiagnosRegistreringsTyp fromCode(String code) {
-            return Stream.of(DiagnosRegistreringsTyp.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException(code));
         }
     }
 }

@@ -32,19 +32,34 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-tstrk1062";
-    public static final String MODULE_NAME = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
-    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
-    public static final String SCHEMATRON_FILE = "tstrk1062.v1.sch";
-    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1062";
     // CHECKSTYLE:OFF LineLength
+    public static final String MODULE_NAME = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
+    // CHECKSTYLE:ON LineLength
+    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
+    public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1062";
+
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
+
+    // CHECKSTYLE:OFF LineLength
     private static final String MODULE_DESCRIPTION = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
     // CHECKSTYLE:ON LineLength
 
+    private static final String WEBCERT_MODULE_CSS_PATH = "/web/webjars/ts-tstrk1062/webcert/css/ts-tstrk1062.css";
+    private static final String WEBCERT_MODULE_SCRIPT_PATH = "/web/webjars/ts-tstrk1062/webcert/module";
+    private static final String WEBCERT_MODULE_DEPENDENCY_PATH = "/web/webjars/ts-tstrk1062/webcert/module-deps.json";
+
+    private static final String MINA_INTYG_MODULE_CSS_PATH = "";
+    private static final String MINA_INTYG_MODULE_SCRIPT_PATH = "/web/webjars/ts-tstrk1062/minaintyg/js/module";
+    private static final String MINA_INTYG_MODULE_DEPENDENCY_PATH = "/web/webjars/ts-tstrk1062/minaintyg/js/module-deps.json";
+
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
-    @Autowired(required = false)
     private Optional<IntygTextsRepository> repo;
+
+    @Autowired(required = false)
+    public TsTstrk1062EntryPoint(Optional<IntygTextsRepository> repo) {
+        this.repo = repo;
+    }
 
     @Override
     public String getModuleId() {
@@ -63,50 +78,58 @@ public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getDetailedModuleDescription() {
+        String detailedModuleDescription = null;
         if (repo.isPresent()) {
-            final String latestVersion = repo.get().getLatestVersion(getModuleId());
-            final IntygTexts texts = repo.get().getTexts(getModuleId(), latestVersion);
+            final IntygTextsRepository intygTextsRepository = repo.get();
+            final String latestVersion = intygTextsRepository.getLatestVersion(getModuleId());
+            final IntygTexts texts = intygTextsRepository.getTexts(getModuleId(), latestVersion);
             if (texts != null) {
-                return texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
+                detailedModuleDescription = texts.getTexter().get(DETAILED_DESCRIPTION_TEXT_KEY);
             }
         }
-        return null;
+        return detailedModuleDescription;
     }
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
+        String moduleCssPath = null;
         switch (originator) {
         case MINA_INTYG:
-            return "";
+            moduleCssPath = MINA_INTYG_MODULE_CSS_PATH;
+            break;
         case WEBCERT:
-            return "/web/webjars/ts-tstrk1062/webcert/css/ts-tstrk1062.css";
-        default:
-            return null;
+            moduleCssPath = WEBCERT_MODULE_CSS_PATH;
+            break;
         }
+        return moduleCssPath;
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
+        String moduleScriptPath = null;
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/ts-tstrk1062/minaintyg/js/module";
+            moduleScriptPath = MINA_INTYG_MODULE_SCRIPT_PATH;
+            break;
         case WEBCERT:
-            return "/web/webjars/ts-tstrk1062/webcert/module";
-        default:
-            return null;
+            moduleScriptPath = WEBCERT_MODULE_SCRIPT_PATH;
+            break;
         }
+        return moduleScriptPath;
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
+        String moduleDependencyPath = null;
         switch (originator) {
         case MINA_INTYG:
-            return "/web/webjars/ts-tstrk1062/minaintyg/js/module-deps.json";
+            moduleDependencyPath = MINA_INTYG_MODULE_DEPENDENCY_PATH;
+            break;
         case WEBCERT:
-            return "/web/webjars/ts-tstrk1062/webcert/module-deps.json";
-        default:
-            return null;
+            moduleDependencyPath = WEBCERT_MODULE_DEPENDENCY_PATH;
+            break;
         }
+        return moduleDependencyPath;
     }
 
     @Override
@@ -124,5 +147,4 @@ public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
         // Same as externalId for ts
         return KV_UTLATANDETYP_INTYG_CODE;
     }
-
 }

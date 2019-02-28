@@ -34,7 +34,7 @@ public final class InternalToTransport {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
-        RegisterCertificateType tsTstrk1062Type = new RegisterCertificateType();
+        final RegisterCertificateType tsTstrk1062Type = new RegisterCertificateType();
         tsTstrk1062Type.setIntyg(UtlatandeToIntyg.convert(source));
         tsTstrk1062Type.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
 
