@@ -60,13 +60,6 @@ angular.module('doi').constant('doi.messages', {
         '<li>Valet om man vill ha kontakt med Försäkringskassan.</li>' +
         '<li>Referenser som intyget baseras på.</li></ul>',
 
-        'doi.warn.previouscertificate.samevg': 'Dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-        'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsorsaksintyg utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
-        'doi.warn.previouscertificate.differentvg': 'Dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
-        'doi.warn.previousdraft.samevg': 'Utkast på dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-        'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-        'doi.warn.previousdraft.differentvg': 'Utkast på dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
-
         'doi.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
         'doi.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.'
     },
