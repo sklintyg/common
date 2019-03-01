@@ -250,8 +250,8 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.validation.messagesByField &&
-                    (!!$scope.validation.messagesByField['diagnosKodad[' + index + '].' + field] ||
-                        !!$scope.validation.messagesByField['diagnosKodad[' + index + '].row'] ||
+                    (!!$scope.validation.messagesByField['diagnoskodad[' + index + '].' + field] ||
+                        !!$scope.validation.messagesByField['diagnoskodad[' + index + '].row'] ||
                         // If no diagnose has been entered the first row should be marked with validation-error
                         (index === 0 && !!$scope.validation.messagesByField.diagnosKodad));
             };

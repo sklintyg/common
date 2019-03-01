@@ -38,7 +38,6 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                 var categoryIds = _getCategoryIds();
 
                 var thisYear = moment().format('YYYY');
-                var today = moment().format('YYYY-MM-DD');
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
