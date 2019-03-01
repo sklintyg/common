@@ -103,7 +103,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         if (isNull(idKontroll)) {
             addValidationError(validationMessages,
                     ID_KONTROLL_CATEGORY,
-                    ID_KONTROLL_SVAR_JSON_ID + ".typ",
+                    ID_KONTROLL_SVAR_JSON_ID + PUNKT + ID_KONTROLL_DELSVAR_JSON_ID,
                     ValidationMessageType.EMPTY);
         }
     }
@@ -124,7 +124,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(diagnosKodad) || diagnosKodad.isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        "diagnosKodad",
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "ts-tstrk1062.validation.diagnos.missing");
                 return;
@@ -180,7 +180,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(diagnos.getDiagnosKod()) || diagnos.getDiagnosKod().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos0.missing");
@@ -188,7 +188,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos.kodsystem");
@@ -196,21 +196,21 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(diagnos.getDiagnosArtal()) || diagnos.getDiagnosArtal().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.ue-year-picker.empty");
             } else if (isNotYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.INVALID_FORMAT,
                         "common.validation.ue-year-picker.invalid_format");
             } else if (isFutureYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.OTHER,
                         "ts-tstrk1062.validation.diagnos.artal");
@@ -224,7 +224,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
         if (isNull(lakemedelsbehandling) || isNull(lakemedelsbehandling.getHarHaft())) {
             addValidationError(validationMessages,
                     LAKEMEDELSBEHANDLING_KATEGORI,
-                    LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID,
+                    LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID,
                     ValidationMessageType.EMPTY);
             return;
         }
@@ -233,7 +233,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
             if (isNull(lakemedelsbehandling.getPagar())) {
                 addValidationError(validationMessages,
                         LAKEMEDELSBEHANDLING_KATEGORI,
-                        LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY);
                 return;
             }
@@ -242,41 +242,41 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                 if (isNull(lakemedelsbehandling.getAktuell()) || lakemedelsbehandling.getAktuell().isEmpty()) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getPagatt())) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getEffekt())) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getFoljsamhet())) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
             } else {
                 if (isNull(lakemedelsbehandling.getAvslutadTidpunkt()) || lakemedelsbehandling.getAvslutadTidpunkt().isEmpty()) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
                 if (isNull(lakemedelsbehandling.getAvslutadOrsak()) || lakemedelsbehandling.getAvslutadOrsak().isEmpty()) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID,
+                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
             }

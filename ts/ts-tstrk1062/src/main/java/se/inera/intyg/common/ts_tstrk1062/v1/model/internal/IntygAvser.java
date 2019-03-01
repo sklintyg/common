@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_JSON_ID;
+
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -35,7 +37,7 @@ import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 public abstract class IntygAvser {
 
     @JsonCreator
-    public static IntygAvser create(@JsonProperty("behorigheter") Set<BehorighetsTyp> behorigheter) {
+    public static IntygAvser create(@JsonProperty(INTYG_AVSER_DELSVAR_JSON_ID) Set<BehorighetsTyp> behorigheter) {
         return new AutoValue_IntygAvser(behorigheter);
     }
 

@@ -18,20 +18,20 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+
+import java.util.List;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-
 import com.google.common.collect.ImmutableList;
+
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_tstrk1062.support.TsTstrk1062EntryPoint;
-
-import java.util.List;
-
-import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsTstrk1062UtlatandeV1.Builder.class)
@@ -104,41 +104,41 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
 
         public abstract TsTstrk1062UtlatandeV1 build();
 
-        @JsonProperty("id")
+        @JsonProperty(ID_JSON_ID)
         public abstract Builder setId(String id);
 
-        @JsonProperty("grundData")
+        @JsonProperty(GRUNDDATA_JSON_ID)
         public abstract Builder setGrundData(GrundData grundData);
 
-        @JsonProperty("textVersion")
+        @JsonProperty(TEXT_VERSION_JSON_ID)
         public abstract Builder setTextVersion(String textVersion);
 
-        @JsonProperty("signature")
+        @JsonProperty(SIGNATURE_JSON_ID)
         public abstract Builder setSignature(String signature);
 
-        @JsonProperty("kommentar")
+        @JsonProperty(KOMMENTAR_JSON_ID)
         public abstract Builder setKommentar(String kommentar);
 
-        @JsonProperty("intygAvser")
+        @JsonProperty(INTYG_AVSER_SVAR_JSON_ID)
         public abstract Builder setIntygAvser(IntygAvser intygAvser);
 
-        @JsonProperty("idKontroll")
+        @JsonProperty(ID_KONTROLL_SVAR_JSON_ID)
         public abstract Builder setIdKontroll(IdKontroll idKontroll);
 
-        @JsonProperty("diagnosRegistrering")
+        @JsonProperty(ALLMANT_INMATNING_SVAR_JSON_ID)
         public abstract Builder setDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering);
 
-        @JsonProperty("diagnosKodad")
+        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID)
         public Builder setDiagnosKodad(List<DiagnosKodad> diagnosKodadList) {
             return setDiagnosKodad(ImmutableList.copyOf(diagnosKodadList));
         }
 
         abstract Builder setDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad);
 
-        @JsonProperty("diagnosFritext")
+        @JsonProperty(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID)
         public abstract Builder setDiagnosFritext(DiagnosFritext diagnosFritext);
 
-        @JsonProperty("lakemedelsbehandling")
+        @JsonProperty(LAKEMEDELSBEHANDLING_JSON_ID)
         public abstract Builder setLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling);
 
         @JsonProperty(SYMPTOM_BEDOMNING_DELSVAR_JSON_ID)
@@ -148,9 +148,9 @@ public abstract class TsTstrk1062UtlatandeV1 implements Utlatande {
         public abstract Builder setPrognosTillstand(PrognosTillstand prognosTillstand);
 
         @JsonProperty(OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_JSON_ID)
-        public abstract  Builder setOvrigaKommentarer(String ovrigaKommentarer);
+        public abstract Builder setOvrigaKommentarer(String ovrigaKommentarer);
 
         @JsonProperty(BEDOMNING_UPPFYLLER_SVAR_JSON_ID)
-        public abstract  Builder setBedomning(Bedomning bedomning);
+        public abstract Builder setBedomning(Bedomning bedomning);
     }
 }

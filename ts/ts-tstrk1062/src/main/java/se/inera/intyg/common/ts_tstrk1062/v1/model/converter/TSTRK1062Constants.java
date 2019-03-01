@@ -1,9 +1,18 @@
 package se.inera.intyg.common.ts_tstrk1062.v1.model.converter;
 
-public class TSTRK1062Constants {
+public abstract class TSTRK1062Constants {
 
     public static final String NOT_AVAILABLE = "N/A";
     public static final String PUNKT = ".";
+    public static final String SB = "[";
+    public static final String EB = "]";
+
+
+    public static final String ID_JSON_ID = "id";
+    public static final String GRUNDDATA_JSON_ID = "grundData";
+    public static final String TEXT_VERSION_JSON_ID = "textVersion";
+    public static final String SIGNATURE_JSON_ID = "signature";
+    public static final String KOMMENTAR_JSON_ID = "kommentar";
 
     // Kat 1 - Intyget avser
     public static final String INTYG_AVSER_CATEGORY = "intygAvser";
@@ -44,8 +53,8 @@ public class TSTRK1062Constants {
 
     // Kat 4 - Läkemedelsbehandling
     public static final String LAKEMEDELSBEHANDLING_KATEGORI = "lakemedelsbehandling";
+    public static final String LAKEMEDELSBEHANDLING_JSON_ID = "lakemedelsbehandling";
     public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID = "53";
-    public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID = "lakemedelsbehandling";
     public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID = "53.1";
     public static final String LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID = "harHaft";
     public static final String LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID = "54";

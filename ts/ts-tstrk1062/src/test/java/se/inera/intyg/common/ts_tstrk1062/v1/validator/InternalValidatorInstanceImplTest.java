@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -250,15 +249,12 @@ public class InternalValidatorInstanceImplTest {
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-        assertEquals("Should have four error messages", 4, validationMessages.size());
+        assertEquals("Should have three error messages", 3, validationMessages.size());
 
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
-
-        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
@@ -349,7 +345,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -363,7 +359,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -377,7 +373,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -391,7 +387,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -405,7 +401,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -419,7 +415,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -433,7 +429,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -447,7 +443,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -461,7 +457,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -475,7 +471,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -489,7 +485,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -503,7 +499,7 @@ public class InternalValidatorInstanceImplTest {
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
         assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID);
     }
 
     @Test

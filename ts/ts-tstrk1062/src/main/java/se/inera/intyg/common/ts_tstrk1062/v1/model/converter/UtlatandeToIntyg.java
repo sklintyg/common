@@ -53,8 +53,6 @@ public final class UtlatandeToIntyg {
     public static Intyg convert(TsTstrk1062UtlatandeV1 utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
 
-        complementArbetsplatskodIfMissing(intyg);
-
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(utlatande));
         intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
@@ -69,12 +67,6 @@ public final class UtlatandeToIntyg {
         typAvIntyg.setCodeSystem(KV_INTYGSTYP_CODE_SYSTEM);
         typAvIntyg.setDisplayName(TsTstrk1062EntryPoint.ISSUER_MODULE_NAME);
         return typAvIntyg;
-    }
-
-    private static void complementArbetsplatskodIfMissing(Intyg intyg) {
-        if (Strings.nullToEmpty(intyg.getSkapadAv().getEnhet().getArbetsplatskod().getExtension()).trim().isEmpty()) {
-            intyg.getSkapadAv().getEnhet().getArbetsplatskod().setExtension(NOT_AVAILABLE);
-        }
     }
 
     private static List<Svar> getSvar(@NotNull TsTstrk1062UtlatandeV1 source) {

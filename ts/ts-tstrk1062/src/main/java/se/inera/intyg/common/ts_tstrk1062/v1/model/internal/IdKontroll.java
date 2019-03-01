@@ -18,6 +18,8 @@
  */
 package se.inera.intyg.common.ts_tstrk1062.v1.model.internal;
 
+import static se.inera.intyg.common.ts_tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_JSON_ID;
+
 import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -30,7 +32,7 @@ import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 public abstract class IdKontroll {
 
     @JsonCreator
-    public static IdKontroll create(@JsonProperty("typ") IdKontrollKod typ) {
+    public static IdKontroll create(@JsonProperty(ID_KONTROLL_DELSVAR_JSON_ID) IdKontrollKod typ) {
 
         return new AutoValue_IdKontroll(typ);
     }
