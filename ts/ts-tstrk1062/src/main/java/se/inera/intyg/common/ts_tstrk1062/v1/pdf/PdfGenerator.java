@@ -53,11 +53,8 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @Component("ts-tstrk1062.v1.PdfGenerator")
 public class PdfGenerator {
 
-    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "transportstyrelsens_logotyp_rgb.png";
-    private static final String PDF_UP_MODEL_CLASSPATH_URI = "ts-tstrk1062-uv-viewmodel.v1.js";
-    // CHECKSTYLE:OFF LineLength
-    private static final String PDF_SUMMARY_HEADER = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
-    // CHECKSTYLE:ON LineLength
+    private static final String PDF_LOGOTYPE_CLASSPATH_URI = "pdf/transportstyrelsens_logotyp_rgb.png";
+    private static final String PDF_UP_MODEL_CLASSPATH_URI = "pdf/ts-tstrk1062-uv-viewmodel.v1.js";
 
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
@@ -67,7 +64,7 @@ public class PdfGenerator {
             + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_adhd_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
             ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
@@ -90,7 +87,7 @@ public class PdfGenerator {
                     .withPersonnummer(personId.getPersonnummerWithDash())
                     .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
                     .withSummary(new Summary()
-                            .add(PDF_SUMMARY_HEADER, getCleanModuleDescription(intygTexts))
+                            .add("", getCleanModuleDescription(intygTexts))
                             .add(UTSK001_HEADER, UTSK001_BODY))
                     .withLeftMarginTypText(TsTstrk1062EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
                     .withUtfardarLogotyp(logoData)

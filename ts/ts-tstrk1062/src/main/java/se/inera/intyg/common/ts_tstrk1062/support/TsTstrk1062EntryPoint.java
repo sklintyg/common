@@ -33,9 +33,9 @@ public class TsTstrk1062EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "ts-tstrk1062";
     // CHECKSTYLE:OFF LineLength
-    public static final String MODULE_NAME = "Läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning";
+    public static final String MODULE_NAME = "Transportstyrelsens Läkarintyg ADHD";
     // CHECKSTYLE:ON LineLength
-    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg";
+    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens Läkarintyg ADHD";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1062";
 
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
