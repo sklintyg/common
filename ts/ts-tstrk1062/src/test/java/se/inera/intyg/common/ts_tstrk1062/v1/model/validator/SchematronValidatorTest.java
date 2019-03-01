@@ -41,6 +41,13 @@ public class SchematronValidatorTest {
     }
 
     @Test
+    public void validXmlDiagnosKodadWithoutDescription() throws Exception {
+        final List<String> validationErrors = validateXML("v1/transport/scenarios/success/diagnosKodadUtanBeskrivning.xml");
+
+        assertNoError(validationErrors);
+    }
+
+    @Test
     public void validXmlDiagnosKodadBehandlingAvslutad() throws Exception {
         final List<String> validationErrors = validateXML("v1/transport/scenarios/success/diagnosKodadBehandlingAvslutad.xml");
 

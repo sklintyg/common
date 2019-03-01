@@ -193,14 +193,6 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ValidationMessageType.EMPTY,
                         "common.validation.diagnos.kodsystem");
             }
-            if (isNull(diagnos.getDiagnosBeskrivning()) || diagnos.getDiagnosBeskrivning().isEmpty()) {
-                addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[" + diagnosNr + "]" + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID,
-                        ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.description.missing");
-            }
             if (isNull(diagnos.getDiagnosArtal()) || diagnos.getDiagnosArtal().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,

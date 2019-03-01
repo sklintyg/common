@@ -283,15 +283,12 @@ public class InternalValidatorInstanceImplTest {
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-        assertEquals("Should have four error messages", 4, validationMessages.size());
+        assertEquals("Should have three error messages", 3, validationMessages.size());
 
         final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
-
-        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
-                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID);
 
         assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
