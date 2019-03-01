@@ -248,8 +248,7 @@ public final class UtlatandeToIntyg {
 
         if (lakemedelsbehandling.getAvslutadTidpunkt() != null) {
             svars.add(aSvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID)
-                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY_MM_DD, lakemedelsbehandling.getAvslutadTidpunkt().asLocalDate()))
+                    .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID, lakemedelsbehandling.getAvslutadTidpunkt())
                     .withDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID, lakemedelsbehandling.getAvslutadOrsak())
                     .build());
         }

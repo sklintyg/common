@@ -76,7 +76,7 @@ public final class TransportToInternal {
         Boolean pagatt = null;
         Boolean effekt = null;
         Boolean foljsamhet = null;
-        InternalDate avslutadTidpunkt = null;
+        String avslutadTidpunkt = null;
         String avslutadOrsak = null;
         String bedomningAvSymptom = null;
         PrognosTillstand prognosTillstand = null;
@@ -273,9 +273,8 @@ public final class TransportToInternal {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
     }
 
-    private static InternalDate getLakemedelsbehandlingAvslutadTidpunkt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar)
-            throws ConverterException {
-        return getPartialDateValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
+    private static String getLakemedelsbehandlingAvslutadTidpunkt(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+        return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
     }
 
     private static String getLakemedelsbehandlingAvslutadOrsak(TsTstrk1062UtlatandeV1.Builder utlatande, Svar svar) {

@@ -204,9 +204,8 @@ angular.module('ts-tstrk1062').factory('ts-tstrk1062.UtkastConfigFactory.v1',
                                 requiredProp: 'lakemedelsbehandling.avslutadTidpunkt'
                             },
                             [{
-                                type: 'ue-date',
+                                type: 'ue-textfield',
                                 modelProp: 'lakemedelsbehandling.avslutadTidpunkt',
-                                maxDate: today
                             },
                                 {
                                     type: 'ue-textarea',

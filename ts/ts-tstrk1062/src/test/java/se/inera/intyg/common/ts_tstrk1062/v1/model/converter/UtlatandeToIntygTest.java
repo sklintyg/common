@@ -148,7 +148,7 @@ public class UtlatandeToIntygTest {
     @Test
     public void convertUtlatandeLakemedelsbehandlingNejAvslutad() throws Exception {
         final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, new InternalDate("2018-01-20"),
+                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null, null, null, "Förra månaden",
                         "Avslutad orsak."))
                 .build();
 
@@ -411,8 +411,8 @@ public class UtlatandeToIntygTest {
         final Svar.Delsvar delsvarAvslutadTidpunkt = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
                 LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
         assertNotNull("AvslutadTidpunkt should not be null", delsvarAvslutadTidpunkt);
-        assertEquals("AvslutadTidpunkt not equal", lakemedelsbehandling.getAvslutadTidpunkt().getDate(),
-                getPartialDateContent(delsvarAvslutadTidpunkt).getValue().toString());
+        assertEquals("AvslutadTidpunkt not equal", lakemedelsbehandling.getAvslutadTidpunkt(),
+                getStringContent(delsvarAvslutadTidpunkt));
 
         final Svar.Delsvar delsvarAvslutadOrsak = svar.getDelsvar(LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID,
                 LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);

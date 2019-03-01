@@ -152,13 +152,6 @@ public class SchematronValidatorTest {
     }
 
     @Test
-    public void failOnRule11() throws Exception {
-        final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule11.xml");
-
-        assertOneError(validationErrors, "'Tidpunkt då läkemedelsbehandling avslutades'");
-    }
-
-    @Test
     public void failOnRule12And13() throws Exception {
         final List<String> validationErrors = validateXML("v1/transport/scenarios/fail/failRule12-13.xml");
 

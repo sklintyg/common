@@ -154,7 +154,7 @@ public class TransportToInternalTest {
         assertNull("Effekt is not null", utlatande.getLakemedelsbehandling().getEffekt());
         assertNull("Foljsamhet is not null", utlatande.getLakemedelsbehandling().getFoljsamhet());
         assertNotNull("AvslutadTidpunk is null", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
-        assertEquals("AvslutadTidpunkt not equal", "2019-01-10", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt().getDate());
+        assertEquals("AvslutadTidpunkt not equal", "2019-01-10", utlatande.getLakemedelsbehandling().getAvslutadTidpunkt());
         assertEquals("AvslutadOrsak not equal", "Behandlingen var fruktlös", utlatande.getLakemedelsbehandling().getAvslutadOrsak());
     }
 

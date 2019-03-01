@@ -274,26 +274,13 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
                 }
-
             } else {
-                if (isNull(lakemedelsbehandling.getAvslutadTidpunkt())) {
+                if (isNull(lakemedelsbehandling.getAvslutadTidpunkt()) || lakemedelsbehandling.getAvslutadTidpunkt().isEmpty()) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,
                             LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
                             ValidationMessageType.EMPTY);
-                } else if (!lakemedelsbehandling.getAvslutadTidpunkt().isValidDate()) {
-                    addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
-                            ValidationMessageType.INVALID_FORMAT);
-                } else if (lakemedelsbehandling.getAvslutadTidpunkt().asLocalDate().isAfter(LocalDate.now())) {
-                    addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
-                            ValidationMessageType.OTHER,
-                            "ts-tstrk1062.validation.lakemedelsbehandling.avslutad");
                 }
-
                 if (isNull(lakemedelsbehandling.getAvslutadOrsak()) || lakemedelsbehandling.getAvslutadOrsak().isEmpty()) {
                     addValidationError(validationMessages,
                             LAKEMEDELSBEHANDLING_KATEGORI,

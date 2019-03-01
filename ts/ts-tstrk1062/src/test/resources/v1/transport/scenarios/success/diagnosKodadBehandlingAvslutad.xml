@@ -177,12 +177,7 @@
       <ns2:delsvar id="54.1">false</ns2:delsvar>
     </ns2:svar>
     <ns2:svar id="59">
-      <ns2:delsvar id="59.1">
-        <ns4:partialDate>
-          <ns4:format>YYYY-MM-DD</ns4:format>
-          <ns4:value>2019-01-10</ns4:value>
-        </ns4:partialDate>
-      </ns2:delsvar>
+      <ns2:delsvar id="59.1">2019-01-10 </ns2:delsvar>
       <ns2:delsvar id="59.2">Behandlingen var fruktlös</ns2:delsvar>
     </ns2:svar>
     <ns2:svar id="60">

@@ -468,30 +468,16 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateInvalidLakemedelsbehandlingAvslutadTidpunkt() throws Exception {
+    public void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() throws Exception {
         final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, new InternalDate("Invalid"), "Orsak"))
+                        null, null, "", "Orsak"))
                 .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-        assertOneValidationMessages(validationMessages, ValidationMessageType.INVALID_FORMAT, LAKEMEDELSBEHANDLING_KATEGORI,
-                LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
-    }
-
-    @Test
-    public void validateFutureLakemedelsbehandlingAvslutadTidpunkt() throws Exception {
-        final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
-                .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, new InternalDate(LocalDate.now().plusDays(1)), "Orsak"))
-                .build();
-
-        final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
-        final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
-
-        assertOneValidationMessages(validationMessages, ValidationMessageType.OTHER, LAKEMEDELSBEHANDLING_KATEGORI,
+        assertOneValidationMessages(validationMessages, LAKEMEDELSBEHANDLING_KATEGORI,
                 LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID);
     }
 
@@ -499,7 +485,7 @@ public class InternalValidatorInstanceImplTest {
     public void validateNullLakemedelsbehandlingAvslutadOrsak() throws Exception {
         final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, new InternalDate(LocalDate.now()), null))
+                        null, null, "Förra året", null))
                 .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -513,7 +499,7 @@ public class InternalValidatorInstanceImplTest {
     public void validateEmptyLakemedelsbehandlingAvslutadOrsak() throws Exception {
         final TsTstrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
-                        null, null, new InternalDate(LocalDate.now()), ""))
+                        null, null, "Förra året", ""))
                 .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
