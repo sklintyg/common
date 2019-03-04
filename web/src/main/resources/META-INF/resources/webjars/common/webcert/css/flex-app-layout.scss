@@ -41,6 +41,8 @@ body {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
+    flex-grow: 1;
+    min-height: 1%;
   }
 
   //defines padding for "page" workarea containers
