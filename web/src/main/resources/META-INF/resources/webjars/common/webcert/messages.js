@@ -364,8 +364,8 @@
             'ts-bas.label.send': 'Skicka intyg till Transportstyrelsen',
             'ts-diabetes.button.send': 'Skicka till Transportstyrelsen',
             'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
-            'ts-tstrk1062.button.send': 'Skicka till Transportstyrelsen',
-            'ts-tstrk1062.label.send': 'Skicka intyg till Transportstyrelsen',
+            'tstrk1062.button.send': 'Skicka till Transportstyrelsen',
+            'tstrk1062.label.send': 'Skicka intyg till Transportstyrelsen',
 
             'af00213.button.send': 'Skicka till Arbetsförmedlingen',
             'af00213.label.send': 'Skicka intyg till Arbetsförmedlingen',
