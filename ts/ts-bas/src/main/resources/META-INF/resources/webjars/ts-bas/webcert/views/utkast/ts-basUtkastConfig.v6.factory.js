@@ -591,28 +591,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                                 watcher: ueTSFactoryTemplates.getBedomningListenerConfig('korkortstyp', 'KAN_INTE_TA_STALLNING')
                             }]
                         ),
-                        fraga(33, '', '', { }, [{
-                            type: 'ue-text',
-                            label: {
-                                key: 'ts-bas.helptext.bedomning.info'
-                            },
-                            hideExpression: noKravYtterligareUnderlagFieldsFilledExpression,
-                            paddingBottom: true
-                        },{
-                            type: 'ue-text',
-                            label: {
-                                key: 'ts-bas.helptext.synfunktioner.8-dioptrier-valt'
-                            },
-                            hideExpression: '!model.syn.korrektionsglasensStyrka',
-                            paddingBottom: true
-                        },{
-                            type: 'ue-text',
-                            label: {
-                                key: 'DFR_19.3.INF'
-                            },
-                            hideExpression: '!(model.diabetes.tabletter || model.diabetes.insulin)',
-                            paddingBottom: true
-                        }]),
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'bedomning.lakareSpecialKompetens',
