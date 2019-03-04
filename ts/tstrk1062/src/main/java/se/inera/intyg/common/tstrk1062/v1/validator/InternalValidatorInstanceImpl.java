@@ -183,7 +183,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
-                        "common.validation.diagnos0.missing");
+                        "common.validation.diagnos.missing");
             }
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,

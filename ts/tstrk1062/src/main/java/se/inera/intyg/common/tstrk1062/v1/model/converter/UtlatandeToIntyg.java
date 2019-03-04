@@ -27,11 +27,11 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.sun.istack.NotNull;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -50,7 +50,7 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) {
+    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
 
         intyg.setTyp(getTypAvIntyg());

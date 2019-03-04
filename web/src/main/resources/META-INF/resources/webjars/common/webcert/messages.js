@@ -381,6 +381,7 @@
             // send ts
             'ts-bas.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
             'ts-diabetes.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
+            'tstrk1062.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
 
             // Send w sjukpenning
             'common.label.send.body': sjukpenningText,
@@ -441,6 +442,7 @@
             'luae_fs.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
             'ts-bas.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
             'ts-diabetes.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+            'tstrk1062.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
 
             // Status - signed and sent
             'common.label.status.sent.patient-dead': 'Intyget är signerat och har skickats till ${recipient}s system.',
@@ -456,6 +458,7 @@
             'lisjp.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
             'ts-bas.label.makulera.confirmation': 'Transportstyrelsens läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
             'ts-diabetes.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
+            'tstrk1062.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
 
 
             // Validation messages
@@ -497,6 +500,7 @@
             'luae_fs.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'ts-diabetes.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
+            'tstrk1062.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
             'lisjp.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
@@ -529,6 +533,7 @@
             'luae_fs.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-bas.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-diabetes.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
+            'tstrk1062.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'db.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'doi.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 
@@ -557,6 +562,7 @@
             'luae_fs.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-bas.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-diabetes.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
+            'tstrk1062.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'db.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'doi.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 

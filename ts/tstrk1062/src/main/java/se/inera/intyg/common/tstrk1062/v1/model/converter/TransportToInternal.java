@@ -27,9 +27,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -42,8 +39,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
 public final class TransportToInternal {
-
-    private static final Logger LOG = LoggerFactory.getLogger(InternalToTransport.class);
 
     private TransportToInternal() {
     }
