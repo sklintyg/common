@@ -64,6 +64,10 @@ public class XmlMarshallerHelper {
         }
     }
 
+    public static Jaxb2Marshaller marshaller() {
+        return marshaller.jaxb2Marshaller;
+    }
+
     public static <T> String marshal(final JAXBElement<T> element) {
         return marshaller.marshal(element);
     }

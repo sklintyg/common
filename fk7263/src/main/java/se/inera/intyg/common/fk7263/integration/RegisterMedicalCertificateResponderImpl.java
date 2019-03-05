@@ -101,10 +101,6 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
             LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
                     + ": Certificate ID already exists for another person.");
 
-        } catch (JAXBException e) {
-            LOGGER.error("JAXB error in Webservice: ", e);
-            throw new RuntimeException(e);
-
         } catch (Exception e) {
             LOGGER.error("Error in Webservice: ", e);
             throw new RuntimeException(e);
@@ -120,7 +116,7 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
         }
     }
 
-    private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) throws JAXBException {
+    private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) {
         JAXBElement<RegisterMedicalCertificateType> requestElement = objectFactory
                 .createRegisterMedicalCertificate(registerMedicalCertificate);
         return XmlMarshallerHelper.marshal(requestElement);

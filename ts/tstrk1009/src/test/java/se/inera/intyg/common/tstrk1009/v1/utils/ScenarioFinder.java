@@ -18,17 +18,21 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.utils;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.Resource;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import javax.xml.bind.JAXB;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+
+import org.apache.cxf.helpers.IOUtils;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
+
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Finds and creates scenarios based on scenario files placed in src/test/resources.
@@ -156,7 +160,10 @@ public final class ScenarioFinder {
         @Override
         public RegisterCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
+                JAXBElement<RegisterCertificateType> rct =
+                        XmlMarshallerHelper.unmarshal(
+                                getTransportModelFor(getName(), TRANSPORT_MODEL_PATH));
+                return rct.getValue();
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "transport", e);
             }
@@ -177,17 +184,21 @@ public final class ScenarioFinder {
 
     }
 
-    private static File getTransportModelFor(String name, String path) throws IOException {
+    private static String model(String location) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(path + name + TRANSPORT_MODEL_EXT).getFile();
-        context.close();
-        return retFile;
+        try {
+            Resource resource = context.getResource(location);
+            return IOUtils.toString(resource.getInputStream());
+        } finally {
+            context.close();
+        }
     }
 
-    private static File getInternalModelFor(String name) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT).getFile();
-        context.close();
-        return retFile;
+    private static String getTransportModelFor(String name, String path) throws IOException {
+        return model(path + name + TRANSPORT_MODEL_EXT);
+    }
+
+    private static String getInternalModelFor(String name) throws IOException {
+        return model(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT);
     }
 }

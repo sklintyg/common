@@ -18,12 +18,28 @@
  */
 package se.inera.intyg.common.sos_parent.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.MarshallingFailureException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
@@ -51,12 +67,14 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemE
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
@@ -64,19 +82,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
-
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-
-import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
 public abstract class SosParentModuleApi<T extends SosUtlatande> implements ModuleApi {
 
@@ -158,7 +163,8 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
-        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
+        JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        RegisterCertificateType request = el.getValue();
 
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
@@ -249,7 +255,8 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
-            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
+            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
+            return transportToInternal(el.getValue().getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
@@ -283,8 +290,8 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
 
     @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
-        RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
+        JAXBElement<RevokeCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, el.getValue());
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
             LOG.error(message);
@@ -295,10 +302,10 @@ public abstract class SosParentModuleApi<T extends SosUtlatande> implements Modu
     @Override
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
-            StringWriter writer = new StringWriter();
-            JAXB.marshal(InternalToRevoke.convert(utlatande, skapatAv, meddelande), writer);
-            return writer.toString();
-        } catch (ConverterException e) {
+            JAXBElement<RevokeCertificateType> el = new ObjectFactory().createRevokeCertificate(
+                    InternalToRevoke.convert(utlatande, skapatAv, meddelande));
+            return XmlMarshallerHelper.marshal(el);
+        } catch (ConverterException | MarshallingFailureException e) {
             throw new ModuleException(e.getMessage());
         }
     }
