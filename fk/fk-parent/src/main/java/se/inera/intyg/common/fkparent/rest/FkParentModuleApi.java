@@ -23,9 +23,8 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLA
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
+
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Base64;
@@ -34,7 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.slf4j.Logger;
@@ -76,12 +75,14 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemE
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
@@ -194,7 +195,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
-        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
+        JAXBElement<RegisterCertificateType> element = XmlMarshallerHelper.unmarshal(xmlBody);
+        RegisterCertificateType request = element.getValue();
 
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
@@ -292,7 +294,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class);
+        JAXBElement<RegisterCertificateType> element = XmlMarshallerHelper.unmarshal(xml);
+        RegisterCertificateType jaxbObject = element.getValue();
         try {
             return transportToInternal(jaxbObject.getIntyg());
         } catch (ConverterException e) {
@@ -332,7 +335,8 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
+        JAXBElement<RevokeCertificateType> element = XmlMarshallerHelper.unmarshal(xmlBody);
+        RevokeCertificateType request = element.getValue();
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -344,15 +348,13 @@ public abstract class FkParentModuleApi<T extends Utlatande> implements ModuleAp
     @Override
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
-            StringWriter writer = new StringWriter();
-            JAXB.marshal(InternalToRevoke.convert(utlatande, skapatAv, meddelande), writer);
-            return writer.toString();
+            RevokeCertificateType rct = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
+            JAXBElement<RevokeCertificateType> el = new ObjectFactory().createRevokeCertificate(rct);
+            return XmlMarshallerHelper.marshal(el);
         } catch (ConverterException e) {
             throw new ModuleException(e.getMessage());
         }
     }
-
-
 
     protected abstract String getSchematronFileName();
 

@@ -18,8 +18,12 @@
  */
 package se.inera.intyg.common.fk7263.rest;
 
+import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
+import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
+
+
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.Comparator;
@@ -27,12 +31,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
+
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.slf4j.Logger;
@@ -44,6 +44,7 @@ import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+
 import iso.v21090.dt.v1.CD;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
@@ -99,15 +100,13 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import static se.inera.intyg.common.fk7263.integration.RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS;
-import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32;
-import static se.inera.intyg.common.fk7263.model.converter.UtlatandeToIntyg.BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32;
 
 /**
  * @author andreaskaltenbach, marced
@@ -249,8 +248,8 @@ public class Fk7263ModuleApi implements ModuleApi {
             throw new ModuleException("No LogicalAddress found in call to sendCertificateToRecipient!");
         }
 
-        RegisterMedicalCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterMedicalCertificateType.class);
-        sendCertificateToRecipient(request, logicalAddress, recipientId);
+        JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        sendCertificateToRecipient(el.getValue(), logicalAddress, recipientId);
     }
 
     @Override
@@ -309,21 +308,8 @@ public class Fk7263ModuleApi implements ModuleApi {
         Intyg intyg = getIntygFromUtlatande(utlatande);
         RegisterCertificateType type = new RegisterCertificateType();
         type.setIntyg(intyg);
-        StringWriter writer = new StringWriter();
-        JAXBContext jaxbContext;
-        try {
-            jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, Boolean.class);
-            jaxbContext.createMarshaller().marshal(wrapJaxb(type), writer);
-        } catch (JAXBException e) {
-            LOG.debug("Could not create JAXB context for conversion from fk7263 ti fk7263-sit.", e);
-        }
-        return writer.toString();
-    }
-
-    private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
-        return new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+        JAXBElement<RegisterCertificateType> el = new ObjectFactory().createRegisterCertificate(type);
+        return XmlMarshallerHelper.marshal(el);
     }
 
     @Override
@@ -436,10 +422,9 @@ public class Fk7263ModuleApi implements ModuleApi {
 
     @Override
     public Fk7263Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                RegisterMedicalCertificateType.class);
+        JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
         try {
-            return TransportToInternal.convert(jaxbObject.getLakarutlatande());
+            return TransportToInternal.convert(el.getValue().getLakarutlatande());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
@@ -667,9 +652,10 @@ public class Fk7263ModuleApi implements ModuleApi {
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
-        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
+        JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+
+        RevokeMedicalCertificateResponseType response =
+                revokeCertificateClient.revokeMedicalCertificate(uri,el.getValue());
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
             LOG.error(message);
@@ -682,9 +668,11 @@ public class Fk7263ModuleApi implements ModuleApi {
         RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        StringWriter writer = new StringWriter();
-        JAXB.marshal(request, writer);
-        return writer.toString();
+        JAXBElement<RevokeMedicalCertificateRequestType>  el =
+                new se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory()
+                .createRevokeMedicalCertificateRequest(request);
+
+        return XmlMarshallerHelper.marshal(el);
     }
 
     @Override

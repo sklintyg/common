@@ -18,8 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import java.io.StringReader;
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +34,7 @@ import se.inera.intyg.common.schemas.clinicalprocess.healthcond.certificate.v1.u
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 
@@ -95,9 +95,10 @@ public class GetMedicalCertificateResponderImpl implements GetMedicalCertificate
     protected void attachCertificateDocument(CertificateHolder certificate, GetMedicalCertificateResponseType response) {
         try {
 
-            RegisterMedicalCertificateType jaxbObject = JAXB.unmarshal(new StringReader(certificate.getOriginalCertificate()),
-                    RegisterMedicalCertificateType.class);
-            response.setLakarutlatande(jaxbObject.getLakarutlatande());
+            JAXBElement<RegisterMedicalCertificateType> el =
+                    XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
+
+            response.setLakarutlatande(el.getValue().getLakarutlatande());
 
         } catch (Exception e) {
             LOGGER.error("Error while converting in getMedicalCertificate for id: {} with stacktrace: {}", certificate.getId(),

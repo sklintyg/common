@@ -29,14 +29,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 
+
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.StringWriter;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPEnvelope;
@@ -50,11 +51,13 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -71,7 +74,6 @@ import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -80,6 +82,9 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
+import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.WebcertModelFactoryImpl;
@@ -96,6 +101,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponderInterface;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesResponseType;
 import se.inera.intygstjanster.ts.services.GetTSDiabetesResponder.v1.GetTSDiabetesType;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.ObjectFactory;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponderInterface;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesResponseType;
 import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
@@ -110,7 +116,8 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
  * response headers and response statuses etc are correct.
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = BefattningService.class)
 public class TsDiabetesModuleApiV2Test {
 
     private static final String INTYG_TYPE_VERSION_2_8 = "2.8";
@@ -149,6 +156,10 @@ public class TsDiabetesModuleApiV2Test {
     @Mock
     private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
+
+    public TsDiabetesModuleApiV2Test() {
+        MockitoAnnotations.initMocks(this);
+    }
     @Before
     public void setup() throws Exception {
         revokeCertificateFile = new ClassPathResource("revokeCertificate.xml");
@@ -536,8 +547,7 @@ public class TsDiabetesModuleApiV2Test {
     }
 
     private String xmlToString(RegisterTSDiabetesType registerTsDiabetes) throws JAXBException {
-        StringWriter stringWriter = new StringWriter();
-        JAXB.marshal(registerTsDiabetes, stringWriter);
-        return stringWriter.toString();
+        JAXBElement<RegisterTSDiabetesType> el = new ObjectFactory().createRegisterTSDiabetes(registerTsDiabetes);
+        return XmlMarshallerHelper.marshal(el);
     }
 }
