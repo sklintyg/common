@@ -18,15 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import java.io.StringReader;
 import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.dom.DOMResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +41,7 @@ import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.Resu
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -108,25 +105,13 @@ public class GetCertificateResponderImpl implements
 
     protected void attachCertificateDocument(CertificateHolder certificate, GetCertificateResponseType response) {
         try {
-
-            // Create the Document
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.newDocument();
-
-            RegisterMedicalCertificateType registerMedicalCertificate = JAXB.unmarshal(
-                    new StringReader(certificate.getOriginalCertificate()),
-                    RegisterMedicalCertificateType.class);
-            JAXBElement<RegisterMedicalCertificateType> registerMedicalCertificateElement = objectFactory
-                    .createRegisterMedicalCertificate(registerMedicalCertificate);
-
-            // Marshal the Object to a Document
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(registerMedicalCertificateElement, document);
+            JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(
+                    certificate.getOriginalCertificate());
+            DOMResult domResult = new DOMResult();
+            XmlMarshallerHelper.marshaller().marshal(el, domResult);
             CertificateType certificateType = new CertificateType();
-            certificateType.getAny().add(document.getDocumentElement());
+            certificateType.getAny().add(((Document) domResult.getNode()).getDocumentElement());
             response.setCertificate(certificateType);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

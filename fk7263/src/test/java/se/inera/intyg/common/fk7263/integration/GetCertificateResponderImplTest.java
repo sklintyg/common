@@ -18,10 +18,19 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ERROR;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
+import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
-import org.junit.Before;
+
+import javax.xml.bind.JAXBContext;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -31,6 +40,7 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
@@ -43,16 +53,6 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
-import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ERROR;
-import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
-import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
 /**
  * @author andreaskaltenbach
@@ -79,14 +79,6 @@ public class GetCertificateResponderImplTest {
 
     @Mock
     private ObjectFactory objectFactory;
-
-    @Mock
-    private Marshaller marshaller;
-
-    @Before
-    public void setUpMocks() throws Exception {
-        when(jaxbContext.createMarshaller()).thenReturn(marshaller);
-    }
 
     @Test
     public void getCertificate() throws Exception {
