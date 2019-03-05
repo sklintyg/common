@@ -37,6 +37,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -152,7 +153,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
             JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
             return transportToInternal(el.getValue().getIntyg());
-        } catch (ConverterException e) {
+        } catch (ConverterException | MarshallingFailureException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
