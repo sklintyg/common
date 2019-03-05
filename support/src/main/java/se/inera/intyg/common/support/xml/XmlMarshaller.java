@@ -42,7 +42,17 @@ final class XmlMarshaller {
 
     XmlMarshaller()  {
         jaxb2Marshaller = new Jaxb2Marshaller();
-        jaxb2Marshaller.setPackagesToScan("se.riv", "se.inera.ifv", "se.inera.intygstjanster.ts");
+        jaxb2Marshaller.setPackagesToScan(
+                "se.riv.clinicalprocess",
+                "se.riv.ehr",
+                "se.riv.infrastructure",
+                "se.riv.strategicresourcemanagement",
+                "se.riv.intygsbestallning",
+                "se.riv.population",
+                "se.riv.informationsecurity",
+                "se.riv.insuranceprocess",
+                "se.inera.ifv",
+                "se.inera.intygstjanster.ts");
         jaxb2Marshaller.setMarshallerProperties(Collections.singletonMap(JAXB_FORMATTED_OUTPUT, true));
     }
 
