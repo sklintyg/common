@@ -18,10 +18,7 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.dom.DOMResult;
 
 import org.slf4j.Logger;
@@ -34,7 +31,6 @@ import se.inera.ifv.insuranceprocess.healthreporting.getcertificate.rivtabp20.v1
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.CertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
@@ -53,17 +49,8 @@ public class GetCertificateResponderImpl implements
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
-    private JAXBContext jaxbContext;
-    private ObjectFactory objectFactory;
-
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
-
-    @PostConstruct
-    public void initializeJaxbContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
-        objectFactory = new ObjectFactory();
-    }
 
     @Override
     public GetCertificateResponseType getCertificate(AttributedURIType logicalAddress, GetCertificateRequestType request) {
