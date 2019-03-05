@@ -29,8 +29,6 @@ import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.IN
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
 
-import javax.xml.bind.JAXBContext;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -43,7 +41,6 @@ import com.google.common.io.Resources;
 
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
 import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
@@ -73,12 +70,6 @@ public class GetCertificateResponderImplTest {
 
     @Mock
     private Fk7263ModuleApi moduleRestApi;
-
-    @Mock
-    private JAXBContext jaxbContext;
-
-    @Mock
-    private ObjectFactory objectFactory;
 
     @Test
     public void getCertificate() throws Exception {

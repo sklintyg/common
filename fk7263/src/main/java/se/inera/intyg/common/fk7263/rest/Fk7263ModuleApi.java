@@ -655,7 +655,7 @@ public class Fk7263ModuleApi implements ModuleApi {
         JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
 
         RevokeMedicalCertificateResponseType response =
-                revokeCertificateClient.revokeMedicalCertificate(uri,el.getValue());
+                revokeCertificateClient.revokeMedicalCertificate(uri, el.getValue());
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
             LOG.error(message);

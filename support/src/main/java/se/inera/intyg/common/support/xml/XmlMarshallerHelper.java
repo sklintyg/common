@@ -19,49 +19,14 @@
 
 package se.inera.intyg.common.support.xml;
 
-import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
-
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.Collections;
-
-import javax.xml.bind.DataBindingException;
 import javax.xml.bind.JAXBElement;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
-import com.google.common.io.CharSource;
+public final class XmlMarshallerHelper {
+    private static XmlMarshaller marshaller = new XmlMarshaller();
 
-public class XmlMarshallerHelper {
-    private static Marshaller marshaller = new Marshaller();
-
-    static class Marshaller {
-        private Jaxb2Marshaller jaxb2Marshaller;
-
-        public Marshaller()  {
-            jaxb2Marshaller = new Jaxb2Marshaller();
-            jaxb2Marshaller.setPackagesToScan("se.riv", "se.inera.ifv", "se.inera.intygstjanster.ts");
-            jaxb2Marshaller.setMarshallerProperties(Collections.singletonMap(JAXB_FORMATTED_OUTPUT, true));
-        }
-
-        public <T> String marshal(final JAXBElement<T> element) {
-            final StringWriter sw = new StringWriter();
-            jaxb2Marshaller.marshal(element, new StreamResult(sw));
-            return sw.toString();
-        }
-
-        public <T> JAXBElement<T> unmarshal(final String xmlString) {
-            try {
-                return (JAXBElement<T>) jaxb2Marshaller.unmarshal(new StreamSource(
-                        CharSource.wrap(xmlString).openStream()
-                ));
-            } catch (IOException e) {
-                throw new DataBindingException(e);
-            }
-        }
+    private XmlMarshallerHelper() {
     }
 
     public static Jaxb2Marshaller marshaller() {
