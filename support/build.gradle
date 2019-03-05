@@ -1,6 +1,7 @@
 dependencies {
   compile project(':logging-util')
 
+  compile "org.springframework:spring-oxm:${springVersion}"
   compile "se.riv.clinicalprocess.healthcond.certificate:clinicalprocess-healthcond-certificate-schemas:${rivtaClinicalprocessSchemasVersion}"
   compile "se.inera.intyg.schemas:schemas-contract:${schemasContractVersion}"
   compile "se.inera.intyg.clinicalprocess.healthcond.certificate:intyg-clinicalprocess-healthcond-certificate-schematron:${intygClinicalprocessSchematronVersion}"

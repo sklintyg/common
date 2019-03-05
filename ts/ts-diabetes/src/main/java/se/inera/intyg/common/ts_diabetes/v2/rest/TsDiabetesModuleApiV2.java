@@ -18,24 +18,29 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.rest;
 
-import java.io.StringReader;
-import java.io.StringWriter;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
+
+
 import java.util.Arrays;
 import java.util.List;
+
 import javax.ws.rs.NotSupportedException;
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
 
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
@@ -59,6 +64,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v2.integration.RegisterTSDiabetesResponderImpl;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.InternalToTransportConverter;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.TransportToInternalConverter;
@@ -78,10 +84,6 @@ import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.Regist
 import se.inera.intygstjanster.ts.services.v1.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten and Mina-Intyg).
@@ -184,8 +186,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 
-        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
+        JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        RevokeMedicalCertificateRequestType request = el.getValue();
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -199,18 +201,17 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
-        StringWriter writer = new StringWriter();
-        JAXB.marshal(request, writer);
-        return writer.toString();
+        JAXBElement<RevokeMedicalCertificateRequestType> el =
+                new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+        return XmlMarshallerHelper.marshal(el);
     }
 
     @Override
     public TsDiabetesUtlatandeV2 getUtlatandeFromXml(String xml) throws ModuleException {
-        RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                RegisterTSDiabetesType.class);
+        JAXBElement<RegisterTSDiabetesType> el = XmlMarshallerHelper.unmarshal(xml);
         try {
-            return TransportToInternalConverter.convert(jaxbObject.getIntyg());
-        } catch (ConverterException e) {
+            return TransportToInternalConverter.convert(el.getValue().getIntyg());
+        } catch (ConverterException | UnmarshallingFailureException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
