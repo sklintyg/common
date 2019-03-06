@@ -19,11 +19,7 @@
 
 package se.inera.intyg.common.support.xml;
 
-import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
-
-
 import java.io.StringReader;
-import java.util.Collections;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
@@ -51,7 +47,6 @@ final class XmlMarshaller {
                 "se.riv.insuranceprocess",
                 "se.inera.ifv",
                 "se.inera.intygstjanster.ts");
-        jaxb2Marshaller.setMarshallerProperties(Collections.singletonMap(JAXB_FORMATTED_OUTPUT, true));
     }
 
      <T> String marshal(final JAXBElement<T> element) {
