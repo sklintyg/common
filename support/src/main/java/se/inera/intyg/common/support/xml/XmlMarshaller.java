@@ -22,16 +22,14 @@ package se.inera.intyg.common.support.xml;
 import static javax.xml.bind.Marshaller.JAXB_FORMATTED_OUTPUT;
 
 
-import java.io.IOException;
+import java.io.StringReader;
 import java.util.Collections;
 
-import javax.xml.bind.DataBindingException;
 import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
 
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
-import com.google.common.io.CharSource;
 import com.helger.commons.xml.transform.StringStreamResult;
 
 /**
@@ -63,12 +61,6 @@ final class XmlMarshaller {
     }
 
     <T> JAXBElement<T> unmarshal(final String xmlString) {
-        try {
-            return (JAXBElement<T>) jaxb2Marshaller.unmarshal(new StreamSource(
-                    CharSource.wrap(xmlString).openStream()
-            ));
-        } catch (IOException e) {
-            throw new DataBindingException(e);
-        }
+        return (JAXBElement<T>) jaxb2Marshaller.unmarshal(new StreamSource(new StringReader(xmlString)));
     }
 }
