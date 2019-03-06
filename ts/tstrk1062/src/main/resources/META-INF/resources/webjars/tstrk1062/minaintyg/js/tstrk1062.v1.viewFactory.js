@@ -16,10 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-describe('dummySpec', function() {
-    'use strict';
+angular.module('tstrk1062').factory('tstrk1062.viewFactory.v1',
+    function() {
+        'use strict';
 
-    it('you shall not pass', function() {
-        expect(true === false).toEqual(false);
+        var intygsTyp = 'tstrk1062';
+        
+        var _sendUrl = function() {
+            return null;
+        };
+
+        return {
+            intygsTyp: intygsTyp,
+            getSendUrl: _sendUrl
+        };
     });
-});

@@ -16,28 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-/**
- * Created by stephenwhite on 05/03/15.
- */
 angular.module('tstrk1062').config(function($stateProvider) {
     'use strict';
     $stateProvider.
         state('tstrk1062-view', {
             url :'/tstrk1062/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/tstrk1062/minaintyg/views/view-cert.html',
-            controller: 'tstrk1062.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('tstrk1062.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('tstrk1062.viewFactory', $stateParams);
                 }
             },
-            data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('tstrk1062-visafel', {
-            url :'/tstrk1062/visafel/:errorCode',
-            templateUrl: '/web/webjars/tstrk1062/minaintyg/views/error.html',
-            controller: 'tstrk1062.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
+            data:{title: 'Läkarintyg Transportstyrelsen ADHD', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg']}
         });
 });

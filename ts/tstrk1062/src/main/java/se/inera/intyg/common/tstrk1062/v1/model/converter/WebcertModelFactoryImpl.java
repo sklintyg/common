@@ -49,9 +49,14 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
 
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
+    @Autowired(required = false)
     private IntygTextsService intygTexts;
 
-    @Autowired(required = false)
+
+    public WebcertModelFactoryImpl() {
+
+    }
+
     public WebcertModelFactoryImpl(IntygTextsService intygTexts) {
         this.intygTexts = intygTexts;
     }

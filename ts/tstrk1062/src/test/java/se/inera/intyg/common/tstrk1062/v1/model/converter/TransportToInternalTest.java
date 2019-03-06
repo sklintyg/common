@@ -81,24 +81,24 @@ public class TransportToInternalTest {
         assertEquals("DiagnosKodad size not equal", 4, utlatande.getDiagnosKodad().size());
 
         assertEquals("DiagnosKod not equal", "A01", utlatande.getDiagnosKodad().get(0).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "1.2.752.116.1.1.1.1.3", utlatande.getDiagnosKodad().get(0).getDiagnosKodSystem());
+        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(0).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Tyfoidfeber och paratyfoidfeber",
                 utlatande.getDiagnosKodad().get(0).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(0).getDiagnosArtal());
 
         assertEquals("DiagnosKod not equal", "B02", utlatande.getDiagnosKodad().get(1).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "1.2.752.116.1.1.1.1.3", utlatande.getDiagnosKodad().get(1).getDiagnosKodSystem());
+        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(1).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Bältros", utlatande.getDiagnosKodad().get(1).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2017", utlatande.getDiagnosKodad().get(1).getDiagnosArtal());
 
         assertEquals("DiagnosKod not equal", "C03", utlatande.getDiagnosKodad().get(2).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "1.2.752.116.1.1.1.1.3", utlatande.getDiagnosKodad().get(2).getDiagnosKodSystem());
+        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(2).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Malign tumör i tandköttet",
                 utlatande.getDiagnosKodad().get(2).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2018", utlatande.getDiagnosKodad().get(2).getDiagnosArtal());
 
         assertEquals("DiagnosKod not equal", "D04", utlatande.getDiagnosKodad().get(3).getDiagnosKod());
-        assertEquals("DiagnosKodSystem not equal", "1.2.752.116.1.1.1.1.3", utlatande.getDiagnosKodad().get(3).getDiagnosKodSystem());
+        assertEquals("DiagnosKodSystem not equal", "ICD_10_SE", utlatande.getDiagnosKodad().get(3).getDiagnosKodSystem());
         assertEquals("DiagnosBeskrivning not equal", "Cancer in situ i huden", utlatande.getDiagnosKodad().get(3).getDiagnosBeskrivning());
         assertEquals("Artal not equal", "2011", utlatande.getDiagnosKodad().get(3).getDiagnosArtal());
     }

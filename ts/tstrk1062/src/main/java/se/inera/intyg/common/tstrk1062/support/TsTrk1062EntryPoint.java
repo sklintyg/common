@@ -56,6 +56,10 @@ public class TsTrk1062EntryPoint implements ModuleEntryPoint {
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     private Optional<IntygTextsRepository> repo;
 
+    public TsTrk1062EntryPoint() {
+        this.repo = Optional.empty();
+    }
+
     @Autowired(required = false)
     public TsTrk1062EntryPoint(Optional<IntygTextsRepository> repo) {
         this.repo = repo;

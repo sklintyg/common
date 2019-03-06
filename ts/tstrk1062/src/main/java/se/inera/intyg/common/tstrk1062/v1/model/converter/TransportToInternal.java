@@ -27,6 +27,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
@@ -207,7 +208,7 @@ public final class TransportToInternal {
         final CVType diagnosCVValue = getCVValue(delsvarList, ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID);
         if (diagnosCVValue != null) {
             diagnosKod = diagnosCVValue.getCode();
-            diagnosKodSystem = diagnosCVValue.getCodeSystem();
+            diagnosKodSystem = Diagnoskodverk.getEnumByCodeSystem(diagnosCVValue.getCodeSystem()).toString();
             diagnosDisplayName = diagnosCVValue.getDisplayName();
         }
 

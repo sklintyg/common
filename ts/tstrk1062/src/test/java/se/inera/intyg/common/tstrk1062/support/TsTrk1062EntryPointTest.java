@@ -102,7 +102,7 @@ public class TsTrk1062EntryPointTest {
 
     @Test
     public void testGetDetailedModuleDescriptionMissingRepo() throws Exception {
-        final TsTrk1062EntryPoint tsTrk1062EntryPointWithoutRepo = new TsTrk1062EntryPoint(Optional.empty());
+        final TsTrk1062EntryPoint tsTrk1062EntryPointWithoutRepo = new TsTrk1062EntryPoint();
         final String actualDetailedModuleDescription = tsTrk1062EntryPointWithoutRepo.getDetailedModuleDescription();
 
         assertNull("DetailedModuleDescription should be null", actualDetailedModuleDescription);
