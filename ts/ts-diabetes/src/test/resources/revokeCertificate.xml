@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<revokeMedicalCertificateRequestType xmlns:ns2="urn:riv:insuranceprocess:healthreporting:2" xmlns:ns4="urn:riv:insuranceprocess:healthreporting:RevokeMedicalCertificateResponder:1" xmlns:ns3="urn:riv:insuranceprocess:healthreporting:medcertqa:1">
+<ns4:RevokeMedicalCertificateRequest xmlns:ns2="urn:riv:insuranceprocess:healthreporting:2" xmlns:ns4="urn:riv:insuranceprocess:healthreporting:RevokeMedicalCertificateResponder:1" xmlns:ns3="urn:riv:insuranceprocess:healthreporting:medcertqa:1">
   <ns4:revoke>
     <ns4:vardReferens-id>REVOKE-test-id-20160817T130855.149</ns4:vardReferens-id>
     <ns4:meddelande>meddelande</ns4:meddelande>
@@ -46,4 +46,4 @@
       </ns3:patient>
     </ns4:lakarutlatande>
   </ns4:revoke>
-</revokeMedicalCertificateRequestType>
+</ns4:RevokeMedicalCertificateRequest>

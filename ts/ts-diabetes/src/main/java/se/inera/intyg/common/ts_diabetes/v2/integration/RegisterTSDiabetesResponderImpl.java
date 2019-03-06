@@ -18,12 +18,9 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
-import java.io.StringWriter;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +31,7 @@ import se.inera.intyg.common.support.integration.module.exception.InvalidCertifi
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v2.model.converter.TransportToInternalConverter;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.util.ConverterUtil;
@@ -56,12 +54,10 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
     private ModuleContainerApi moduleContainer;
 
     private ObjectFactory objectFactory;
-    private JAXBContext jaxbContext;
     private TransportValidatorInstance validator = new TransportValidatorInstance();
 
     @PostConstruct
-    public void initializeJaxbContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterTSDiabetesType.class);
+    public void initializeJaxbContext() {
         objectFactory = new ObjectFactory();
     }
 
@@ -72,7 +68,7 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
         try {
             validate(parameters);
 
-            String xml = xmlToString(parameters);
+            String xml = marshal(parameters);
 
             TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(parameters.getIntyg());
             CertificateHolder certificateHolder = ConverterUtil.toCertificateHolder(utlatande);
@@ -98,10 +94,6 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
         } catch (CertificateValidationException e) {
             response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, e.getMessage()));
             LOGGER.error(LogMarkers.VALIDATION, e.getMessage());
-        } catch (JAXBException e) {
-            LOGGER.error("JAXB error in Webservice: ", e);
-            throw new RuntimeException(e);
-
         } catch (Exception e) {
             LOGGER.error("Error in Webservice: ", e);
             throw new RuntimeException(e);
@@ -117,11 +109,7 @@ public class RegisterTSDiabetesResponderImpl implements RegisterTSDiabetesRespon
         }
     }
 
-    private String xmlToString(RegisterTSDiabetesType parameters) throws JAXBException {
-        StringWriter stringWriter = new StringWriter();
-        JAXBElement<RegisterTSDiabetesType> requestElement = objectFactory
-                .createRegisterTSDiabetes(parameters);
-        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
-        return stringWriter.toString();
+    private String marshal(RegisterTSDiabetesType parameters) {
+        return XmlMarshallerHelper.marshal(objectFactory.createRegisterTSDiabetes(parameters));
     }
 }

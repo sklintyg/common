@@ -24,23 +24,21 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
-import com.google.common.base.Strings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import javax.xml.bind.JAXB;
-import javax.xml.ws.soap.SOAPFaultException;
-import java.io.StringReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.ws.soap.SOAPFaultException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -54,6 +52,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.InternalToTransport;
@@ -63,6 +62,12 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.pdf.PdfGenerator;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -97,7 +102,8 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
-        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
+        JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        RegisterCertificateType request = el.getValue();
 
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
@@ -117,7 +123,8 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
     @Override
     public Tstrk1009UtlatandeV1 getUtlatandeFromXml(String xmlBody) throws ModuleException {
         try {
-            return transportToInternal(JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class).getIntyg());
+            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+            return transportToInternal(el.getValue().getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);

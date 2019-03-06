@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<revokeCertificateType xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:types:3" xmlns:ns4="urn:riv:clinicalprocess:healthcond:certificate:RevokeCertificateResponder:2" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:3">
+<ns4:RevokeCertificate xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:types:3" xmlns:ns4="urn:riv:clinicalprocess:healthcond:certificate:RevokeCertificateResponder:2" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:3">
     <ns4:meddelande>meddelande</ns4:meddelande>
     <ns4:skickatTidpunkt>2016-05-13T14:32:45</ns4:skickatTidpunkt>
     <ns4:intygs-id>
@@ -46,4 +46,4 @@
             </ns3:vardgivare>
         </ns3:enhet>
     </ns4:skickatAv>
-</revokeCertificateType>
+</ns4:RevokeCertificate>

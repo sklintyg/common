@@ -129,19 +129,7 @@ public class RegisterTSDiabetesResponderImplTest {
 
     @Test(expected = RuntimeException.class)
     public void testRegisterTSDiabetesJAXBException() throws Exception {
-        JAXBContext jaxbContextMock = mock(JAXBContext.class);
-        when(jaxbContextMock.createMarshaller()).thenThrow(new JAXBException(""));
-        ReflectionTestUtils.setField(responder, "jaxbContext", jaxbContextMock);
-        RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
-
-        responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
-    }
-
-    @Test(expected = RuntimeException.class)
-    public void testRegisterTSDiabetesException() throws Exception {
-        JAXBContext jaxbContextMock = mock(JAXBContext.class);
-        when(jaxbContextMock.createMarshaller()).thenThrow(new IllegalArgumentException());
-        ReflectionTestUtils.setField(responder, "jaxbContext", jaxbContextMock);
+        ReflectionTestUtils.setField(responder, "objectFactory", null);
         RegisterTSDiabetesType request = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
         responder.registerTSDiabetes(LOGICAL_ADDRESS, request);
