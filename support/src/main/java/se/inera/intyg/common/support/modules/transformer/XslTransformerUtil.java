@@ -19,7 +19,6 @@
 
 package se.inera.intyg.common.support.modules.transformer;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -31,14 +30,14 @@ public final class XslTransformerUtil {
         // It's a utility class, make constructor private
     }
 
-    private static final String REGISTER_TSBAS_REGEX =
-            "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']";
+    private static final Pattern REGISTER_TSBAS_REGEX = Pattern.compile(
+            "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']");
 
-    private static final String REGISTER_CERTIFICATE_V1_REGEX =
-            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']";
+    private static final Pattern REGISTER_CERTIFICATE_V1_REGEX = Pattern.compile(
+            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']");
 
-    private static final String REGISTER_CERTIFICATE_V3_REGEX =
-            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']";
+    private static final Pattern REGISTER_CERTIFICATE_V3_REGEX = Pattern.compile(
+            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']");
 
     public static boolean isRegisterTsBas(String xml) {
         return find(xml, REGISTER_TSBAS_REGEX);
@@ -52,10 +51,7 @@ public final class XslTransformerUtil {
         return find(xml, REGISTER_CERTIFICATE_V3_REGEX);
     }
 
-    private static boolean find(String xml, String regex) {
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(xml);
-        return matcher.find();
+    private static boolean find(final String xml, final Pattern pattern) {
+        return pattern.matcher(xml).find();
     }
-
 }

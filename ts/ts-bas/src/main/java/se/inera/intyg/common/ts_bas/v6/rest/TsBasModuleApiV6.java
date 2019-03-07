@@ -51,7 +51,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolv
 import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
@@ -81,9 +80,6 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Qualifier("sendTSClientFactory")
     private SendTSClientFactory sendTSClientFactory;
 
-    @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerFactory")
-    private XslTransformerFactory xslTransformerFactory;
 
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
@@ -148,7 +144,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         try {
             String xml = xmlBody;
             if (isRegisterTsBas(xml)) {
-                xml = xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xml);
+                xml = TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xml);
             }
 
             JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
@@ -190,9 +186,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         // 'RegisterTsBas' eller 'RegisterCertificate V3'
         if (isRegisterTsBas(xmlBody)) {
             if (shouldTransformToV1()) {
-                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V1).transform(xmlBody);
+                return TsBasTransformerType.TRANSPORT_TO_V1.getTransformer().transform(xmlBody);
             } else if (shouldTransformToV3()) {
-                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xmlBody);
+                return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
                         + "Property registercertificate.version = '%s'", registerCertificateVersion);
@@ -201,7 +197,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         } else if (isRegisterCertificateV3(xmlBody)) {
             if (shouldTransformToV1()) {
                 // Here we need to transform from V3 to V1
-                return xslTransformerFactory.get(TsBasTransformerType.V3_TO_V1).transform(xmlBody);
+                return TsBasTransformerType.V3_TO_V1.getTransformer().transform(xmlBody);
             }
         }
 
