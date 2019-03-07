@@ -18,9 +18,29 @@
  */
 package se.inera.intyg.common.ts_bas.v6.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
+import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
+import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
+
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
+
+import javax.xml.bind.JAXB;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -29,13 +49,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -46,7 +70,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
 import se.inera.intyg.common.support.services.BefattningService;
@@ -66,28 +89,6 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.lang.reflect.Field;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
-import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that
@@ -109,9 +110,6 @@ public class TsBasModuleApiTest {
     private WebcertModelFactoryImpl webcertModelFactory = new WebcertModelFactoryImpl();
 
     @Mock
-    private XslTransformerFactory xslTransformerFactory;
-
-    @Mock
     private IntygTextsService intygTexts;
 
     @Mock
@@ -130,8 +128,6 @@ public class TsBasModuleApiTest {
         Field field = WebcertModelFactoryImpl.class.getDeclaredField("intygTexts");
         field.setAccessible(true);
         field.set(webcertModelFactory, intygTexts);
-
-        when(xslTransformerFactory.get(any(XslTransformerType.class))).thenReturn(mock(XslTransformer.class));
     }
 
     @Test
@@ -167,7 +163,6 @@ public class TsBasModuleApiTest {
         final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
-        verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
 
     @Test
@@ -179,7 +174,6 @@ public class TsBasModuleApiTest {
         final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
-        verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
 
     @Test
@@ -189,7 +183,6 @@ public class TsBasModuleApiTest {
         final String xmlBody = getResourceAsString(new ClassPathResource("v6/scenarios/rivtav3/valid-minimal.xml"));
 
         moduleApi.transformPayload(xmlBody);
-        verify(xslTransformerFactory).get(any(XslTransformerType.class));
     }
 
     @Test
@@ -235,10 +228,8 @@ public class TsBasModuleApiTest {
     }
 
     @Test
-    @Ignore
     public void testGetUtlatandeWhenXmlIsInTransportFormat() throws Exception {
         final String originalXml = xmlToString(ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel());
-        final String transformedXml = getResourceAsString(new ClassPathResource("v6/scenarios/rivtav3/valid-minimal.xml"));
 
         TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(originalXml);
         assertNotNull(res);
