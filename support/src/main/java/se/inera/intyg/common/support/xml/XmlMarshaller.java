@@ -46,7 +46,8 @@ final class XmlMarshaller {
                 "se.riv.informationsecurity",
                 "se.riv.insuranceprocess",
                 "se.inera.ifv",
-                "se.inera.intygstjanster.ts");
+                "se.inera.intygstjanster.ts",
+                "org.w3._2000._09.xmldsig_");
     }
 
      <T> String marshal(final JAXBElement<T> element) {

@@ -18,14 +18,28 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import com.google.common.base.Strings;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+
+import java.time.LocalDate;
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.bind.JAXBElement;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
-import org.w3._2002._06.xmldsig_filter2.XPathType;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -38,6 +52,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
@@ -51,20 +66,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import java.io.StringWriter;
-import java.nio.charset.Charset;
-import java.time.LocalDate;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
@@ -419,16 +420,10 @@ public final class TransportConverterUtil {
         }
         try {
             JAXBElement<SignatureType> signature = new ObjectFactory().createSignature(underskriftType.getSignature());
-            JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
-
-            // Serialize SignatureType into XML (<Signature>...</Signature>)
-            StringWriter sw = new StringWriter();
-            Marshaller marshaller = jc.createMarshaller();
-            marshaller.marshal(signature, sw);
-
-            return Base64.getEncoder().encodeToString(sw.toString().getBytes(Charset.forName("UTF-8")));
-        } catch (JAXBException e) {
-            throw new ConverterException("JAXB exception converting SignatureType into String: " + e.getMessage());
+            final String s = XmlMarshallerHelper.marshal(signature);
+            return Base64.getEncoder().encodeToString(s.getBytes(UTF_8));
+        } catch (Exception e) {
+            throw new ConverterException("Error when converting SignatureType to String: " + e.getMessage());
         }
     }
 
