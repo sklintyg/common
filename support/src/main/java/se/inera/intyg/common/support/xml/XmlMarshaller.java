@@ -48,6 +48,11 @@ final class XmlMarshaller {
                 "se.inera.ifv",
                 "se.inera.intygstjanster.ts",
                 "org.w3._2000._09.xmldsig_");
+        try {
+            jaxb2Marshaller.afterPropertiesSet();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
      <T> String marshal(final JAXBElement<T> element) {
