@@ -30,12 +30,12 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
             var diagnosFromTransform = function(diagnosArray) {
 
                 // We now always have a specific amount of underlag so add that number of empty elements
-                for(var i = 0; diagnosArray.length < 4; i++){
+                for (var i = 0; diagnosArray.length < 4; i++) {
                     diagnosArray.push({
                         diagnosKodSystem: 'ICD_10_SE',
-                        diagnosKod : undefined,
-                        diagnosBeskrivning : undefined,
-                        diagnosArtal : undefined
+                        diagnosKod: undefined,
+                        diagnosBeskrivning: undefined,
+                        diagnosArtal: undefined
                     });
                 }
 
@@ -47,9 +47,9 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
 
                 // delete all rows with no values at all so as to not confuse backend with non-errors
                 var i = diagnosCopy.length - 1;
-                while(i >= 0) {
-                    if(ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
-                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)){
+                while (i >= 0) {
+                    if (ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
+                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)) {
                         diagnosCopy.splice(i, 1);
                     } else {
                         break;
@@ -100,14 +100,14 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
 
                         // Kategori 4 - Läkemedelsbehandling
                         lakemedelsbehandling: {
-                          harHaft: undefined,
-                          pagar: undefined,
-                          aktuell: undefined,
-                          pagatt: undefined,
-                          effekt: undefined,
-                          foljsamhet: undefined,
-                          avslutadTidpunkt: undefined,
-                          avslutadOrsak: undefined
+                            harHaft: undefined,
+                            pagar: undefined,
+                            aktuell: undefined,
+                            pagatt: undefined,
+                            effekt: undefined,
+                            foljsamhet: undefined,
+                            avslutadTidpunkt: undefined,
+                            avslutadOrsak: undefined
                         },
 
                         // Kategori 5 - Symptom
@@ -124,8 +124,13 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
                             uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
                                 fromTransform: uppfyllerBehorighetskravFromTransform
                             })
-                }
-                })
+                        },
+
+                        'diagnoser' : new ModelAttr('diagnoser', {
+                            fromTransform: diagnosFromTransform,
+                            toTransform: diagnosToTransform
+                        })
+                    })
                     ;
                 },
                 update: function update(content, parent) {

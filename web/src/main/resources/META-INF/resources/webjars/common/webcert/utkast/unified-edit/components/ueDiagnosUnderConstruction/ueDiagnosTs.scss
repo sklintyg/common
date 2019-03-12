@@ -1,0 +1,16 @@
+ue-diagnos-ts {
+
+  @extend %field-set-disabled-ie11-fix;
+
+  .diagnos-wrapper {
+
+    span.diagnos-text {
+      color: $wc-color-09;
+    }
+
+    input.validation-error {
+      border-color: $wc-color-11;
+    }
+
+  }
+}
