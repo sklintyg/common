@@ -47,7 +47,7 @@ final class XmlMarshaller {
                 "se.riv.insuranceprocess",
                 "se.inera.ifv",
                 "se.inera.intygstjanster.ts",
-                "org.w3._2000._09.xmldsig_");
+                "org.w3");
         try {
             jaxb2Marshaller.afterPropertiesSet();
         } catch (Exception e) {
