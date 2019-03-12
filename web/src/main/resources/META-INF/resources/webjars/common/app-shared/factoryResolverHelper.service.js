@@ -40,11 +40,11 @@ angular.module('common').factory('factoryResolverHelper', [ '$injector', '$log',
      * info/warn messages should be displayed in the GUI when name- and/or address information doesn't match what's
      * stored in the utkast compared to djupintegrations-parameters or PU-service data.
      */
-    function _resolvePatientHelper(intygsTyp) {
+    function _resolvePatientHelper(intygsTyp, version) {
         try {
-            return $injector.get(intygsTyp + '.PatientHelperService');
+            return $injector.get(intygsTyp + '.PatientHelperService.v' + version);
         } catch(e) {
-            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ', error: ' + e);
+            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ' and version: ' + version + ', error: ' + e);
             throw e;
         }
 

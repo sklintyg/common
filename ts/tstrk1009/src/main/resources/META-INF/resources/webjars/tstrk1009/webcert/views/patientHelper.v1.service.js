@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('lisjp').service('lisjp.PatientHelperService',
-    ['$log',
-        function($log) {
+angular.module('tstrk1009').service('tstrk1009.PatientHelperService.v1',
+        function() {
             'use strict';
 
-            // PS-004: All FK intyg shows patient name change regardless of utkast / intyg.
-            function _showPatientNameChangedIntegration() {
-                return true;
+            // PS-004: Show for ts utkast
+            function _showPatientNameChangedIntegration(isIntyg) {
+                return !isIntyg;
             }
-            // PS-005: Never show for FK
-            function _showPatientNameChangedPU() {
-                return false;
+            // PS-005: Show for signed ts
+            function _showPatientNameChangedPU(isIntyg) {
+                return isIntyg;
             }
-            // PS-006: Never show for FK
-            function _showPatientAddressChangedPU() {
-                return false;
+            // PS-006: Show for signed ts
+            function _showPatientAddressChangedPU(isIntyg) {
+                return isIntyg;
             }
-            // INTYG-5146: Never show for FK
-            function _showMissingAddressParameter() {
-                return false;
+            // INTYG-5146: Show for ts utkast
+            function _showMissingAddressParameter(isIntyg) {
+                return !isIntyg;
             }
 
             return {
@@ -44,4 +43,4 @@ angular.module('lisjp').service('lisjp.PatientHelperService',
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
             };
-        }]);
+        });

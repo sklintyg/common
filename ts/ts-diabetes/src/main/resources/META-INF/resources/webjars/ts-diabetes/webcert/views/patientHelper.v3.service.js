@@ -16,25 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('luse').service('luse.PatientHelperService',
-    ['$log',
-        function($log) {
+angular.module('ts-diabetes').service('ts-diabetes.PatientHelperService.v3',
+        function() {
             'use strict';
 
-            // PS-004: All FK intyg shows patient name change regardless of utkast / intyg.
-            function _showPatientNameChangedIntegration() {
-                return true;
-            }
-            // PS-005: Never show for FK
-            function _showPatientNameChangedPU() {
+            // PS-008: Show for ts utkast
+            function _showPatientNameChangedIntegration(isIntyg) {
                 return false;
             }
-            // PS-006: Never show for FK
-            function _showPatientAddressChangedPU() {
+            // PS-004: Show for signed ts
+            function _showPatientNameChangedPU(isIntyg) {
                 return false;
             }
-            // INTYG-5146: Never show for FK
-            function _showMissingAddressParameter() {
+            // PS-005: Show for signed ts
+            function _showPatientAddressChangedPU(isIntyg) {
+                return false;
+            }
+            // INTYG-5146: Show for ts utkast
+            function _showMissingAddressParameter(isIntyg) {
                 return false;
             }
 
@@ -44,4 +43,4 @@ angular.module('luse').service('luse.PatientHelperService',
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
             };
-        }]);
+        });

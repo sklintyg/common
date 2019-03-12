@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('af00213').service('af00213.PatientHelperService',
-    ['$log',
-        function($log) {
+angular.module('af00213').service('af00213.PatientHelperService.v1',
+        function() {
             'use strict';
 
             // PS-004: Never show for af00213
@@ -44,4 +43,4 @@ angular.module('af00213').service('af00213.PatientHelperService',
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
             };
-        }]);
+        });
