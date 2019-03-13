@@ -38,7 +38,7 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
             $scope.validation = UtkastViewState.validation;
 
             $scope.diagnosKodLoading = false;
-            $scope.diagnosKodNoResults = [];
+            $scope.diagnosKodNoResults = undefined;
 
             function isShortPsykiskDiagnos(kod) {
                 // Från kravsidan:

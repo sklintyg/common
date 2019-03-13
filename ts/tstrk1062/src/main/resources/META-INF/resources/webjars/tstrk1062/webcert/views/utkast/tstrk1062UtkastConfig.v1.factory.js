@@ -112,7 +112,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 requiredProp: 'diagnosKodad[0].diagnosKod'
                             },
                             [{
-                                type: 'ue-diagnos-fk',
+                                type: 'ue-diagnos-ts',
                                 modelProp: 'diagnosKodad',
                                 defaultKodSystem: 'ICD_10_SE',
                                 diagnosKodLabel: 'DFR_51.1.RBK',

@@ -31,5 +31,27 @@ ue-diagnos-fk {
       border-color: $wc-color-11;
     }
 
+    .diagnos-row {
+      padding-bottom: 15px;
+      flex-wrap: wrap;
+
+      &:last-of-type {
+        padding-bottom: 0;
+      }
+
+      .diagnos-column {
+        flex: 1;
+      }
+
+      ue-validation-list {
+        width: 100%;
+        flex-grow: 1;
+        margin-top: 6.5px;
+
+        .validation-error {
+          margin-top: 6.5px;
+        }
+      }
+    }
   }
 }
