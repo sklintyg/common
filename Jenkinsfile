@@ -1,6 +1,6 @@
 #!groovy
 
-def buildVersion = "3.8.0.${BUILD_NUMBER}"
+def buildVersion = "3.8.0-HF-1"
 def buildRoot = JOB_BASE_NAME.replaceAll(/-.*/, "") // Keep everything up to the first dash
 
 stage('checkout') {

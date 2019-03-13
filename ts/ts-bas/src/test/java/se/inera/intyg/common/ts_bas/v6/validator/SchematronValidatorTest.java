@@ -93,6 +93,12 @@ public class SchematronValidatorTest {
     }
 
     @Test
+    public void validR34PassesTest() throws Exception {
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/valid-rule34.xml"), Charsets.UTF_8);
+        doTest(inputXml);
+    }
+
+    @Test
     public void invalidMinimalTestFails() throws Exception {
         String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/fail-minimal.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -112,6 +118,14 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
     }
+
+    @Test
+    public void invalidR34TestFails() throws Exception {
+        String inputXml = Resources.toString(getResource("v6/scenarios/rivtav3/invalid-rule34.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 1, response.getValidationErrors().size());
+    }
+
 
     private void doTest(String inputXml) throws ModuleException {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
