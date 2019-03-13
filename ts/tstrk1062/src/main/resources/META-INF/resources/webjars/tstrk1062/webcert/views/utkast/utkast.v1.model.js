@@ -124,12 +124,7 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
                             uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
                                 fromTransform: uppfyllerBehorighetskravFromTransform
                             })
-                        },
-
-                        'diagnoser' : new ModelAttr('diagnoser', {
-                            fromTransform: diagnosFromTransform,
-                            toTransform: diagnosToTransform
-                        })
+                        }
                     })
                     ;
                 },

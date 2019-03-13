@@ -25,30 +25,30 @@ ue-diagnos-kod {
     position: relative;
     width: 100%;
   }
-  
-  .checkbox-wrapper {
-    margin-top: 23px;
-    margin-bottom: 20px;
 
-    .margin-right {
-      margin-right: 30px;
-      margin-left: 10px;
-    }
-    .choose-code {
-      color: $wc-color-09;
-    }
-    .padding-left {
-      padding-left: 2px;
-    }
-  }
+  .diagnos-row {
+    padding-bottom: 15px;
+    flex-wrap: wrap;
 
-  .diagnos-wrapper {
-
-    span.diagnos-text {
-      color: $wc-color-09;
+    &:last-of-type{
+      padding-bottom: 0;
     }
-    input.validation-error {
-      border-color: $wc-color-11;
+
+    .diagnos-description-column {
+      padding-left: 20px;
+      flex: 1;
+
+      input.form-control {
+        max-width: 100%;
+      }
+    }
+
+    .code-column {
+      width: 112px;
+
+      input.form-control {
+        padding: 0 9px;
+      }
     }
 
     .diagnos-loading {
@@ -56,42 +56,6 @@ ue-diagnos-kod {
       right: 9px;
       z-index: 10000;
       top: 10px;
-    }
-
-    .diagnos-row {
-      padding-bottom: 15px;
-      flex-wrap: wrap;
-
-      &:last-of-type{
-        padding-bottom: 0;
-      }
-
-      .diagnos-description-column {
-        padding-left: 20px;
-        flex: 1;
-
-        input.form-control {
-          max-width: 100%;
-        }
-      }
-
-      .code-column {
-        width: 112px;
-
-        input.form-control {
-          padding: 0 9px;
-        }
-      }
-
-      ue-validation-list{
-        width: 100%;
-        flex-grow: 1;
-        margin-top: 6.5px;
-
-        .validation-error{
-          margin-top: 6.5px;
-        }
-      }
     }
 
     .dropdown-menu {

@@ -12,5 +12,14 @@ ue-diagnos-ts {
       border-color: $wc-color-11;
     }
 
+    .diagnos-row {
+
+      .code-column {
+        flex: 1;
+      }
+
+    }
+
+
   }
 }

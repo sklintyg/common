@@ -17,12 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
-    'common.fmbService', 'common.srsService', 'common.ObjectHelper', 'common.MonitoringLogService',
-    'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
-    'common.DateUtilsService', 'common.DatePickerOpenService',
-    function($log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper, dateUtils, DatePickerOpenService) {
+angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.ObjectHelper',
+    'common.MonitoringLogService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
+    function($log, $timeout, diagnosProxy, ObjectHelper, monitoringService, UtkastValidationService, UtkastViewState, AtticHelper) {
         'use strict';
 
         return {
@@ -41,34 +38,35 @@ angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.
 
                 $scope.validation = UtkastViewState.validation;
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][0].diagnosArtal = undefined;
-                    }
+                // TODO: denna skall bort.
+                $scope.$watch('model.'+ $scope.config.modelProp, function(newVal, oldVal) {
+                    clearDiagnosArtal(3, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][1].diagnosArtal = undefined;
-                    }
+                // Add listeners to diagnosKod changes
+                $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(0, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][2].diagnosArtal = undefined;
-                    }
+                $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(1, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[3].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][3].diagnosArtal = undefined;
-                    }
+                $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(2, newVal);
                 });
 
+                $scope.$watch('model.'+ $scope.config.modelProp+'[3].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(3, newVal);
+                });
+
+                function clearDiagnosArtal(index, newVal) {
+                    if (newVal && $scope.model[$scope.config.modelProp]) {
+                        $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
+                    }
+                }
+
+                // Split validations on different rows
                 $scope.$watch('validation.messagesByField', function() {
                     $scope.diagnosValidations = [];
                     angular.forEach($scope.validation.messagesByField,
@@ -83,6 +81,7 @@ angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.
                         });
                 });
 
+                // Return validation errors for the specific row (previously splitted)
                 $scope.getValidationErrors = function(index) {
                     return $scope.diagnosValidations[index] || undefined;
                 };

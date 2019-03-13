@@ -35,10 +35,6 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosUnderConstruction/ueDiagnosKod.directive.html',
         link: function($scope) {
 
-            var diagnosViewState = $scope.diagnosViewState = {
-                diagnosKodSystem: $scope.config.defaultKodSystem
-            };
-
             $scope.validation = UtkastViewState.validation;
 
             $scope.diagnosKodLoading = false;
@@ -115,9 +111,8 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
                     return;
                 }
                 diagnoseModel.diagnosBeskrivning = $item.beskrivning;
-                diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
+                $scope.diagnosKodNoResults = undefined;
                 $scope.form.$setDirty();
-                //fmbService.updateFmbText($scope.index, $item.value, diagnoseModel.diagnosKodSystem, $item.beskrivning);
             };
 
             $scope.onDiagnoseDescriptionSelect = function($item) {
@@ -129,10 +124,8 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
                 }
                 diagnoseModel.diagnosKod = $item.value;
                 diagnoseModel.diagnosBeskrivning = $item.beskrivning;
-                diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                 $scope.diagnosKodNoResults = undefined;
                 $scope.form.$setDirty();
-                //fmbService.updateFmbText($scope.index, $item.value, diagnoseModel.diagnosKodSystem, $item.beskrivning);
             };
 
             $scope.onDiagnoseCodeChanged = function() {
@@ -148,39 +141,8 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
             $scope.onDiagnoseDescriptionChanged = function() {
                 if (!$scope.model[$scope.config.modelProp][$scope.index].diagnosBeskrivning) {
                     $scope.model[$scope.config.modelProp][$scope.index].diagnosKod = undefined;
-                    // fmbService.updateFmbText($scope.index, null);
                 }
             };
-
-            // $scope.onChangeKodverk = function() {
-            //     resetDiagnoses();
-            //     setAlldiagnosKodSystem(diagnosViewState.diagnosKodSystem);
-            // };
-
-            // $scope.addDiagnos = function() {
-            //     $scope.model[$scope.config.modelProp].push({
-            //         diagnosKodSystem: diagnosViewState.diagnosKodSystem,
-            //         diagnosKod: undefined,
-            //         diagnosBeskrivning: undefined
-            //     });
-            // };
-
-            // function resetDiagnoses() {
-            //     if ($scope.model[$scope.config.modelProp]) {
-            //         $scope.model[$scope.config.modelProp].forEach(function(diagnos) {
-            //             diagnos.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
-            //             diagnos.diagnosKod = undefined;
-            //             diagnos.diagnosBeskrivning = undefined;
-            //         });
-            //     }
-            // }
-
-            // function setAlldiagnosKodSystem(val) {
-            //     diagnosViewState.diagnosKodSystem = val;
-            //     $scope.model[$scope.config.modelProp].forEach(function(diagnos) {
-            //         diagnos.diagnosKodSystem = val;
-            //     });
-            // }
 
             $scope.onBlurDiagnoseCodeField = function() {
                 if (!$scope.model[$scope.config.modelProp][$scope.index].diagnosKod) {
@@ -211,5 +173,4 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
             };
         }
     };
-
 }]);

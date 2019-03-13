@@ -20,9 +20,8 @@
 angular.module('common').directive('ueDiagnosFk', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
     'common.fmbService', 'common.srsService', 'common.ObjectHelper', 'common.MonitoringLogService',
     'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
-    'common.DateUtilsService', 'common.DatePickerOpenService',
     function($log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper, dateUtils, DatePickerOpenService) {
+        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper) {
         'use strict';
 
         return {
@@ -41,48 +40,44 @@ angular.module('common').directive('ueDiagnosFk', [ '$log', '$timeout', 'common.
 
                 $scope.validation = UtkastViewState.validation;
 
-                // TODO: How to manage kompletteringar.
                 $scope.hasKomplettering = function() {
                     return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
                 };
 
-                $scope.$watch('model.' + $scope.config.modelProp + '[0].diagnosKodSystem', function(newVal, oldVal) {
-                    if (newVal) {
-                        $scope.model[$scope.config.modelProp].forEach(function(diagnos) {
-                            diagnos.diagnosKod = undefined;
-                            diagnos.diagnosBeskrivning = undefined;
-                        });
-                    }
+                // Add listeners for each row
+                $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal) {
+                    updateFmb(0, newVal);
+                    updateSrs(0, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][0].diagnosArtal = undefined;
-                    }
+                $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal) {
+                    updateFmb(1, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][1].diagnosArtal = undefined;
-                    }
+                $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal) {
+                    updateFmb(2, newVal);
                 });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][2].diagnosArtal = undefined;
+                function updateFmb(index, newVal) {
+                    if (ObjectHelper.isEmpty(newVal) || newVal.length < 3) {
+                        fmbViewState.reset(index);
+                        fmbService.updateFmbText(index, null);
+                    } else {
+                        fmbService.updateFmbText(index,
+                            'model.'+ $scope.config.modelProp+'['+index+'].diagnosKod',
+                            'model.'+ $scope.config.modelProp+'['+index+'].diagnosKodSystem',
+                            'model.'+ $scope.config.modelProp+'['+index+'].diagnosBeskrivning');
                     }
-                });
+                }
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[3].diagnosKod', function(newVal, oldVal) {
-                    // Clear diagnosArtal if diagnosKod is cleared
-                    if (!newVal) {
-                        $scope.model[$scope.config.modelProp][3].diagnosArtal = undefined;
+                function updateSrs(index, newVal) {
+                    if (!(ObjectHelper.isEmpty(newVal) || newVal.length < 3)) {
+                        srsService.updateDiagnosKod(newVal);
+                        srsService.updateDiagnosBeskrivning($scope.config.modelProp+'['+index+'].diagnosBeskrivning');
                     }
-                });
+                }
 
+                // Split validations on different rows
                 $scope.$watch('validation.messagesByField', function() {
                     $scope.diagnosValidations = [];
                     angular.forEach($scope.validation.messagesByField,
@@ -97,6 +92,7 @@ angular.module('common').directive('ueDiagnosFk', [ '$log', '$timeout', 'common.
                         });
                 });
 
+                // Return validation errors for the specific row (previously splitted)
                 $scope.getValidationErrors = function(index) {
                     return $scope.diagnosValidations[index] || undefined;
                 };
