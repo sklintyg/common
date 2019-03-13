@@ -117,10 +117,10 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 defaultKodSystem: 'ICD_10_SE',
                                 diagnosKodLabel: 'DFR_51.1.RBK',
                                 yearConfig: [
-                                    {modelProp: 'diagnosKodad[0].diagnosArtal', maxYear: thisYear},
-                                    {modelProp: 'diagnosKodad[1].diagnosArtal', maxYear: thisYear},
-                                    {modelProp: 'diagnosKodad[2].diagnosArtal', maxYear: thisYear},
-                                    {modelProp: 'diagnosKodad[3].diagnosArtal', maxYear: thisYear}
+                                    {modelProp: 'diagnosKodad[0].diagnosArtal', maxYear: thisYear, skipAttic: true},
+                                    {modelProp: 'diagnosKodad[1].diagnosArtal', maxYear: thisYear, skipAttic: true},
+                                    {modelProp: 'diagnosKodad[2].diagnosArtal', maxYear: thisYear, skipAttic: true},
+                                    {modelProp: 'diagnosKodad[3].diagnosArtal', maxYear: thisYear, skipAttic: true}
                                 ]
                             }]),
                         fraga(52, 'FRG_52.RBK', '', {

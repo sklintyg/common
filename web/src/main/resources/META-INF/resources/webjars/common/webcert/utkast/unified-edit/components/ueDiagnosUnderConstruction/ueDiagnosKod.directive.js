@@ -19,9 +19,9 @@
 
 angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
     'common.fmbService', 'common.srsService', 'common.ObjectHelper', 'common.MonitoringLogService',
-    'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
+    'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService',
     function($log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper) {
+        ArendeListViewState, UtkastValidationService, UtkastViewState) {
     'use strict';
 
     return {
