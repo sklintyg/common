@@ -16,24 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ag114').service('ag114.PatientHelperService',
-    ['$log',
-        function($log) {
+angular.module('doi').service('doi.PatientHelperService.v1',
+        function () {
             'use strict';
 
-            // PS-004: Never show for AG1-14
+            // PS-004: Never show for DB/DOI
             function _showPatientNameChangedIntegration() {
                 return false;
             }
-            // PS-005: Never show for AG1-14
+
+            // PS-005: Never show for DB/DOI
             function _showPatientNameChangedPU() {
                 return false;
             }
-            // PS-006: Never show for AG1-14
+
+            // PS-006: Never show for DB/DOI
             function _showPatientAddressChangedPU() {
                 return false;
             }
-            // INTYG-5146: Never show for AG1-14
+
+            // INTYG-5146: Never show for DB/DOI
             function _showMissingAddressParameter() {
                 return false;
             }
@@ -44,4 +46,4 @@ angular.module('ag114').service('ag114.PatientHelperService',
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
             };
-        }]);
+        });

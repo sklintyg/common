@@ -18,32 +18,6 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
-import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
-import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
-import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
-import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
-import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
-import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
-import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-import se.inera.intyg.schemas.contract.Personnummer;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -53,6 +27,29 @@ import static org.mockito.Mockito.when;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ERROR;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
+
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.core.io.ClassPathResource;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
+import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
+import se.inera.intyg.common.fk7263.model.converter.util.ConverterUtil;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi;
+import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
+import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
+import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 /**
  * @author andreaskaltenbach
@@ -73,20 +70,6 @@ public class GetCertificateResponderImplTest {
 
     @Mock
     private Fk7263ModuleApi moduleRestApi;
-
-    @Mock
-    private JAXBContext jaxbContext;
-
-    @Mock
-    private ObjectFactory objectFactory;
-
-    @Mock
-    private Marshaller marshaller;
-
-    @Before
-    public void setUpMocks() throws Exception {
-        when(jaxbContext.createMarshaller()).thenReturn(marshaller);
-    }
 
     @Test
     public void getCertificate() throws Exception {

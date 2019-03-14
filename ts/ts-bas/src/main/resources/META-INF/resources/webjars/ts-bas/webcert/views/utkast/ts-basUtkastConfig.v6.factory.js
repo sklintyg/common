@@ -120,35 +120,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                     return false;
                 }
 
-                var noKravYtterligareUnderlagFieldsFilledExpression = '!(' +
-                    'model.syn.synfaltsdefekter === true || '+
-                    'model.syn.nattblindhet === true || '+
-                    'model.syn.progressivOgonsjukdom === true || '+
-                    'model.syn.diplopi === true || '+
-                    'model.syn.nystagmus === true || '+
-                    'model.horselBalans.balansrubbningar === true || '+
-                    'model.horselBalans.svartUppfattaSamtal4Meter === true || '+
-                    'model.funktionsnedsattning.funktionsnedsattning === true || '+
-                    'model.funktionsnedsattning.otillrackligRorelseformaga === true || '+
-                    'model.hjartKarl.hjartKarlSjukdom === true || '+
-                    'model.hjartKarl.hjarnskadaEfterTrauma === true || '+
-                    'model.hjartKarl.riskfaktorerStroke === true || '+
-                    'model.diabetes.harDiabetes === true ||  '+
-                    'model.neurologi.neurologiskSjukdom === true || '+
-                    'model.medvetandestorning.medvetandestorning === true || '+
-                    'model.njurar.nedsattNjurfunktion === true || '+
-                    'model.kognitivt.sviktandeKognitivFunktion === true || '+
-                    'model.somnVakenhet.teckenSomnstorningar === true || '+
-                    'model.narkotikaLakemedel.teckenMissbruk === true || '+
-                    'model.narkotikaLakemedel.foremalForVardinsats === true || '+
-                    'model.narkotikaLakemedel.provtagningBehovs === true || '+
-                    'model.narkotikaLakemedel.lakarordineratLakemedelsbruk || '+
-                    'model.psykiskt.psykiskSjukdom === true || '+
-                    'model.utvecklingsstorning.psykiskUtvecklingsstorning === true || '+
-                    'model.utvecklingsstorning.harSyndrom === true || '+
-                    'model.sjukhusvard.sjukhusEllerLakarkontakt === true || '+
-                    'model.medicinering.stadigvarandeMedicinering === true)';
-
                 var config = [
 
                     patient,
@@ -591,28 +562,6 @@ angular.module('ts-bas').factory('ts-bas.UtkastConfigFactory.v6',
                                 watcher: ueTSFactoryTemplates.getBedomningListenerConfig('korkortstyp', 'KAN_INTE_TA_STALLNING')
                             }]
                         ),
-                        fraga(33, '', '', { }, [{
-                            type: 'ue-text',
-                            label: {
-                                key: 'ts-bas.helptext.bedomning.info'
-                            },
-                            hideExpression: noKravYtterligareUnderlagFieldsFilledExpression,
-                            paddingBottom: true
-                        },{
-                            type: 'ue-text',
-                            label: {
-                                key: 'ts-bas.helptext.synfunktioner.8-dioptrier-valt'
-                            },
-                            hideExpression: '!model.syn.korrektionsglasensStyrka',
-                            paddingBottom: true
-                        },{
-                            type: 'ue-text',
-                            label: {
-                                key: 'DFR_19.3.INF'
-                            },
-                            hideExpression: '!(model.diabetes.tabletter || model.diabetes.insulin)',
-                            paddingBottom: true
-                        }]),
                         fraga(34, 'FRG_34.RBK', 'FRG_34.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'bedomning.lakareSpecialKompetens',

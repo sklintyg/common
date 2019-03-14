@@ -39,13 +39,6 @@ angular.module('db').constant('db.messages', {
             '<p>Glöm inte att göra en journalanteckning att dödsbevis är inlämnat!</p>'+
             '<p>Du kan nu avsluta Webcert eller direkt skriva ett dödsorsaksintyg för samma person genom att trycka på knappen "Skriv dödsorsaksintyg" ovan.</p>',
 
-        'db.warn.previouscertificate.samevg': 'Dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-        'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsbevis utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
-        'db.warn.previouscertificate.differentvg': 'Dödsbevis finns för detta personnummer hos annan vårdgivare. Det är inte möjligt att skapa ett nytt dödsbevis.',
-        'db.warn.previousdraft.samevg': 'Utkast på dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-        'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast för dödsbevis på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
-        'db.warn.previousdraft.differentvg': 'Utkast på dödsbevis finns för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
-
         'db.status.revoke.requested': '<strong>Status:</strong> Intyget är makulerat.',
         'db.status.revoke.confirmed': '<strong>Status:</strong> Intyget är makulerat.',
 

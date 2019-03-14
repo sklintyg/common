@@ -1,6 +1,6 @@
 plugins {
     id "se.inera.intyg.plugin.common" version "2.0.3" apply false
-    id "com.moowork.node" version "1.1.1" apply false
+    id "com.moowork.node" version "1.2.0" apply false
 }
 
 ext {
@@ -29,7 +29,7 @@ ext {
 
     jsonAssertVersion = "1.2.0"
     mockitoVersion = "2.16.0"
-    unitilsCoreVersion = "3.3"
+    unitilsCoreVersion = "3.4.6"
     xmlUnitVersion = "2.6.2"
     equalsVerifierVersion = "2.5.2"
     assertjVersion = "3.6.2"

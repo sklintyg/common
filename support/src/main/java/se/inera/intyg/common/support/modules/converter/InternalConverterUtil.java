@@ -18,9 +18,30 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import com.google.common.base.Strings;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
+import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
+import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
+import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+
+
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.temporal.Temporal;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
+import javax.xml.bind.JAXBElement;
+
 import org.w3._2000._09.xmldsig_.SignatureType;
-import org.w3._2002._06.xmldsig_filter2.XPathType;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.ModelException;
@@ -29,6 +50,7 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
@@ -36,6 +58,7 @@ import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PersonId;
@@ -52,29 +75,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.namespace.QName;
-import javax.xml.transform.stream.StreamSource;
-import java.io.StringReader;
-import java.nio.charset.Charset;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.temporal.Temporal;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
-import java.util.Optional;
-
-import static se.inera.intyg.common.support.Constants.ARBETSPLATS_KOD_OID;
-import static se.inera.intyg.common.support.Constants.BEFATTNING_KOD_OID;
-import static se.inera.intyg.common.support.Constants.HSA_ID_OID;
-import static se.inera.intyg.common.support.Constants.KV_RELATION_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.PERSON_ID_OID;
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
-
 /**
  * Provides utility methods for converting domain objects from internal Java format to transport format.
  */
@@ -82,7 +82,10 @@ public final class InternalConverterUtil {
 
     private static final String NOT_AVAILABLE = "N/A";
     private static final int DATE_PARSE_SECTIONS = 3;
-    private static final String GENERAL_DATE_FORMAT = "[0-9]{4}-[0-9]{2}-[0-9]{2}";
+    private static final Pattern GENERAL_DATE_FORMAT = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+
+    static ObjectFactory objectFactory = new ObjectFactory();
+
 
     private InternalConverterUtil() {
     }
@@ -285,8 +288,7 @@ public final class InternalConverterUtil {
         DatePeriodType period = new DatePeriodType();
         period.setStart(from);
         period.setEnd(tom);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "datePeriod"),
-                DatePeriodType.class, null, period);
+        return objectFactory.createDatePeriod(period);
     }
 
     /**
@@ -302,8 +304,7 @@ public final class InternalConverterUtil {
         PartialDateType partialDate = new PartialDateType();
         partialDate.setFormat(format);
         partialDate.setValue(partial);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "partialDate"),
-                PartialDateType.class, null, partialDate);
+        return objectFactory.createPartialDate(partialDate);
     }
 
     /**
@@ -319,8 +320,7 @@ public final class InternalConverterUtil {
         cv.setCodeSystem(codeSystem);
         cv.setCode(code);
         cv.setDisplayName(displayName);
-        return new JAXBElement<>(new QName("urn:riv:clinicalprocess:healthcond:certificate:types:3", "cv"),
-                CVType.class, null, cv);
+        return objectFactory.createCv(cv);
     }
 
     /**
@@ -364,25 +364,14 @@ public final class InternalConverterUtil {
         }
 
         try {
-            byte[] decodedSignature = Base64.getDecoder().decode(utlatande.getSignature());
-            try (StringReader sr = new StringReader(new String(decodedSignature, Charset.forName("UTF-8")))) {
-                JAXBContext jc = JAXBContext.newInstance(SignatureType.class, XPathType.class);
-                Unmarshaller unmarshaller = jc.createUnmarshaller();
-
-                StreamSource streamSource = new StreamSource(sr);
-                JAXBElement<SignatureType> jaxbElement = unmarshaller.unmarshal(streamSource,
-                        SignatureType.class);
-                SignatureType signatureType = jaxbElement.getValue();
-                UnderskriftType underskriftType = new UnderskriftType();
-                underskriftType.setSignature(signatureType);
-                return underskriftType;
-            } catch (JAXBException e) {
-                throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, JAXBException: " + e.getMessage());
-            }
-        } catch (IllegalArgumentException e) {
+            final byte[] decodedSignature = Base64.getDecoder().decode(utlatande.getSignature().getBytes(UTF_8));
+            JAXBElement<SignatureType> el = XmlMarshallerHelper.unmarshal(new String(decodedSignature, UTF_8));
+            UnderskriftType underskriftType = new UnderskriftType();
+            underskriftType.setSignature(el.getValue());
+            return underskriftType;
+        } catch (Exception e) {
             throw new ModelException("Unable to unmarshal SignatureType from Base64-encoded string, " + e.getMessage());
         }
-
 
     }
 
@@ -470,7 +459,7 @@ public final class InternalConverterUtil {
                 sb = new StringBuilder(internalDate.toString());
             }
             for (int i = 0; i < DATE_PARSE_SECTIONS; i++) {
-                if (!sb.toString().matches(GENERAL_DATE_FORMAT)) {
+                if (!GENERAL_DATE_FORMAT.matcher(sb.toString()).matches()) {
                     sb.append("-00");
                 }
             }

@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('fk7263').service('fk7263.PatientHelperService',
-    ['$log',
-        function($log) {
+angular.module('luae_fs').service('luae_fs.PatientHelperService.v1',
+        function() {
             'use strict';
 
             // PS-004: All FK intyg shows patient name change regardless of utkast / intyg.
@@ -44,4 +43,4 @@ angular.module('fk7263').service('fk7263.PatientHelperService',
                 showPatientAddressChangedPU: _showPatientAddressChangedPU,
                 showMissingAddressParameter: _showMissingAddressParameter
             };
-        }]);
+        });

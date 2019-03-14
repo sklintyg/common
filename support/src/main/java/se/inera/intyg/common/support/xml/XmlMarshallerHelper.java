@@ -16,13 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package se.inera.intyg.common.support.modules.transformer;
 
-/**
- * @author Magnus Ekstrand on 2018-09-21.
- */
-public abstract class XslTransformerFactory {
+package se.inera.intyg.common.support.xml;
 
-    public abstract XslTransformer get(XslTransformerType name);
+import javax.xml.bind.JAXBElement;
 
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+public final class XmlMarshallerHelper {
+    private static XmlMarshaller marshaller = new XmlMarshaller();
+
+    private XmlMarshallerHelper() {
+    }
+
+    public static Jaxb2Marshaller marshaller() {
+        return marshaller.jaxb2Marshaller;
+    }
+
+    public static <T> String marshal(final JAXBElement<T> element) {
+        return marshaller.marshal(element);
+    }
+
+    public static <T> JAXBElement<T> unmarshal(final String xmlString) {
+        return marshaller.unmarshal(xmlString);
+    }
 }

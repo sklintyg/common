@@ -29,113 +29,111 @@ angular.module('lisjp').config(function($stateProvider) {
         return factoryResolverHelper.resolve('lisjp.UtkastConfigFactory', $stateParams);
     };
 
-
     var viewConfig = function(factoryResolverHelper, $stateParams) {
         return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
     };
+
     $stateProvider.
-        state('lisjp-edit', {
+        state('lisjp', {
+            url: '/lisjp'
+        }).
+        state('lisjp.utkast', {
             data: { defaultActive : 'index', intygType: 'lisjp', useFmb: true },
-            url : '/lisjp/:intygTypeVersion/edit/:certificateId/:focusOn',
-                views : {
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
+            },
+            views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@lisjp-edit' : {
+                'header@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@lisjp-edit' : {
+                'footer@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@lisjp-edit' : {
+                'utkast@lisjp.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                  }
             }
         }).state('webcert.intyg.lisjp', {
             data: { defaultActive : 'index', intygType: 'lisjp' },
             url:'/intyg/lisjp/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'lisjp.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory',
+                IntygViewState: 'lisjp.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.lisjp' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'lisjp.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).
         state('webcert.fragasvar.lisjp', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'lisjp'  },
+            data: { defaultActive : 'enhet-arenden', intygType: 'lisjp' },
             url: '/fragasvar/lisjp/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'lisjp.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory',
+                IntygViewState: 'lisjp.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'lisjp.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'lisjp.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.fragasvar.lisjp' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'lisjp.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).
         state('lisjp-readonly', {
-        url: '/intyg-read-only/lisjp/:intygTypeVersion/:certificateId',
-        views: {
-            'content@': {
-                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
-                controller: 'common.wcIntygReadOnlyViewController',
-                resolve: {
-                    intygsType: function() {
-                        return 'lisjp';
-                    },
-                    ViewConfigFactory: viewConfig,
+            url: '/intyg-read-only/lisjp/:intygTypeVersion/:certificateId',
+            resolve: {
+                intygsType: function() {
+                    return 'lisjp';
+                },
+                ViewConfigFactory: viewConfig,
                     DiagnosExtractor: function() {
-                        return function (lisjpModel) {
-                            return lisjpModel.diagnoser[0].diagnosKod;
-                        };
-                    }
+                    return function (lisjpModel) {
+                        return lisjpModel.diagnoser[0].diagnosKod;
+                    };
+                }
+            },
+            views: {
+                'content@': {
+                    templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+                    controller: 'common.wcIntygReadOnlyViewController'
                 }
             }
-        }
-    });
+        });
 });

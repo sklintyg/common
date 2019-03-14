@@ -23,7 +23,6 @@ angular.module('tstrk1062').config(function($stateProvider) {
     'use strict';
 
     var commonPath = '/web/webjars/common/webcert/';
-    //var intygsTypPath = '/web/webjars/tstrk1062/webcert/';
 
     var editViewState = function(factoryResolverHelper, $stateParams) {
         return factoryResolverHelper.resolve('tstrk1062.UtkastController.ViewStateService', $stateParams);
@@ -38,66 +37,66 @@ angular.module('tstrk1062').config(function($stateProvider) {
     };
 
     $stateProvider.
-        state('tstrk1062-edit', {
+        state('tstrk1062', {
+            url: '/tstrk1062'
+        }).
+        state('tstrk1062.utkast', {
             data: { defaultActive : 'index', intygType: 'tstrk1062' },
-            url: '/tstrk1062/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'tstrk1062.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'tstrk1062.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@tstrk1062-edit' : {
+                'header@tstrk1062.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
                     controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
                 },
 
-                'footer@tstrk1062-edit' : {
+                'footer@tstrk1062.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@tstrk1062-edit' : {
+                'utkast@tstrk1062.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
                     controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
                 }
             }
         }).
         state('webcert.intyg.tstrk1062', {
             data: { defaultActive: 'index', intygType: 'tstrk1062' },
             url: '/intyg/tstrk1062/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'tstrk1062.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'tstrk1062.supportPanelConfigFactory',
+                IntygViewState: 'tstrk1062.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg': {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'tstrk1062.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'tstrk1062.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.tstrk1062': {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'tstrk1062.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

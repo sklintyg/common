@@ -39,7 +39,8 @@ describe('IntygCopyService', function() {
     }));
 
     angular.module('common').config(function($stateProvider){
-        $stateProvider.state('fk7263-edit', {
+        $stateProvider.state('fk7263', {
+        }).state('fk7263.utkast', {
         });
     });
 
@@ -110,7 +111,7 @@ describe('IntygCopyService', function() {
             $httpBackend.flush();
             $timeout.flush();
             expect(dialogService.showDialog).not.toHaveBeenCalled();
-            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
+            expect($state.go).toHaveBeenCalledWith('fk7263.utkast', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
 
             UserModel.setAnvandarPreference(IntygCopyActions.FORNYA_DIALOG_PREFERENCE, false);
         });
@@ -220,7 +221,7 @@ describe('IntygCopyService', function() {
             IntygCopyActions.createFromTemplate($scope.viewState, intyg);
             dialogOptions.button1click();
             $httpBackend.flush();
-            expect($state.go).toHaveBeenCalledWith('fk7263-edit', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
+            expect($state.go).toHaveBeenCalledWith('fk7263.utkast', { certificateId : 'nytt-utkast-id', intygTypeVersion: '1.0' });
         });
     });
 
