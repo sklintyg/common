@@ -56,7 +56,7 @@ angular.module('common').directive('ueDiagnosAr', [ '$log', '$timeout', 'common.
                 });
 
                 function clearDiagnosArtal(index, newVal) {
-                    if (newVal && $scope.model[$scope.config.modelProp]) {
+                    if (ObjectHelper.isEmpty(newVal)) {
                         $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
                     }
                 }

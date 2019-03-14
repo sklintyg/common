@@ -129,12 +129,8 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
             };
 
             $scope.onDiagnoseCodeChanged = function() {
-                if($scope.form['diagnoseCode' + $scope.index].$viewValue === ''){
-                    // srsService.updateDiagnosKod($scope.model.diagnosKod);
-                }
                 if (!$scope.form['diagnoseCode' + $scope.index].$viewValue) {
                     $scope.model[$scope.config.modelProp][$scope.index].diagnosBeskrivning = undefined;
-                    // fmbService.updateFmbText($scope.index, null);
                 }
             };
 
@@ -150,9 +146,6 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
                     $scope.form['diagnoseCode' + $scope.index].$setViewValue();
                     $scope.form['diagnoseCode' + $scope.index].$render();
                 }
-                // var diagnos = $scope.model[$scope.config.modelProp][$scope.index];
-
-                // fmbService.updateFmbText($scope.index, diagnos.diagnosKod, diagnos.diagnosKodSystem, diagnos.diagnosBeskrivning);
             };
 
             $scope.hasValidationError = function(field) {
