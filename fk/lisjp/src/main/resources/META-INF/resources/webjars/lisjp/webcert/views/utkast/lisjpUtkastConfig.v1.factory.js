@@ -156,8 +156,11 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
 
                     kategori(categoryIds[3], 'KAT_3.RBK', 'KAT_3.HLP', {}, [
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
-                            type: 'ue-diagnos',
+                            type: 'ue-diagnos-old',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
+                            notifyFmb: true,
+                            notifySrs: false,
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
                             diagnosKodLabel: 'DFR_6.2.RBK',

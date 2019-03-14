@@ -44,19 +44,29 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                     return ArendeListViewState.hasKompletteringar($scope.config.modelProp);
                 };
 
-                // Add listeners for each row
-                $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal) {
-                    updateFmb(0, newVal);
-                    updateSrs(0, newVal);
-                });
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal) {
-                    updateFmb(1, newVal);
-                });
+                // Only add listener if fmb and/or srs should be notified
+                if ($scope.config.notifyFmb || $scope.config.notifySrs) {
+                    $scope.$watch('model.' + $scope.config.modelProp + '[0].diagnosKod', function(newVal) {
+                        if ($scope.config.notifyFmb) {
+                            updateFmb(0, newVal);
+                        }
+                        if ($scope.config.notifySrs) {
+                            updateSrs(0, newVal);
+                        }
+                    });
+                }
 
-                $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal) {
-                    updateFmb(2, newVal);
-                });
+                // Only add listeners if fmb should be notified.
+                if ($scope.config.notifyFmb) {
+                    $scope.$watch('model.'+ $scope.config.modelProp+'[1].diagnosKod', function(newVal) {
+                        updateFmb(1, newVal);
+                    });
+
+                    $scope.$watch('model.'+ $scope.config.modelProp+'[2].diagnosKod', function(newVal) {
+                        updateFmb(2, newVal);
+                    });
+                }
 
                 function updateFmb(index, newVal) {
                     if (ObjectHelper.isEmpty(newVal) || newVal.length < 3) {
