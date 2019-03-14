@@ -34,6 +34,7 @@ ue-diagnos {
     .diagnos-row {
       padding-bottom: 15px;
       flex-wrap: wrap;
+      display: block;
 
       &:last-of-type {
         padding-bottom: 0;
