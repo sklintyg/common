@@ -27,7 +27,7 @@ angular.module('common').directive('ueDiagnosKodSystem', [ '$timeout', 'common.U
             config: '=',
             model: '='
         },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosKodSystem/ueDiagnosKodSystem.directive.html',
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKodSystem/ueDiagnosKodSystem.directive.html',
         link: function($scope) {
 
             var diagnosViewState = $scope.diagnosViewState = {

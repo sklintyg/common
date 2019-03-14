@@ -11,7 +11,7 @@
          typeahead-min-length="3"
          typeahead-editable="false"
          typeahead-on-select="onDiagnoseCodeSelect($item)"
-         typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnos/ueDiagnos.typeahead_template.html"
+         typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.typeahead_template.html"
          typeahead-loading="diagnosKodLoading"
          typeahead-no-results="diagnosKodNoResults"
          ng-blur="onBlurDiagnoseCodeField(); validate()"
@@ -43,7 +43,7 @@
          ng-change="onDiagnoseDescriptionChanged()"
          uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(model[config.modelProp][index].diagnosKodSystem, $viewValue)"
          typeahead-on-select="onDiagnoseDescriptionSelect($item)"
-         typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnos/ueDiagnos.typeahead_template.html"
+         typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.typeahead_template.html"
          typeahead-wait-ms="100"
          maxlength="250">
 </div>

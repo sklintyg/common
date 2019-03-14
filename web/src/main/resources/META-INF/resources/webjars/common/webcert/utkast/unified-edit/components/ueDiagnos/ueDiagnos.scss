@@ -1,113 +1,55 @@
+/*!
+ * Copyright (C) 2019 Inera AB (http://www.inera.se)
+ *
+ * This file is part of sklintyg (https://github.com/sklintyg).
+ *
+ * sklintyg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * sklintyg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 ue-diagnos {
 
   @extend %field-set-disabled-ie11-fix;
-
-  .ue-diagnos {
-    position: relative;
-    width: 100%;
-  }
-  
-  .checkbox-wrapper {
-    margin-top: 23px;
-    margin-bottom: 20px;
-
-    .margin-right {
-      margin-right: 30px;
-      margin-left: 10px;
-    }
-    .choose-code {
-      color: $wc-color-09;
-    }
-    .padding-left {
-      padding-left: 2px;
-    }
-  }
 
   .diagnos-wrapper {
 
     span.diagnos-text {
       color: $wc-color-09;
     }
+
     input.validation-error {
       border-color: $wc-color-11;
-    }
-
-    .diagnos-loading {
-      position: absolute;
-      right: 9px;
-      z-index: 10000;
-      top: 10px;
     }
 
     .diagnos-row {
       padding-bottom: 15px;
       flex-wrap: wrap;
 
-      &:last-of-type{
+      &:last-of-type {
         padding-bottom: 0;
       }
 
-      .diagnos-description-column {
-        padding-left: 20px;
+      .diagnos-column {
         flex: 1;
-
-        input.form-control {
-          max-width: 100%;
-        }
       }
 
-      .code-column {
-        width: 112px;
-
-        input.form-control {
-          padding: 0 9px;
-        }
-      }
-
-      ue-validation-list{
+      ue-validation-list {
         width: 100%;
         flex-grow: 1;
         margin-top: 6.5px;
 
-        .validation-error{
+        .validation-error {
           margin-top: 6.5px;
-        }
-      }
-    }
-
-    .dropdown-menu {
-      max-height: 350px;
-      max-width: 100%;
-      padding: 5px 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      border-color: $wc-color-21;
-      right: 0;
-
-      li {
-        a {
-          text-decoration: none;
-        }
-
-        .kod {
-          vertical-align: top;
-          white-space: pre-wrap;
-          display: inline-block;
-        }
-
-        .beskrivning {
-          width: 90%;
-          white-space: pre-wrap;
-          display: inline-block;
-        }
-
-        .disabled {
-          padding: 3px 20px;
-        }
-
-        .typeahead_more {
-          padding: 3px 7px;
-          display: inline-block;
         }
       }
     }

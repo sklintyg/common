@@ -1,8 +1,8 @@
-ue-diagnos-date {
+ue-diagnos-old {
 
   @extend %field-set-disabled-ie11-fix;
 
-  .ue-diagnos-date {
+  .ue-diagnos-old {
     position: relative;
     width: 100%;
   }
@@ -49,7 +49,6 @@ ue-diagnos-date {
 
       .diagnos-description-column {
         padding-left: 20px;
-        min-width: 150px;
         flex: 1;
 
         input.form-control {
@@ -62,23 +61,6 @@ ue-diagnos-date {
 
         input.form-control {
           padding: 0 9px;
-        }
-      }
-
-      .diagnos-year-column {
-        padding-left: 20px;
-
-        @extend %field-set-disabled-ie11-fix;
-        .wc-datepicker-wrapper {
-          width: 90px;
-        }
-        input.form-control {
-
-          &:disabled, fieldset[disabled] & {
-            background-color: $wc-color-20;
-            color: $wc-color-09;
-            cursor: not-allowed;
-          }
         }
       }
 

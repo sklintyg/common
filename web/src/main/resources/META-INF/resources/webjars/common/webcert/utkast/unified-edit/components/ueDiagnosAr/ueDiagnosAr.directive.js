@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.ObjectHelper',
+angular.module('common').directive('ueDiagnosAr', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.ObjectHelper',
     'common.MonitoringLogService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
     function($log, $timeout, diagnosProxy, ObjectHelper, monitoringService, UtkastValidationService, UtkastViewState, AtticHelper) {
         'use strict';
@@ -28,7 +28,7 @@ angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.
                 config: '=',
                 model: '='
             },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosUnderConstruction/ueDiagnosTs.directive.html',
+            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.directive.html',
             link: function($scope) {
 
                 AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
@@ -37,11 +37,6 @@ angular.module('common').directive('ueDiagnosTs', [ '$log', '$timeout', 'common.
                 AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
                 $scope.validation = UtkastViewState.validation;
-
-                // TODO: denna skall bort.
-                $scope.$watch('model.'+ $scope.config.modelProp, function(newVal, oldVal) {
-                    clearDiagnosArtal(3, newVal);
-                });
 
                 // Add listeners to diagnosKod changes
                 $scope.$watch('model.'+ $scope.config.modelProp+'[0].diagnosKod', function(newVal) {

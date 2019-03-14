@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-ue-diagnos-fk {
+ue-diagnos-ar {
 
   @extend %field-set-disabled-ie11-fix;
 
@@ -35,7 +34,7 @@ ue-diagnos-fk {
       padding-bottom: 15px;
       flex-wrap: wrap;
 
-      &:last-of-type {
+      &:last-of-type{
         padding-bottom: 0;
       }
 
@@ -43,12 +42,20 @@ ue-diagnos-fk {
         flex: 1;
       }
 
-      ue-validation-list {
+      .diagnos-year-column {
+        padding-left: 20px;
+
+        .ue-del-fraga {
+          padding: unset;
+        }
+      }
+
+      ue-validation-list{
         width: 100%;
         flex-grow: 1;
         margin-top: 6.5px;
 
-        .validation-error {
+        .validation-error{
           margin-top: 6.5px;
         }
       }

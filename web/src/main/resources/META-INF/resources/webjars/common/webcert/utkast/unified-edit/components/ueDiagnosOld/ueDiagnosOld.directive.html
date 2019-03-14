@@ -1,4 +1,27 @@
-<div class="ue-diagnos-date">
+<div class="ue-diagnos-old">
+    <div class="row bottom-padding-small checkbox-wrapper">
+        <div class="bottom-padding-small col-xs-12"><span class="choose-code" dynamic-label key="common.sit.label.valj-version-icd-10"></span></div>
+        <div class="padding-left">
+            <div class="form-group">
+                <wc-radio-wrapper class="margin-right">
+                    <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
+                           ng-model="diagnosViewState.diagnosKodSystem" checked="checked"
+                           ng-change="onChangeKodverk(); validate()">
+                    <label for="diagnoseKodverk_ICD_10_SE">
+                        <span dynamic-label key="common.sit.label.diagnoskodverk.fullstandig"></span>
+                    </label>
+                </wc-radio-wrapper>
+                <wc-radio-wrapper>
+                    <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
+                           ng-model="diagnosViewState.diagnosKodSystem" ng-change="onChangeKodverk(); validate()">
+                    <label for="diagnoseKodverk_KSH_97_P">
+                    <span dynamic-label key="common.sit.label.diagnoskodverk.primarvard"></span>
+                    </label>
+                </wc-radio-wrapper>
+            </div>
+        </div>
+    </div>
+
     <ng-form name="diagnosForm" class="diagnos-wrapper">
         <span class="diagnos-text" dynamic-label key="{{::config.diagnosKodLabel}}"></span>
         <div class="diagnos-row flex-row">
@@ -14,13 +37,6 @@
                   <span wc-help-chevron help-text-key="{{::config.diagnosBeskrivningHelp}}"></span>
                   <span wc-help-chevron-text help-text-key="{{::config.diagnosBeskrivningHelp}}"></span>
                 </span>
-            </div>
-            <div class="diagnos-year-column">
-              <span dynamic-label key="{{::config.diagnosArtalLabel}}"></span>
-              <span ng-if="::config.enableHelp">
-                    <span wc-help-chevron help-text-key="{{::config.diagnosArtalHelp}}"></span>
-                    <span wc-help-chevron-text help-text-key="{{::config.diagnosArtalHelp}}"></span>
-                  </span>
             </div>
         </div>
         <div class="diagnos-row flex-row" ng-repeat="diagnos in model[config.modelProp]">
@@ -38,7 +54,7 @@
                            typeahead-min-length="3"
                            typeahead-editable="false"
                            typeahead-on-select="onDiagnoseCodeSelect($index, $item)"
-                           typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosDate/ueDiagnosDate.typeahead_template.html"
+                           typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.typeahead_template.html"
                            typeahead-loading="diagnosKodLoading[$index]"
                            typeahead-no-results="diagnosKodNoResults[$index]"
                            ng-blur="onBlurDiagnoseCodeField($index); validate()"
@@ -70,37 +86,9 @@
                        ng-change="onDiagnoseDescriptionChanged($index)"
                        uib-typeahead="d.value as d.label for d in searchDiagnoseByDescription(diagnosViewState.diagnosKodSystem, $viewValue)"
                        typeahead-on-select="onDiagnoseDescriptionSelect($index, $item)"
-                       typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosDate/ueDiagnosDate.typeahead_template.html"
+                       typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.typeahead_template.html"
                        typeahead-wait-ms="100"
                        maxlength="250">
-            </div>
-            <div class="diagnos-year-column input-wrapper">
-              <span class="wc-datepicker-wrapper input-group">
-                <input id="diagnoseYear-{{::$index|ueDomIdFilter}}"
-                       name="diagnoseYear-{{::$index|ueDomIdFilter}}"
-                       type="text"
-                       placeholder="åååå"
-                       maxlength="4"
-                       class="form-control"
-                       ng-class="{'validation-error' : hasValidationError('diagnosartal', $index) || hasValidationError('row', $index),
-                       'text-invalid' : hasValidationError('diagnosartal', $index) || hasValidationError('row', $index)}"
-                       ng-model="diagnos.diagnosArtal"
-                       ng-model-options="{ getterSetter: true, allowInvalid: true}"
-                       is-open="pickerState[$index].isOpen"
-                       ng-blur="onDatepickerInputFieldBlur($index); validate()"
-                       wc-blur-on-enter
-                       ng-focus="focused($index)"
-                       ue-year-only-parser
-                       wc-number="true"
-                       uib-datepicker-popup="{{::format}}"
-                       popup-placement="auto right"
-                       show-button-bar="false"
-                       datepicker-popup-template-url="/web/webjars/common/webcert/utkast/unified-edit/components/ueYearPicker/yearpickerPopup.template.html"
-                       datepicker-options="datePickerOptions"/>
-                <span class="input-group-btn">
-                  <button type="button" id="diagnoseYear-{{::$index|ueDomIdFilter}}-toggle" class="btn btn-default"  ng-class="{border:isFocused[$index]}" ng-click="toggleOpen($event, $index)" ng-disabled="pickerState[$index].isOpen"><i class="material-icons">date_range</i></button>
-                </span>
-              </span>
             </div>
             <ue-validation-list field-type="{{config.type}}" validations="getValidationErrors($index)" ></ue-validation-list>
         </div>

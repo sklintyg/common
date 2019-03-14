@@ -32,7 +32,7 @@ angular.module('common').directive('ueDiagnosKod', [ '$log', '$timeout', 'common
             model: '=',
             index: '='
         },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosUnderConstruction/ueDiagnosKod.directive.html',
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.directive.html',
         link: function($scope) {
 
             $scope.validation = UtkastViewState.validation;

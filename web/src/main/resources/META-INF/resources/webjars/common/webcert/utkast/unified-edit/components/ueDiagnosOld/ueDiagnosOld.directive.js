@@ -17,12 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
+angular.module('common').directive('ueDiagnosOld', [ '$log', '$timeout', 'common.DiagnosProxy', 'common.fmbViewState',
     'common.fmbService', 'common.srsService', 'common.ObjectHelper', 'common.MonitoringLogService',
     'common.ArendeListViewStateService', 'common.UtkastValidationService', 'common.UtkastViewStateService', 'common.AtticHelper',
-    'common.DateUtilsService', 'common.DatePickerOpenService',
     function($log, $timeout, diagnosProxy, fmbViewState, fmbService, srsService, ObjectHelper, monitoringService,
-        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper, dateUtils, DatePickerOpenService) {
+        ArendeListViewState, UtkastValidationService, UtkastViewState, AtticHelper) {
     'use strict';
 
     return {
@@ -31,7 +30,7 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
             config: '=',
             model: '='
         },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosDate/ueDiagnosDate.directive.html',
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosOld/ueDiagnosOld.directive.html',
         link: function($scope) {
 
             AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
@@ -83,13 +82,6 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                 });
             $scope.$watch(
                 'model.' + $scope.config.modelProp + '[2].diagnosKod', function(newValue) {
-                    //Reset fmb if we no longer have a valid diagnoseCode to work with
-                    if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
-                        fmbViewState.reset(2);
-                    }
-                });
-            $scope.$watch(
-                'model.' + $scope.config.modelProp + '[3].diagnosKod', function(newValue) {
                     //Reset fmb if we no longer have a valid diagnoseCode to work with
                     if (ObjectHelper.isEmpty(newValue) || newValue.length < 3) {
                         fmbViewState.reset(2);
@@ -184,6 +176,7 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                 diagnoseModel.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                 $scope.diagnosKodNoResults = [];
                 $scope.diagnosForm.$setDirty();
+                fmbService.updateFmbText(index, $item.value, diagnoseModel.diagnosKodSystem, $item.beskrivning);
             };
 
             $scope.onDiagnoseCodeChanged = function(index) {
@@ -192,7 +185,6 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                 }
                 if (!$scope.diagnosForm['diagnoseCode' + index].$viewValue) {
                     $scope.model[$scope.config.modelProp][index].diagnosBeskrivning = undefined;
-                    $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
                     fmbService.updateFmbText(index, null);
                 }
             };
@@ -200,7 +192,6 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
             $scope.onDiagnoseDescriptionChanged = function(index) {
                 if (!$scope.model[$scope.config.modelProp][index].diagnosBeskrivning) {
                     $scope.model[$scope.config.modelProp][index].diagnosKod = undefined;
-                    $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
                     fmbService.updateFmbText(index, null);
                 }
             };
@@ -214,8 +205,7 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                 $scope.model[$scope.config.modelProp].push({
                     diagnosKodSystem: diagnosViewState.diagnosKodSystem,
                     diagnosKod: undefined,
-                    diagnosBeskrivning: undefined,
-                    diagnosArtal: undefined
+                    diagnosBeskrivning: undefined
                 });
             };
 
@@ -225,7 +215,6 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                         diagnos.diagnosKodSystem = diagnosViewState.diagnosKodSystem;
                         diagnos.diagnosKod = undefined;
                         diagnos.diagnosBeskrivning = undefined;
-                        diagnos.diagnosArtal = undefined;
                     });
                 }
             }
@@ -250,10 +239,10 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
 
             $scope.hasValidationError = function(field, index) {
                 return $scope.validation.messagesByField &&
-                    (!!$scope.validation.messagesByField['diagnoskodad[' + index + '].' + field] ||
-                        !!$scope.validation.messagesByField['diagnoskodad[' + index + '].row'] ||
+                    (!!$scope.validation.messagesByField['diagnoser[' + index + '].' + field] ||
+                        !!$scope.validation.messagesByField['diagnoser[' + index + '].row'] ||
                         // If no diagnose has been entered the first row should be marked with validation-error
-                        (index === 0 && !!$scope.validation.messagesByField.diagnosKodad));
+                        (index === 0 && !!$scope.validation.messagesByField.diagnoser));
             };
 
             $scope.hasKomplettering = function() {
@@ -284,88 +273,7 @@ angular.module('common').directive('ueDiagnosDate', [ '$log', '$timeout', 'commo
                     UtkastValidationService.validate($scope.model);
                 }, 100);
             };
-
-            // Here starts the code for the year picker
-
-            //configure
-            var currentYear = new Date().getFullYear();
-            $scope.format = 'yyyy';
-            $scope.datePickerOptions = {
-                datepickerMode: 'year',
-                maxMode: 'year',
-                minMode: 'year',
-                yearRows: 3,
-                yearColumns: 4,
-                customClass: function(data) {
-                    if (currentYear === data.date.getFullYear()) {
-                        return 'year current-year';
-                    }
-                }
-
-            };
-
-            if (dateUtils.isYear($scope.config.minYear)) {
-                // IE11 Date uses timezone in a strange way, casusing parsing a string with only year resolution eg. "2017" to actually be 2016-12-31T23:00:00.
-                // To work around this, we make sure the data the yearpicker works with always is a bit into the year.
-                $scope.datePickerOptions.minDate = new Date($scope.config.minYear + '-01-10');
-            }
-
-            if (dateUtils.isYear($scope.config.maxYear)) {
-                $scope.datePickerOptions.maxDate = new Date($scope.config.maxYear + '-01-10');
-            }
-
-            // Create an isOpen & isFocus state for each diagnose row.
-            $scope.pickerState = [];
-            $scope.isFocused = [];
-            var numberOfDiagnosis = 4;
-            for (var i = 0; i < numberOfDiagnosis; i++) {
-                $scope.pickerState.push({ isOpen : false});
-                $scope.isFocused.push(false);
-            }
-
-            $scope.toggleOpen = function($event, index) {
-                $event.preventDefault();
-                $event.stopPropagation();
-                $timeout(function() {
-                    $scope.pickerState[index].isOpen = !$scope.pickerState[index].isOpen;
-                    DatePickerOpenService.update($scope.pickerState[index]);
-                });
-            };
-
-            $scope.toggleFocus = function(index) {
-                $scope.isFocused[index] = !$scope.isFocused[index];
-            };
-
-            $scope.onDatepickerInputFieldBlur = function(index) {
-                $scope.toggleFocus(index);
-            };
-
-            $scope.focused = function(index) {
-                $scope.toggleFocus(index);
-            };
-
-            $scope.$watch('modelGetterSetter()', function(newVal, oldVal) {
-                if (newVal || newVal !== oldVal) {
-                    if(dateUtils.isYear(newVal)) {
-                        $scope.datePickerOptions.initDate = new Date(newVal + '-01-10');
-                    } else {
-                        $scope.datePickerOptions.initDate = new Date();
-                    }
-
-                }
-            });
         }
     };
-}]).directive('ueYearOnlyParser', ['$log', 'common.DateUtilsService',
-    function($log, dateUtils ) {
-        'use strict';
-        return {
-            priority: 1,
-            restrict: 'A',
-            require: 'ngModel',
-            link: function(scope, element, attrs, ngModel) {
-                //We should allow invalid/incomplete date values only consisting of year
-                dateUtils.addLooseDateParser(ngModel);
-            }
-        };
-    }]);
+
+}]);
