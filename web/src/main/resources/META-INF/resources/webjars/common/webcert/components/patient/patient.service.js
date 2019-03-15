@@ -40,7 +40,7 @@ angular.module('common').service('common.PatientService',
                     }
 
                     // Dynamically inject the patient helper with intygstyp specific rules.
-                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ, intyg.version);
+                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ, intyg.textVersion);
 
                     // PS-004 -----------------------------------------------------------------------------
                     // 1. Should only displayed for djupintegrerade
@@ -99,7 +99,7 @@ angular.module('common').service('common.PatientService',
                         return false;
                     }
 
-                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ, intyg.version);
+                    var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ, intyg.textVersion);
 
                     var eligibleIntygstyp = patientHelper.showMissingAddressParameter(isIntyg);
                     var missingAddressParameter = !ObjectHelper.isDefined(UserModel.getIntegrationParam('postort')) ||

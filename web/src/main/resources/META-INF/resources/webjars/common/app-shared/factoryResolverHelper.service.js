@@ -41,10 +41,13 @@ angular.module('common').factory('factoryResolverHelper', [ '$injector', '$log',
      * stored in the utkast compared to djupintegrations-parameters or PU-service data.
      */
     function _resolvePatientHelper(intygsTyp, version) {
+
+        var majorVersion = _extractMajorVersion(version);
+
         try {
-            return $injector.get(intygsTyp + '.PatientHelperService.v' + version);
+            return $injector.get(intygsTyp + '.PatientHelperService.v' + majorVersion);
         } catch(e) {
-            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ' and version: ' + version + ', error: ' + e);
+            $log.error('Could not resolve PatientHelperService for intygstyp ' + intygsTyp + ' and version: ' + majorVersion + ', error: ' + e);
             throw e;
         }
 
