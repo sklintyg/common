@@ -82,7 +82,7 @@ describe('tstrk1062UtkastConfigFactory', function() {
 
     });
 
-    describe('diagnos', function() {
+    xdescribe('diagnos', function() {
 
         it('should show extra fields depending on the selection of "diagnosRegistrering.typ"-option', function() {
 
