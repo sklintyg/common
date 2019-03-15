@@ -41,7 +41,6 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
-                var patient = ueTSFactoryTemplates.patient(viewState);
 
                 function requiredKorkortProperties(field, antalKorkort, extraproperty) {
                     var korkortsarray = [];
@@ -61,8 +60,6 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                 }
 
                 var config = [
-
-                    patient,
 
                     // Intyget avser
                     kategori(categoryIds[1], 'KAT_1.RBK', {}, {}, [
@@ -264,7 +261,6 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav', 'VAR11')
                             }])
                     ]),
-
 
                     ueFactoryTemplates.vardenhet
                 ];
