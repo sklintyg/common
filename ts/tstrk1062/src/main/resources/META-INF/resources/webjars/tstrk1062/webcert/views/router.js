@@ -63,7 +63,7 @@ angular.module('tstrk1062').config(function($stateProvider) {
 
                 'header@tstrk1062.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
+                    controller: 'common.UtkastHeader'
                 },
 
                 'footer@tstrk1062.utkast' : {
@@ -73,7 +73,7 @@ angular.module('tstrk1062').config(function($stateProvider) {
 
                 'utkast@tstrk1062.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).

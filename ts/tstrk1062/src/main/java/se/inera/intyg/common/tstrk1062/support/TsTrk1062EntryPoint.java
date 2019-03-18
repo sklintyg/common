@@ -18,11 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.support;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import java.util.Optional;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -96,44 +94,38 @@ public class TsTrk1062EntryPoint implements ModuleEntryPoint {
 
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
-        String moduleCssPath = null;
         switch (originator) {
-        case MINA_INTYG:
-            moduleCssPath = MINA_INTYG_MODULE_CSS_PATH;
-            break;
-        case WEBCERT:
-            moduleCssPath = WEBCERT_MODULE_CSS_PATH;
-            break;
+            case MINA_INTYG:
+                return MINA_INTYG_MODULE_CSS_PATH;
+            case WEBCERT:
+                return WEBCERT_MODULE_CSS_PATH;
+            default:
+                return null;
         }
-        return moduleCssPath;
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
-        String moduleScriptPath = null;
         switch (originator) {
-        case MINA_INTYG:
-            moduleScriptPath = MINA_INTYG_MODULE_SCRIPT_PATH;
-            break;
-        case WEBCERT:
-            moduleScriptPath = WEBCERT_MODULE_SCRIPT_PATH;
-            break;
+            case MINA_INTYG:
+                return MINA_INTYG_MODULE_SCRIPT_PATH;
+            case WEBCERT:
+                return WEBCERT_MODULE_SCRIPT_PATH;
+            default:
+                return null;
         }
-        return moduleScriptPath;
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
-        String moduleDependencyPath = null;
         switch (originator) {
-        case MINA_INTYG:
-            moduleDependencyPath = MINA_INTYG_MODULE_DEPENDENCY_PATH;
-            break;
-        case WEBCERT:
-            moduleDependencyPath = WEBCERT_MODULE_DEPENDENCY_PATH;
-            break;
+            case MINA_INTYG:
+                return MINA_INTYG_MODULE_DEPENDENCY_PATH;
+            case WEBCERT:
+                return WEBCERT_MODULE_DEPENDENCY_PATH;
+            default:
+                return null;
         }
-        return moduleDependencyPath;
     }
 
     @Override

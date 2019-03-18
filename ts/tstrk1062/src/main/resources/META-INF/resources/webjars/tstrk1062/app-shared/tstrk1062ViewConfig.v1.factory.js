@@ -212,7 +212,7 @@ angular.module('tstrk1062').factory('tstrk1062.viewConfigFactory.v1', [
                             return model.selected ? model.type : null;
                         },
                         separator: ', ',
-                        modelProp: 'bedomning.uppfyllerBehorighetskrav',
+                        modelProp: 'bedomning.uppfyllerBehorighetskrav'
                     }]
                 }]
             }, {

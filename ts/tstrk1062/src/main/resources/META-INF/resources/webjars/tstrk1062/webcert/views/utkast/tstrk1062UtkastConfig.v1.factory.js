@@ -52,11 +52,13 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                 }
 
                 function diagnosRegistreringKodad(scope) {
-                    return !(scope.model.diagnosRegistrering.typ === 'DIAGNOS_KODAD');
+                    var isKodad = scope.model.diagnosRegistrering.typ === 'DIAGNOS_KODAD';
+                    return !isKodad;
                 }
 
                 function diagnosRegistreringFritext(scope) {
-                    return !(scope.model.diagnosRegistrering.typ === 'DIAGNOS_FRITEXT');
+                    var isFritext = scope.model.diagnosRegistrering.typ === 'DIAGNOS_FRITEXT';
+                    return !isFritext;
                 }
 
                 var config = [
@@ -68,7 +70,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 type: 'ue-checkgroup-ts',
                                 modelProp: 'intygAvser.behorigheter',
                                 htmlClass: 'no-padding',
-                                labelTemplate: 'KV_INTYGET_AVSER.{0}.RBK',
+                                labelTemplate: 'KV_INTYGET_AVSER.{0}.RBK'
                             }])
                     ]),
 
@@ -126,7 +128,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             requiredProp: 'diagnosFritext.diagnosFritext'
                         }, [{
                             type: 'ue-textarea',
-                            modelProp: 'diagnosFritext.diagnosFritext',
+                            modelProp: 'diagnosFritext.diagnosFritext'
                         },
                             {
                                 type: 'ue-year-picker',
@@ -138,7 +140,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                     requiredProp: 'diagnosFritext.diagnosArtal'
                                 }
                             }
-                        ]),
+                        ])
                     ]),
 
                     // Lakemedelsbehandling
@@ -147,7 +149,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.harHaft',
-                                paddingBottom: true,
+                                paddingBottom: true
                             }]),
                         fraga(54, 'FRG_54.RBK', '', {
                                 required: true,
@@ -157,7 +159,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.pagar',
-                                paddingBottom: true,
+                                paddingBottom: true
                             }]),
                         fraga(55, 'FRG_55.RBK', '', {
                                 required: true,
@@ -176,7 +178,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.pagatt',
-                                paddingBottom: true,
+                                paddingBottom: true
                             }]),
                         fraga(57, 'FRG_57.RBK', '', {
                                 required: true,
@@ -186,7 +188,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.effekt',
-                                paddingBottom: true,
+                                paddingBottom: true
                             }]),
                         fraga(58, 'FRG_58.RBK', '',
                             {
@@ -197,7 +199,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-radio',
                                 modelProp: 'lakemedelsbehandling.foljsamhet',
-                                paddingBottom: true,
+                                paddingBottom: true
                             }]),
                         fraga(58, 'FRG_59.RBK', '',
                             {
@@ -207,7 +209,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             },
                             [{
                                 type: 'ue-textfield',
-                                modelProp: 'lakemedelsbehandling.avslutadTidpunkt',
+                                modelProp: 'lakemedelsbehandling.avslutadTidpunkt'
                             },
                                 {
                                     type: 'ue-textarea',
@@ -218,14 +220,14 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                         requiredProp: 'lakemedelsbehandling.avslutadOrsak'
                                     }
                                 }
-                            ]),
+                            ])
                     ]),
                     // Symptom (Symptom, funktionshinder och prognos)
                     kategori(categoryIds[5], 'KAT_5.RBK', {}, {}, [
                         fraga(60, 'FRG_60.RBK', 'FRG_60.HLP', {required: true, requiredProp: 'bedomningAvSymptom'},
                             [{
                                 type: 'ue-textarea',
-                                modelProp: 'bedomningAvSymptom',
+                                modelProp: 'bedomningAvSymptom'
                             }]),
                         fraga(61, 'FRG_61.RBK', '', {required: true, requiredProp: 'prognosTillstand.typ'},
                             [{
@@ -238,15 +240,15 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                     {label: 'SVAR_NEJ.RBK', id: 'NEJ'},
                                     {label: 'SVAR_KANEJBEDOMA.RBK', id: 'KANEJBEDOMA'}
                                 ]
-                            }]),
+                            }])
                     ]),
                     // Ovrigt
                     kategori(categoryIds[6], 'KAT_6.RBK', {}, {}, [
                         fraga(32, 'FRG_32.RBK', '', {},
                             [{
                                 type: 'ue-textarea',
-                                modelProp: 'ovrigaKommentarer',
-                            }]),
+                                modelProp: 'ovrigaKommentarer'
+                            }])
                     ]),
                     // Bedomning
                     kategori(categoryIds[7], 'KAT_7.RBK', '', {}, [

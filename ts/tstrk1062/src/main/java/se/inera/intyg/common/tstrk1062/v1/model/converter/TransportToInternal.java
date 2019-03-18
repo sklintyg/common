@@ -18,26 +18,70 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
-import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPartialDateContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.isStringContent;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.ID_KONTROLL_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_DELSVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.INTYG_AVSER_SVAR_ID_1;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.OVRIGT_OVRIGA_KOMMENTARER_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_BEDOMNING_SVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_DELSVAR_ID;
+import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.SYMPTOM_PROGNOS_SVAR_ID;
 import static se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand.PrognosTillstandTyp;
 
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
-
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Bedomning;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosFritext;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosRegistrering;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IdKontroll;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.IntygAvser;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.Lakemedelsbehandling;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.PrognosTillstand;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 
 public final class TransportToInternal {
 
@@ -100,26 +144,26 @@ public final class TransportToInternal {
                 diagnosFritext = getDiagnosFritext(svar.getDelsvar());
                 break;
             case LAKEMEDELSBEHANDLING_FOREKOMMIT_SVAR_ID:
-                harHaft = getLakemedelsbehandlingForekommit(utlatande, svar);
+                harHaft = getLakemedelsbehandlingForekommit(svar);
                 break;
             case LAKEMEDELSBEHANDLING_PAGAR_SVAR_ID:
-                pagar = getLakemedelsbehandlingPagar(utlatande, svar);
+                pagar = getLakemedelsbehandlingPagar(svar);
                 break;
             case LAKEMEDELSBEHANDLING_AKTUELL_SVAR_ID:
-                aktuell = getLakemedelsbehandlingAktuell(utlatande, svar);
+                aktuell = getLakemedelsbehandlingAktuell(svar);
                 break;
             case LAKEMEDELSBEHANDLING_MER_3_AR_SVAR_ID:
-                pagatt = getLakemedelsbehandlingPagatt(utlatande, svar);
+                pagatt = getLakemedelsbehandlingPagatt(svar);
                 break;
             case LAKEMEDELSBEHANDLING_EFFEKT_SVAR_ID:
-                effekt = getLakemedelsbehandlingEffekt(utlatande, svar);
+                effekt = getLakemedelsbehandlingEffekt(svar);
                 break;
             case LAKEMEDELSBEHANDLING_FOLJSAMHET_SVAR_ID:
-                foljsamhet = getLakemedelsbehandlingFoljsamhet(utlatande, svar);
+                foljsamhet = getLakemedelsbehandlingFoljsamhet(svar);
                 break;
             case LAKEMEDELSBEHANDLING_AVSLUTAD_SVAR_ID:
-                avslutadTidpunkt = getLakemedelsbehandlingAvslutadTidpunkt(utlatande, svar);
-                avslutadOrsak = getLakemedelsbehandlingAvslutadOrsak(utlatande, svar);
+                avslutadTidpunkt = getLakemedelsbehandlingAvslutadTidpunkt(svar);
+                avslutadOrsak = getLakemedelsbehandlingAvslutadOrsak(svar);
                 break;
             case SYMPTOM_BEDOMNING_SVAR_ID:
                 bedomningAvSymptom = getSymptomBedomning(svar.getDelsvar());
@@ -245,35 +289,35 @@ public final class TransportToInternal {
         return diagnosFritext;
     }
 
-    private static Boolean getLakemedelsbehandlingForekommit(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static Boolean getLakemedelsbehandlingForekommit(Svar svar) {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_ID);
     }
 
-    private static Boolean getLakemedelsbehandlingPagar(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static Boolean getLakemedelsbehandlingPagar(Svar svar) {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_ID);
     }
 
-    private static String getLakemedelsbehandlingAktuell(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static String getLakemedelsbehandlingAktuell(Svar svar) {
         return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_ID);
     }
 
-    private static Boolean getLakemedelsbehandlingPagatt(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static Boolean getLakemedelsbehandlingPagatt(Svar svar) {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_ID);
     }
 
-    private static Boolean getLakemedelsbehandlingEffekt(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static Boolean getLakemedelsbehandlingEffekt(Svar svar) {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_ID);
     }
 
-    private static Boolean getLakemedelsbehandlingFoljsamhet(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static Boolean getLakemedelsbehandlingFoljsamhet(Svar svar) {
         return getBooleanValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_ID);
     }
 
-    private static String getLakemedelsbehandlingAvslutadTidpunkt(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static String getLakemedelsbehandlingAvslutadTidpunkt(Svar svar) {
         return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_ID);
     }
 
-    private static String getLakemedelsbehandlingAvslutadOrsak(TsTrk1062UtlatandeV1.Builder utlatande, Svar svar) {
+    private static String getLakemedelsbehandlingAvslutadOrsak(Svar svar) {
         return getStringValue(svar.getDelsvar(), LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_ID);
     }
 
