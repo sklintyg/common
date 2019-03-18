@@ -82,9 +82,24 @@ describe('tstrk1062UtkastConfigFactory', function() {
 
     });
 
-    xdescribe('diagnos', function() {
+    describe('diagnos', function() {
+
+        var initializeDiagnosKodad = function() {
+            var getInitValue = function() {
+                return {
+                    diagnosKodSystem: 'ICD_10_SE',
+                    diagnosKod: undefined,
+                    diagnosBeskrivning: undefined,
+                    diagnosArtal: undefined
+                };
+            };
+
+            $scope.model.diagnosKodad = [getInitValue(), getInitValue(), getInitValue(), getInitValue()];
+        };
 
         it('should show extra fields depending on the selection of "diagnosRegistrering.typ"-option', function() {
+
+            initializeDiagnosKodad();
 
             expect(element.find('#form_diagnosKodad').length).toBe(0);
             expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(0);
