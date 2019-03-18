@@ -119,6 +119,8 @@
   @import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
   @import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
   @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
+  @import 'utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.scss';
+  @import 'utkast/unified-edit/components/ueDiagnosOld/ueDiagnosOld.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.scss';
   @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakRow.scss';
@@ -144,6 +146,8 @@
   @import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
   @import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
   @import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
+  @import 'utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.scss';
+  @import 'utkast/unified-edit/subcomponents/ueDiagnosKodSystem/ueDiagnosKodSystem.scss';
   @import 'utkast/unified-edit/subcomponents/ueLabel/ueLabel.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
   @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';

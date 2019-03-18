@@ -70,6 +70,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                             hideExpression: '!model.onskarFormedlaDiagnos'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
                             diagnosBeskrivningLabel: 'DFR_4.2.RBK',
                             diagnosBeskrivningHelp: 'DFR_4.2.HLP',
                             diagnosKodLabel: 'DFR_4.1.RBK',

@@ -156,6 +156,7 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                         }, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
                             disabledFunc: function(model) {
                                 return ObjectHelper.isEmpty(model.onskarFormedlaDiagnos);
                             },
