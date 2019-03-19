@@ -64,7 +64,7 @@ public class PdfGenerator {
             + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
-    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_adhd_transportstyrelsen_";
+    private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
             ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
