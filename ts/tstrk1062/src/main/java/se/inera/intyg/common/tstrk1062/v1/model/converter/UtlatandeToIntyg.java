@@ -51,7 +51,7 @@ public final class UtlatandeToIntyg {
     }
 
     public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
-        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, true);
+        Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         intyg.setTyp(getTypAvIntyg());
         intyg.getSvar().addAll(getSvar(utlatande));

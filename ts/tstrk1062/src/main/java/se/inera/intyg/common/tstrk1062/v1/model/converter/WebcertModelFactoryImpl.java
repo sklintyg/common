@@ -75,8 +75,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
                 newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
+        resetDataInGrundData(grundData);
         template.setGrundData(grundData);
-        template.setSignature(null);
 
         template.setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)));
 
@@ -101,7 +101,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
         GrundData grundData = tsTrk1062Utlatande.getGrundData();
         if (grundData != null) {
             WebcertModelFactoryUtil.populateGrunddataFromCreateDraftCopyHolder(grundData, copyData);
-            resetDataInCopy(grundData);
+            resetDataInGrundData(grundData);
         }
 
         populateWithId(templateBuilder, copyData.getCertificateId());
@@ -111,7 +111,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsTrk1062Utl
         return templateBuilder.build();
     }
 
-    private void resetDataInCopy(GrundData grundData) {
+    private void resetDataInGrundData(GrundData grundData) {
         Patient patient = new Patient();
         patient.setPersonId(grundData.getPatient().getPersonId());
         grundData.setPatient(patient);

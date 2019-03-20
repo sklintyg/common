@@ -94,7 +94,7 @@ public final class TransportToInternal {
         utlatande.setId(source.getIntygsId().getExtension());
         utlatande.setTextVersion(source.getVersion());
 
-        final GrundData grundData = TransportConverterUtil.getGrundData(source, true);
+        final GrundData grundData = TransportConverterUtil.getGrundData(source, false);
         utlatande.setGrundData(grundData);
 
         final String signature = TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift());

@@ -225,7 +225,7 @@ angular.module('tstrk1062').factory('tstrk1062.viewConfigFactory.v1', [
                 var config = angular.copy(viewConfig);
 
                 if (webcert) {
-                    config = uvUtil.convertToWebcert(config);
+                    config = uvUtil.convertToWebcert(config, true);
                 }
 
                 return config;
