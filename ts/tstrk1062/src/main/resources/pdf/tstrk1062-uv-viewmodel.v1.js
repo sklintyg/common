@@ -150,16 +150,6 @@ var viewConfig = [
             }]
         }, {
             type: 'uv-fraga',
-            labelKey: 'FRG_58.RBK',
-            components: [{
-                type: 'uv-del-fraga',
-                components: [{
-                    type: 'uv-boolean-value',
-                    modelProp: 'lakemedelsbehandling.foljsamhet'
-                }]
-            }]
-        }, {
-            type: 'uv-fraga',
             labelKey: 'FRG_59.RBK',
             components: [{
                 type: 'uv-del-fraga',
@@ -220,7 +210,7 @@ var viewConfig = [
                     return model.selected ? model.type : null;
                 },
                 separator: ', ',
-                modelProp: 'bedomning.uppfyllerBehorighetskrav',
+                modelProp: 'bedomning.uppfyllerBehorighetskrav'
             }]
         }]
     },
