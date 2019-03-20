@@ -31,8 +31,8 @@ angular.module('common').directive('ueCheckgroupTs', [ '$parse',  'ueUtil',
         link: function($scope) {
             ueUtil.standardSetup($scope);
 
-            var md = 'col-md-4';
-            var sm = 'col-sm-2';
+            var md = 'col-md-2';
+            var sm = 'col-sm-4';
 
             if($scope.config.colSize){
                 if($scope.config.colSize.md){
