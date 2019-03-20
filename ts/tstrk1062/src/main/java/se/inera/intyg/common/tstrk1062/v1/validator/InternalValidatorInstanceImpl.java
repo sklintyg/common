@@ -33,7 +33,6 @@ import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
