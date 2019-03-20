@@ -49,11 +49,6 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     public ValidateDraftResponse validateDraft(TsTrk1062UtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
 
-        // Patient validering
-        if (utlatande.getGrundData() != null) {
-            PatientValidator.validate(utlatande.getGrundData().getPatient(), validationMessages);
-        }
-
         // Kategori 1 - Intyget avser
         validateIntygAvser(utlatande.getIntygAvser(), validationMessages);
 
