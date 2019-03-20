@@ -20,21 +20,21 @@ angular.module('tstrk1062').service('tstrk1062.PatientHelperService.v1',
     function() {
         'use strict';
 
-        // PS-004: Show for ts utkast
+        // PS-03
         function _showPatientNameChangedIntegration(isIntyg) {
-            return !isIntyg;
+            return true;
         }
-        // PS-005: Show for signed ts
+        // PS-04
         function _showPatientNameChangedPU(isIntyg) {
-            return isIntyg;
+            return false;
         }
-        // PS-006: Show for signed ts
+        // PS-05
         function _showPatientAddressChangedPU(isIntyg) {
-            return isIntyg;
+            return false;
         }
-        // INTYG-5146: Show for ts utkast
+        // PS-08
         function _showMissingAddressParameter(isIntyg) {
-            return !isIntyg;
+            return false;
         }
 
         return {
