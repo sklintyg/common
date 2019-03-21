@@ -28,7 +28,7 @@ public class TsTrk1062ModelCompareUtil implements ModelCompareUtil<TsTrk1062Utla
 
     @Override
     public boolean isValidForNotification(TsTrk1062UtlatandeV1 utlatande) {
-        // Until someone actually specifies metrics for this, we assume tstrk1062 is always valid for change notifications.
+        //Requirements are under discussion, see UTR-3573
         return true;
     }
 }

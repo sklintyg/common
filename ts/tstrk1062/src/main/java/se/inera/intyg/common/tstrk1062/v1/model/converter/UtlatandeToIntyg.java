@@ -28,10 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
-import com.sun.istack.NotNull;
 
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
@@ -50,7 +48,7 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
+    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         intyg.setTyp(getTypAvIntyg());
@@ -69,7 +67,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(@NotNull TsTrk1062UtlatandeV1 source) {
+    private static List<Svar> getSvar(TsTrk1062UtlatandeV1 source) {
         final List<Svar> svars = new ArrayList<>();
 
         if (source.getIntygAvser() != null && source.getIntygAvser().getBehorigheter() != null) {
@@ -166,6 +164,9 @@ public final class UtlatandeToIntyg {
     private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
         int diagnosKodadInstans = 1;
         for (DiagnosKodad diagnos : diagnosKodad) {
+            if (diagnos.getDiagnosKod() == null) {
+                continue;
+            }
             svars.add(aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, diagnosKodadInstans++)
                     .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
                             aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
