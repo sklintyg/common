@@ -215,7 +215,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 modelProp: 'lakemedelsbehandling.foljsamhet',
                                 paddingBottom: true
                             }]),
-                        fraga(58, 'FRG_59.RBK', '',
+                        fraga(59, 'FRG_59.RBK', '',
                             {
                                 required: true,
                                 hideExpression: '!(model.lakemedelsbehandling.pagar == false)',
@@ -224,17 +224,20 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             [{
                                 type: 'ue-textfield',
                                 modelProp: 'lakemedelsbehandling.avslutadTidpunkt'
+                            }]),
+                        fraga(59, '', '',
+                            {
+                                hideExpression: '!(model.lakemedelsbehandling.pagar == false)'
                             },
-                                {
-                                    type: 'ue-textarea',
-                                    modelProp: 'lakemedelsbehandling.avslutadOrsak',
-                                    label: {
-                                        key: 'DFR_59.2.RBK',
-                                        required: true,
-                                        requiredProp: 'lakemedelsbehandling.avslutadOrsak'
-                                    }
+                            [{
+                                type: 'ue-textarea',
+                                modelProp: 'lakemedelsbehandling.avslutadOrsak',
+                                label: {
+                                    key: 'DFR_59.2.RBK',
+                                    required: true,
+                                    requiredProp: 'lakemedelsbehandling.avslutadOrsak'
                                 }
-                            ])
+                            }])
                     ]),
                     // Symptom (Symptom, funktionshinder och prognos)
                     kategori(categoryIds[5], 'KAT_5.RBK', {}, {}, [
