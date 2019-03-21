@@ -61,6 +61,20 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                     return !isFritext;
                 }
 
+                function requiredDiagnosKodadValue(model) {
+                    var hasValue = true;
+                    if (model.diagnosKodad && model.diagnosKodad.length > 0) {
+                        if (model.diagnosKodad[0].diagnosKod && hasArtal(model.diagnosKodad[0].diagnosArtal)) {
+                            hasValue = false;
+                        }
+                    }
+                    return hasValue;
+                }
+
+                function hasArtal(diagnosArtal) {
+                    return diagnosArtal && diagnosArtal.length === 4;
+                }
+
                 var config = [
 
                     // Intyget avser
@@ -108,7 +122,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                         fraga(51, 'FRG_51.RBK', '', {
                                 required: true,
                                 hideExpression: diagnosRegistreringKodad,
-                                requiredProp: 'diagnosKodad[0].diagnosKod'
+                                requiredProp: requiredDiagnosKodadValue
                             },
                             [{
                                 type: 'ue-diagnos-ar',
@@ -260,7 +274,8 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 type: 'ue-checkgroup-ts',
                                 modelProp: 'bedomning.uppfyllerBehorighetskrav',
                                 labelTemplate: 'KV_KORKORTSBEHORIGHET.{0}.RBK',
-                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav', 'VAR11')
+                                watcher: ueTSFactoryTemplates.getBedomningListenerConfig('uppfyllerBehorighetskrav',
+                                    'VAR11')
                             }])
                     ]),
 
