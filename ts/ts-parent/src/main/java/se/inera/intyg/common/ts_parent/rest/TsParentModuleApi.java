@@ -23,12 +23,14 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DE
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
 
@@ -299,8 +301,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        final JAXBElement<RevokeCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
-        final RevokeCertificateType request = el.getValue();
+        final RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
