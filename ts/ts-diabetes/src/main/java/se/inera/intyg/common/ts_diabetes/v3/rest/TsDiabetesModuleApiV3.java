@@ -23,6 +23,7 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 
 
+import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +31,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.slf4j.Logger;
@@ -53,7 +54,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal;
@@ -100,8 +100,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
         if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
             throw new ModuleException("Request does not contain the original xml");
         }
-        JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
-        RegisterCertificateType request = el.getValue();
+        RegisterCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class);
 
         try {
             RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
@@ -121,8 +120,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     @Override
     public Utlatande getUtlatandeFromXml(String xml) throws ModuleException {
         try {
-            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
-            return transportToInternal(el.getValue().getIntyg());
+            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);

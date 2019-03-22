@@ -36,6 +36,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
 
+import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -197,8 +198,8 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         AttributedURIType uri = new AttributedURIType();
         uri.setValue(logicalAddress);
 
-        JAXBElement<RevokeMedicalCertificateRequestType> el = XmlMarshallerHelper.unmarshal(xmlBody);
-        RevokeMedicalCertificateRequestType request = el.getValue();
+        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
+                RevokeMedicalCertificateRequestType.class);
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -224,7 +225,6 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         try {
             RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
                     RegisterTSDiabetesType.class);
-            //JAXBElement<RegisterTSDiabetesType> el = XmlMarshallerHelper.unmarshal(xml);
             return TransportToInternalConverter.convert(jaxbObject.getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
