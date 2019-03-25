@@ -141,11 +141,15 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             required: true,
                             hideExpression: diagnosRegistreringFritext,
                             requiredProp: 'diagnosFritext.diagnosFritext'
-                        }, [{
-                            type: 'ue-textarea',
-                            modelProp: 'diagnosFritext.diagnosFritext'
-                        },
+                            }, [{
+                                type: 'ue-textarea',
+                                modelProp: 'diagnosFritext.diagnosFritext'
+                            }]),
+                        fraga(52, '', '',
                             {
+                                hideExpression: diagnosRegistreringFritext
+                            },
+                            [{
                                 type: 'ue-year-picker',
                                 modelProp: 'diagnosFritext.diagnosArtal',
                                 maxYear: thisYear,
@@ -154,8 +158,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                     required: true,
                                     requiredProp: 'diagnosFritext.diagnosArtal'
                                 }
-                            }
-                        ])
+                            }])
                     ]),
 
                     // Lakemedelsbehandling
