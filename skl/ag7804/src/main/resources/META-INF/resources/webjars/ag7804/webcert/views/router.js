@@ -34,65 +34,62 @@ angular.module('ag7804').config(function($stateProvider) {
         return factoryResolverHelper.resolve('ag7804.viewConfigFactory', $stateParams);
     };
     $stateProvider.
-        state('ag7804-edit', {
+        state('ag7804', {
+            url: '/ag7804'
+        }).
+        state('ag7804.utkast', {
             data: { defaultActive : 'index', intygType: 'ag7804', useFmb: false },
-            url : '/ag7804/:intygTypeVersion/edit/:certificateId/:focusOn',
-                views : {
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory'
+            },
+            views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@ag7804-edit' : {
+                'header@ag7804.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@ag7804-edit' : {
+                'footer@ag7804.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@ag7804-edit' : {
+                'utkast@ag7804.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
-                 }
+                    controller: 'smi.EditCert.UECtrl'
+                }
             }
         }).state('webcert.intyg.ag7804', {
             data: { defaultActive : 'index', intygType: 'ag7804' },
             url:'/intyg/ag7804/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            resolve: {
+                ViewState: 'ag7804.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory',
+                IntygViewState: 'ag7804.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'ag7804.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'ag7804.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.ag7804' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'ag7804.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

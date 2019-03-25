@@ -185,7 +185,8 @@ public class InternalValidatorInstance {
         }
         if (bedomning.getKorkortstyp().isEmpty()
                 && (bedomning.getKanInteTaStallning() == null || ValidatorUtil.isNotNullFalse(bedomning.getKanInteTaStallning()))) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning", ValidationMessageType.EMPTY);
+            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning", ValidationMessageType.EMPTY,
+                    "common.validation.b-04");
         }
 
         if (context.isHogreBehorighetContext()) {

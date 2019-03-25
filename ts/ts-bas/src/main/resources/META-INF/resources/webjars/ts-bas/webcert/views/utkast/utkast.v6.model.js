@@ -32,7 +32,7 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
             });
 
             return {
-                korkortstyp: tsBaseHelper.setupKorkortstypChoices(korkortstyp, 'KAN_INTE_TA_STALLNING'),
+                korkortstyp: tsBaseHelper.setupKorkortstypChoices(korkortstyp, ['KAN_INTE_TA_STALLNING']),
                 lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
             };
         };

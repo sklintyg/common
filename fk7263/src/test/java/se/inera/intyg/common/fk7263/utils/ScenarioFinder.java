@@ -23,13 +23,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 
+import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -158,7 +160,10 @@ public class ScenarioFinder {
         @Override
         public RegisterMedicalCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), TRANSPORT_MODEL_PATH), RegisterMedicalCertificateType.class);
+                JAXBElement<RegisterMedicalCertificateType> rct =
+                        XmlMarshallerHelper.unmarshal(
+                                getTransportModelFor(getName(), TRANSPORT_MODEL_PATH));
+                return rct.getValue();
             } catch (Exception e) {
                 throw new ScenarioNotFoundException(getName(), "transport", e);
             }
@@ -170,7 +175,10 @@ public class ScenarioFinder {
         @Override
         public RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException {
             try {
-                return JAXB.unmarshal(getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH), RegisterCertificateType.class);
+                JAXBElement<RegisterCertificateType> rct =
+                        XmlMarshallerHelper.unmarshal(
+                                getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH));
+                return rct.getValue();
             } catch (Exception e) {
                 throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
             }
@@ -191,17 +199,21 @@ public class ScenarioFinder {
 
     }
 
-    private static File getTransportModelFor(String name, String path) throws IOException {
+    private static String model(String location) throws IOException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(path + name + TRANSPORT_MODEL_EXT).getFile();
-        context.close();
-        return retFile;
+        try {
+            Resource resource = context.getResource(location);
+            return IOUtils.toString(resource.getInputStream());
+        } finally {
+            context.close();
+        }
     }
 
-    private static File getInternalModelFor(String name) throws IOException {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
-        File retFile = context.getResource(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT).getFile();
-        context.close();
-        return retFile;
+    private static String getTransportModelFor(String name, String path) throws IOException {
+        return model(path + name + TRANSPORT_MODEL_EXT);
+    }
+
+    private static String getInternalModelFor(String name) throws IOException {
+        return model(INTERNAL_MODEL_PATH + name + INTERNAL_MODEL_EXT);
     }
 }

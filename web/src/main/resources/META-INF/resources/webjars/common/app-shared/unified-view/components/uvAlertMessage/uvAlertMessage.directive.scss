@@ -9,7 +9,21 @@ uv-alert-message {
     padding: 8px 9px 7px 38px;
     width: 100%;
 
-    /* see styling for wc-alert-message when fixing uv-alert-message styling in the future */
-  }
+    .alert-icon {
+      .material-icons, .icon-wc-ikon-alert02 {
+        position: absolute;
+        top: 5px;
+        left: 6px;
+      }
+    }
 
+    a:hover {
+      color: $wc-color-07;
+    }
+
+    &.alert-komplettering {
+      background-color: $wc-color-02;
+      color: $wc-color-05;
+    }
+  }
 }

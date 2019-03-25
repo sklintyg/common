@@ -92,8 +92,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtl
 
             final String validationField = TERMINAL_DODSORSAK_JSON_ID + "." + DODSORSAK_DATUM_JSON_ID;
 
-            if (ValidatorUtil.validateDate(utlatande.getTerminalDodsorsak().getDatum(),
-                    validationMessages, "utlatandeOrsak", validationField, null)) {
+            if (ValidatorUtil.validateDateAndCheckIfFuture(utlatande.getTerminalDodsorsak().getDatum(),
+                    validationMessages, "utlatandeOrsak", validationField, "common.validation.date.today.or.earlier")) {
 
                 if (ValidatorUtil.isNotNullTrue(utlatande.getDodsdatumSakert())
                         // R22-1 - får inte infalla efter dödsdatum, om dödsdatumet är säkert.

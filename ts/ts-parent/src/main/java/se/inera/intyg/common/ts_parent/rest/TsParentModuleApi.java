@@ -22,16 +22,15 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
+
 import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.xml.bind.JAXB;
+import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
 
 import org.slf4j.Logger;
@@ -70,6 +69,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
@@ -295,13 +295,14 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
         return types.stream()
                 .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-                .map(IntygAvserKod::name)
+                .map(IntygAvserKod::getDescription)
                 .collect(Collectors.joining(", "));
     }
 
     @Override
     public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
-        RevokeCertificateType request = JAXB.unmarshal(new StringReader(xmlBody), RevokeCertificateType.class);
+        final JAXBElement<RevokeCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        final RevokeCertificateType request = el.getValue();
         RevokeCertificateResponseType response = revokeCertificateClient.revokeCertificate(logicalAddress, request);
         if (!response.getResult().getResultCode().equals(ResultCodeType.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -313,9 +314,11 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     @Override
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
-            StringWriter writer = new StringWriter();
-            JAXB.marshal(InternalToRevoke.convert(utlatande, skapatAv, meddelande), writer);
-            return writer.toString();
+            final RevokeCertificateType revoke = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
+            final JAXBElement<RevokeCertificateType> el =
+                    new se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.ObjectFactory()
+                            .createRevokeCertificate(revoke);
+            return XmlMarshallerHelper.marshal(el);
         } catch (ConverterException e) {
             throw new ModuleException(e.getMessage());
         }

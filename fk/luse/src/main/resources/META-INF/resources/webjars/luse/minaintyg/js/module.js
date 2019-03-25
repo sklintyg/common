@@ -24,28 +24,18 @@ angular.module('luse').config(function($stateProvider) {
     $stateProvider.
         state('luse-view', {
             url :'/luse/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/luse/minaintyg/views/view-cert.html',
-            controller: 'luse.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luse.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luse-fel', {
-            url : '/luse/fel/:errorCode',
-            templateUrl: '/web/webjars/luse/minaintyg/views/error.html',
-            controller: 'luse.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('luse-visafel', {
-            url :'/luse/visafel/:errorCode',
-            templateUrl: '/web/webjars/luse/minaintyg/views/error.html',
-            controller: 'luse.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
         });
 });
 

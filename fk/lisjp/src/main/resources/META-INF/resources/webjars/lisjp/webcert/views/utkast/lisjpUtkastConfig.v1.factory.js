@@ -158,6 +158,9 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
+                            notifyFmb: true,
+                            notifySrs: false,
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
                             diagnosKodLabel: 'DFR_6.2.RBK',
@@ -224,20 +227,21 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                             ]
                         }]),
                         fraga(null, '', '', { hideExpression: function(scope) {
-                            var hide = true;
-                            var warnings = scope.validation.warningMessagesByField;
-                            if (warnings) {
-                                angular.forEach(warnings.sjukskrivningar, function(w) {
-                                    if (w.message ===
-                                        'lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum') {
-                                        hide = false;
-                                    }
-                                });
-                            }
+                            var foundEarlyDate = false;
+                            angular.forEach(scope.model.sjukskrivningar, function(item, key) {
+                                if (item.period &&
+                                    DateUtils.isDate(item.period.from) &&
+                                    DateUtils.isDate(item.period.tom) &&
+                                    DateUtils.olderThanAWeek(DateUtils.toMoment(item.period.from))) {
+                                    foundEarlyDate = true;
+                                }
+                            });
+
                             if (isLocked && !scope.model.motiveringTillTidigtStartdatumForSjukskrivning) {
-                                hide = true;
+                                return true;
+                            } else {
+                                return !foundEarlyDate;
                             }
-                            return hide;
                         } }, [ {
                             type: 'ue-textarea',
                             label: {

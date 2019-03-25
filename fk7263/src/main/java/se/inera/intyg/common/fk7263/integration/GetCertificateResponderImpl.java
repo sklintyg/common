@@ -18,15 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import java.io.StringReader;
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.dom.DOMResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,13 +31,13 @@ import se.inera.ifv.insuranceprocess.healthreporting.getcertificate.rivtabp20.v1
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.CertificateType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
-import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -56,17 +49,8 @@ public class GetCertificateResponderImpl implements
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
-    private JAXBContext jaxbContext;
-    private ObjectFactory objectFactory;
-
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
-
-    @PostConstruct
-    public void initializeJaxbContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
-        objectFactory = new ObjectFactory();
-    }
 
     @Override
     public GetCertificateResponseType getCertificate(AttributedURIType logicalAddress, GetCertificateRequestType request) {
@@ -108,25 +92,13 @@ public class GetCertificateResponderImpl implements
 
     protected void attachCertificateDocument(CertificateHolder certificate, GetCertificateResponseType response) {
         try {
-
-            // Create the Document
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.newDocument();
-
-            RegisterMedicalCertificateType registerMedicalCertificate = JAXB.unmarshal(
-                    new StringReader(certificate.getOriginalCertificate()),
-                    RegisterMedicalCertificateType.class);
-            JAXBElement<RegisterMedicalCertificateType> registerMedicalCertificateElement = objectFactory
-                    .createRegisterMedicalCertificate(registerMedicalCertificate);
-
-            // Marshal the Object to a Document
-            Marshaller marshaller = jaxbContext.createMarshaller();
-            marshaller.marshal(registerMedicalCertificateElement, document);
+            JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(
+                    certificate.getOriginalCertificate());
+            DOMResult domResult = new DOMResult();
+            XmlMarshallerHelper.marshaller().marshal(el, domResult);
             CertificateType certificateType = new CertificateType();
-            certificateType.getAny().add(document.getDocumentElement());
+            certificateType.getAny().add(((Document) domResult.getNode()).getDocumentElement());
             response.setCertificate(certificateType);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

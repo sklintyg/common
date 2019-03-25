@@ -24,20 +24,17 @@ angular.module('ts-diabetes').config(function($stateProvider) {
     $stateProvider.
         state('ts-diabetes-view', {
             url :'/ts-diabetes/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/view-cert.html',
-            controller: 'ts-diabetes.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-diabetes.viewFactory', $stateParams);
                 }
             },
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('ts-diabetes-visafel', {
-            url :'/ts-diabetes/visafel/:errorCode',
-            templateUrl: '/web/webjars/ts-diabetes/minaintyg/views/error.html',
-            controller: 'ts-diabetes.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

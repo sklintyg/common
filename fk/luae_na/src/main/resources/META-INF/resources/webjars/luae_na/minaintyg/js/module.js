@@ -24,28 +24,18 @@ angular.module('luae_na').config(function($stateProvider) {
     $stateProvider.
         state('luae_na-view', {
             url :'/luae_na/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/view-cert.html',
-            controller: 'luae_na.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('luae_na.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_na.viewFactory', $stateParams);
                 }
             },
             data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg'] }
-        }).
-        state('luae_na-fel', {
-            url : '/luae_na/fel/:errorCode',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/error.html',
-            controller: 'luae_na.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('luae_na-visafel', {
-            url :'/luae_na/visafel/:errorCode',
-            templateUrl: '/web/webjars/luae_na/minaintyg/views/error.html',
-            controller: 'luae_na.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
         });
 });
 

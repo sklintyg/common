@@ -23,32 +23,20 @@ angular.module('af00251').config(function($stateProvider) {
 
     $stateProvider.state('af00251-view', {
         url: '/af00251/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/af00251/minaintyg/views/view-cert.html',
-        controller: 'af00251.ViewCertCtrl',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
               return factoryResolverHelper.resolve('af00251.viewConfigFactory', $stateParams);
-          }
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('af00251.viewFactory', $stateParams);
+            }
         },
         data: {
             title: 'Läkarintyg för deltagare i arbetsmarknadspolitiska program',
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
-        }
-    }).state('af00251-fel', {
-        url: '/af00251/fel/:errorCode',
-        templateUrl: '/web/webjars/af00251/minaintyg/views/error.html',
-        controller: 'af00251.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('af00251-visafel', {
-        url: '/af00251/visafel/:errorCode',
-        templateUrl: '/web/webjars/af00251/minaintyg/views/error.html',
-        controller: 'af00251.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
         }
     });
 });

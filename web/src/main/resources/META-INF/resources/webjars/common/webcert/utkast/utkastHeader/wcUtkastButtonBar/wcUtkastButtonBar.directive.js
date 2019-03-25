@@ -71,22 +71,32 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                                 $window.history.back();
                             });
                         };
-                        UtkastProxy.discardUtkast($stateParams.certificateId, CommonViewState.intyg.type, $scope.viewState.draftModel.version, function() {
-                            dialogModel.acceptprogressdone = true;
+
+                        function afterDelete() {
                             statService.refreshStat(); // Update statistics to reflect change
 
                             if (!authorityService.isAuthorityActive({authority: 'NAVIGERING'})) {
-                                CommonViewState.deleted = true;
-                                CommonViewState.error.activeErrorMessageKey = 'error';
-                                draftDeleteDialog.close();
+                                if (CommonViewState.isCreatedFromIntygInSession()) {
+                                    CommonViewState.clearUtkastCreatedFrom();
+                                    draftDeleteDialog.close({direct:back});
+                                } else {
+                                    CommonViewState.deleted = true;
+                                    CommonViewState.error.activeErrorMessageKey = 'error';
+                                    draftDeleteDialog.close();
+                                }
                             } else {
                                 draftDeleteDialog.close({direct:back});
                             }
+                        }
+
+                        UtkastProxy.discardUtkast($stateParams.certificateId, CommonViewState.intyg.type, $scope.viewState.draftModel.version, function() {
+                            dialogModel.acceptprogressdone = true;
+
+                            afterDelete();
                         }, function(error) {
                             dialogModel.acceptprogressdone = true;
                             if (error.errorCode === 'DATA_NOT_FOUND') { // Godtagbart, intyget var redan borta.
-                                statService.refreshStat(); // Update statistics to reflect change
-                                draftDeleteDialog.close({direct:back});
+                                afterDelete();
                             } else if (error.errorCode === 'CONCURRENT_MODIFICATION') {
                                 dialogModel.showerror = true;
                                 var errorMessageId = 'common.error.discard.concurrent_modification';

@@ -23,32 +23,20 @@ angular.module('af00213').config(function($stateProvider) {
 
     $stateProvider.state('af00213-view', {
         url: '/af00213/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/view-cert.html',
-        controller: 'af00213.ViewCertCtrl',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
               return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
-          }
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('af00213.viewFactory', $stateParams);
+            }
         },
         data: {
             title: 'Läkarintyg för sjukpenning',
             keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']
-        }
-    }).state('af00213-fel', {
-        url: '/af00213/fel/:errorCode',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/error.html',
-        controller: 'af00213.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('af00213-visafel', {
-        url: '/af00213/visafel/:errorCode',
-        templateUrl: '/web/webjars/af00213/minaintyg/views/error.html',
-        controller: 'af00213.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
         }
     });
 });

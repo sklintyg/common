@@ -130,45 +130,46 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v2',
                             required: true,
                             requiredProp: ['diabetes.endastKost', 'diabetes.tabletter', 'diabetes.insulin',
                                 'diabetes.annanBehandlingBeskrivning']
-                        }, [{
-                            type: 'ue-checkbox',
-                            modelProp: 'diabetes.endastKost',
-                            label: {
-                                key: 'DFR_19.1.RBK'
-                            },
-                            paddingBottom: true
-                        }, {
-                            type: 'ue-checkbox',
-                            modelProp: 'diabetes.tabletter',
-                            label: {
-                                key: 'DFR_19.2.RBK'
-                            },
-                            paddingBottom: true
-                        }, {
-                            type: 'ue-checkbox',
-                            modelProp: 'diabetes.insulin',
-                            label: {
-                                key: 'DFR_19.3.RBK'
-                            },
-                            paddingBottom: true
-                        }, {
-                            type: 'ue-year',
-                            modelProp: 'diabetes.insulinBehandlingsperiod',
-                            hideExpression: '!model.diabetes.insulin',
-                            label: {
-                                key: 'DFR_19.4.RBK',
-                                required: true,
-                                requiredProp: 'diabetes.insulinBehandlingsperiod'
-                            },
-                            paddingBottom: true
-                        }, {
-                            type: 'ue-textfield',
-                            modelProp: 'diabetes.annanBehandlingBeskrivning',
-                            htmlMaxlength: '53',
-                            label: {
-                                key: 'DFR_19.5.RBK'
-                            }
-                        }])
+                            }, [ {
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [ [ {
+                                    type: 'ue-checkbox',
+                                    modelProp: 'diabetes.endastKost',
+                                    label: {
+                                        key: 'DFR_19.1.RBK'
+                                    }
+                                } ], [ {
+                                    type: 'ue-checkbox',
+                                    modelProp: 'diabetes.tabletter',
+                                    label: {
+                                        key: 'DFR_19.2.RBK'
+                                    }
+                                } ], [ {
+                                    type: 'ue-checkbox',
+                                    modelProp: 'diabetes.insulin',
+                                    label: {
+                                        key: 'DFR_19.3.RBK'
+                                    }
+                                } ], [ {
+                                    type: 'ue-year',
+                                    modelProp: 'diabetes.insulinBehandlingsperiod',
+                                    hideExpression: '!model.diabetes.insulin',
+                                    label: {
+                                        key: 'DFR_19.4.RBK',
+                                        required: true,
+                                        requiredProp: 'diabetes.insulinBehandlingsperiod'
+                                    }
+                                } ], [ {
+                                    type: 'ue-textfield',
+                                    modelProp: 'diabetes.annanBehandlingBeskrivning',
+                                    htmlMaxlength: '53',
+                                    label: {
+                                        key: 'DFR_19.5.RBK'
+                                    }
+                                } ] ]
+                            } ])
+
                     ]),
 
                     // 2. Hypoglykemier
@@ -306,6 +307,7 @@ angular.module('ts-diabetes').factory('ts-diabetes.UtkastConfigFactory.v2',
                                 },
                                     {
                                         type: 'ue-grid',
+                                        independentRowValidation: true,
                                         components: [
                                             // Row 1
                                             [{}, {

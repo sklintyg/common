@@ -24,28 +24,24 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import java.io.StringReader;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.ws.soap.SOAPFaultException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -55,10 +51,8 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
-import se.inera.intyg.common.ts_parent.integration.SendTSClient;
-import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.common.tstrk1009.v1.model.converter.InternalToTransport;
@@ -68,6 +62,12 @@ import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.common.tstrk1009.v1.pdf.PdfGenerator;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 /**
  * The contract between the certificate module and the generic components (Intygstjänsten, Mina-Intyg & Webcert).
@@ -77,36 +77,8 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
     private static final Logger LOG = LoggerFactory.getLogger(Tstrk1009UtlatandeV1.class);
 
-    @Autowired(required = false)
-    @Qualifier("sendTSClientFactory")
-    private SendTSClientFactory sendTSClientFactory;
-
-    @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerFactory")
-    private XslTransformerFactory xslTransformerFactory;
-
-    @Autowired(required = false)
-    @Qualifier("tsBasRegisterCertificateVersion")
-    private String registerCertificateVersion;
-
-    private SendTSClient sendTsClient;
-
     public Tstrk1009ModuleApiV1() {
         super(Tstrk1009UtlatandeV1.class);
-    }
-
-    @PostConstruct
-    public void init() {
-
-        if (registerCertificateVersion == null) {
-            registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
-        }
-
-        if (sendTSClientFactory != null) {
-            sendTsClient = sendTSClientFactory.get(registerCertificateVersion);
-        } else {
-            LOG.debug("SendTSClientFactory is not injected. RegisterCertificate messages cannot be sent to recipient");
-        }
     }
 
     @Override
@@ -127,32 +99,36 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
     @Override
     public void sendCertificateToRecipient(String xmlBody, String logicalAddress, String recipientId) throws ModuleException {
+        if (xmlBody == null || Strings.isNullOrEmpty(logicalAddress)) {
+            throw new ModuleException("Request does not contain the original xml");
+        }
+        JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+        RegisterCertificateType request = el.getValue();
+
         try {
-            SOAPMessage response = sendTsClient.registerCertificate(xmlBody, logicalAddress);
-            SOAPEnvelope contents = response.getSOAPPart().getEnvelope();
-            if (contents.getBody().hasFault()) {
-                throw new ExternalServiceCallException(contents.getBody().getFault().getTextContent());
+            RegisterCertificateResponseType response = registerCertificateResponderInterface.registerCertificate(logicalAddress, request);
+
+            if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
+                String message = response.getResult().getResultText();
+                LOG.error("Error occured when sending certificate '{}': {}",
+                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                        message);
+                throw new ExternalServiceCallException(message);
             }
-        } catch (Exception e) {
-            LOG.error("Error in sendCertificateToRecipient with msg: {}", e.getMessage());
-            throw new ModuleException("Error in sendCertificateToRecipient.", e);
+        } catch (SOAPFaultException e) {
+            throw new ExternalServiceCallException(e);
         }
     }
 
     @Override
     public Tstrk1009UtlatandeV1 getUtlatandeFromXml(String xmlBody) throws ModuleException {
         try {
-            return transportToInternal(JAXB.unmarshal(new StringReader(xmlBody), RegisterCertificateType.class).getIntyg());
+            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xmlBody);
+            return transportToInternal(el.getValue().getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
-    }
-
-    @Override
-    // INTYG-7449, INTYG-7529: Saved patient data should not be overwritten for this intyg.
-    public String updateBeforeViewing(String internalModel, Patient patient) {
-        return internalModel;
     }
 
     @Override
@@ -212,7 +188,7 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
         return types.stream()
                 .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
-                .map(Korkortsbehorighet::name)
+                .map(Korkortsbehorighet::getValue)
                 .collect(Collectors.joining(", "));
     }
 }

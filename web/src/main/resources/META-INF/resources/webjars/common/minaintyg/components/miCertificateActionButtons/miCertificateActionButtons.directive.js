@@ -25,9 +25,10 @@ angular.module('common').directive('miCertificateActionButtons',
                 restrict: 'E',
                 scope: {
                     certModel: '=', // certificate model
-                    onSend: '&?', // handler for send button. if attribute not present = not enabled
+                    onSend: '&?', // handler for send button.
                     enableArchive: '=', // handler for send button. if attribute not present = not enabled
                     enablePrint: '=', // true/false to show print as pdf button
+                    enableSend: '=', // true/false to show send button
                     enableCustomize: '=', // boolean, if customize button should be enabled or not
                     onCustomizePdf: '&?',  // handler for customize pdf  button.
                     isReplaced: '=' // boolean for telling us whether the cert is replaced or not.

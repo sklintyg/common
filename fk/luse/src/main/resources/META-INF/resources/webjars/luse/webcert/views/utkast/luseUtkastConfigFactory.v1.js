@@ -222,6 +222,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
                             diagnosKodLabel: 'DFR_6.2.RBK',
@@ -404,7 +405,7 @@ angular.module('luse').factory('luse.UtkastConfigFactory.v1',
                             modelProp: 'avslutadBehandling',
                             label: { key: 'DFR_18.1.RBK', helpKey: 'DFR_18.1.HLP' }
                         }]),
-                        fraga(18, 'FRG_19.RBK', 'FRG_19.HLP', { }, [{
+                        fraga(19, 'FRG_19.RBK', 'FRG_19.HLP', { }, [{
                             type: 'ue-textarea',
                             modelProp: 'pagaendeBehandling',
                             label: { key: 'DFR_19.1.RBK', helpKey: 'DFR_19.1.HLP' }

@@ -212,6 +212,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            defaultKodSystem: 'ICD_10_SE',
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
                             diagnosKodLabel: 'DFR_6.2.RBK',
@@ -239,7 +240,7 @@ angular.module('luae_fs').factory('luae_fs.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[6], 'KAT_6.RBK', 'KAT_6.HLP', { }, [
-                        fraga(25, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
+                        fraga(26, 'FRG_26.RBK', 'FRG_26.HLP', { }, [{
                             type: 'ue-checkbox',
                             modelProp: 'kontaktMedFk',
                             label: {

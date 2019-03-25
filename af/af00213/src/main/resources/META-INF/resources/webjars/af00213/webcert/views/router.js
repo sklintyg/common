@@ -34,65 +34,65 @@ angular.module('af00213').config(function($stateProvider) {
     };
 
     $stateProvider.
-        state('af00213-edit', {
+        state('af00213', {
+            url: '/af00213'
+        }).
+        state('af00213.utkast', {
             data: { defaultActive : 'index', intygType: 'af00213', useFmb: false },
-            url : '/af00213/:intygTypeVersion/edit/:certificateId/:focusOn',
-                views : {
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
+            },
+            views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@af00213-edit' : {
+                'header@af00213.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@af00213-edit' : {
+                'footer@af00213.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@af00213-edit' : {
+                'utkast@af00213.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                  }
             }
         }).state('webcert.intyg.af00213', {
             data: { defaultActive : 'index', intygType: 'af00213' },
             url:'/intyg/af00213/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'af00213.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory',
+                IntygViewState: 'af00213.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'af00213.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.af00213' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'af00213.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

@@ -35,12 +35,16 @@ angular.module('common').factory('common.DateUtilsService', ['common.ObjectHelpe
     function _parseDayCodes(input) {
         if (input && typeof input === 'string') {
             var result = dayCodeReg.exec(input);
-            if (result && result.length>0) {
+            if (result && result.length > 0) {
                 return parseInt(result[1], 10);
             }
             result = weekCodeReg.exec(input);
-            if (result && result.length>0) {
+            if (result && result.length > 0) {
                 return parseInt(result[1], 10) * 7;
+            }
+            var months = _parseMonthCode(input);
+            if(months){
+                return months * 31;
             }
         }
         return null;

@@ -9,10 +9,12 @@ grunt {
 }
 
 node {
-    version = '10.10.0'
+    version = "${nodeJsVersion}"
+    npmVersion = "${npmVersion}"
     download = true
     distBaseUrl = 'https://build-inera.nordicmedtest.se/node/'
-    workDir = rootProject.projectDir
+    workDir = file("${rootProject.projectDir}/.gradle/nodejs")
+    npmWorkDir = file("${rootProject.projectDir}/.gradle/npm")
     nodeModulesDir = rootProject.projectDir
 }
 

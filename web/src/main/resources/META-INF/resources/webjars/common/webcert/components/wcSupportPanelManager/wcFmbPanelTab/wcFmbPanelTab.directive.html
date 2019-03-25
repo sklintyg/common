@@ -3,15 +3,21 @@
 </div>
 
 <div class="fmb-diagnos-row" ng-class="{'has-diagnose' : !vm.noDataMessage.warning && !vm.noDataMessage.incorrectKodverk}">
-  <span ng-repeat="d in getDiagnoses()" class="fmb-diagnos-description">
+  <span ng-repeat="d in fmb.diagnoses" class="fmb-diagnos-description">
    <wc-radio-wrapper>
-        <input type="radio" name="fmb-radio-selectors" ng-attr-id="fmb_diagnos_radio_{{d.diagnosKod}}"
+        <input type="radio" name="fmb-radio-selectors" ng-attr-id="fmb_diagnos_radio_{{d.originalDiagnosKod}}"
                ng-disabled="!d.hasInfo" ng-value="d" ng-model="vm.activeDiagnose">
-       <label ng-attr-for="fmb_diagnos_radio_{{d.diagnosKod}}"
+       <label ng-attr-for="fmb_diagnos_radio_{{d.originalDiagnosKod}}"
               ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}">
           <span uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
-                 popover-popup-delay="300" popover-append-to-body="true"
-                popover-placement="top">{{d.diagnosBeskrivning}}</span>
+                popover-popup-delay="300" popover-append-to-body="true"
+                popover-placement="top">
+                <span>{{d.originalDiagnosBeskrivning}}</span> <i class="material-icons md-18 diagnosinfo"
+                   ng-if="d.diagnosKod !== d.originalDiagnosKod && d.hasInfo"
+                   uib-popover="Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}."
+                   popover-popup-delay="300" popover-append-to-body="true"
+                  popover-placement="top">info_outline</i>
+          </span>
         </label>
   </wc-radio-wrapper>
   </span>
@@ -21,13 +27,6 @@
 <wc-support-panel-scrollable-body dom-id="fmb-panel-scrollable-body">
 
   <span ng-if="vm.activeDiagnose">
-
-     <wc-alert-message alert-message-id="fmb-not-original-diagnose-for-{{vm.activeDiagnose.diagnosKod}}"
-                       alert-severity="info"
-                       ng-if="vm.activeDiagnose.diagnosKod !== vm.activeDiagnose.originalDiagnosKod">
-      Det FMB-stöd som visas är för koden {{vm.activeDiagnose.diagnosKod}} - {{vm.activeDiagnose.diagnosBeskrivning}}.
-    </wc-alert-message>
-
     <div ng-repeat="section in vm.sections" class="fmb-section">
 
         <h4 class="fmb-section-headline" ng-attr-id="fmb_heading_{{section.heading}}">

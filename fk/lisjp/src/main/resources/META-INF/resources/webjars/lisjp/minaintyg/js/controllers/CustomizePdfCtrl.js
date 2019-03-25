@@ -36,11 +36,11 @@ angular.module('lisjp').controller('lisjp.CustomizePdfCtrl',
                 } else {
 
                     // show error view
-                    $location.path('/lisjp/visafel/certnotfound');
+                    $location.path('/fel/certnotfound');
                 }
             }, function() {
                 $log.debug('got error');
-                $location.path('/lisjp/visafel/certnotfound');
+                $location.path('/fel/certnotfound');
             });
 
             var dialogInstance;

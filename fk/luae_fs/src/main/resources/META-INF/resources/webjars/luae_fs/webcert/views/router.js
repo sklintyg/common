@@ -34,87 +34,85 @@ angular.module('luae_fs').config(function($stateProvider) {
     };
 
     $stateProvider.
-        state('luae_fs-edit', {
+        state('luae_fs', {
+            url: '/luae_fs'
+        }).
+        state('luae_fs.utkast', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
-            url : '/luae_fs/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@luae_fs-edit' : {
+                'header@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@luae_fs-edit' : {
+                'footer@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
-                'utkast@luae_fs-edit' : {
+                'utkast@luae_fs.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).
         state('webcert.intyg.luae_fs', {
             data: { defaultActive : 'index', intygType: 'luae_fs' },
             url:'/intyg/luae_fs/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'luae_fs.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory',
+                IntygViewState: 'luae_fs.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luae_fs.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.luae_fs' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luae_fs.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         }).
         state('webcert.fragasvar.luae_fs', {
             data: { defaultActive : 'enhet-arenden', intygType: 'luae_fs'  },
             url: '/fragasvar/luae_fs/:intygTypeVersion/:certificateId',
+            resolve: {
+                ViewState: 'luae_fs.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory',
+                IntygViewState: 'luae_fs.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.fragasvar' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'luae_fs.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'luae_fs.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.fragasvar.luae_fs' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'luae_fs.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

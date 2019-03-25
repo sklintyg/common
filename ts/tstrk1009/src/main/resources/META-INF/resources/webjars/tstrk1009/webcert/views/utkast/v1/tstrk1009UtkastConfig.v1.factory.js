@@ -43,7 +43,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                 var config = [
 
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
-                        fraga(1, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'identitetStyrktGenom.typ'}, [
+                        fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'identitetStyrktGenom.typ'}, [
                             {
                                 type: 'ue-radiogroup',
                                 modelProp: 'identitetStyrktGenom.typ',
@@ -92,7 +92,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                             ['intygetAvserBehorigheter.typer[0].selected', 'intygetAvserBehorigheter.typer[1].selected',
                             'intygetAvserBehorigheter.typer[2].selected', 'intygetAvserBehorigheter.typer[3].selected',
                             'intygetAvserBehorigheter.typer[4].selected', 'intygetAvserBehorigheter.typer[5].selected']}, [
-                        fraga(null, '', '', {}, [{
+                        fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', {}, [{
                             type: 'ue-checkgroup-ts',
                             modelProp: 'intygetAvserBehorigheter.typer',
                             htmlClass: 'no-padding',

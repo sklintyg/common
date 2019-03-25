@@ -18,24 +18,26 @@
  */
 package se.inera.intyg.common.ts_bas.v6.rest;
 
-import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXB;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPMessage;
-import java.io.StringReader;
-import java.util.Arrays;
-import java.util.List;
-
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
+
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBElement;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
 
 import se.inera.intyg.common.services.texts.model.IntygTexts;
@@ -45,19 +47,19 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerFactory;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
+import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_bas.v6.model.converter.InternalToTransport;
 import se.inera.intyg.common.ts_bas.v6.model.converter.TransportToInternal;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
 import se.inera.intyg.common.ts_bas.v6.model.transformer.TsBasTransformerType;
 import se.inera.intyg.common.ts_bas.v6.pdf.PdfGenerator;
-import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.integration.SendTSClient;
 import se.inera.intyg.common.ts_parent.integration.SendTSClientFactory;
 import se.inera.intyg.common.ts_parent.rest.TsParentModuleApi;
@@ -78,9 +80,6 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Qualifier("sendTSClientFactory")
     private SendTSClientFactory sendTSClientFactory;
 
-    @Autowired(required = false)
-    @Qualifier("tsBasXslTransformerFactory")
-    private XslTransformerFactory xslTransformerFactory;
 
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
@@ -145,11 +144,12 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         try {
             String xml = xmlBody;
             if (isRegisterTsBas(xml)) {
-                xml = xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xml);
+                xml = TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xml);
             }
 
-            return transportToInternal(JAXB.unmarshal(new StringReader(xml), RegisterCertificateType.class).getIntyg());
-        } catch (ConverterException e) {
+            JAXBElement<RegisterCertificateType> el = XmlMarshallerHelper.unmarshal(xml);
+            return transportToInternal(el.getValue().getIntyg());
+        } catch (ConverterException | MarshallingFailureException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
             throw new ModuleException("Could not get utlatande from xml", e);
         }
@@ -186,9 +186,9 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         // 'RegisterTsBas' eller 'RegisterCertificate V3'
         if (isRegisterTsBas(xmlBody)) {
             if (shouldTransformToV1()) {
-                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V1).transform(xmlBody);
+                return TsBasTransformerType.TRANSPORT_TO_V1.getTransformer().transform(xmlBody);
             } else if (shouldTransformToV3()) {
-                return xslTransformerFactory.get(TsBasTransformerType.TRANSPORT_TO_V3).transform(xmlBody);
+                return TsBasTransformerType.TRANSPORT_TO_V3.getTransformer().transform(xmlBody);
             } else {
                 String msg = String.format("Error in sendCertificateToRecipient. Cannot decide type of transformer."
                         + "Property registercertificate.version = '%s'", registerCertificateVersion);
@@ -197,7 +197,7 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         } else if (isRegisterCertificateV3(xmlBody)) {
             if (shouldTransformToV1()) {
                 // Here we need to transform from V3 to V1
-                return xslTransformerFactory.get(TsBasTransformerType.V3_TO_V1).transform(xmlBody);
+                return TsBasTransformerType.V3_TO_V1.getTransformer().transform(xmlBody);
             }
         }
 

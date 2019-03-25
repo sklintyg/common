@@ -49,6 +49,7 @@ angular.module('common').service('common.fmbDiagnosInfoModel',
                 this.referenceDescription = formData.referenceDescription;
                 this.referenceLink = formData.referenceLink;
                 this.hasInfo = Object.keys(this.formData).length > 0;
+                this.originalDiagnosBeskrivning = originalDiagnosBeskrivning;
             };
 
             FmbDiagnosInfoModel.prototype.getReference = function() {

@@ -42,10 +42,7 @@ angular.module('ts-diabetes').constant('ts-diabetes.messages', {
         'ts-diabetes.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
 
         'ts-diabetes.label.true': 'JA',
-        'ts-diabetes.label.false': 'NEJ',
-        'ts-diabetes.error.generic': 'Kunde inte visa intyget',
-        'ts-diabetes.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
-
+        'ts-diabetes.label.false': 'NEJ'
     },
     'en': {
         'ts-diabetes.label.pagetitle': 'Show Certificate'

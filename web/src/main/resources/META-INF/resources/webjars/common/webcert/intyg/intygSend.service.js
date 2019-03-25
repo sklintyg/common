@@ -40,7 +40,7 @@ angular.module('common').factory('common.IntygSend',
                 });
             }
 
-            function _send(intygModel, intygId, intygType, recipientId, titleId, sendContentModel, onSuccess) {
+            function _send(intygModel, intygId, intygType, recipientId, sendContentModel, onSuccess) {
 
                 var dialogSendModel ={
                     acceptprogressdone: true,
@@ -53,7 +53,7 @@ angular.module('common').factory('common.IntygSend',
 
                 sendDialog = dialogService.showDialog({
                     dialogId: 'send-dialog',
-                    titleId: titleId,
+                    titleId: intygType + '.label.send',
                     bodyText: sendContentModel && sendContentModel.bodyText,
                     templateUrl: '/web/webjars/common/webcert/intyg/intygSend.dialog.html',
                     model: dialogSendModel,
@@ -65,7 +65,7 @@ angular.module('common').factory('common.IntygSend',
                     button2click: function(modalInstance){
                         sendDialog.close();
                     },
-                    button1text: 'common.send',
+                    button1text: intygType + '.button.send',
                     button1id: 'button1send-dialog',
                     button2text: 'common.cancel',
                     autoClose: false

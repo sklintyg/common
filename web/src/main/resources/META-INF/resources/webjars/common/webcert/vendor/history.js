@@ -58,7 +58,7 @@ angular.module('ui.router.history', [
             if(angular.isDefined(from.data) && angular.isDefined(to.data)) {
 
                 if(!!from.data.intygType && !!to.data.intygType &&
-                    from.name === from.data.intygType + '-edit' && to.name === 'webcert.intyg.' + to.data.intygType) {
+                    from.name === from.data.intygType + '.utkast' && to.name === 'webcert.intyg.' + to.data.intygType) {
                     // We're probably saving a draft, skip adding history
                     return;
                 }

@@ -24,8 +24,16 @@ angular.module('fk7263').config(function($stateProvider) {
     $stateProvider.
         state('fk7263-view', {
             url :'/fk7263/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/view-cert.html',
-            controller: 'fk7263.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: ['fk7263.viewConfigFactory', function(viewConfigFactory) {
+                    return viewConfigFactory;
+                }],
+                viewFactory: ['fk7263.viewFactory', function(viewFactory) {
+                    return viewFactory;
+                }]
+            },
             data : { title: 'Läkarintyg FK7263', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
     }).state('fk7263-customize', {
@@ -81,19 +89,7 @@ angular.module('fk7263').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('fk7263-fel', {
-            url : '/fk7263/fel/:errorCode',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/error.html',
-            controller: 'fk7263.ErrorCtrl',
-            data : { title: 'Fel' }
-        }).
-        state('fk7263-visafel', {
-            url :'/fk7263/visafel/:errorCode',
-            templateUrl: '/web/webjars/fk7263/minaintyg/views/error.html',
-            controller: 'fk7263.ErrorCtrl',
-            data : { title: 'Fel',
-                    backLink: '/web/start' }
-        });
+    });
 });
 
 // Inject language resources

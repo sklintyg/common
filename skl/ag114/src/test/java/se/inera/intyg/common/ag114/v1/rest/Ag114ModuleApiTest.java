@@ -389,7 +389,7 @@ public class Ag114ModuleApiTest {
     @Test
     public void testRevokeCertificate() throws Exception {
         final String logicalAddress = "logicalAddress";
-        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokeResponse.xml");
+        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokerequest.xml");
 
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.okResult());
@@ -401,7 +401,7 @@ public class Ag114ModuleApiTest {
     @Test(expected = ExternalServiceCallException.class)
     public void testRevokeCertificateThrowsExternalServiceCallException() throws Exception {
         final String logicalAddress = "logicalAddress";
-        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokeResponse.xml");
+        String xmlContents = getResourceAsString("v1/Ag114ModuleApiTest/revokerequest.xml");
 
         RevokeCertificateResponseType returnVal = new RevokeCertificateResponseType();
         returnVal.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "resultText"));

@@ -34,11 +34,10 @@ angular.module('ag7804').controller('ag7804.CustomizePdfCtrl',
                 } else {
 
                     // show error view
-                    $location.path('/ag7804/visafel/certnotfound');
+                    $location.path('/fel/certnotfound');
                 }
             }, function() {
-                $log.debug('got error');
-                $location.path('/ag7804/visafel/certnotfound');
+                $location.path('/fel/certnotfound');
             });
 
             var dialogInstance;

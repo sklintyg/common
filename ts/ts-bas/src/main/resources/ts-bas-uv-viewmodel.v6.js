@@ -27,7 +27,6 @@ var viewConfig = [
                 labelKey: 'FRG_1.RBK',
                 components: [{
                     type: 'uv-del-fraga',
-                    labelKey: 'FRG_1.2.RBK',
                     components: [{
                         type: 'uv-list',
                         labelKey: 'KORKORT.{var}.RBK',
@@ -47,6 +46,7 @@ var viewConfig = [
         labelKey: 'KAT_100.RBK',
         components: [{
             type: 'uv-fraga',
+            labelKey: 'FRG_2.RBK',
             components: [{
                 type: 'uv-kodverk-value',
                 kvModelProps: ['vardkontakt.idkontroll'],

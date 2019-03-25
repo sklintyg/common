@@ -23,11 +23,14 @@ angular.module('lisjp').config(function($stateProvider) {
 
     $stateProvider.state('lisjp-view', {
         url: '/lisjp/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/view-cert.html',
-        controller: 'lisjp.ViewCertCtrl',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
         resolve: {
             viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                 return factoryResolverHelper.resolve('lisjp.viewConfigFactory', $stateParams);
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('lisjp.viewFactory', $stateParams);
             }
         },
         data: {
@@ -87,21 +90,6 @@ angular.module('lisjp').config(function($stateProvider) {
             index: 2
         }
 
-    }).state('lisjp-fel', {
-        url: '/lisjp/fel/:errorCode',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/error.html',
-        controller: 'lisjp.ErrorCtrl',
-        data: {
-            title: 'Fel'
-        }
-    }).state('lisjp-visafel', {
-        url: '/lisjp/visafel/:errorCode',
-        templateUrl: '/web/webjars/lisjp/minaintyg/views/error.html',
-        controller: 'lisjp.ErrorCtrl',
-        data: {
-            title: 'Fel',
-            backLink: '/web/start'
-        }
     });
 });
 

@@ -21,20 +21,17 @@ angular.module('tstrk1009').config(function($stateProvider) {
     $stateProvider.
         state('tstrk1009-view', {
             url :'/tstrk1009/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/view-cert.html',
-            controller: 'tstrk1009.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('tstrk1009.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('tstrk1009.viewFactory', $stateParams);
                 }
             },
             data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
                 breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('tstrk1009-visafel', {
-            url :'/tstrk1009/visafel/:errorCode',
-            templateUrl: '/web/webjars/tstrk1009/minaintyg/views/error.html',
-            controller: 'tstrk1009.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

@@ -21,7 +21,7 @@ angular.module('tstrk1009').constant('tstrk1009.messages', {
     'sv': {
         // Labels
 
-        'tstrk1009.label.pageingress': 'Här visas hela ditt läkarintyg. Från den här sidan kan du skicka intyget elektronisk, ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat.',
+        'tstrk1009.label.pageingress': 'Här visas hela ditt intyg. Från den här sidan kan du ladda ned intyget som PDF och arkivera intyget. För medicinska frågor som rör ditt intyg ska du kontakta den som utfärdade ditt intyg, eller den mottagning du besökte när du fick ditt intyg utfärdat. Intyget har redan skickats till Transportstyrelsen via vården.',
         'tstrk1009.label.pageingress.ersatt': 'Här visas hela ditt ersatta läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev ersatt med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
         'tstrk1009.label.pageingress.kompletterat': 'Här visas hela ditt kompletterade läkarintyg. Klicka på länken i den gula inforutan för att komma till det nya intyget som detta blev kompletterat med. Klicka på knappen Arkivera intyg för att flytta intyget till <i>Arkiverade intyg</i>. Du kan när som helst återställa intyget igen.',
 
@@ -42,9 +42,7 @@ angular.module('tstrk1009').constant('tstrk1009.messages', {
         'tstrk1009.label.diabetes.diabetestyp.diabetes_typ_2': 'Typ 2',
 
         'tstrk1009.label.true': 'JA',
-        'tstrk1009.label.false': 'NEJ',
-        'tstrk1009.error.generic': 'Kunde inte visa intyget',
-        'tstrk1009.error.certnotfound': 'Intygen i Inkorgen kunde inte visas. Om felet kvarstår kan du kontakta <a href="/web/start/#/hjalp">support</a>. Om du inte kan komma åt intyget på Mina intyg just nu så kan du kontakta din läkare för att få en kopia.<br><br><a href="/web/start">Gå till Inkorgen och försök igen</a>'
+        'tstrk1009.label.false': 'NEJ'
 
     },
     'en': {

@@ -35,66 +35,66 @@ angular.module('db').config(function($stateProvider) {
     };
 
     $stateProvider.
-        state('db-edit', {
+        state('db', {
+            url: '/db'
+        }).
+        state('db.utkast', {
             data: { defaultActive : 'index', intygType: 'db', useFmb: false },
-            url : '/db/:intygTypeVersion/edit/:certificateId/:focusOn',
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'db.supportPanelConfigFactory'
+            },
             views : {
                 'content@' : {
                     templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig,
-                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.EditCertCtrl'
                 },
 
                 'header@' : {
                     templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
                 },
 
-                'header@db-edit' : {
+                'header@db.utkast' : {
                     templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader',
-                    resolve: {
-                        ViewState: editViewState
-                    }
+                    controller: 'common.UtkastHeader'
                 },
 
-                'footer@db-edit' : {
+                'footer@db.utkast' : {
                     templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
                     controller: 'common.UtkastFooter'
                 },
 
-                'utkast@db-edit' : {
+                'utkast@db.utkast' : {
                     templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl',
-                    resolve: {
-                        ViewState: editViewState,
-                        UtkastConfigFactory: utkastConfig
-                    }
+                    controller: 'smi.EditCert.UECtrl'
                 }
             }
         }).
         state('webcert.intyg.db', {
             data: { defaultActive : 'index', intygType: 'db' },
             url:'/intyg/db/:intygTypeVersion/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'db.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'db.supportPanelConfigFactory',
+                IntygViewState: 'db.IntygController.ViewStateService'
+            },
             views: {
                 'intyg@webcert.intyg' : {
                     templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv',
-                    resolve: {
-                        ViewState: 'db.IntygController.ViewStateService',
-                        ViewConfigFactory: viewConfig,
-                        supportPanelConfigFactory: 'db.supportPanelConfigFactory'
-                    }
+                    controller: 'smi.ViewCertCtrlUv'
                 },
                 'header@webcert.intyg.db' : {
                     templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader',
-                    resolve: {
-                        IntygViewState: 'db.IntygController.ViewStateService'
-                    }
+                    controller: 'common.IntygHeader'
                 }
             }
         });

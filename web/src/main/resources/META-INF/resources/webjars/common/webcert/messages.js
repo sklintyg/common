@@ -364,6 +364,8 @@
             'ts-bas.label.send': 'Skicka intyg till Transportstyrelsen',
             'ts-diabetes.button.send': 'Skicka till Transportstyrelsen',
             'ts-diabetes.label.send': 'Skicka intyg till Transportstyrelsen',
+            'tstrk1062.button.send': 'Skicka till Transportstyrelsen',
+            'tstrk1062.label.send': 'Skicka intyg till Transportstyrelsen',
 
             'af00213.button.send': 'Skicka till Arbetsförmedlingen',
             'af00213.label.send': 'Skicka intyg till Arbetsförmedlingen',
@@ -379,6 +381,7 @@
             // send ts
             'ts-bas.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
             'ts-diabetes.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
+            'tstrk1062.label.send.body': 'Om du går vidare kommer intyget skickas direkt till Transportstyrelsens system vilket ska göras i samråd med patienten.',
 
             // Send w sjukpenning
             'common.label.send.body': sjukpenningText,
@@ -439,6 +442,7 @@
             'luae_fs.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
             'ts-bas.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
             'ts-diabetes.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
+            'tstrk1062.label.status.signed.patient-alive':  'Intyget är signerat.<br><br>Intyget är tillgängligt för patienten i Mina intyg, som nås via <LINK:minaintyg>. Om patienten inte har möjlighet att skicka intyget elektroniskt till ${recipient} kan du skicka intyget direkt till ${recipient} åt patienten. ',
 
             // Status - signed and sent
             'common.label.status.sent.patient-dead': 'Intyget är signerat och har skickats till ${recipient}s system.',
@@ -454,6 +458,7 @@
             'lisjp.label.makulera.confirmation': 'Läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
             'ts-bas.label.makulera.confirmation': 'Transportstyrelsens läkarintyg utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
             'ts-diabetes.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
+            'tstrk1062.label.makulera.confirmation': 'Transportstyrelsens läkarintyg, diabetes, utställd på ${namn} – ${personnummer} är återtaget. Mottagare av intyget är notifierade om detta.',
 
 
             // Validation messages
@@ -495,6 +500,7 @@
             'luae_fs.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'ts-diabetes.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
+            'tstrk1062.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
             'lisjp.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
@@ -527,6 +533,7 @@
             'luae_fs.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-bas.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-diabetes.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
+            'tstrk1062.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'db.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'doi.error_could_not_print_cert_no_pu': '<strong>Det går inte att skriva ut intyget!</strong><br><br>På grund av tekniskt fel går det inte att skriva ut intyget. Försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 
@@ -555,6 +562,7 @@
             'luae_fs.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-bas.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'ts-diabetes.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
+            'tstrk1062.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.<br><br>Patienten kan själv gå in på minaintyg.se för att skriva ut och skicka intyget elektroniskt.',
             'db.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'doi.error_could_not_send_cert_no_pu': '<strong>Det går inte att skicka intyget!</strong><br><br>På grund av tekniskt fel kan du för tillfället inte skicka intyget, försök igen om en liten stund. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
 
@@ -648,8 +656,9 @@
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-99',
-            'common.validation.ue-sjukfranvaro.period.from.empty': 'Ange ett svar.',
-            'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett svar.',
+            'common.validation.ue-sjukfranvaro.period.invalid': 'Ange en datumperiod.',
+            'common.validation.ue-sjukfranvaro.period.from.empty': 'Ange ett datum.',
+            'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett datum.',
             'common.validation.ue-sjukfranvaro.period.from.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.ue-sjukfranvaro.period.tom.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.ue-sjukfranvaro.period.from.period_overlap': 'Frånvaroperioder med överlappande datum har angetts.',
@@ -658,9 +667,7 @@
             'common.validation.ue-sjukfranvaro.period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.ue-grid.empty': 'Ange ett svar.',
 
-
             // Specifika valideringsmeddelande från backend
-
             'common.validation.date.year.not_selected': 'Ange år och månad.',
             'common.validation.date.month.not_selected': 'Ange månad.',
             'common.validation.date-period.invalid_format': 'Felaktigt datumformat.',
@@ -678,7 +685,7 @@
             'common.validation.diagnos.length-3': 'Ange diagnoskod med så många positioner som möjligt, men minst tre positioner.',
             'common.validation.diagnos.psykisk.length-4': 'Ange diagnosrad med minst fyra positioner på en psykisk diagnos.',
             'common.validation.diagnos.description.missing': 'Ange diagnostext.',
-            'common.validation.sjukskrivning_period.empty': 'Ange ett svar.',
+            'common.validation.sjukskrivning_period.empty': 'Ange ett datum.',
             'common.validation.sjukskrivning_period.invalid_format': 'Ange datum i formatet åååå-mm-dd.',
             'common.validation.sjukskrivning_period.incorrect_combination': 'Ange ett slutdatum som infaller efter startdatumet.',
             'common.validation.sjukskrivning_period.period_overlap': 'Ange sjukskrivningsperioder som inte överlappar varandra.',
@@ -697,6 +704,7 @@
             'common.validation.c-05': 'Fyll i den översta raden först.',
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
+            'common.validation.b-04': 'Välj minst ett alternativ.',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',
@@ -801,7 +809,21 @@
             // Approve receivers related resources
             'common.receivers.save.btn': 'Spara',
             'common.receivers.loading.text': 'Hämtar intygsmottagare...',
-            'common.receivers.save.error': 'Kunde inte spara mottagare på grund av ett tekniskt fel. Försök igen och kontakta supporten om problemet kvarstår.'
+            'common.receivers.save.error': 'Kunde inte spara mottagare på grund av ett tekniskt fel. Försök igen och kontakta supporten om problemet kvarstår.',
+
+            // Varning om att skapa intyg som redan finns
+            'db.warn.previouscertificate.samevg': 'Dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsbevis utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsbevis men kan däremot välja att ersätta det befintliga dödsbeviset.',
+            'db.warn.previouscertificate.differentvg': 'Dödsbevis finns för detta personnummer hos annan vårdgivare. Det är inte möjligt att skapa ett nytt dödsbevis.',
+            'db.warn.previousdraft.samevg': 'Utkast på dödsbevis finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'db.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast för dödsbevis på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'db.warn.previousdraft.differentvg': 'Utkast på dödsbevis finns för detta personnummer hos annan vårdgivare. Senast skapade dödsbevis är det som gäller. Om du fortsätter och lämnar in dödsbeviset så blir det därför detta dödsbevis som gäller.',
+            'doi.warn.previouscertificate.samevg': 'Dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.warn.previouscertificate.samevg.differentenhet': 'Det finns ett dödsorsaksintyg utfärdat på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt dödsorsaksintyg men kan däremot välja att ersätta det befintliga dödsorsaksintyget.',
+            'doi.warn.previouscertificate.differentvg': 'Dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.',
+            'doi.warn.previousdraft.samevg': 'Utkast på dödsorsaksintyg finns för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'doi.warn.previousdraft.samevg.differentenhet': 'Det finns ett påbörjat utkast på ${enhetName} för detta personnummer. Du kan inte skapa ett nytt utkast men kan däremot välja att fortsätta med det befintliga utkastet.',
+            'doi.warn.previousdraft.differentvg': 'Utkast på dödsorsaksintyg finns för detta personnummer hos annan vårdgivare. Senast skapade dödsorsaksintyg är det som gäller. Om du fortsätter och lämnar in dödsorsaksintyget så blir det därför detta dödsorsaksintyg som gäller.'
 
         },
         'en': {

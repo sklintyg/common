@@ -24,20 +24,17 @@ angular.module('ts-bas').config(function($stateProvider) {
     $stateProvider.
         state('ts-bas-view', {
             url :'/ts-bas/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/view-cert.html',
-            controller: 'ts-bas.ViewCertCtrl',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
             resolve: {
                 viewConfigFactory: function(factoryResolverHelper, $stateParams) {
                     return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-bas.viewFactory', $stateParams);
                 }
             },
             data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
             breadcrumb: ['inkorg', 'intyg']}
-        }).
-        state('ts-bas-visafel', {
-            url :'/ts-bas/visafel/:errorCode',
-            templateUrl: '/web/webjars/ts-bas/minaintyg/views/error.html',
-            controller: 'ts-bas.ErrorCtrl',
-            data : { title: 'Fel', backLink: '/web/start' }
         });
 });

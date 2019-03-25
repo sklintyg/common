@@ -253,9 +253,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
             // R17 Validate no sjukskrivningperiods overlap
             validateSjukskrivningPeriodOverlap(utlatande, validationMessages);
 
-            // INTYG-3207: Show warning if any period starts earlier than 7 days before now
-            validateSjukskrivningIsTooEarly(utlatande, validationMessages);
-
             // Arbetstidsforlaggning R13, R14, R15, R16
             if (isArbetstidsforlaggningMandatory(utlatande)) {
                 if (utlatande.getArbetstidsforlaggning() == null) {
@@ -301,19 +298,6 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
                 .filter(Objects::nonNull)
                 .forEach(sjukskrivning -> checkSjukskrivningPeriodOverlapAgainstList(validationMessages, sjukskrivning,
                         utlatande.getSjukskrivningar()));
-    }
-
-    private void validateSjukskrivningIsTooEarly(LisjpUtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getSjukskrivningar()
-                .stream()
-                .filter(Objects::nonNull)
-                .anyMatch(sjukskrivning -> sjukskrivning.getPeriod() != null
-                        && sjukskrivning.getPeriod().getFrom() != null
-                        && sjukskrivning.getPeriod().getFrom().isValidDate()
-                        && sjukskrivning.getPeriod().getFrom().isBeforeNumDays(VARNING_FOR_TIDIG_SJUKSKRIVNING_ANTAL_DAGAR))) {
-            ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, BEHOV_AV_SJUKSKRIVNING_SVAR_JSON_ID_32,
-                    ValidationMessageType.WARN, "lisjp.validation.bedomning.sjukskrivningar.tidigtstartdatum");
-        }
     }
 
     private Predicate<Sjukskrivning> isValidPeriod() {
@@ -398,9 +382,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<LisjpU
     private boolean isArbetstidsforlaggningMandatory(LisjpUtlatandeV1 utlatande) {
         return !isAvstangningSmittskydd(utlatande) && utlatande.getSjukskrivningar()
                 .stream()
-                .anyMatch(e -> e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4
+                .anyMatch(e -> e.getPeriod() != null && e.getPeriod().isValid()
+                        && (e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_3_4
                         || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN
-                        || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4);
+                        || e.getSjukskrivningsgrad() == Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4));
     }
 
     private boolean isArbetstidsforlaggningMotiveringForbidden(LisjpUtlatandeV1 utlatande) {

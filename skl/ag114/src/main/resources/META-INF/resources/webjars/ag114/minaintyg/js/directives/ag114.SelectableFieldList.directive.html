@@ -76,13 +76,7 @@
          summary="summary"
          show-deselected="showDeselected">
       <div id="arbetsformagaTrotsSjukdom" class="inline-single-value">{{cert.arbetsformagaTrotsSjukdom | uvBoolFilter}}</div>
-    </div>
-    <div selectable-field-wrapper
-         sub-label-key="DFR_6.2.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.arbetsformagaTrotsSjukdomBeskrivning"
-         summary="summary"
-         show-deselected="showDeselected">
+      <h4><span dynamic-label key="DFR_6.2.RBK"></span></h4>
       <div id="arbetsformagaTrotsSjukdomBeskrivning" class="inline-single-value">{{cert.arbetsformagaTrotsSjukdomBeskrivning}}</div>
     </div>
   </selectable-category-wrapper>
@@ -90,24 +84,18 @@
   <!-- Sjukskrivningsgrad -->
   <selectable-category-wrapper category-label="KAT_4.RBK"
                                cert-model="cert"
-                               field-configs="[fieldConfig.sjukskrivningsgrad, fieldConfig.sjukskrivningsperiod]"
+                               field-configs="[fieldConfig.sjukskrivningsgrad]"
                                summary="summary">
     <div selectable-field-wrapper
          label-key="FRG_7.RBK"
-         sub-label-key="DFR_7.1.RBK"
          cert-model="cert"
          field-config="fieldConfig.sjukskrivningsgrad"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="sjukskrivningsgrad" class="multiline">{{cert.sjukskrivningsgrad}} %</div>
-    </div>
+      <h4><span dynamic-label key="DFR_7.1.RBK"></span></h4>
+      <div id="sjukskrivningsgrad" class="multiline inline-single-value">{{cert.sjukskrivningsgrad}} %</div>
 
-    <div selectable-field-wrapper
-         sub-label-key="DFR_7.2.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.sjukskrivningsperiod"
-         summary="summary"
-         show-deselected="showDeselected">
+      <h4><span dynamic-label key="DFR_7.2.RBK"></span></h4>
       <div id="sjukskrivningsperiod" class="inline-single-value"> Fr.o.m {{cert.sjukskrivningsperiod.from | date:'shortDate'}} t.o.m {{cert.sjukskrivningsperiod.tom | date:'shortDate'}}</div>
     </div>
 
@@ -143,17 +131,12 @@
          field-config="fieldConfig.kontaktMedArbetsgivaren"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="kontaktMedArbetsgivaren">{{cert.kontaktMedArbetsgivaren | uvBoolFilter}}</div>
-    </div>
+      <div id="kontaktMedArbetsgivaren" class="inline-single-value">{{cert.kontaktMedArbetsgivaren | uvBoolFilter}}</div>
 
-    <div selectable-field-wrapper
-         sub-label-key="DFR_9.2.RBK"
-         cert-model="cert"
-         field-config="fieldConfig.anledningTillKontakt"
-         summary="summary"
-         show-deselected="showDeselected">
+      <h4><span dynamic-label key="DFR_9.2.RBK"></span></h4>
       <div id="anledningTillKontakt" class="multiline">{{cert.anledningTillKontakt}}</div>
     </div>
+
 
   </selectable-category-wrapper>
 

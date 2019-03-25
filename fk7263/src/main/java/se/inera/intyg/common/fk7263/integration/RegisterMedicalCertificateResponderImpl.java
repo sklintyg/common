@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import java.io.StringWriter;
 import java.util.List;
+
 import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 
@@ -45,6 +44,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.logging.LogMarkers;
 
 public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalCertificateResponderInterface {
@@ -54,14 +54,12 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterMedicalCertificateResponderImpl.class);
 
     private ObjectFactory objectFactory;
-    private JAXBContext jaxbContext;
 
     @Autowired(required = false)
     private ModuleContainerApi moduleContainer;
 
     @PostConstruct
     public void initializeJaxbContext() throws JAXBException {
-        jaxbContext = JAXBContext.newInstance(RegisterMedicalCertificateType.class);
         objectFactory = new ObjectFactory();
     }
 
@@ -103,10 +101,6 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
             LOGGER.error(LogMarkers.VALIDATION, "Failed to create Certificate with id " + certificateId + " issued by " + issuedBy
                     + ": Certificate ID already exists for another person.");
 
-        } catch (JAXBException e) {
-            LOGGER.error("JAXB error in Webservice: ", e);
-            throw new RuntimeException(e);
-
         } catch (Exception e) {
             LOGGER.error("Error in Webservice: ", e);
             throw new RuntimeException(e);
@@ -122,11 +116,9 @@ public class RegisterMedicalCertificateResponderImpl implements RegisterMedicalC
         }
     }
 
-    private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) throws JAXBException {
-        StringWriter stringWriter = new StringWriter();
+    private String xmlToString(RegisterMedicalCertificateType registerMedicalCertificate) {
         JAXBElement<RegisterMedicalCertificateType> requestElement = objectFactory
                 .createRegisterMedicalCertificate(registerMedicalCertificate);
-        jaxbContext.createMarshaller().marshal(requestElement, stringWriter);
-        return stringWriter.toString();
+        return XmlMarshallerHelper.marshal(requestElement);
     }
 }

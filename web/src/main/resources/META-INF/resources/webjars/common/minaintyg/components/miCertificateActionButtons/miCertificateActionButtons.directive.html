@@ -5,7 +5,7 @@
       <span ng-if="!isReplaced">
 
         <!-- SKICKA -->
-        <button id="sendCertificateBtn" type="button" class="btn btn-primary" ng-if="onSend"
+        <button id="sendCertificateBtn" type="button" class="btn btn-primary" ng-if="enableSend"
                 ng-click="onSend({cert:certModel});sendPopoverOpen=false;"
                 uib-popover="{{messageService.getProperty('modules.actionbar.button.send.tooltip')}}"
                 popover-is-open="sendPopoverOpen"

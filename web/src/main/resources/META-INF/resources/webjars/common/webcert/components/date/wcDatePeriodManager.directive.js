@@ -110,11 +110,6 @@ angular.module('common').directive('wcDatePeriodManager',
                         if (days !== null) {
                             //Take away 1 day, because the dayCode defines the total length of the interval we should get.
                             newTomMoment = moment(fromField.ngModel.$viewValue).add(days - 1, 'days');
-                        } else {
-                            var months = dateUtilsService.parseMonthCode(tomField.ngModel.$viewValue);
-                            if (months !== null) {
-                                newTomMoment = moment(fromField.ngModel.$viewValue).add(months, 'months');
-                            }
                         }
                         if (newTomMoment) {
                             tomField.ngModel.$setViewValue(newTomMoment.format('YYYY-MM-DD'));
