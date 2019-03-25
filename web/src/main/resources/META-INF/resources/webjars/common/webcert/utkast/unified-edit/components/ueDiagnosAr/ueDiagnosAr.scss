@@ -22,19 +22,31 @@ ue-diagnos-ar {
 
   .diagnos-wrapper {
 
-    span.diagnos-text {
-      color: $wc-color-09;
-    }
-
     input.validation-error {
       border-color: $wc-color-11;
+    }
+
+    .diagnos-header {
+      display: flex;
+      flex-direction: row;
+      padding-top: 20px;
+
+      .diagnos-text {
+        color: $wc-color-09;
+      }
+
+      .diagnosartal-text {
+        color: $wc-color-09;
+        flex: 1;
+        text-align: right;
+      }
     }
 
     .diagnos-row {
       padding-bottom: 15px;
       flex-wrap: wrap;
 
-      &:last-of-type{
+      &:last-of-type {
         padding-bottom: 0;
       }
 
@@ -50,12 +62,12 @@ ue-diagnos-ar {
         }
       }
 
-      ue-validation-list{
+      ue-validation-list {
         width: 100%;
         flex-grow: 1;
         margin-top: 6.5px;
 
-        .validation-error{
+        .validation-error {
           margin-top: 6.5px;
         }
       }

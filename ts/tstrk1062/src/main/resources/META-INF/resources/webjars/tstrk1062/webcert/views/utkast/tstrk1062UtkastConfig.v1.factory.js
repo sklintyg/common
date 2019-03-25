@@ -129,6 +129,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                                 modelProp: 'diagnosKodad',
                                 defaultKodSystem: 'ICD_10_SE',
                                 diagnosKodLabel: 'DFR_51.1.RBK',
+                                diagnosArtalLabel: 'DFR_51.3.RBK',
                                 yearConfig: [
                                     {modelProp: 'diagnosKodad[0].diagnosArtal', maxYear: thisYear, skipAttic: true},
                                     {modelProp: 'diagnosKodad[1].diagnosArtal', maxYear: thisYear, skipAttic: true},
