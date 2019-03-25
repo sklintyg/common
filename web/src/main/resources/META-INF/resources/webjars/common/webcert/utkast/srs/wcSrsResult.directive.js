@@ -75,16 +75,16 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 };
 
                 scope.redirectToAtgardExternalSite = function(){
-                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srsViewState.diagnosKod));
+                    window.open(srsLinkCreator.createAtgardsrekommendationLink(scope.srs.diagnosKod));
                 };
 
                 scope.redirectToStatistikExternalSite = function(){
-                    window.open(srsLinkCreator.createStatistikLink(scope.srsViewState.diagnosKod));
+                    window.open(srsLinkCreator.createStatistikLink(scope.srs.diagnosKod));
                 };
 
-                scope.$watch('status', function(status){
+                scope.$watch('status', function(status, fromStatus){
                     if(!scope.status.open){
-                        scope.srsViewState.status.riskInfoOpen = false;
+                        scope.srs.status.riskInfoOpen = false;
                     }
                 }, true);
 

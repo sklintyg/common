@@ -1,0 +1,121 @@
+wc-srs-panel-tab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  .srs-diagnos-row {
+    min-width: 1px;
+    display: flex;
+    flex-direction: column;
+    padding: 11px 20px;
+
+    &.has-diagnose {
+      border-bottom: 1px solid $wc-color-15;
+    }
+
+
+    .fmb-diagnos-description {
+
+      display: inline-block;
+
+      flex: 1 1 auto;
+      min-width: 1px;
+      padding: 0 15px 0 24px;
+      wc-radio-wrapper {
+        padding: 4px 0;
+
+        label {
+          @extend %wc-typo-07;
+          &.active {
+            @extend %wc-typo-08;
+            text-decoration: none !important;
+            span {
+              text-decoration: underline;
+            }
+          }
+          &.disabled {
+            color: $wc-color-22;
+            cursor: not-allowed;
+          }
+          span {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+
+  .fmb-section {
+    padding-bottom: 20px;
+    color: $wc-color-07;
+    h4 {
+      @extend %wc-typo-05;
+      padding: 8px 0;
+    }
+    div {
+      @extend %wc-typo-07;
+    }
+    section {
+      @extend %wc-typo-07;
+    }
+    .missing-info {
+      @extend %wc-typo-12;
+    }
+  }
+
+  .fmb-bullet-list {
+    padding-left: 30px;
+  }
+
+  .fmb-more-information-section {
+    padding: 25px 20px 25px 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: -25px;
+    background-color: $wc-color-28;
+    word-wrap: break-word;
+    h4 {
+      @extend %wc-typo-05;
+      padding: 8px 0;
+    }
+    div {
+      @extend %wc-typo-07;
+    }
+    section {
+      @extend %wc-typo-07;
+    }
+    .missing-info {
+      @extend %wc-typo-12;
+    }
+  }
+
+  .srs-footer {
+    @extend %wc-typo-09;
+    height: 50px;
+    background-color: $wc-color-17;
+    color: $wc-color-00;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    .material-icons {
+      font-size: inherit;
+    }
+
+  }
+
+  wc-alert-message {
+    display: block;
+    .alert {
+      display: block;
+    }
+  }
+  .no-diagnose-entered {
+    text-align: center;
+    padding-top: 25px;
+    img {
+      padding-bottom: 24px;
+    }
+  }
+}

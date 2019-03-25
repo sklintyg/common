@@ -55,6 +55,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 if(data.predictionStatusCode) {
                     prediction.statusCode = data.predictionStatusCode;
                 }
+                if (data.probabilityOverLimit) {
+                    prediction.probabilityOverLimit = data.probabilityOverLimit;
+                }
+                if (data.prevalence) {
+                    prediction.prevalence = data.prevalence;
+                }
                 return prediction;
             });
         }
@@ -101,9 +107,15 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                         statistik = null;
                     }
 
+                    var prediktion = {};
+                    if (data.prevalence) {
+                        prediktion.prevalence = data.prevalence;
+                    }
+
                     return {
                         'atgarder': atgarder,
-                        'statistik': statistik
+                        'statistik': statistik,
+                        'prediktion': prediktion,
                     };
                     /* jshint ignore:end */
                 });

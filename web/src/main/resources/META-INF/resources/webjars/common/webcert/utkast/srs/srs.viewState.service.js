@@ -39,6 +39,7 @@ angular.module('common').service('common.srsViewState',
                     
         this.prediction = {};
         this.prediction.description = '';
+        this.prediction.prevalens = null;
         this.allQuestionsAnswered = false;
         this.showVisaKnapp = false;
         this.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
