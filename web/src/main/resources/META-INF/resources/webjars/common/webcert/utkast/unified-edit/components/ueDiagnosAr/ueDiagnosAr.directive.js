@@ -81,7 +81,7 @@ angular.module('common').directive('ueDiagnosAr', ['$log', '$timeout', 'common.D
                     }
 
                     return diagnosArray;
-                };
+                }
 
                 // Split validations on different rows
                 $scope.$watch('validation.messagesByField', function() {
