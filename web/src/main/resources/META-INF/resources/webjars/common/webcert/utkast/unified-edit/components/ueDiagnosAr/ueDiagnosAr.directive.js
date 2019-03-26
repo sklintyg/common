@@ -38,6 +38,13 @@ angular.module('common').directive('ueDiagnosAr', ['$log', '$timeout', 'common.D
                 // Clear attic model and destroy watch on scope destroy
                 AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
+                // If data have been put in attic and user reloads browser, then the data is lost
+                // and an empty array need to be recreated.
+                if (typeof $scope.model[$scope.config.modelProp] === 'undefined') {
+                    $scope.model[$scope.config.modelProp] = [];
+                    addEmptyDiagnoses($scope.model[$scope.config.modelProp]);
+                }
+
                 $scope.validation = UtkastViewState.validation;
 
                 // Add listeners to diagnosKod changes
@@ -58,10 +65,23 @@ angular.module('common').directive('ueDiagnosAr', ['$log', '$timeout', 'common.D
                 });
 
                 function clearDiagnosArtal(index, newVal) {
-                    if (ObjectHelper.isEmpty(newVal)) {
+                    if (ObjectHelper.isEmpty(newVal) && ObjectHelper.isDefined($scope.model[$scope.config.modelProp])) {
                         $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
                     }
                 }
+
+                function addEmptyDiagnoses(diagnosArray) {
+                    for (var i = 0; diagnosArray.length < 4; i++) {
+                        diagnosArray.push({
+                            diagnosKodSystem: 'ICD_10_SE',
+                            diagnosKod: undefined,
+                            diagnosBeskrivning: undefined,
+                            diagnosArtal: undefined
+                        });
+                    }
+
+                    return diagnosArray;
+                };
 
                 // Split validations on different rows
                 $scope.$watch('validation.messagesByField', function() {
