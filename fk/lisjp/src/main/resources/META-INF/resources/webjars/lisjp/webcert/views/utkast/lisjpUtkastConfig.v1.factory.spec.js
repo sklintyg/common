@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-xdescribe('lisjpFormFactory', function() {
+describe('lisjpFormFactory', function() {
     'use strict';
 
     var element;
@@ -78,6 +78,9 @@ xdescribe('lisjpFormFactory', function() {
 
     it('Should clear model values if avstangningSmittskydd is selected', function() {
 
+        $httpBackend.expectGET('/api/fmb/D50').respond(200);
+        $httpBackend.expectGET('/api/fmb/G10').respond(200);
+        $httpBackend.expectGET('/api/fmb/T241').respond(200);
         $httpBackend.expectGET('/api/fmb/valideraSjukskrivningstid?icd10Kod1=D50&icd10Kod2=G10&icd10Kod3=T241&personnummer=19121212-1212').respond(200);
 
         // Load utkast with all fields populated
