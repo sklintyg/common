@@ -78,7 +78,7 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                 var config = [
 
                     // Intyget avser
-                    kategori(categoryIds[1], 'KAT_1.RBK', {}, {}, [
+                    kategori(categoryIds[1], 'KAT_1.RBK', {}, {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP',
                             {required: true, requiredProp: requiredKorkortProperties('intygAvser.behorigheter', 16)}, [{
                                 type: 'ue-checkgroup-ts',
@@ -141,10 +141,10 @@ angular.module('tstrk1062').factory('tstrk1062.UtkastConfigFactory.v1',
                             required: true,
                             hideExpression: diagnosRegistreringFritext,
                             requiredProp: 'diagnosFritext.diagnosFritext'
-                            }, [{
-                                type: 'ue-textarea',
-                                modelProp: 'diagnosFritext.diagnosFritext'
-                            }]),
+                        }, [{
+                            type: 'ue-textarea',
+                            modelProp: 'diagnosFritext.diagnosFritext'
+                        }]),
                         fraga(52, '', '',
                             {
                                 hideExpression: diagnosRegistreringFritext
