@@ -22,7 +22,6 @@ import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_DELSVAR_ID_1;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.INTYG_AVSER_SVAR_ID_1;
 
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -54,15 +53,10 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -78,6 +72,7 @@ import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertif
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.RevokeCertificateType;
@@ -95,6 +90,9 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     public static final String REGISTER_CERTIFICATE_VERSION1 = "v1";
     public static final String REGISTER_CERTIFICATE_VERSION3 = "v3";
+
+    @Autowired(required = false)
+    protected WebcertModuleService moduleService;
 
     @Autowired
     private ModelCompareUtil<T> modelCompareUtil;
@@ -315,9 +313,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
             final RevokeCertificateType revoke = InternalToRevoke.convert(utlatande, skapatAv, meddelande);
-            final JAXBElement<RevokeCertificateType> el =
-                    new se.riv.clinicalprocess.healthcond.certificate.revokeCertificate.v2.ObjectFactory()
-                            .createRevokeCertificate(revoke);
+            final JAXBElement<RevokeCertificateType> el = new ObjectFactory().createRevokeCertificate(revoke);
             return XmlMarshallerHelper.marshal(el);
         } catch (ConverterException e) {
             throw new ModuleException(e.getMessage());
@@ -350,9 +346,13 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
             throws ModuleException {
-        T utlatande = getInternal(internalModel);
-        WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
-        return toInternalModelResponse(utlatande);
+        try {
+            T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
+            WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
+            return toInternalModelResponse(utlatande);
+        } catch (ModuleException e) {
+            throw new ModuleException("Error while updating internal model", e);
+        }
     }
 
     private String updateInternal(String internalModel, Patient patient) throws ModuleException {
@@ -377,6 +377,11 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
     protected abstract RegisterCertificateType internalToTransport(T utlatande) throws ConverterException;
 
     protected abstract T transportToInternal(Intyg intyg) throws ConverterException;
+
+    protected T decorateDiagnoserWithDescriptions(T utlatande) {
+        // Default implementation. Only TS certificate types with diagnoses need to override this method.
+        return utlatande;
+    }
 
     private IntygId getIntygsId(String certificateId) {
         IntygId intygId = new IntygId();

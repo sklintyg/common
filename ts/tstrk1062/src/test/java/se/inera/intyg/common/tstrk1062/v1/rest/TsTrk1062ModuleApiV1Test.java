@@ -61,6 +61,8 @@ import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 import se.inera.intyg.common.tstrk1062.v1.model.converter.WebcertModelFactoryImpl;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosRegistrering;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.common.tstrk1062.v1.pdf.PdfGenerator;
 import se.inera.intyg.common.tstrk1062.v1.validator.InternalValidatorInstanceImpl;
@@ -315,6 +317,40 @@ public class TsTrk1062ModuleApiV1Test {
         final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.transportToInternal(intyg);
 
         assertNotNull("Utlatande should not be null", actualUtlatande);
+    }
+
+    @Test
+    public void testdecorateDiagnoserWithDescriptions() throws Exception {
+        final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
+        final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
+                "Diagnosbeskrivning", null, "Årtal");
+
+        final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        expectedDiagnosKodadList.add(expectedDiagnosKodad);
+
+        final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
+                .setGrundData(buildGrundData(LocalDateTime.now()))
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(expectedDiagnosKodadList)
+                .build();
+
+        doReturn(expectedDiagnosDisplayName).when(moduleService).getDescriptionFromDiagnosKod(expectedDiagnosKodad.getDiagnosKod(),
+                expectedDiagnosKodad.getDiagnosKodSystem());
+
+        final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.decorateDiagnoserWithDescriptions(utlatande);
+
+        assertNotNull("Utlatande should not be null", actualUtlatande);
+        final List<DiagnosKodad> actualDiagnosKodadList = actualUtlatande.getDiagnosKodad();
+        assertNotNull("DiagnosKodadList should not be null", actualDiagnosKodadList);
+        assertEquals("DiagnosKodadList should be length one", expectedDiagnosKodadList.size(), actualDiagnosKodadList.size());
+        final DiagnosKodad actualDiagnosKodad = actualDiagnosKodadList.get(0);
+        assertEquals("DiagnosKodad kod should be same", expectedDiagnosKodad.getDiagnosKod(), actualDiagnosKodad.getDiagnosKod());
+        assertEquals("DiagnosKodad beskrivning should be same", expectedDiagnosKodad.getDiagnosBeskrivning(),
+                actualDiagnosKodad.getDiagnosBeskrivning());
+        assertEquals("DiagnosKodad kodsystem should be same", expectedDiagnosKodad.getDiagnosKodSystem(),
+                actualDiagnosKodad.getDiagnosKodSystem());
+        assertEquals("DiagnosKodad artal should be same", expectedDiagnosKodad.getDiagnosArtal(), actualDiagnosKodad.getDiagnosArtal());
+        assertEquals("DiagnosKodad displayname should be same", expectedDiagnosDisplayName, actualDiagnosKodad.getDiagnosDisplayName());
     }
 
     private Intyg getIntyg(String href) throws Exception {
