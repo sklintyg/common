@@ -30,7 +30,7 @@ import com.google.auto.value.AutoValue;
 public abstract class DiagnosKodad {
 
     @JsonCreator
-    public static DiagnosKodad create(@JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID) String diagnosKod,
+    public static DiagnosKodad create(@JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID) String diagnosKod,
             @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID) String diagnosKodSystem,
             @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID) String diagnosBeskrivning,
             @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DISPLAYNAME_JSON_ID) String diagnosDisplayName,
