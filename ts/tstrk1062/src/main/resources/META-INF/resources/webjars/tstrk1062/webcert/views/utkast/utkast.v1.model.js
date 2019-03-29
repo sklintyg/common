@@ -49,7 +49,8 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
                 var i = diagnosCopy.length - 1;
                 while (i >= 0) {
                     if (ObjectHelper.isEmpty(diagnosCopy[i].diagnosKod) &&
-                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning)) {
+                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosBeskrivning) &&
+                        ObjectHelper.isEmpty(diagnosCopy[i].diagnosArtal)) {
                         diagnosCopy.splice(i, 1);
                     } else {
                         break;
@@ -89,7 +90,7 @@ angular.module('tstrk1062').factory('tstrk1062.Domain.IntygModel.v1',
                         diagnosRegistrering: {
                             typ: undefined
                         },
-                        'diagnosKodad': new ModelAttr('diagnosKodad', {
+                        diagnosKodad: new ModelAttr('diagnosKodad', {
                             fromTransform: diagnosFromTransform,
                             toTransform: diagnosToTransform
                         }),

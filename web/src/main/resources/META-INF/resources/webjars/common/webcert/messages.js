@@ -500,7 +500,6 @@
             'luae_fs.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'ts-diabetes.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
-            'tstrk1062.validation.blanksteg.otillatet': 'Fältet får inte fyllas i med endast blanksteg.',
 
             'lisjp.validation.grund-for-mu.annat.beskrivning.invalid_combination': 'annat beskrivning invalid combination.',  // Should never happen because GUI should block this combination
             'lisjp.validation.kontakt.invalid_combination': 'Anledning får inte fyllas i när man svarat nej på kontakt.',  // Should never happen because GUI should block this combination
@@ -705,6 +704,7 @@
             'common.validation.c-06': 'Ange ett giltigt datum. Framtida datum får inte anges.',
             'common.validation.c-13a': 'Ange diagnos på översta raden först.',
             'common.validation.b-04': 'Välj minst ett alternativ.',
+            'common.validation.b-03a': 'Ange ett svar.',
 
             // Common errors
             'common.error.unknown': '<strong>Tekniskt fel.</strong>',
