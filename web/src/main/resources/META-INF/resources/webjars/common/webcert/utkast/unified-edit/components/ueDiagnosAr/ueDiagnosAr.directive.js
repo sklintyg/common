@@ -96,6 +96,13 @@ angular.module('common').directive('ueDiagnosAr', ['$log', '$timeout', 'common.D
                                     $scope.diagnosValidations[index] = [];
                                 }
                                 $scope.diagnosValidations[index].push(validations[0]);
+
+                                // If first row is missing data when other rows has, then add validation for year.
+                                if (key === $scope.config.modelProp.toLowerCase() + '[0].diagnoskod' &&
+                                    validations[0].type === 'INCORRECT_COMBINATION') {
+                                    addValidationForYear = true;
+                                }
+                                // If diagnose component is completely missing data, then add validation for year.
                             } else if (key === $scope.config.modelProp.toLowerCase()) {
                                 addValidationForYear = true;
                             }

@@ -171,17 +171,24 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
     private void validateDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<ValidationMessage> validationMessages) {
         int diagnosNr = 0;
+        boolean ignoreDiagnoseOne = false;
 
-        if (!diagnosKodad.isEmpty() && !validateFirstDiagnoseIsPresent(diagnosKodad)) {
+        if (!diagnosKodad.isEmpty() && !validateFirstDiagnoseIsPresent(diagnosKodad) && diagnosKodad.size() > 1) {
             ValidatorUtil.addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                             + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                     ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-05");
-            return;
+            // No additional validation messages should be added to diagnose one.
+            ignoreDiagnoseOne = true;
         }
 
         for (DiagnosKodad diagnos : diagnosKodad) {
+            if (diagnosNr == 0 && ignoreDiagnoseOne) {
+                diagnosNr++;
+                continue;
+            }
+
             if (isNull(diagnos.getDiagnosKod()) || diagnos.getDiagnosKod().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
@@ -189,6 +196,14 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
                         "common.validation.b-03a");
+            }
+            if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
+                addValidationError(validationMessages,
+                        ALLMANT_KATEGORI,
+                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
+                        ValidationMessageType.EMPTY,
+                        "common.validation.diagnos.kodsystem");
             }
             if (isNull(diagnos.getDiagnosArtal()) || diagnos.getDiagnosArtal().isEmpty()) {
                 addValidationError(validationMessages,

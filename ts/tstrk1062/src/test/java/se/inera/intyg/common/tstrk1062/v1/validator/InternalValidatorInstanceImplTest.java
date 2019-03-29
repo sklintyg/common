@@ -267,11 +267,18 @@ public class InternalValidatorInstanceImplTest {
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-        assertEquals("Should have three error messages", 1, validationMessages.size());
+        assertEquals("Should have three error messages", 3, validationMessages.size());
 
-        assertOneValidationMessages(validationMessages, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
+
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
 
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
     }
 
     @Test
@@ -290,11 +297,75 @@ public class InternalValidatorInstanceImplTest {
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
         final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
 
-        assertEquals("Should have three error messages", 1, validationMessages.size());
+        assertEquals("Should have three error messages", 3, validationMessages.size());
+
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
+
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+
+        assertValidationMessage(validationsMap, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID);
+    }
+
+    @Test
+    public void validateFirstDiagnosMissing() {
+        final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
+                "", "", "");
+
+        final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
+                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "2019");
+
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
+        diagnosKodadList.add(diagnosKodadOne);
+        diagnosKodadList.add(diagnosKodadTwo);
+
+        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(diagnosKodadList)
+                .build();
+
+        final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
+        final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
+
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
 
         assertOneValidationMessages(validationMessages, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
                 ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+    }
 
+    @Test
+    public void validateFirstDiagnosMissingAndSecondInvalid() {
+        final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
+                "", "", "");
+
+        final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
+                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
+
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
+        diagnosKodadList.add(diagnosKodadOne);
+        diagnosKodadList.add(diagnosKodadTwo);
+
+        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(diagnosKodadList)
+                .build();
+
+        final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
+        final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
+
+        assertEquals("Should have two error messages", 2, validationMessages.size());
+
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
+
+        assertValidationMessage(validationsMap, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+
+        assertValidationMessage(validationsMap, ValidationMessageType.INVALID_FORMAT, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[1]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
     }
 
     @Test
@@ -622,9 +693,14 @@ public class InternalValidatorInstanceImplTest {
     }
 
     private void assertValidationMessage(Map<String, ValidationMessage> validationMessageMap, String category, String field) {
+        assertValidationMessage(validationMessageMap, ValidationMessageType.EMPTY, category, field);
+    }
+
+    private void assertValidationMessage(Map<String, ValidationMessage> validationMessageMap, ValidationMessageType validationMessageType,
+            String category, String field) {
         final ValidationMessage validationMessage = validationMessageMap.get(field);
         assertNotNull("Missing message for " + field, validationMessage);
-        assertValidationMessage(validationMessage, ValidationMessageType.EMPTY, category, field);
+        assertValidationMessage(validationMessage, validationMessageType, category, field);
     }
 
     private void assertOneValidationMessages(List<ValidationMessage> validationMessage, String category, String field) {
