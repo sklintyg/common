@@ -33,6 +33,13 @@ angular.module('common').directive('wcNumber', ['common.ObjectHelper',
                     return;
                 }
 
+                var allowWhitespaceCharacters;
+                if (typeof attrs.allowWhitespaceCharacters === 'undefined') {
+                    allowWhitespaceCharacters = true;
+                } else {
+                    allowWhitespaceCharacters = attrs.allowWhitespaceCharacters;
+                }
+
                 function handleViewValueUpdate(newValue, oldValue) {
 
                     if(!newValue) {
@@ -46,7 +53,13 @@ angular.module('common').directive('wcNumber', ['common.ObjectHelper',
                             ngModel.$render();
                         }
 
-                        var lookingLikeNr = /^[0-9\s]*$/i;
+                        var lookingLikeNr;
+                        if (ObjectHelper.stringBoolToBool(allowWhitespaceCharacters)) {
+                            lookingLikeNr = /^[0-9\s]*$/i;
+                        } else {
+                            lookingLikeNr = /^[0-9]*$/i;
+                        }
+
 
                         if (!newValue.match(lookingLikeNr)) {
                             // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
