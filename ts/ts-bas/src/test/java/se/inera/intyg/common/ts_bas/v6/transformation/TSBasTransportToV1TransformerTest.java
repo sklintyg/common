@@ -18,22 +18,25 @@
  */
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import se.inera.intyg.common.support.modules.transformer.XslTransformer;
-import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
+import static java.util.Arrays.asList;
+import static org.junit.Assert.fail;
 
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
 import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.List;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
+import se.inera.intyg.common.support.modules.transformer.XslTransformer;
+import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class TSBasTransportToV1TransformerTest {
 
@@ -78,7 +81,8 @@ public class TSBasTransportToV1TransformerTest {
     public void testTransformation() throws Exception {
         List<String> testFiles = asList("xsl.xml", "ts-bas-max.xml", "valid-diabetes-typ2-kost.xml",
                 "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
-                "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml");
+                "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml",
+                "valid-no-dash-personid-extension.xml");
 
         XslTransformer transformer = new XslTransformer("xsl/transportToV1.xsl");
 
