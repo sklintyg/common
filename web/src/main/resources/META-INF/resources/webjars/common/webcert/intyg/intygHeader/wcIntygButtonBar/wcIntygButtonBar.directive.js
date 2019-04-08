@@ -102,7 +102,7 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
                     !CommonIntygViewState.isRevoked() &&
                     !CommonIntygViewState.isPatientDeceased() && !CommonIntygViewState.isReplaced() && !CommonIntygViewState.isComplementedByIntyg() &&
                     !(UserModel.user.parameters !== undefined && UserModel.user.parameters.inactiveUnit) &&
-                    (UserModel.user.parameters === undefined || UserModel.user.parameters.copyOk);
+                    (UserModel.user.parameters === undefined || UserModel.user.parameters.fornyaOk);
              };
 
             $scope.showErsattButton = function() {
