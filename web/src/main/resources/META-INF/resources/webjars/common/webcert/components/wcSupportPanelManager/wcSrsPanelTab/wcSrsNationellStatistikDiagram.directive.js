@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcSrsRiskDiagram',
+angular.module('common').directive('wcSrsNationellStatistikDiagram',
     [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout',
         function(srsViewState, chartFactory, $timeout) {
             'use strict';
@@ -26,7 +26,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                 scope: {
                     // config: '='
                 },
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRiskDiagram.directive.html',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsNationellStatistikDiagram.directive.html',
                 link: function($scope, $element, $attrs) {
                     $scope.srs = srsViewState;
 
@@ -37,27 +37,39 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     });
 
 
-                    var riskChart = {};
+                    var statistikChart = {};
                     var chartData = {
-                        risk: {
-                            chartData: [
-                                {
-                                    name: 'Genomsnittlig risk',
-                                    // name: 'Prevalens',
-                                    type: 'RISK',
-                                    y: 32,
-                                },
-                                {
-                                    name: '',
-                                    type: 'RISK',
-                                    y: 0,
-                                },
-                            ],
-                        }
+                        statistik: [
+                            {
+                                name: '30 dagar',
+                                type: 'ÅTERGÅNG',
+                                y: 0,
+                            },
+                            {
+                                name: '90 dagar',
+                                type: 'ÅTERGÅNG',
+                                y: 0,
+                            },
+                            {
+                                name: '180 dagar',
+                                type: 'ÅTERGÅNG',
+                                y: 0,
+                            },
+                            {
+                                name: '365 dagar',
+                                type: 'ÅTERGÅNG',
+                                y: 0,
+                            },
+                            {
+                                name: '365+ dagar',
+                                type: 'ÅTERGÅNG',
+                                y: 0,
+                            },
+                        ],
                     }
 
                     var setTooltipText = function (result) {
-                        $scope.popoverTextRiskChart = 'Diagrammet visar risk för ... .' +
+                        $scope.popoverTextRiskChart = 'Diagrammet visar antal individer som återgått i arbete efter givet antal dagar.' +
                             '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
                     };
 
@@ -76,8 +88,9 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     };
 
                     var updateCharts = function (result) {
-                        chartFactory.addColor(result.risk.chartData);
-                        riskChart = paintBarChart('riskChart', result.risk.chartData);
+                        console.log('update chart with new data', result.statistik)
+                        chartFactory.addColor(result.statistik);
+                        statistikChart = paintChart('nationalStatisticsChart', result.statistik);
                     };
 
                     // function populatePageWithData(result) {
@@ -86,15 +99,18 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     //     }, 100);
                     // }
 
-                    function paintBarChart(containerId, chartData) {
+                    function paintChart(containerId, chartData) {
                         var series = [
                             {
-                                name: 'Risk',
+                                name: 'Återgång i arbete',
                                 // data: _.map(chartData, function (e) {
                                 //     return e.quantity;
                                 // }),
+                                marker: {
+                                    radius: 4
+                                },
                                 data: chartData,
-                                color: chartFactory.getColors().risk
+                                color: chartFactory.getColors().overview
                             }
                         ];
                         var categories = _.map(chartData, function (e) {
@@ -104,10 +120,17 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         var chartConfigOptions = {
                             categories: categories,
                             series: series,
-                            type: 'column',
+                            type: 'line',
                             // overview: true,
+                            plotOptions: {
+                                series: {
+                                    label: {
+                                        connectorAllowed: false
+                                    }
+                                }
+                            },
                             renderTo: containerId,
-                            unit: '%',
+                            unit: 'individer',
                             maxWidthPercentage: 80
                         };
 
@@ -115,8 +138,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         chartOptions.chart.height = 240;
                         chartOptions.subtitle.text = null;
                         // chartOptions.yAxis.title = {text: 'Risk', style : chartOptions.subtitle.style };
-                        chartOptions.yAxis.title.text = 'Risk [%]';
-                        chartOptions.yAxis.max = 100;
+                        chartOptions.yAxis.title.text = 'Antal individer';
+                        // chartOptions.yAxis.max = 100;
                         chartOptions.yAxis.tickPixelInterval = 30;
                         chartOptions.legend.enabled = false;
 
@@ -133,27 +156,36 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     // $scope.chartFootnotes = ['help.nationell.overview'];
 
                     $scope.$on('$destroy', function() {
-                        if(riskChart && typeof riskChart.destroy === 'function') {
-                            riskChart.destroy();
+                        if(statistikChart && typeof statistikChart.destroy === 'function') {
+                            statistikChart.destroy();
                         }
                     });
 
-                    $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal)
-                        if (newVal.prevalence != null) {
-                            chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100)
-                            chartData.risk.chartData[0].name = 'Genomsnittlig risk';
-                        } else {
-                            chartData.risk.chartData[0].y = 0;
-                            chartData.risk.chartData[0].name = '';
+                    $scope.$watch('srs.statistik', function(newVal, oldVal) {
+                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, statistik', newVal)
+                        console.log('typeof', Array.isArray(newVal.nationellStatistik))
+                        if (newVal.nationellStatistik != null
+                            && Array.isArray(newVal.nationellStatistik)
+                            && newVal.nationellStatistik.length === 5) {
+                            console.log('got new Nationell statistik for chart')
+                            for (var i = 0; i<5; i++) {
+                                chartData.statistik[i].y = newVal.nationellStatistik[i]
+                            }
                         }
-                        if (newVal.probabilityOverLimit != null) {
-                            chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100)
-                            chartData.risk.chartData[1].name = 'Individuell risk';
-                        } else {
-                            chartData.risk.chartData[1].y = 0;
-                            chartData.risk.chartData[1].name = '';
-                        }
+                        // if (newVal.prevalence != null) {
+                        //     chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100)
+                        //     chartData.risk.chartData[0].name = 'Genomsnittlig risk';
+                        // } else {
+                        //     chartData.risk.chartData[0].y = 0;
+                        //     chartData.risk.chartData[0].name = '';
+                        // }
+                        // if (newVal.probabilityOverLimit != null) {
+                        //     chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100)
+                        //     chartData.risk.chartData[1].name = 'Individuell risk';
+                        // } else {
+                        //     chartData.risk.chartData[1].y = 0;
+                        //     chartData.risk.chartData[1].name = '';
+                        // }
                         updateCharts(chartData);
                     });
 

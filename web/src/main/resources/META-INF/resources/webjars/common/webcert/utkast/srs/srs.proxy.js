@@ -34,90 +34,109 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
+        function _getPredictionFromResponseData(data) {
+            var prediction = {};
+            if(data === 'error'){
+                return data;
+            }
+            if(data.predictionDiagnosisDescription) {
+                prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
+            }
+            if(data.predictionDiagnosisCode) {
+                prediction.predictionDiagnosisCode = data.predictionDiagnosisCode;
+            }
+            if(data.predictionDescription) {
+                prediction.description = data.predictionDescription;
+            }
+            if(data.predictionLevel) {
+                prediction.level = data.predictionLevel;
+            }
+            if(data.predictionStatusCode) {
+                prediction.statusCode = data.predictionStatusCode;
+            }
+            if (data.predictionProbabilityOverLimit) {
+                prediction.probabilityOverLimit = data.predictionProbabilityOverLimit;
+            }
+            if (data.predictionPrevalence) {
+                prediction.prevalence = data.predictionPrevalence;
+            }
+            if (data.predictionPhysiciansOwnOpinionRisk) {
+                prediction.opinion = data.predictionPhysiciansOwnOpinionRisk;
+            }
+            if (data.predictionQuestionsResponses) {
+                prediction.predictionQuestionsResponses = data.predictionQuestionsResponses;
+            }
+            if (data.predictionTimestamp) {
+                prediction.predictionTimestamp = data.predictionTimestamp
+            }
+            return prediction;
+        }
+
+        function _getAtgarderFromResponseData(data) {
+            /* jshint ignore:start */
+            var atgarder = {};
+            // jshint:ignoreline
+            if(data.atgarderDiagnosisDescription) {
+                atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
+            }
+            if(data.atgarderDiagnosisCode) {
+                atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
+            }
+            if (data.atgarderStatusCode) {
+                atgarder.atgarderStatusCode = data.atgarderStatusCode;
+            }
+            if (data.atgarderRek) {
+                atgarder.atgarderRek = data.atgarderRek;
+            }
+            if (data.atgarderObs) {
+                atgarder.atgarderObs = data.atgarderObs;
+            }
+            if(angular.equals({}, atgarder)) {
+                atgarder = null;
+            }
+            /* jshint ignore:end */
+            return atgarder
+        }
+
+        function _getStatistikFromResponseData(data) {
+            /* jshint ignore:start */
+            var statistik = {};
+            if(data.statistikDiagnosisDescription) {
+                atgarder.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
+            }
+            if(data.statistikDiagnosisCode) {
+                statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
+            }
+            if (data.statistikStatusCode) {
+                statistik.statistikStatusCode = data.statistikStatusCode;
+            }
+            if (data.statistikBild) {
+                statistik.statistikBild = data.statistikBild;
+            }
+            if (data.statistikNationellStatistik) {
+                statistik.nationellStatistik = data.statistikNationellStatistik;
+            }
+            if(angular.equals({}, statistik)) {
+                statistik = null;
+            }
+            /* jshint ignore:end */
+            return statistik;
+        }
+
         function _getPrediction(intygsId, patientId, diagnosKod, qaIds) {
             return _getSrs(intygsId, patientId, diagnosKod, qaIds, true, false, false).then(function(data) {
-                var prediction = {};
-                if(data === 'error'){
-                    return data;
-                }
-                if(data.predictionDiagnosisDescription) {
-                    prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
-                }
-                if(data.predictionDiagnosisCode) {
-                    prediction.predictionDiagnosisCode = data.predictionDiagnosisCode;
-                }
-                if(data.predictionDescription) {
-                    prediction.description = data.predictionDescription;
-                }
-                if(data.predictionLevel) {
-                    prediction.level = data.predictionLevel;
-                }
-                if(data.predictionStatusCode) {
-                    prediction.statusCode = data.predictionStatusCode;
-                }
-                if (data.probabilityOverLimit) {
-                    prediction.probabilityOverLimit = data.probabilityOverLimit;
-                }
-                if (data.prevalence) {
-                    prediction.prevalence = data.prevalence;
-                }
-                return prediction;
+                return _getPredictionFromResponseData(data);
             });
         }
 
-        function _getAtgarderAndStatistikForDiagnosis(intygsId, patientId, diagnosKod) {
+        function _getAtgarderAndStatistikAndHistoricPredictionForDiagnosis(intygsId, patientId, diagnosKod) {
             return _getSrs(intygsId, patientId, diagnosKod, _createGarbageQuestionAnswer(), false, true, true).then(
                 function(data) {
-                    /* jshint ignore:start */
-                    var atgarder = {};
-                    // jshint:ignoreline
-                    if(data.atgarderDiagnosisDescription) {
-                        atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
-                    }
-                    if(data.atgarderDiagnosisCode) {
-                        atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
-                    }
-                    if (data.atgarderStatusCode) {
-                        atgarder.atgarderStatusCode = data.atgarderStatusCode;
-                    }
-                    if (data.atgarderRek) {
-                        atgarder.atgarderRek = data.atgarderRek;
-                    }
-                    if (data.atgarderObs) {
-                        atgarder.atgarderObs = data.atgarderObs;
-                    }
-                    if(angular.equals({}, atgarder)) {
-                        atgarder = null;
-                    }
-
-                    var statistik = {};
-                    if(data.statistikDiagnosisDescription) {
-                        atgarder.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
-                    }
-                    if(data.statistikDiagnosisCode) {
-                        statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
-                    }
-                    if (data.statistikStatusCode) {
-                        statistik.statistikStatusCode = data.statistikStatusCode;
-                    }
-                    if (data.statistikBild) {
-                        statistik.statistikBild = data.statistikBild;
-                    }
-                    if(angular.equals({}, statistik)) {
-                        statistik = null;
-                    }
-
-                    var prediktion = {};
-                    if (data.prevalence) {
-                        prediktion.prevalence = data.prevalence;
-                    }
-
                     return {
-                        'atgarder': atgarder,
-                        'statistik': statistik,
-                        'prediktion': prediktion,
+                        'atgarder': _getAtgarderFromResponseData(data),
+                        'statistik': _getStatistikFromResponseData(data),
+                        'prediktion': _getPredictionFromResponseData(data),
                     };
-                    /* jshint ignore:end */
                 });
         }
 
@@ -175,18 +194,32 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 return response.data;
             });
         }
+
         function _getSrsForDiagnoseOnly(diagnoseCode) {
             return $http.get('/api/srs/atgarder/' + diagnoseCode);
         }
 
+        function _setOwnOpinion(opinion, careGiverId, careUnitId, certificateId) {
+            return $http.put('/api/srs/opinion/' + careGiverId + '/' + careUnitId + '/' + certificateId, opinion).then(function(response) {
+                return response.data;
+            });
+        }
+
+        function _getOwnOpinion() {
+            return $http.get('/api/srs/opinion/' + careGiverId + '/' + careUnitId + '/' + certificateId).then(function(response) {
+                return response.data;
+            });
+        }
 
         // Return public API for the service
         return {
             getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
+            setOwnOpinion: _setOwnOpinion,
+            getOwnOpinion: _getOwnOpinion,
             getPrediction: _getPrediction,
-            getAtgarderAndStatistikForDiagnosis: _getAtgarderAndStatistikForDiagnosis,
+            getAtgarderAndStatistikAndHistoricPredictionForDiagnosis: _getAtgarderAndStatistikAndHistoricPredictionForDiagnosis,
             logSrsShown: _logSrsShown,
             logSrsClicked: _logSrsClicked,
             logSrsAtgardClicked: _logSrsAtgardClicked,

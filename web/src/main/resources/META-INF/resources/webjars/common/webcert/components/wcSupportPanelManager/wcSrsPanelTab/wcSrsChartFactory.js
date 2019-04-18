@@ -32,6 +32,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
             high: '#E10934',
             medium: '#FFBA3E',
             low: '#799745',
+            risk: '#CDCED6',
             other: [
                 '#E11964',
                 '#032C53',
@@ -362,7 +363,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         softThreshold: false,
                         allowPointSelect : false,
                         marker : {
-                            enabled : false,
+                            enabled : true,
                             symbol : 'circle'
                         },
                         dataLabels : {
@@ -514,7 +515,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 femaleColor = COLORS.female,
                 high = COLORS.high,
                 medium = COLORS.medium,
-                low = COLORS.low;
+                low = COLORS.low,
+                riskColor = COLORS.risk;
 
             _.each(rawData, function (data) {
                 // continue if color is set
@@ -527,18 +529,18 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 } else if (data.sex === 'FEMALE') {
                     data.color = femaleColor[femaleColorSelector++];
                 } else if (data.type === 'RISK') {
-                    // undefined != null  // false
-                    // undefined !== null // true
-                    // y != null -> is equivalent to -> (y !== null && y !== undefined)
-                    if (data.y != null) {
-                        if (data.y < 33) {
-                            data.color = low;
-                        } else if (data.y >= 33 && data.y < 67) {
-                            data.color = medium;
-                        } else {
-                            data.color = high;
-                        }
-                    }
+                    data.color = riskColor;
+                    // if (data.y != null) {
+                    //     if (data.y < 33) {
+                    //         data.color = low;
+                    //     } else if (data.y >= 33 && data.y < 67) {
+                    //         data.color = medium;
+                    //     } else {
+                    //         data.color = high;
+                    //     }
+                    // }
+                } else if (data.type === 'ÅTERGÅNG') {
+                    data.color = colors.overview;
                 } else {
                     if(colorSelector === colors.length) {
                         //Begin a new with colors array

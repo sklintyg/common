@@ -18,6 +18,9 @@
  */
 /**
  * Display SRS help texts
+ *
+ * 2019-04-03 CH: THE OLD SRS DIRECTIVE, TO BE REMOVED LATER ON WHEN FULLY MIGRATED (MORE CONSENT ETC)
+ *
  */
 angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCreator',
     function($window, srsLinkCreator) {
