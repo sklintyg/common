@@ -80,6 +80,10 @@ angular.module('common').directive('wcFmbPanelTab', [ 'common.anchorScrollServic
                     heading: 'AKTIVITETSBEGRANSNING',
                     data: null
                 }, {
+                    formId: 'INFORMATIONOMREHABILITERING',
+                    heading: 'INFORMATIONOMREHABILITERING',
+                    data: null
+                }, {
                     formId: 'DIAGNOS',
                     heading: 'GENERELL_INFO',
                     data: null

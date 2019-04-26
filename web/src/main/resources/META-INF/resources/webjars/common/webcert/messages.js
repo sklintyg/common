@@ -751,6 +751,7 @@
             'fmb.generell_info': 'Försäkringsmedicinsk information',
             'fmb.funktionsnedsattning': 'Funktionsnedsättning',
             'fmb.aktivitetsbegransning': 'Aktivitetsbegränsning',
+            'fmb.informationomrehabilitering': 'Information om rehabilitering',
             'fmb.beslutsunderlag_textuellt': 'Vägledning för sjukskrivning',
             'fmb.warn.no-diagnose-set': 'Ange minst en diagnos för att få FMB-stöd.',
             'fmb.info.single-diagnose-no-data': 'För den angivna diagnosen finns för tillfället inget FMB-stöd.',
