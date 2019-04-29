@@ -2,6 +2,7 @@ ue-textarea {
   display: block;
 
   textarea.form-control {
+    overflow-y: hidden;
     &:disabled, fieldset[disabled] & {
       background-color: $wc-color-20;
       color: $wc-color-09;

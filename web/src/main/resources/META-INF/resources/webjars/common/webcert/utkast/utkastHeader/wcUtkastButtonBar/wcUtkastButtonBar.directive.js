@@ -176,8 +176,7 @@ angular.module('common').directive('wcUtkastButtonBar', [ '$log', '$stateParams'
                     CommonViewState.isSameCareUnit() && // Same unit
                     CommonViewState.isLocked && // isLocked
                     avlidenAndFeatureOrAlive && // Alive patient
-                    !UserModel.getIntegrationParam('inactiveUnit') && // Active unit
-                    UserModel.getIntegrationParam('copyOk') !== false; // 'journalsystem has allowed copy
+                    !UserModel.getIntegrationParam('inactiveUnit'); // Active unit
             };
 
             $scope.disabledCopyBtn = function() {

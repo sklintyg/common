@@ -124,12 +124,17 @@
         <xsl:with-param name="elemName" select="'p1:person-id'"/>
         <xsl:with-param name="root" select="ns2:root"/>
         <xsl:with-param name="extension">
-          <xsl:if test="contains(ns2:extension, '-')">
-            <xsl:call-template name="remove">
-              <xsl:with-param name="haystack" select="ns2:extension"/>
-              <xsl:with-param name="needle" select="'-'"/>
-            </xsl:call-template>
-          </xsl:if>
+          <xsl:choose>
+            <xsl:when test="contains(ns2:extension, '-')">
+              <xsl:call-template name="remove">
+                <xsl:with-param name="haystack" select="ns2:extension"/>
+                <xsl:with-param name="needle" select="'-'"/>
+              </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="ns2:extension"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:with-param>
       </xsl:call-template>
     </xsl:if>

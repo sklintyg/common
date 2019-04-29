@@ -23,6 +23,7 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -50,6 +51,7 @@ import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 import se.inera.intyg.common.tstrk1062.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.tstrk1062.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.tstrk1062.v1.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.tstrk1062.v1.model.internal.DiagnosKodad;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.common.tstrk1062.v1.pdf.PdfGenerator;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -138,6 +140,23 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
     @Override
     protected TsTrk1062UtlatandeV1 transportToInternal(Intyg intyg) throws ConverterException {
         return TransportToInternal.convert(intyg);
+    }
+
+    @Override
+    protected TsTrk1062UtlatandeV1 decorateDiagnoserWithDescriptions(TsTrk1062UtlatandeV1 utlatande) {
+        final List<DiagnosKodad> diagnosKodadList = utlatande.getDiagnosKodad();
+        if (diagnosKodadList != null && diagnosKodadList.size() > 0) {
+            List<DiagnosKodad> decoratedDiagnoser = diagnosKodadList.stream()
+                    .map(diagnos -> DiagnosKodad.create(diagnos.getDiagnosKod(),
+                            diagnos.getDiagnosKodSystem(),
+                            diagnos.getDiagnosBeskrivning(),
+                            moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem()),
+                            diagnos.getDiagnosArtal()))
+                    .collect(Collectors.toList());
+            return utlatande.toBuilder().setDiagnosKodad(decoratedDiagnoser).build();
+        } else {
+            return utlatande;
+        }
     }
 
     @Override

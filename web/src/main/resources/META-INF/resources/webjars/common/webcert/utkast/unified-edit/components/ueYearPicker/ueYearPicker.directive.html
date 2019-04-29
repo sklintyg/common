@@ -17,12 +17,13 @@
                    ng-class="{'text-invalid': invalid}"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true, allowInvalid: true}"
+                   ng-trim="false"
                    is-open="pickerState.isOpen"
                    ng-blur="onDatepickerInputFieldBlur(); updateValidation()"
                    wc-blur-on-enter
                    ng-focus="focused()"
                    ue-year-only-parser
-                   wc-number="true"
+                   wc-number="true" allow-whitespace-characters="false"
                    uib-datepicker-popup="{{::format}}"
                    popup-placement="auto right"
                    show-button-bar="false"

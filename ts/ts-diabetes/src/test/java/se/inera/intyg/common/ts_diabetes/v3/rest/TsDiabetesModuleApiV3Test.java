@@ -31,8 +31,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 
+import java.io.IOException;
+import java.io.StringReader;
+
+import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
@@ -45,14 +48,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.oxm.UnmarshallingFailureException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -70,6 +73,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ExternalServi
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleConverterException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.services.BefattningService;
+import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_diabetes.v3.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioFinder;
@@ -77,6 +81,7 @@ import se.inera.intyg.common.ts_diabetes.v3.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.inera.intygstjanster.ts.services.RegisterTSDiabetesResponder.v1.RegisterTSDiabetesType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -344,6 +349,20 @@ public class TsDiabetesModuleApiV3Test {
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
+
+    @Test
+    public void parseInvalidXmlFromProdDatabaseLegacyTest() throws Exception {
+        // partial unmarshalling
+        String xml =  Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
+        JAXB.unmarshal(new StringReader(xml), RegisterTSDiabetesType.class);
+    }
+
+    @Test(expected = UnmarshallingFailureException.class)
+    public void parseInvalidXmlFromProdDatabaseNewTest() throws Exception {
+        String xml =  Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
+        XmlMarshallerHelper.unmarshal(xml);
+    }
+
 
     @Test
     public void testUpdateBeforeSave() throws Exception {

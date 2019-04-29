@@ -45,10 +45,10 @@ public class InternalValidatorInstanceImplTest {
     @InjectMocks
     InternalValidatorInstanceImpl validator;
 
-    TsTrk1062UtlatandeV1.Builder builderTemplate;
+    private TsTrk1062UtlatandeV1.Builder builderTemplate;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         builderTemplate = TsTrk1062UtlatandeV1.builder()
                 .setId("intygsId")
                 .setGrundData(buildGrundData(LocalDateTime.now()))
@@ -66,7 +66,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateDraft() throws Exception {
+    public void validateDraft() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate.build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -75,7 +75,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullIntygAvser() throws Exception {
+    public void validateNullIntygAvser() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setIntygAvser(null)
                 .build();
@@ -87,7 +87,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateMissingIntygAvser() throws Exception {
+    public void validateMissingIntygAvser() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setIntygAvser(IntygAvser.create(EnumSet.noneOf(IntygAvser.BehorighetsTyp.class)))
                 .build();
@@ -100,7 +100,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullIdKontroll() throws Exception {
+    public void validateNullIdKontroll() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setIdKontroll(null)
                 .build();
@@ -113,7 +113,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnosRegistrering() throws Exception {
+    public void validateNullDiagnosRegistrering() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(null)
                 .build();
@@ -126,7 +126,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnosRegistreringTyp() throws Exception {
+    public void validateNullDiagnosRegistreringTyp() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(null))
                 .build();
@@ -139,7 +139,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnosFritext() throws Exception {
+    public void validateNullDiagnosFritext() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
                 .setDiagnosFritext(null)
@@ -153,7 +153,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnosFritextValues() throws Exception {
+    public void validateNullDiagnosFritextValues() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
                 .setDiagnosFritext(DiagnosFritext.create(null, null))
@@ -174,7 +174,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyDiagnosFritextValues() throws Exception {
+    public void validateEmptyDiagnosFritextValues() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
                 .setDiagnosFritext(DiagnosFritext.create("", ""))
@@ -195,7 +195,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateInvalidDiagnosFritextYear() throws Exception {
+    public void validateInvalidDiagnosFritextYear() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_FRITEXT))
                 .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "Årtal"))
@@ -209,7 +209,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateFutureDiagnosFritextYear() throws Exception {
+    public void validateFutureDiagnosFritextYear() {
         final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
@@ -225,7 +225,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnosKodad() throws Exception {
+    public void validateNullDiagnosKodad() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
                 .build();
@@ -238,10 +238,10 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyDiagnosKodad() throws Exception {
+    public void validateEmptyDiagnosKodad() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(new ArrayList<DiagnosKodad>())
+                .setDiagnosKodad(new ArrayList<>())
                 .build();
 
         final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
@@ -252,11 +252,11 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullDiagnos() throws Exception {
+    public void validateNullDiagnos() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create(null,
                 null, null, null, null);
 
-        final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
@@ -282,11 +282,11 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyDiagnos() throws Exception {
+    public void validateEmptyDiagnos() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("", "",
                 "", "", "");
 
-        final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
@@ -312,11 +312,68 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateInvalidDiagnosArtal() throws Exception {
+    public void validateFirstDiagnosMissing() {
+        final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
+                "", "", "");
+
+        final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
+                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "2019");
+
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
+        diagnosKodadList.add(diagnosKodadOne);
+        diagnosKodadList.add(diagnosKodadTwo);
+
+        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(diagnosKodadList)
+                .build();
+
+        final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
+        final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
+
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
+
+        assertOneValidationMessages(validationMessages, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+    }
+
+    @Test
+    public void validateFirstDiagnosMissingAndSecondInvalid() {
+        final DiagnosKodad diagnosKodadOne = DiagnosKodad.create("", "",
+                "", "", "");
+
+        final DiagnosKodad diagnosKodadTwo = DiagnosKodad.create("A01", "ICD10",
+                "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
+
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(2);
+        diagnosKodadList.add(diagnosKodadOne);
+        diagnosKodadList.add(diagnosKodadTwo);
+
+        final TsTrk1062UtlatandeV1 utlatande = builderTemplate
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(diagnosKodadList)
+                .build();
+
+        final ValidateDraftResponse validateDraftResponse = validator.validateDraft(utlatande);
+        final List<ValidationMessage> validationMessages = validateDraftResponse.getValidationErrors();
+
+        assertEquals("Should have two error messages", 2, validationMessages.size());
+
+        final Map<String, ValidationMessage> validationsMap = buildMapFromMessages(validationMessages);
+
+        assertValidationMessage(validationsMap, ValidationMessageType.INCORRECT_COMBINATION, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[0]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID);
+
+        assertValidationMessage(validationsMap, ValidationMessageType.INVALID_FORMAT, ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + "[1]" + PUNKT + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID);
+    }
+
+    @Test
+    public void validateInvalidDiagnosArtal() {
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
                 "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", "Årtal");
 
-        final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
@@ -332,13 +389,13 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateFutureDiagnosArtal() throws Exception {
+    public void validateFutureDiagnosArtal() {
         final String futureYear = Integer.toString(LocalDate.now().plusYears(1).getYear());
 
         final DiagnosKodad diagnosKodad = DiagnosKodad.create("A01", "ICD10",
                 "Diagnosbeskrivning", "A01 - Diagnosbeskrivning", futureYear);
 
-        final List<DiagnosKodad> diagnosKodadList = new ArrayList<DiagnosKodad>(1);
+        final List<DiagnosKodad> diagnosKodadList = new ArrayList<>(1);
         diagnosKodadList.add(diagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
@@ -354,7 +411,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandling() throws Exception {
+    public void validateNullLakemedelsbehandling() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(null)
                 .build();
@@ -367,7 +424,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingHarHaft() throws Exception {
+    public void validateNullLakemedelsbehandlingHarHaft() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(null, null, null, null,
                         null, null, null, null))
@@ -381,7 +438,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingPagar() throws Exception {
+    public void validateNullLakemedelsbehandlingPagar() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, null, null, null,
                         null, null, null, null))
@@ -395,7 +452,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingAktuell() throws Exception {
+    public void validateNullLakemedelsbehandlingAktuell() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, null, false,
                         false, false, null, null))
@@ -409,7 +466,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyLakemedelsbehandlingAktuell() throws Exception {
+    public void validateEmptyLakemedelsbehandlingAktuell() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "", false,
                         false, false, null, null))
@@ -423,7 +480,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingPagatt() throws Exception {
+    public void validateNullLakemedelsbehandlingPagatt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", null,
                         false, false, null, null))
@@ -437,7 +494,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingEffekt() throws Exception {
+    public void validateNullLakemedelsbehandlingEffekt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
                         null, false, null, null))
@@ -451,7 +508,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingFoljsamhet() throws Exception {
+    public void validateNullLakemedelsbehandlingFoljsamhet() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, true, "Aktuell", false,
                         false, null, null, null))
@@ -465,7 +522,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingAvslutadTidpunkt() throws Exception {
+    public void validateNullLakemedelsbehandlingAvslutadTidpunkt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
                         null, null, null, "Orsak"))
@@ -479,7 +536,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() throws Exception {
+    public void validateEmptyLakemedelsbehandlingAvslutadTidpunkt() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
                         null, null, "", "Orsak"))
@@ -493,7 +550,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullLakemedelsbehandlingAvslutadOrsak() throws Exception {
+    public void validateNullLakemedelsbehandlingAvslutadOrsak() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
                         null, null, "Förra året", null))
@@ -507,7 +564,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyLakemedelsbehandlingAvslutadOrsak() throws Exception {
+    public void validateEmptyLakemedelsbehandlingAvslutadOrsak() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setLakemedelsbehandling(Lakemedelsbehandling.create(true, false, null, null,
                         null, null, "Förra året", ""))
@@ -521,7 +578,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullBedomningAvSymptom() throws Exception {
+    public void validateNullBedomningAvSymptom() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomningAvSymptom(null)
                 .build();
@@ -533,7 +590,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateEmptyBedomningAvSymptom() throws Exception {
+    public void validateEmptyBedomningAvSymptom() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomningAvSymptom(null)
                 .build();
@@ -545,7 +602,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullPrognos() throws Exception {
+    public void validateNullPrognos() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setPrognosTillstand(null)
                 .build();
@@ -558,7 +615,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullPrognosType() throws Exception {
+    public void validateNullPrognosType() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setPrognosTillstand(PrognosTillstand.create(null))
                 .build();
@@ -571,7 +628,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullBedomning() throws Exception {
+    public void validateNullBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomning(null)
                 .build();
@@ -584,7 +641,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateNullBedomningBehorighetsKrav() throws Exception {
+    public void validateNullBedomningBehorighetsKrav() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomning(Bedomning.builder().build())
                 .build();
@@ -597,7 +654,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateMissingBedomning() throws Exception {
+    public void validateMissingBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomning(Bedomning.builder()
                         .setUppfyllerBehorighetskrav(EnumSet.noneOf(Bedomning.BehorighetsTyp.class))
@@ -612,7 +669,7 @@ public class InternalValidatorInstanceImplTest {
     }
 
     @Test
-    public void validateInvalidBedomning() throws Exception {
+    public void validateInvalidBedomning() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setBedomning(Bedomning.builder()
                         .setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR6,
@@ -636,9 +693,14 @@ public class InternalValidatorInstanceImplTest {
     }
 
     private void assertValidationMessage(Map<String, ValidationMessage> validationMessageMap, String category, String field) {
+        assertValidationMessage(validationMessageMap, ValidationMessageType.EMPTY, category, field);
+    }
+
+    private void assertValidationMessage(Map<String, ValidationMessage> validationMessageMap, ValidationMessageType validationMessageType,
+            String category, String field) {
         final ValidationMessage validationMessage = validationMessageMap.get(field);
         assertNotNull("Missing message for " + field, validationMessage);
-        assertValidationMessage(validationMessage, ValidationMessageType.EMPTY, category, field);
+        assertValidationMessage(validationMessage, validationMessageType, category, field);
     }
 
     private void assertOneValidationMessages(List<ValidationMessage> validationMessage, String category, String field) {

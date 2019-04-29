@@ -18,13 +18,14 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.integration;
 
+import java.io.StringReader;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,6 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
-import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.ts_parent.integration.ResultTypeUtil;
 import se.inera.intyg.common.util.logging.LogMarkers;
 import se.inera.intyg.schemas.contract.Personnummer;
@@ -82,9 +82,8 @@ public class GetTSDiabetesResponderImpl implements GetTSDiabetesResponderInterfa
                 response.setResultat(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR,
                         String.format("Certificate '%s' has been deleted by care giver", certificateId)));
             } else {
-
-                JAXBElement<RegisterTSDiabetesType> el = XmlMarshallerHelper.unmarshal(certificate.getOriginalCertificate());
-                TSDiabetesIntyg tsDiabetesIntyg = el.getValue().getIntyg();
+                TSDiabetesIntyg tsDiabetesIntyg = JAXB
+                        .unmarshal(new StringReader(certificate.getOriginalCertificate()), RegisterTSDiabetesType.class).getIntyg();
                 response.setIntyg(tsDiabetesIntyg);
                 response.setMeta(createMetaData(certificate));
                 if (certificate.isRevoked()) {

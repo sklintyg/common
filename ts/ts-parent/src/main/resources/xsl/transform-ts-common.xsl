@@ -103,7 +103,14 @@
     <p:patient>
       <p:person-id root="1.2.752.129.2.1.3.1">
         <xsl:attribute name="extension">
-          <xsl:value-of select="ns1:grundData/ns1:patient/ns1:personId/ns3:extension"/>
+          <xsl:choose>
+            <xsl:when test="contains(ns1:grundData/ns1:patient/ns1:personId/ns3:extension, '-')">
+              <xsl:value-of select="ns1:grundData/ns1:patient/ns1:personId/ns3:extension"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="concat(substring(ns1:grundData/ns1:patient/ns1:personId/ns3:extension, 0,9), '-', substring(ns1:grundData/ns1:patient/ns1:personId/ns3:extension, 9,13))"/>
+            </xsl:otherwise>
+          </xsl:choose>
         </xsl:attribute>
       </p:person-id>
       <p:fornamn>

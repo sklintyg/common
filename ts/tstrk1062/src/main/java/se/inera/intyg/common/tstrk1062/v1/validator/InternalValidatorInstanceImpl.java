@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
@@ -152,7 +153,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                     ALLMANT_KATEGORI,
                     ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
                     ValidationMessageType.EMPTY,
-                    "common.validation.ue-year-picker.empty");
+                    "common.validation.b-03a");
         } else if (isNotYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
                     ALLMANT_KATEGORI,
@@ -170,14 +171,31 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
     private void validateDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<ValidationMessage> validationMessages) {
         int diagnosNr = 0;
+        boolean ignoreDiagnoseOne = false;
+
+        if (!diagnosKodad.isEmpty() && !validateFirstDiagnoseIsPresent(diagnosKodad) && diagnosKodad.size() > 1) {
+            ValidatorUtil.addValidationError(validationMessages,
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                            + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
+                    ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-05");
+            // No additional validation messages should be added to diagnose one.
+            ignoreDiagnoseOne = true;
+        }
+
         for (DiagnosKodad diagnos : diagnosKodad) {
+            if (diagnosNr == 0 && ignoreDiagnoseOne) {
+                diagnosNr++;
+                continue;
+            }
+
             if (isNull(diagnos.getDiagnosKod()) || diagnos.getDiagnosKod().isEmpty()) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.missing");
+                        "common.validation.b-03a");
             }
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,
@@ -193,7 +211,7 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
                         ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
                                 + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
                         ValidationMessageType.EMPTY,
-                        "common.validation.ue-year-picker.empty");
+                        "common.validation.b-03a");
             } else if (isNotYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
                         ALLMANT_KATEGORI,
@@ -212,6 +230,13 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
             diagnosNr++;
         }
+    }
+
+    private Boolean validateFirstDiagnoseIsPresent(List<DiagnosKodad> diagnosKodad) {
+        DiagnosKodad diagnos = diagnosKodad.get(0);
+        return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
+                || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()
+                || !Strings.nullToEmpty(diagnos.getDiagnosArtal()).trim().isEmpty();
     }
 
     private void validateLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<ValidationMessage> validationMessages) {

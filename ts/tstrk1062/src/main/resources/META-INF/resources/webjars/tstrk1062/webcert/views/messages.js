@@ -20,10 +20,7 @@
 angular.module('tstrk1062').constant('tstrk1062.messages', {
     'sv': {
         // Validation messages starting
-        'tstrk1062.validation.intygavses.missing': 'Intyget avser saknas.',
-        'tstrk1062.validation.idkontroll.missing': 'Id kontroll saknas.',
         'tstrk1062.validation.diagnos.artal' : 'Ange ett år, årets eller tidigare.',
-        'tstrk1062.validation.lakemedelsbehandling.avslutad' : 'Ange dagens eller ett tidigare datum.',
         'tstrk1062.validation.diagnos.missing' : 'Ange minst en diagnos och vilket år den ställdes.'
     },
     'en': {
