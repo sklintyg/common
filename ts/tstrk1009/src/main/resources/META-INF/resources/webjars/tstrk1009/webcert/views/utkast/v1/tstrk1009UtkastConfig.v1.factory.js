@@ -42,7 +42,7 @@ angular.module('tstrk1009').factory('tstrk1009.UtkastConfigFactory.v1',
                 var fraga = ueFactoryTemplates.fraga;
                 var config = [
 
-                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {}, [
+                    kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(2, 'FRG_2.RBK', 'FRG_2.HLP', {required: true, requiredProp: 'identitetStyrktGenom.typ'}, [
                             {
                                 type: 'ue-radiogroup',
