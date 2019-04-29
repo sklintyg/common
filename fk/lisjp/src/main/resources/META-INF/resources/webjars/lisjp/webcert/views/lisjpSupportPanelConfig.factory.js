@@ -59,7 +59,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 config: {
                     intygContext: config.intygContext
                 },
-                active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
+                // active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
+                active: !_anyTabActive()
             });
         }
 
