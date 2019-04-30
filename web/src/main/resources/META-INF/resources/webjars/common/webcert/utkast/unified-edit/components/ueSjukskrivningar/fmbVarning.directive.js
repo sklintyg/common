@@ -66,7 +66,7 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                         }
 
                     }, function(error) {
-                        $scope.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false };
+                        $scope.fmbVarning = { overskriderRekommenderadSjukskrivningstid: false, error: true };
                         $log.debug('fmbvarning error: ' + error);
                     });
                 } else {
