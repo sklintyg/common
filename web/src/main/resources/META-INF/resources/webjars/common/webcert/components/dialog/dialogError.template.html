@@ -3,7 +3,10 @@
 </div>
 <wc-bottom-fadeout>
   <div class="modal-body">
-    <div id="dialogErrorText" ng-bind-html="bodyText"></div>
+    <p id="dialogErrorText" bind-html-compile="bodyText"></p>
+    <p ng-if="certificateId">
+      Ange intygets ID för snabbare hantering: {{certificateId}}
+    </p>
   </div>
 </wc-bottom-fadeout>
 <div class="modal-footer">

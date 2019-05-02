@@ -81,27 +81,15 @@ angular.module('fk7263').controller('fk7263.ViewCertCtrl',
                             ViewState.common.activeErrorMessageKey = 'common.error.could_not_load_cert';
                         }
                     }
-                    $scope.intygBackup.showBackupInfo = false;
                 }, function(error) {
                     $rootScope.$emit('ViewCertCtrl.load', null, null);
                     $rootScope.$broadcast('intyg.loaded', null);
                     ViewState.common.doneLoading = true;
                     ViewState.common.updateActiveError(error, $stateParams.signed);
-                    $scope.intygBackup.showBackupInfo = true;
                 });
             }
 
             loadIntyg();
-
-            /**
-             * Event response from QACtrl which sends its intyg-info here in case intyg couldn't be loaded but QA info could.
-             * @type {{}}
-             */
-            $scope.intygBackup = {intyg: null, showBackupInfo: false};
-            var unbindFastEventFail = $rootScope.$on('fk7263.ViewCertCtrl.load.failed', function(event, intyg) {
-                $scope.intygBackup.intyg = intyg;
-            });
-            $scope.$on('$destroy', unbindFastEventFail);
 
             $scope.$on('loadCertificate', loadIntyg);
         }]);

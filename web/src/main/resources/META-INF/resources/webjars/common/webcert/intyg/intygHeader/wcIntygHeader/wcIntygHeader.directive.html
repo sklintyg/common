@@ -1,33 +1,10 @@
-<div class="wc-page-header">
+<div>
+<div class="wc-page-header" ng-if="!intygViewState.common.activeErrorMessageKey">
   <wc-spinner label="common.load.certificate" show-spinner="!intygHeaderViewState.intygLoaded || !intygHeaderViewState.arendenLoaded">
     <div class="centered-constrained-content">
 
-      <!-- page error message -->
-      <div ng-if="intygViewState.common.activeErrorMessageKey">
-        <wc-alert-message id="intyg-load-error" ng-show="intygViewState.common.doneLoading"
-                          alert-severity="danger">
-
-          <span ng-if="!(intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined)">
-            <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
-          </span>
-
-          <div
-              ng-if="intygBackup.showBackupInfo && intygBackup.intyg != undefined && intygBackup.intyg.intygsId != undefined">
-            <p>
-              <span dynamic-label key="{{intygViewState.common.activeErrorMessageKey}}"></span>
-            </p>
-            <p><strong>Intygsinformation</strong></p>
-            <ul>
-              <li>Patient: {{intygBackup.intyg.patientNamn}} ({{intygBackup.intyg.patientId.patientIdExtension}})</li>
-              <li>Signerat: {{intygBackup.intyg.signeringsDatum | date:'short'}}</li>
-              <li>ID: {{intygBackup.intyg.intygsId}}</li>
-            </ul>
-          </div>
-        </wc-alert-message>
-      </div>
-
       <!-- header content -->
-      <div ng-if="!intygViewState.common.activeErrorMessageKey" id="intyg-vy-laddad">
+      <div id="intyg-vy-laddad">
 
         <!-- Status -->
         <div class="page-header-divider">
@@ -68,4 +45,5 @@
       </div>
     </div>
   </wc-spinner>
+</div>
 </div>
