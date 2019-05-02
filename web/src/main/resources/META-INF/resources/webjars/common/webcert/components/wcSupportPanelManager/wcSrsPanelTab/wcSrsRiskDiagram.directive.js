@@ -139,7 +139,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     });
 
                     $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal)
+                        // console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal)
                         if (newVal.prevalence != null) {
                             chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100)
                             chartData.risk.chartData[0].name = 'Genomsnittlig risk';

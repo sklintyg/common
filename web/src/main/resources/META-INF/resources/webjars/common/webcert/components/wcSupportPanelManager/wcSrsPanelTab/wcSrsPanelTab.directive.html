@@ -43,11 +43,11 @@
         </div>
 
         <div>
+            <!-- RISK DIAGRAM -->
+            <div>
+                <wc-srs-risk-diagram />
+            </div>
             <div ng-show="srs.consent === 'JA' && !srs.consentError">
-<!-- RISK DIAGRAM -->
-                <div>
-                    <wc-srs-risk-diagram />
-                </div>
 <!-- LÄKARENS EGEN BEDÖMNING --->
                 <div id="srs-own-opinion" ng-if="srs.prediction.probabilityOverLimit">
                     <hr/>
@@ -71,24 +71,23 @@
                     </div>
                     <br />
                 </div>
-<!-- BERÄKNA RISK: FRÅGOR -->
-                <hr class="srs-thick-divider"/>
-
-                <h3 class="floatLeft">Beräkna patientens risk</h3>
-                <div class="line">
-                    <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                        <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
-                    </a>
-                </div>
-                <br/>
-                <br/>
-                <div id="collapseExample" class="panel-collapse collapse in">
-                    <wc-srs-questionaire></wc-srs-questionaire>
-                </div>
-                <hr class="srs-thick-divider"/>
-                <wc-srs-result></wc-srs-result>
             </div>
+<!-- BERÄKNA RISK: FRÅGOR -->
+            <hr class="srs-thick-divider"/>
 
+            <h3 class="floatLeft">Beräkna patientens risk</h3>
+            <div class="line">
+                <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
+                </a>
+            </div>
+            <br/>
+            <br/>
+            <div id="collapseExample" class="panel-collapse collapse in">
+                <wc-srs-questionaire></wc-srs-questionaire>
+            </div>
+            <hr class="srs-thick-divider"/>
+            <wc-srs-result></wc-srs-result>
         </div>
     </div>
 

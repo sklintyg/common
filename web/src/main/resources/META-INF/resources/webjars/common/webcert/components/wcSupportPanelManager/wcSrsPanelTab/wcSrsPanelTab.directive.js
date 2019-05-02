@@ -29,66 +29,18 @@ angular.module('common').directive('wcSrsPanelTab',
         },
         templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.html',
         link: function($scope, $element, $attrs) {
-            console.log('link')
-
             $scope.srs = srsViewState;
-            $scope.tempAtgard = {
-                text: 'Grundlig utredning av patientens hälsa är viktig för att bedöma svårighetsgraden på ' +
-                    'besvären, ställa diagnos och för att ge adekvat behandling. Det är viktigt att ställa frågor om vad patienten tror är orsak till besvären, hur sömnen ' +
-                    'fungerar, hur hemsituationen och arbetssituationen ser ut och hur länge patienten har haft problem. ' +
-                    'Genom att kartlägga detta noggrant säkerställs att patienten får adekvata behandlingsinsatser.',
-                textMer: 'Det är viktigt att ställa frågor om vad patienten tror är orsak till besvären, hur sömnen ' +
-                    'fungerar, hur hemsituationen och arbetssituationen ser ut och hur länge patienten har haft problem. ' +
-                    'Genom att kartlägga detta noggrant säkerställs att patienten får adekvata behandlingsinsatser.',
-                heading: 'TEST',
-            }
-            console.log('srsViewState', srsViewState)
-            console.log('$attrs', $attrs)
-            console.log('$scope.config', $scope.config)
-
-            //Set initial viewmodel state
-            // $scope.vm = {
-            //     riskInfoOpen: false,
-            //
-            //     activeDiagnose: null,
-            //     noDataMessage: null,
-            //     referensDescr: null,
-            //     referensLink: null
+            // $scope.id = $attrs.id;  // id is not provided by wcSupportPanelComponentRenderer
+            // $scope.status = {
+            //     open: false,
+            //     riskInfoOpen: false
             // };
-
-            $scope.id = $attrs.id;
-            $scope.status = {
-                open: false,
-                riskInfoOpen: false
-            };
 
             // make sure component isn't visible if no id is supplied
-            if(!ObjectHelper.isDefined($scope.id)){
-                $scope.srs.srsApplicable = false;
-            }
-            console.log('link $scope.srs.srsApplicable', $scope.srs.srsApplicable)
-
-            // Probably not needed now when using tabs
-            //
-            // $scope.closeFmb = function() {
-            //     if ($scope.status.open) {
-            //         $rootScope.$broadcast('closeFmb');
-            //     }
-            // };
-            //
-            // $scope.closeSrs = function(){
-            //     if($scope.status.open){
-            //         $scope.dontCloseThis = true;
-            //     }
-            //     $rootScope.$broadcast('closeSrs');
-            // };
-            //
-            // $scope.$on('closeSrs', function() {
-            //     if(!$scope.dontCloseThis){
-            //         $scope.status.open = false;
-            //     }
-            //     $scope.dontCloseThis = false;
-            // });
+            // if(!ObjectHelper.isDefined($scope.id)){
+            //     $scope.srs.srsApplicable = false;
+            // }
+            // console.log('link $scope.srs.srsApplicable', $scope.srs.srsApplicable)
 
             $scope.questionsFilledForVisaButton = function() {
                 console.log('$scope.questionsFilledForVisaButton()')
@@ -166,16 +118,6 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.atgarder = 'error';
                         $scope.srs.prediction = 'error';
                     });
-
-                // function stringifyAtgarderObs(atgarderObs){
-                //     var tempAtgarderObs = atgarderObs && atgarderObs.length > 0 ? '<b>Tänk på att</b> ' : '';
-                //     for(var i = 0; i < atgarderObs.length; i++){
-                //         tempAtgarderObs += atgarderObs[i];
-                //         tempAtgarderObs += '. ';
-                //     }
-                //     tempAtgarderObs = tempAtgarderObs.replace(/<br \/>/g, '<br>');
-                //     return tempAtgarderObs;
-                // }
             };
 
             $scope.getQuestions = function(diagnosKod) {
@@ -198,14 +140,6 @@ angular.module('common').directive('wcSrsPanelTab',
                     return qas;
                 });
             };
-
-            // $scope.setConsent = function() {
-            //     console.log('$scope.setConsent()')
-            //     console.log('$scope.srs.consent', $scope.srs.consent)
-            //     var consent = $scope.srs.consent === 'JA';
-            //     console.log('consent', consent)
-            //     srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent);
-            // };
 
             $scope.setConsent = function(consent) {
                 console.log('setConsent', consent)
@@ -254,14 +188,18 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.activeTab = tabname;
             };
 
+            /**
+             * Starts the flow when the user enters the certificate editor
+             * or the editor is reloaded.
+             */
             $scope.$on('intyg.loaded', function(event, content) {
-                    console.log('got event intyg.loaded', event, content)
-                    if(!srsViewState.diagnosisListFetching) {
+                    console.log('EVENT: "intyg.loaded"', event, content)
+                    if(!$scope.srs.diagnosisListFetching) {
                         loadDiagCodes();
                     }
                     $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
                     console.log('$scope.srs.userHasSrsFeature', $scope.srs.userHasSrsFeature)
-                    console.log('$scope.id', $scope.id)
+                    // console.log('$scope.id', $scope.id)
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
                     // if ($scope.srs.userHasSrsFeature && $scope.id === '2') {
                     if ($scope.srs.userHasSrsFeature) { // TODO: why scope id 2? was that used for identifying the "window" as the srs window?
@@ -312,10 +250,11 @@ angular.module('common').directive('wcSrsPanelTab',
                 console.log('applySrsForDiagnosisCode()')
                 resetMessages();
                 reset();
-                srsViewState.diagnosKod = srsViewState.originalDiagnosKod;
-                srsViewState.diagnosisListFetching.then(function() {
+                $scope.srs.diagnosKod = srsViewState.originalDiagnosKod;
+                $scope.srs.diagnosisListFetching.then(function() {
                     $scope.srs.srsApplicable = isSrsApplicable($scope.srs.diagnosKod);
-                    if ($scope.srs.srsApplicable && $scope.srs.consent === 'JA') {
+                    // if ($scope.srs.srsApplicable && $scope.srs.consent === 'JA') { // TODO: Replace this with removing patient data if the consent is removed
+                    if ($scope.srs.srsApplicable) {
                         if (!$scope.srs.shownFirstTime) {
                             srsProxy.logSrsShown();
                         }
@@ -340,7 +279,7 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function setAtgarderMessages() {
                 console.log('setAtgarderMessages()', $scope.srs.atgarder)
-                console.log('$scope.status', $scope.status)
+                // console.log('$scope.status', $scope.status)
                 $scope.srs.atgarderInfo = '';
                 $scope.srs.atgarderError = '';
                 if ($scope.srs.atgarder) {
@@ -557,6 +496,12 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.$watch('srs.consent', function(newVal,oldVal) {
                 console.log('caught a change of consent from: ' + oldVal + ' to: ' + newVal);
+            })
+
+            $scope.$on('panel.activated', function(event, activatedPanelId) {
+                if (activatedPanelId === 'wc-srs-panel-tab') {
+                    console.log('Activated SRS panel')
+                }
             })
 
             // $timeout(function(){

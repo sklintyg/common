@@ -88,7 +88,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     };
 
                     var updateCharts = function (result) {
-                        console.log('update chart with new data', result.statistik)
+                        // console.log('update chart with new data', result.statistik)
                         chartFactory.addColor(result.statistik);
                         statistikChart = paintChart('nationalStatisticsChart', result.statistik);
                     };
@@ -162,12 +162,12 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     });
 
                     $scope.$watch('srs.statistik', function(newVal, oldVal) {
-                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, statistik', newVal)
-                        console.log('typeof', Array.isArray(newVal.nationellStatistik))
+                        // console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, statistik', newVal)
+                        // console.log('typeof', Array.isArray(newVal.nationellStatistik))
                         if (newVal.nationellStatistik != null
                             && Array.isArray(newVal.nationellStatistik)
                             && newVal.nationellStatistik.length === 5) {
-                            console.log('got new Nationell statistik for chart')
+                            // console.log('got new Nationell statistik for chart')
                             for (var i = 0; i<5; i++) {
                                 chartData.statistik[i].y = newVal.nationellStatistik[i]
                             }
