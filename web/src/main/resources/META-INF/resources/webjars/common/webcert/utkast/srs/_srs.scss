@@ -47,11 +47,9 @@ wc-srs-panel-tab {
     border:1px solid #E8E8E8;
     background-color: #F1F1F1;
     height: 13px;
-    width: 100%;
-
-    //border: 13px solid #CDCED6;
-    //border-top: 1px solid #1f1209;
-    //border-bottom: 1px solid #1f1209;
+    width: 640px;
+    position: relative;
+    left: -36px;
   }
 
   // Internal tab
