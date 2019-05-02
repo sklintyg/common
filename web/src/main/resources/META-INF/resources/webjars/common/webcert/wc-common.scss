@@ -98,6 +98,7 @@
   @import 'css/generic-input.scss';
   @import 'css/layout-util.scss';
   @import 'css/wc-page-header.scss';
+  @import 'intyg/intygFooter.directive.scss';
   @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
   @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
   @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
@@ -155,6 +156,7 @@
   @import 'utkast/unified-edit/ueDynamicComponent.directive.scss';
   @import 'utkast/unified-edit/ueRenderComponents.directive.scss';
   @import 'utkast/utkast-footer/utkastFooter.scss';
+  @import 'utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
