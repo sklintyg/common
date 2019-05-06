@@ -20,19 +20,19 @@ angular.module('ts-diabetes').service('ts-diabetes.PatientHelperService.v3',
         function() {
             'use strict';
 
-            // PS-008: Show for ts utkast
+            // PS-03
             function _showPatientNameChangedIntegration(isIntyg) {
-                return false;
+                return true;
             }
-            // PS-004: Show for signed ts
+            // PS-04
             function _showPatientNameChangedPU(isIntyg) {
                 return false;
             }
-            // PS-005: Show for signed ts
+            // PS-05
             function _showPatientAddressChangedPU(isIntyg) {
                 return false;
             }
-            // INTYG-5146: Show for ts utkast
+            // PS-08
             function _showMissingAddressParameter(isIntyg) {
                 return false;
             }
