@@ -6,6 +6,7 @@
   @import 'css/mixins/mixins';
 
   // injector
+  @import '../app-shared/servicebanner/serviceBanner.directive.scss';
   @import '../app-shared/unified-view/components/_variables.scss';
   @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
