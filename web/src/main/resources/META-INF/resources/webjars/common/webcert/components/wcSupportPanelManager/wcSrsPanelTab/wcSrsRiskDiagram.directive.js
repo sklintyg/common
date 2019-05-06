@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+/* globals Highcharts */
 angular.module('common').directive('wcSrsRiskDiagram',
-    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout',
-        function(srsViewState, chartFactory, $timeout) {
+    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window',
+        function(srsViewState, chartFactory, $timeout, $window) {
             'use strict';
 
             return {
@@ -45,20 +47,25 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                     name: 'Genomsnittlig risk',
                                     // name: 'Prevalens',
                                     type: 'RISK',
-                                    y: 32,
+                                    y: 32
                                 },
                                 {
                                     name: '',
                                     type: 'RISK',
-                                    y: 0,
-                                },
-                            ],
+                                    y: 0
+                                }
+                            ]
                         }
-                    }
+                    };
 
                     var setTooltipText = function (result) {
                         $scope.popoverTextRiskChart = 'Diagrammet visar risk för ... .' +
                             '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
+                    };
+
+                    var updateCharts = function (result) {
+                        chartFactory.addColor(result.risk.chartData);
+                        riskChart = paintBarChart('riskChart', result.risk.chartData);
                     };
 
                     var dataReceivedSuccess = function(result) {
@@ -71,21 +78,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }, 1);
                     };
 
-                    var dataReceived = function (result) {
-                        dataReceivedSuccess(result);
-                    };
-
-                    var updateCharts = function (result) {
-                        chartFactory.addColor(result.risk.chartData);
-                        riskChart = paintBarChart('riskChart', result.risk.chartData);
-                    };
-
-                    // function populatePageWithData(result) {
-                    //     $timeout(function () {
-                    //         updateCharts(result);
-                    //     }, 100);
-                    // }
-
                     function paintBarChart(containerId, chartData) {
                         var series = [
                             {
@@ -97,7 +89,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 color: chartFactory.getColors().risk
                             }
                         ];
-                        var categories = _.map(chartData, function (e) {
+                        var categories = $window._.map(chartData, function (e) {
+                        // var categories = _.map(chartData, function (e) {
                             return {name: e.name};
                         });
 
@@ -105,7 +98,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             categories: categories,
                             series: series,
                             type: 'column',
-                            // overview: true,
                             renderTo: containerId,
                             unit: '%',
                             maxWidthPercentage: 80
@@ -123,15 +115,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         return new Highcharts.Chart(chartOptions);
                     }
 
-                    // statisticsData.getOverview(dataReceived, function () {
-                    //     $scope.dataLoadingError = true;
-                    // });
-                    // $scope.subTitle = messageService.getProperty('national.overview-header2');
-                    // $scope.spinnerText = 'Laddar information...';
-                    // $scope.doneLoading = false;
-                    // $scope.dataLoadingError = false;
-                    // $scope.chartFootnotes = ['help.nationell.overview'];
-
                     $scope.$on('$destroy', function() {
                         if(riskChart && typeof riskChart.destroy === 'function') {
                             riskChart.destroy();
@@ -139,22 +122,26 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     });
 
                     $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        // console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal)
-                        if (newVal.prevalence != null) {
-                            chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100)
+                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal);
+                        if (newVal.prevalence !== null) {
+                            chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100);
                             chartData.risk.chartData[0].name = 'Genomsnittlig risk';
                         } else {
                             chartData.risk.chartData[0].y = 0;
                             chartData.risk.chartData[0].name = '';
                         }
-                        if (newVal.probabilityOverLimit != null) {
-                            chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100)
+                        if (newVal.probabilityOverLimit !== null) {
+                            chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100);
                             chartData.risk.chartData[1].name = 'Individuell risk';
                         } else {
                             chartData.risk.chartData[1].y = 0;
                             chartData.risk.chartData[1].name = '';
                         }
                         updateCharts(chartData);
+                    });
+
+                    $scope.$watch('srs.consent', function(newVal,oldVal) {
+                        console.log('RISK GRAPH caught a change of consent from: ' + oldVal + ' to: ' + newVal);
                     });
 
                     // Kick start rendering

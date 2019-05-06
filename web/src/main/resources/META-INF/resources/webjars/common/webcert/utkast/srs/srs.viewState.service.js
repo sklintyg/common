@@ -74,7 +74,7 @@ angular.module('common').service('common.srsViewState',
 
         this.setVardgivareHsaId = function(vardgivareHsaId) {
             this.vardgivareHsaId = vardgivareHsaId;
-        }
+        };
 
         this.setDiagnosKod = function(diagnosKod) {
             this.diagnosKod = diagnosKod;

@@ -19,14 +19,11 @@
 
 /* globals Highcharts */
 angular.module('common').factory('common.wcSrsChartFactory',
-    /** @ngInject */
     function($window, $filter, $log) {
         'use strict';
 
         /* Color definitions to be used with highcharts */
         var colors = {
-            male: ['#008391', '#90cad0'],
-            female: ['#EA8025', '#f6c08d'],
             total: '#5D5D5D',
             overview: '#57843B',
             high: '#E10934',
@@ -52,7 +49,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
 
         var getColors = function() {
             return COLORS;
-        }
+        };
 
         var ControllerCommons = {
             htmlsafe: function(string) {
@@ -74,18 +71,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     return integerPartThousandSeparated + ',' + splittedOnDot[1];
                 }
                 return input;
-            },
-
-            getExportFileName: function(statisticsLevel, gender) {
-                var reportName = $filter('messageFilter')($route.current.title, $route.current.title, undefined, undefined, undefined, true);
-                var genderString = gender ? gender + '_' : '';
-                var name = statisticsLevel + '_' + reportName + '_' + genderString + moment().format('YYMMDD_HHmmss');
-                return name.replace(/Å/g, 'A').replace(/Ä/g, 'A').replace(/Ö/g, 'O')
-                    .replace(/å/g, 'a').replace(/ä/g, 'a').replace(/ö/g, 'o')
-                    .replace(/[^A-Za-z0-9._]/g, '');
-            },
-
-        }
+            }
+        };
 
         var labelFormatter = function(maxWidth, sameLengthOnAll) {
 
@@ -116,20 +103,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
             }
 
             var text = textToFormat.length > numberOfChars ? textToFormat.substring(0, numberOfChars) + '...' : textToFormat;
-
-            var filteredText = $filter('common.wcSrsHighlightWords')(text);
-
-            var skipDefaultToolTip = filteredText !== text;
-
-            if (isObject && value.marked) {
-                filteredText = '<b>' + filteredText + '</b>';
-            }
-
-            if (skipDefaultToolTip) {
-                return filteredText;
-            }
-
-            return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + filteredText + '</span>';
+            return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + text + '</span>';
         }
 
         function _getMaxLength(maxLength) {
@@ -169,7 +143,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
             return 40;
         }
 
-        function _getTooltip(overview, percentChart, unit, chartType, usingAndel, maxWidth) {
+        function _getTooltip(percentChart, unit, chartType, usingAndel, maxWidth) {
 
             var formatter;
 
@@ -192,11 +166,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         title = title.oldName ? title.oldName : title.name;
                     }
 
-                    // if (overview) {
                     return title + ' <b>' + value + '</b> ' + unit;
-                    // }
-                    //
-                    // return title + ':<br><b>' + value + '</b> ' + unit + ' för ' + this.series.name;
                 };
             }
 
@@ -236,7 +206,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 }];
             }
 
-            return _.map(categories, function(category) {
+            return $window._.map(categories, function(category) {
                 var tooltip = category.tooltip ? category.tooltip : category.name;
 
                 return {
@@ -268,7 +238,6 @@ angular.module('common').factory('common.wcSrsChartFactory',
          * stacked: boolean,
          * verticalLabel: boolean,
          * labelMaxLength: number,
-         * overview: boolean,
          * renderTo: string
          * unit: string
          *
@@ -277,8 +246,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
          * @returns {}  // chart object
          */
         var getHighChartConfigBase = function(options) {
-
-            var hasSexSet = isSexSetOnChartSeries(options.series);
+            /*jshint maxcomplexity:12 */
             var labelHeight = _getLabelHeight(options.categories, options.verticalLabel, options.labelMaxLength);
 
             var config = {
@@ -288,7 +256,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     type: options.type,
                     backgroundColor : null, //transparent
                     plotBorderWidth: 1,
-                    marginLeft: options.overview ? null : 80,
+                    marginLeft: 80,
                     height: 360 + labelHeight,
                     marginBottom: options.verticalLabel ? labelHeight + 25 : null
                 },
@@ -404,11 +372,11 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         showInLegend : false
                     }
                 },
-                tooltip : _getTooltip(options.overview, options.percentChart, options.unit, options.type, options.usingAndel, options.maxWidthPercentage),
+                tooltip : _getTooltip(options.percentChart, options.unit, options.type, options.usingAndel, options.maxWidthPercentage),
                 credits : {
                     enabled : false
                 },
-                series : _.map(options.series, function (series) {
+                series : $window._.map(options.series, function (series) {
                     //This enables the marker for series with single data points
                     if (series.data.length === 1) {
                         if (series.marker) {
@@ -417,14 +385,6 @@ angular.module('common').factory('common.wcSrsChartFactory',
                             series.marker = {enabled: true};
                         }
                     }
-
-                    if (options.stacked && hasSexSet) {
-                        if(series.sex === null) {
-                            series.showInLegend = false;
-                            series.visible = false;
-                        }
-                    }
-
                     return series;
                 })
             };
@@ -440,57 +400,6 @@ angular.module('common').factory('common.wcSrsChartFactory',
             return config;
         };
 
-        // var getChartExportFileName = function(statisticsLevel, gender) {
-        //     return ControllerCommons.getExportFileName(statisticsLevel, gender);
-        // };
-
-        // var exportChart = function(chart, statisticsLevel, title, gender) {
-        //     if (!chart || angular.equals({}, chart)) {
-        //         return;
-        //     }
-        //
-        //     var chartHeight = chart.options.chart.height ? chart.options.chart.height : 400;
-        //     var options = {filename: getChartExportFileName(statisticsLevel, gender)};
-        //     var extendedChartOptions = {};
-        //     if (chart.series.length <= 10) {
-        //         extendedChartOptions.legend = { enabled: true };
-        //     }
-        //     var yMax = chart.yAxis[0].max;
-        //     var chartTickInterval = chart.yAxis[0].tickInterval;
-        //     extendedChartOptions.yAxis = { min: 0, max: yMax, endOnTick: false, tickInterval: chartTickInterval };
-        //
-        //     extendedChartOptions.chart = {
-        //         height: chartHeight,
-        //         width: 600,
-        //         marginLeft: 90
-        //     };
-        //
-        //     if (title) {
-        //         extendedChartOptions.title = {
-        //             text: title
-        //         };
-        //         extendedChartOptions.chart.backgroundColor = '#FFFFFF';
-        //     }
-        //     try {
-        //         chart.exportChartLocal(options, extendedChartOptions);
-        //     } catch (e) {
-        //         $log.error(e);
-        //         $window.alert('Diagrammet kunde inte exporteras. Testa att applicera ett filter för att minska datamängden och försök igen.');
-        //     }
-        // };
-
-        function isSexSetOnChartSeries(chartSeries) {
-            var maleSeries = _.find(chartSeries, function(series) {
-                return series.sex === 'MALE';
-            });
-
-            var femaleSeries = _.find(chartSeries, function(series) {
-                return series.sex === 'FEMALE';
-            });
-
-            return maleSeries && femaleSeries? true : false;
-        }
-
         var showInLegend = function(series, index) {
             if (series && series.length > index) {
                 return series[index].options.showInLegend;
@@ -499,46 +408,20 @@ angular.module('common').factory('common.wcSrsChartFactory',
             return false;
         };
 
-        var toggleSeriesVisibility = function toggleSeriesVisibility(series) {
-            if (series.visible) {
-                series.hide();
-            } else {
-                series.show();
-            }
-        };
-
         var addColor = function (rawData) {
-            var colorSelector = 0, maleColorSelector = 0, femaleColorSelector = 0;
+            var colorSelector = 0;
 
             var colors = COLORS.other,
-                maleColor = COLORS.male,
-                femaleColor = COLORS.female,
-                high = COLORS.high,
-                medium = COLORS.medium,
-                low = COLORS.low,
                 riskColor = COLORS.risk;
 
-            _.each(rawData, function (data) {
+            $window._.each(rawData, function (data) {
                 // continue if color is set
                 if (data.color) {
                     return;
                 }
 
-                if (data.sex === 'MALE') {
-                    data.color = maleColor[maleColorSelector++];
-                } else if (data.sex === 'FEMALE') {
-                    data.color = femaleColor[femaleColorSelector++];
-                } else if (data.type === 'RISK') {
+                if (data.type === 'RISK') {
                     data.color = riskColor;
-                    // if (data.y != null) {
-                    //     if (data.y < 33) {
-                    //         data.color = low;
-                    //     } else if (data.y >= 33 && data.y < 67) {
-                    //         data.color = medium;
-                    //     } else {
-                    //         data.color = high;
-                    //     }
-                    // }
                 } else if (data.type === 'ÅTERGÅNG') {
                     data.color = colors.overview;
                 } else {
@@ -553,42 +436,11 @@ angular.module('common').factory('common.wcSrsChartFactory',
             return rawData;
         };
 
-        // var setColorToTotalCasesSeries = function (series) {
-        //     for (var i = 0; i < series.length; i++) {
-        //         if (series[i].sex === null && series[i].name === 'Totalt') {
-        //             series[i].color = COLORS.total;
-        //             break;
-        //         }
-        //     }
-        // };
-
-        // var addCategoryIntygTooltip = function(categories) {
-        //
-        //     var tooltips = StaticData.get().intygTooltips;
-        //
-        //     return _.map(categories, function(category) {
-        //         var name = tooltips[category.name];
-        //         var tooltip = category.name;
-        //
-        //         if (name) {
-        //             category.tooltip = tooltip;
-        //             category.name = name;
-        //         }
-        //
-        //         return category;
-        //     });
-        // };
-
         //This is the public api accessible to customers of this factory
         return {
             addColor: addColor,
-            // setColorToTotalCasesSeries: setColorToTotalCasesSeries,
             getHighChartConfigBase: getHighChartConfigBase,
-            // exportChart: exportChart,
             showInLegend: showInLegend,
-            toggleSeriesVisibility: toggleSeriesVisibility,
-            // getChartExportFileName: getChartExportFileName,
-            // addCategoryIntygTooltip: addCategoryIntygTooltip
-            getColors: getColors,
+            getColors: getColors
         };
     });

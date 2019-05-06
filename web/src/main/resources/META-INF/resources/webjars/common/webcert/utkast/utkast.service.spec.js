@@ -71,7 +71,7 @@ describe('UtkastService', function() {
                             postort: null,
                             telefonnummer: null,
                             vardgivare: {
-                                vardgivarid: null,
+                                vardgivarid: null
                             }
                         }
                     },

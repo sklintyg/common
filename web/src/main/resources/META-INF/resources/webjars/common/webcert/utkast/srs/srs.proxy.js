@@ -35,6 +35,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         }
 
         function _getPredictionFromResponseData(data) {
+            /*jshint maxcomplexity:12 */
             var prediction = {};
             if(data === 'error'){
                 return data;
@@ -67,15 +68,14 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 prediction.predictionQuestionsResponses = data.predictionQuestionsResponses;
             }
             if (data.predictionTimestamp) {
-                prediction.predictionTimestamp = data.predictionTimestamp
+                prediction.predictionTimestamp = data.predictionTimestamp;
             }
             return prediction;
         }
 
         function _getAtgarderFromResponseData(data) {
-            /* jshint ignore:start */
             var atgarder = {};
-            // jshint:ignoreline
+            /* jshint ignore:start */
             if(data.atgarderDiagnosisDescription) {
                 atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
             }
@@ -95,12 +95,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                 atgarder = null;
             }
             /* jshint ignore:end */
-            return atgarder
+            return atgarder;
         }
 
         function _getStatistikFromResponseData(data) {
-            /* jshint ignore:start */
             var statistik = {};
+            /* jshint ignore:start */
             if(data.statistikDiagnosisDescription) {
                 atgarder.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
             }
@@ -135,7 +135,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
                     return {
                         'atgarder': _getAtgarderFromResponseData(data),
                         'statistik': _getStatistikFromResponseData(data),
-                        'prediktion': _getPredictionFromResponseData(data),
+                        'prediktion': _getPredictionFromResponseData(data)
                     };
                 });
         }
@@ -205,19 +205,12 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
-        function _getOwnOpinion() {
-            return $http.get('/api/srs/opinion/' + careGiverId + '/' + careUnitId + '/' + certificateId).then(function(response) {
-                return response.data;
-            });
-        }
-
         // Return public API for the service
         return {
             getConsent: _getConsent,
             getDiagnosisCodes: _getDiagnosisCodes,
             getQuestions: _getQuestions,
             setOwnOpinion: _setOwnOpinion,
-            getOwnOpinion: _getOwnOpinion,
             getPrediction: _getPrediction,
             getAtgarderAndStatistikAndHistoricPredictionForDiagnosis: _getAtgarderAndStatistikAndHistoricPredictionForDiagnosis,
             logSrsShown: _logSrsShown,

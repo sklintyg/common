@@ -32,7 +32,7 @@ angular.module('common').directive('wcSrsPanelTab',
             $scope.srs = srsViewState;
 
             $scope.questionsFilledForVisaButton = function() {
-                debugLog('$scope.questionsFilledForVisaButton()')
+                debugLog('$scope.questionsFilledForVisaButton()');
                 var answers = getSelectedAnswerOptions();
                 for (var i = 0; i < answers.length; i++) {
                     if (!answers[i] || !answers[i].answerId) {
@@ -43,7 +43,7 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.visaClicked = function() {
-                debugLog('$scope.visaClicked()')
+                debugLog('$scope.visaClicked()');
                 $scope.retrieveAndSetPrediction().then(function() {
                     $scope.srs.showVisaKnapp = false;
                     setPredictionImage();
@@ -53,11 +53,11 @@ angular.module('common').directive('wcSrsPanelTab',
 
 
             $scope.retrieveAndSetPrediction = function() {
-                debugLog('$scope.retrieveAndSetPrediction()')
+                debugLog('$scope.retrieveAndSetPrediction()');
                 var qaIds = getSelectedAnswerOptions();
                 return srsProxy.getPrediction($stateParams.certificateId, $scope.srs.personId, srsViewState.diagnosKod,
                     qaIds, true, true, true).then(function(prediction) {
-                        debugLog("new prediction", prediction)
+                        debugLog('new prediction', prediction);
                         $scope.srs.prediction = prediction;
                 }, function(error) {
                     $scope.srs.prediction = 'error';
@@ -65,7 +65,7 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
-                debugLog('$scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction()')
+                debugLog('$scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction()');
                 return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis($stateParams.certificateId, $scope.srs.personId,
                     srsViewState.diagnosKod)
                     .then(function(data) {
@@ -76,31 +76,30 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.prediction = data.prediktion || 'error';
                         if($scope.srs.atgarder !== 'error') {
                             $scope.srs.atgarder.atgarderObs.forEach(function(a){
-                                a.recommendationText = '• ' + a.recommendationText
-                            })
+                                a.recommendationText = '• ' + a.recommendationText;
+                            });
                             $scope.srs.atgarder.atgarderRek.forEach(function(a){
-                                a.recommendationText = '• ' + a.recommendationText
-                            })
-                            //$scope.srs.atgarder.atgarderObs = stringifyAtgarderObs($scope.srs.atgarder.atgarderObs);
+                                a.recommendationText = '• ' + a.recommendationText;
+                            });
                         }
 
                         // Update the selected answers to the received stored answer
                         if ($scope.srs.prediction.predictionQuestionsResponses) {
-                            debugLog("questions", $scope.srs.questions)
+                            debugLog('questions', $scope.srs.questions);
                             $scope.srs.prediction.predictionQuestionsResponses.forEach(function(qnr) {
                                 // find correct question and answer option (in the scope) for received qnr
-                                debugLog("finding question for received qnr", qnr)
-                                var correspondingQuestion = $scope.srs.questions.find(function(q){return qnr.questionId===q.questionId})
+                                debugLog('finding question for received qnr', qnr);
+                                var correspondingQuestion = $scope.srs.questions.find(function(q){return qnr.questionId===q.questionId;});
                                 // some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
                                 // match, ignore that one
                                 if (correspondingQuestion) {
-                                    debugLog("finding answer option for question", correspondingQuestion)
+                                    debugLog('finding answer option for question', correspondingQuestion);
                                     var storedAnswer = correspondingQuestion.answerOptions.find(function (a) {
-                                        return qnr.answerId === a.id
-                                    })
+                                        return qnr.answerId === a.id;
+                                    });
                                     correspondingQuestion.model = storedAnswer;
                                 }
-                            })
+                            });
                         }
                     }, function(error) {
                         $scope.srs.statistik = 'error';
@@ -110,13 +109,13 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.getQuestions = function(diagnosKod) {
-                debugLog('$scope.getQuestions()')
+                debugLog('$scope.getQuestions()');
                 return srsProxy.getQuestions(diagnosKod).then(function(questions) {
-                    debugLog('got questions', questions)
+                    debugLog('got questions', questions);
                     $scope.srs.selectedButtons = [];
                     var qas = questions;
-                    debugLog('printing models before')
-                    qas.forEach(function(qa){debugLog(qa.model)});
+                    debugLog('printing models before');
+                    qas.forEach(function(qa){debugLog(qa.model);});
                     for (var i = 0; i < questions.length; i++) {
                         for (var e = 0; e < questions[i].answerOptions.length; e++) {
                             if (questions[i].answerOptions[e].defaultValue) {
@@ -124,32 +123,40 @@ angular.module('common').directive('wcSrsPanelTab',
                             }
                         }
                     }
-                    debugLog('printing models after')
-                    qas.forEach(function(qa){debugLog(qa.model)});
+                    debugLog('printing models after');
+                    qas.forEach(function(qa){debugLog(qa.model);});
                     return qas;
                 });
             };
 
             $scope.setConsent = function(consent) {
-                debugLog('setConsent', consent)
+                debugLog('setConsent', consent);
                 $scope.srs.consent = consent ? 'JA' : 'NEJ';
-                debugLog('$scope.srs.consent', $scope.srs.consent)
-                srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent)
+                debugLog('$scope.srs.consent', $scope.srs.consent);
+                srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent);
+                if ($scope.srs.consent === 'NEJ') {
+                    // $scope.retrieveAndSetPrediction()
+
+                    debugLog('Removed consent, cleaning prediction', $scope.srs.prediction);
+                    var cleanPrediction = Object.assign($scope.srs.prediction, {probabilityOverLimit: null});
+                    debugLog('clean prediction', cleanPrediction);
+                    $scope.srs.prediction = cleanPrediction;
+                }
             };
 
             $scope.setOpinion = function(opinion) {
-                debugLog("$scope.setOwnOpinion()", opinion, $stateParams.certificateId, $scope.srs.hsaId)
+                debugLog('$scope.setOwnOpinion()', opinion, $stateParams.certificateId, $scope.srs.hsaId);
                 srsProxy.setOwnOpinion(opinion, $scope.srs.vardgivareHsaId, $scope.srs.hsaId, $stateParams.certificateId).then(function(result) {
-                    debugLog("opinion set on server", result)
+                    debugLog('opinion set on server', result);
                     $scope.srs.prediction.opinion = opinion;
                 }, function(error) {
-                    debugLog("Error setting opinion on server", error)
+                    debugLog('Error setting opinion on server', error);
                     $scope.srs.prediction.opinionError = 'Fel när egen bedömning skulle sparas';
-                })
-            }
+                });
+            };
 
             $scope.logSrsButtonClicked = function() {
-                debugLog('$scope.logSrsButtonClicked()')
+                debugLog('$scope.logSrsButtonClicked()');
                 // if ($scope.status.open && !$scope.srs.clickedFirstTime) {
                 if (!$scope.srs.clickedFirstTime) {
                     $scope.srs.clickedFirstTime = true;
@@ -158,22 +165,22 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.logAtgarderLasMerButtonClicked = function() {
-                debugLog('$scope.logAtgarderLasMerButtonClicked()')
+                debugLog('$scope.logAtgarderLasMerButtonClicked()');
                 srsProxy.log();
             };
 
             $scope.logAtgarderRekClicked = function() {
-                debugLog('$scope.logAtgarderRekClicked()')
+                debugLog('$scope.logAtgarderRekClicked()');
                 srsProxy.logSrsAtgardClicked();
             };
 
             $scope.logStatistikClicked = function() {
-                debugLog('$scope.logStatistikClicked()')
+                debugLog('$scope.logStatistikClicked()');
                 srsProxy.logSrsAtgardClicked();
             };
 
             $scope.setActiveTab = function(tabname) {
-                debugLog('$scope.setActiveTab()')
+                debugLog('$scope.setActiveTab()');
                 $scope.srs.activeTab = tabname;
             };
 
@@ -182,12 +189,12 @@ angular.module('common').directive('wcSrsPanelTab',
              * or the editor is reloaded.
              */
             $scope.$on('intyg.loaded', function(event, content) {
-                    debugLog('EVENT: "intyg.loaded"', event, content)
+                    debugLog('EVENT: "intyg.loaded"', event, content);
                     if(!$scope.srs.diagnosisListFetching) {
                         loadDiagCodes();
                     }
                     $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
-                    debugLog('$scope.srs.userHasSrsFeature', $scope.srs.userHasSrsFeature)
+                    debugLog('$scope.srs.userHasSrsFeature', $scope.srs.userHasSrsFeature);
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
                     // if ($scope.srs.userHasSrsFeature && $scope.id === '2') {
                     if ($scope.srs.userHasSrsFeature) { // TODO: why scope id 2? was that used for identifying the "window" as the srs window?
@@ -211,10 +218,10 @@ angular.module('common').directive('wcSrsPanelTab',
                             }
                         });
 
-                        debugLog('setting watch on scope param srs.consent')
+                        debugLog('setting watch on scope param srs.consent');
                         $scope.$watch('srs.consent', function(newVal, oldVal) {
-                            debugLog('$scope.srs.consent from, to', oldVal, newVal)
-                            debugLog('srsViewState.diagnosKod', srsViewState.diagnosKod)
+                            debugLog('$scope.srs.consent from, to', oldVal, newVal);
+                            debugLog('srsViewState.diagnosKod', srsViewState.diagnosKod);
                             if (newVal === 'JA' && srsViewState.diagnosKod) {
                                 srsViewState.diagnosisListFetching.then(function() {
                                     loadSrs();
@@ -234,15 +241,15 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
             );
 
-            function debugLog(args) {
-                var debugLogEnabled = false;
+            function debugLog() {
+                var debugLogEnabled = true;
                 if (debugLogEnabled) {
-                    console.log(args)
+                    console.log.apply(null, arguments);
                 }
             }
 
             function applySrsForDiagnosCode() {
-                debugLog('applySrsForDiagnosisCode()')
+                debugLog('applySrsForDiagnosisCode()');
                 resetMessages();
                 reset();
                 $scope.srs.diagnosKod = srsViewState.originalDiagnosKod;
@@ -260,7 +267,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function setConsentMessages() {
-                debugLog('setConsentMessages()')
+                debugLog('setConsentMessages()');
                 $scope.srs.consentInfo = '';
                 // Assumption: only codes of exactly length 3 will be supported by SRS predictions.
                 if ($scope.srs.diagnosKod !== undefined && $scope.srs.diagnosKod.length > 3) {
@@ -269,11 +276,11 @@ angular.module('common').directive('wcSrsPanelTab',
                 if ($scope.srs.consent === 'error') {
                     $scope.srs.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycket.';
                 }
-                debugLog('$scope.srs.consent message', $scope.srs.consentInfo, $scope.srs.consentError)
+                debugLog('$scope.srs.consent message', $scope.srs.consentInfo, $scope.srs.consentError);
             }
 
             function setAtgarderMessages() {
-                debugLog('setAtgarderMessages()', $scope.srs.atgarder)
+                debugLog('setAtgarderMessages()', $scope.srs.atgarder);
                 $scope.srs.atgarderInfo = '';
                 $scope.srs.atgarderError = '';
                 if ($scope.srs.atgarder) {
@@ -297,7 +304,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function setStatistikMessages() {
-                debugLog('setStatistikMessages()')
+                debugLog('setStatistikMessages()');
                 $scope.srs.statistikInfo = '';
                 $scope.srs.statistikError = '';
                 if ($scope.srs.statistik) {
@@ -317,7 +324,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function setPrediktionMessages() {
-                debugLog('setPrediktionMessages()')
+                debugLog('setPrediktionMessages()');
                 $scope.srs.prediktionInfo = '';
                 $scope.srs.prediktionError = '';
                 if ($scope.srs.prediction === 'error') {
@@ -340,7 +347,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function setPredictionImage() {
-                debugLog('setPredicitionImage()')
+                debugLog('setPredicitionImage()');
                 if ($scope.srs.prediction.description === 'Prediktion saknas.') {
                     $scope.srs.riskImage = '';
                 }
@@ -356,7 +363,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function getSelectedAnswerOptions() {
-                debugLog('getSelectedAnswerOptions()')
+                debugLog('getSelectedAnswerOptions()');
                 var selectedOptions = [];
                 for (var i = 0; i < $scope.srs.questions.length; i++) {
                     selectedOptions.push(
@@ -366,7 +373,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function checkIfUserHasSrsFeature() {
-                debugLog('checkIfUserHasSrsFeature()')
+                debugLog('checkIfUserHasSrsFeature()');
                 var options = {
                     feature: 'SRS',
                     intygstyp: $scope.srs.intygsTyp
@@ -375,7 +382,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function isSrsApplicable() {
-                debugLog('isSrsApplicable intygstyp:', $scope.srs.intygsTyp)
+                debugLog('isSrsApplicable intygstyp:', $scope.srs.intygsTyp);
                 if (($scope.srs.intygsTyp.toLowerCase().indexOf('fk7263') > -1 || $scope.srs.intygsTyp.toLowerCase().indexOf('lisjp') > -1) &&
                     isSrsApplicableForCode(srsViewState.diagnosKod)) {
                     return true;
@@ -389,17 +396,17 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function loadDiagCodes() {
-                debugLog('loadDiagCodes()')
+                debugLog('loadDiagCodes()');
                 $scope.srs.diagnosisListFetching = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                    debugLog('got diagnosis codes', diagnosisCodes)
+                    debugLog('got diagnosis codes', diagnosisCodes);
                     $scope.srs.diagnosisCodes = diagnosisCodes;
                 });
             }
 
             function loadSrs() {
-                debugLog('loadSrs()')
+                debugLog('loadSrs()');
                 $scope.getQuestions($scope.srs.diagnosKod).then(function(questions) {
-                    debugLog("GOT THE QUESTIONS QAS", questions)
+                    debugLog('GOT THE QUESTIONS QAS', questions);
                     setConsentMessages();
                     $scope.srs.questions = questions;
                     $scope.srs.allQuestionsAnswered = $scope.questionsFilledForVisaButton();
@@ -413,7 +420,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function resetMessages(){
-                debugLog('resetMessages()')
+                debugLog('resetMessages()');
                 $scope.srs.consentInfo = '';
                 $scope.srs.consentError = '';
 
@@ -428,7 +435,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function reset() {
-                debugLog('reset()')
+                debugLog('reset()');
                 $scope.srs.questions = [];
                 $scope.srs.statistik = {};
                 $scope.srs.atgarder = {};
@@ -451,15 +458,15 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.activeTab = 'atgarder';
             }
 
-            function _updateState() {
-                var oldActive = $scope.vm.activeDiagnose;
-                var oldActiveValid = false;
-
-                $scope.vm.activeDiagnose = null;
-                $scope.vm.noDataMessage = null;
-
-                var diagnosesEnteredCount = 0;
-                var diagnosesWithDataCount = 0;
+            // function _updateState() {
+            //     // var oldActive = $scope.vm.activeDiagnose;
+            //     // var oldActiveValid = false;
+            //
+            //     $scope.vm.activeDiagnose = null;
+            //     $scope.vm.noDataMessage = null;
+            //
+            //     var diagnosesEnteredCount = 0;
+            //     var diagnosesWithDataCount = 0;
 
                 // angular.forEach($scope.srs.diagnoses, function(d) {
                 //     diagnosesEnteredCount++;
@@ -484,20 +491,20 @@ angular.module('common').directive('wcSrsPanelTab',
                 // _updateSectionDataForDiagnose($scope.vm.activeDiagnose);
 
                 //Update message to display
-                $scope.vm.noDataMessage = getNoDataReasonMessage(diagnosesEnteredCount, diagnosesWithDataCount, $scope.fmb.isIcdKodVerk);
-
-                $log.debug($scope.vm.noDataMessage);
-            }
+            //     $scope.vm.noDataMessage = getNoDataReasonMessage(diagnosesEnteredCount, diagnosesWithDataCount, $scope.fmb.isIcdKodVerk);
+            //
+            //     $log.debug($scope.vm.noDataMessage);
+            // }
 
             $scope.$watch('srs.consent', function(newVal,oldVal) {
                 debugLog('caught a change of consent from: ' + oldVal + ' to: ' + newVal);
-            })
+            });
 
             $scope.$on('panel.activated', function(event, activatedPanelId) {
                 if (activatedPanelId === 'wc-srs-panel-tab') {
-                    debugLog('Activated SRS panel')
+                    debugLog('Activated SRS panel');
                 }
-            })
+            });
 
             // $timeout(function(){
             //     debugLog('BROADCASTING EVENT!')
