@@ -22,7 +22,10 @@ angular.module('common').factory('common.ErrorHelper',
 
         return {
             safeGetError: function(errorData) {
-                if(!ObjectHelper.isEmpty(errorData)){
+                if(!ObjectHelper.isEmpty(errorData)) {
+                    if (angular.isString(errorData.errorCode)) {
+                        return errorData.errorCode.toLowerCase();
+                    }
                     return errorData.errorCode;
                 } else {
                     return 'unknown';
