@@ -18,8 +18,8 @@
  */
 /* globals Highcharts */
 angular.module('common').directive('wcSrsNationellStatistikDiagram',
-    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', 'underscore',
-        function(srsViewState, chartFactory, $timeout, _) {
+    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window',
+        function(srsViewState, chartFactory, $timeout, $window) {
             'use strict';
 
             return {
@@ -99,7 +99,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 color: chartFactory.getColors().overview
                             }
                         ];
-                        var categories = _.map(chartData, function (e) {
+                        var categories = $window._.map(chartData, function (e) {
                             return {name: e.name};
                         });
 

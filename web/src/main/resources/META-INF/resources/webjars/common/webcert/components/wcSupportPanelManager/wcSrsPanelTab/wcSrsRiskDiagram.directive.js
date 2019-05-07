@@ -90,7 +90,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             }
                         ];
                         var categories = $window._.map(chartData, function (e) {
-                        // var categories = _.map(chartData, function (e) {
                             return {name: e.name};
                         });
 

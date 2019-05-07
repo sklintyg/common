@@ -19,7 +19,8 @@
 
 /* globals Highcharts */
 angular.module('common').factory('common.wcSrsChartFactory',
-    function($window, $filter, $log) {
+    [ '$filter', '$log', '$window',
+    function($filter, $log, $window) {
         'use strict';
 
         /* Color definitions to be used with highcharts */
@@ -257,7 +258,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     backgroundColor : null, //transparent
                     plotBorderWidth: 1,
                     marginLeft: 80,
-                    height: 360 + labelHeight,
+                    width: 360,
+                    // height: 360 + labelHeight,
                     marginBottom: options.verticalLabel ? labelHeight + 25 : null
                 },
                 title: {
@@ -443,4 +445,4 @@ angular.module('common').factory('common.wcSrsChartFactory',
             showInLegend: showInLegend,
             getColors: getColors
         };
-    });
+    }]);

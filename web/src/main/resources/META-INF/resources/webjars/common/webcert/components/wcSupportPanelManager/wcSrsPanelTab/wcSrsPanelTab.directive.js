@@ -18,8 +18,10 @@
  */
 angular.module('common').directive('wcSrsPanelTab',
     [ 'common.ObjectHelper', 'common.srsProxy', 'common.authorityService', '$stateParams',
-        /*from FMB with tweaks--->*/ 'common.anchorScrollService', 'common.srsService', 'common.srsViewState', '$log','$timeout',
-    function(ObjectHelper, srsProxy, authorityService, $stateParams, anchorScrollService, srsService, srsViewState, $log, $timeout) {
+        /*from FMB with tweaks--->*/ 'common.anchorScrollService', 'common.srsService',
+        'common.srsViewState', '$log','$timeout', '$window',
+    function(ObjectHelper, srsProxy, authorityService, $stateParams, anchorScrollService,
+             srsService, srsViewState, $log, $timeout, $window) {
     'use strict';
 
     return {
@@ -138,7 +140,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     // $scope.retrieveAndSetPrediction()
 
                     debugLog('Removed consent, cleaning prediction', $scope.srs.prediction);
-                    var cleanPrediction = Object.assign($scope.srs.prediction, {probabilityOverLimit: null});
+                    var cleanPrediction = $window._.assign($scope.srs.prediction, {probabilityOverLimit: null});
                     debugLog('clean prediction', cleanPrediction);
                     $scope.srs.prediction = cleanPrediction;
                 }
