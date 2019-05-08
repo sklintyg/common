@@ -113,7 +113,7 @@ angular.module('common').directive('wcArendePanelTab', [
                     // show error view
                     ArendeListViewState.doneLoading = true;
 
-                    ArendeListViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                    ArendeListViewState.activeErrorMessageKey = 'could_not_load_cert_qa';
 
                     abortFetchArenden = null;
 

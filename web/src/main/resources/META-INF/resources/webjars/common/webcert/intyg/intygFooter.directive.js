@@ -16,21 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.ErrorHelper',
-    ['common.ObjectHelper', function(ObjectHelper) {
-        'use strict';
 
+angular.module('common').directive('intygFooter', ['$stateParams',
+    function($stateParams) {
+        'use strict';
         return {
-            safeGetError: function(errorData) {
-                if(!ObjectHelper.isEmpty(errorData)) {
-                    if (angular.isString(errorData.errorCode)) {
-                        return errorData.errorCode.toLowerCase();
-                    }
-                    return errorData.errorCode;
-                } else {
-                    return 'unknown';
-                }
+            restrict: 'E',
+            scope: {
+                model: '=',
+                viewstate: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/intyg/intygFooter.directive.html',
+            link: function($scope) {
+
+                $scope.intygId = $stateParams.certificateId;
+
             }
         };
-    }]
-);
+    }
+]);

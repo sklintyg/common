@@ -29,12 +29,6 @@
       </div>
 
       <div class="form-group">
-        <!-- error message occuring when interacting with server for this FragaSvar-->
-        <wc-alert-message id="internal-{{arendeSvar.fragaInternReferens}}-svarsText-load-error"
-             ng-show="arendeSvar.activeErrorMessageKey" alert-severity="danger">
-          <span dynamic-label key="common.error.{{arendeSvar.activeErrorMessageKey}}"></span>
-        </wc-alert-message>
-
         <button type="button" class="btn btn-success" ng-click="sendAnswer()"
                 ng-disabled="!arendeSvar.meddelande || arendeSvar.updateInProgress || onlySpace(arendeSvar.meddelande)"
                 id="sendAnswerBtn-{{arendeSvar.fragaInternReferens}}">

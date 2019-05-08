@@ -1,4 +1,4 @@
-/*
+/*!
  * Copyright (C) 2019 Inera AB (http://www.inera.se)
  *
  * This file is part of sklintyg (https://github.com/sklintyg).
@@ -16,21 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.ErrorHelper',
-    ['common.ObjectHelper', function(ObjectHelper) {
-        'use strict';
 
-        return {
-            safeGetError: function(errorData) {
-                if(!ObjectHelper.isEmpty(errorData)) {
-                    if (angular.isString(errorData.errorCode)) {
-                        return errorData.errorCode.toLowerCase();
-                    }
-                    return errorData.errorCode;
-                } else {
-                    return 'unknown';
-                }
-            }
-        };
-    }]
-);
+wc-error {
+
+    @extend %wc-typo-07;
+    color: $wc-color-07;
+    display: block;
+    width: 475px;
+    margin: 20px auto 0 auto;
+
+    img {
+        display: block;
+        width: 130px;
+        margin: 0 auto 10px auto;
+    }
+
+    strong {
+        @extend %wc-typo-05;
+        display: block;
+        text-align: center;
+    }
+}

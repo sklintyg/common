@@ -17,9 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('common.UtkastFooter',
-    ['$scope', '$rootScope', '$timeout',
-        function($scope, $rootScope, $timeout) {
+    ['$scope', '$rootScope', '$stateParams', '$timeout',
+        function($scope, $rootScope, $stateParams, $timeout) {
             'use strict';
+
+            $scope.intygId = $stateParams.certificateId;
 
             /**
              * Handle the problem of jumping /scolling of content in regard to clicking sign/visa fel.

@@ -16,21 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.ErrorHelper',
-    ['common.ObjectHelper', function(ObjectHelper) {
-        'use strict';
 
-        return {
-            safeGetError: function(errorData) {
-                if(!ObjectHelper.isEmpty(errorData)) {
-                    if (angular.isString(errorData.errorCode)) {
-                        return errorData.errorCode.toLowerCase();
-                    }
-                    return errorData.errorCode;
-                } else {
-                    return 'unknown';
+angular.module('common').directive('wcError',
+    ['$stateParams', function($stateParams) {
+            'use strict';
+
+            return {
+                restrict: 'E',
+                transclude: false,
+                scope: {
+                    error: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
+                link: function(scope, element, attrs, ctrl) {
+                    scope.certificateId = $stateParams.certificateId;
                 }
-            }
-        };
-    }]
-);
+            };
+        }]);
