@@ -24,12 +24,14 @@
  * arendePanelSvar directive. Handles all komplettering and svar components.
  */
 angular.module('common').directive('arendePanelSvar',
-    [ '$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
+    ['$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService', 'common.ArendeDraftProxy',
-        'common.dialogService',
-        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService) {
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService',
+        'common.ArendeDraftProxy',
+        'common.dialogService', 'common.ResourceLinkService',
+        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService,
+            ObjectHelper, ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy,
+            DialogService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -58,6 +60,8 @@ angular.module('common').directive('arendePanelSvar',
 
                     $scope.canAnswer = function() {
                         return $scope.parentViewState.intygProperties.isInteractionEnabled &&
+                            ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                                "BESVARA_FRAGA") &&
                             ArendeSvar.status === 'PENDING_INTERNAL_ACTION' &&
                             !ArendeSvar.intygProperties.isRevoked &&
                             !$scope.arendeListItem.isKomplettering() &&
@@ -82,7 +86,7 @@ angular.module('common').directive('arendePanelSvar',
 
                     //Disable button if only space and no characters
                     $scope.onlySpace = function(message) {
-                        if(message.trim().length > 0 ) {
+                        if (message.trim().length > 0) {
                             return false;
                         }
                         return true;

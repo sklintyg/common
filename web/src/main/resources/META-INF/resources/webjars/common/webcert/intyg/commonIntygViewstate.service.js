@@ -47,11 +47,12 @@ angular.module('common').service('common.IntygViewStateService',
                 this.intygProperties.patientNameChangedInPU = false;
                 this.intygProperties.parent = undefined;
                 this.intygProperties.created = undefined;
+                this.intygProperties.links = undefined;
 
                 IntygHeaderViewState.reset();
             };
 
-            this.isRevoked = function(){
+            this.isRevoked = function() {
                 return this.intygProperties.isRevoked || this.isIntygOnRevokeQueue;
             };
             this.isReplaced = function() {
@@ -88,16 +89,20 @@ angular.module('common').service('common.IntygViewStateService',
                 return this.intygProperties.isPatientDeceased;
             };
 
-            this.isSentIntyg = function(){
+            this.isSentIntyg = function() {
                 return this.intygProperties.isSent;
             };
+
+            this.getLinks = function() {
+                return this.intygProperties.links;
+            }
 
             this.updateIntygProperties = function(result, intygId) {
 
                 var targetName = moduleService.getModule(this.intygProperties.type).defaultRecipient;
 
                 this.intygProperties.intygTypeVersion = result.contents.textVersion;
-                this.intygProperties.pdfUrl = '/moduleapi/intyg/'+ this.intygProperties.type +'/' + intygId + '/pdf';
+                this.intygProperties.pdfUrl = '/moduleapi/intyg/' + this.intygProperties.type + '/' + intygId + '/pdf';
 
                 this.intygProperties.signeringsdatum = result.contents.grundData.signeringsdatum;
 
@@ -123,6 +128,8 @@ angular.module('common').service('common.IntygViewStateService',
                     this.intygProperties.latestChildRelations = result.relations.latestChildRelations;
                 }
                 this.intygProperties.created = result.created;
+
+                this.intygProperties.links = result.links;
             };
 
             this.updateActiveError = function(error, signed) {

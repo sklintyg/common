@@ -26,15 +26,18 @@
  * get's a callback through 'onAnswerWithMessage' and must handle it there
  */
 angular.module('common').directive('wcArendeFooter',
-    [ '$log', '$rootScope', '$q', '$state', '$timeout', '$window',
-        'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService', 'common.statService', 'common.messageService',
+    ['$log', '$rootScope', '$q', '$state', '$timeout', '$window',
+        'common.UserModel', 'common.ObjectHelper', 'common.ArendeListViewStateService', 'common.statService',
+        'common.messageService',
         'common.dialogService', 'common.IntygProxy', 'common.IntygCopyRequestModel',
-        'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper', 'common.ArendeVidarebefordraHelper', 'common.authorityService',
-        'common.IntygHelper', 'common.IntygHeaderViewState',
+        'common.ArendeHelper', 'common.ArendeProxy', 'common.ArendeSvarModel', 'common.ErrorHelper',
+        'common.ArendeVidarebefordraHelper', 'common.authorityService',
+        'common.IntygHelper', 'common.IntygHeaderViewState', 'common.ResourceLinkService',
         function($log, $rootScope, $q, $state, $timeout, $window,
             UserModel, ObjectHelper, ArendeListViewState, statService, messageService,
             DialogService, IntygProxy, IntygCopyRequestModel,
-            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService, IntygHelper, IntygHeaderViewState) {
+            ArendeHelper, ArendeProxy, ArendeSvarModel, ErrorHelper, ArendeVidarebefordraHelper, authorityService,
+            IntygHelper, IntygHeaderViewState, ResourceLinkService) {
             'use strict';
 
             return {
@@ -50,11 +53,12 @@ angular.module('common').directive('wcArendeFooter',
                         enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
                         redirectToExistingUtkast: false,
-                        showAnswerWithIntyg: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'})
+                        showAnswerWithIntyg: authorityService.isAuthorityActive({authority: 'SVARA_MED_NYTT_INTYG'})
                     };
 
                     function onIntygLoaded(event, intyg, intygProperties) {
-                        $scope.kompletteringConfig.redirectToExistingUtkast = !!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast;
+                        $scope.kompletteringConfig.redirectToExistingUtkast =
+                            !!ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast;
                         $scope.intygProperties = intygProperties;
                     }
 
@@ -66,6 +70,22 @@ angular.module('common').directive('wcArendeFooter',
                     $scope.showKompletteringButtons = function() {
                         return ArendeListViewState.getUnhandledKompletteringCount() > 0;
                     };
+
+                    $scope.showKompletteraButton = function() {
+                        return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                            "BESVARA_KOMPLETTERING");
+                    }
+
+                    $scope.showKanInteKompletteraButton = function() {
+                        return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                            "BESVARA_FRAGA");
+                    }
+
+                    $scope.showVidarebefodraButton = function() {
+                        return !ArendeListViewState.intygProperties.isRevoked &&
+                            ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                                "VIDAREBEFODRA_FRAGA");
+                    }
 
                     var _answerWithIntyg = function(kommentar) {
 
@@ -91,8 +111,7 @@ angular.module('common').directive('wcArendeFooter',
                                 $scope.updateInProgress = false;
                                 if (errorData) {
                                     $scope.activeKompletteringErrorMessageKey = errorData.errorCode;
-                                }
-                                else {
+                                } else {
                                     $scope.activeKompletteringErrorMessageKey = 'unknown';
                                 }
                                 deferred.reject(errorData);
@@ -118,13 +137,14 @@ angular.module('common').directive('wcArendeFooter',
                         }, function(error) {
                             $log.error(error);
                             if (!error) {
-                                DialogService.showErrorMessageDialog(messageService.getProperty('common.arende.error.unknown'));
-                            }
-                            else if (error.errorCode === 'PU_PROBLEM') {
-                                DialogService.showMessageDialog('common.arende.error.pu_problem.modalheader', messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
-                            }
-                            else {
-                                DialogService.showErrorMessageDialog(messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
+                                DialogService.showErrorMessageDialog(
+                                    messageService.getProperty('common.arende.error.unknown'));
+                            } else if (error.errorCode === 'PU_PROBLEM') {
+                                DialogService.showMessageDialog('common.arende.error.pu_problem.modalheader',
+                                    messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
+                            } else {
+                                DialogService.showErrorMessageDialog(
+                                    messageService.getProperty('common.arende.error.' + error.errorCode.toLowerCase()));
                             }
                         });
                     };
@@ -136,7 +156,8 @@ angular.module('common').directive('wcArendeFooter',
                             enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                             updateInProgress: false,
                             kompletteringConfig: $scope.kompletteringConfig,
-                            showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive({authority:'SVARA_MED_NYTT_INTYG'}) && !UserModel.hasRole('VARDADMINISTRATOR')
+                            showLamnaOvrigaUpplysningar: authorityService.isAuthorityActive(
+                                {authority: 'SVARA_MED_NYTT_INTYG'}) && !UserModel.hasRole('VARDADMINISTRATOR')
                         };
 
                         if (!dialogModel.showLamnaOvrigaUpplysningar) {
@@ -170,26 +191,30 @@ angular.module('common').directive('wcArendeFooter',
                                         var extraStateParams = {
                                             focusOn: 'ovrigt'
                                         };
-                                        IntygHelper.goToDraft(ArendeListViewState.intygProperties.type, result.intygTypeVersion, result.intygsUtkastId, extraStateParams);
+                                        IntygHelper.goToDraft(ArendeListViewState.intygProperties.type,
+                                            result.intygTypeVersion, result.intygsUtkastId, extraStateParams);
                                     }, function(errorResult) {
                                         //Keep dialog open so that activeKompletteringErrorMessageKey is displayed to user.
                                         dialogModel.updateInProgress = false;
-                                        dialogModel.activeKompletteringErrorMessageKey = ErrorHelper.safeGetError(errorResult);
+                                        dialogModel.activeKompletteringErrorMessageKey =
+                                            ErrorHelper.safeGetError(errorResult);
                                     });
-                                }
-                                else {
-                                    ArendeProxy.saveKompletteringAnswer(dialogModel.meddelandeText, ArendeListViewState.intygProperties.type, ArendeListViewState.intyg.id, function(result) {
-                                        modalInstance.close();
+                                } else {
+                                    ArendeProxy.saveKompletteringAnswer(dialogModel.meddelandeText,
+                                        ArendeListViewState.intygProperties.type, ArendeListViewState.intyg.id,
+                                        function(result) {
+                                            modalInstance.close();
 
-                                        if (result !== null) {
-                                            ArendeListViewState.setArendeList(result);
-                                            statService.refreshStat();
-                                        }
-                                    }, function(errorData) {
-                                        // show error view
-                                        dialogModel.updateInProgress = false;
-                                        dialogModel.activeKompletteringErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                                    });
+                                            if (result !== null) {
+                                                ArendeListViewState.setArendeList(result);
+                                                statService.refreshStat();
+                                            }
+                                        }, function(errorData) {
+                                            // show error view
+                                            dialogModel.updateInProgress = false;
+                                            dialogModel.activeKompletteringErrorMessageKey =
+                                                ErrorHelper.safeGetError(errorData);
+                                        });
                                 }
 
                             },

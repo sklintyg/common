@@ -24,11 +24,15 @@
  * arendeNew directive. Common directive for new arende form.
  */
 angular.module('common').directive('arendeNew',
-    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User', 'common.statService', 'common.ObjectHelper',
-        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
-        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService',
-        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
-            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy, DialogService) {
+    ['$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User',
+        'common.statService', 'common.ObjectHelper',
+        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService',
+        'common.ArendeHelper',
+        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService', 'common.ResourceLinkService',
+        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper,
+            ErrorHelper, ArendeProxy,
+            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy,
+            DialogService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -76,7 +80,8 @@ angular.module('common').directive('arendeNew',
                         intygLoaded = true;
                     }
 
-                    onIntygLoaded(null, ArendeNewViewState.parentViewState.intyg, ArendeNewViewState.parentViewState.intygProperties);
+                    onIntygLoaded(null, ArendeNewViewState.parentViewState.intyg,
+                        ArendeNewViewState.parentViewState.intygProperties);
 
                     function isNotSent() {
                         var notSent = ArendeNewViewState.parentViewState.intygProperties.isSent === false;
@@ -97,7 +102,9 @@ angular.module('common').directive('arendeNew',
 
                     $scope.showCreateArende = function() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
-                        return intygLoaded && notRevoked;
+                        var actionAvailable = ResourceLinkService.isLinkTypeExists(
+                            ArendeNewViewState.parentViewState.intygProperties.links, "SKAPA_FRAGA");
+                        return intygLoaded && notRevoked && actionAvailable;
                     };
 
                     $scope.cancelQuestion = function() {
@@ -106,7 +113,7 @@ angular.module('common').directive('arendeNew',
                             titleId: 'common.arende.draft.delete.question.title',
                             templateUrl: '/app/partials/arende-draft-dialog.html',
                             model: {},
-                            button1click: function (modalInstance) {
+                            button1click: function(modalInstance) {
                                 var onSuccess = function() {
                                     arendeNewModel.reset();
                                     resetFormValidation();
@@ -115,9 +122,10 @@ angular.module('common').directive('arendeNew',
                                 var onError = function() {
                                     modalInstance.close();
                                 };
-                                ArendeDraftProxy.deleteQuestionDraft(ArendeNewViewState.parentViewState.intyg.id, onSuccess, onError);
+                                ArendeDraftProxy.deleteQuestionDraft(ArendeNewViewState.parentViewState.intyg.id,
+                                    onSuccess, onError);
                             },
-                            button2click: function(modalInstance){
+                            button2click: function(modalInstance) {
                                 modalInstance.close();
                             },
                             button1text: 'common.arende.draft.delete.yes',
@@ -142,7 +150,7 @@ angular.module('common').directive('arendeNew',
                             chosenTopic: true
                         };
 
-                        if($scope.arendeForm.$invalid) {
+                        if ($scope.arendeForm.$invalid) {
                             return;
                         }
                         _sendNewArende();
@@ -153,7 +161,8 @@ angular.module('common').directive('arendeNew',
                         $log.debug('sendQuestion:' + arendeNewModel);
                         ArendeNewViewState.updateInProgress = true; // trigger local spinner
 
-                        ArendeProxy.sendNewArende($stateParams.certificateId, ArendeNewViewState.parentViewState.intygProperties.type, arendeNewModel,
+                        ArendeProxy.sendNewArende($stateParams.certificateId,
+                            ArendeNewViewState.parentViewState.intygProperties.type, arendeNewModel,
                             function(arendeModel) {
 
                                 $log.debug('Got saveNewQuestion result:' + arendeModel);
@@ -164,7 +173,8 @@ angular.module('common').directive('arendeNew',
 
                                     // add new arende to open list
                                     var ArendeListViewState = ArendeNewViewState.parentViewState;
-                                    ArendeListViewState.arendeList.push(ArendeListViewState.createArendeListItem(arendeModel,
+                                    ArendeListViewState.arendeList.push(
+                                        ArendeListViewState.createArendeListItem(arendeModel,
                                             ArendeListViewState.intygProperties.type));
 
                                     arendeNewModel.reset();
@@ -185,13 +195,15 @@ angular.module('common').directive('arendeNew',
                         /*
                          * Can be submitted if a text is entered or a topic is chosen. But not if it's already updating.
                          */
-                        return !ArendeNewViewState.updateInProgress && (arendeNewModel.chosenTopic || arendeNewModel.frageText);
+                        return !ArendeNewViewState.updateInProgress &&
+                            (arendeNewModel.chosenTopic || arendeNewModel.frageText);
                     };
 
                     // Returns false if either a topic has been chosen or a frageText exists. May not be invoked during
                     // updateInProgress just like the submit above.
                     $scope.isArendeNonCancellable = function() {
-                        var notValidToCancel = !((arendeNewModel.chosenTopic || arendeNewModel.frageText) && !ArendeNewViewState.updateInProgress);
+                        var notValidToCancel = !((arendeNewModel.chosenTopic || arendeNewModel.frageText) &&
+                            !ArendeNewViewState.updateInProgress);
                         return notValidToCancel;
                     };
                 }

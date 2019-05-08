@@ -24,8 +24,11 @@
  * arendeHantera directive. Common directive for Hanterad checkbox
  */
 angular.module('common').directive('arendeHantera',
-    [ '$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeHelper', 'common.dynamicLabelService',
-        function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService) {
+    ['$log', '$rootScope', '$uibModal', 'common.statService', 'common.ErrorHelper', 'common.ArendeProxy',
+        'common.ArendeHelper', 'common.dynamicLabelService',
+        'common.ResourceLinkService',
+        function($log, $rootScope, $uibModal, statService, ErrorHelper, ArendeProxy, ArendeHelper, dynamicLabelService,
+            ResourceLinkService) {
             'use strict';
 
             return {
@@ -42,13 +45,20 @@ angular.module('common').directive('arendeHantera',
                         var arendeModel = $scope.arendeListItem;
                         var isRevoked = $scope.parentViewState.intygProperties.isRevoked;
 
+                        // If no access is given from backend, it should be possible to toggle handled.
+                        if (!hasAccess()) {
+                            return false;
+                        }
+
                         //Special case - fraga from FK on revoked intyg and not handled already: allow to mark as handled (see INTYG-3617)
-                        if (isRevoked && arendeModel.arende.fraga.frageStallare === 'FK' && arendeModel.arende.fraga.status !== 'CLOSED') {
+                        if (isRevoked && arendeModel.arende.fraga.frageStallare === 'FK' &&
+                            arendeModel.arende.fraga.status !== 'CLOSED') {
                             return true;
                         }
 
                         //Rule 1: Revoked intyg can't be toggled at all
                         if (isRevoked) {
+                            $scope.handledText = 'Hanterad';
                             return false;
                         }
 
@@ -59,19 +69,30 @@ angular.module('common').directive('arendeHantera',
                         }
 
                         // Enforce default business rule FS-011, from FK + answer should remain closed
-                        return arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande;
+                        if (arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     };
+
+                    $scope.showReadOnlyCheckBox = function() {
+                        // If no access is given from backend, it should be possible to toggle handled.
+                        if (!hasAccess()) {
+                            return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
+                        } else {
+                            return true;
+                        }
+                    }
 
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
                             if (newState) {
                                 $scope.updateAsHandled($scope.arendeListItem);
-                            }
-                            else {
+                            } else {
                                 $scope.updateAsUnhandled($scope.arendeListItem);
                             }
-                        }
-                        else {
+                        } else {
                             return $scope.arendeListItem.arende.fraga.status === 'CLOSED';
                         }
                     };
@@ -96,56 +117,69 @@ angular.module('common').directive('arendeHantera',
                                 }
                             });
                             //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                            modalInstance.result.catch(function () {}); //jshint ignore:line
-                        }
-                        else {
+                            modalInstance.result.catch(function() {
+                            }); //jshint ignore:line
+                        } else {
                             _updateAsHandled(arendeListItem);
                         }
                     };
 
+                    function hasAccess() {
+                        // If no access is given from backend, it should be possible to toggle handled.
+                        if ($scope.arendeListItem.isKomplettering()) {
+                            return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                                "BESVARA_KOMPLETTERING");
+                        } else {
+                            return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
+                                "BESVARA_FRAGA");
+                        }
+                    }
+
                     function _updateAsHandled(arendeListItem) {
                         arendeListItem.updateHandledStateInProgress = true;
 
-                        ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens, $scope.parentViewState.intygProperties.type, function(result) {
-                            arendeListItem.activeErrorMessageKey = null;
-                            arendeListItem.updateHandledStateInProgress = false;
-                            if (result !== null) {
-                                angular.copy(result, arendeListItem.arende);
-                                arendeListItem.updateArendeListItem();
+                        ArendeProxy.closeAsHandled(arendeListItem.arende.fraga.internReferens,
+                            $scope.parentViewState.intygProperties.type, function(result) {
+                                arendeListItem.activeErrorMessageKey = null;
+                                arendeListItem.updateHandledStateInProgress = false;
+                                if (result !== null) {
+                                    angular.copy(result, arendeListItem.arende);
+                                    arendeListItem.updateArendeListItem();
 
-                                $rootScope.$broadcast('arenden.updated');
+                                    $rootScope.$broadcast('arenden.updated');
 
-                                statService.refreshStat();
-                            }
-                        }, function(errorData) {
-                            // show error view
-                            arendeListItem.updateHandledStateInProgress = false;
-                            arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                        });
+                                    statService.refreshStat();
+                                }
+                            }, function(errorData) {
+                                // show error view
+                                arendeListItem.updateHandledStateInProgress = false;
+                                arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                            });
                     }
 
                     $scope.updateAsUnhandled = function(arendeListItem) {
                         $log.debug('updateAsUnHandled:' + arendeListItem);
                         arendeListItem.updateHandledStateInProgress = true; // trigger local
 
-                        ArendeProxy.openAsUnhandled(arendeListItem.arende.fraga.internReferens, $scope.parentViewState.intygProperties.type, function(result) {
-                            $log.debug('Got openAsUnhandled result:' + result);
-                            arendeListItem.activeErrorMessageKey = null;
-                            arendeListItem.updateHandledStateInProgress = false;
+                        ArendeProxy.openAsUnhandled(arendeListItem.arende.fraga.internReferens,
+                            $scope.parentViewState.intygProperties.type, function(result) {
+                                $log.debug('Got openAsUnhandled result:' + result);
+                                arendeListItem.activeErrorMessageKey = null;
+                                arendeListItem.updateHandledStateInProgress = false;
 
-                            if (result !== null) {
-                                angular.copy(result, arendeListItem.arende);
-                                arendeListItem.updateArendeListItem();
+                                if (result !== null) {
+                                    angular.copy(result, arendeListItem.arende);
+                                    arendeListItem.updateArendeListItem();
 
-                                $rootScope.$broadcast('arenden.updated');
+                                    $rootScope.$broadcast('arenden.updated');
 
-                                statService.refreshStat();
-                            }
-                        }, function(errorData) {
-                            // show error view
-                            arendeListItem.updateHandledStateInProgress = false;
-                            arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
-                        });
+                                    statService.refreshStat();
+                                }
+                            }, function(errorData) {
+                                // show error view
+                                arendeListItem.updateHandledStateInProgress = false;
+                                arendeListItem.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                            });
                     };
 
                 }
