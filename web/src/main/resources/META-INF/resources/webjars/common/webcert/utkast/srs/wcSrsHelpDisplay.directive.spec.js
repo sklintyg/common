@@ -75,7 +75,7 @@ describe('wcSrsHelpDisplayDirective', function() {
                 return promise.promise;
             });
 
-            spyOn(srsProxy, 'getAtgarderAndStatistikForDiagnosis').and.callFake(function() {
+            spyOn(srsProxy, 'getAtgarderAndStatistikAndHistoricPredictionForDiagnosis').and.callFake(function() {
                 var promise = $q.defer();
                 promise.resolve(srsTestJson);
                 return promise.promise;
@@ -116,7 +116,7 @@ describe('wcSrsHelpDisplayDirective', function() {
 
             expect(srsProxy.getQuestions).not.toHaveBeenCalled();
             expect(srsProxy.getPrediction).not.toHaveBeenCalled();
-            expect(srsProxy.getAtgarderAndStatistikForDiagnosis).not.toHaveBeenCalled();
+            expect(srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis).not.toHaveBeenCalled();
         });
 
     });
@@ -152,7 +152,7 @@ describe('wcSrsHelpDisplayDirective', function() {
 
             expect(srsProxy.getQuestions).not.toHaveBeenCalled();
             expect(srsProxy.getPrediction).not.toHaveBeenCalled();
-            expect(srsProxy.getAtgarderAndStatistikForDiagnosis).not.toHaveBeenCalled();
+            expect(srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis).not.toHaveBeenCalled();
         });
 
         it('Should display SRS if available for diagnoskod', function() {
@@ -166,7 +166,7 @@ describe('wcSrsHelpDisplayDirective', function() {
             //expect($(element).find('#srs_diagnos_heading_').text()).toBe('J20 - Bla bla');
 
             expect(srsProxy.getQuestions).toHaveBeenCalled();
-            expect(srsProxy.getAtgarderAndStatistikForDiagnosis).toHaveBeenCalled();
+            expect(srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis).toHaveBeenCalled();
         });
 
         it('Should close SRS if diagnos is cleared', function() {

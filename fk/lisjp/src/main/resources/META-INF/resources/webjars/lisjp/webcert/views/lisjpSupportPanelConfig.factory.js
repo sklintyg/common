@@ -60,7 +60,21 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
                 config: {
                     intygContext: config.intygContext
                 },
-                active: !(isSigned || isKompletteringsUtkast)
+                active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
+            });
+        }
+
+        if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type)) {
+            config.tabs.push({
+                id: 'wc-srs-panel-tab',
+                title: 'common.supportpanel.srs.title',
+                icon: 'lightbulb_outline',
+                tooltip: 'common.supportpanel.srs.tooltip',
+                config: {
+                    intygContext: config.intygContext
+                },
+                // active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
+                active: !_anyTabActive()
             });
         }
 
@@ -72,10 +86,10 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory', [ 'common.fea
             config: {
                 intygContext: config.intygContext
             },
-            active: !_noOtherActiveTab()
+            active: !_anyTabActive()
         });
 
-        function _noOtherActiveTab() {
+        function _anyTabActive() {
             var foundActive = false;
             angular.forEach(config.tabs, function (tab) {
                 if (tab.active) {

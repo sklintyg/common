@@ -508,19 +508,19 @@
             'lisjp.validation.aktivitetsbegransning.missing': 'Ange ett svar.',
 
             // errors
-            'sjukersattning.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'sjukersattning.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'sjukersattning.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
             'sjukersattning.error.could_not_load_cert_qa': '<strong>Ärendekommunikation för detta intyg gick inte att läsa in. Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.</strong>',
-            'luae_na.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'luae_na.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'luae_na.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
             'luae_na.error.could_not_load_cert_qa': '<strong>Ärendekommunikation för detta intyg gick inte att läsa in. Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.</strong>',
-            'luae_fs.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'luae_fs.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'luae_fs.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
             'luae_fs.error.could_not_load_cert_qa': '<strong>Ärendekommunikation för detta intyg gick inte att läsa in. Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.</strong>',
-            'lisjp.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'lisjp.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'lisjp.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
             'lisjp.error.could_not_load_cert_qa': '<strong>Ärendekommunikation för detta intyg gick inte att läsa in. Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.</strong>',
-            'fk7263.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'fk7263.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'fk7263.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
             'fk7263.error.could_not_load_cert_qa': '<strong>Ärendekommunikation för detta intyg gick inte att läsa in. Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.</strong>',
 
@@ -731,8 +731,9 @@
             'common.error.sign.grp.expired_transaction': '<strong>Intyget kunde inte signeras.</strong><br/>Inget svar från klienten. Kontrollera att du har startat din BankID säkerhetsapp, följ instruktionerna och försök igen.',
             'common.error.unknown_internal_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Försök igen senare.',
             'common.error.data_not_found': '<strong>Intyget kunde inte hittas.</strong><br>Intyget är borttaget eller så saknas behörighet.',
-            'common.error.could_not_load_cert': '<strong>Intyget gick inte att läsa in.</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
+            'common.error.could_not_load_cert': '<strong>Intyget kunde inte visas</strong><br>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'common.error.could_not_load_cert_not_auth': '<strong>Kunde inte hämta intyget eftersom du saknar behörighet.</strong>',
+            'common.error.could_not_load_cert_qa': '<strong>Ärenden kunde inte visas</strong>Prova att ladda om sidan. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel>.',
             'common.error.module_problem': '<strong>Tekniskt fel i Webcert.</strong><br>Problem att kontakta intygsmodulen.',
             'common.error.discard.concurrent_modification': '<strong><br>Kan inte ta bort utkastet. Utkastet har ändrats av en annan användare medan du arbetat på samma utkast.</strong><br>Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
             'common.error.save.unknown': 'Tekniskt fel. Utkastet kunde inte sparas. Om problemet kvarstår, kontakta din lokala IT-administratör.',
@@ -751,14 +752,17 @@
             'fmb.generell_info': 'Försäkringsmedicinsk information',
             'fmb.funktionsnedsattning': 'Funktionsnedsättning',
             'fmb.aktivitetsbegransning': 'Aktivitetsbegränsning',
+            'fmb.informationomrehabilitering': 'Information om rehabilitering',
             'fmb.beslutsunderlag_textuellt': 'Vägledning för sjukskrivning',
             'fmb.warn.no-diagnose-set': 'Ange minst en diagnos för att få FMB-stöd.',
             'fmb.info.single-diagnose-no-data': 'För den angivna diagnosen finns för tillfället inget FMB-stöd.',
             'fmb.info.multiple-diagnose-no-data': 'För de angivna diagnoserna finns för tillfället inget FMB-stöd.',
             'fmb.incorrectKodverk': 'FMB-stödet finns enbart för koder som ingår i ICD-10-SE.',
-
+            'fmb.varning.error': 'På grund av ett tekniskt fel kan vi just nu inte räkna ut om patienten överskrider FMB:s rekommenderade sjukskrivningslängd.',
 
             // SRS texts
+            'srs.warn.no-diagnosis-set': 'Ange minst en diagnos för att få SRS-stöd.',
+            // Old SRS
             'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',
             'srs.srsfordiagnose.load.error': 'Tekniskt fel, stöd för bedömning kan inte visas.',
             'srs.srsfordiagnose.load.nodata': 'Det finns ingen information från bedömningsstödet SRS',
@@ -771,6 +775,7 @@
             'common.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
 
             // Ärendehantering errors
+            'common.arende.error.send.title': 'Meddelandet har inte skickats',
             'common.arende.error.external_system_problem': '<strong>Meddelandet har inte skickats till Försäkringskassan då Webcert saknar kontakt med Försäkringskassans datasystem.</strong><br>Prova att skicka om meddelandet. Om problemet kvarstår, kontakta i första hand din lokala IT-avdelning och i andra hand <LINK:ineraKundserviceAnmalFel> på 0771-251010.',
             'common.arende.error.internal_problem': '<strong>Ett tekniskt problem inträffade.</strong><br>Försök igen och kontakta supporten om problemet kvarstår.',
             'common.arende.error.invalid_state': '<strong>Funktionen är inte giltig.</strong><br>Förmodligen har en annan användare ändrat informationen medan du arbetat på samma post. Ladda om informationen och försök igen',
@@ -785,6 +790,11 @@
 
 
             // Högerflikar
+            'common.supportpanel.srs.title': 'SRS',
+            'common.supportpanel.srs.tooltip': 'Stöd för rätt sjukskrivning',
+            'common.supportpanel.srs.title.minimized': 'SRS',
+            'common.supportpanel.srs.tooltip.minimized': 'Öppnar fliken med Stöd för rätt sjukskrivning.',
+
             'common.supportpanel.fmb.title': 'FMB',
             'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
             'common.supportpanel.fmb.title.minimized': 'FMB',

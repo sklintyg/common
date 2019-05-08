@@ -24,14 +24,12 @@
  * arendePanelSvar directive. Handles all komplettering and svar components.
  */
 angular.module('common').directive('arendePanelSvar',
-    ['$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
+    [ '$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService',
-        'common.ArendeDraftProxy',
-        'common.dialogService', 'common.ResourceLinkService',
-        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService,
-            ObjectHelper, ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy,
-            DialogService, ResourceLinkService) {
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService', 'common.ArendeDraftProxy',
+        'common.dialogService', 'common.messageService', 'common.ResourceLinkService',
+        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
+            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService, messageService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -117,6 +115,9 @@ angular.module('common').directive('arendePanelSvar',
                             // show error view
                             ArendeSvar.updateInProgress = false;
                             ArendeSvar.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                            DialogService.showErrorMessageDialog(
+                                messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)), undefined,
+                                'common.arende.error.send.title');
                         });
                     };
 

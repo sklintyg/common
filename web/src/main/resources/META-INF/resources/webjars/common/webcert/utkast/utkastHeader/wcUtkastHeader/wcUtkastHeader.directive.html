@@ -1,4 +1,5 @@
-<div class="wc-page-header">
+<div>
+<div class="wc-page-header" ng-if="!utkastViewState.common.error.activeErrorMessageKey">
   <div class="centered-constrained-content">
     <!-- header content -->
     <div ng-if="!utkastViewState.common.error.activeErrorMessageKey">
@@ -42,15 +43,6 @@
 
     <wc-deprecated-intygstype-message timeout="true" wc-authority request-origin="!UTHOPP" message-suffix="utkastheader" intygs-type="{{::utkastViewState.common.intyg.type}}"></wc-deprecated-intygstype-message>
 
-    <!-- Integration deleted message -->
-    <div id="integration-deleted" ng-if="utkastViewState.common.deleted">
-      Utkastet är raderat och borttaget från Webcert.
-    </div>
-
-    <!-- Total fail error messages -->
-    <div id="error-panel" class="intyg-error-panel"
-         ng-show="utkastViewState.common.doneLoading && utkastViewState.common.error.activeErrorMessageKey && !utkastViewState.common.deleted">
-      <wc-alert-message alert-severity="danger" alert-message-id="{{utkastViewState.common.error.activeErrorMessageKey}}"></wc-alert-message>
-    </div>
   </div>
+</div>
 </div>

@@ -24,15 +24,11 @@
  * arendeNew directive. Common directive for new arende form.
  */
 angular.module('common').directive('arendeNew',
-    ['$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User',
-        'common.statService', 'common.ObjectHelper',
-        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService',
-        'common.ArendeHelper',
-        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService', 'common.ResourceLinkService',
-        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper,
-            ErrorHelper, ArendeProxy,
-            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy,
-            DialogService, ResourceLinkService) {
+    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User', 'common.statService', 'common.ObjectHelper',
+        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
+        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService', 'common.messageService', 'common.ResourceLinkService',
+        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
+            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy, DialogService, messageService, ResourceLinkService ) {
             'use strict';
 
             return {
@@ -188,6 +184,9 @@ angular.module('common').directive('arendeNew',
                                 // show error view
                                 ArendeNewViewState.updateInProgress = false;
                                 ArendeNewViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
+                                DialogService.showErrorMessageDialog(
+                                    messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)), undefined,
+                                    'common.arende.error.send.title');
                             });
                     }
 

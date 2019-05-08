@@ -20,7 +20,7 @@
  * wcDialogService - Generic dialog service
  */
 angular.module('common').factory('common.dialogService',
-    function($uibModal, $timeout, $window, $rootScope) {
+    function($uibModal, $timeout, $window, $rootScope, $stateParams) {
         'use strict';
 
         function _showErrorMessageDialog(message, callback, customTitleId) {
@@ -30,9 +30,10 @@ angular.module('common').factory('common.dialogService',
             }
             var msgbox = $uibModal.open({
                 templateUrl: '/web/webjars/common/webcert/components/dialog/dialogError.template.html',
-                controller: function($scope, $uibModalInstance, bodyText, customTitleId) {
+                controller: function($scope, $uibModalInstance, bodyText, customTitleId, certificateId) {
                     $scope.bodyText = bodyText;
                     $scope.customTitleId = customTitleId;
+                    $scope.certificateId = certificateId;
                 },
                 resolve: {
                     bodyText: function() {
@@ -40,6 +41,9 @@ angular.module('common').factory('common.dialogService',
                     },
                     customTitleId: function() {
                         return angular.copy(customTitleId);
+                    },
+                    certificateId: function() {
+                        return $stateParams.certificateId;
                     }
                 }
             });

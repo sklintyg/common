@@ -48,6 +48,7 @@
   @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
   @import 'components/wcDeprecatedIntygstypeMessage/wcDeprecatedIntygstypeMessage.directive.scss';
   @import 'components/wcDropdown/wcDropdown.directive.scss';
+  @import 'components/wcError/wcError.directive.scss';
   @import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
   @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
   @import 'components/wcHelp/wcHelp.directive.scss';
@@ -86,6 +87,7 @@
   @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
@@ -98,6 +100,7 @@
   @import 'css/generic-input.scss';
   @import 'css/layout-util.scss';
   @import 'css/wc-page-header.scss';
+  @import 'intyg/intygFooter.directive.scss';
   @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
   @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
   @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
@@ -155,10 +158,12 @@
   @import 'utkast/unified-edit/ueDynamicComponent.directive.scss';
   @import 'utkast/unified-edit/ueRenderComponents.directive.scss';
   @import 'utkast/utkast-footer/utkastFooter.scss';
+  @import 'utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
   @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
   @import 'utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.scss';
+  @import 'utkast/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.scss';
   @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
   @import 'utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.scss';
   // endinjector

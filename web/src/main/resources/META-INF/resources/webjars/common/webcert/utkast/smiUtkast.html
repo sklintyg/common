@@ -3,22 +3,27 @@
 
 <div class="webcert-workarea-wrapper">
 
-<div class="webcert-workarea-hflex-container centered-constrained-content" id="edit-{{viewState.common.intyg.type}}">
+  <!-- Integration deleted message -->
+  <wc-integration-utkast-deleted ng-if="viewState.common.deleted"></wc-integration-utkast-deleted>
 
-  <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid edit-form">
+  <!-- Total fail error messages -->
+  <wc-error error="viewState.common.error.activeErrorMessageKey" ng-if="viewState.common.error.activeErrorMessageKey && viewState.common.doneLoading && !viewState.common.deleted"></wc-error>
 
-    <div ng-if="!editEnabled">
-      <div ng-repeat="alert in lockedAlerts">
-        <wc-alert-message alert-id="{{::alert.id}}" alert-severity="{{::alert.severity}}">
-          <span dynamic-label key="{{::alert.text}}" params="alert.params"></span>
-        </wc-alert-message>
+  <div class="webcert-workarea-hflex-container centered-constrained-content" id="edit-{{viewState.common.intyg.type}}"
+       ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">
+
+    <div id="certificate-content-container" class="webcert-workarea-intyg container-fluid edit-form">
+
+      <div ng-if="!editEnabled">
+        <div ng-repeat="alert in lockedAlerts">
+          <wc-alert-message alert-id="{{::alert.id}}" alert-severity="{{::alert.severity}}">
+            <span dynamic-label key="{{::alert.text}}" params="alert.params"></span>
+          </wc-alert-message>
+        </div>
       </div>
-    </div>
 
-    <form name="certForm" class="cert-form" novalidate autocomplete="off" wc-auto-save="editEnabled" class="ng-animate-disabled">
-      <fieldset ng-disabled="!editEnabled">
-        <div ng-hide="viewState.common.error.activeErrorMessageKey || viewState.common.deleted">
-
+      <form name="certForm" class="cert-form" novalidate autocomplete="off" wc-auto-save="editEnabled" class="ng-animate-disabled">
+        <fieldset ng-disabled="!editEnabled">
           <wc-spinner label="info.loadingintyg" show-spinner="!viewState.common.doneLoading">
 
             <div id="certificate" class="row certificate">
@@ -46,17 +51,16 @@
             </div>
 
           </wc-spinner>
-        </div>
-      </fieldset>
-    </form>
+        </fieldset>
+      </form>
 
-    <div class="bottom-fadeout-gradient bottom-fadeout-gradient-main wc-color-27">
-      <div></div>
+      <div class="bottom-fadeout-gradient bottom-fadeout-gradient-main wc-color-27">
+        <div></div>
+      </div>
     </div>
+
+
+    <wc-support-panel-manager ng-hide="viewState.common.deleted" ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
+
   </div>
-
-
-  <wc-support-panel-manager ng-hide="viewState.common.deleted" ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
-
-</div>
 </div>

@@ -1,57 +1,73 @@
 <div id="srsResult{{id}}">
-    <div ng-if="srsViewState.prediktionInfo">
-        <wc-srs-info-box message-string="srsViewState.prediktionInfo"></wc-srs-info-box>
+    <div ng-if="srs.prediktionInfo">
+        <wc-srs-info-box message-string="srs.prediktionInfo"></wc-srs-info-box>
     </div>
-    <div ng-if="srsViewState.prediktionError">
-        <wc-srs-error-box message-string="srsViewState.prediktionError"></wc-srs-error-box>
+    <div ng-if="srs.prediktionError">
+        <wc-srs-error-box message-string="srs.prediktionError"></wc-srs-error-box>
     </div>
-    <wc-alert-message alert-severity="danger" id="predictionBox" ng-if="srsViewState.prediction !== 'error' && srsViewState.prediction.description" class="prediction-box">
-                <img ng-src="{{srsViewState.riskImage}}" alt="">
-        {{srsViewState.prediction.description}}
-        <div 
-        style="float:right"
-        class="glyphicon glyphicon-question-sign"
-        uib-popover-template="externalRisk.templateUrl" popover-trigger="outsideClick"
-        popover-placement="auto right" popover-append-to-body="false" popover-is-open="srsViewState.status.riskInfoOpen">
-      </div>
-    </wc-alert-message>
+<!--    <wc-alert-message alert-severity="danger" id="predictionBox" ng-if="srs.prediction !== 'error' && srs.prediction.description" class="prediction-box">-->
+<!--                <img ng-src="{{srs.riskImage}}" alt="">-->
+<!--        {{srs.prediction.description}}-->
+<!--        <div-->
+<!--        style="float:right"-->
+<!--        class="glyphicon glyphicon-question-sign"-->
+<!--        uib-popover-template="externalRisk.templateUrl" popover-trigger="outsideClick"-->
+<!--        popover-placement="auto right" popover-append-to-body="false" popover-is-open="srs.status.riskInfoOpen">-->
+<!--      </div>-->
+<!--    </wc-alert-message>-->
+
     <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
         <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Åtgärder</a></li>
         <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>
     </ul>
     <div class="tab-content">
         <div id="atgarder{{id}}" class="tab-pane fade in active">
-            <br>            
-            <div ng-if="srsViewState.atgarderInfo">
-                <wc-srs-info-box message-string="srsViewState.atgarderInfo"></wc-srs-info-box>
+            <br>
+            <div ng-if="srs.atgarderInfo">
+                <wc-srs-info-box message-string="srs.atgarderInfo"></wc-srs-info-box>
             </div>
-            <div ng-if="srsViewState.atgarderError">
-                <wc-srs-error-box message-string="srsViewState.atgarderError"></wc-srs-error-box>
+            <div ng-if="srs.atgarderError">
+                <wc-srs-error-box message-string="srs.atgarderError"></wc-srs-error-box>
             </div>
-            <div id="atgarderObs" ng-if="status.open && srsViewState.atgarder && srsViewState.atgarder.atgarderObs && parentHasRendered()" clamp="4">{{srsViewState.atgarder.atgarderObs}}</div>
-                <br><br>
-    
+
+<!-- ÅTGÄRDER - OBS -->
+            <h3>Tänk på att...</h3>
+            <div id="atgarderObs">
+                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderObs">
+                    <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
+                        <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
+
+                        </wc-expandable-content>
+                    </section>
+                </div>
+            </div>
+
+<!-- ÅTGÄRDER - REK -->
             <h3>Rekommenderade åtgärder</h3>
-            <div id="atgarderRek" ng-if="status.open">
-                <div ng-repeat="(key,value) in srsViewState.atgarder.atgarderRek">
-                    <div clamp="3" ng-bind-html="'• ' + value"></div>
-                    <br>
+            <div id="atgarderRek">
+                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderRek">
+                    <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
+                        <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
+
+                        </wc-expandable-content>
+                    </section>
                 </div>
-                <div class="floatRight">
-                    <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked;">Läs mer</button>
-                </div>
+<!--                <div class="floatRight">-->
+<!--                    <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked;">Läs mer</button>-->
+<!--                </div>-->
             </div>
 
         </div>
         <div id="statstics{{id}}" class="tab-pane fade">
             <br>
-            <div ng-if="srsViewState.statistikInfo">
-                <wc-srs-info-box message-string="srsViewState.statistikInfo"></wc-srs-info-box>
+            <div ng-if="srs.statistikInfo">
+                <wc-srs-info-box message-string="srs.statistikInfo"></wc-srs-info-box>
             </div>
-            <div ng-if="srsViewState.statistikError">
-                <wc-srs-error-box message-string="srsViewState.statistikError"></wc-srs-error-box>
+            <div ng-if="srs.statistikError">
+                <wc-srs-error-box message-string="srs.statistikError"></wc-srs-error-box>
             </div>
-            <img ng-show="srsViewState.statistik.statistikBild" ng-src="{{srsViewState.statistik.statistikBild}}" alt=""/>
+<!--            <img ng-show="srs.statistik.statistikBild" ng-src="{{srs.statistik.statistikBild}}" alt=""/>-->
+            <wc-srs-nationell-statistik-diagram />
             <div class="floatRight">
                 <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToStatistikExternalSite(); logStatistikClicked();">Läs mer</button>
             </div>
