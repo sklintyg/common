@@ -69,7 +69,10 @@ describe('UtkastService', function() {
                             postadress: null,
                             postnummer: null,
                             postort: null,
-                            telefonnummer: null
+                            telefonnummer: null,
+                            vardgivare: {
+                                vardgivarid: null
+                            }
                         }
                     },
                     patient: {
@@ -190,7 +193,9 @@ describe('UtkastService', function() {
             var utkastContentKomplt = {
                 grundData:{
                     skapadAv: {
-                        vardenhet: {}
+                        vardenhet: {
+                            vardgivare: {}
+                        }
                     },
                     patient: {
                         fornamn: 'Tolvan',

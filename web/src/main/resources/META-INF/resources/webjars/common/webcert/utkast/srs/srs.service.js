@@ -49,6 +49,10 @@ angular.module('common').factory('common.srsService', [
             viewState.setHsaId(hsaId);
         }
 
+        function _updateVardgivareHsaId(hsaId) {
+            viewState.setVardgivareHsaId(hsaId);
+        }
+
         function _updateIntygsTyp(intygsTyp) {
             viewState.intygsTyp = intygsTyp;
         }
@@ -63,6 +67,7 @@ angular.module('common').factory('common.srsService', [
             updateDiagnosKod: _updateDiagnosKod,
             getDiagnosBeskrivningUsingCodesystem: _getDiagnosBeskrivningUsingCodesystem,
             updateHsaId: _updateHsaId,
+            updateVardgivareHsaId: _updateVardgivareHsaId,
             updateIntygsTyp: _updateIntygsTyp,
             updatePersonnummer: _updatePersonnummer
         };

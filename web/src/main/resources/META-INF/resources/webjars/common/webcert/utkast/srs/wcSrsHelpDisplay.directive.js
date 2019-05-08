@@ -18,6 +18,9 @@
  */
 /**
  * Display SRS help texts
+ *
+ * 2019-04-03 CH: THE OLD SRS DIRECTIVE, TO BE REMOVED LATER ON
+ *
  */
 angular.module('common').directive('wcSrsHelpDisplay',
     ['$q', 'common.ObjectHelper', 'common.srsProxy', 'common.srsViewState', 'common.authorityService', '$stateParams',
@@ -92,7 +95,7 @@ angular.module('common').directive('wcSrsHelpDisplay',
                     };
 
                     scope.retrieveAndSetAtgarderAndStatistik = function() {
-                        return srsProxy.getAtgarderAndStatistikForDiagnosis($stateParams.certificateId, scope.srsViewState.personId,
+                        return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis($stateParams.certificateId, scope.srsViewState.personId,
                             srsViewState.diagnosKod)
                             .then(function(data) {
                                 scope.srsViewState.statistik = data.statistik || 'error';

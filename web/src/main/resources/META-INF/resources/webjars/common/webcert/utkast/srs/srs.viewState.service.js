@@ -21,10 +21,13 @@ angular.module('common').service('common.srsViewState',
         'use strict';
 
         this.consent = '';
+        this.opinion = '';
+        this.opinionError = null;
         this.diagnosBeskrivning = '';
         this.diagnosKod = '';
         this.personId = '';
-        this.hsaId = '';
+        this.hsaId = ''; // vardenhets hsa-id
+        this.vardgivareHsaId = '';
         this.intygsTyp = '';
         this.shownFirstTime = false;
         this.clickedFirstTime = false;
@@ -39,6 +42,7 @@ angular.module('common').service('common.srsViewState',
                     
         this.prediction = {};
         this.prediction.description = '';
+        this.prediction.prevalens = null;
         this.allQuestionsAnswered = false;
         this.showVisaKnapp = false;
         this.srsButtonVisible = true; // SRS window should not start in fixed position immediately.
@@ -66,6 +70,10 @@ angular.module('common').service('common.srsViewState',
 
         this.setHsaId = function(hsaId){
             this.hsaId = hsaId;
+        };
+
+        this.setVardgivareHsaId = function(vardgivareHsaId) {
+            this.vardgivareHsaId = vardgivareHsaId;
         };
 
         this.setDiagnosKod = function(diagnosKod) {

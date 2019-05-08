@@ -19,9 +19,110 @@
      color: $wc-color-00;
  }
  
- .take-all-space-you-can{
-   width:100%;
- }
+ //.take-all-space-you-can{
+ //  width:100%;
+ //}
+
+// .srs-atgard{
+// }
+//
+// .srs-atgard-bas {
+//   width: 75%;
+// }
+//
+//.srs-atgard-mer {
+//  clear: both;
+//}
+wc-srs-panel-tab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  hr {
+    width: 100%
+  }
+
+  hr.srs-thick-divider {
+    border:1px solid #E8E8E8;
+    background-color: #F1F1F1;
+    height: 13px;
+    width: 120%;
+    position: relative;
+    left: -36px;
+  }
+
+  // Internal tab
+  ul.nav.nav-tabs > li.rounded > a {
+    background-color: #FFFFFF !important; // Need to use important because somebody used important on the wc-common.css
+    border-color: #FFFFFF;
+    border-radius: 16px;
+    color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
+    text-decoration: none;
+  }
+
+  ul.nav.nav-tabs > li.rounded > a:hover {
+    border-color: #496CEC;
+    color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
+  }
+
+  ul.nav.nav-tabs > li.rounded.active > a {
+    background-color: #496CEC !important; // Need to use important because somebody used important on the wc-common.css
+    border-color: #496CEC;
+    color: #FFFFFF !important;// Need to use important because somebody used important on the wc-common.css
+  }
+
+  .nav {
+    .nav-tabs {
+      .rounded {
+        border-radius: 14px;
+      }
+      .rounded.active {
+        background-color: #496CEC;
+      }
+    }
+  }
+
+  .srs-panel-title {
+    margin: 0px 19px 0px 0px;
+    text-decoration: underline;
+
+    > span {
+      padding: 0;
+    }
+  }
+
+  .risk-widget-content > .chart-container {
+    padding-bottom: 20px;
+  }
+
+  .risk-widget-textual > ul > li {
+    padding-bottom: 20px;
+  }
+
+  .srs-section {
+    padding-bottom: 20px;
+    color: $wc-color-07;
+    font-weight: 400;
+
+    h4 {
+      @extend %wc-typo-05;
+      padding: 8px 0;
+    }
+
+    div {
+      @extend %wc-typo-07;
+    }
+
+    section {
+      @extend %wc-typo-07;
+    }
+
+    .missing-info {
+      @extend %wc-typo-12;
+    }
+  }
+}
 
  .srs-question{
   display: inline;
@@ -328,8 +429,9 @@
      margin: 0px 20px 0px 0px;
      width: 520px;
  
-     > h4 {
+     > span {
        padding: 0;
+       text-decoration: underline;
      }
    }
  

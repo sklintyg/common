@@ -1,0 +1,115 @@
+<!-- PATIENT CONSENT CHECKBOX--->
+<div class="tab-content-title-row">
+    <span class="tab-content-title-row-title">
+<!--        <wc-checkbox-wrapper>-->
+<!--            <input type="checkbox" name="srs_patient_consent_checkbox" ng-true-value="'JA'" ng-false-value="'NEJ'" ng-model="srs.consent"-->
+<!--                   class="ng-pristine ng-untouched ng-valid" ng-change="setConsent({{srs.consent}})">-->
+
+<!--            <label ng-attr-for="srs_patient_consent_checkbox">-->
+<!--                <span uib-popover="{{!srs.consentInfo ? 'SAMTYCKE-ALTERNATIV-INFO' :''}}"-->
+<!--                      popover-popup-delay="300" popover-append-to-body="true"-->
+<!--                      popover-placement="top">Patientens samtycke</span>-->
+<!--            </label>-->
+<!--        </wc-checkbox-wrapper>-->
+        <div class="line form-group ng-scope">
+        <p>Patienten samtycker till att delta i SRS pilotprojekt</p>
+        <label class="radio-inline line">
+              <input type="radio" name="consent-to-srs-radio" ng-value="'JA'" ng-model="srs.consent" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent('true')"> Ja</label>
+        <label class="radio-inline line">
+              <input type="radio" name="consent-to-srs-radio" ng-value="false" ng-model="srs.consent" class="ng-pristine ng-untouched ng-valid" ng-change="setConsent(false)"> Nej</label>
+      </div>
+
+    </span>
+</div>
+
+<!-- DIAGNOSIS HEADER--->
+<div class="srs-diagnos-row" ng-class="{'has-diagnose' : srs.diagnosKod && srs.diagnosBeskrivning}">
+    <div class="srs-panel-title" ng-show="srs.diagnosKod">
+<!--        <h4>-->
+            <span id="srs_diagnos_heading">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
+<!--        </h4>-->
+    </div>
+</div>
+<wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
+<!-- CONSENT ERROR MESSAGE -->
+    <div ng-if="srs.consentError">
+        <wc-srs-error-box message-string="srs.consentError"></wc-srs-error-box>
+    </div>
+
+    <div class="panel-body" ng-show="srs.userHasSrsFeature && srs.srsApplicable">
+<!-- CONSENT INFO MESSAGE: E.G. "Det SRS-stöd som visas är för koden F43" -->
+        <div ng-if="srs.consentInfo">
+            <wc-srs-info-box message-string="srs.consentInfo"></wc-srs-info-box>
+        </div>
+
+        <div>
+            <!-- RISK DIAGRAM -->
+            <div>
+                <wc-srs-risk-diagram />
+            </div>
+            <div ng-show="srs.consent === 'JA' && !srs.consentError">
+<!-- LÄKARENS EGEN BEDÖMNING --->
+                <div id="srs-own-opinion" ng-if="srs.prediction.probabilityOverLimit">
+                    <hr/>
+                    <p>Enligt min läkarbedömning anser jag att patientens risk jämfört ...?</p>
+                    <div class="srs-question">
+                        <label class="radio-inline line">
+                            <input type="radio" name="risk-opinion-higher" ng-value="'HOGRE'" ng-model="srs.prediction.opinion" ng-change="setOpinion('HOGRE')"/>
+                            Högre
+                        </label>
+                        <label class="radio-inline line">
+                            <input type="radio" name="risk-opinion-correct" ng-value="'KORREKT'" ng-model="srs.prediction.opinion" ng-change="setOpinion('KORREKT')"/>
+                            Korrekt
+                        </label>
+                        <label class="radio-inline line">
+                            <input type="radio" name="risk-opinion-lower" ng-value="'LAGRE'" ng-model="srs.prediction.opinion" ng-change="setOpinion('LAGRE')"/>
+                            Lägre
+                        </label>
+                    </div>
+                    <div ng-if="srs.prediction.opinionError">
+                        <wc-srs-error-box message-string="srs.prediction.opinionError"></wc-srs-error-box>
+                    </div>
+                    <br />
+                </div>
+            </div>
+<!-- BERÄKNA RISK: FRÅGOR -->
+            <hr class="srs-thick-divider"/>
+
+            <h3 class="floatLeft">Beräkna patientens risk</h3>
+            <div class="line">
+                <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
+                </a>
+            </div>
+            <br/>
+            <br/>
+            <div id="collapseExample" class="panel-collapse collapse in">
+                <wc-srs-questionaire></wc-srs-questionaire>
+            </div>
+            <hr class="srs-thick-divider"/>
+            <wc-srs-result></wc-srs-result>
+        </div>
+    </div>
+
+  <!-- in case none of the diagnoses had any info to show -->
+  <wc-alert-message alert-message-id="{{vm.noDataMessage.info}}" alert-severity="info"
+                    ng-if="vm.noDataMessage.info"></wc-alert-message>
+
+  <div ng-if="!srs.diagnosKod || vm.noDataMessage.incorrectKodverk" class="no-diagnose-entered">
+<!--    <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/fmb_no_diagnose.svg"/>-->
+    <div ng-if="!srs.diagnosKod" dynamic-label key="srs.warn.no-diagnosis-set"></div>
+    <div ng-if="vm.noDataMessage.incorrectKodverk"
+         dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"
+         uib-popover="{{'FMB-stöd ska ej hämtas upp.'}}"
+         popover-popup-delay="300" popover-append-to-body="true"
+         popover-placement="top"></div>
+  </div>
+
+</wc-support-panel-scrollable-body>
+
+<div class="srs-footer">
+  <span dynamiclink key="srsSkl" class="dark"></span>
+<!--  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png"-->
+<!--       width="40"-->
+<!--       height="26">-->
+</div>

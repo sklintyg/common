@@ -90,7 +90,9 @@ angular.module('common').factory('common.UtkastService',
                     else {
 
                         srsService.updatePersonnummer(utkastData.content.grundData.patient.personId);
+                        // console.log("UTKASTDATA", utkastData)
                         srsService.updateHsaId(utkastData.content.grundData.skapadAv.vardenhet.enhetsid);
+                        srsService.updateVardgivareHsaId(utkastData.content.grundData.skapadAv.vardenhet.vardgivare.vardgivarid);
                         srsService.updateIntygsTyp(utkastData.content.typ);
 
                         viewState.relations = utkastData.relations;

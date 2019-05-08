@@ -761,6 +761,8 @@
             'fmb.varning.error': 'På grund av ett tekniskt fel kan vi just nu inte räkna ut om patienten överskrider FMB:s rekommenderade sjukskrivningslängd.',
 
             // SRS texts
+            'srs.warn.no-diagnosis-set': 'Ange minst en diagnos för att få SRS-stöd.',
+            // Old SRS
             'srs.srsfordiagnose.load.message': 'Laddar Stöd för bedömning vid sjukskrivning...',
             'srs.srsfordiagnose.load.error': 'Tekniskt fel, stöd för bedömning kan inte visas.',
             'srs.srsfordiagnose.load.nodata': 'Det finns ingen information från bedömningsstödet SRS',
@@ -788,6 +790,11 @@
 
 
             // Högerflikar
+            'common.supportpanel.srs.title': 'SRS',
+            'common.supportpanel.srs.tooltip': 'Stöd för rätt sjukskrivning',
+            'common.supportpanel.srs.title.minimized': 'SRS',
+            'common.supportpanel.srs.tooltip.minimized': 'Öppnar fliken med Stöd för rätt sjukskrivning.',
+
             'common.supportpanel.fmb.title': 'FMB',
             'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
             'common.supportpanel.fmb.title.minimized': 'FMB',
