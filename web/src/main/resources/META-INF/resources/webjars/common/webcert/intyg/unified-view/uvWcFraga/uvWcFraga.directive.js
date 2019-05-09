@@ -16,29 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('uvWcFraga', [ 'common.ArendeListViewStateService', 'common.UtilsService', function(ArendeListViewStateService, UtilsService) {
-    'use strict';
+angular.module('common').directive('uvWcFraga',
+    ['common.ArendeListViewStateService', 'common.UtilsService', 'common.ResourceLinkService',
+        function(ArendeListViewStateService, UtilsService, ResourceLinkService) {
+            'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            config: '=',
-            viewData: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvWcFraga/uvWcFraga.directive.html',
-        link: function($scope) {
+            return {
+                restrict: 'E',
+                scope: {
+                    config: '=',
+                    viewData: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/intyg/unified-view/uvWcFraga/uvWcFraga.directive.html',
+                link: function($scope) {
 
-            $scope.hasKompletteringar = function() {
-                // lookup if there's an unhandled komplettering for this frage-id
-               var numericFrageId = UtilsService.extractNumericalFrageId($scope.config.labelKey);
-               if (!numericFrageId) {
-                    return false;
-               }
-                //expose kompletteringsId to template
-               $scope.kompletteringsId = numericFrageId;
-               return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId).length > 0;
+                    $scope.hasKompletteringar = function() {
+                        if (!$scope.showKompletteringar()) {
+                            return false;
+                        }
 
+                        // lookup if there's an unhandled komplettering for this frage-id
+                        var numericFrageId = UtilsService.extractNumericalFrageId($scope.config.labelKey);
+                        if (!numericFrageId) {
+                            return false;
+                        }
+                        //expose kompletteringsId to template
+                        $scope.kompletteringsId = numericFrageId;
+                        return ArendeListViewStateService.getKompletteringarForFraga(numericFrageId).length > 0;
+
+                    };
+
+                    $scope.showKompletteringar = function() {
+                        return ResourceLinkService.isLinkTypeExists(
+                            ArendeListViewStateService.common.intygProperties.links, 'LASA_FRAGA');
+                    };
+                }
             };
-        }
-    };
-} ]);
+        }]);

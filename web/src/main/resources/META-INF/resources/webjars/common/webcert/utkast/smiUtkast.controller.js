@@ -19,9 +19,11 @@
 angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
-        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory', 'common.receiverService',
+        'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
+        'common.receiverService',
         function($scope, $state, $stateParams,
-            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory, prefilledUserDataService,
+            UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
+            prefilledUserDataService,
             supportPanelConfigFactory, receiverService) {
             'use strict';
 
@@ -53,9 +55,10 @@ angular.module('common').controller('smi.EditCertCtrl',
                     $scope.certForm.$setDirty();
                 }
                 //Expose pdf download link
-                viewState.common.intyg.pdfUrl = '/moduleapi/intyg/'+ viewState.common.intyg.type +'/' + intygModel.id + '/pdf';
+                viewState.common.intyg.pdfUrl =
+                    '/moduleapi/intyg/' + viewState.common.intyg.type + '/' + intygModel.id + '/pdf';
 
-                if($state.current.data.useFmb) {
+                if ($state.current.data.useFmb) {
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
 
@@ -71,20 +74,22 @@ angular.module('common').controller('smi.EditCertCtrl',
             });
 
             $scope.$on('utkast.supportPanelConfig', function(event, isKomplettering, intygTypeVersion) {
-                //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked)
-                $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false, isKomplettering, viewState.draftModel.isLocked());
+                //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links)
+                $scope.supportPanelConfig =
+                    supportPanelConfigFactory.getConfig($stateParams.certificateId, intygTypeVersion, false,
+                        isKomplettering, viewState.draftModel.isLocked(), viewState.draftModel.links);
             });
 
             $scope.$on('saveRequest', function($event, saveDeferred) {
                 $scope.certForm.$commitViewValue();
                 var intygState = {
-                    viewState : viewState,
-                    formFail : function() {
-                        if($scope.certForm){
+                    viewState: viewState,
+                    formFail: function() {
+                        if ($scope.certForm) {
                             $scope.certForm.$setDirty();
                         }
                     },
-                    formPristine : function() {
+                    formPristine: function() {
                         $scope.certForm.$setPristine();
                     }
                 };
@@ -92,16 +97,16 @@ angular.module('common').controller('smi.EditCertCtrl',
             });
 
             $scope.$on('$destroy', function() {
-                if(!$scope.certForm.$dirty){
+                if (!$scope.certForm.$dirty) {
                     $scope.destroyList();
                 }
 
-                if($state.current.data && $state.current.data.useFmb) {
+                if ($state.current.data && $state.current.data.useFmb) {
                     fmbViewState.reset();
                 }
             });
 
-            $scope.destroyList = function(){
+            $scope.destroyList = function() {
                 viewState.clearModel();
             };
 

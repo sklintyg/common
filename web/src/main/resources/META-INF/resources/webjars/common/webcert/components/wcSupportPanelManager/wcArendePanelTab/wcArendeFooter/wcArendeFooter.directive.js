@@ -52,8 +52,7 @@ angular.module('common').directive('wcArendeFooter',
                     $scope.kompletteringConfig = {
                         enhetsid: ArendeListViewState.intyg.grundData.skapadAv.vardenhet.enhetsid,
                         //Existence of complementedByUtkast means an utkast with complemented relation exist.
-                        redirectToExistingUtkast: false,
-                        showAnswerWithIntyg: authorityService.isAuthorityActive({authority: 'SVARA_MED_NYTT_INTYG'})
+                        redirectToExistingUtkast: false
                     };
 
                     function onIntygLoaded(event, intyg, intygProperties) {
