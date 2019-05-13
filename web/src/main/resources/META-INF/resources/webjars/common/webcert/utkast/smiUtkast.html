@@ -39,16 +39,13 @@
             </div>
             <!-- certificate -->
 
-            <div ng-if="editEnabled">
+            <wc-utkast-error-summary
+                categories="viewState.common.validation.sections"
+                category-ids="categoryIds"
+                ng-if="editEnabled">
+            </wc-utkast-error-summary>
 
-              <wc-utkast-error-summary
-                  categories="viewState.common.validation.sections"
-                  category-ids="categoryIds">
-              </wc-utkast-error-summary>
-
-              <div ui-view="footer"></div>
-
-            </div>
+            <div ui-view="footer"></div>
 
           </wc-spinner>
         </fieldset>
