@@ -45,7 +45,7 @@ angular.module('common').directive('arendeHantera',
                         var arendeModel = $scope.arendeListItem;
                         var isRevoked = $scope.parentViewState.intygProperties.isRevoked;
 
-                        // If no access is given from backend, it should be possible to toggle handled.
+                        // If no access is given from backend, it should not be possible to toggle handled.
                         if (!hasAccess()) {
                             return false;
                         }
@@ -69,11 +69,7 @@ angular.module('common').directive('arendeHantera',
                         }
 
                         // Enforce default business rule FS-011, from FK + answer should remain closed
-                        if (arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return arendeModel.arende.fraga.frageStallare === 'WC' || !arendeModel.arende.svar.meddelande;
                     };
 
                     $scope.showReadOnlyCheckBox = function() {
