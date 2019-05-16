@@ -25,6 +25,7 @@
          value=""
          placeholder="Diagnos"
          ng-model= "model[config.modelProp][index].diagnosBeskrivning"
+         ng-model-options="{ allowInvalid: true }"
          ue-filter-latin1
          ng-blur="validate()"
          ng-change="onDiagnoseDescriptionChanged()"
@@ -32,5 +33,5 @@
          typeahead-on-select="onDiagnoseDescriptionSelect($item)"
          typeahead-template-url="/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.typeahead_template.html"
          typeahead-wait-ms="100"
-         maxlength="250">
+         maxlength="{{::descriptionMaxLength}}">
 </div>
