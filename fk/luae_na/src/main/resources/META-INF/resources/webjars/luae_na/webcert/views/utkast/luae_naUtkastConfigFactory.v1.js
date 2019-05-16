@@ -225,6 +225,7 @@ angular.module('luae_na').factory('luae_na.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            descriptionMaxLength: 81,
                             defaultKodSystem: 'ICD_10_SE',
                             diagnosBeskrivningLabel: 'DFR_6.1.RBK',
                             diagnosBeskrivningHelp: 'DFR_6.1.HLP',
