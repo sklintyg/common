@@ -17,20 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('serviceBanner', function() {
-  'use strict'
+  'use strict';
 
   return {
     restrict: 'E',
     scope: {},
     templateUrl: '/web/webjars/common/app-shared/servicebanner/serviceBanner.directive.html',
-    controller: function($scope) {
-        /*$scope.message = {
-            severity: 'info',
-            content: 'Text'
-        }*/
+    controller: function($scope, moduleConfig) {
 
-        // TODO: get banner info from backend
-        $scope.message = null
+      function getSeverity(priority) {
+        switch(priority) {
+        case 'HIGH':
+          return 'danger';
+        case 'MEDIUM':
+          return 'warning';
+        case 'LOW':
+          return 'info';
+        }
+      }
+
+      var banners = [];
+      var i = 0;
+
+      angular.forEach(moduleConfig.BANNERS, function(banner) {
+        banners.push({
+          id: 'serviceBanner' + i++,
+          severity: getSeverity(banner.priority),
+          text: banner.message
+        });
+      });
+
+      $scope.banners = banners;
     }
-  }
-})
+  };
+});
