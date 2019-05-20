@@ -146,7 +146,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                         key: 'TOM'
                                     },{
                                         type: 'ue-date',
-                                        modelProp: 'sjukskrivningsperiod.tom'
+                                        modelProp: 'sjukskrivningsperiod.tom',
+                                        fromModelProp: 'sjukskrivningsperiod.from'
                                     }]
                                 ]
                             }, {

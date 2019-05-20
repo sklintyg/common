@@ -53,7 +53,7 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'ovrigaUpplysningar': undefined,
                         'sjukskrivningsgrad': undefined,
                         'sjukskrivningsperiod': {
-                            from: undefined,
+                            from: moment().format('YYYY-MM-DD'),
                             tom: undefined
                         },
 
