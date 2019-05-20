@@ -50,7 +50,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.showVisaKnapp = false;
                     setPredictionImage();
                     setPrediktionMessages();
-                    setPredictionRiskLevel()
+                    setPredictionRiskLevel();
                 });
             };
 
@@ -365,7 +365,7 @@ angular.module('common').directive('wcSrsPanelTab',
             function setPredictionRiskLevel() {
                 debugLog('setPredictionRiskLevel()');
                 if ($scope.srs.prediction.probabilityOverLimit && $scope.srs.prediction.probabilityOverLimit !== null) {
-                    var probability = $scope.srs.prediction.probabilityOverLimit
+                    var probability = $scope.srs.prediction.probabilityOverLimit;
                     var riskLevel = null;
                     if (probability < 0.39) {
                         riskLevel = 'Måttlig risk';
@@ -447,7 +447,7 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function() {
                         setAtgarderMessages();
                         setStatistikMessages();
-                        setPrediktionMessages()
+                        setPrediktionMessages();
                         setPredictionRiskLevel();
                     });
                     setPrediktionMessages(); // No prediction data as of yet, only used to ensure initial correct state.
