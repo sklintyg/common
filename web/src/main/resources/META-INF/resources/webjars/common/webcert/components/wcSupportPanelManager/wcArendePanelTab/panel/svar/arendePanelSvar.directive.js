@@ -24,12 +24,15 @@
  * arendePanelSvar directive. Handles all komplettering and svar components.
  */
 angular.module('common').directive('arendePanelSvar',
-    [ '$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
+    ['$window', '$log', '$rootScope', '$state', '$stateParams', '$q',
         'common.ArendeProxy', 'common.ArendeHelper', 'common.statService', 'common.ObjectHelper', 'common.ErrorHelper',
-        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService', 'common.ArendeDraftProxy',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.FocusElementService',
+        'common.ArendeDraftProxy',
         'common.dialogService', 'common.messageService', 'common.ResourceLinkService',
-        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService, ObjectHelper,
-            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService, messageService, ResourceLinkService) {
+        function($window, $log, $rootScope, $state, $stateParams, $q, ArendeProxy, ArendeHelper, statService,
+            ObjectHelper,
+            ErrorHelper, IntygCopyRequestModel, ArendeSvarModel, focusElement, ArendeDraftProxy, DialogService,
+            messageService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -59,7 +62,7 @@ angular.module('common').directive('arendePanelSvar',
                     $scope.canAnswer = function() {
                         return $scope.parentViewState.intygProperties.isInteractionEnabled &&
                             ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                "BESVARA_FRAGA") &&
+                                'BESVARA_FRAGA') &&
                             ArendeSvar.status === 'PENDING_INTERNAL_ACTION' &&
                             !ArendeSvar.intygProperties.isRevoked &&
                             !$scope.arendeListItem.isKomplettering() &&
@@ -116,7 +119,8 @@ angular.module('common').directive('arendePanelSvar',
                             ArendeSvar.updateInProgress = false;
                             ArendeSvar.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                             DialogService.showErrorMessageDialog(
-                                messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)), undefined,
+                                messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)),
+                                undefined,
                                 'common.arende.error.send.title');
                         });
                     };

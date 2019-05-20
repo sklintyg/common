@@ -95,7 +95,7 @@ angular.module('common').service('common.IntygViewStateService',
 
             this.getLinks = function() {
                 return this.intygProperties.links;
-            }
+            };
 
             this.updateIntygProperties = function(result, intygId) {
 

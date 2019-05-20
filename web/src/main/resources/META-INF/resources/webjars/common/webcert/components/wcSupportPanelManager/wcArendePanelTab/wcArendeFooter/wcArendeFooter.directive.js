@@ -72,19 +72,19 @@ angular.module('common').directive('wcArendeFooter',
 
                     $scope.showKompletteraButton = function() {
                         return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                            "BESVARA_KOMPLETTERING");
-                    }
+                            'BESVARA_KOMPLETTERING');
+                    };
 
                     $scope.showKanInteKompletteraButton = function() {
                         return ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                            "BESVARA_FRAGA");
-                    }
+                            'BESVARA_FRAGA');
+                    };
 
                     $scope.showVidarebefodraButton = function() {
                         return !ArendeListViewState.intygProperties.isRevoked &&
                             ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                                "VIDAREBEFODRA_FRAGA");
-                    }
+                                'VIDAREBEFODRA_FRAGA');
+                    };
 
                     var _answerWithIntyg = function(kommentar) {
 

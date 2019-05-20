@@ -24,11 +24,16 @@
  * arendeNew directive. Common directive for new arende form.
  */
 angular.module('common').directive('arendeNew',
-    [ '$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User', 'common.statService', 'common.ObjectHelper',
-        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService', 'common.ArendeHelper',
-        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService', 'common.messageService', 'common.ResourceLinkService',
-        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper, ErrorHelper, ArendeProxy,
-            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy, DialogService, messageService, ResourceLinkService ) {
+    ['$window', '$log', '$timeout', '$state', '$stateParams', '$rootScope', '$uibModal', 'common.User',
+        'common.statService', 'common.ObjectHelper',
+        'common.ErrorHelper', 'common.ArendeProxy', 'common.ArendeNewModel', 'common.ArendeNewViewStateService',
+        'common.ArendeHelper',
+        'common.ArendeListItemModel', 'common.ArendeDraftProxy', 'common.dialogService', 'common.messageService',
+        'common.ResourceLinkService',
+        function($window, $log, $timeout, $state, $stateParams, $rootScope, $uibModal, User, statService, ObjectHelper,
+            ErrorHelper, ArendeProxy,
+            ArendeNewModel, ArendeNewViewStateService, ArendeHelper, ArendeListItemModel, ArendeDraftProxy,
+            DialogService, messageService, ResourceLinkService) {
             'use strict';
 
             return {
@@ -99,7 +104,7 @@ angular.module('common').directive('arendeNew',
                     $scope.showCreateArende = function() {
                         var notRevoked = !ArendeNewViewState.parentViewState.intygProperties.isRevoked;
                         var actionAvailable = ResourceLinkService.isLinkTypeExists(
-                            ArendeNewViewState.parentViewState.intygProperties.links, "SKAPA_FRAGA");
+                            ArendeNewViewState.parentViewState.intygProperties.links, 'SKAPA_FRAGA');
                         return intygLoaded && notRevoked && actionAvailable;
                     };
 
@@ -185,7 +190,8 @@ angular.module('common').directive('arendeNew',
                                 ArendeNewViewState.updateInProgress = false;
                                 ArendeNewViewState.activeErrorMessageKey = ErrorHelper.safeGetError(errorData);
                                 DialogService.showErrorMessageDialog(
-                                    messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)), undefined,
+                                    messageService.getProperty('common.error.' + ErrorHelper.safeGetError(errorData)),
+                                    undefined,
                                     'common.arende.error.send.title');
                             });
                     }
