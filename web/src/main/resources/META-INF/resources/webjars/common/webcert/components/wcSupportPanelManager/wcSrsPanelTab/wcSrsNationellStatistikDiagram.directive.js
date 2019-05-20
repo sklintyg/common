@@ -110,7 +110,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 height: 240
                             },
                             title: {
-                                text: null,
+                                text: null
                             },
                             subtitle : {},
                             legend: {
@@ -131,7 +131,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                     formatter : function() {
                                         return this.value + '%';
                                     }
-                                },
+                                }
                             },
                             xAxis: {
                                 lineWidth: 1,
@@ -140,7 +140,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 // ceiling: 400,
                                 type: 'category',
                                 min: 0,
-                                max: 400,
+                                max: 400
                             },
                             plotOptions : {
                                 line : {
@@ -160,10 +160,10 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                         legendItemClick : function() { // This function removes interaction for plot and legend-items
                                             return false;
                                         }
-                                    },
+                                    }
                                 },
                                 series: {
-                                },
+                                }
                             },
                             tooltip : {
                                 hideDelay: 500,
@@ -189,7 +189,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 enabled : false
                             },
                             series : series
-                        }
+                        };
 
                         return new Highcharts.Chart(chartOptions);
                     }
@@ -200,7 +200,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         }
                     });
                     $scope.$watch('srs.prediktionInfo', function(newVal, oldVal) {
-                        setTooltipText(newVal)
+                        setTooltipText(newVal);
                     });
 
                     $scope.$watch('srs.statistik', function(newVal, oldVal) {

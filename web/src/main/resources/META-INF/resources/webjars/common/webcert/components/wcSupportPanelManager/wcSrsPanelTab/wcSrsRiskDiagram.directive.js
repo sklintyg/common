@@ -100,7 +100,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             unit: '%',
                             maxWidthPercentage: 80,
                             // width: 360,
-                            marginRight: 120,
+                            marginRight: 120
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
@@ -134,7 +134,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         chartOptions.subtitle.text = null;
                         // chartOptions.yAxis[0].type = 'category';
                         chartOptions.yAxis[0].tickInterval = 20;
-                        chartOptions.yAxis[0].max = 100
+                        chartOptions.yAxis[0].max = 100;
                         chartOptions.yAxis[0].gridLineWidth=0;
                         chartOptions.yAxis[0].lineWidth = 1;
                         chartOptions.yAxis[0].lineColor = '#c7c7c7';
@@ -160,8 +160,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 color: '#C7C7C7',
                                 width: 1,
                                 value: 100
-                            },
-                        ]
+                            }
+                        ];
 
                         chartOptions.yAxis[0].plotBands = [{
                             color: 'white',
