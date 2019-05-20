@@ -208,8 +208,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     });
 
                     $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal);
-                        console.log('srs.prediction: ', $scope.srs.prediction);
                         if (newVal.prevalence !== null) {
                             chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100);
                             chartData.risk.chartData[0].name = 'Genomsnittlig risk';
@@ -225,11 +223,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData.risk.chartData[1].name = '';
                         }
                         updateCharts(chartData);
-                    });
-
-                    $scope.$watch('srs.consent', function(newVal,oldVal) {
-                        console.log('RISK GRAPH caught a change of consent from: ' + oldVal + ' to: ' + newVal);
-                        console.log('srs.prediction: ', $scope.srs.prediction);
                     });
 
                     // Kick start rendering
