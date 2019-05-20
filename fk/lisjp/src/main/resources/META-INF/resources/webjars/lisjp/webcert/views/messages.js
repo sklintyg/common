@@ -71,8 +71,8 @@ angular.module('lisjp').constant('lisjp.messages', {
             'Det nya utkastet skapas på den enhet du är inloggad på.',
         'lisjp.createfromtemplate.ag7804.tooltip': 'Skapar ett läkarintyg till arbetsgivaren utifrån Försäkringskassans intyg.',
         'lisjp.createfromtemplate.ag7804.modal.header': 'Skapa AG7804',
-        'lisjp.createfromtemplate.ag7804.modal.text': 'Skapa ett AG7804 utifrån ett Läkarintyg för sjukpenning innebär att informationsmängder som är gemensamma för båda intyg automatiskt förifylls.',
-        'lisjp.createfromtemplate.ag7804.modal.text.info.notsent': 'Kom ihåg att stämma av med patienten om han/hon vill att du skickar Läkarintyget för sjukpenning till Försäkringskassan. Gör detta i så fall först.',
+        'lisjp.createfromtemplate.ag7804.modal.text': 'Skapa ett Läkarintyg om arbetsförmåga - arbetsgivaren (AG7804) utifrån ett Läkarintyg för sjukpenning innebär att informationsmängder som är gemensamma för båda intygen automatiskt förifylls.',
+        'lisjp.createfromtemplate.ag7804.modal.text.info.notsent': 'Kom ihåg att stämma av med patienten om hen vill att du skickar Läkarintyget för sjukpenning till Försäkringskassan. Gör detta i så fall först.',
         'lisjp.createfromtemplate.ag7804.modal.button.continue': 'Skapa AG7804'
     },
     'en': {
