@@ -31,9 +31,17 @@
             </div>
 
 <!-- ÅTGÄRDER - OBS -->
-            <h3>Tänk på att...</h3>
+            <h3>Tänk på att</h3>
+            <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
             <div id="atgarderObs">
-                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderObs">
+                <div ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderObs">
+                    <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
+                        <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
+
+                        </wc-expandable-content>
+                    </section>
+                </div>
+                <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderObs">
                     <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
                         <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
 
@@ -44,13 +52,33 @@
 
 <!-- ÅTGÄRDER - REK -->
             <h3>Rekommenderade åtgärder</h3>
+            <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
             <div id="atgarderRek">
-                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderRek">
+                <div ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderRek">
                     <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
                         <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
 
                         </wc-expandable-content>
                     </section>
+                </div>
+                <b class="floatLeft" data-ng-if="isRecommendationsCollapsed">Visa fler...</b>
+                <b class="floatLeft" data-ng-if="!isRecommendationsCollapsed">Visa färre...</b>
+                <div class="line">
+                    <a id="recommendationsCollapser" data-toggle="collapse" ng-click="isRecommendationsCollapsed=!isRecommendationsCollapsed"
+                       href="#collapseRecommendations" aria-expanded="false" aria-controls="collapseRecommendations">
+                        <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isRecommendationsCollapsed, 'glyphicon-menu-up': !isRecommendationsCollapsed}"></i>
+                    </a>
+                </div>
+                <br/>
+                <br/>
+                <div id="collapseRecommendations" class="panel-collapse collapse">
+                    <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderRek">
+                        <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
+                            <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
+
+                            </wc-expandable-content>
+                        </section>
+                    </div>
                 </div>
 <!--                <div class="floatRight">-->
 <!--                    <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked;">Läs mer</button>-->

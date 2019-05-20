@@ -51,7 +51,7 @@
 <!-- LÄKARENS EGEN BEDÖMNING --->
                 <div id="srs-own-opinion" ng-if="srs.prediction.probabilityOverLimit">
                     <hr/>
-                    <p>Enligt min läkarbedömning anser jag att patientens risk jämfört ...?</p>
+                    <p><b>Enligt min läkarbedömning anser jag att patientens risk är</b></p>
                     <div class="srs-question">
                         <label class="radio-inline line">
                             <input type="radio" name="risk-opinion-higher" ng-value="'HOGRE'" ng-model="srs.prediction.opinion" ng-change="setOpinion('HOGRE')"/>
@@ -65,6 +65,10 @@
                             <input type="radio" name="risk-opinion-lower" ng-value="'LAGRE'" ng-model="srs.prediction.opinion" ng-change="setOpinion('LAGRE')"/>
                             Lägre
                         </label>
+<!--                        <label class="radio-inline line">-->
+<!--                            <input type="radio" name="risk-opinion-kanejbedoma" ng-value="'KANEJBEDOMA'" ng-model="srs.prediction.opinion" ng-change="setOpinion('KANEJBEDOMA')"/>-->
+<!--                            Kan ej bedöma-->
+<!--                        </label>-->
                     </div>
                     <div ng-if="srs.prediction.opinionError">
                         <wc-srs-error-box message-string="srs.prediction.opinionError"></wc-srs-error-box>
@@ -77,7 +81,7 @@
 
             <h3 class="floatLeft">Beräkna patientens risk</h3>
             <div class="line">
-                <a id="questionsCollapser" data-toggle="collapse" ng-click="isCollapsed=!isCollapsed" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <a id="questionsCollapser" data-toggle="collapse" ng-click="onRecommendationCollapserClicked()" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     <i class="glyphicon glyphicon-menu-down" ng-class="{'glyphicon-menu-down': isCollapsed, 'glyphicon-menu-up': !isCollapsed}"></i>
                 </a>
             </div>

@@ -56,6 +56,9 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                     templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.risk-popover.html'
                 };
 
+                scope.isRecommendationsCollapsed = true;
+                scope.isObserveCollapsed = true;
+
                 // scope.parentHasRendered = function(){
                 //     if(scope.status.open){
                 //         if(scope.clampSet){
@@ -69,6 +72,14 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 //     }
                 //     return false;
                 // };
+
+                scope.onRecommendationCollapserClicked = function() {
+                    scope.isRecommendationsCollapsed = !scope.isRecommendationsCollapsed;
+                };
+
+                scope.onObserveCollapserCLicked = function() {
+                    scope.isObserveCollapsed = !scope.isObserveCollapsed;
+                };
 
                 scope.readMoreRisk = function(){
                     $window.open(srsLinkCreator.createPrediktionsModellLink, '_blank');

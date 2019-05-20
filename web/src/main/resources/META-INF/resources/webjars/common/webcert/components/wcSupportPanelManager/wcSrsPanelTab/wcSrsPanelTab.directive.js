@@ -50,9 +50,9 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.showVisaKnapp = false;
                     setPredictionImage();
                     setPrediktionMessages();
+                    setPredictionRiskLevel()
                 });
             };
-
 
             $scope.retrieveAndSetPrediction = function() {
                 debugLog('$scope.retrieveAndSetPrediction()');
@@ -83,6 +83,13 @@ angular.module('common').directive('wcSrsPanelTab',
                             $scope.srs.atgarder.atgarderRek.forEach(function(a){
                                 a.recommendationText = '• ' + a.recommendationText;
                             });
+                            // Slice åtgärder and rekommendationer into 4 + the rest
+                            $scope.srs.atgarder.firstAtgarderObs = $scope.srs.atgarder.atgarderObs.slice(0,4);
+                            $scope.srs.atgarder.moreAtgarderObs =
+                                $scope.srs.atgarder.atgarderObs.slice(4).length > 0 ? $scope.srs.atgarder.atgarderObs.slice(4):null;
+                            $scope.srs.atgarder.firstAtgarderRek = $scope.srs.atgarder.atgarderRek.slice(0,4);
+                            $scope.srs.atgarder.moreAtgarderRek =
+                                $scope.srs.atgarder.atgarderRek.slice(4).length > 0 ? $scope.srs.atgarder.atgarderRek.slice(4):null;
                         }
 
                         // Update the selected answers to the received stored answer
@@ -138,17 +145,18 @@ angular.module('common').directive('wcSrsPanelTab',
                 srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent);
                 if ($scope.srs.consent === 'NEJ') {
                     // $scope.retrieveAndSetPrediction()
-
                     debugLog('Removed consent, cleaning prediction', $scope.srs.prediction);
-                    var cleanPrediction = $window._.assign($scope.srs.prediction, {probabilityOverLimit: null});
+                    var cleanPrediction = angular.copy($scope.srs.prediction);
+                    cleanPrediction.probabilityOverLimit = null;
                     debugLog('clean prediction', cleanPrediction);
                     $scope.srs.prediction = cleanPrediction;
                 }
             };
 
             $scope.setOpinion = function(opinion) {
-                debugLog('$scope.setOwnOpinion()', opinion, $stateParams.certificateId, $scope.srs.hsaId);
-                srsProxy.setOwnOpinion(opinion, $scope.srs.vardgivareHsaId, $scope.srs.hsaId, $stateParams.certificateId).then(function(result) {
+                debugLog('$scope.setOwnOpinion()', opinion, $stateParams.certificateId, $scope.srs.hsaId, $scope.srs.prediction.predictionDiagnosisCode);
+                srsProxy.setOwnOpinion(opinion, $scope.srs.vardgivareHsaId, $scope.srs.hsaId,
+                    $stateParams.certificateId, $scope.srs.prediction.predictionDiagnosisCode).then(function(result) {
                     debugLog('opinion set on server', result);
                     $scope.srs.prediction.opinion = opinion;
                 }, function(error) {
@@ -215,7 +223,9 @@ angular.module('common').directive('wcSrsPanelTab',
 
                         applySrsForDiagnosCode();
                         $scope.$watch('srs.originalDiagnosKod', function(newVal, oldVal) {
-                            if (newVal !== oldVal) {
+                            if (newVal === null) {
+                                reset();
+                            } else if (newVal !== oldVal) {
                                 applySrsForDiagnosCode();
                             }
                         });
@@ -306,7 +316,7 @@ angular.module('common').directive('wcSrsPanelTab',
             }
 
             function setStatistikMessages() {
-                debugLog('setStatistikMessages()');
+                debugLog('setStatistikMessages()', $scope.srs.statistik);
                 $scope.srs.statistikInfo = '';
                 $scope.srs.statistikError = '';
                 if ($scope.srs.statistik) {
@@ -314,11 +324,15 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.statistikError =
                             'Tekniskt fel.\nDet gick inte att hämta information om statistik';
                     }
-                    else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
-                        !$scope.srs.statistik.statistikBild) {
+                    else if (!$scope.srs.statistik.nationellStatistik) {
                         $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
                             ' finns ingen SRS-information för detta fält.';
                     }
+                    // else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
+                    //     !$scope.srs.statistik.statistikBild) {
+                    //     $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                    //         ' finns ingen SRS-information för detta fält.';
+                    // }
                     else if ($scope.srs.statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
                         $scope.srs.statistikInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.statistik.statistikDiagnosisCode;
                     }
@@ -345,6 +359,23 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.prediktionInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.prediction.predictionDiagnosisCode +
                             ' - ' + $scope.srs.prediction.predictionDiagnosisDescription;
                     }
+                }
+            }
+
+            function setPredictionRiskLevel() {
+                debugLog('setPredictionRiskLevel()');
+                if ($scope.srs.prediction.probabilityOverLimit && $scope.srs.prediction.probabilityOverLimit !== null) {
+                    var probability = $scope.srs.prediction.probabilityOverLimit
+                    var riskLevel = null;
+                    if (probability < 0.39) {
+                        riskLevel = 'Måttlig risk';
+                    } else if (probability >= 0.39 && probability <= 0.62) {
+                        riskLevel = 'Hög risk';
+                    } else if (probability > 0.62) {
+                        riskLevel = 'Mycket hög risk';
+                    }
+                    debugLog('probability: ' + probability + ' -> riskLevel: ' + riskLevel, typeof probability);
+                    $scope.srs.prediction.riskLevel = riskLevel;
                 }
             }
 
@@ -416,6 +447,8 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function() {
                         setAtgarderMessages();
                         setStatistikMessages();
+                        setPrediktionMessages()
+                        setPredictionRiskLevel();
                     });
                     setPrediktionMessages(); // No prediction data as of yet, only used to ensure initial correct state.
                 });
