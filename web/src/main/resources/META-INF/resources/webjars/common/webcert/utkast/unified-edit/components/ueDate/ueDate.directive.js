@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueDate', [ 'ueUtil',
-    function(ueUtil) {
+angular.module('common').directive('ueDate', [ '$parse', 'ueUtil', 'common.wcDatePeriodShorthandService',
+    function($parse, ueUtil, datePeriodShorthandService) {
         'use strict';
 
         return {
@@ -30,6 +30,20 @@ angular.module('common').directive('ueDate', [ 'ueUtil',
             templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDate/ueDate.directive.html',
             link: function($scope) {
                 ueUtil.standardSetup($scope);
+
+                $scope.onBlur = function() {
+
+                    if ($scope.config.fromModelProp) {
+                        var fromValue = $parse($scope.config.fromModelProp)($scope.model);
+                        var newTomValue = datePeriodShorthandService.applyToDateCodes(fromValue, $scope.modelGetterSetter());
+                        if (newTomValue) {
+                            $scope.modelGetterSetter(newTomValue);
+                        }
+                    }
+
+                    $scope.updateValidation();
+                };
+
             }
         };
     }]);

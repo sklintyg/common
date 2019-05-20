@@ -17,7 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcDatePeriodManager',
-    ['common.DateUtilsService', 'common.wcDatePeriodFieldHelper', function(dateUtilsService, datePeriodFieldHelper) {
+    ['common.DateUtilsService', 'common.wcDatePeriodFieldHelper', 'common.wcDatePeriodShorthandService', function(dateUtilsService,
+        datePeriodFieldHelper, datePeriodShorthandService) {
         'use strict';
 
         var datePeriods = {};
@@ -95,28 +96,18 @@ angular.module('common').directive('wcDatePeriodManager',
                  If user enters a valid "in the future" code such a "d40" into the tom-field, it's
                  date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
                  */
-                    this.applyToDateCodes = function(index) {
-                        var fromField = datePeriods[index].from;
-                        var tomField = datePeriods[index].tom;
+                this.applyToDateCodes = function(index) {
+                    var fromField = datePeriods[index].from;
+                    var tomField = datePeriods[index].tom;
 
-                        //1. fromField must have a valid date for his to work
-                        if (!fromField.ngModel.$viewValue || !dateUtilsService.dateReg.test(fromField.ngModel.$viewValue)) {
-                            return;
-                        }
-
-                        //2. The entered code must be a parsable expression
-                        var newTomMoment;
-                        var days = dateUtilsService.parseDayCodes(tomField.ngModel.$viewValue);
-                        if (days !== null) {
-                            //Take away 1 day, because the dayCode defines the total length of the interval we should get.
-                            newTomMoment = moment(fromField.ngModel.$viewValue).add(days - 1, 'days');
-                        }
-                        if (newTomMoment) {
-                            tomField.ngModel.$setViewValue(newTomMoment.format('YYYY-MM-DD'));
-                            tomField.ngModel.$setValidity('date', true);
-                            tomField.ngModel.$render();
-                        }
-                    };
+                    var newTomValue = datePeriodShorthandService.applyToDateCodes(
+                        fromField.ngModel.$viewValue, tomField.ngModel.$viewValue);
+                    if (newTomValue) {
+                        tomField.ngModel.$setViewValue(newTomValue);
+                        tomField.ngModel.$setValidity('date', true);
+                        tomField.ngModel.$render();
+                    }
+                };
             }
         };
     }]);
