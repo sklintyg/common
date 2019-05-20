@@ -146,14 +146,14 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
-        function _setConsent(patientId, hsaId, consentGiven) {
-            return $http.put('/api/srs/consent/' + patientId + '/' + hsaId, consentGiven).then(function(response) {
+        function _setConsent(patientId, careUnitHsaId, consentGiven) {
+            return $http.put('/api/srs/consent/' + patientId + '/' + careUnitHsaId, consentGiven).then(function(response) {
                 return response.data;
             });
         }
 
-        function _getConsent(personId, hsaId) {
-            return $http.get('/api/srs/consent/' + personId + '/' + hsaId).then(
+        function _getConsent(personId, careUnitHsaId) {
+            return $http.get('/api/srs/consent/' + personId + '/' + careUnitHsaId).then(
                 function(response) {
                     return response;
                 }, function(err){
@@ -199,8 +199,8 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             return $http.get('/api/srs/atgarder/' + diagnoseCode);
         }
 
-        function _setOwnOpinion(opinion, careGiverId, careUnitId, certificateId) {
-            return $http.put('/api/srs/opinion/' + careGiverId + '/' + careUnitId + '/' + certificateId, opinion).then(function(response) {
+        function _setOwnOpinion(opinion, careGiverId, careUnitId, certificateId, diagnosisCode) {
+            return $http.put('/api/srs/opinion/' + careGiverId + '/' + careUnitId + '/' + certificateId + '/' + diagnosisCode, opinion).then(function(response) {
                 return response.data;
             });
         }
