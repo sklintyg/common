@@ -79,7 +79,7 @@ angular.module('common').directive('arendeHantera',
                         } else {
                             return true;
                         }
-                    }
+                    };
 
                     $scope.handledFunction = function(newState) {
                         if (arguments.length) {
@@ -113,7 +113,7 @@ angular.module('common').directive('arendeHantera',
                                 }
                             });
                             //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                            modalInstance.result.catch(function() {
+                            modalInstance.result.catch(function() { //jshint ignore:line
                             }); //jshint ignore:line
                         } else {
                             _updateAsHandled(arendeListItem);
@@ -124,10 +124,10 @@ angular.module('common').directive('arendeHantera',
                         // If no access is given from backend, it should be possible to toggle handled.
                         if ($scope.arendeListItem.isKomplettering()) {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                "BESVARA_KOMPLETTERING");
+                                'BESVARA_KOMPLETTERING');
                         } else {
                             return ResourceLinkService.isLinkTypeExists($scope.parentViewState.intygProperties.links,
-                                "BESVARA_FRAGA");
+                                'BESVARA_FRAGA');
                         }
                     }
 
