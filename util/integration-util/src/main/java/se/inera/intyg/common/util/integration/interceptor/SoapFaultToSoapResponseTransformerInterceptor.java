@@ -18,22 +18,31 @@
  */
 package se.inera.intyg.common.util.integration.interceptor;
 
-import java.io.*;
-import java.lang.reflect.Field;
-import java.nio.charset.StandardCharsets;
-
-import javax.xml.soap.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.apache.cxf.feature.transform.*;
+import org.apache.cxf.feature.transform.AbstractXSLTInterceptor;
+import org.apache.cxf.feature.transform.XSLTOutInterceptor;
+import org.apache.cxf.feature.transform.XSLTUtils;
 import org.apache.cxf.helpers.IOUtils;
 import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.util.logging.LogMarkers;
+
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFault;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.StringWriter;
+import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 
 /**
  * CXF interceptor which turns SOAP faults into valid SOAP responses.
@@ -50,7 +59,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
     static {
         try {
             // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
-            Field transformFactoryField  = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORIY");
+            Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
             transformFactoryField.setAccessible(true);
             TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
             transformerFactory.setURIResolver(new ClasspathUriResolver());
