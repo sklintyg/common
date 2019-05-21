@@ -64,6 +64,7 @@ public final class RespConstants {
     public static final String SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2 = "7.2";
     public static final String SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1 = "sjukskrivningsgrad";
     public static final String SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 = "sjukskrivningsperiod";
+    public static final String SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE = "%";
 
     public static final String KONTAKT_ONSKAS_SVAR_ID_9 = "9";
     public static final String KONTAKT_ONSKAS_DELSVAR_ID_9 = "9.1";
