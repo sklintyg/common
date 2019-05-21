@@ -143,16 +143,36 @@ public class UVSkapadAv extends UVComponent {
 
     private StringBuilder buildKontaktuppgifter(String modelProp) {
         StringBuilder kontaktUppgifter = new StringBuilder();
-        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn").toString())
-                .append("\n");
-        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.postadress").toString())
-                .append("\n");
-        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer").toString())
-                .append(" ")
-                .append(renderer.evalValueFromModel(modelProp + ".vardenhet.postort").toString())
-                .append("\n");
-        kontaktUppgifter.append(renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer").toString())
-                .append("\n");
+
+        Object eval = renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn");
+        if (eval != null) {
+            kontaktUppgifter.append(eval.toString())
+                    .append("\n");
+        }
+
+        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postadress");
+        if (eval != null) {
+            kontaktUppgifter.append(eval.toString())
+                    .append("\n");
+        }
+
+        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer");
+        if (eval != null) {
+            kontaktUppgifter.append(eval.toString())
+                    .append(" ");
+            Object evalPostort = renderer.evalValueFromModel(modelProp + ".vardenhet.postort");
+            if (evalPostort != null) {
+                kontaktUppgifter.append(evalPostort.toString());
+            }
+            kontaktUppgifter.append("\n");
+        }
+
+        eval = renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer");
+        if (eval != null) {
+            kontaktUppgifter.append(eval.toString())
+                    .append("\n");
+        }
+
         return kontaktUppgifter;
     }
 }
