@@ -30,6 +30,7 @@ angular.module('common').directive('wcHeaderHelp',
                 link: function($scope) {
 
                     var aboutModalInstance;
+                    var aboutModalInstanceOpened;
 
 
                     $scope.vm = {
@@ -70,6 +71,7 @@ angular.module('common').directive('wcHeaderHelp',
                         if (aboutModalInstance) {
                             aboutModalInstance.close();
                             aboutModalInstance = undefined;
+                            aboutModalInstanceOpened = false;
                         }
                     });
 
@@ -79,38 +81,43 @@ angular.module('common').directive('wcHeaderHelp',
                     $scope.$on('$destroy', unregisterFn);
 
                     $scope.onAboutClick = function() {
-                        aboutModalInstance = $uibModal.open({
-                            templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.html',
-                            size: 'lg',
-                            controller: function($scope, $uibModalInstance, user, avtalProxy) {
+                        if (!aboutModalInstanceOpened) {
+                            aboutModalInstanceOpened = true;
+                            aboutModalInstance = $uibModal.open({
+                                templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.html',
+                                size: 'lg',
+                                controller: function($scope, $uibModalInstance, user, avtalProxy) {
 
-                                $scope.version = moduleConfig.VERSION;
-                                $scope.user = user;
+                                    $scope.version = moduleConfig.VERSION;
+                                    $scope.user = user;
 
-                                avtalProxy.getLatestAvtal(function(avtal) {
-                                    $scope.avtal = avtal;
-                                });
+                                    avtalProxy.getLatestAvtal(function(avtal) {
+                                        $scope.avtal = avtal;
+                                    });
 
-                                $scope.close = function() {
-                                    $uibModalInstance.close();
-                                };
+                                    $scope.close = function() {
+                                        $uibModalInstance.close();
+                                    };
 
-                                $scope.open = {
-                                    om: false,
-                                    terms: false,
-                                    support: false,
-                                    faq: false,
-                                    kakor: false,
-                                    personuppgifter: false
-                                };
-                            },
-                            resolve: {
-                                avtalProxy :  avtalProxy,
-                                user: $scope.user
-                            }
-                        });
-                        //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-                        aboutModalInstance.result.catch(function () {}); //jshint ignore:line
+                                    $scope.open = {
+                                        om: false,
+                                        terms: false,
+                                        support: false,
+                                        faq: false,
+                                        kakor: false,
+                                        personuppgifter: false
+                                    };
+                                },
+                                resolve: {
+                                    avtalProxy :  avtalProxy,
+                                    user: $scope.user
+                                }
+                            });
+                            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                            aboutModalInstance.result.then(function () {
+                                aboutModalInstanceOpened = false;
+                            }, function () {}); //jshint ignore:line
+                        }
                     };
 
                 }
