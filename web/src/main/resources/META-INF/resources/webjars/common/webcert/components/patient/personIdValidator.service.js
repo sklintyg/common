@@ -132,6 +132,11 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
                 }
             }
 
+            // Don't allow future dates
+            if (date > new Date()) {
+                return undefined;
+            }
+
             if (isCheckDigitValid(parts[2] + parts[3] + parts[4] + parts[6])) {
                 return formatPersonnummer(date, parts[6]);
             } else {
@@ -182,6 +187,11 @@ angular.module('common').factory('common.PersonIdValidatorService',function() {
                 if (date > new Date()) {
                     date.setFullYear(date.getFullYear() - 100);
                 }
+            }
+
+            // Don't allow future dates
+            if (date > new Date()) {
+                return undefined;
             }
 
             if (isCheckDigitValid(parts[2] + parts[3] + parts[4] + parts[5])) {

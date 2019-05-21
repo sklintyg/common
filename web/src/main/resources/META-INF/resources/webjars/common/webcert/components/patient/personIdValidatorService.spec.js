@@ -232,4 +232,14 @@ describe('PersonIdValidatorService', function() {
         var result = personIdValidatorService.getBirthDate('19121372-1219');
         expect(result).toBeUndefined();
     });
+
+    it('should fail with if "personnummer" is in the future', function() {
+        var result = personIdValidatorService.validate('685305192626');
+        expect(result).toBeUndefined();
+    });
+
+    it('should fail with if "samordningsnummer" is in the future', function() {
+        var result = personIdValidatorService.validate('685305792626');
+        expect(result).toBeUndefined();
+    });
 });
