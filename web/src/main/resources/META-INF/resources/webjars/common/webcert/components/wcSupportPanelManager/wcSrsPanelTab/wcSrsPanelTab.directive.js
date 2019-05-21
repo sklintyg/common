@@ -32,6 +32,7 @@ angular.module('common').directive('wcSrsPanelTab',
         templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.html',
         link: function($scope, $element, $attrs) {
             $scope.srs = srsViewState;
+            $scope.isQuestionsCollapsed = false;
 
             $scope.questionsFilledForVisaButton = function() {
                 debugLog('$scope.questionsFilledForVisaButton()');
@@ -78,10 +79,10 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.prediction = data.prediktion || 'error';
                         if($scope.srs.atgarder !== 'error') {
                             $scope.srs.atgarder.atgarderObs.forEach(function(a){
-                                a.recommendationText = '• ' + a.recommendationText;
+                                a.collapsed = true;
                             });
                             $scope.srs.atgarder.atgarderRek.forEach(function(a){
-                                a.recommendationText = '• ' + a.recommendationText;
+                                a.collapsed = true;
                             });
                             // Slice åtgärder and rekommendationer into 4 + the rest
                             $scope.srs.atgarder.firstAtgarderObs = $scope.srs.atgarder.atgarderObs.slice(0,4);

@@ -1,0 +1,12 @@
+<!-- EN REKOMMENDATION -->
+<div class="srsRecommendation">
+    <div class="line fullWidth">
+        <!-- Rubrik för en rekommendation -->
+        <div class="srsRecommendationTitle floatLeft" ng-click="atgard.collapsed=!atgard.collapsed">{{atgard.recommendationTitle}}</div>
+        <!-- collapser för en rekommendation -->
+        <div class="collapser" ng-click="atgard.collapsed = !atgard.collapsed">{{atgard.collapsed ? 'visa mer':'visa mindre'}} <i
+                class="glyphicon" ng-class="{'glyphicon-menu-down': atgard.collapsed, 'glyphicon-menu-up': !atgard.collapsed}"></i></div>
+    </div>
+    <!-- Fulltext för en rekommendation -->
+    <div class="line fullWidth srsRecommendationText" ng-if="!atgard.collapsed">{{atgard.recommendationText}}</div>
+</div>

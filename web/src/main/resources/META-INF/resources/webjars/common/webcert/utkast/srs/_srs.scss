@@ -124,6 +124,54 @@ wc-srs-panel-tab {
   }
 }
 
+#atgarder {
+
+  h3 {
+    margin-left: -15px;
+  }
+
+
+  b {
+    margin-left: -15px;
+  }
+
+  .srsRecommendation {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+
+    .collapser {
+      display: block;
+      text-decoration: underline;
+      font-family: Roboto, helvetica, arial, sans-serif;
+      cursor: pointer;
+    }
+
+    .srsRecommendationTitle {
+      display: list-item;
+      list-style-type: disc;
+      list-style-position: outside;
+      padding-bottom: 10px;
+      width: 77%;
+    }
+
+    .srsRecommendationText {
+      color: #777;
+      padding-bottom: 20px;
+    }
+  }
+
+  .srs-recommendation-list-collapser, .srs-observe-list-collapser {
+    text-decoration: underline;
+    font-family: Roboto, helvetica, arial, sans-serif;
+    text-align: center;
+    overflow: auto;
+    cursor: pointer;
+    width: 100%;
+  }
+}
+
+
  .srs-question{
   display: inline;
  }
@@ -231,6 +279,11 @@ wc-srs-panel-tab {
  .line{
    float:left;
    margin-left: 5px;
+   display: block;
+ }
+
+ .fullWidth {
+   width: 100%;
  }
  
  .title {
