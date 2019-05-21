@@ -25,7 +25,8 @@ angular.module('common').directive('wcApproveReceiversButton', [
             restrict: 'E',
             scope: {
                 intygtyp: '=',
-                intygid: '='
+                intygid: '=',
+                vardenhet: '@'
             },
             templateUrl: '/web/webjars/common/webcert/components/receiver/wcApproveReceiversButton/wcApproveReceiversButton.directive.html',
             link: function($scope) {
