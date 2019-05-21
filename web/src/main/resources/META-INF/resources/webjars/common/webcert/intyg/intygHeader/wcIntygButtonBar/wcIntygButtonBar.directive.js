@@ -70,6 +70,10 @@ angular.module('common').directive('wcIntygButtonBar', [ '$rootScope', '$timeout
 
             $scope.intygType = intygType;
 
+            $scope.showValjMottagareButton = function() {
+                return IntygHeaderViewState.intygLoaded && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isPatientDeceased();
+            };
+
             $scope.showSkickaButton = function(){
                 return IntygHeaderViewState.intygLoaded && !CommonIntygViewState.isSentIntyg() && !CommonIntygViewState.isRevoked() && !CommonIntygViewState.isReplaced();
             };
