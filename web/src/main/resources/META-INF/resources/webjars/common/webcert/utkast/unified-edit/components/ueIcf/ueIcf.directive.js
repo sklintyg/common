@@ -112,13 +112,13 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             };
 
             scope.openPlate = function() {
-                $window.document.addEventListener('click', onDocumentClick, true);
+                $window.document.addEventListener('mousedown', onDocumentClick, true);
                 scope.kategoriDropdown = true;
             };
 
             scope.closePlate = function() {
                 scope.kategoriDropdown = false;
-                $window.document.removeEventListener('click', onDocumentClick, true);
+                $window.document.removeEventListener('mousedown', onDocumentClick, true);
             };
 
             scope.openKategoriDropdown = function() {
