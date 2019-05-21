@@ -1,3 +1,6 @@
+$wc-help-chevron-line-height: 19px;
+$wc-help-chevron-padding-top: 25px;
+
 .wc-help-chevron__arrow_box {
   position: relative;
   background: #e9eaed;
@@ -23,15 +26,13 @@
   margin-bottom: 15px;
 }
 .wc-help-chevron__textarea {
-  line-height: 19px;
+  line-height: $wc-help-chevron-line-height;
   cursor: default;
 
   .scrollable-body {
-    padding: 25px 20px 0;
-    max-height: 190px; // 190 - padding = 140 = 7 text rows
+    padding: $wc-help-chevron-padding-top 20px 0;
+    // wc-help-chevron__textarea should display 7 lines before scrolling
+    max-height: 7 * $wc-help-chevron-line-height + $wc-help-chevron-padding-top + $wc-text-fadeout-height;
   }
 
-  .multiline{
-    padding-bottom: 5px;
-  }
 }
