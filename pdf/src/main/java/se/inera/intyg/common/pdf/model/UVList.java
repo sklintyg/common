@@ -71,8 +71,6 @@ public class UVList extends UVComponent {
             String noValueText = renderer.getText((String) currentUvNode.get("noValue"));
             if (!StringUtils.isEmpty(noValueText)) {
                 results.add(noValueText);
-            } else {
-                results.add(EJ_ANGIVET_STR);
             }
         }
 
