@@ -171,7 +171,7 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                                         // Convert back to days
                                         var daysBetween = Math.round(differenceMs / msPerDay) + 1;
 
-                                        return daysBetween <= 14;
+                                        return isNaN(daysBetween) || daysBetween <= 14;
                                     }
                                     return true;
                                 }
