@@ -18,11 +18,26 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.BEDOMNING_SVAR_ID_7;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPQSvarContent;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.junit.Test;
+
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -30,14 +45,9 @@ import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import java.time.LocalDateTime;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class UtlatandeToIntygTest {
 
@@ -69,10 +79,12 @@ public class UtlatandeToIntygTest {
         final String patientPostnummer = "patientPostnummer";
         final String patientPostort = "patientPostort";
 
-        Ag114UtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+        Ag114UtlatandeV1 utlatande = buildUtlatandeTemplate(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
+                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+                telefonNummer,
+                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+                patientPostort,
+                null, null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -113,7 +125,7 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testConvertWithRelation() throws Exception{
+    public void testConvertWithRelation() throws Exception {
         RelationKod relationKod = RelationKod.FRLANG;
         String relationIntygsId = "relationIntygsId";
         Ag114UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
@@ -127,22 +139,110 @@ public class UtlatandeToIntygTest {
         assertNotNull(intyg.getRelation().get(0).getIntygsId().getRoot());
     }
 
+    @Test
+    public void testConvertWithSjukskrivningsGrad() throws Exception {
+        final String expectedSjukskrivningsGrad = "80";
+        final String expectedSjukskrivningsGradUnit = "%";
+        final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
+        sjukskrivningsPeriod.setFrom(new InternalDate("2019-01-01"));
+        sjukskrivningsPeriod.setTom(new InternalDate("2019-01-31"));
+
+        Builder utlatandeBuilder = buildUtlatandeTemplate();
+        utlatandeBuilder.setSjukskrivningsgrad(expectedSjukskrivningsGrad);
+        utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
+
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+
+        final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
+        assertNotNull(actualSjukskrivningsGrad);
+        final PQType actualSjukskrivningPQType = getPQSvarContent(actualSjukskrivningsGrad);
+        assertEquals(Double.parseDouble(expectedSjukskrivningsGrad), actualSjukskrivningPQType.getValue(), 0);
+        assertEquals(expectedSjukskrivningsGradUnit, actualSjukskrivningPQType.getUnit());
+        final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
+                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+        assertNotNull(actualSjukskrivningsPeriod);
+    }
+
+    @Test
+    public void testConvertWithSjukskrivningsGradNull() throws Exception {
+        final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
+        sjukskrivningsPeriod.setFrom(new InternalDate("2019-01-01"));
+        sjukskrivningsPeriod.setTom(new InternalDate("2019-01-31"));
+
+        Builder utlatandeBuilder = buildUtlatandeTemplate();
+        utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
+
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+
+        final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
+        assertNull(actualSjukskrivningsGrad);
+        final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
+                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+        assertNotNull(actualSjukskrivningsPeriod);
+    }
+
+    @Test
+    public void testConvertWithSjukskrivningsGradEmpty() throws Exception {
+        final String expectedSjukskrivningsGrad = " ";
+        final InternalLocalDateInterval sjukskrivningsPeriod = new InternalLocalDateInterval();
+        sjukskrivningsPeriod.setFrom(new InternalDate("2019-01-01"));
+        sjukskrivningsPeriod.setTom(new InternalDate("2019-01-31"));
+
+        Builder utlatandeBuilder = buildUtlatandeTemplate();
+        utlatandeBuilder.setSjukskrivningsgrad(expectedSjukskrivningsGrad);
+        utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
+
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+
+        final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
+        assertNull(actualSjukskrivningsGrad);
+        final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
+                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+        assertNotNull(actualSjukskrivningsPeriod);
+    }
+
+    private Svar.Delsvar getDelsvar(List<Svar> svarList, String svarId, String delsvarId) {
+        for (Svar svar : svarList) {
+            if (svar.getId().equalsIgnoreCase(svarId)) {
+                final List<Svar.Delsvar> delsvarList = svar.getDelsvar();
+                for (Svar.Delsvar delsvar : delsvarList) {
+                    if (delsvar.getId().equalsIgnoreCase(delsvarId)) {
+                        return delsvar;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private Ag114UtlatandeV1 buildUtlatande() {
         return buildUtlatande(null, null);
     }
 
+    private Builder buildUtlatandeTemplate() {
+        return buildUtlatandeTemplate(null, null);
+    }
+
     private Ag114UtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
-        return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
+        return buildUtlatandeTemplate(relationKod, relationIntygsId).build();
+    }
+
+    private Builder buildUtlatandeTemplate(RelationKod relationKod, String relationIntygsId) {
+        return buildUtlatandeTemplate("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
+                "postOrt",
+                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+                "patientPostadress",
                 "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
-    private Ag114UtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-                                             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-                                             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-                                             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-                                             String patientPostort, RelationKod relationKod, String relationIntygsId) {
+    private Builder buildUtlatandeTemplate(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
+            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+            String arbetsplatsKod,
+            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
+            String vardgivarNamn,
+            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+            String patientPostort, RelationKod relationKod, String relationIntygsId) {
         Builder template = Ag114UtlatandeV1.builder();
         template.setId(intygsId);
         template.setTextVersion(textVersion);
@@ -185,6 +285,6 @@ public class UtlatandeToIntygTest {
         }
         template.setGrundData(grundData);
 
-        return template.build();
+        return template;
     }
 }

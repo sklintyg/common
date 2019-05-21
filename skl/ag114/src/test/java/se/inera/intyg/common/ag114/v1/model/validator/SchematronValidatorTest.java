@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("test-ag114.v1.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("ag114.v1.sch");
 
     static {
         // avoid com.helger debug log
@@ -58,7 +58,8 @@ public class SchematronValidatorTest {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("'Sjukskrivningsgrad' måste besvaras med ett värde mellan 0 och 100%"));
+        assertTrue(
+                response.getValidationErrors().get(0).contains("'Sjukskrivningsgrad' måste besvaras med ett värde mellan 0.0 och 100.0%"));
     }
 
     @Test
