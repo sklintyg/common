@@ -81,29 +81,21 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
             }
         }
         // Sjukskrivningsperiod
-        if (utlatande.getSjukskrivningsperiod() == null
-            || ((utlatande.getSjukskrivningsperiod().getFrom() == null || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate())
-                && (utlatande.getSjukskrivningsperiod().getTom() == null || !utlatande.getSjukskrivningsperiod().getTom().isValidDate()))) {
+        if (utlatande.getSjukskrivningsperiod() == null) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
                     SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".period",
                     ValidationMessageType.EMPTY, "common.validation.ue-sjukfranvaro.period.invalid");
         } else {
-            if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getFrom() == null
-                    || !utlatande.getSjukskrivningsperiod().getFrom().isValidDate()) {
-                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
-                        ValidationMessageType.EMPTY);
-            } else if (utlatande.getSjukskrivningsperiod() == null || utlatande.getSjukskrivningsperiod().getTom() == null
-                    || !utlatande.getSjukskrivningsperiod().getTom().isValidDate()) {
+
+            boolean fromDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getFrom(), validationMessages,
+                    RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from", null);
+
+            boolean toDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getTom(), validationMessages,
+                    RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", null);
+
+            if (fromDateValid && toDateValid && !utlatande.getSjukskrivningsperiod().isValid()) {
                 ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
                         SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
-                        ValidationMessageType.EMPTY);
-            }
-
-            if (utlatande.getSjukskrivningsperiod() != null && utlatande.getSjukskrivningsperiod().getTom() != null
-                    && utlatande.getSjukskrivningsperiod().getFrom() != null && !utlatande.getSjukskrivningsperiod().isValid()) {
-                ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from",
                         ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
             }
         }
