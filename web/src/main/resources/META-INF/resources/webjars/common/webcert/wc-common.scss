@@ -335,6 +335,9 @@
 
     &.external-link {
       color: $wc-color-17;
+      &:hover + i {
+        color: $wc-color-21;
+      }
     }
 
     &:hover {
