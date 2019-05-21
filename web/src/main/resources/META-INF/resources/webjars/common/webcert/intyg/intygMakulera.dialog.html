@@ -31,7 +31,7 @@
           </wc-radio-wrapper>
           <div class="form-group radio-indent fold-animation" ng-if="model.makuleraModel.reason == reason.value">
             <label ng-attr-for="clarification-{{reason.value}}">
-              <span ng-if="reason.required" class="required icon-wc-ikon-38"></span>
+              <span ng-if="reason.required && !model.makuleraModel.clarification[reason.value]" class="required icon-wc-ikon-38"></span>
               {{reason.textAreaLabel}}
             </label>
             <textarea id="clarification-{{reason.value}}"
