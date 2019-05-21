@@ -31,7 +31,7 @@
         Ett 'AG1-14' måste innehålla 1 'Arbetsförmåga trots sjukdom'.
       </iso:assert>
       <iso:assert test="count(gn:svar[@id='7']) = 1">
-        Ett 'AG1-14' måste innehålla 1 'Behov av sjukskrivning'.
+        Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'.
       </iso:assert>
       <iso:assert test="count(gn:svar[@id='8']) le 1">
         Ett 'AG1-14' får innehålla max 1 'Övrig'.
@@ -85,7 +85,7 @@
   <iso:pattern id="q3">
     <iso:rule context="//gn:svar[@id='3']">
       <iso:assert test="count(gn:delsvar[@id='3.1']) = 1">
-        'Sysselsättning' måste ha ett 'Typ av sysselsättning'.
+        'Önskar förmedla diagnoser' måste ha ett 'Önskar förmedla diagnoser'.
       </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^3\.[1]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
@@ -200,10 +200,10 @@
   <iso:pattern id="q7">
     <iso:rule context="//gn:svar[@id='7']">
       <iso:assert test="count(gn:delsvar[@id='7.1']) = 1">
-        'Behov av sjukskrivning' måste ha ett 'Sjukskrivningsgrad'.
+        'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'.
       </iso:assert>
       <iso:assert test="count(gn:delsvar[@id='7.2']) = 1">
-        'Behov av sjukskrivning' måste ha ett 'Sjukskrivningsperiod'.
+        'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'.
       </iso:assert>
       <iso:let name="delsvarsIdExpr" value="'^7\.[12]$'"/>
       <iso:assert test="count(gn:delsvar[not(matches(@id, $delsvarsIdExpr))]) = 0">
@@ -215,7 +215,7 @@
   <iso:pattern id="q7.1">
     <iso:rule context="//gn:delsvar[@id='7.1']">
       <iso:assert test="matches(normalize-space(.), '^0$|^[1-9]$|^[1-9][0-9]$|^100$')">
-        'Sjukskrivningsgrad' måste besvaras med ett värde mellan 0 och 100%.
+        'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%.
       </iso:assert>
     </iso:rule>
   </iso:pattern>

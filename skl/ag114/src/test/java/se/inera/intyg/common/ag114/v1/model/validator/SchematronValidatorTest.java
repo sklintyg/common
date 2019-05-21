@@ -58,7 +58,7 @@ public class SchematronValidatorTest {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("'Sjukskrivningsgrad' måste besvaras med ett värde mellan 0 och 100%"));
+        assertTrue(response.getValidationErrors().get(0).contains("'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%"));
     }
 
     @Test
@@ -104,6 +104,14 @@ public class SchematronValidatorTest {
     }
 
     @Test
+    public void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("'Önskar förmedla diagnoser' måste ha ett 'Önskar förmedla diagnoser'."));
+    }
+
+    @Test
     public void failsOnMissingKontaktanledning() throws Exception {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-kontaktanledning.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
@@ -122,20 +130,36 @@ public class SchematronValidatorTest {
     }
 
     @Test
-    public void failsOnMissingMissingSjukskrivningsgrad() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"), Charsets.UTF_8);
+    public void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningbedomningavnedsattningavarbetsformaga.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("'Behov av sjukskrivning' måste ha ett 'Sjukskrivningsgrad'."));
+                .contains("Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'."));
     }
 
     @Test
-    public void failsOnMissingMissingSysselsattning() throws Exception {
+    public void failsOnMissingSjukskrivningsgrad() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsgrad.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0)
+                .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'."));
+    }
+
+    @Test
+    public void failsOnMissingSjukskrivningsperiod() throws Exception {
+        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningsperiod.xml"), Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0)
+                .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'."));
+    }
+
+    @Test
+    public void failsOnMissingSysselsattning() throws Exception {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sysselsattning.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
-
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
                 .contains("'Typ av sysselsättning' måste ha värdet NUVARANDE_ARBETE."));
