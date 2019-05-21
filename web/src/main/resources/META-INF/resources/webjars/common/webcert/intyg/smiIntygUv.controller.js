@@ -58,6 +58,13 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             /**
              * Private
              */
+            function handleLoadingError(error) {
+                $rootScope.$emit('ViewCertCtrl.load', null, null);
+                $rootScope.$broadcast('intyg.loaded', null);
+                ViewState.common.doneLoading = true;
+                ViewState.common.updateActiveError(error, $stateParams.signed);
+            }
+
             function loadIntyg() {
                 $log.debug('Loading intyg ' + $stateParams.certificateId);
                 IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, function(result) {
@@ -72,6 +79,8 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                                 if(angular.isDefined(labels)) {
                                     DynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, ViewState.intygModel);
                                 }
+                            }, function(textLoadingError) {
+                                handleLoadingError(textLoadingError);
                             });
 
                         if(ViewState.intygModel !== undefined && ViewState.intygModel.grundData !== undefined){
@@ -103,10 +112,7 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                     }
 
                 }, function(error) {
-                    $rootScope.$emit('ViewCertCtrl.load', null, null);
-                    $rootScope.$broadcast('intyg.loaded', null);
-                    ViewState.common.doneLoading = true;
-                    ViewState.common.updateActiveError(error, $stateParams.signed);
+                    handleLoadingError(error);
                 });
             }
             loadIntyg();
