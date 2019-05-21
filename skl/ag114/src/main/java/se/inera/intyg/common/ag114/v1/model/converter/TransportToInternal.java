@@ -18,19 +18,6 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
-import se.inera.intyg.common.agparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.InternalLocalDateInterval;
-import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
@@ -55,7 +42,21 @@ import static se.inera.intyg.common.ag114.v1.model.converter.TransportToInternal
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getGrundData;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPQSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
+import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class TransportToInternal {
 
@@ -185,7 +186,7 @@ public final class TransportToInternal {
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
             case SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1:
-                utlatande.setSjukskrivningsgrad(getStringContent(delsvar));
+                utlatande.setSjukskrivningsgrad(String.valueOf((int) getPQSvarContent(delsvar).getValue()));
                 break;
             case SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2:
                 DatePeriodType datePeriod = getDatePeriodTypeContent(delsvar);

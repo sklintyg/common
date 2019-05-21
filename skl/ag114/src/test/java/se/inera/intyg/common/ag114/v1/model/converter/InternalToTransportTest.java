@@ -18,16 +18,24 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-import com.helger.schematron.svrl.SVRLHelper;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
-import se.inera.intyg.common.ag114.v1.rest.Ag114ModuleApiV1;
 import se.inera.intyg.common.agparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -40,19 +48,8 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
-import javax.xml.transform.stream.StreamSource;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = { BefattningService.class })
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
@@ -90,7 +87,7 @@ public class InternalToTransportTest {
         RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
-        RegisterCertificateValidator validator = new RegisterCertificateValidator("test-ag114.v1.sch");
+        RegisterCertificateValidator validator = new RegisterCertificateValidator("ag114.v1.sch");
         ValidateXmlResponse response = XmlValidator.validate(validator, xmlContents);
 
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), 0, response.getValidationErrors().size());

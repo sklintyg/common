@@ -20,7 +20,6 @@ package se.inera.intyg.common.support.modules.converter;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
@@ -80,7 +80,8 @@ public final class TransportConverterUtil {
     /**
      * Checks if delsvar can be parsed as string content.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return if delsvar can be parsed as string content
      */
     public static boolean isStringContent(Delsvar delsvar) {
@@ -90,7 +91,8 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a non-empty String from a Delsvar.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return the non-empty String content of the Delsvar
      */
     public static String getStringContent(Delsvar delsvar) {
@@ -107,9 +109,11 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a CVType from a Delsvar.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return the CVType converted from the delsvar
-     * @throws ConverterException if the conversion was not successful
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
         for (Object o : delsvar.getContent()) {
@@ -160,10 +164,61 @@ public final class TransportConverterUtil {
     }
 
     /**
+     * Attempt to parse a PQType from a Delsvar.
+     *
+     * @param delsvar
+     *            the Delsvar to parse
+     * @return the PQType converted from the delsvar
+     * @throws ConverterException
+     *             if the conversion was not successful
+     */
+    public static PQType getPQSvarContent(Delsvar delsvar) throws ConverterException {
+        for (Object o : delsvar.getContent()) {
+            if (o instanceof Node) {
+                PQType pqType = new PQType();
+                Double value = null;
+                String unit = null;
+                Node node = (Node) o;
+                NodeList list = node.getChildNodes();
+                for (int i = 0; i < list.getLength(); i++) {
+                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
+                        continue;
+                    }
+                    String textContent = list.item(i).getTextContent();
+                    switch (list.item(i).getLocalName()) {
+                    case "value":
+                        value = Double.parseDouble(textContent);
+                        break;
+                    case "unit":
+                        unit = textContent;
+                        break;
+                    default:
+                        LOG.debug("Unexpected element found while parsing PQType: " + list.item(i).getNodeName());
+                        break;
+                    }
+                }
+                if (value == null || unit == null) {
+                    throw new ConverterException("Error while converting PQType, missing mandatory field");
+                }
+                pqType.setValue(value);
+                pqType.setUnit(unit);
+                return pqType;
+            } else if (o instanceof JAXBElement) {
+                @SuppressWarnings("unchecked")
+                JAXBElement<PQType> jaxbPQType = (JAXBElement<PQType>) o;
+                return jaxbPQType.getValue();
+            }
+        }
+        throw new ConverterException("Unexpected outcome while converting PQType");
+    }
+
+    /**
      * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
      *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
+     * @param delsvar
+     *            the delsvar to be converted
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
         for (Object o : delsvar.getContent()) {
@@ -204,8 +259,10 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a {@link PartialDateType} from a {@link Delsvar}.
      *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
+     * @param delsvar
+     *            the delsvar to be converted
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
         for (Object o : delsvar.getContent()) {
@@ -218,28 +275,28 @@ public final class TransportConverterUtil {
                     String textContent = list.item(i).getTextContent();
                     if (list.item(i).getLocalName() != null) {
                         switch (list.item(i).getLocalName()) {
-                            case "format":
-                                partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(textContent));
-                                break;
-                            case "value":
-                                partialDateValue = textContent;
-                                break;
+                        case "format":
+                            partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(textContent));
+                            break;
+                        case "value":
+                            partialDateValue = textContent;
+                            break;
                         }
                     }
                 }
                 switch (partialDateType.getFormat()) {
-                    case YYYY:
-                        if (partialDateValue != null) {
-                            partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
-                        }
-                        break;
-                    case YYYY_MM_DD:
-                        if (partialDateValue != null) {
-                            partialDateType.setValue(LocalDate.parse(partialDateValue));
-                        }
-                        break;
-                    default:
-                        throw new ConverterException("Unexpected format while converting PartialDateType");
+                case YYYY:
+                    if (partialDateValue != null) {
+                        partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
+                    }
+                    break;
+                case YYYY_MM_DD:
+                    if (partialDateValue != null) {
+                        partialDateType.setValue(LocalDate.parse(partialDateValue));
+                    }
+                    break;
+                default:
+                    throw new ConverterException("Unexpected format while converting PartialDateType");
                 }
                 return partialDateType;
             }
@@ -254,9 +311,11 @@ public final class TransportConverterUtil {
     /**
      * Parses the {@link GrundData} from the source Intyg.
      *
-     * @param source              the certificate to be converted
-     * @param extendedPatientInfo boolean flag to determine if all patient info should be included (should never be used for certificates
-     *                            on patients with sekretessmarkering)
+     * @param source
+     *            the certificate to be converted
+     * @param extendedPatientInfo
+     *            boolean flag to determine if all patient info should be included (should never be used for certificates
+     *            on patients with sekretessmarkering)
      * @return the converted GrundData
      */
     public static GrundData getGrundData(Intyg source, boolean extendedPatientInfo) {
@@ -273,8 +332,10 @@ public final class TransportConverterUtil {
     /**
      * Creates the metadata for the certificate.
      *
-     * @param source         the source certificate
-     * @param additionalInfo the info to be displayed in Mina intyg
+     * @param source
+     *            the source certificate
+     * @param additionalInfo
+     *            the info to be displayed in Mina intyg
      * @return the meta data
      */
     public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
@@ -307,7 +368,8 @@ public final class TransportConverterUtil {
     /**
      * Converts a list of statuses of transport format to internal representation.
      *
-     * @param certificateStatuses the statuses to be converted
+     * @param certificateStatuses
+     *            the statuses to be converted
      * @return the converted statuses
      */
     public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
@@ -321,7 +383,8 @@ public final class TransportConverterUtil {
     /**
      * Converts a single status on transport format.
      *
-     * @param certificateStatus the status to be converted
+     * @param certificateStatus
+     *            the status to be converted
      * @return the converted status
      */
     public static Status getStatus(IntygsStatus certificateStatus) {
@@ -334,7 +397,8 @@ public final class TransportConverterUtil {
     /**
      * Returns an internal representation of the creator of the certificate.
      *
-     * @param source the creator in transport format
+     * @param source
+     *            the creator in transport format
      * @return the converted creator
      */
     public static HoSPersonal getSkapadAv(HosPersonal source) {
@@ -357,7 +421,8 @@ public final class TransportConverterUtil {
     /**
      * Converts an Enhet to internal representation.
      *
-     * @param source the transport representation
+     * @param source
+     *            the transport representation
      * @return the converted Vardenhet
      */
     public static Vardenhet getVardenhet(Enhet source) {
@@ -377,7 +442,8 @@ public final class TransportConverterUtil {
     /**
      * Converts a Vardgivare to internal representation.
      *
-     * @param source the transport representation
+     * @param source
+     *            the transport representation
      * @return the converted Vardgivare
      */
     public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare source) {
@@ -390,9 +456,11 @@ public final class TransportConverterUtil {
     /**
      * Converts the transport representation of the patient to internal.
      *
-     * @param source              the transport representation
-     * @param extendedPatientInfo if sensitive patient data should be included
-     *                            (should never be used for certificates which can be used for patients with sekretessmarkering)
+     * @param source
+     *            the transport representation
+     * @param extendedPatientInfo
+     *            if sensitive patient data should be included
+     *            (should never be used for certificates which can be used for patients with sekretessmarkering)
      * @return the converted patient
      */
     public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {

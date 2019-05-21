@@ -35,7 +35,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
 
-    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("test-ag114.v1.sch");
+    private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator("ag114.v1.sch");
 
     static {
         // avoid com.helger debug log
