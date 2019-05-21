@@ -60,7 +60,7 @@
               ng-model-options="{ debounce: 500, getterSetter: true }" maxlength="{{::config.htmlMaxlength || 3500}}"
               ng-blur="updateValidation();focus=false" placeholder="{{(!focus && !modelGetterSetter()) && model[config.kategoriProp].length > 0 ? getPlaceHolder() : ''}}"
               ng-class="{'placeholderPadding': (focus || modelGetterSetter()) && model[config.kategoriProp].length > 0 }"
-              ng-focus="focus=true">
+              ng-focus="focus=true" ue-filter-latin1>
     </textarea>
   </ue-validation-wrapper>
 </div>
