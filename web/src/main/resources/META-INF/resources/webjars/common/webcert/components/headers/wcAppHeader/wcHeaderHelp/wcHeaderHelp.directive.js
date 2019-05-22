@@ -116,7 +116,9 @@ angular.module('common').directive('wcHeaderHelp',
                             //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
                             aboutModalInstance.result.then(function () {
                                 aboutModalInstanceOpened = false;
-                            }, function () {}); //jshint ignore:line
+                            }, function () {
+                                aboutModalInstanceOpened = false;
+                            });
                         }
                     };
 
