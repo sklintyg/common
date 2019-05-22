@@ -46,11 +46,6 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-                // scope.clampSet = false;
-                //scope.status.riskInfoOpen = false;
-                // scope.closeSrs = function(){
-                //     scope.status.riskInfoOpen = false;
-                // };
 
                 scope.externalRisk = {
                     templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.risk-popover.html'
@@ -58,20 +53,6 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
 
                 scope.isRecommendationsCollapsed = true;
                 scope.isObserveCollapsed = true;
-
-                // scope.parentHasRendered = function(){
-                //     if(scope.status.open){
-                //         if(scope.clampSet){
-                //             return true;
-                //         }
-                //         var divsize = angular.element(document.getElementById('atgarder' + scope.id)).prop('offsetWidth');
-                //         if(divsize > 0){
-                //             scope.clampSet = true;
-                //             return true;
-                //         }
-                //     }
-                //     return false;
-                // };
 
                 scope.onRecommendationCollapserClicked = function() {
                     scope.isRecommendationsCollapsed = !scope.isRecommendationsCollapsed;
@@ -92,13 +73,6 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 scope.redirectToStatistikExternalSite = function(){
                     window.open(srsLinkCreator.createStatistikLink(scope.srs.diagnosKod));
                 };
-
-                // scope.$watch('status', function(status, fromStatus){
-                //     console.log('STATUS from/to', fromStatus, status)
-                //     if(!scope.status.open){
-                //         scope.srs.status.riskInfoOpen = false;
-                //     }
-                // }, true);
 
             },
             templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.directive.html'

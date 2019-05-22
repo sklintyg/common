@@ -329,6 +329,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
                             ' finns ingen SRS-information för detta fält.';
                     }
+                    // TODO: Titta på use case för statistik saknas, nedan avser att statistikbild saknas men siffror kan finnas
                     // else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
                     //     !$scope.srs.statistik.statistikBild) {
                     //     $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +

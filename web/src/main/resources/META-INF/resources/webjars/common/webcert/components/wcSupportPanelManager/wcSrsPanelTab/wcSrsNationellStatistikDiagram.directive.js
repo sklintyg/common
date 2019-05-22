@@ -71,8 +71,6 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         $scope.popoverTextNationalStatisticsChart = $scope.srs.prediktionInfo ? $scope.srs.prediktionInfo : 'Andel avslutade sjukskrivningsfall';
                     };
 
-
-
                     var updateCharts = function (result) {
                         chartFactory.addColor(result.statistik);
                         statistikChart = paintChart('nationalStatisticsChart', result.statistik);
@@ -174,9 +172,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                     whiteSpace: 'nowrap',
                                     width: '600px'
                                 },
-                                // responsiveWidthPercentage: maxWidth || null,
                                 useHTML: false,
-                                // outside: typeof(maxWidth) === 'undefined',
                                 formatter: function() {
                                     var title = this.x ? this.x : this.point.name;
                                     if (angular.isObject(title)) {
