@@ -68,7 +68,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     };
 
                     var dataReceivedSuccess = function(result) {
-                        // $scope.subTitlePeriod = result.periodText;
                         setTooltipText(result);
                         $scope.statisticNotDone = false;
                         $scope.doneLoading = true;
@@ -96,7 +95,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             renderTo: containerId,
                             unit: '%',
                             maxWidthPercentage: 80,
-                            // width: 360,
                             marginRight: 120
                         };
 
