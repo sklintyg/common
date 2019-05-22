@@ -479,6 +479,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.prediction = {};
                 $scope.srs.prediction.description = '';
 
+                // TODO: what value should consent have on reset, do we need to/should we really reset consent here?
                 //$scope.consent = false;
                 $scope.srs.shownFirstTime = false;
                 $scope.srs.clickedFirstTime = false;
