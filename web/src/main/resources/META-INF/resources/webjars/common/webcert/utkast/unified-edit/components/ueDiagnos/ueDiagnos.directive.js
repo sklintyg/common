@@ -81,7 +81,10 @@ angular.module('common').directive('ueDiagnos', [ '$log', '$timeout', 'common.Di
                 }
 
                 function updateSrs(index, newVal) {
-                    if (!(ObjectHelper.isEmpty(newVal) || newVal.length < 3)) {
+                    if (ObjectHelper.isEmpty(newVal) || newVal.length < 3) {
+                        srsService.updateDiagnosKod(null);
+                        srsService.updateDiagnosBeskrivning(null);
+                    } else {
                         srsService.updateDiagnosKod(newVal);
                         srsService.updateDiagnosBeskrivning($scope.model[$scope.config.modelProp][index].diagnosBeskrivning);
                     }

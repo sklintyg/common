@@ -30,9 +30,7 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
             restrict: 'EA',
             link: function(scope, element, attrs) {
                 scope.isCollapsed = false;
-                //$('.my_tooltip').tooltip({ html: true })
                 scope.infoMessage = '';
-                //scope.srsViewState.errorMessage = '';
 
                 scope.externalConsent = {
                     templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsContent.consent-popover.html'
@@ -53,8 +51,6 @@ angular.module('common').directive('wcSrsContent', ['$window', 'common.srsLinkCr
                         scope.consentInfoOpen = false;
                     }
                 }, true);
-
-                //scope.test = "window.open('http://rattsjukskrivning.se/tjanster/omwebbplatsen/inloggning.14.html?redirect=http%3A%2F%2Frattsjukskrivning.se%2F')";
 
             },
             templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsContent.directive.html'

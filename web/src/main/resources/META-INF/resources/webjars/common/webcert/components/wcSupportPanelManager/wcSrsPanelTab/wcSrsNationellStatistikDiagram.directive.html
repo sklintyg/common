@@ -3,7 +3,8 @@
             <div class="nationell-statistik-widget">
                 <div class="risk-widget-header">
                     <h2 class="nationell-statistik-widget-title">
-                        <span>Nationell statistik</span>
+                        <span class="risk-header-line">Andel avslutade sjukskrivningsfall *</span>
+                        <span>{{srs.diagnosKod}} {{srs.diagnosBeskrivning}}</span>
                         <div style="float:right"
                              class="glyphicon glyphicon-question-sign"
                              uib-tooltip-html="popoverTextNationalStatisticsChart"
@@ -15,6 +16,9 @@
                 </div>
                 <div class="nationell-statistik-widget-content">
                     <div class="chart-container" id="nationalStatisticsChart"></div>
+                </div>
+                <div>
+                    <span>* Sjukskrivningsfall som påbörjades 2017 (Källa: Försäkringskassan)</span>
                 </div>
             </div>
         </div>
