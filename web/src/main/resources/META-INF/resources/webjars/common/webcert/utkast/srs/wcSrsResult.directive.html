@@ -38,16 +38,16 @@
                         <wc-srs-recommendation atgard="{{atgard}}" />
                 </div>
                 <div ng-if="srs.atgarder.moreAtgarderObs">
+                    <div class="fullWidth" id="collapseObserves" ng-if="!isObserveCollapsed">
+                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderObs">
+                            <wc-srs-recommendation atgard="{{atgard}}" />
+                        </div>
+                    </div>
                     <div class="line fullWidth">
                         <div class="srs-observe-list-collapser" ng-click="isObserveCollapsed = !isObserveCollapsed">
                             {{isObserveCollapsed ? 'Se fler...':'Se färre...'}}
                             <i class="glyphicon"
                                ng-class="{'glyphicon-menu-down': isObserveCollapsed, 'glyphicon-menu-up': !isObserveCollapsed}"></i></div>
-                    </div>
-                    <div class="line fullWidth" id="collapseObserves" ng-if="!isObserveCollapsed">
-                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderObs">
-                            <wc-srs-recommendation atgard="{{atgard}}" />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -60,16 +60,16 @@
                         <wc-srs-recommendation atgard="{{atgard}}" />
                 </div>
                 <div ng-if="srs.atgarder.moreAtgarderRek">
+                    <div class="fullWidth" id="collapseRecommendations" ng-if="!isRecommendationsCollapsed">
+                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderRek">
+                            <wc-srs-recommendation atgard="{{atgard}}" />
+                        </div>
+                    </div>
                     <div class="line fullWidth">
                         <div class="srs-recommendation-list-collapser" ng-click="isRecommendationsCollapsed = !isRecommendationsCollapsed">
                             {{isRecommendationsCollapsed ? 'Se fler åtgärder...':'Se färre åtgärder...'}}
                             <i class="glyphicon"
                                ng-class="{'glyphicon-menu-down': isRecommendationsCollapsed, 'glyphicon-menu-up': !isRecommendationsCollapsed}"></i></div>
-                    </div>
-                    <div class="line fullWidth" id="collapseRecommendations" ng-if="!isRecommendationsCollapsed">
-                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderRek">
-                            <wc-srs-recommendation atgard="{{atgard}}" />
-                        </div>
                     </div>
                 </div>
             </div>
