@@ -2,11 +2,11 @@
 
   <button
       data-ng-if="showCopyBtn()"
-      data-ng-disabled="copyUtkastPopOverOpen=false;disabledCopyBtn()"
+      data-ng-disabled="disabledCopyBtn()"
       type="button"
       id="copy-utkast"
       class="btn btn-primary"
-      ng-click="copy()"
+      ng-click="copyUtkastPopOverOpen=false;copy()"
       uib-popover="{{copyBtnTooltipText}}"
       popover-is-open="copyUtkastPopOverOpen"
       popover-popup-delay="300"

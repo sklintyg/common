@@ -14,7 +14,7 @@
                    placeholder="åååå"
                    maxlength="4"
                    class="form-control"
-                   ng-class="{'text-invalid': invalid}"
+                   ng-class="{'text-invalid': invalid, focus:isFocused}"
                    ng-model="modelGetterSetter"
                    ng-model-options="{ getterSetter: true, allowInvalid: true}"
                    ng-trim="false"

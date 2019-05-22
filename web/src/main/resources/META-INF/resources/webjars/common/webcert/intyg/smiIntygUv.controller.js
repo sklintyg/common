@@ -61,6 +61,13 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             /**
              * Private
              */
+            function handleLoadingError(error) {
+                $rootScope.$emit('ViewCertCtrl.load', null, null);
+                $rootScope.$broadcast('intyg.loaded', null);
+                ViewState.common.doneLoading = true;
+                ViewState.common.updateActiveError(error, $stateParams.signed);
+            }
+
             function loadIntyg() {
                 $log.debug('Loading intyg ' + $stateParams.certificateId);
                 IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type,
@@ -71,14 +78,14 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                             ViewState.intygModel = result.contents;
                             ViewState.relations = result.relations;
 
-                            DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type,
-                                ViewState.intygModel.textVersion).then(
-                                function(labels) {
-                                    if (angular.isDefined(labels)) {
-                                        DynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor,
-                                            ViewState.intygModel);
-                                    }
-                                });
+                        DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type, ViewState.intygModel.textVersion).then(
+                            function(labels) {
+                                if(angular.isDefined(labels)) {
+                                    DynamicLabelService.updateTillaggsfragorToModel(labels.tillaggsfragor, ViewState.intygModel);
+                                }
+                            }, function(textLoadingError) {
+                                handleLoadingError(textLoadingError);
+                            });
 
                             if (ViewState.intygModel !== undefined && ViewState.intygModel.grundData !== undefined) {
                                 ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
@@ -111,12 +118,9 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                             }
                         }
 
-                    }, function(error) {
-                        $rootScope.$emit('ViewCertCtrl.load', null, null);
-                        $rootScope.$broadcast('intyg.loaded', null);
-                        ViewState.common.doneLoading = true;
-                        ViewState.common.updateActiveError(error, $stateParams.signed);
-                    });
+                }, function(error) {
+                    handleLoadingError(error);
+                });
             }
 
             loadIntyg();

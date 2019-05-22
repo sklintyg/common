@@ -40,6 +40,9 @@ angular.module('common').directive('ueDiagnosKod', ['$log', '$timeout', 'common.
                 $scope.diagnosKodLoading = false;
                 $scope.diagnosKodNoResults = undefined;
 
+                // descriptionMaxLength defaults to 250 if not set in config
+                $scope.descriptionMaxLength = $scope.config.descriptionMaxLength ? $scope.config.descriptionMaxLength : 250;
+
                 function isShortPsykiskDiagnos(kod) {
                     // Från kravsidan:
                     // För LUSE,  LISU, LUAE NA och LUAE FS måste psykiska diagnoser anges med minst fyra positioner

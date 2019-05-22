@@ -164,7 +164,7 @@ public class IntygHeader implements IEventHandler {
     private void renderPersonnummer(Rectangle pageSize, Canvas canvas) {
         float measuredUtskiftsDatum = measureTextWidth("Utskriftsdatum", SVAR_FONT_SIZE, fragaDelFragaFont);
         canvas.setFont(fragaDelFragaFont).setFontSize(SVAR_FONT_SIZE);
-        canvas.showTextAligned("Person- samordningsnr",
+        canvas.showTextAligned("Person- /samordningsnr",
                 pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
                 pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);

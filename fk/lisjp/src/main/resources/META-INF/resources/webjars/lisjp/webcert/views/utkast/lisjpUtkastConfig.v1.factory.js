@@ -158,6 +158,7 @@ angular.module('lisjp').factory('lisjp.UtkastConfigFactory.v1',
                         fraga(6, 'FRG_6.RBK', 'FRG_6.HLP', { required: true, requiredProp: 'diagnoser[0].diagnosKod'}, [{
                             type: 'ue-diagnos',
                             modelProp: 'diagnoser',
+                            descriptionMaxLength: 81,
                             defaultKodSystem: 'ICD_10_SE',
                             notifyFmb: true,
                             notifySrs: true,

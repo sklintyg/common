@@ -112,13 +112,13 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             };
 
             scope.openPlate = function() {
-                $window.document.addEventListener('click', onDocumentClick, true);
+                $window.document.addEventListener('mousedown', onDocumentClick, true);
                 scope.kategoriDropdown = true;
             };
 
             scope.closePlate = function() {
                 scope.kategoriDropdown = false;
-                $window.document.removeEventListener('click', onDocumentClick, true);
+                $window.document.removeEventListener('mousedown', onDocumentClick, true);
             };
 
             scope.openKategoriDropdown = function() {
@@ -164,10 +164,8 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
 
             function onDocumentClick(e) {
                 if (scope.kategoriDropdown) {
-                    var plateElement = $window.document.getElementById(scope.model.diagnoser[0].diagnosKod +
-                        '-' + scope.config.modelProp + '-plate');
-                    var dropElement = $window.document.getElementById(scope.model.diagnoser[0].diagnosKod +
-                        '-' + scope.config.modelProp + '-dropdown');
+                    var plateElement = $window.document.getElementById('icf-' + scope.config.modelProp + '-plate');
+                    var dropElement = $window.document.getElementById('icf-' + scope.config.modelProp + '-dropdown');
                     if (!plateElement.contains(e.target) && !dropElement.contains(e.target)) {
                         scope.rensa();
                         scope.$digest();
@@ -198,7 +196,9 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
             };
 
             scope.getPopoverText = function () {
-                if (!scope.model.diagnoser || scope.model.diagnoser[0].diagnosKod === undefined) {
+                if (!scope.model.diagnoser || (scope.model.diagnoser[0].diagnosKod === undefined && 
+                    scope.model.diagnoser[1].diagnosKod === undefined && 
+                    scope.model.diagnoser[2].diagnosKod === undefined) ) {
                     return 'Ange minst en diagnos för att få ICF-stöd.';
                 }
                 if (scope.model.diagnoser) {
