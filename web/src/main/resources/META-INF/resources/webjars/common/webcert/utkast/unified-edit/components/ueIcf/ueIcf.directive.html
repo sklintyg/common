@@ -1,7 +1,7 @@
 <div class="ue-del-fraga">  
   <ue-label config="::config.label" model="::model"></ue-label>
 
-  <button type="button" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-dropdown"
+  <button type="button" id="icf-{{config.modelProp}}-dropdown"
       ng-click="openKategoriDropdown();$event.stopPropagation();" class="btn btn-default icf-button"
       ng-class="{'disabled': !hasICFDiagnos(), 'open': kategoriDropdown}" uib-popover="{{getPopoverText()}}"
       popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
@@ -10,7 +10,7 @@
     <i class="material-icons">{{kategoriDropdown ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
   </button>
 
-  <div ng-if="kategoriDropdown" id="{{model.diagnoser[0].diagnosKod}}-{{config.modelProp}}-plate"
+  <div ng-if="kategoriDropdown" id="icf-{{config.modelProp}}-plate"
       class="funktions-dropdown-plate">
     <div class="kategori-header">
       <span>{{ config.modelProp == 'funktionsnedsattning' ?
