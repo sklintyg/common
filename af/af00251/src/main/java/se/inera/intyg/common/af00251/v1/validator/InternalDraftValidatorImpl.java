@@ -52,9 +52,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     public static final String CATEGORY_KONSEKVENSER = "konsekvenser";
     public static final String CATEGORY_BEDOMNING = "bedomning";
     private static final int OMFATTNING_DELTID_MIN_HOURS = 1;
-    private static final int OMFATTNING_DELTID_MAX_HOURS = 40;
+    private static final int OMFATTNING_DELTID_MAX_HOURS = 39;
     private static final int MAX_ROWS = 4;
-    private static final int HUNDRED = 100;
+    private static final int SJUKFRANVARONIVA_MIN = 1;
+    private static final int SJUKFRANVARONIVA_MAX = 100;
 
     @Override
     public ValidateDraftResponse validateDraft(AF00251UtlatandeV1 utlatande) {
@@ -159,8 +160,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
                     createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                         ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23), ValidationMessageType.EMPTY);
-            } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() <= OMFATTNING_DELTID_MIN_HOURS
-                || arbetsmarknadspolitisktProgram.getOmfattningDeltid() >= OMFATTNING_DELTID_MAX_HOURS) {
+            } else if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() < OMFATTNING_DELTID_MIN_HOURS
+                || arbetsmarknadspolitisktProgram.getOmfattningDeltid() > OMFATTNING_DELTID_MAX_HOURS) {
                 final String fieldKey = createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                     ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23);
                 addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
@@ -314,8 +315,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 ValidationMessageType.EMPTY);
         } else {
             final int niva = sjukfranvaro.getNiva();
-            if (niva < 1
-                || niva > HUNDRED) {
+            if (niva < SJUKFRANVARONIVA_MIN
+                || niva > SJUKFRANVARONIVA_MAX) {
                 final String indexedFieldKey = createCompositeFieldKey(indexedKey,
                     SJUKFRANVARO_SVAR_JSON_ID_61);
                 addValidationError(validationMessages, CATEGORY_BEDOMNING,

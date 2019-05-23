@@ -654,7 +654,7 @@
             'common.validation.ue-dodsorsak-foljd.empty': '', // this message is handled by ueDodsorsakRow
             'common.validation.ue-percent-field.empty': 'Ange ett svar.',
             'common.validation.ue-sjukfranvaro.niva.empty': 'Ange ett svar.',
-            'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-99',
+            'common.validation.ue-sjukfranvaro.niva.invalid_format': 'Ange omfattning i intervallet 1-100',
             'common.validation.ue-sjukfranvaro.period.invalid': 'Ange en datumperiod.',
             'common.validation.ue-sjukfranvaro.period.from.empty': 'Ange ett datum.',
             'common.validation.ue-sjukfranvaro.period.tom.empty': 'Ange ett datum.',

@@ -139,7 +139,7 @@ public final class TransportToInternal {
                     builder.setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.fromId(getCVSvarContent(delsvar).getCode()));
                     break;
                 case ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23:
-                    builder.setOmfattningDeltid(Integer.parseInt(getStringContent(delsvar)));
+                    builder.setOmfattningDeltid((int) getPQSvarContent(delsvar).getValue());
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -192,7 +192,7 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case SJUKFRANVARO_DELSVAR_ID_61:
-                    builder.setNiva(Integer.parseInt(getStringContent(delsvar)));
+                    builder.setNiva((int) getPQSvarContent(delsvar).getValue());
                     break;
                 case SJUKFRANVARO_DELSVAR_ID_62:
                     final DatePeriodType datePeriod = getDatePeriodTypeContent(delsvar);

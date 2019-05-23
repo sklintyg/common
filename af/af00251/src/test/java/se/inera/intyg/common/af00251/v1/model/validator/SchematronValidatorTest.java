@@ -30,8 +30,7 @@ import se.inera.intyg.common.support.validate.XmlValidator;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class SchematronValidatorTest {
 
@@ -40,6 +39,10 @@ public class SchematronValidatorTest {
     static {
         // avoid com.helger debug log
         GlobalDebug.setDebugModeDirect(false);
+    }
+
+    private static URL getResource(String href) {
+        return Thread.currentThread().getContextClassLoader().getResource(href);
     }
 
     @Test
@@ -64,7 +67,60 @@ public class SchematronValidatorTest {
         assertTrue(response.getValidationErrors().stream().collect(Collectors.joining("\n")), response.getValidationErrors().isEmpty());
     }
 
-    private static URL getResource(String href) {
-        return Thread.currentThread().getContextClassLoader().getResource(href);
+    @Test
+    public void failsOnOmfattningDeltidSaknas() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-omfattningDeltidSaknas.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("Om \"Programmets omfattning\" har besvarats med \"Deltid\" måste \"Omfatting deltid\" fyllas i."));
     }
+
+    @Test
+    public void failsOnOmfattningDeltidFelEnhet() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-omfattningDeltidFelEnhet.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Omfatting deltid\" måste anges i enhet \"hour\"."));
+    }
+
+    @Test
+    public void failsOnInvalidOmfattningDeltid0() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-omfattningDeltid0.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Omfatting deltid\" måste anges i timmar mellan 1 och 39."));
+    }
+
+    @Test
+    public void failsOnInvalidOmfattningDeltid40() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-omfattningDeltid40.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Omfatting deltid\" måste anges i timmar mellan 1 och 39."));
+    }
+
+    @Test
+    public void failsOnSjukfranvaronivaFelEnhet() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-sjukfranvaronivaFelEnhet.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Sjukfrånvaronivå\" måste anges i enhet \"%\"."));
+    }
+
+    @Test
+    public void failsOnSjukfranvaroniva0() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-sjukfranvaroniva0.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Sjukfrånvaronivå\" måste anges i % mellan 1 och 100."));
+    }
+
+    @Test
+    public void failsOnSjukfranvaroniva101() throws Exception {
+        String inputXml = Resources.toString(getResource("transport/scenarios/fail-sjukfranvaroniva101.xml"), org.apache.commons.io.Charsets.UTF_8);
+        ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
+        assertEquals(1, response.getValidationErrors().size());
+        assertTrue(response.getValidationErrors().get(0).contains("\"Sjukfrånvaronivå\" måste anges i % mellan 1 och 100."));
+    }
+
 }
