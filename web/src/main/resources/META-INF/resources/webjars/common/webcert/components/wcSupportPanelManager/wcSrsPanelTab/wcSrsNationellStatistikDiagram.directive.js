@@ -37,41 +37,38 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         lang: { thousandsSep: ' ' }
                     });
 
-
                     var statistikChart = {};
                     var chartData = {
                         statistik: [
                             {
                                 name: '30 dagar',
                                 type: 'ÅTERGÅNG',
+                                x: 30,
                                 y: 0
                             },
                             {
                                 name: '90 dagar',
                                 type: 'ÅTERGÅNG',
+                                x: 90,
                                 y: 0
                             },
                             {
                                 name: '180 dagar',
                                 type: 'ÅTERGÅNG',
+                                x: 180,
                                 y: 0
                             },
                             {
                                 name: '365 dagar',
                                 type: 'ÅTERGÅNG',
-                                y: 0
-                            },
-                            {
-                                name: '365+ dagar',
-                                type: 'ÅTERGÅNG',
+                                x: 365,
                                 y: 0
                             }
                         ]
                     };
 
                     var setTooltipText = function (result) {
-                        $scope.popoverTextRiskChart = 'Diagrammet visar antal individer som återgått i arbete efter givet antal dagar.' +
-                            '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
+                        $scope.popoverTextNationalStatisticsChart = $scope.srs.prediktionInfo ? $scope.srs.prediktionInfo : 'Andel avslutade sjukskrivningsfall';
                     };
 
                     var updateCharts = function (result) {
@@ -99,33 +96,96 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 color: chartFactory.getColors().overview
                             }
                         ];
-                        var categories = $window._.map(chartData, function (e) {
-                            return {name: e.name};
-                        });
 
-                        var chartConfigOptions = {
-                            categories: categories,
-                            series: series,
-                            type: 'line',
-                            // overview: true,
-                            plotOptions: {
-                                series: {
-                                    label: {
-                                        connectorAllowed: false
+                        var chartOptions = {
+                            chart : {
+                                animation: false,
+                                renderTo : containerId,
+                                type: 'line',
+                                backgroundColor : null, //transparent
+                                plotBorderWidth: 1,
+                                width: 420,
+                                height: 240
+                            },
+                            title: {
+                                text: null
+                            },
+                            subtitle : {},
+                            legend: {
+                                enabled: false
+                            },
+                            yAxis: {
+                                type:'line',
+                                lineWidth: 1,
+                                lineColor: '#3D4260',
+                                tickInterval: 20,
+                                max: 100,
+                                allowDecimals : false,
+                                min : 0,
+                                title : {
+                                    text : null
+                                },
+                                labels : {
+                                    formatter : function() {
+                                        return this.value + '%';
                                     }
                                 }
                             },
-                            renderTo: containerId,
-                            unit: 'individer',
-                            maxWidthPercentage: 80
+                            xAxis: {
+                                lineWidth: 1,
+                                lineColor: '#3D4260',
+                                tickPositions: [30, 90, 180, 365],
+                                // ceiling: 400,
+                                type: 'category',
+                                min: 0,
+                                max: 400
+                            },
+                            plotOptions : {
+                                line : {
+                                    marker : {
+                                        enabled : true,
+                                        symbol : 'circle'
+                                    },
+                                    dataLabels: {
+                                        enabled: true,
+                                        crop: false,
+                                        overflow: 'none',
+                                        formatter: function() {
+                                            return this.y + '%';
+                                        }
+                                    },
+                                    events : {
+                                        legendItemClick : function() { // This function removes interaction for plot and legend-items
+                                            return false;
+                                        }
+                                    }
+                                },
+                                series: {
+                                }
+                            },
+                            tooltip : {
+                                hideDelay: 500,
+                                backgroundColor : '#fff',
+                                borderWidth : 2,
+                                padding: 9,
+                                style: {
+                                    whiteSpace: 'nowrap',
+                                    width: '600px'
+                                },
+                                useHTML: false,
+                                formatter: function() {
+                                    var title = this.x ? this.x : this.point.name;
+                                    if (angular.isObject(title)) {
+                                        title = title.oldName ? title.oldName : title.name;
+                                    }
+                                    return title + ' dagar <b>' + this.y + '</b> ' + '%';
+                                }
+                            },
+                            credits : {
+                                enabled : false
+                            },
+                            series : series
                         };
-
-                        var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
-                        chartOptions.chart.height = 240;
-                        chartOptions.subtitle.text = null;
-                        chartOptions.yAxis.title.text = 'Antal individer';
-                        chartOptions.yAxis.tickPixelInterval = 30;
-                        chartOptions.legend.enabled = false;
 
                         return new Highcharts.Chart(chartOptions);
                     }
@@ -135,14 +195,18 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                             statistikChart.destroy();
                         }
                     });
+                    $scope.$watch('srs.prediktionInfo', function(newVal, oldVal) {
+                        setTooltipText(newVal);
+                    });
 
                     $scope.$watch('srs.statistik', function(newVal, oldVal) {
                         if (newVal.nationellStatistik !== null &&
                             Array.isArray(newVal.nationellStatistik) &&
                             newVal.nationellStatistik.length === 5) {
-                            for (var i = 0; i<5; i++) {
-                                chartData.statistik[i].y = newVal.nationellStatistik[i];
+                            for (var i = 0; i<4; i++) {
+                                chartData.statistik[i].y = Math.round((newVal.nationellStatistik[i]/newVal.nationellStatistik[4]) * 100);
                             }
+
                         }
                         updateCharts(chartData);
                     });

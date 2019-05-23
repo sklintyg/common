@@ -59,7 +59,7 @@
             'common.copy': 'Kopiera',
             'common.copy.resume': 'Fortsätt på utkast',
             'common.copy.tooltip': 'Ett nytt utkast skapas på den vårdenhet du är inloggad på. All information i det befintliga intyget följer med till utkastet.',
-            'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggat på.',
+            'common.copy.utkast.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
             'common.fornya': 'Förnya',
             'common.fornya.tooltip': 'Skapar en redigerbar kopia av intyget på den enheten du är inloggad på.',
             'common.fornya.sjukskrivning.tooltip': 'Skapar ett nytt intygsutkast för förlängning av sjukskrivning, där en del information från detta intyg följer med.',

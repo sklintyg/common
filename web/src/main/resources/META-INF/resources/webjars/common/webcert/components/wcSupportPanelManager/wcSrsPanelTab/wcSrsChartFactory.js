@@ -19,14 +19,15 @@
 
 /* globals Highcharts */
 angular.module('common').factory('common.wcSrsChartFactory',
-    [ '$filter', '$log', '$window',
-    function($filter, $log, $window) {
+    [ '$filter', '$log',
+    function($filter, $log) {
         'use strict';
 
         /* Color definitions to be used with highcharts */
         var colors = {
             total: '#5D5D5D',
-            overview: '#57843B',
+            // overview: '#57843B',
+            overview: '#3D4260',
             high: '#E10934',
             medium: '#FFBA3E',
             low: '#799745',
@@ -199,7 +200,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
         function processCategories(categories) {
 
             // Ta bort kategorienamnet om det bara finns Totalt
-            if (categories.length === 1 && categories[0].name === CATEGORY_TO_HIDE) {
+            if (categories && categories.length === 1 && categories[0].name === CATEGORY_TO_HIDE) {
                 return [{
                     name: '',
                     marked: false,
@@ -207,7 +208,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 }];
             }
 
-            return $window._.map(categories, function(category) {
+            return categories && Array.isArray(categories) && categories.map(function(category) {
                 var tooltip = category.tooltip ? category.tooltip : category.name;
 
                 return {
@@ -256,9 +257,10 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     renderTo : options.renderTo ? options.renderTo : 'chart1',
                     type: options.type,
                     backgroundColor : null, //transparent
-                    plotBorderWidth: 1,
-                    marginLeft: 80,
-                    width: 360,
+                    plotBorderWidth: options.borderWidth ? options.borderWidth : 1,
+                    // marginLeft: options.marginLeft ? options.marginLeft : 42,
+                    marginRight: options.marginRight ? options.marginRight : undefined,
+                    width: options.width ? options.width : 360,
                     // height: 360 + labelHeight,
                     marginBottom: options.verticalLabel ? labelHeight + 25 : null
                 },
@@ -268,36 +270,14 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         fontSize: '16px'
                     }
                 },
-                subtitle : {
-                    text : (options.percentChart ? 'Andel ' + options.unit : 'Antal ' + options.unit),
-                    align: 'left',
-                    style: {
-                        color: '#008391',
-                        fontWeight: 'bold',
-                        fontSize: '12px'
-                    },
-                    margin: 7
-                },
-                legend : {
-                    align : 'left',
-                    borderWidth : 0,
-                    symbolRadius: 0,
-                    y: options.verticalLabel ? 15 : 0,
-                    itemStyle: {
-                        color: '#008391',
-                        fontWeight: 'bold',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden',
-                        width: '400px'
-                    }
-                },
+                subtitle : {},
+                legend: {},
                 xAxis : {
                     labels : {
-                        rotation : options.verticalLabel ? -90 : 320,
-                        align : 'right',
+                        rotation : 0, //options.verticalLabel ? -90 : 320,
+                        align : 'center',
                         style: {
-                            whiteSpace: 'pre',
-                            width: (_getMaxLength(options.labelMaxLength) * 7) + 'px'
+                            textAlign: 'center'
                         },
                         useHTML: true,
                         formatter: labelFormatter(_getMaxLength(options.labelMaxLength), options.verticalLabel),
@@ -305,7 +285,8 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     },
                     categories : processCategories(options.categories)
                 },
-                yAxis : {
+                yAxis : [{
+                    id: 'yAxis1',
                     allowDecimals : false,
                     min : 0,
                     minRange : 0.1,
@@ -314,19 +295,10 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     },
                     labels : {
                         formatter : function() {
-                            return ControllerCommons.makeThousandSeparated(this.value) + (options.percentChart || options.usingAndel ? ' %' : '');
+                            return ControllerCommons.makeThousandSeparated(this.value) + (options.unit ? options.unit : (options.percentChart || options.usingAndel ? ' %' : ''));
                         }
-                    },
-                    plotLines : [ {
-                        value : 0,
-                        width : 1,
-                        color : '#808080'
-                    } ]
-                },
-                exporting : {
-                    enabled : false,
-                    fallbackToExportServer: false
-                },
+                    }
+                }],
                 plotOptions : {
                     line : {
                         animation: false,
@@ -351,9 +323,19 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         animation: false,
                         softThreshold: false,
                         showInLegend : true,
-                        stacking: options.percentChart ? 'percent' : (options.stacked ? 'normal' : null)
+                        stacking: options.percentChart ? 'percent' : (options.stacked ? 'normal' : null),
+                        dataLabels: {
+                            enabled: true,
+                            crop: false,
+                            overflow: 'none',
+                            formatter: function() {
+                                return this.y + (options.unit ? options.unit : '');
+                            }
+                        }
                     },
                     series: {
+                        borderColor: '#b7b7b7',
+                        borderWidth: 1
                     },
                     area : {
                         animation: false,
@@ -378,7 +360,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                 credits : {
                     enabled : false
                 },
-                series : $window._.map(options.series, function (series) {
+                series : options.series && Array.isArray(options.series) ? options.series.map(function (series) {
                     //This enables the marker for series with single data points
                     if (series.data.length === 1) {
                         if (series.marker) {
@@ -388,7 +370,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         }
                     }
                     return series;
-                })
+                }): null
             };
 
             if (options.doneLoadingCallback) {
@@ -414,9 +396,9 @@ angular.module('common').factory('common.wcSrsChartFactory',
             var colorSelector = 0;
 
             var colors = COLORS.other,
-                riskColor = COLORS.risk;
+            riskColor = COLORS.risk;
 
-            $window._.each(rawData, function (data) {
+            angular.forEach(rawData, function (data) {
                 // continue if color is set
                 if (data.color) {
                     return;

@@ -68,7 +68,9 @@ angular.module('common').directive('wcHeaderUser', ['$rootScope', '$uibModal', '
                     //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
                     infoDialogInstance.result.then(function () {
                         infoDialogInstanceOpened = false;
-                    }, function () {}); //jshint ignore:line
+                    }, function () {
+                        infoDialogInstanceOpened = false;
+                    });
                 }
             };
 
