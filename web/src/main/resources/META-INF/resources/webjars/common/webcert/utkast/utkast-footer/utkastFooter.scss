@@ -1,15 +1,13 @@
 .utkast-footer {
   margin-bottom: 50px;
-
-  display: flex;
-  flex-wrap: wrap;
+  float: left;
+  width: 100%;
 
   wc-utkast-footer-sign {
+    display: block;
     margin-right: 25px;
-  }
-
-  .vardadmin-footer {
-    flex: 1 1 100%;
+    margin-bottom: 25px;
+    float: left;
   }
 
   .admin-row {
@@ -26,7 +24,7 @@
   .intygs-id {
     @extend %wc-typo-09;
     color: $wc-color-07;
-    flex: 1 1 0;
     text-align: right;
+    float: right;
   }
 }
