@@ -1,3 +1,7 @@
+.risk-header-line {
+  display: block;
+}
+
 wc-srs-panel-tab {
   display: flex;
   flex-direction: column;
@@ -47,6 +51,10 @@ wc-srs-panel-tab {
         }
       }
     }
+  }
+
+  .riskHeader {
+    display: block;
   }
 
   .srs-section {

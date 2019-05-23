@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.ag114.v1.model.converter;
 
-import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.KV_INTYGSTYP_CODE;
-import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
@@ -36,19 +34,25 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_F
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.OVRIGT_DELSVAR_ID_8;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.OVRIGT_SVAR_ID_8;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_DELSVAR_ID_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
+import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.KV_INTYGSTYP_CODE;
+import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPQ;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.bind.JAXBElement;
 
 import com.google.common.base.Strings;
 
@@ -58,6 +62,7 @@ import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -135,7 +140,7 @@ public final class UtlatandeToIntyg {
         InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
         if (sjukskrivningsperiod != null) {
             svars.add(aSvar(BEDOMNING_SVAR_ID_7)
-                    .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, source.getSjukskrivningsgrad())
+                    .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
                     .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
                             aDatePeriod(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()))
                     .build());
@@ -158,5 +163,17 @@ public final class UtlatandeToIntyg {
         }
 
         return svars;
+    }
+
+    private static JAXBElement<PQType> addSjukskrivningsGradIfNotEmpty(String sjukskrivningsgrad) {
+        if (sjukskrivningsgrad != null && !sjukskrivningsgrad.trim().isEmpty()) {
+            return getSjukskrivningsGradAsPQ(sjukskrivningsgrad);
+        }
+        return null;
+    }
+
+    private static JAXBElement<PQType> getSjukskrivningsGradAsPQ(String sjukskrivningsGradAsString) {
+        final double sjukskrivningsGradAsDouble = Double.parseDouble(sjukskrivningsGradAsString);
+        return aPQ(SJUKSKRIVNINGSGRAD_UNIT_OF_MEASURE, sjukskrivningsGradAsDouble);
     }
 }

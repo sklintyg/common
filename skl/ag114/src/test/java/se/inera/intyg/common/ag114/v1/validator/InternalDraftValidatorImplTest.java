@@ -171,7 +171,7 @@ public class InternalDraftValidatorImplTest {
         assertEquals(1, getNumberOfInternalValidationErrors(res));
         ValidationMessage error = res.getValidationErrors().get(0);
         Assert.assertEquals(CATEGORY_BEDOMNING, error.getCategory());
-        Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from", error.getField());
+        Assert.assertEquals(SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", error.getField());
         assertEquals(ValidationMessageType.INCORRECT_COMBINATION, error.getType());
         assertEquals(COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER, error.getMessage());
     }

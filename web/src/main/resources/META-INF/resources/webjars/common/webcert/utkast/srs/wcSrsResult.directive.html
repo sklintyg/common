@@ -31,33 +31,54 @@
             </div>
 
 <!-- ÅTGÄRDER - OBS -->
-            <h3>Tänk på att...</h3>
             <div id="atgarderObs">
-                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderObs">
-                    <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
-                        <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
-
-                        </wc-expandable-content>
-                    </section>
+            <h3>Tänk på att</h3>
+            <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
+                <div ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderObs">
+                        <wc-srs-recommendation atgard="{{atgard}}" />
+                </div>
+                <div ng-if="srs.atgarder.moreAtgarderObs">
+                    <div class="fullWidth" id="collapseObserves" ng-if="!isObserveCollapsed">
+                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderObs">
+                            <wc-srs-recommendation atgard="{{atgard}}" />
+                        </div>
+                    </div>
+                    <div class="line fullWidth">
+                        <div class="srs-observe-list-collapser" ng-click="isObserveCollapsed = !isObserveCollapsed">
+                            {{isObserveCollapsed ? 'Se fler...':'Se färre...'}}
+                            <i class="glyphicon"
+                               ng-class="{'glyphicon-menu-down': isObserveCollapsed, 'glyphicon-menu-up': !isObserveCollapsed}"></i></div>
+                    </div>
                 </div>
             </div>
-
 <!-- ÅTGÄRDER - REK -->
-            <h3>Rekommenderade åtgärder</h3>
             <div id="atgarderRek">
-                <div ng-repeat="(key,atgard) in srs.atgarder.atgarderRek">
-                    <section class="srs-section" ng-attr-id="srs-text-{{::key}}" ng-if="atgard.recommendationText">
-                        <wc-expandable-content content="atgard.recommendationText" threshold-pixel-height="80px" link-dom-id="srs-text-expandable-content-link-{{::key}}">
+            <h3>Åtgärdsrekommendationer</h3>
+            <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
 
-                        </wc-expandable-content>
-                    </section>
+                <div ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderRek">
+                        <wc-srs-recommendation atgard="{{atgard}}" />
                 </div>
-<!--                <div class="floatRight">-->
-<!--                    <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToAtgardExternalSite(); logAtgarderRekClicked;">Läs mer</button>-->
-<!--                </div>-->
+                <div ng-if="srs.atgarder.moreAtgarderRek">
+                    <div class="fullWidth" id="collapseRecommendations" ng-if="!isRecommendationsCollapsed">
+                        <div ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderRek">
+                            <wc-srs-recommendation atgard="{{atgard}}" />
+                        </div>
+                    </div>
+                    <div class="line fullWidth">
+                        <div class="srs-recommendation-list-collapser" ng-click="isRecommendationsCollapsed = !isRecommendationsCollapsed">
+                            {{isRecommendationsCollapsed ? 'Se fler åtgärder...':'Se färre åtgärder...'}}
+                            <i class="glyphicon"
+                               ng-class="{'glyphicon-menu-down': isRecommendationsCollapsed, 'glyphicon-menu-up': !isRecommendationsCollapsed}"></i></div>
+                    </div>
+                </div>
             </div>
 
         </div>
+
+<!-- STATISTIK -->
+
+
         <div id="statstics{{id}}" class="tab-pane fade">
             <br>
             <div ng-if="srs.statistikInfo">

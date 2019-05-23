@@ -19,8 +19,8 @@
 
 /* globals Highcharts */
 angular.module('common').directive('wcSrsRiskDiagram',
-    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window',
-        function(srsViewState, chartFactory, $timeout, $window) {
+    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout',
+        function(srsViewState, chartFactory, $timeout) {
             'use strict';
 
             return {
@@ -45,7 +45,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             chartData: [
                                 {
                                     name: 'Genomsnittlig risk',
-                                    // name: 'Prevalens',
                                     type: 'RISK',
                                     y: 32
                                 },
@@ -69,7 +68,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     };
 
                     var dataReceivedSuccess = function(result) {
-                        // $scope.subTitlePeriod = result.periodText;
                         setTooltipText(result);
                         $scope.statisticNotDone = false;
                         $scope.doneLoading = true;
@@ -82,14 +80,11 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         var series = [
                             {
                                 name: 'Risk',
-                                // data: _.map(chartData, function (e) {
-                                //     return e.quantity;
-                                // }),
                                 data: chartData,
                                 color: chartFactory.getColors().risk
                             }
                         ];
-                        var categories = $window._.map(chartData, function (e) {
+                        var categories = chartData.map(function (e) {
                             return {name: e.name};
                         });
 
@@ -99,17 +94,73 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             type: 'column',
                             renderTo: containerId,
                             unit: '%',
-                            maxWidthPercentage: 80
+                            maxWidthPercentage: 80,
+                            marginRight: 120
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
                         chartOptions.chart.height = 240;
+                        chartOptions.chart.plotBorderWidth = 0;
                         chartOptions.subtitle.text = null;
-                        // chartOptions.yAxis.title = {text: 'Risk', style : chartOptions.subtitle.style };
-                        chartOptions.yAxis.title.text = 'Risk [%]';
-                        chartOptions.yAxis.max = 100;
-                        chartOptions.yAxis.tickPixelInterval = 30;
+                        chartOptions.yAxis[0].tickInterval = 20;
+                        chartOptions.yAxis[0].max = 100;
+                        chartOptions.yAxis[0].gridLineWidth=0;
+                        chartOptions.yAxis[0].lineWidth = 1;
+                        chartOptions.yAxis[0].lineColor = '#c7c7c7';
+                        chartOptions.yAxis[0].alternateGridColor = true;
                         chartOptions.legend.enabled = false;
+                        chartOptions.yAxis[0].plotLines = [
+                            {
+                                color: '#C7C7C7',
+                                width: 1,
+                                value: 39
+                            },
+                            {
+                                color: '#C7C7C7',
+                                width: 1,
+                                value: 62
+                            },
+                            {
+                                color: '#C7C7C7',
+                                width: 1,
+                                value: 100
+                            }
+                        ];
+
+                        chartOptions.yAxis[0].plotBands = [{
+                            color: 'white',
+                            from: 0,
+                            to: 39,
+                            label: {
+                                text:'Måttlig risk',
+                                align: 'right',
+                                rotation: -15,
+                                textAlign: 'left'
+                            }
+                        },
+                            {
+                                color: 'white',
+                                from: 39,
+                                to: 62,
+                                label: {
+                                    text:'Hög risk',
+                                    align: 'right',
+                                    rotation: -15,
+                                    textAlign: 'left'
+                                }
+                            },
+                            {
+                                color: 'white',
+                                from: 62,
+                                to: 100,
+                                label: {
+                                    text:'Mycket hög risk',
+                                    align: 'right',
+                                    rotation: -15,
+                                    textAlign: 'left'
+                                }
+                            }
+                        ];
 
                         return new Highcharts.Chart(chartOptions);
                     }
@@ -121,7 +172,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     });
 
                     $scope.$watch('srs.prediction', function(newVal, oldVal) {
-                        console.log('SRS SCOPE DATA WAS UPDATED FOR CHART, prediction', newVal);
                         if (newVal.prevalence !== null) {
                             chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100);
                             chartData.risk.chartData[0].name = 'Genomsnittlig risk';
@@ -131,16 +181,12 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         }
                         if (newVal.probabilityOverLimit !== null) {
                             chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100);
-                            chartData.risk.chartData[1].name = 'Individuell risk';
+                            chartData.risk.chartData[1].name = 'Patientens risk';
                         } else {
-                            chartData.risk.chartData[1].y = 0;
+                            chartData.risk.chartData[1].y = null;
                             chartData.risk.chartData[1].name = '';
                         }
                         updateCharts(chartData);
-                    });
-
-                    $scope.$watch('srs.consent', function(newVal,oldVal) {
-                        console.log('RISK GRAPH caught a change of consent from: ' + oldVal + ' to: ' + newVal);
                     });
 
                     // Kick start rendering

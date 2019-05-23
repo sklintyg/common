@@ -1,9 +1,10 @@
 <div class="wc-srs-risk-diagram-widget">
-        <div id="riskHeader" class="risk-widget-header-container">
+        <div id="riskDiagram" class="risk-widget-header-container">
             <div class="risk-widget">
                 <div class="risk-widget-header">
                     <h2 class="risk-widget-title">
-                        <span>Risk för sjukskrivning längre än 90 dagar, i procent</span>
+                        <span class="risk-header-line">Risk för sjukskrivning längre än 90 dagar</span>
+                        <span>{{srs.prediction.predictionDiagnosisCode}} {{srs.prediction.predictionDiagnosisDescription}}</span>
                         <div style="float:right"
                              class="glyphicon glyphicon-question-sign"
                              uib-tooltip-html="popoverTextRiskChart"
@@ -18,8 +19,11 @@
                 </div>
                 <div class="risk-widget-textual">
                     <ul>
-                        <li>Genomsnittlig risk för {{srs.diagnosKod}} {{srs.diagnosBeskrivning}}: {{srs.prediction.prevalence*100|number: '0'}}%</li>
-                        <li data-ng-if="srs.prediction.probabilityOverLimit">Patientens risk för {{srs.diagnosKod}} {{srs.diagnosBeskrivning}}: {{srs.prediction.probabilityOverLimit*100|number: '0'}}%</li>
+                        <li>Genomsnittlig risk: {{srs.prediction.prevalence*100|number: '0'}}%</li>
+                        <li data-ng-if="srs.prediction.probabilityOverLimit">
+                            <b>Patientens risk: {{srs.prediction.probabilityOverLimit*100|number: '0'}}%
+                            ({{srs.prediction.riskLevel}})</b>
+                        </li>
                     </ul>
                 </div>
             </div>

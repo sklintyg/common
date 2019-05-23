@@ -4,8 +4,9 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.39"
+    intygClinicalprocessSchematronVersion = "1.0.42"
     intygClinicalprocessSchemasVersion = "1.0.21"
+
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "4.0"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"
@@ -89,7 +90,9 @@ allprojects {
     }
 }
 
-configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'tstrk1062', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name)}) {
+configure(subprojects.findAll {
+    ['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-2', 'tstrk1062', 'lisjp', 'luse', 'luae_fs', 'luae_na', 'db', 'doi', 'af00213', 'af00251', 'ag114', 'ag7804', 'tstrk1009'].contains(it.name)
+}) {
 
     apply plugin: 'com.moowork.grunt'
 
@@ -127,7 +130,9 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     task unzipBuildTools(type: Copy) {
         into "${rootProject.buildDir}/build-tools/"
         from {
-            def intygJar = project.rootProject.buildscript.configurations.classpath.find { it.name.contains("se.inera.intyg.plugin.common") }
+            def intygJar = project.rootProject.buildscript.configurations.classpath.find {
+                it.name.contains("se.inera.intyg.plugin.common")
+            }
             zipTree(intygJar)
         }
     }
@@ -155,7 +160,9 @@ configure(subprojects.findAll {['fk7263', 'ts-bas', 'ts-diabetes', 'ts-diabetes-
     }
 }
 
-configure(subprojects.findAll { ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name) }) {
+configure(subprojects.findAll {
+    ['fk7263', 'ts-bas', 'ts-diabetes', 'tstrk1062', 'lisjp', 'af00213', 'af00251'].contains(it.name)
+}) {
     configurations {
         jstests
     }

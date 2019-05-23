@@ -17,8 +17,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('miCertificateActionButtons',
-        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService',
-            function($log, $state, messageService, listCertService, dialogService) {
+        [ '$log', '$state', 'common.messageService', 'common.IntygListService', 'common.dialogService', 'MIUser',
+            function($log, $state, messageService, listCertService, dialogService, MIUser) {
             'use strict';
 
             return {
@@ -94,13 +94,17 @@ angular.module('common').directive('miCertificateActionButtons',
                         });
                     };
                     $scope.onDownloadClicked = function() {
+
+                        function downloadPdf() {
+                            window.open(buildPdfLink(), '_blank');
+                        }
+
+                        if (MIUser.sekretessmarkering) {
                             dialogService.showDialog($scope, {
                                 dialogId: 'mi-downloadpdf-sekretess-dialog',
                                 titleId: 'pdf.sekretessmarkeringmodal.header',
                                 bodyTextId: 'pdf.sekretessmarkeringmodal.body',
-                                button1click: function() {
-                                    window.open(buildPdfLink(), '_blank');
-                                },
+                                button1click: downloadPdf,
                                 button2click: function() {
                                 },
                                 button1id: 'close-fkdialog-logout-button',
@@ -109,6 +113,10 @@ angular.module('common').directive('miCertificateActionButtons',
                                 button2visible: true,
                                 autoClose: true
                             });
+                        }
+                        else {
+                            downloadPdf();
+                        }
                     };
                 }
             };

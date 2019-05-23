@@ -6,6 +6,7 @@
   @import 'css/mixins/mixins';
 
   // injector
+  @import '../app-shared/servicebanner/serviceBanner.directive.scss';
   @import '../app-shared/unified-view/components/_variables.scss';
   @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
   @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
@@ -88,6 +89,7 @@
   @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
   @import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRiskDiagram.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
   @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
@@ -334,6 +336,9 @@
 
     &.external-link {
       color: $wc-color-17;
+      &:hover + i {
+        color: $wc-color-21;
+      }
     }
 
     &:hover {
