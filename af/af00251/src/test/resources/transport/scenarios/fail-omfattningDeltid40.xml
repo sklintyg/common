@@ -123,7 +123,7 @@
       <delsvar id="2.3">
         <ns3:pq>
           <ns3:value>40.0</ns3:value>
-          <ns3:unit>hour</ns3:unit>
+          <ns3:unit>h</ns3:unit>
         </ns3:pq>
       </delsvar>
     </svar>

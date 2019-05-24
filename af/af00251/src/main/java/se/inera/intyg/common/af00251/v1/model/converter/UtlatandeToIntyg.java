@@ -39,7 +39,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 
 public final class UtlatandeToIntyg {
 
-    private static final String UNIT_HOUR = "hour";
+    private static final String UNIT_HOUR = "h";
     private static final String UNIT_PERCENT = "%";
 
     private UtlatandeToIntyg() {

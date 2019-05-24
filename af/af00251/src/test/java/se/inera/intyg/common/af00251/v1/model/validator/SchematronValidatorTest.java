@@ -80,7 +80,7 @@ public class SchematronValidatorTest {
         String inputXml = Resources.toString(getResource("transport/scenarios/fail-omfattningDeltidFelEnhet.xml"), org.apache.commons.io.Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("\"Omfatting deltid\" måste anges i enhet \"hour\"."));
+        assertTrue(response.getValidationErrors().get(0).contains("\"Omfatting deltid\" måste anges i enhet \"h\"."));
     }
 
     @Test
