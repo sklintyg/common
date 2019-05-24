@@ -76,7 +76,12 @@
           <ns3:displayName>Deltid</ns3:displayName>
         </ns3:cv>
       </delsvar>
-      <delsvar id="2.3">22</delsvar>
+      <delsvar id="2.3">
+        <ns3:pq>
+          <ns3:value>22.0</ns3:value>
+          <ns3:unit>h</ns3:unit>
+        </ns3:pq>
+      </delsvar>
     </svar>
     <svar id="3">
       <delsvar id="3.1">Ont i armen.</delsvar>
@@ -89,7 +94,12 @@
     </svar>
     <svar id="6">
       <instans>1</instans>
-      <delsvar id="6.1">44</delsvar>
+      <delsvar id="6.1">
+        <ns3:pq>
+          <ns3:value>44.0</ns3:value>
+          <ns3:unit>%</ns3:unit>
+        </ns3:pq>
+      </delsvar>
       <delsvar id="6.2">
         <ns3:datePeriod>
           <ns3:start>2018-09-01</ns3:start>
@@ -99,7 +109,12 @@
     </svar>
     <svar id="6">
       <instans>2</instans>
-      <delsvar id="6.1">33</delsvar>
+      <delsvar id="6.1">
+        <ns3:pq>
+          <ns3:value>33.0</ns3:value>
+          <ns3:unit>%</ns3:unit>
+        </ns3:pq>
+      </delsvar>
       <delsvar id="6.2">
         <ns3:datePeriod>
           <ns3:start>2018-10-01</ns3:start>
@@ -109,7 +124,12 @@
     </svar>
     <svar id="6">
       <instans>3</instans>
-      <delsvar id="6.1">22</delsvar>
+      <delsvar id="6.1">
+        <ns3:pq>
+          <ns3:value>22.0</ns3:value>
+          <ns3:unit>%</ns3:unit>
+        </ns3:pq>
+      </delsvar>
       <delsvar id="6.2">
         <ns3:datePeriod>
           <ns3:start>2018-11-01</ns3:start>
@@ -119,7 +139,12 @@
     </svar>
     <svar id="6">
       <instans>4</instans>
-      <delsvar id="6.1">11</delsvar>
+      <delsvar id="6.1">
+        <ns3:pq>
+          <ns3:value>11.0</ns3:value>
+          <ns3:unit>%</ns3:unit>
+        </ns3:pq>
+      </delsvar>
       <delsvar id="6.2">
         <ns3:datePeriod>
           <ns3:start>2018-12-01</ns3:start>

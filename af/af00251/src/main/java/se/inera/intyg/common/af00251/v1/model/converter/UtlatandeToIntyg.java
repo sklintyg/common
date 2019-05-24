@@ -39,6 +39,9 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 
 public final class UtlatandeToIntyg {
 
+    private static final String UNIT_HOUR = "h";
+    private static final String UNIT_PERCENT = "%";
+
     private UtlatandeToIntyg() {
     }
 
@@ -68,8 +71,7 @@ public final class UtlatandeToIntyg {
             final UnderlagsTyp underlagsTyp = UnderlagsTyp.UNDERSOKNING;
             final SvarBuilder svarBuilder =
                 aSvar(MEDICINSKUNDERLAG_SVAR_ID_1, medicinsktUnderlagInstans++)
-                    .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_11,
-                        aCV(UnderlagsTyp.KODVERK, underlagsTyp.getId(), underlagsTyp.getLabel()))
+                    .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_11, aCV(UnderlagsTyp.KODVERK, underlagsTyp.getId(), underlagsTyp.getLabel()))
                     .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_12, getInternalDateContent(source.getUndersokningsDatum()));
 
             svars.add(svarBuilder.build());
@@ -80,8 +82,7 @@ public final class UtlatandeToIntyg {
             final SvarBuilder svarBuilder =
                 aSvar(MEDICINSKUNDERLAG_SVAR_ID_1,
                     medicinsktUnderlagInstans)
-                    .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_11,
-                        aCV(UnderlagsTyp.KODVERK, underlagsTyp.getId(), underlagsTyp.getLabel()))
+                    .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_11, aCV(UnderlagsTyp.KODVERK, underlagsTyp.getId(), underlagsTyp.getLabel()))
                     .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_12, getInternalDateContent(source.getAnnatDatum()))
                     .withDelsvar(MEDICINSKUNDERLAG_DELSVAR_ID_13, source.getAnnatBeskrivning());
 
@@ -93,12 +94,12 @@ public final class UtlatandeToIntyg {
             final ArbetsmarknadspolitisktProgram program = source.getArbetsmarknadspolitisktProgram();
             final ArbetsmarknadspolitisktProgram.Omfattning omfattning = program.getOmfattning();
             final InternalConverterUtil.SvarBuilder svarBuilder = aSvar(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_2)
-                .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_21, program.getMedicinskBedomning())
-                .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_22,
-                    aCV(ArbetsmarknadspolitisktProgram.Omfattning.KODVERK, omfattning.getId(), omfattning.getLabel()));
+                    .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_21, program.getMedicinskBedomning())
+                    .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_22,
+                            aCV(ArbetsmarknadspolitisktProgram.Omfattning.KODVERK, omfattning.getId(), omfattning.getLabel()));
             if (program.getOmfattningDeltid() != null) {
-                svarBuilder.withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23, program.getOmfattningDeltid()
-                                                                                              .toString());
+                svarBuilder.withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23,
+                        aPQ(UNIT_HOUR, Double.valueOf(program.getOmfattningDeltid())));
             }
             svars.add(svarBuilder.build());
         }
@@ -110,43 +111,35 @@ public final class UtlatandeToIntyg {
         int sjukfranvaroInstans = 1;
         for (Sjukfranvaro sjukfranvaro : source.getSjukfranvaro()) {
             if (sjukfranvaro.getChecked() != null
-                && sjukfranvaro.getChecked()) {
+                    && sjukfranvaro.getChecked()) {
                 final InternalLocalDateInterval period = sjukfranvaro.getPeriod();
-                svars.add(aSvar(SJUKFRANVARO_SVAR_ID_6, sjukfranvaroInstans++)
-                    .withDelsvar(SJUKFRANVARO_DELSVAR_ID_61, fromInteger(sjukfranvaro.getNiva()))
-                    .withDelsvar(SJUKFRANVARO_DELSVAR_ID_62,
-                        aDatePeriod(period.fromAsLocalDate(), period.tomAsLocalDate()))
-                    .build());
+                final InternalConverterUtil.SvarBuilder svarBuilder = aSvar(SJUKFRANVARO_SVAR_ID_6, sjukfranvaroInstans++);
+                if (sjukfranvaro.getNiva() != null) {
+                    svarBuilder.withDelsvar(SJUKFRANVARO_DELSVAR_ID_61, aPQ(UNIT_PERCENT, Double.valueOf(sjukfranvaro.getNiva())));
+                }
+                svarBuilder.withDelsvar(SJUKFRANVARO_DELSVAR_ID_62, aDatePeriod(period.fromAsLocalDate(), period.tomAsLocalDate()));
+                svars.add(svarBuilder.build());
             }
         }
 
         if (source.getBegransningSjukfranvaro() != null) {
             final BegransningSjukfranvaro begransningSjukfranvaro = source.getBegransningSjukfranvaro();
             svars.add(aSvar(BEGRANSNING_SJUKFRANVARO_SVAR_ID_7)
-                .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71, begransningSjukfranvaro.getKanBegransas()
-                                                                                            .toString())
+                .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71, begransningSjukfranvaro.getKanBegransas().toString())
                 .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_72, begransningSjukfranvaro.getBeskrivning())
                 .build());
         }
+
         if (source.getPrognosAtergang() != null) {
             final PrognosAtergang prognosAtergang = source.getPrognosAtergang();
             final PrognosAtergang.Prognos prognos = prognosAtergang.getPrognos();
             svars.add(aSvar(PROGNOS_ATERGANG_SVAR_ID_8)
-                .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81,
-                    aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(), prognos.getLabel()))
+                .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81, aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(), prognos.getLabel()))
                 .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_82, prognosAtergang.getAnpassningar())
                 .build());
         }
 
-
         return svars;
-    }
-
-    static String fromInteger(Integer value) {
-        if (value != null) {
-            return value.toString();
-        }
-        return null;
     }
 
 }

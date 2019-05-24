@@ -27,11 +27,11 @@
 
           <input type="text" ng-if="row.niva !== 100" ng-model="row.niva"
                  class="form-control niva"
-                 ng-blur="validate()" maxlength="2" wc-number="true"
+                 ng-blur="validate()" maxlength="3" wc-number="true"
                  ng-class="{'validation-error' : hasValidationError({{$index}}, 'niva')}"
                  id="{{config.modelProp}}-{{$index}}-niva"
                  wc-number="true"
-                 min="1" max="99"/>
+                 min="1" max="100"/>
           <span class="full-time-label-span" ng-if="row.niva === 100">100</span>%
 
         </div>

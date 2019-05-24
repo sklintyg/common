@@ -60,6 +60,7 @@ import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.ObjectFactory;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -90,7 +91,6 @@ public class ConverterTest {
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }
-
 
     @Test
     public void outputJsonFromXml() throws Exception {
@@ -125,7 +125,7 @@ public class ConverterTest {
 
     private String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {
         StringWriter sw = new StringWriter();
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
         ObjectFactory objectFactory = new ObjectFactory();
         JAXBElement<RegisterCertificateType> requestElement = objectFactory.createRegisterCertificate(transport);
         jaxbContext.createMarshaller().marshal(requestElement, sw);
