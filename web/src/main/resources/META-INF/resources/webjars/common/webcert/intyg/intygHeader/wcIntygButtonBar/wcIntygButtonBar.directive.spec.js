@@ -97,7 +97,8 @@ describe('wcIntygButtonBar', function() {
     }));
 
     beforeEach(angular.mock.inject([
-        '$rootScope', '$controller', '$state', '$compile', 'common.UserModel', 'common.featureService', 'common.UtkastProxy', 'common.IntygViewStateService', 'common.IntygHeaderViewState', 'common.ResourceLinkService',
+        '$rootScope', '$controller', '$state', '$compile', 'common.UserModel', 'common.featureService', 'common.UtkastProxy',
+        'common.IntygViewStateService', 'common.IntygHeaderViewState', 'common.ResourceLinkService',
         function(_$rootScope_, _$controller_, _$state_, _$compile_, _UserModel_, _featureService_, _UtkastProxy_, _IntygViewStateService_, _IntygHeaderViewStateService_, _ResourceLinkService_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
