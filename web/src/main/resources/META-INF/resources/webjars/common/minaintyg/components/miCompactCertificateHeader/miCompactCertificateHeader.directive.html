@@ -15,15 +15,19 @@
       <div class="complementary-info">
         <span ng-if="!certMetaModel.replacedBy">
           <span class="small-header" dynamic-label
-                key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix"></span><br class="visible-xs">
-          <span ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+                key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix">
+          </span>
+          <br class="visible-xs">
+          <span ng-if="certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
             {{certMetaModel.complementaryInfo}}
           </span>
+          <span ng-if="!certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+            <p dynamic-label key="certificates.label.dash"></p>
+          </span>
         </span>
-
         <span ng-if="certMetaModel.replacedBy" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
-                    <p dynamic-label key="certificates.label.replaced"></p>
-                </span>
+          <p dynamic-label key="certificates.label.replaced"></p>
+        </span>
       </div>
     </div>
 
