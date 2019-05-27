@@ -168,11 +168,14 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                 };
 
                 $scope.showPrintBtn = function() {
-                    return ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'SKRIV_UT_UTKAST');
+                    return !CommonViewState.isRevoked() &&
+                        ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'SKRIV_UT_UTKAST');
                 };
 
                 $scope.showCopyBtn = function() {
-                    return ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'KOPIERA_UTKAST');
+                    return !CommonViewState.isRevoked() &&
+                        ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'KOPIERA_UTKAST') ||
+                        $scope.disabledCopyBtn(); // Button should be shown but disabled if this is true.
                 };
 
                 $scope.disabledCopyBtn = function() {
@@ -189,7 +192,8 @@ angular.module('common').directive('wcUtkastButtonBar', ['$log', '$stateParams',
                 };
 
                 $scope.showMakuleraBtn = function() {
-                    return ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'MAKULERA_UTKAST');
+                    return !CommonViewState.isRevoked() &&
+                        ResourceLinkService.isLinkTypeExists($scope.viewState.draftModel.links, 'MAKULERA_UTKAST');
                 };
 
                 $scope.copy = function() {
