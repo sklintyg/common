@@ -1,11 +1,9 @@
 <div>
   <div class="tab-footer">
     <div class="footer__komplettera">
-      <div ng-if="showKompletteringButtons()"
-           wc-authority="BESVARA_KOMPLETTERINGSFRAGA" intygstyp="{{intygProperties.type}}">
+      <div ng-if="showKompletteringButtons()">
         <wc-button
-            wc-authority="SVARA_MED_NYTT_INTYG"
-            intygstyp="{{intygProperties.type}}"
+            ng-show="showKompletteraButton()"
             btn-id="komplettera-intyg"
             btn-class="btn-success margin-right"
             btn-click="kompletteraIntyg()"
@@ -20,6 +18,7 @@
         </wc-button>
 
         <button class="btn btn-primary"
+                ng-show="showKanInteKompletteraButton()"
                 id="kan-inte-komplettera"
                 ng-click="openKompletteringDialog()"
                 wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}"
@@ -36,8 +35,7 @@
       </div>
     </div>
     <button type="button" id="vidarebefordraEjHanterad"
-            wc-authority="VIDAREBEFORDRA_FRAGASVAR" intygstyp="{{intygProperties.type}}"
-            ng-show="!intygProperties.isRevoked"
+            ng-show="showVidarebefodraButton()"
             class="btn btn-primary stick-right"
             ng-click="openMailDialog()"
             uib-popover="Skapar ett e-postmeddelande med länk till intyget."

@@ -25,6 +25,7 @@ describe('arendeHantera', function() {
     var $scope;
     var element;
     var ArendeNewViewState;
+    var ResourceLinkService;
 
     var arende = {
         fraga:{'kompletteringar':[],'internReferens':'ref-1','status':'CLOSED','amne':'OVRIGT','meddelandeRubrik':'Övrigt',
@@ -44,17 +45,23 @@ describe('arendeHantera', function() {
         $provide.value('common.User', { getVardenhetFilterList: function() { return []; } });
         $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat']));
         $provide.value('$stateParams', { certificateId: 'intygsid' });
+        $provide.value('common.ResourceLinkService', {
+            isLinkTypeExists: function(links, type) {
+                return true;
+            }
+        });
     }));
 
     beforeEach(angular.mock.module('htmlTemplates'));
 
     beforeEach(angular.mock.inject(['$controller', '$compile', '$httpBackend', '$rootScope', 'common.ArendeListItemModel',
-        'common.ArendeListViewStateService', 'common.ArendeNewViewStateService',
+        'common.ArendeListViewStateService', 'common.ArendeNewViewStateService', 'common.ResourceLinkService',
         function($controller, $compile, _$httpBackend_, _$rootScope_, _ArendeListItemModel_, _ArendeListViewStateService_,
-            _ArendeNewViewState_) {
+            _ArendeNewViewState_, _ResourceLinkService_) {
             $rootScope = _$rootScope_;
             $httpBackend = _$httpBackend_;
             ArendeNewViewState = _ArendeNewViewState_;
+            ResourceLinkService = _ResourceLinkService_;
             $scope = $rootScope.$new();
 
             var arendePanelController = {

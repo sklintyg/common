@@ -17,9 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('smi.ViewCertCtrlUv',
-    [ '$log', '$timeout', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
+    ['$log', '$timeout', '$rootScope', '$stateParams', '$scope', '$state', 'common.IntygProxy',
         'common.UserModel', 'ViewState',
-        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil', 'supportPanelConfigFactory',
+        'ViewConfigFactory', 'common.dynamicLabelService', 'common.IntygViewStateService', 'uvUtil',
+        'supportPanelConfigFactory',
         'common.receiverService', 'common.authorityService',
         function($log, $timeout, $rootScope, $stateParams, $scope, $state, IntygProxy,
             UserModel, ViewState, viewConfigFactory, DynamicLabelService, IntygViewStateService, uvUtil,
@@ -46,10 +47,12 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
             //Did we just sign this intyg, and was it determined that we need to show approve receivers dialog for it?
             if ($stateParams.signed && receiverService.getData().showApproveDialog) {
                 receiverService.getData().showApproveDialog = false;
-                receiverService.openConfigDialogForIntyg(ViewState.common.intygProperties.type, $stateParams.certificateId, false);
+                receiverService.openConfigDialogForIntyg(ViewState.common.intygProperties.type,
+                    $stateParams.certificateId, false);
             } else if (authorityService.isAuthorityActive({
-                        authority: UserModel.privileges.GODKANNA_MOTTAGARE,
-                        intygstyp: ViewState.common.intygProperties.type})) {
+                authority: UserModel.privileges.GODKANNA_MOTTAGARE,
+                intygstyp: ViewState.common.intygProperties.type
+            })) {
                 // potentially this intyg/user could require approval of receivers. If this is the case - we prefetch the configuration of approved receivers for
                 // this intyg right now, so that other components, such as wcApproveReceiversButton can determine it's enabled state without delay.
                 receiverService.getApprovedReceivers(ViewState.common.intygProperties.type, $stateParams.certificateId);
@@ -67,12 +70,13 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
 
             function loadIntyg() {
                 $log.debug('Loading intyg ' + $stateParams.certificateId);
-                IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type, function(result) {
+                IntygProxy.getIntyg($stateParams.certificateId, ViewState.common.intygProperties.type,
+                    function(result) {
 
-                    ViewState.common.doneLoading = true;
-                    if (result !== null && result !== '') {
-                        ViewState.intygModel = result.contents;
-                        ViewState.relations = result.relations;
+                        ViewState.common.doneLoading = true;
+                        if (result !== null && result !== '') {
+                            ViewState.intygModel = result.contents;
+                            ViewState.relations = result.relations;
 
                         DynamicLabelService.updateDynamicLabels(ViewState.common.intygProperties.type, ViewState.intygModel.textVersion).then(
                             function(labels) {
@@ -83,38 +87,42 @@ angular.module('common').controller('smi.ViewCertCtrlUv',
                                 handleLoadingError(textLoadingError);
                             });
 
-                        if(ViewState.intygModel !== undefined && ViewState.intygModel.grundData !== undefined){
-                            ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
-                        }
+                            if (ViewState.intygModel !== undefined && ViewState.intygModel.grundData !== undefined) {
+                                ViewState.enhetsId = ViewState.intygModel.grundData.skapadAv.vardenhet.enhetsid;
+                            }
 
-                        ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
+                            ViewState.common.updateIntygProperties(result, ViewState.intygModel.id);
 
-                        //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast)
-                        $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId, ViewState.intygModel.textVersion, true, false);
+                            //We now have all info needed to build support-panel config (id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links)
+                            $scope.supportPanelConfig = supportPanelConfigFactory.getConfig($stateParams.certificateId,
+                                ViewState.intygModel.textVersion, true, false, false,
+                                ViewState.common.intygProperties.links);
 
-                        $scope.cert = result.contents;
+                            $scope.cert = result.contents;
 
-                        //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
-                        $timeout(function() {
-                            $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel, ViewState.common.intygProperties);
-                            $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
-                        });
+                            //The wcArendePanelTab will listen to 'ViewCertCtrl.load' event, so let it render first..
+                            $timeout(function() {
+                                $rootScope.$emit('ViewCertCtrl.load', ViewState.intygModel,
+                                    ViewState.common.intygProperties);
+                                $rootScope.$broadcast('intyg.loaded', ViewState.intygModel);
+                            });
 
-                    } else {
-                        $rootScope.$emit('ViewCertCtrl.load', null, null);
-                        $rootScope.$broadcast('intyg.loaded', null);
-
-                        if ($stateParams.signed) {
-                            ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
                         } else {
-                            ViewState.common.activeErrorMessageKey = 'common.error.could_not_load_cert';
+                            $rootScope.$emit('ViewCertCtrl.load', null, null);
+                            $rootScope.$broadcast('intyg.loaded', null);
+
+                            if ($stateParams.signed) {
+                                ViewState.common.activeErrorMessageKey = 'common.error.sign.not_ready_yet';
+                            } else {
+                                ViewState.common.activeErrorMessageKey = 'common.error.could_not_load_cert';
+                            }
                         }
-                    }
 
                 }, function(error) {
                     handleLoadingError(error);
                 });
             }
+
             loadIntyg();
 
             $scope.$on('loadCertificate', loadIntyg);

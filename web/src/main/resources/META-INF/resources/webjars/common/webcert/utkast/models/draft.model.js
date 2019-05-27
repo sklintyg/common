@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.Domain.DraftModel',
-    [ function(  ) {
+    [function() {
         'use strict';
 
         // the actual model
@@ -33,14 +33,15 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.sekretessmarkering = undefined;
             this.avliden = undefined;
             this.created = undefined;
-            if(contentModel){
+            this.links = undefined;
+            if (contentModel) {
                 this.content = contentModel;
             }
         }
 
-        DraftModel.prototype.update = function (data) {
+        DraftModel.prototype.update = function(data) {
             // refresh the model data
-            if(data === undefined) {
+            if (data === undefined) {
                 return;
             }
             this.version = data.version;
@@ -52,24 +53,25 @@ angular.module('common').factory('common.Domain.DraftModel',
             this.avliden = data.avliden;
             this.created = data.created;
             this.revokedAt = data.revokedAt;
-            if(this.content){
+            this.links = data.links;
+            if (this.content) {
                 this.content.update(data.content);
             }
         };
 
-        DraftModel.prototype.isSigned = function (){
+        DraftModel.prototype.isSigned = function() {
             return (this.status && this.status === 'SIGNED');
         };
 
-        DraftModel.prototype.isDraftComplete = function (){
+        DraftModel.prototype.isDraftComplete = function() {
             return (this.status && this.status === 'DRAFT_COMPLETE');
         };
 
-        DraftModel.prototype.isLocked = function (){
+        DraftModel.prototype.isLocked = function() {
             return (this.status && this.status === 'DRAFT_LOCKED');
         };
 
-        DraftModel.prototype.isRevoked = function (){
+        DraftModel.prototype.isRevoked = function() {
             return !!this.revokedAt;
         };
 
