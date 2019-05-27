@@ -9,6 +9,7 @@
       <i ng-switch-when="warning" class="material-icons">error_outline</i>
       <i ng-switch-when="danger" class="material-icons">warning</i>
     </div>
-    <span>{{::banner.text}}</span>
+    <span data-ng-bind-html="::banner.text"></span>
+    
   </div>
 </div>
