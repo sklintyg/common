@@ -168,7 +168,6 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.logSrsButtonClicked = function() {
                 debugLog('$scope.logSrsButtonClicked()');
-                // if ($scope.status.open && !$scope.srs.clickedFirstTime) {
                 if (!$scope.srs.clickedFirstTime) {
                     $scope.srs.clickedFirstTime = true;
                     srsProxy.logSrsClicked();
@@ -177,17 +176,12 @@ angular.module('common').directive('wcSrsPanelTab',
 
             $scope.logAtgarderLasMerButtonClicked = function() {
                 debugLog('$scope.logAtgarderLasMerButtonClicked()');
-                srsProxy.log();
-            };
-
-            $scope.logAtgarderRekClicked = function() {
-                debugLog('$scope.logAtgarderRekClicked()');
                 srsProxy.logSrsAtgardClicked();
             };
 
-            $scope.logStatistikClicked = function() {
+            $scope.logStatistikLasMerButtonClicked = function() {
                 debugLog('$scope.logStatistikClicked()');
-                srsProxy.logSrsAtgardClicked();
+                srsProxy.logSrsStatistikClicked();
             };
 
             $scope.setActiveTab = function(tabname) {
@@ -207,9 +201,9 @@ angular.module('common').directive('wcSrsPanelTab',
                     $scope.srs.userHasSrsFeature = checkIfUserHasSrsFeature();
                     debugLog('$scope.srs.userHasSrsFeature', $scope.srs.userHasSrsFeature);
                     // INTYG-4543: Only use srs endpoints if user has srs-feature enabled.
-                    // if ($scope.srs.userHasSrsFeature && $scope.id === '2') {
-                    if ($scope.srs.userHasSrsFeature) { // TODO: why scope id 2? was that used for identifying the "window" as the srs window?
-                        $scope.srs.consentInfo = '';
+                    if ($scope.srs.userHasSrsFeature) {
+                        // TODO: Ta förmodligen bort det här när slutligt beslut om UI för diagnoskod på högre nivå tagits
+                        // $scope.srs.consentInfo = '';
                         $scope.srs.consentError = '';
                         $scope.srs.consent = '';
                         srsProxy.getConsent($scope.srs.personId, $scope.srs.hsaId).then(function(consent) {
@@ -268,7 +262,9 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.diagnosKod = srsViewState.originalDiagnosKod;
                 $scope.srs.diagnosisListFetching.then(function() {
                     $scope.srs.srsApplicable = isSrsApplicable($scope.srs.diagnosKod);
-                    // if ($scope.srs.srsApplicable && $scope.srs.consent === 'JA') { // TODO: Replace this with removing patient data if the consent is removed
+                    // TODO: Check if we remove patient data already otherwise replace this with
+                    //  removing patient data if the consent is removed
+                    // if ($scope.srs.srsApplicable && $scope.srs.consent === 'JA') {
                     if ($scope.srs.srsApplicable) {
                         if (!$scope.srs.shownFirstTime) {
                             srsProxy.logSrsShown();
@@ -281,15 +277,15 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function setConsentMessages() {
                 debugLog('setConsentMessages()');
-                $scope.srs.consentInfo = '';
+                // TODO: Ta förmodligen bort det här när slutligt beslut om UI för diagnoskod på högre nivå tagits
+                // $scope.srs.consentInfo = '';
                 // Assumption: only codes of exactly length 3 will be supported by SRS predictions.
-                if ($scope.srs.diagnosKod !== undefined && $scope.srs.diagnosKod.length > 3) {
-                    $scope.srs.consentInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.diagnosKod.substring(0, 3);
-                }
+                // if ($scope.srs.diagnosKod !== undefined && $scope.srs.diagnosKod.length > 3) {
+                //     $scope.srs.consentInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.diagnosKod.substring(0, 3);
+                // }
                 if ($scope.srs.consent === 'error') {
                     $scope.srs.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycket.';
                 }
-                debugLog('$scope.srs.consent message', $scope.srs.consentInfo, $scope.srs.consentError);
             }
 
             function setAtgarderMessages() {
@@ -309,10 +305,12 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.atgarderInfo = 'Observera! För ' + srsViewState.diagnosKod +
                             ' finns ingen SRS-information för detta fält.';
                     }
-                    else if ($scope.srs.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                        $scope.srs.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.atgarder.atgarderDiagnosisCode +
-                            ' - ' + $scope.srs.atgarder.atgarderDiagnosisDescription;
-                    }
+
+                    // TODO: Ta förmodligen bort det här när slutligt beslut om UI för diagnoskod på högre nivå tagits
+                    // else if ($scope.srs.atgarder.atgarderStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                    //     $scope.srs.atgarderInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.atgarder.atgarderDiagnosisCode +
+                    //         ' - ' + $scope.srs.atgarder.atgarderDiagnosisDescription;
+                    // }
                 }
             }
 
@@ -329,15 +327,15 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
                             ' finns ingen SRS-information för detta fält.';
                     }
-                    // TODO: Titta på use case för statistik saknas, nedan avser att statistikbild saknas men siffror kan finnas
-                    // else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
-                    //     !$scope.srs.statistik.statistikBild) {
-                    //     $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
-                    //         ' finns ingen SRS-information för detta fält.';
-                    // }
-                    else if ($scope.srs.statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
-                        $scope.srs.statistikInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.statistik.statistikDiagnosisCode;
+                    else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
+                        !$scope.srs.statistik.statistikBild) {
+                        $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
+                            ' finns ingen SRS-information för detta fält.';
                     }
+                    // TODO: Ta förmodligen bort det här när slutligt beslut om UI för diagnoskod på högre nivå tagits
+                    // else if ($scope.srs.statistik.statistikStatusCode === 'DIAGNOSKOD_PA_HOGRE_NIVA') {
+                    //     $scope.srs.statistikInfo = 'Det SRS-stöd som visas är för koden ' + $scope.srs.statistik.statistikDiagnosisCode;
+                    // }
                 }
             }
 
@@ -458,7 +456,7 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function resetMessages(){
                 debugLog('resetMessages()');
-                $scope.srs.consentInfo = '';
+                // $scope.srs.consentInfo = '';
                 $scope.srs.consentError = '';
 
                 $scope.srs.atgarderInfo = '';

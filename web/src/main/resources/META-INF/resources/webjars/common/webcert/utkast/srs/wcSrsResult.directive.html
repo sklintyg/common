@@ -1,20 +1,9 @@
 <div id="srsResult{{id}}">
-    <div ng-if="srs.prediktionInfo">
-        <wc-srs-info-box message-string="srs.prediktionInfo"></wc-srs-info-box>
-    </div>
-    <div ng-if="srs.prediktionError">
-        <wc-srs-error-box message-string="srs.prediktionError"></wc-srs-error-box>
-    </div>
-<!--    <wc-alert-message alert-severity="danger" id="predictionBox" ng-if="srs.prediction !== 'error' && srs.prediction.description" class="prediction-box">-->
-<!--                <img ng-src="{{srs.riskImage}}" alt="">-->
-<!--        {{srs.prediction.description}}-->
-<!--        <div-->
-<!--        style="float:right"-->
-<!--        class="glyphicon glyphicon-question-sign"-->
-<!--        uib-popover-template="externalRisk.templateUrl" popover-trigger="outsideClick"-->
-<!--        popover-placement="auto right" popover-append-to-body="false" popover-is-open="srs.status.riskInfoOpen">-->
-<!--      </div>-->
-<!--    </wc-alert-message>-->
+
+<!-- TODO: Tag eventuellt bort när slitligt beslut om UI för diagnoskod på högre nivå tagits -->
+<!--    <div ng-if="srs.prediktionInfo">-->
+<!--        <wc-srs-info-box message-string="srs.prediktionInfo"></wc-srs-info-box>-->
+<!--    </div>-->
 
     <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
         <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Åtgärder</a></li>
@@ -31,7 +20,7 @@
             </div>
 
 <!-- ÅTGÄRDER - OBS -->
-            <div id="atgarderObs">
+            <div id="atgarderObs" class="recommendation-list">
             <h3>Tänk på att</h3>
             <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
                 <div ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderObs">
@@ -43,7 +32,7 @@
                             <wc-srs-recommendation atgard="{{atgard}}" />
                         </div>
                     </div>
-                    <div class="line fullWidth">
+                    <div class="recommendation-line fullWidth">
                         <div class="srs-observe-list-collapser" ng-click="isObserveCollapsed = !isObserveCollapsed">
                             {{isObserveCollapsed ? 'Se fler...':'Se färre...'}}
                             <i class="glyphicon"
@@ -52,7 +41,7 @@
                 </div>
             </div>
 <!-- ÅTGÄRDER - REK -->
-            <div id="atgarderRek">
+            <div id="atgarderRek" class="recommendation-list">
             <h3>Åtgärdsrekommendationer</h3>
             <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
 
@@ -65,13 +54,18 @@
                             <wc-srs-recommendation atgard="{{atgard}}" />
                         </div>
                     </div>
-                    <div class="line fullWidth">
+                    <div class="recommendation-line fullWidth">
                         <div class="srs-recommendation-list-collapser" ng-click="isRecommendationsCollapsed = !isRecommendationsCollapsed">
                             {{isRecommendationsCollapsed ? 'Se fler åtgärder...':'Se färre åtgärder...'}}
                             <i class="glyphicon"
                                ng-class="{'glyphicon-menu-down': isRecommendationsCollapsed, 'glyphicon-menu-up': !isRecommendationsCollapsed}"></i></div>
                     </div>
                 </div>
+            </div>
+            <div style="clear: both"></div>
+            <div class="srs-more-information-section">
+                <h3>Mer information</h3>
+                <a ng-click="redirectToAtgardExternalSite(); logAtgarderLasMerButtonClicked();">Information om {{srs.atgarder.atgarderDiagnosisDescription}} hos Rätt Sjukskrivning</a>
             </div>
 
         </div>
@@ -87,10 +81,11 @@
             <div ng-if="srs.statistikError">
                 <wc-srs-error-box message-string="srs.statistikError"></wc-srs-error-box>
             </div>
-<!--            <img ng-show="srs.statistik.statistikBild" ng-src="{{srs.statistik.statistikBild}}" alt=""/>-->
             <wc-srs-nationell-statistik-diagram />
-            <div class="floatRight">
-                <button type="button" class="btn btn-secondary ng-binding" ng-click="redirectToStatistikExternalSite(); logStatistikClicked();">Läs mer</button>
+
+            <div class="srs-more-information-section">
+                <h3>Mer information</h3>
+                <a ng-click="redirectToStatistikExternalSite(); logStatistikLasMerButtonClicked();">Information om {{srs.diagnosBeskrivning}} hos Rätt Sjukskrivning</a>
             </div>
         </div>
 

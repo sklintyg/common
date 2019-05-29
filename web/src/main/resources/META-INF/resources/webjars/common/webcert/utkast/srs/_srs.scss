@@ -43,15 +43,6 @@ wc-srs-panel-tab {
     width: 100%
   }
 
-  hr.srs-thick-divider {
-    border:1px solid #E8E8E8;
-    background-color: #F1F1F1;
-    height: 13px;
-    width: 120%;
-    position: relative;
-    left: -36px;
-  }
-
   // Internal tab
   ul.nav.nav-tabs > li.rounded > a {
     background-color: #FFFFFF !important; // Need to use important because somebody used important on the wc-common.css
@@ -92,14 +83,6 @@ wc-srs-panel-tab {
     }
   }
 
-  .risk-widget-content > .chart-container {
-    padding-bottom: 20px;
-  }
-
-  .risk-widget-textual > ul > li {
-    padding-bottom: 20px;
-  }
-
   .srs-section {
     padding-bottom: 20px;
     color: $wc-color-07;
@@ -121,45 +104,6 @@ wc-srs-panel-tab {
     .missing-info {
       @extend %wc-typo-12;
     }
-  }
-}
-
-#atgarder {
-
-  .srsRecommendation {
-    margin-left: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: block;
-
-    .collapser {
-      display: block;
-      text-decoration: underline;
-      font-family: Roboto, helvetica, arial, sans-serif;
-      cursor: pointer;
-    }
-
-    .srsRecommendationTitle {
-      display: list-item;
-      list-style-type: disc;
-      list-style-position: outside;
-      padding-bottom: 10px;
-      width: 77%;
-    }
-
-    .srsRecommendationText {
-      color: #777;
-      padding-bottom: 20px;
-    }
-  }
-
-  .srs-recommendation-list-collapser, .srs-observe-list-collapser {
-    text-decoration: underline;
-    font-family: Roboto, helvetica, arial, sans-serif;
-    text-align: center;
-    overflow: auto;
-    cursor: pointer;
-    width: 100%;
   }
 }
 
@@ -253,30 +197,12 @@ wc-srs-panel-tab {
    outline:none;
  }
  
- .floatLeft {
-   float:left;
- }
- 
- .floatRight {
-   float:right;
- }
- 
  .test-box {
   padding: 10px;
   margin: 0 0 1em;
   background: $wc-color-01;
   border-bottom:1px solid $wc-color-22;
 }
-
- .line{
-   float:left;
-   margin-left: 5px;
-   display: block;
- }
-
- .fullWidth {
-   width: 100%;
- }
  
  .title {
    background:$wc-color-04;

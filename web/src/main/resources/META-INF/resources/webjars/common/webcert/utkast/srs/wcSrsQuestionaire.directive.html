@@ -3,7 +3,7 @@
         <div ng-repeat="question in srs.questions">
             <div class="srs-question-element">
                 <div>
-                    {{question.text}}
+                    <b>{{question.text}}</b>
                 </div>
                 <div class="srs-question" ng-repeat="answer in question.answerOptions track by $index" for="{{answer}}">
                     <label class="radio-inline line">

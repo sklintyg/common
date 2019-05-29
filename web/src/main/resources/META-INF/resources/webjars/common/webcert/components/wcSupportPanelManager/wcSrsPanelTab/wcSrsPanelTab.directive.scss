@@ -1,12 +1,50 @@
-.risk-header-line {
-  display: block;
-}
-
 wc-srs-panel-tab {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  /* We need to override the padding of the default webcert scollable panel to be able to have the
+     thick-divider below span the entire width
+     We also override the bottom padding.
+     */
+  wc-support-panel-scrollable-body .tab-content-scrollable-body {
+    padding: 20px 0px 0 0px;
+  }
+
+  /* Reset the default webcert padding on the panel content */
+  .srs-panel-body-content {
+    padding: 0px 20px 0 20px;
+  }
+
+  .line{
+    float:left;
+    margin-left: 5px;
+    display: block;
+  }
+
+  .floatLeft {
+    float:left;
+  }
+
+  .floatRight {
+    float:right;
+  }
+
+  .fullWidth {
+    width: 100%;
+  }
+
+  hr.srs-thick-divider {
+    border-top: 1px;
+    border-bottom: 1px;
+    border-left: 0px;
+    border-right: 0px;
+    border-style: solid;
+    border-color: #E8E8E8;
+    background-color: #F1F1F1;
+    height: 13px;
+  }
 
   .srs-diagnos-row {
     min-width: 1px;
@@ -18,38 +56,59 @@ wc-srs-panel-tab {
       border-bottom: 1px solid $wc-color-15;
     }
 
-    .atgard {
-      color: red;
+  }
+
+  .risk-header-line {
+    display: block;
+  }
+
+
+  #statistik {
+
+  }
+
+  #atgarder {
+
+    .srsRecommendation {
+      margin-left: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      display: block;
+
+      .collapser {
+        display: block;
+        text-decoration: underline;
+        font-family: Roboto, helvetica, arial, sans-serif;
+        cursor: pointer;
+      }
+
+      .recommendation-line {
+        margin-left: 5px;
+        display: block;
+      }
+
+      .srsRecommendationTitle {
+        display: list-item;
+        list-style-type: disc;
+        list-style-position: outside;
+        padding-bottom: 10px;
+        padding-right: 8px;
+        width: 77%;
+      }
+
+      .srsRecommendationText {
+        color: #777;
+        padding-bottom: 20px;
+      }
     }
 
-    .srs-diagnos-description {
-
-      display: inline-block;
-
-      flex: 1 1 auto;
-      min-width: 1px;
-      padding: 0 15px 0 24px;
-      wc-radio-wrapper {
-        padding: 4px 0;
-
-        label {
-          @extend %wc-typo-07;
-          &.active {
-            @extend %wc-typo-08;
-            text-decoration: none !important;
-            span {
-              text-decoration: underline;
-            }
-          }
-          &.disabled {
-            color: $wc-color-22;
-            cursor: not-allowed;
-          }
-          span {
-            display: inline-block;
-          }
-        }
-      }
+    .srs-recommendation-list-collapser, .srs-observe-list-collapser {
+      text-decoration: underline;
+      font-family: Roboto, helvetica, arial, sans-serif;
+      text-align: center;
+      overflow: auto;
+      cursor: pointer;
+      width: 100%;
     }
   }
 
@@ -57,30 +116,9 @@ wc-srs-panel-tab {
     display: block;
   }
 
-  .srs-section {
-    padding-bottom: 20px;
-    color: $wc-color-07;
-    h4 {
-      @extend %wc-typo-05;
-      padding: 8px 0;
-    }
-    div {
-      @extend %wc-typo-07;
-    }
-    section {
-      @extend %wc-typo-07;
-    }
-    .missing-info {
-      @extend %wc-typo-12;
-    }
-  }
-
-  .srs-bullet-list {
-    padding-left: 30px;
-  }
-
   .srs-more-information-section {
     padding: 25px 20px 25px 20px;
+    margin-top: 30px;
     margin-left: -20px;
     margin-right: -20px;
     margin-bottom: -25px;

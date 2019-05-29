@@ -19,18 +19,21 @@
     </div>
 </div>
 <wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
+    <div class="srs-panel-body-content">
+
 <!-- CONSENT ERROR MESSAGE -->
-    <div ng-if="srs.consentError">
-        <wc-srs-error-box message-string="srs.consentError"></wc-srs-error-box>
+        <div ng-if="srs.consentError">
+            <wc-srs-error-box message-string="srs.consentError"></wc-srs-error-box>
+        </div>
     </div>
 
-    <div class="panel-body" ng-show="srs.userHasSrsFeature && srs.srsApplicable">
-<!-- CONSENT INFO MESSAGE: E.G. "Det SRS-stöd som visas är för koden F43" -->
-        <div ng-if="srs.consentInfo">
-            <wc-srs-info-box message-string="srs.consentInfo"></wc-srs-info-box>
-        </div>
+    <div ng-show="srs.userHasSrsFeature && srs.srsApplicable">
+        <div class="srs-panel-body-content">
 
-        <div>
+            <div ng-if="srs.prediktionError">
+                <wc-srs-error-box message-string="srs.prediktionError"></wc-srs-error-box>
+            </div>
+
             <!-- RISK DIAGRAM -->
             <div>
                 <wc-srs-risk-diagram />
@@ -66,8 +69,10 @@
                     <br />
                 </div>
             </div>
+        </div>
+        <hr class="srs-thick-divider"/>
+        <div class="srs-panel-body-content">
 <!-- BERÄKNA RISK: FRÅGOR -->
-            <hr class="srs-thick-divider"/>
 
             <h3 class="floatLeft">Beräkna patientens risk</h3>
             <div class="line">
@@ -80,24 +85,22 @@
             <div id="collapseExample" class="panel-collapse collapse in">
                 <wc-srs-questionaire></wc-srs-questionaire>
             </div>
-            <hr class="srs-thick-divider"/>
+        </div>
+        <hr class="srs-thick-divider"/>
+        <div class="srs-panel-body-content">
             <wc-srs-result></wc-srs-result>
         </div>
     </div>
 
-  <!-- in case none of the diagnoses had any info to show -->
-  <wc-alert-message alert-message-id="{{vm.noDataMessage.info}}" alert-severity="info"
-                    ng-if="vm.noDataMessage.info"></wc-alert-message>
+    <div class="srs-panel-body-content">
+        <div ng-if="srs.diagnosKod && !srs.srsApplicable" class="no-diagnose-entered">
+            SRS är ej tillgängligt för diagnoskod {{srs.diagnosKod}}
+        </div>
 
-  <div ng-if="!srs.diagnosKod || vm.noDataMessage.incorrectKodverk" class="no-diagnose-entered">
-    <div ng-if="!srs.diagnosKod" dynamic-label key="srs.warn.no-diagnosis-set"></div>
-    <div ng-if="vm.noDataMessage.incorrectKodverk"
-         dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"
-         uib-popover="{{'FMB-stöd ska ej hämtas upp.'}}"
-         popover-popup-delay="300" popover-append-to-body="true"
-         popover-placement="top"></div>
-  </div>
-
+        <div ng-if="!srs.diagnosKod" class="no-diagnose-entered">
+            <div dynamic-label key="srs.warn.no-diagnosis-set"></div>
+        </div>
+    </div>
 </wc-support-panel-scrollable-body>
 
 <div class="srs-footer">
