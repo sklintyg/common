@@ -23,8 +23,10 @@ angular.module('common').factory('common.UtkastSignService',
     ['$rootScope', '$document', '$log', '$location', '$stateParams', '$timeout', '$window', '$q',
         'common.UtkastProxy', 'common.dialogService', 'common.messageService', 'common.statService',
         'common.UserModel', '$uibModal', 'common.authorityService', 'common.receiverService',
+        'common.MonitoringLogService',
         function($rootScope, $document, $log, $location, $stateParams, $timeout, $window, $q,
-            UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal, authorityService, receiverService) {
+            UtkastProxy, dialogService, messageService, statService, UserModel, $uibModal,
+            authorityService, receiverService, monitoringService) {
             'use strict';
 
             // Used for updating scope inside bankID modal(s) during signing.
@@ -188,7 +190,7 @@ angular.module('common').factory('common.UtkastSignService',
                     signingWithSITHSInProgress : true
                 };
                 UtkastProxy.startSigningProcess(intygsId, intygsTyp, version, 'NETID_PLUGIN', function(ticket) {
-                    _openNetIdPlugin(ticket.hash, function(signatur, certifikat) {
+                    _openNetIdPlugin(ticket.hash, intygsId, function(signatur, certifikat) {
                         UtkastProxy.signeraUtkastWithSignatur(ticket.id, intygsTyp, signatur, certifikat, function(ticket) {
 
                             if (ticket.status === 'SIGNERAD') {
@@ -289,8 +291,10 @@ angular.module('common').factory('common.UtkastSignService',
 
             }
 
-            function _openNetIdPlugin(hash, onSuccess, onError) {
+            function _openNetIdPlugin(hash, intygsId, onSuccess, onError) {
                 $timeout(function() {
+                    iid_Invoke('Reset'); // jshint ignore:line
+                    iid_SetProperty('Authentication', 'false'); // jshint ignore:line
                     iid_SetProperty('Algorithm', '1.2.840.113549.1.1.11'); // jshint ignore:line
                     iid_SetProperty('Base64', 'true'); // jshint ignore:line
                     iid_SetProperty('Raw', 'true'); // jshint ignore:line
@@ -303,37 +307,22 @@ angular.module('common').factory('common.UtkastSignService',
                         iid_SetProperty('Subjects', 'SERIALNUMBER=' + UserModel.user.hsaId); // jshint ignore:line
                     }
 
-                    var certifikat = _findX509Certificate(
-                        (UserModel.user.authenticationMethod === 'NET_ID' ? UserModel.user.personId :
-                            UserModel.user.hsaId), '64');
-
                     // Call sign
                     var resultCode = iid_Invoke('Sign'); // jshint ignore:line
 
                     if (resultCode === 0) {
                         var signatur = iid_GetProperty('Signature'); // jshint ignore:line
+                        var certifikat = iid_GetProperty('Certificate'); // jshint ignore:line
                         onSuccess(signatur, certifikat); // jshint ignore:line
                     } else {
                         var messageAbort = 'Signeringen avbröts med kod: ' + resultCode + ', msg: ' +
                             iid_GetProperty('Error' + resultCode);                 // jshint ignore:line
                         $log.info(messageAbort);
+                        monitoringService.signingFailed(messageAbort, intygsId);
                         onError({errorCode: 'SIGN_NETID_ERROR'});
                     }
                 });
             }
-
-            // Iterates over certificate slots 0-6, tries to find a signing cert (keyUsage 64) for the specified subject.
-            function _findX509Certificate(subjectIdentifier, keyUsage) {
-                for (var a = 0; a < 6; a++) {
-                    var cert = iid_EnumProperty('CertificateEx', String(a));    // jshint ignore:line
-                    var obj = _parseCertificateExInfo(cert);
-                    if (obj !== null && obj.keyUsage === keyUsage && obj.subject.indexOf('2.5.4.5=' + subjectIdentifier) > -1) {
-                        return obj.value;
-                    }
-                }
-                return null;
-            }
-
 
             function CertificateInfoEx(slotId, realSlotId, keyId, label, issuer, subject, validFrom, validTo, isCA,
                                        credential, thumbprint, authorityIdentifier, keyUsage, expire, value) {
