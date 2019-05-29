@@ -53,14 +53,6 @@
       "sjukskrivningsgrad": "TRE_FJARDEDEL"
     }
   ],
-  "arbetslivsinriktadeAtgarder": [
-    {
-      "typ": "OVRIGA_ATGARDER"
-    },
-    {
-      "typ": "OMFORDELNING"
-    }
-  ],
-  "aktivitetsbegransning": "Kommer inte in i bilen",
+  "arbetslivsinriktadeAtgarder" : [],
   "ovrigt" : "Övriga kommentarer"
 }
