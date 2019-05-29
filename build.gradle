@@ -4,9 +4,8 @@ plugins {
 }
 
 ext {
-    intygClinicalprocessSchematronVersion = "1.0.44"
+    intygClinicalprocessSchematronVersion = "1.0.45"
     intygClinicalprocessSchemasVersion = "1.0.21"
-
     intygTransportstyrelsenSchemasVersion = "1.0.4"
     rivtaClinicalprocessSchemasVersion = "4.0"
     rivtaInsuranceprocessSchemasVersion = "3.1.0.4"

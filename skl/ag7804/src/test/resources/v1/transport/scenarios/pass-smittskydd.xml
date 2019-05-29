@@ -98,31 +98,8 @@
         </ns3:datePeriod>
       </delsvar>
     </svar>
-    <svar id="40">
-      <instans>1</instans>
-      <delsvar id="40.1">
-        <ns3:cv>
-          <ns3:code>OVRIGA_ATGARDER</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
-          <ns3:displayName>Övrigt</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
-    <svar id="40">
-      <instans>2</instans>
-      <delsvar id="40.1">
-        <ns3:cv>
-          <ns3:code>OMFORDELNING</ns3:code>
-          <ns3:codeSystem>KV_FKMU_0004</ns3:codeSystem>
-          <ns3:displayName>Omfördelning av arbetsuppgifter</ns3:displayName>
-        </ns3:cv>
-      </delsvar>
-    </svar>
     <svar id="25">
       <delsvar id="25.1">Övriga kommentarer</delsvar>
-    </svar>
-    <svar id="17">
-      <delsvar id="17.1">Kommer inte in i bilen</delsvar>
     </svar>
   </ns2:intyg>
 </ns2:RegisterCertificate>
