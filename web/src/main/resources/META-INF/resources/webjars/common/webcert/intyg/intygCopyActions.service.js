@@ -133,19 +133,15 @@ angular.module('common').factory('common.IntygCopyActions',
                     _createFornyaDraft(intygFornyaRequest, function(draftResponse) {
                         IntygHelper.goToDraft(draftResponse.intygsTyp, draftResponse.intygTypeVersion, draftResponse.intygsUtkastId);
                     }, function(errorCode) {
-                        //The copy actions service is used both in an viewIntyg context as well as in patient list view.
-                        //The viewStates they provide to this service are actually 2 different structures. We really should look at refactoring this..
-                        var _viewState = viewState.common ? viewState.common : viewState;
-
+                        var errorMessageKey = 'error.failedtofornyaintyg';
                         if (errorCode === 'DATA_NOT_FOUND') {
-                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
+                            errorMessageKey = 'error.failedtofornyaintyg.personidnotfound';
                         } else if (errorCode === 'INVALID_STATE_REPLACED') {
-                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg.replaced';
+                            errorMessageKey = 'error.failedtofornyaintyg.replaced';
                         } else if (errorCode === 'PU_PROBLEM') {
-                            _viewState.inlineErrorMessageKey = 'error.pu_problem';
-                        } else {
-                            _viewState.inlineErrorMessageKey = 'error.failedtofornyaintyg';
+                            errorMessageKey = 'error.pu_problem';
                         }
+                        dialogService.showErrorMessageDialog(messageService.getProperty(errorMessageKey));
                     });
                 } else {
 
