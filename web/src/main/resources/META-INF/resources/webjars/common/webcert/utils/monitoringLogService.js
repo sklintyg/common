@@ -55,9 +55,22 @@ angular.module('common').factory('common.MonitoringLogService',
             }
         }
 
+        function _signingFailed(errorMessage, intygsId) {
+            if (isDefined(errorMessage) && isDefined(intygsId)) {
+                post({
+                    'event': 'SIGNING_FAILED',
+                    'info': {
+                        'errorMessage': errorMessage,
+                        'intygId': intygsId
+                    }
+                });
+            }
+        }
+
         return {
             diagnoskodverkChanged: _diagnoskodverkChanged,
-            screenResolution: _screenResolution
+            screenResolution: _screenResolution,
+            signingFailed: _signingFailed
         };
 
     }]);
