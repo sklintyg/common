@@ -92,11 +92,10 @@ angular.module('fk7263').config(function($stateProvider) {
                 }
             }
         }).state('fk7263-readonly', {
+        data: { intygType: 'fk7263' },
         url: '/intyg-read-only/fk7263/:intygTypeVersion/:certificateId',
         resolve: {
-            intygsType: function() {
-                return 'fk7263';
-            },
+            ViewState: 'fk7263.IntygController.ViewStateService',
             ViewConfigFactory: 'fk7263.viewConfigFactory',
             DiagnosExtractor: function() {
                 return function (fk7263Model) {
