@@ -92,7 +92,6 @@ public class TransportConverterUtilTest {
     }
 
     JAXBContext jaxbContext;
-
     {
         try {
             jaxbContext = JAXBContext.newInstance(XmlRoot.class, PQType.class, CVType.class, DatePeriodType.class,
@@ -217,7 +216,7 @@ public class TransportConverterUtilTest {
         expected.setCodeSystemName("codeSystemName");
         expected.setDisplayName("displayName");
         expected.setOriginalText("originalText");
-        CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -225,7 +224,7 @@ public class TransportConverterUtilTest {
     public void testCVTypeContentMissingCodeSystem() throws Exception {
         CVType cvType = new CVType();
         cvType.setCode("code");
-        TransportConverterUtil.getCVSvarContent(buildDelsvar(marshal(XmlRoot.of(cvType))));
+        TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType)));
     }
 
     @Test
@@ -233,7 +232,7 @@ public class TransportConverterUtilTest {
         PQType expected = new PQType();
         expected.setUnit("cm");
         expected.setValue(100);
-        PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -242,7 +241,7 @@ public class TransportConverterUtilTest {
         DatePeriodType expected = new DatePeriodType();
         expected.setStart(LocalDate.now());
         expected.setEnd(LocalDate.now().plusDays(2));
-        DatePeriodType actual = TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        DatePeriodType actual = TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -251,7 +250,7 @@ public class TransportConverterUtilTest {
         PartialDateType expected = new PartialDateType();
         expected.setValue(Year.parse("2019"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -260,7 +259,7 @@ public class TransportConverterUtilTest {
         PartialDateType expected = new PartialDateType();
         expected.setValue(YearMonth.parse("2019-01"));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -269,7 +268,7 @@ public class TransportConverterUtilTest {
         PartialDateType expected = new PartialDateType();
         expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
         expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
-        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(marshal(XmlRoot.of(expected))));
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
         assertReflectionEquals(expected, actual);
     }
 
@@ -277,7 +276,7 @@ public class TransportConverterUtilTest {
     public void testPartialDateMissingFormat() throws Exception {
         PartialDateType type = new PartialDateType();
         type.setValue(YearMonth.parse("2019-01"));
-        TransportConverterUtil.getPartialDateContent(buildDelsvar(marshal(XmlRoot.of(type))));
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type)));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -285,7 +284,7 @@ public class TransportConverterUtilTest {
         PartialDateType type = new PartialDateType();
         type.setValue(Year.parse("2019"));
         type.setFormat(PartialDateTypeFormatEnum.YYYY);
-        Node pd = marshal(XmlRoot.of(type));
+        Node pd = toNode(type);
         for (Node n = pd.getFirstChild(); n != null; n = n.getNextSibling()) {
             n.setTextContent("XXX");
         }
@@ -402,9 +401,9 @@ public class TransportConverterUtilTest {
     }
 
     // returns data node
-    Node marshal(XmlRoot xmlRoot) throws JAXBException {
+    Node toNode(Object bean) throws JAXBException {
         DOMResult res = new DOMResult();
-        jaxbContext.createMarshaller().marshal(xmlRoot, res);
+        jaxbContext.createMarshaller().marshal(XmlRoot.of(bean), res);
         return res.getNode().getFirstChild().getFirstChild();
     }
 
@@ -437,7 +436,7 @@ public class TransportConverterUtilTest {
     private Delsvar buildCVTypeDelsvar(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
             String originalText) throws Exception {
         CVType cvType = buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
-        return buildDelsvar(marshal(XmlRoot.of(cvType)));
+        return buildDelsvar(toNode((cvType)));
     }
 
 }
