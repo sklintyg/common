@@ -18,27 +18,26 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
+import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.time.Year;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
+import java.util.function.Consumer;
+import java.util.function.Function;
 import javax.xml.bind.JAXBElement;
-
+import javax.xml.ws.Holder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3._2000._09.xmldsig_.ObjectFactory;
 import org.w3._2000._09.xmldsig_.SignatureType;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -67,12 +66,16 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
  */
 public final class TransportConverterUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransportConverterUtil.class);
+
 
     private TransportConverterUtil() {
     }
@@ -116,51 +119,38 @@ public final class TransportConverterUtil {
      *             if the conversion was not successful
      */
     public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
-        for (Object o : delsvar.getContent()) {
-            if (o instanceof Node) {
-                CVType cvType = new CVType();
-                Node node = (Node) o;
-                NodeList list = node.getChildNodes();
-                for (int i = 0; i < list.getLength(); i++) {
-                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
-                        continue;
-                    }
-                    String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getLocalName()) {
+        return parseDelsvarType(delsvar, cvNode -> {
+            final CVType cvType = new CVType();
+            childElements(cvNode, child -> {
+                switch (child.getLocalName()) {
                     case "code":
-                        cvType.setCode(textContent);
+                        cvType.setCode(child.getTextContent());
                         break;
                     case "codeSystem":
-                        cvType.setCodeSystem(textContent);
+                        cvType.setCodeSystem(child.getTextContent());
                         break;
                     case "codeSystemVersion":
-                        cvType.setCodeSystemVersion(textContent);
+                        cvType.setCodeSystemVersion(child.getTextContent());
                         break;
                     case "codeSystemName":
-                        cvType.setCodeSystemName(textContent);
+                        cvType.setCodeSystemName(child.getTextContent());
                         break;
                     case "displayName":
-                        cvType.setDisplayName(textContent);
+                        cvType.setDisplayName(child.getTextContent());
                         break;
                     case "originalText":
-                        cvType.setOriginalText(textContent);
+                        cvType.setOriginalText(child.getTextContent());
                         break;
                     default:
-                        LOG.debug("Unexpected element found while parsing CVType: " + list.item(i).getNodeName());
+                        LOG.debug("Unexpected element found while parsing CVType: " + child.getLocalName());
                         break;
-                    }
                 }
-                if (cvType.getCode() == null || cvType.getCodeSystem() == null) {
-                    throw new ConverterException("Error while converting CVType, missing mandatory field");
-                }
-                return cvType;
-            } else if (o instanceof JAXBElement) {
-                @SuppressWarnings("unchecked")
-                JAXBElement<CVType> jaxbCvType = (JAXBElement<CVType>) o;
-                return jaxbCvType.getValue();
+            });
+            if (Objects.isNull(cvType.getCode()) || Objects.isNull(cvType.getCodeSystem())) {
+                return null;
             }
-        }
-        throw new ConverterException("Unexpected outcome while converting CVType");
+            return cvType;
+        });
     }
 
     /**
@@ -173,43 +163,26 @@ public final class TransportConverterUtil {
      *             if the conversion was not successful
      */
     public static PQType getPQSvarContent(Delsvar delsvar) throws ConverterException {
-        for (Object o : delsvar.getContent()) {
-            if (o instanceof Node) {
-                PQType pqType = new PQType();
-                Double value = null;
-                String unit = null;
-                Node node = (Node) o;
-                NodeList list = node.getChildNodes();
-                for (int i = 0; i < list.getLength(); i++) {
-                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
-                        continue;
-                    }
-                    String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getLocalName()) {
+        return parseDelsvarType(delsvar, pqNode -> {
+            final PQType pqType = new PQType();
+            childElements(pqNode, child -> {
+                switch (child.getLocalName()) {
                     case "value":
-                        value = Double.parseDouble(textContent);
+                        pqType.setValue(Double.parseDouble(child.getTextContent()));
                         break;
                     case "unit":
-                        unit = textContent;
+                        pqType.setUnit(child.getTextContent());
                         break;
                     default:
-                        LOG.debug("Unexpected element found while parsing PQType: " + list.item(i).getNodeName());
+                        LOG.debug("Unexpected element found while parsing PQType: " + child.getLocalName());
                         break;
-                    }
                 }
-                if (value == null || unit == null) {
-                    throw new ConverterException("Error while converting PQType, missing mandatory field");
-                }
-                pqType.setValue(value);
-                pqType.setUnit(unit);
-                return pqType;
-            } else if (o instanceof JAXBElement) {
-                @SuppressWarnings("unchecked")
-                JAXBElement<PQType> jaxbPQType = (JAXBElement<PQType>) o;
-                return jaxbPQType.getValue();
+            });
+            if (Objects.isNull(pqType.getUnit()) || Objects.isNull(pqType.getValue())) {
+                return null;
             }
-        }
-        throw new ConverterException("Unexpected outcome while converting PQType");
+            return  pqType;
+        });
     }
 
     /**
@@ -221,39 +194,26 @@ public final class TransportConverterUtil {
      *             if the conversion was not successful
      */
     public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
-        for (Object o : delsvar.getContent()) {
-            if (o instanceof Node) {
-                DatePeriodType datePeriodType = new DatePeriodType();
-                Node node = (Node) o;
-                NodeList list = node.getChildNodes();
-                for (int i = 0; i < list.getLength(); i++) {
-                    if (Node.ELEMENT_NODE != list.item(i).getNodeType()) {
-                        continue;
-                    }
-                    String textContent = list.item(i).getTextContent();
-                    switch (list.item(i).getLocalName()) {
+        return parseDelsvarType(delsvar, dpNode -> {
+            final DatePeriodType datePeriodType = new DatePeriodType();
+            childElements(dpNode, child -> {
+                switch (child.getLocalName()) {
                     case "start":
-                        datePeriodType.setStart(LocalDate.parse(textContent));
+                        datePeriodType.setStart(LocalDate.parse(child.getTextContent()));
                         break;
                     case "end":
-                        datePeriodType.setEnd(LocalDate.parse(textContent));
+                        datePeriodType.setEnd(LocalDate.parse(child.getTextContent()));
                         break;
                     default:
-                        LOG.debug("Unexpected element found while parsing DatePeriodType");
+                        LOG.debug("Unexpected element found while parsing DatePeriodType: " + child.getLocalName());
                         break;
-                    }
                 }
-                if (datePeriodType.getStart() == null || datePeriodType.getEnd() == null) {
-                    throw new ConverterException("Error while converting DatePeriodType, missing mandatory field");
-                }
-                return datePeriodType;
-            } else if (o instanceof JAXBElement) {
-                @SuppressWarnings("unchecked")
-                JAXBElement<DatePeriodType> jaxbCvType = (JAXBElement<DatePeriodType>) o;
-                return jaxbCvType.getValue();
+            });
+            if (Objects.isNull(datePeriodType.getStart()) || Objects.isNull(datePeriodType.getEnd())) {
+                return null;
             }
-        }
-        throw new ConverterException("Unexpected outcome while converting DatePeriodType");
+            return datePeriodType;
+        });
     }
 
     /**
@@ -265,47 +225,38 @@ public final class TransportConverterUtil {
      *             if the conversion was not successful
      */
     public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
-        for (Object o : delsvar.getContent()) {
-            if (o instanceof Node) {
-                PartialDateType partialDateType = new PartialDateType();
-                Node node = (Node) o;
-                NodeList list = node.getChildNodes();
-                String partialDateValue = null;
-                for (int i = 0; i < list.getLength(); i++) {
-                    String textContent = list.item(i).getTextContent();
-                    if (list.item(i).getLocalName() != null) {
-                        switch (list.item(i).getLocalName()) {
-                        case "format":
-                            partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(textContent));
-                            break;
-                        case "value":
-                            partialDateValue = textContent;
-                            break;
-                        }
-                    }
+        return parseDelsvarType(delsvar, pdNode -> {
+            final PartialDateType partialDateType = new PartialDateType();
+            final Holder<String> vh = new Holder<>();
+            childElements(pdNode, child -> {
+                switch (child.getLocalName()) {
+                    case "format":
+                        partialDateType.setFormat(PartialDateTypeFormatEnum.fromValue(child.getTextContent()));
+                        break;
+                    case "value":
+                        vh.value = child.getTextContent();
+                        break;
+                    default:
+                        LOG.debug("Unexpected element found while parsing PartialDateType: " + child.getLocalName());
+                        break;
                 }
-                switch (partialDateType.getFormat()) {
+            });
+            if (Objects.isNull(partialDateType.getFormat()) || Objects.isNull(vh.value)) {
+                return null;
+            }
+            switch (partialDateType.getFormat()) {
                 case YYYY:
-                    if (partialDateValue != null) {
-                        partialDateType.setValue(Year.of(Integer.parseInt(partialDateValue)));
-                    }
+                    partialDateType.setValue(Year.parse(vh.value));
+                    break;
+                case YYYY_MM:
+                    partialDateType.setValue(YearMonth.parse(vh.value));
                     break;
                 case YYYY_MM_DD:
-                    if (partialDateValue != null) {
-                        partialDateType.setValue(LocalDate.parse(partialDateValue));
-                    }
+                    partialDateType.setValue(LocalDate.parse(vh.value, DateTimeFormatter.ISO_LOCAL_DATE));
                     break;
-                default:
-                    throw new ConverterException("Unexpected format while converting PartialDateType");
-                }
-                return partialDateType;
             }
-            if (o instanceof JAXBElement) {
-                JAXBElement<PartialDateType> jaxbType = (JAXBElement<PartialDateType>) o;
-                return jaxbType.getValue();
-            }
-        }
-        throw new ConverterException("Unexpected outcome while converting PartialDateType");
+            return partialDateType;
+        });
     }
 
     /**
@@ -349,6 +300,37 @@ public final class TransportConverterUtil {
         metaData.setAvailable(isAvailable(metaData.getStatus()));
         metaData.setAdditionalInfo(additionalInfo);
         return metaData;
+    }
+
+    //
+    static <T> T parseDelsvarType(final Delsvar delsvar, final Function<Node, T> parser) throws ConverterException {
+        for (Object o : delsvar.getContent()) {
+            if (o instanceof Node) {
+                T value = parser.apply((Node) o);
+                if (Objects.isNull(value)) {
+                    break;
+                } else {
+                    return value;
+                }
+            } else if (o instanceof JAXBElement) {
+                return ((JAXBElement<T>) o).getValue();
+            }
+        }
+        throw new ConverterException("Unexpected error while converting data type, mandatory data is missing");
+   }
+
+    /**
+     * Visit all child elements of parent node.
+     *
+     * @param parentNode the parent node.
+     * @param consumer the consumer of child element nodes.
+     */
+    static void childElements(Node parentNode, Consumer<Node> consumer) {
+        for (Node n = parentNode.getFirstChild(); n != null; n = n.getNextSibling()) {
+            if (n.getNodeType() == Node.ELEMENT_NODE) {
+                consumer.accept(n);
+            }
+        }
     }
 
     private static boolean isAvailable(List<Status> statuses) {
