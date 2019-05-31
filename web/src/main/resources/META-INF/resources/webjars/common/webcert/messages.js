@@ -808,6 +808,8 @@
             'common.supportpanel.help.title.minimized': 'Om intyget',
             'common.supportpanel.help.tooltip.minimized': 'Öppnar fliken med information om intyget.',
             'common.supportpanel.minimize.tooltip': 'Döljer högerfätet',
+            'common.supportpanel.ro-kompletteringar.title': 'Obesvarade kompletteringar',
+            'common.supportpanel.ro-kompletteringar.tooltip': 'Visar obesvarade kompletteringar för intyget.',
 
             // Approve receivers related resources
             'common.receivers.save.btn': 'Spara',

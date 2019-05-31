@@ -34,8 +34,10 @@ describe('Directive: wcSrsDiagnoseInfo', function() {
     }));
 
     function arrangeMocks(diagnose, response, responsecode) {
-        $scope.code = diagnose;
-        element = $compile(angular.element('<wc-srs-diagnose-info diagnose-code="code"/>'))($scope);
+        $scope.config = {
+            diagnoseCode: diagnose
+        };
+        element = $compile(angular.element('<wc-srs-diagnose-info config="config"/>'))($scope);
 
         $httpBackend.expectGET('/api/srs/atgarder/' + diagnose).respond(responsecode || 200, response);
 

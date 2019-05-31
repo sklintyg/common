@@ -54,6 +54,7 @@ angular.module('common').controller(
 
                     // Construct panel config
                     var panelConfig = {
+                        disableMinimizeMode: true,
                         tabs: [],
                         intygContext: {
                             type: ViewState.common.intygProperties.type,
@@ -64,8 +65,8 @@ angular.module('common').controller(
                     //Kompletteringpanel is always enabled
                     panelConfig.tabs.push({
                         id: 'wc-komplettering-read-only-panel-tab',
-                        title: 'common.supportpanel.arende.title',
-                        tooltip: 'common.supportpanel.arende.tooltip',
+                        title: 'common.supportpanel.ro-kompletteringar.title',
+                        tooltip: 'common.supportpanel.ro-kompletteringar.tooltip',
                         config: {
                             intygContext: panelConfig.intygContext
                         },
@@ -77,7 +78,6 @@ angular.module('common').controller(
                         panelConfig.tabs.push({
                             id: 'wc-srs-diagnose-info',
                             title: 'common.supportpanel.srs.title',
-                            icon: 'lightbulb_outline',
                             tooltip: 'common.supportpanel.srs.tooltip',
                             config: {
                                 diagnoseCode: DiagnosExtractor.call(null, ViewState.cert)

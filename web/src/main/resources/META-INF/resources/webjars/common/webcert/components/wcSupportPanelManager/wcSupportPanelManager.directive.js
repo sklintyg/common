@@ -30,7 +30,12 @@ angular.module('common').directive('wcSupportPanelManager', ['$rootScope', 'comm
             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSupportPanelManager.directive.html',
             link: function($scope, element) {
 
-                $scope.minimized = UserModel.getAnvandarPreference('wc.sidebarMinimized') === 'true';
+                if ($scope.config.disableMinimizeMode) {
+                    $scope.minimized = false;
+                } else {
+                    $scope.minimized = UserModel.getAnvandarPreference('wc.sidebarMinimized') === 'true';
+                }
+
                 if($scope.minimized) {
                     element.addClass('minimized');
                 }

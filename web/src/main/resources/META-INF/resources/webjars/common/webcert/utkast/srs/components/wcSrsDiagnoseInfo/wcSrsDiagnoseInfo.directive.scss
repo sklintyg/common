@@ -1,6 +1,7 @@
 wc-srs-diagnose-info {
   display: block;
   padding-left: 10px;
+  overflow: auto;
 
   h1, h2 {
     color: $wc-color-16;

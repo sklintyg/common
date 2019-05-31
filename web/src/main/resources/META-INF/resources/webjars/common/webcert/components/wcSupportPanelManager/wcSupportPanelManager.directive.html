@@ -12,7 +12,7 @@
     </li>
   </ul>
 
-  <ul class="minimized-support-tabs" id="minimized-support-tabs">
+  <ul class="minimized-support-tabs" id="minimized-support-tabs" ng-if="!config.disableMinimizeMode">
     <li ng-repeat="tab in config.tabs" role="presentation" ng-class="{'active': tab.active}">
       <a href ng-click="onSelectMinimized(tab, $event)"
          ng-attr-id="{{::'tab-minimized-link-' + tab.id}}"
@@ -27,7 +27,7 @@
   </ul>
 
   <div class="tab-content-wrapper">
-    <div class="sidebar-minimize">
+    <div class="sidebar-minimize" ng-if="!config.disableMinimizeMode">
       <a href id="sidebar-minimize"
          ng-click="setMinimized(true)"
          uib-popover="{{::getText('common.supportpanel.minimize.tooltip')}}"
@@ -36,7 +36,7 @@
         <i class="icon-wc-ikon-49 icon-wc-24"></i>
       </a>
     </div>
-    <div class="tab-content-container" ng-repeat="tab in config.tabs" ng-show="tab.active">
+    <div class="tab-content-container ng-hide" ng-repeat="tab in config.tabs" ng-show="tab.active">
       <wc-support-panel-component-renderer component-name="{{tab.id}}" config="tab.config"></wc-support-panel-component-renderer>
     </div>
   </div>

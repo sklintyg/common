@@ -1,8 +1,8 @@
 <wc-spinner label="srs.srsfordiagnose.load.message" show-spinner="!viewState.doneLoading">
 
-  <h1>Stöd för bedömning vid sjukskrivning</h1>
 
 
+  <wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
   <!-- if mainMessageKey is set, we have a message to show why there is no content, eg. error or no srs info at all. -->
   <div ng-if="!viewState.mainMessageKey">
 
@@ -49,5 +49,5 @@
   <div ng-if="viewState.mainMessageKey" class="alert alert-{{viewState.mainMessageKey.type}}">
     <span dynamic-label key="{{viewState.mainMessageKey.key}}"></span>
   </div>
-
+  </wc-support-panel-scrollable-body>
 </wc-spinner>

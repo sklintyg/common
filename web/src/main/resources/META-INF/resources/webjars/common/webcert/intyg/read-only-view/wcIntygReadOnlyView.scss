@@ -1,19 +1,22 @@
 //Flex container for left (intyg) and right (supportpanel)
-//The flex-children takes a 3:2 flex grow ratio
+$left-side-width: $wc-max-content-width * 0.6;
+$right-side-width: $wc-max-content-width * 0.4;
 .ro-webcert-workarea-hflex-container {
   position: relative;
   display: flex;
   flex: auto;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
   min-width: 1%;
-  max-width: 1400px;
+  max-width: $wc-max-content-width; // total content width max
+  align-self: center;
+  width: 100%;
 
 
   //The intyg container
   .wc-intyg-read-only {
-    flex: 3 1 800px;
+    flex: 3 1 $left-side-width;
     min-width: 1%;
-    width: 870px;
+    width: $left-side-width;
     padding: 20px 15px 0 15px;
     overflow-y: auto;
 
@@ -25,9 +28,9 @@
     .bottom-fadeout-gradient-main {
       @extend %bottom-gradient;
       left: auto;
-      width: 870px;
+      width: $left-side-width;
       padding: 0;
-      z-index: 4;
+      z-index: 0;
     }
 
     //Here we can override default webcert styles for uv framework components e.g:
@@ -36,7 +39,7 @@
   }
 
   .ro-webcert-workarea-supportpanel {
-    flex: 2 1 500px;
+    flex: 2 1 $right-side-width;
     min-width: 1%;
 
     wc-support-panel-manager {
@@ -48,6 +51,10 @@
 
       .inside-wrapper {
         padding: 4px 0 0 0;
+      }
+
+      .sidebar-minimize {
+        display: none;
       }
     }
   }
