@@ -18,24 +18,23 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.parsers.ParserConfigurationException;
-
+import javax.xml.transform.dom.DOMResult;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -44,9 +43,13 @@ import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.ArbetsplatsKod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Befattning;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.HsaId;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.IntygId;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Specialistkompetens;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
@@ -57,16 +60,46 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
 
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
+
 public class TransportConverterUtilTest {
 
     /* Exception messages */
-    private static final String ERROR_WHILE_CONVERTING_CV_TYPE_MISSING_MANDATORY_FIELD = "Error while converting CVType, missing mandatory field";
-    private static final String UNEXPECTED_OUTCOME_WHILE_CONVERTING_CV_TYPE = "Unexpected outcome while converting CVType";
-
-    private static final String NAMESPACE = "urn:riv:clinicalprocess:healthcond:certificate:types:2";
+    private static final String UNEXPECTED_CONVERSION_ERROR = "Unexpected error while converting data type, mandatory data is missing";
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
+
+    @XmlRootElement(namespace = "urn:riv:clinicalprocess:healthcond:certificate:types:3")
+    public static class XmlRoot<T> {
+        @XmlElement
+        private T data;
+
+        public T getData() {
+            return data;
+        }
+
+        static <T> XmlRoot<T> of(T data) {
+            XmlRoot r = new XmlRoot();
+            r.data = data;
+            return r;
+        }
+    }
+
+    JAXBContext jaxbContext;
+    {
+        try {
+            jaxbContext = JAXBContext.newInstance(XmlRoot.class, PQType.class, CVType.class, DatePeriodType.class,
+                        PartialDateType.class);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testGetMetaData() {
@@ -176,9 +209,93 @@ public class TransportConverterUtilTest {
     }
 
     @Test
+    public void testCVTypeContentSuccess() throws Exception {
+        CVType expected = new CVType();
+        expected.setCode("code");
+        expected.setCodeSystem("codeSystem");
+        expected.setCodeSystemName("codeSystemName");
+        expected.setDisplayName("displayName");
+        expected.setOriginalText("originalText");
+        CVType actual = TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test(expected = ConverterException.class)
+    public void testCVTypeContentMissingCodeSystem() throws Exception {
+        CVType cvType = new CVType();
+        cvType.setCode("code");
+        TransportConverterUtil.getCVSvarContent(buildDelsvar(toNode(cvType)));
+    }
+
+    @Test
+    public void testPQTypeContentSuccess() throws Exception {
+        PQType expected = new PQType();
+        expected.setUnit("cm");
+        expected.setValue(100);
+        PQType actual = TransportConverterUtil.getPQSvarContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test
+    public void testDatePeriodSuccess() throws Exception {
+        DatePeriodType expected = new DatePeriodType();
+        expected.setStart(LocalDate.now());
+        expected.setEnd(LocalDate.now().plusDays(2));
+        DatePeriodType actual = TransportConverterUtil.getDatePeriodTypeContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test
+    public void testPartialDateYearSuccess() throws Exception {
+        PartialDateType expected = new PartialDateType();
+        expected.setValue(Year.parse("2019"));
+        expected.setFormat(PartialDateTypeFormatEnum.YYYY);
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test
+    public void testPartialDateYearMonthSuccess() throws Exception {
+        PartialDateType expected = new PartialDateType();
+        expected.setValue(YearMonth.parse("2019-01"));
+        expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM);
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test
+    public void testPartialDateFullSuccess() throws Exception {
+        PartialDateType expected = new PartialDateType();
+        expected.setValue(LocalDate.parse("2019-02-02", DateTimeFormatter.ISO_LOCAL_DATE));
+        expected.setFormat(PartialDateTypeFormatEnum.YYYY_MM_DD);
+        PartialDateType actual = TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(expected)));
+        assertReflectionEquals(expected, actual);
+    }
+
+    @Test(expected = ConverterException.class)
+    public void testPartialDateMissingFormat() throws Exception {
+        PartialDateType type = new PartialDateType();
+        type.setValue(YearMonth.parse("2019-01"));
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(toNode(type)));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPartialDateInvalidData() throws Exception {
+        PartialDateType type = new PartialDateType();
+        type.setValue(Year.parse("2019"));
+        type.setFormat(PartialDateTypeFormatEnum.YYYY);
+        Node pd = toNode(type);
+        for (Node n = pd.getFirstChild(); n != null; n = n.getNextSibling()) {
+            n.setTextContent("XXX");
+        }
+        TransportConverterUtil.getPartialDateContent(buildDelsvar(pd));
+    }
+
+
+    @Test
     public void testGetStringContentWithWhitespaceSuccess() throws ParserConfigurationException {
         String expected = "String with freetext";
-        Delsvar delsvar = buildStringDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
+        Delsvar delsvar = buildDelsvar(Arrays.asList("\n", "    ", expected, "\n", "    "));
         String actual = TransportConverterUtil.getStringContent(delsvar);
         assertEquals(expected, actual);
     }
@@ -218,7 +335,7 @@ public class TransportConverterUtilTest {
     @Test
     public void shouldThrowConverterExceptionWithMissingMandatoryFieldMessage() throws Exception {
         expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(ERROR_WHILE_CONVERTING_CV_TYPE_MISSING_MANDATORY_FIELD);
+        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = buildCVTypeDelsvar(null, "ANOTHER", null, null, null, null);
         TransportConverterUtil.getCVSvarContent(delsvar);
     }
@@ -226,7 +343,7 @@ public class TransportConverterUtilTest {
     @Test
     public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage() throws Exception {
         expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(UNEXPECTED_OUTCOME_WHILE_CONVERTING_CV_TYPE);
+        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(new Integer(1));
         TransportConverterUtil.getCVSvarContent(delsvar);
@@ -235,7 +352,7 @@ public class TransportConverterUtilTest {
     @Test
     public void shouldThrowConverterExceptionWithUnexpectedOutComeMessage2() throws Exception {
         expectedException.expect(ConverterException.class);
-        expectedException.expectMessage(UNEXPECTED_OUTCOME_WHILE_CONVERTING_CV_TYPE);
+        expectedException.expectMessage(UNEXPECTED_CONVERSION_ERROR);
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().add(null);
         TransportConverterUtil.getCVSvarContent(delsvar);
@@ -283,10 +400,21 @@ public class TransportConverterUtilTest {
         assertEquals(befattningKod, skapadAv.getBefattningar().get(0));
     }
 
-    private Delsvar buildStringDelsvar(List<String> content) {
+    // returns data node
+    Node toNode(Object bean) throws JAXBException {
+        DOMResult res = new DOMResult();
+        jaxbContext.createMarshaller().marshal(XmlRoot.of(bean), res);
+        return res.getNode().getFirstChild().getFirstChild();
+    }
+
+    private Delsvar buildDelsvar(List<Object> content) {
         Delsvar delsvar = new Delsvar();
         delsvar.getContent().addAll(content);
         return delsvar;
+    }
+
+    private Delsvar buildDelsvar(Object content) {
+        return buildDelsvar(Arrays.asList(content));
     }
 
     private CVType buildCVType(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
@@ -307,50 +435,8 @@ public class TransportConverterUtilTest {
 
     private Delsvar buildCVTypeDelsvar(String code, String codeSystem, String codeSystemName, String codeSystemVersion, String displayName,
             String originalText) throws Exception {
-        Delsvar delsvar = new Delsvar();
-
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        Document xmlDoc = factory.newDocumentBuilder().newDocument();
-
-        Node cv = null;
-        cv = xmlDoc.createElementNS(NAMESPACE, "ns3:cv");
-
-        if (code != null) {
-            Node nodeCode = xmlDoc.createElementNS(NAMESPACE, "ns3:code");
-            nodeCode.setTextContent(code);
-            cv.appendChild(nodeCode);
-        }
-        if (codeSystem != null) {
-            Node nodeCodeSystem = xmlDoc.createElementNS(NAMESPACE, "ns3:codeSystem");
-            nodeCodeSystem.setTextContent(codeSystem);
-            cv.appendChild(nodeCodeSystem);
-        }
-
-        if (codeSystemName != null) {
-            Node nodeCodeSystemName = xmlDoc.createElementNS(NAMESPACE, "ns3:codeSystemName");
-            nodeCodeSystemName.setTextContent(codeSystemName);
-            cv.appendChild(nodeCodeSystemName);
-        }
-        if (codeSystemVersion != null) {
-            Node nodeCodeSystemVersion = xmlDoc.createElementNS(NAMESPACE, "ns3:codeSystemVersion");
-            nodeCodeSystemVersion.setTextContent(codeSystemVersion);
-            cv.appendChild(nodeCodeSystemVersion );
-        }
-        if (displayName != null) {
-            Node nodeDisplayName = xmlDoc.createElementNS(NAMESPACE, "ns3:displayName");
-            nodeDisplayName.setTextContent(displayName);
-            cv.appendChild(nodeDisplayName);
-        }
-        if (originalText != null) {
-            Node nodeOriginalText = xmlDoc.createElementNS(NAMESPACE, "ns3:originalText");
-            nodeOriginalText.setTextContent(originalText);
-            cv.appendChild(nodeOriginalText);
-        }
-
-
-        delsvar.getContent().add(cv);
-
-        return delsvar;
+        CVType cvType = buildCVType(code, codeSystem, codeSystemName, codeSystemVersion, displayName, originalText);
+        return buildDelsvar(toNode((cvType)));
     }
 
 }

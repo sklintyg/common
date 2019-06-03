@@ -392,6 +392,8 @@ describe('UtkastSignService', function () {
 
             UtkastSignService.signera('fk7263', version);
             $httpBackend.flush();
+            $httpBackend.expectPOST('/api/jslog/monitoring').respond(200, {});
+
             $timeout.flush();
 
             expect(dialogService.showErrorMessageDialog).toHaveBeenCalled();
