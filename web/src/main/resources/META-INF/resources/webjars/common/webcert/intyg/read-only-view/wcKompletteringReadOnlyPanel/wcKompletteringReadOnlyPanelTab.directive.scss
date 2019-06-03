@@ -1,0 +1,62 @@
+wc-komplettering-read-only-panel-tab {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  /* Forcing spinner to use flex just in this tab */
+  wc-spinner, wc-spinner > div, wc-spinner > div > div:not(.wc-spinner), wc-spinner > div > div > div {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+  }
+
+  wc-support-panel-scrollable-body .tab-content-scrollable-body {
+    padding: 0;
+
+    wc-error {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+
+    .card {
+      padding: 28px 20px;
+      border-radius: 0;
+      box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.24);
+      margin: 0;
+    }
+
+    .no-kompletteringar-container {
+      display: flex;
+      background-color: $wc-color-00;
+      flex-direction: column;
+      padding: 40px;
+      align-items: center;
+
+      div {
+        margin: auto;
+
+        img {
+          margin: 20px;
+        }
+      }
+    }
+
+    .card:last-of-type {
+      box-shadow: none;
+    }
+  }
+
+  .card-divider {
+    background: $wc-color-28;
+    height: 13px;
+    box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.24);
+  }
+
+  .bottom-fadeout-gradient {
+    padding: 0;
+  }
+
+
+}

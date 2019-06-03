@@ -26,7 +26,7 @@ angular.module('common').directive('wcSrsDiagnoseInfo',
             return {
                 restrict: 'E',
                 scope: {
-                    diagnoseCode: '='
+                    config: '='
                 },
                 templateUrl: '/web/webjars/common/webcert/utkast/srs/components/wcSrsDiagnoseInfo/wcSrsDiagnoseInfo.directive.html',
                 link: function($scope) {
@@ -79,9 +79,9 @@ angular.module('common').directive('wcSrsDiagnoseInfo',
                     }
 
                     function _loadSrs() {
-                        $log.debug('getSrsForDiagnoseOnly : ' + $scope.diagnoseCode + ' =>');
+                        $log.debug('getSrsForDiagnoseOnly : ' + $scope.config.diagnoseCode + ' =>');
                         viewState.doneLoading = false;
-                        srsProxy.getSrsForDiagnoseOnly($scope.diagnoseCode).then(function(result) {
+                        srsProxy.getSrsForDiagnoseOnly($scope.config.diagnoseCode).then(function(result) {
                             $log.debug('<=  getSrsForDiagnoseOnly success!');
                             viewState.srsdata = result.data;
                         }, function(errorResult, status) {

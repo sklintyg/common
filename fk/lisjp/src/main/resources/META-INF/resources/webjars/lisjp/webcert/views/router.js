@@ -117,16 +117,15 @@ angular.module('lisjp').config(function($stateProvider) {
             }
         }).
         state('lisjp-readonly', {
+            data: { intygType: 'lisjp' },
             url: '/intyg-read-only/lisjp/:intygTypeVersion/:certificateId',
             resolve: {
-                intygsType: function() {
-                    return 'lisjp';
-                },
+                ViewState: 'lisjp.IntygController.ViewStateService',
                 ViewConfigFactory: viewConfig,
-                    DiagnosExtractor: function() {
-                    return function (lisjpModel) {
-                        return lisjpModel.diagnoser[0].diagnosKod;
-                    };
+                DiagnosExtractor: function() {
+                return function (lisjpModel) {
+                    return lisjpModel.diagnoser[0].diagnosKod;
+                };
                 }
             },
             views: {
