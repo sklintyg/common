@@ -12,18 +12,17 @@
             <intyg-footer></intyg-footer>
           </div>
         </div>
-      </div>
-      <div class="bottom-fadeout-gradient bottom-fadeout-gradient-main wc-color-27">
-        <div></div>
+        <div class="bottom-fadeout-gradient bottom-fadeout-gradient-main wc-color-27">
+          <div></div>
+        </div>
       </div>
 
-      <wc-alert-message id="intyg-read-only-error" ng-if="viewState.errorKey" alert-severity="danger"
-                        alert-message-id="{{viewState.errorKey}}"></wc-alert-message>
+      <wc-error id="intyg-read-only-error" error="viewState.errorKey" ng-if="viewState.errorKey"></wc-error>
     </wc-spinner>
   </div>
 
   <!-- right -->
-  <div class="ro-webcert-workarea-supportpanel">
+  <div class="ro-webcert-workarea-supportpanel" ng-if="!viewState.errorKey">
     <wc-support-panel-manager ng-if="::supportPanelConfig" config="supportPanelConfig"></wc-support-panel-manager>
   </div>
 </div>

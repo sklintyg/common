@@ -744,7 +744,6 @@
             'common.error.save.concurrent_modification': 'Utkastet har samtidigt ändrats av en annan användare och kunde därför inte sparas. Ladda om sidan och försök igen. Utkastet ändrades av: ${name}',
             'common.error.save.unknown_internal_problem': 'Tappade anslutningen till Webcerts server. Utkastet kunde inte sparas. Om problemet kvarstår, kontakta din lokala IT-administratör.',
             'common.error.certificate_type_sekretessmarkering_unsupported': '<strong>Intyg kan ej hanteras.</strong><br>Det intyg du valt att skriva går tyvärr inte att skapa i Webcert för en patient med sekretessmarkering.',
-            'common.error.intyg.read-only.failed.load': 'Intyget kunde inte hämtas.',
             'common.error.intyg.status.failed.load': 'Intygsstatus kunde inte hämtas.',
 
             // FMB texts

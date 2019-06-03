@@ -89,11 +89,11 @@ angular.module('common').controller(
 
 
                 } else {
-                    ViewState.errorKey = 'common.error.intyg.read-only.failed.load';
+                    ViewState.errorKey = 'common.error.could_not_load_cert';
                 }
             }, function(error) {
                 ViewState.doneLoading = true;
-                ViewState.errorKey = 'common.error.intyg.read-only.failed.load';
+                ViewState.errorKey = 'common.error.could_not_load_cert';
             });
 
         }]);

@@ -15,6 +15,11 @@ wc-komplettering-read-only-panel-tab {
   wc-support-panel-scrollable-body .tab-content-scrollable-body {
     padding: 0;
 
+    wc-error {
+      max-width: 100%;
+      padding: 0 20px;
+    }
+
     .card {
       padding: 28px 20px;
       border-radius: 0;

@@ -13,8 +13,9 @@
           config="config">
       </arende-panel>
     </div>
+    <wc-error error="viewState.activeErrorMessageKey" ng-if="viewState.activeErrorMessageKey"></wc-error>
 
-    <div ng-if="kompletteringarList.length === 0" class="no-kompletteringar-container">
+    <div ng-if="!viewState.activeErrorMessageKey && kompletteringarList.length === 0" class="no-kompletteringar-container">
 
       <div><img
           src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/fragor_svar_nodata.svg">
