@@ -19,9 +19,10 @@
 angular.module('common').directive('wcSrsPanelTab',
     [ 'common.ObjectHelper', 'common.srsProxy', 'common.authorityService', '$stateParams',
         /*from FMB with tweaks--->*/ 'common.anchorScrollService', 'common.srsService',
-        'common.srsViewState', '$log','$timeout', '$window',
-    function(ObjectHelper, srsProxy, authorityService, $stateParams, anchorScrollService,
-             srsService, srsViewState, $log, $timeout, $window) {
+        'common.srsViewState', '$log','$timeout',
+    function(ObjectHelper, srsProxy, authorityService, $stateParams,
+             anchorScrollService, srsService,
+             srsViewState, $log, $timeout) {
     'use strict';
 
     return {
@@ -58,7 +59,7 @@ angular.module('common').directive('wcSrsPanelTab',
             $scope.retrieveAndSetPrediction = function() {
                 debugLog('$scope.retrieveAndSetPrediction()');
                 var qaIds = getSelectedAnswerOptions();
-                return srsProxy.getPrediction($stateParams.certificateId, $scope.srs.personId, srsViewState.diagnosKod,
+                return srsProxy.getPrediction($scope.srs.intygId, $scope.srs.personId, srsViewState.diagnosKod,
                     qaIds, true, true, true).then(function(prediction) {
                         debugLog('new prediction', prediction);
                         $scope.srs.prediction = prediction;
@@ -67,9 +68,29 @@ angular.module('common').directive('wcSrsPanelTab',
                 });
             };
 
+            /**
+             * Because IE don't support Array.find
+             * @param arr
+             * @param matcherFn Function to find matching elements e.g. function(entry){return entry.name==='test'}
+             * @returns {*}
+             */
+            function altFind(arr, matcherFn) {
+                if (arr.find) {
+                    return arr.find(matcherFn);
+                } else {
+                    for (var i = 0; i < arr.length; i++) {
+                        var match = matcherFn(arr[i]);
+                        if (match) {
+                            return arr[i];
+                        }
+                    }
+                    return null;
+                }
+            }
+
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
                 debugLog('$scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction()');
-                return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis($stateParams.certificateId, $scope.srs.personId,
+                return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis($scope.srs.intygId, $scope.srs.personId,
                     srsViewState.diagnosKod)
                     .then(function(data) {
                         debugLog('got atgarder and statistik', data);
@@ -99,12 +120,14 @@ angular.module('common').directive('wcSrsPanelTab',
                             $scope.srs.prediction.predictionQuestionsResponses.forEach(function(qnr) {
                                 // find correct question and answer option (in the scope) for received qnr
                                 debugLog('finding question for received qnr', qnr);
-                                var correspondingQuestion = $scope.srs.questions.find(function(q){return qnr.questionId===q.questionId;});
+                                // var correspondingQuestion = $scope.srs.questions.find(function(q){return qnr.questionId===q.questionId;});
+                                var correspondingQuestion =
+                                    altFind($scope.srs.questions, function(q){return qnr.questionId===q.questionId;});
                                 // some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
                                 // match, ignore that one
                                 if (correspondingQuestion) {
                                     debugLog('finding answer option for question', correspondingQuestion);
-                                    var storedAnswer = correspondingQuestion.answerOptions.find(function (a) {
+                                    var storedAnswer = altFind(correspondingQuestion.answerOptions, function (a) {
                                         return qnr.answerId === a.id;
                                     });
                                     correspondingQuestion.model = storedAnswer;
@@ -155,9 +178,9 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.setOpinion = function(opinion) {
-                debugLog('$scope.setOwnOpinion()', opinion, $stateParams.certificateId, $scope.srs.hsaId, $scope.srs.prediction.predictionDiagnosisCode);
+                debugLog('$scope.setOwnOpinion()', opinion, $scope.srs.intygId, $scope.srs.hsaId, $scope.srs.prediction.predictionDiagnosisCode);
                 srsProxy.setOwnOpinion(opinion, $scope.srs.vardgivareHsaId, $scope.srs.hsaId,
-                    $stateParams.certificateId, $scope.srs.prediction.predictionDiagnosisCode).then(function(result) {
+                    $scope.srs.intygId, $scope.srs.prediction.predictionDiagnosisCode).then(function(result) {
                     debugLog('opinion set on server', result);
                     $scope.srs.prediction.opinion = opinion;
                 }, function(error) {
@@ -195,6 +218,16 @@ angular.module('common').directive('wcSrsPanelTab',
              */
             $scope.$on('intyg.loaded', function(event, content) {
                     debugLog('EVENT: "intyg.loaded"', event, content);
+                console.log('intyg loaded content', content)
+                console.log('relation', content.grundData.relation.relationKod)
+                    if (content.grundData.relation.relationKod === 'FRLANG') {
+                        $scope.srs.isForlangning = true;
+                        $scope.srs.intygId = content.grundData.relation.relationIntygsId;
+                    } else {
+                        $scope.srs.isForlangning = false;
+                        $scope.srs.intygId = $stateParams.certificateId
+                    }
+
                     if(!$scope.srs.diagnosisListFetching) {
                         loadDiagCodes();
                     }
@@ -323,12 +356,8 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.srs.statistikError =
                             'Tekniskt fel.\nDet gick inte att hämta information om statistik';
                     }
-                    else if (!$scope.srs.statistik.nationellStatistik) {
-                        $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
-                            ' finns ingen SRS-information för detta fält.';
-                    }
                     else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
-                        !$scope.srs.statistik.statistikBild) {
+                        !$scope.srs.statistik.nationellStatistik) {
                         $scope.srs.statistikInfo = 'Observera! För ' + srsViewState.diagnosKod +
                             ' finns ingen SRS-information för detta fält.';
                     }
@@ -424,7 +453,9 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
 
                 function isSrsApplicableForCode(diagnosKod) {
-                    return diagnosKod !== undefined && $scope.srs.diagnosisCodes.indexOf(diagnosKod.substring(0, 3)) !== -1;
+                    return diagnosKod !== undefined &&
+                        diagnosKod !== null &&
+                        $scope.srs.diagnosisCodes.indexOf(diagnosKod.substring(0, 3)) !== -1;
                 }
             }
 
@@ -471,6 +502,8 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function reset() {
                 debugLog('reset()');
+                // $scope.srs.intygId = null;
+                // $scope.srs.isForlangning = false;
                 $scope.srs.questions = [];
                 $scope.srs.statistik = {};
                 $scope.srs.atgarder = {};

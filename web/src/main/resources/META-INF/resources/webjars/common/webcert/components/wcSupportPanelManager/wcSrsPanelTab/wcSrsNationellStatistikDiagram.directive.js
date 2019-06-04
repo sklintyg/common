@@ -41,31 +41,34 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     var chartData = {
                         statistik: [
                             {
-                                name: '30 dagar',
+                                name: '30',
                                 type: 'ÅTERGÅNG',
                                 x: 30,
                                 y: 0
                             },
                             {
-                                name: '90 dagar',
+                                name: '90',
                                 type: 'ÅTERGÅNG',
                                 x: 90,
                                 y: 0
                             },
                             {
-                                name: '180 dagar',
+                                name: '180',
                                 type: 'ÅTERGÅNG',
                                 x: 180,
                                 y: 0
                             },
                             {
-                                name: '365 dagar',
+                                name: '365',
                                 type: 'ÅTERGÅNG',
                                 x: 365,
                                 y: 0
                             }
                         ]
                     };
+                    var responsiveSize = 'INIT'; // will be overruled during first render (see paintBarChart below)
+                    var chartWidth = 0;
+                    var chartHeight = 0;
 
                     var setTooltipText = function (result) {
                         $scope.popoverTextNationalStatisticsChart = $scope.srs.prediktionInfo ? $scope.srs.prediktionInfo : 'Andel avslutade sjukskrivningsfall';
@@ -73,6 +76,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
 
                     var updateCharts = function (result) {
                         chartFactory.addColor(result.statistik);
+                        updateResponsiveDesign();
                         statistikChart = paintChart('nationalStatisticsChart', result.statistik);
                     };
 
@@ -83,6 +87,77 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         $timeout(function() {
                             updateCharts(result);
                         }, 1);
+                    };
+
+                    var calculateResponsiveSize = function(currentResponsiveSize) {
+                        var windowWidth = window.innerWidth;
+                        var newSize = null;
+
+                        if (windowWidth >= 1440 && currentResponsiveSize !== 'largest') {
+                            newSize = {
+                                responsiveSize: 'largest',
+                                width: 490,
+                                height: 280
+                            };
+                        }
+                        else if (windowWidth < 1400 && windowWidth >= 1200 && currentResponsiveSize !== 'larger') {
+                            newSize = {
+                                responsiveSize: 'larger',
+                                width: 420,
+                                height: 240
+                            };
+                        } else if (windowWidth < 1200 && windowWidth >= 1000 && currentResponsiveSize !== 'normal') {
+                            newSize = {
+                                responsiveSize: 'normal',
+                                width: 350,
+                                height: 200
+                            };
+                        }
+                        else if (windowWidth < 1000 && windowWidth >= 800 && currentResponsiveSize !== 'smaller') {
+                            newSize = {
+                                responsiveSize: 'smaller',
+                                width: 280,
+                                height: 160
+                            };
+                        }
+                        else if (windowWidth < 800 && currentResponsiveSize !== 'smallest') {
+                            newSize = {
+                                responsiveSize: 'smallest',
+                                width: 240,
+                                height: 137
+                            };
+                        }
+                        return newSize;
+                    };
+
+                    function updateResponsiveDesign() {
+                        var newSize = calculateResponsiveSize(responsiveSize);
+                        if (newSize) {
+                            chartWidth = newSize.width;
+                            chartHeight = newSize.height;
+                            responsiveSize = newSize.responsiveSize;
+                            if (responsiveSize !== 'INIT') {
+                                // The timeout is needed to get things working in IE during resize
+                                setTimeout(function () {
+                                    statistikChart = paintChart('nationalStatisticsChart', chartData.statistik);
+                                }, 100);
+                            }
+
+                        }
+                    }
+
+                    function onResize(event) {
+                        updateResponsiveDesign();
+                    }
+
+                    var getResponsiveXLabel = function(val) {
+                        var responsiveDayLabel = 'dagar';
+                        if (responsiveSize === 'smallest' || responsiveSize === 'smaller') {
+                            responsiveDayLabel = 'd.';
+                        } else if (responsiveSize === 'normal') {
+                            responsiveDayLabel = 'dag.';
+                        }
+                        return '<div>' + val + ' ' + responsiveDayLabel+'</div>';
                     };
 
                     function paintChart(containerId, chartData) {
@@ -96,7 +171,6 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 color: chartFactory.getColors().overview
                             }
                         ];
-
                         var chartOptions = {
                             chart : {
                                 animation: false,
@@ -104,8 +178,8 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 type: 'line',
                                 backgroundColor : null, //transparent
                                 plotBorderWidth: 1,
-                                width: 420,
-                                height: 240
+                                width: chartWidth,
+                                height: chartHeight
                             },
                             title: {
                                 text: null
@@ -135,8 +209,12 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 lineWidth: 1,
                                 lineColor: '#3D4260',
                                 tickPositions: [30, 90, 180, 365],
-                                // ceiling: 400,
                                 type: 'category',
+                                labels: {
+                                    formatter: function() {
+                                        return getResponsiveXLabel(this.value);
+                                    }
+                                },
                                 min: 0,
                                 max: 400
                             },
@@ -178,6 +256,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                     if (angular.isObject(title)) {
                                         title = title.oldName ? title.oldName : title.name;
                                     }
+
                                     return title + ' dagar <b>' + this.y + '</b> ' + '%';
                                 }
                             },
@@ -191,6 +270,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     }
 
                     $scope.$on('$destroy', function() {
+                        window.removeEventListener('resize', onResize);
                         if(statistikChart && typeof statistikChart.destroy === 'function') {
                             statistikChart.destroy();
                         }
@@ -208,12 +288,13 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                             }
 
                         }
-                        updateCharts(chartData);
+                        dataReceivedSuccess(chartData);
                     });
 
-                    // Kick start rendering
+                    // Set up component
                     $timeout(function () {
-                        dataReceivedSuccess(chartData);
+                        window.removeEventListener('resize', onResize);
+                        window.addEventListener('resize', onResize);
                     });
 
                 }

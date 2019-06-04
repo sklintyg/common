@@ -17,30 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Display SRS questionaire
+ * Recommendation directive
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', 'common.srsViewState',
-    function(srsProxy, srsViewState) {
+angular.module('common').directive('wcSrsRecommendation', [
+    function() {
         'use strict';
 
         return {
-            restrict: 'E',
+            restrict: 'EA',
             link: function(scope, element, attrs) {
-                scope.change = function() {
-                    if(!scope.prediction) {
-                        scope.prediction = {};
-                    }
-                    srsViewState.prediction.description = '';
-                    scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-                    if (scope.allQuestionsAnswered) {
-                        scope.srs.showVisaKnapp = true;
-                    }
-                    else {
-                        scope.srs.showVisaKnapp = false;
-                    }
 
-                };
             },
-            templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsQuestionaire.directive.html'
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendation.directive.html'
         };
     }]);

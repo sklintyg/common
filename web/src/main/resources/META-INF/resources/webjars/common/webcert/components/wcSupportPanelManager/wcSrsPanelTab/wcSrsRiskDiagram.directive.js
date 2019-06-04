@@ -56,25 +56,89 @@ angular.module('common').directive('wcSrsRiskDiagram',
                             ]
                         }
                     };
+                    var responsiveSize = 'INIT'; // will be overruled during first render (see paintBarChart below)
+                    var chartWidth = 0;
+                    var chartHeight = 0;
 
-                    var setTooltipText = function (result) {
-                        $scope.popoverTextRiskChart = 'Diagrammet visar risk för ... .' +
-                            '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
-                    };
 
+                    // var setTooltipText = function (result) {
+                    //     $scope.popoverTextRiskChart = 'Diagrammet visar risk för ... .' +
+                    //         '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
+                    // };
                     var updateCharts = function (result) {
                         chartFactory.addColor(result.risk.chartData);
+                        updateResponsiveDesign();
                         riskChart = paintBarChart('riskChart', result.risk.chartData);
                     };
 
                     var dataReceivedSuccess = function(result) {
-                        setTooltipText(result);
-                        $scope.statisticNotDone = false;
-                        $scope.doneLoading = true;
+                        // setTooltipText(result);
                         $timeout(function() {
                             updateCharts(result);
                         }, 1);
                     };
+
+                    var calculateResponsiveSize = function(currentResponsiveSize) {
+                        var windowWidth = window.innerWidth;
+                        var newSize = null;
+                        if (windowWidth >= 1200 && currentResponsiveSize !== 'larger') {
+                            newSize = {
+                                responsiveSize: 'larger',
+                                width: 400,
+                                height: 267
+                            };
+                        } else if (windowWidth < 1200 && windowWidth >= 1000 && currentResponsiveSize !== 'normal') {
+                            newSize = {
+                                responsiveSize: 'normal',
+                                width: 360,
+                                height: 240
+                            };
+                        }
+                        else if (windowWidth < 1000 && windowWidth >= 800 && currentResponsiveSize !== 'smaller') {
+                            newSize = {
+                                responsiveSize: 'smaller',
+                                width: 300,
+                                height: 200
+                            };
+                        }
+                        else if (windowWidth < 800 && currentResponsiveSize !== 'smallest') {
+                            newSize = {
+                                responsiveSize: 'smallest',
+                                width: 240,
+                                height: 160
+                            };
+                        }
+                        return newSize;
+                    };
+
+                    function updateResponsiveDesign() {
+                        var newSize = calculateResponsiveSize(responsiveSize);
+                        if (newSize) {
+                            chartWidth = newSize.width;
+                            chartHeight = newSize.height;
+                            if (newSize.responsiveSize === 'smallest' && chartData.risk) {
+                                chartData.risk.chartData[0].name = 'Gen.sn.';
+                                chartData.risk.chartData[1].name = 'Pat.';
+                            } else if (newSize.responsiveSize === 'smaller' && chartData.risk) {
+                                chartData.risk.chartData[0].name = 'Genomsnitt';
+                                chartData.risk.chartData[1].name = 'Patient';
+                            } else if (chartData.risk){
+                                chartData.risk.chartData[0].name = 'Genomsnittlig risk';
+                                chartData.risk.chartData[1].name = 'Patientens risk';
+                            }
+                            if (responsiveSize !== 'INIT') {
+                                // The timeout is needed to get things working in IE during resize
+                                setTimeout(function () {
+                                    riskChart = paintBarChart('riskChart', chartData.risk.chartData);
+                                }, 1);
+                            }
+                            responsiveSize = newSize.responsiveSize;
+                        }
+                    }
+
+                    function onResize(event) {
+                        updateResponsiveDesign();
+                    }
 
                     function paintBarChart(containerId, chartData) {
                         var series = [
@@ -99,7 +163,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         };
 
                         var chartOptions = chartFactory.getHighChartConfigBase(chartConfigOptions);
-                        chartOptions.chart.height = 240;
+                        chartOptions.chart.width = chartWidth;
+                        chartOptions.chart.height = chartHeight;
                         chartOptions.chart.plotBorderWidth = 0;
                         chartOptions.subtitle.text = null;
                         chartOptions.yAxis[0].tickInterval = 20;
@@ -161,11 +226,11 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 }
                             }
                         ];
-
                         return new Highcharts.Chart(chartOptions);
                     }
 
                     $scope.$on('$destroy', function() {
+                        window.removeEventListener('resize', onResize);
                         if(riskChart && typeof riskChart.destroy === 'function') {
                             riskChart.destroy();
                         }
@@ -174,24 +239,26 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     $scope.$watch('srs.prediction', function(newVal, oldVal) {
                         if (newVal.prevalence !== null) {
                             chartData.risk.chartData[0].y = Math.round(newVal.prevalence * 100);
-                            chartData.risk.chartData[0].name = 'Genomsnittlig risk';
+                            // name/title is set via updateResponsiveDesign
                         } else {
                             chartData.risk.chartData[0].y = 0;
                             chartData.risk.chartData[0].name = '';
                         }
                         if (newVal.probabilityOverLimit !== null) {
                             chartData.risk.chartData[1].y = Math.round(newVal.probabilityOverLimit * 100);
-                            chartData.risk.chartData[1].name = 'Patientens risk';
+                            // name/title is set via updateResponsiveDesign
                         } else {
                             chartData.risk.chartData[1].y = null;
                             chartData.risk.chartData[1].name = '';
                         }
-                        updateCharts(chartData);
+                        dataReceivedSuccess(chartData);
                     });
 
-                    // Kick start rendering
+                    // Initialize
                     $timeout(function () {
-                        dataReceivedSuccess(chartData);
+                        window.removeEventListener('resize', onResize);
+                        window.addEventListener('resize', onResize);
+                        // dataReceivedSuccess(chartData);
                     });
 
                 }

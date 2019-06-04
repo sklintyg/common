@@ -62,6 +62,251 @@ wc-srs-panel-tab {
     display: block;
   }
 
+  .srs-option-grid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+    -ms-grid-rows: 1fr 1fr;
+    margin-left: 5px;
+  }
+
+  .srs-option-grid-ms1row {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+    -ms-grid-rows: unset;
+    margin-left: 5px;
+
+  }
+
+  // Special construct since IE don't support automatic wrapping in grids
+  .srs-option-grid-cell:nth-child(n+1) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 1;
+  }
+  .srs-option-grid-cell:nth-child(n+2) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 1;
+  }
+  .srs-option-grid-cell:nth-child(n+3) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 1;
+  }
+  .srs-option-grid-cell:nth-child(n+4) {
+    -ms-grid-column: 4;
+    -ms-grid-row: 1;
+  }
+  .srs-option-grid-cell:nth-child(n+5) {
+    -ms-grid-column: 1;
+    -ms-grid-row: 2;
+  }
+  .srs-option-grid-cell:nth-child(n+6) {
+    -ms-grid-column: 2;
+    -ms-grid-row: 2;
+  }
+  .srs-option-grid-cell:nth-child(n+7) {
+    -ms-grid-column: 3;
+    -ms-grid-row: 2;
+  }
+  .srs-option-grid-cell:nth-child(n+8) {
+    -ms-grid-column: 4;
+    -ms-grid-row: 2;
+  }
+
+  // Special construct since IE don't support automatic wrapping in grids
+  @media (max-width: 1200px) {
+    .srs-option-grid {
+      display: -ms-grid;
+      -ms-grid-columns: 1fr 1fr;
+      -ms-grid-rows: 1fr 1fr 1fr 1fr;
+    }
+    .srs-option-grid-ms1row {
+      display: -ms-grid;
+      -ms-grid-columns: 1fr 1fr;
+      -ms-grid-rows: unset;
+    }
+
+    .srs-option-grid-cell:nth-child(n+1) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 1;
+    }
+    .srs-option-grid-cell:nth-child(n+2) {
+      -ms-grid-column: 2;
+      -ms-grid-row: 1;
+    }
+    .srs-option-grid-cell:nth-child(n+3) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 2;
+    }
+    .srs-option-grid-cell:nth-child(n+4) {
+      -ms-grid-column: 2;
+      -ms-grid-row: 2;
+    }
+    .srs-option-grid-cell:nth-child(n+5) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 3;
+    }
+    .srs-option-grid-cell:nth-child(n+6) {
+      -ms-grid-column: 2;
+      -ms-grid-row: 3;
+    }
+    .srs-option-grid-cell:nth-child(n+7) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 4;
+    }
+    .srs-option-grid-cell:nth-child(n+8) {
+      -ms-grid-column: 2;
+      -ms-grid-row: 4;
+    }
+
+  }
+
+  .srs-question-answers {
+    padding-bottom: 20px;
+    //display: flex;
+    //flex-flow: row wrap;
+    //flex-wrap: wrap;
+    //justify-content: space-around;
+  }
+
+  .srs-question-answer {
+    //flex: 1 1 130px;
+  }
+
+  //// Special construct since IE don't support automatic wrapping in grids
+  //.srs-question-answer:nth-child(n+1) {
+  //  -ms-grid-column: 1;
+  //  -ms-grid-row: 1;
+  //}
+  //.srs-question-answer:nth-child(n+2) {
+  //  -ms-grid-column: 2;
+  //  -ms-grid-row: 1;
+  //}
+  //.srs-question-answer:nth-child(n+3) {
+  //  -ms-grid-column: 3;
+  //  -ms-grid-row: 1;
+  //}
+  //.srs-question-answer:nth-child(n+4) {
+  //  -ms-grid-column: 4;
+  //  -ms-grid-row: 1;
+  //}
+  //.srs-question-answer:nth-child(n+5) {
+  //  -ms-grid-column: 1;
+  //  -ms-grid-row: 2;
+  //}
+  //.srs-question-answer:nth-child(n+6) {
+  //  -ms-grid-column: 2;
+  //  -ms-grid-row: 2;
+  //}
+  //.srs-question-answer:nth-child(n+7) {
+  //  -ms-grid-column: 3;
+  //  -ms-grid-row: 2;
+  //}
+  //.srs-question-answer:nth-child(n+8) {
+  //  -ms-grid-column: 4;
+  //  -ms-grid-row: 2;
+  //}
+
+  //// Special construct since IE don't support automatic wrapping in grids
+  //@media (max-width: 1200px) {
+  //  .srs-question-answers {
+  //    display: -ms-grid;
+  //    //display: grid;
+  //
+  //    -ms-grid-columns: 1fr 1fr;
+  //    //grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
+  //    -ms-grid-rows: 1fr 1fr 1fr 1fr;
+  //  }
+  //  .srs-question-answer:nth-child(n+1) {
+  //    -ms-grid-column: 1;
+  //    -ms-grid-row: 1;
+  //  }
+  //  .srs-question-answer:nth-child(n+2) {
+  //    -ms-grid-column: 2;
+  //    -ms-grid-row: 1;
+  //  }
+  //  .srs-question-answer:nth-child(n+3) {
+  //    -ms-grid-column: 1;
+  //    -ms-grid-row: 2;
+  //  }
+  //  .srs-question-answer:nth-child(n+4) {
+  //    -ms-grid-column: 2;
+  //    -ms-grid-row: 2;
+  //  }
+  //  .srs-question-answer:nth-child(n+5) {
+  //    -ms-grid-column: 1;
+  //    -ms-grid-row: 3;
+  //  }
+  //  .srs-question-answer:nth-child(n+6) {
+  //    -ms-grid-column: 2;
+  //    -ms-grid-row: 3;
+  //  }
+  //  .srs-question-answer:nth-child(n+7) {
+  //    -ms-grid-column: 1;
+  //    -ms-grid-row: 4;
+  //  }
+  //  .srs-question-answer:nth-child(n+8) {
+  //    -ms-grid-column: 2;
+  //    -ms-grid-row: 4;
+  //  }
+  //
+  //}
+
+    // Internal tab
+    ul.nav.nav-tabs > li.rounded > a {
+      background-color: #FFFFFF !important; // Need to use important because somebody used important on the wc-common.css
+      border-color: #FFFFFF;
+      border-radius: 16px;
+      color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
+      text-decoration: none;
+    }
+
+    ul.nav.nav-tabs > li.rounded > a:hover {
+      border-color: #496CEC;
+      color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
+    }
+
+    ul.nav.nav-tabs > li.rounded.active > a {
+      background-color: #496CEC !important; // Need to use important because somebody used important on the wc-common.css
+      border-color: #496CEC;
+      color: #FFFFFF !important;// Need to use important because somebody used important on the wc-common.css
+    }
+
+    .nav {
+      .nav-tabs {
+        .rounded {
+          border-radius: 14px;
+        }
+        .rounded.active {
+          background-color: #496CEC;
+        }
+      }
+    }
+
+  #srsResult .tab-pane {
+    padding-top: 20px;
+  }
+
+
+   //.nav-tabs > li.rounded.active > a,
+   //.nav-tabs > li.rounded.active > a:hover,
+   //.nav-tabs > li.rounded.active > a:focus  {
+   //  background-color: $wc-color-00 !important;
+   //  color: $wc-color-07 !important;
+   //}
+   //
+   //.nav-tabs > li.rounded > a  {
+   //  background-color: $wc-color-10 !important;
+   //  color: $wc-color-00 !important;
+   //}
+   //
+   //.tab-inactive{
+   //  background-color: $wc-color-10 !important;
+   //  color: $wc-color-00 !important;
+   //}
+
 
   #statistik {
 

@@ -789,10 +789,10 @@
 
 
             // Högerflikar
-            'common.supportpanel.srs.title': 'SRS',
-            'common.supportpanel.srs.tooltip': 'Stöd för rätt sjukskrivning',
-            'common.supportpanel.srs.title.minimized': 'SRS',
-            'common.supportpanel.srs.tooltip.minimized': 'Öppnar fliken med Stöd för rätt sjukskrivning.',
+            'common.supportpanel.srs.title': 'Risk och råd',
+            'common.supportpanel.srs.tooltip': 'Risk och råd',
+            'common.supportpanel.srs.title.minimized': 'Risk och råd',
+            'common.supportpanel.srs.tooltip.minimized': 'Öppnar fliken med Risk och råd.',
 
             'common.supportpanel.fmb.title': 'FMB',
             'common.supportpanel.fmb.tooltip': 'Läs FMB - ett stöd för ifyllnad och bedömning.',
