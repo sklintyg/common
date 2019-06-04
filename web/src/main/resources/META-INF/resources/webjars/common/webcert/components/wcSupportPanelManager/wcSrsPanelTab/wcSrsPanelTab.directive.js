@@ -218,14 +218,12 @@ angular.module('common').directive('wcSrsPanelTab',
              */
             $scope.$on('intyg.loaded', function(event, content) {
                     debugLog('EVENT: "intyg.loaded"', event, content);
-                console.log('intyg loaded content', content)
-                console.log('relation', content.grundData.relation.relationKod)
                     if (content.grundData.relation.relationKod === 'FRLANG') {
                         $scope.srs.isForlangning = true;
                         $scope.srs.intygId = content.grundData.relation.relationIntygsId;
                     } else {
                         $scope.srs.isForlangning = false;
-                        $scope.srs.intygId = $stateParams.certificateId
+                        $scope.srs.intygId = $stateParams.certificateId;
                     }
 
                     if(!$scope.srs.diagnosisListFetching) {

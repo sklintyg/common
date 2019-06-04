@@ -73,7 +73,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                     icon: 'lightbulb_outline',
                     tooltip: 'common.supportpanel.srs.tooltip',
                     config: {
-                        intygContext: config.intygContext,
+                        intygContext: config.intygContext
                     },
                     active: !_anyTabActive()
                 });
