@@ -4,14 +4,13 @@
                 <div class="risk-widget-header">
                     <h2 class="nationell-statistik-widget-title">
                         <span class="risk-header-line">Andel avslutade sjukskrivningsfall *</span>
-                        <span>{{srs.diagnosKod}} {{srs.diagnosBeskrivning}}</span>
-                        <div style="float:right"
-                             class="glyphicon glyphicon-question-sign"
-                             uib-tooltip-html="popoverTextNationalStatisticsChart"
-                             tooltip-class="popover-content"
-                             tooltip-placement="auto left"
-                             tooltip-trigger="mouseenter"
-                        />
+                        <span>{{srs.statistik.statistikDiagnosisCode}} {{srs.statistik.statistikDiagnosisDescription}}</span>
+
+                        <i class="material-icons md-18 diagnosinfo"
+                           uib-popover="{{popoverTextNationalStatisticsChart}}"
+                           popover-popup-delay="300" popover-append-to-body="true"
+                           popover-placement="top">info_outline</i>
+
                     </h2>
                 </div>
                 <div class="nationell-statistik-widget-content">

@@ -5,10 +5,24 @@ wc-srs-risk-diagram {
   }
 
  .wc-srs-risk-diagram-widget {
+    .risk-widget-title {
+      font-weight: bold;
+    }
     .risk-widget-header-header {
       .risk-header-line {
         display: block;
       }
     }
+
+   .risk-widget-content > .chart-container {
+     padding-top: 10px;
+     padding-bottom: 10px;
+   }
+
+   .risk-widget-textual > ul > li {
+     padding-bottom: 10px;
+   }
+
+
   }
 }

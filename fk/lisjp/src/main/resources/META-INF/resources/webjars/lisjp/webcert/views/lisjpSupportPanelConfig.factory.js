@@ -65,7 +65,8 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                 });
             }
 
-            if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type)) {
+            if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
+                    !(isSigned || isKompletteringsUtkast)) {
                 config.tabs.push({
                     id: 'wc-srs-panel-tab',
                     title: 'common.supportpanel.srs.title',
@@ -74,7 +75,6 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
                     config: {
                         intygContext: config.intygContext
                     },
-                    // active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
                     active: !_anyTabActive()
                 });
             }

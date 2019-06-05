@@ -75,6 +75,6 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
                 };
 
             },
-            templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.directive.html'
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsResult.directive.html'
         };
     }]);

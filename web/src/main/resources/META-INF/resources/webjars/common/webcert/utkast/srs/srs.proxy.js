@@ -102,7 +102,7 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             var statistik = {};
             /* jshint ignore:start */
             if(data.statistikDiagnosisDescription) {
-                atgarder.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
+                statistik.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
             }
             if(data.statistikDiagnosisCode) {
                 statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
