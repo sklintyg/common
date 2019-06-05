@@ -68,26 +68,6 @@ angular.module('common').directive('wcSrsPanelTab',
                 });
             };
 
-            /**
-             * Because IE don't support Array.find
-             * @param arr
-             * @param matcherFn Function to find matching elements e.g. function(entry){return entry.name==='test'}
-             * @returns {*}
-             */
-            function altFind(arr, matcherFn) {
-                if (arr.find) {
-                    return arr.find(matcherFn);
-                } else {
-                    for (var i = 0; i < arr.length; i++) {
-                        var match = matcherFn(arr[i]);
-                        if (match) {
-                            return arr[i];
-                        }
-                    }
-                    return null;
-                }
-            }
-
             $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction = function() {
                 debugLog('$scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction()');
                 return srsProxy.getAtgarderAndStatistikAndHistoricPredictionForDiagnosis($scope.srs.intygId, $scope.srs.personId,
@@ -120,16 +100,16 @@ angular.module('common').directive('wcSrsPanelTab',
                             $scope.srs.prediction.predictionQuestionsResponses.forEach(function(qnr) {
                                 // find correct question and answer option (in the scope) for received qnr
                                 debugLog('finding question for received qnr', qnr);
-                                // var correspondingQuestion = $scope.srs.questions.find(function(q){return qnr.questionId===q.questionId;});
-                                var correspondingQuestion =
-                                    altFind($scope.srs.questions, function(q){return qnr.questionId===q.questionId;});
+                                var correspondingQuestion = $scope.srs.questions.filter(function(q){
+                                    return qnr.questionId===q.questionId;
+                                })[0];
                                 // some prediction params like "Region" aren't reflected as questions in the gui so if we don't get a
                                 // match, ignore that one
                                 if (correspondingQuestion) {
                                     debugLog('finding answer option for question', correspondingQuestion);
-                                    var storedAnswer = altFind(correspondingQuestion.answerOptions, function (a) {
+                                    var storedAnswer = correspondingQuestion.answerOptions.filter(function (a) {
                                         return qnr.answerId === a.id;
-                                    });
+                                    })[0];
                                     correspondingQuestion.model = storedAnswer;
                                 }
                             });
