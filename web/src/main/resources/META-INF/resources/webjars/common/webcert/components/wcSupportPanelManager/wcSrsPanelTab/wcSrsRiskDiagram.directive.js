@@ -19,8 +19,8 @@
 
 /* globals Highcharts */
 angular.module('common').directive('wcSrsRiskDiagram',
-    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout',
-        function(srsViewState, chartFactory, $timeout) {
+    [ 'common.srsViewState', 'common.wcSrsChartFactory', '$timeout', '$window',
+        function(srsViewState, chartFactory, $timeout, $window) {
             'use strict';
 
             return {
@@ -60,11 +60,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     var chartWidth = 0;
                     var chartHeight = 0;
 
-
-                    // var setTooltipText = function (result) {
-                    //     $scope.popoverTextRiskChart = 'Diagrammet visar risk för ... .' +
-                    //         '<br><br>Ställ markören i respektive stapel för att se respektive riskvärde.';
-                    // };
                     var updateCharts = function (result) {
                         chartFactory.addColor(result.risk.chartData);
                         updateResponsiveDesign();
@@ -72,14 +67,13 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     };
 
                     var dataReceivedSuccess = function(result) {
-                        // setTooltipText(result);
                         $timeout(function() {
                             updateCharts(result);
                         }, 1);
                     };
 
                     var calculateResponsiveSize = function(currentResponsiveSize) {
-                        var windowWidth = window.innerWidth;
+                        var windowWidth = $window.innerWidth;
                         var newSize = null;
                         if (windowWidth >= 1200 && currentResponsiveSize !== 'larger') {
                             newSize = {
@@ -230,7 +224,7 @@ angular.module('common').directive('wcSrsRiskDiagram',
                     }
 
                     $scope.$on('$destroy', function() {
-                        window.removeEventListener('resize', onResize);
+                        $window.removeEventListener('resize', onResize);
                         if(riskChart && typeof riskChart.destroy === 'function') {
                             riskChart.destroy();
                         }
@@ -256,9 +250,8 @@ angular.module('common').directive('wcSrsRiskDiagram',
 
                     // Initialize
                     $timeout(function () {
-                        window.removeEventListener('resize', onResize);
-                        window.addEventListener('resize', onResize);
-                        // dataReceivedSuccess(chartData);
+                        $window.removeEventListener('resize', onResize);
+                        $window.addEventListener('resize', onResize);
                     });
 
                 }

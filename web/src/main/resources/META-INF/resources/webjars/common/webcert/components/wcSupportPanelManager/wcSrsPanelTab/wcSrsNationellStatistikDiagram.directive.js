@@ -90,7 +90,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     };
 
                     var calculateResponsiveSize = function(currentResponsiveSize) {
-                        var windowWidth = window.innerWidth;
+                        var windowWidth = $window.innerWidth;
                         var newSize = null;
 
                         if (windowWidth >= 1440 && currentResponsiveSize !== 'largest') {
@@ -270,7 +270,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     }
 
                     $scope.$on('$destroy', function() {
-                        window.removeEventListener('resize', onResize);
+                        $window.removeEventListener('resize', onResize);
                         if(statistikChart && typeof statistikChart.destroy === 'function') {
                             statistikChart.destroy();
                         }
@@ -293,8 +293,8 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
 
                     // Set up component
                     $timeout(function () {
-                        window.removeEventListener('resize', onResize);
-                        window.addEventListener('resize', onResize);
+                        $window.removeEventListener('resize', onResize);
+                        $window.addEventListener('resize', onResize);
                     });
 
                 }
