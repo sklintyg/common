@@ -49,19 +49,19 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
 
                         if(fmbVarning.overskriderRekommenderadSjukskrivningstid){
                             if(fmbVarning.totalTidigareSjukskrivningstid < 1){
-                                $scope.fmbVarning.text = 'Den föreslagna sjukskrivningsperioden är längre än FMBs rekommendationer för diagnosen ' +
-                                    fmbVarning.aktuellIcd10Kod + ' (' +
-                                    fmbVarning.maximaltRekommenderadSjukskrivningstid + ' dagar = ' +
-                                    $filter('number')(fmbVarning.maximaltRekommenderadSjukskrivningstid / 7, 0) + ' ' +
-                                    'veckor). Ange en motivering för att underlätta Försäkringskassans handläggning.';
+                                $scope.fmbVarning.text = 'Den föreslagna sjukskrivningsperioden är längre än FMBs rekommendation på ' +
+                                    fmbVarning.maximaltRekommenderadSjukskrivningstid
+                                    + ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
+                                    fmbVarning.aktuellIcd10Kod + '. Ange en motivering för att underlätta Försäkringskassans handläggning.';
                             } else {
+
                                 $scope.fmbVarning.text = 'Den totala sjukskrivningsperioden är ' +
                                     fmbVarning.totalSjukskrivningstidInklusiveForeslagen +
-                                    ' dagar och därmed längre än FMBs rekommendationer för diagnosen ' +
-                                    fmbVarning.aktuellIcd10Kod + ' (' + fmbVarning.maximaltRekommenderadSjukskrivningstid +
-                                    'dagar = ' + $filter('number')(fmbVarning.maximaltRekommenderadSjukskrivningstid / 7, 0) + 'veckor).' +
-                                    ' Ange en motivering för att underlätta Försäkringskassans handläggning.' +
-                                    ' Sjukskrivningsperioden är baserad på patientens sammanhängande intyg på denna vårdenhet.';
+                                    ' dagar och därmed längre än FMBs rekommendation på ' +
+                                    fmbVarning.maximaltRekommenderadSjukskrivningstid +
+                                    ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ' ) för diagnosen ' +
+                                    fmbVarning.aktuellIcd10Kod +
+                                    '. Ange en motivering för att underlätta Försäkringskassans handläggning. Sjukskrivningsperioden är baserad på patientens sammanhängande intyg på denna vårdenhet.';
                             }
                         }
 
