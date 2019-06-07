@@ -23,6 +23,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
@@ -31,8 +33,10 @@ import java.util.Arrays;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.google.common.base.Charsets;
@@ -58,6 +62,7 @@ import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -66,6 +71,14 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class InternalToTransportTest {
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -147,7 +160,7 @@ public class InternalToTransportTest {
     @Test
     public void testInternalToTransportConversion() throws Exception {
         LisjpUtlatandeV1 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
+        RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
         LisjpUtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
         assertEquals(expected, actual);
@@ -155,7 +168,7 @@ public class InternalToTransportTest {
 
     @Test(expected = ConverterException.class)
     public void testInternalToTransportSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+        InternalToTransport.convert(null, webcertModuleService);
     }
 
     @Test
@@ -163,7 +176,7 @@ public class InternalToTransportTest {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
         assertEquals(referensId, transport.getSvarPa().getReferensId());
@@ -173,7 +186,7 @@ public class InternalToTransportTest {
     public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
         assertNull(transport.getSvarPa().getReferensId());
@@ -182,14 +195,14 @@ public class InternalToTransportTest {
     @Test
     public void convertDecorateSvarPaNoRelationTest() throws Exception {
         LisjpUtlatandeV1 utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 
     @Test
     public void convertDecorateSvarPaNotKompltTest() throws Exception {
         LisjpUtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 }

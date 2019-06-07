@@ -20,6 +20,8 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,6 +36,7 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -54,6 +57,7 @@ import se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.ag114.v1.validator.ValidatorUtilSKL;
 import se.inera.intyg.common.agparent.model.converter.RegisterCertificateTestValidator;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
@@ -72,10 +76,18 @@ public class ConverterTest {
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
+
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     public ConverterTest() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Before
+    public void setup() {
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     }
 
     @Test
@@ -101,7 +113,7 @@ public class ConverterTest {
         String json = getJsonFromTransport(transport);
         Ag114UtlatandeV1 utlatandeFromJson = objectMapper.readValue(json, Ag114UtlatandeV1.class);
 
-        RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson);
+        RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson, webcertModuleService);
         String convertedXML = getXmlFromModel(transportConvertedALot);
 
         // Do schematron validation on the xml-string from the converted transport format

@@ -138,7 +138,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testR3_4() throws ScenarioNotFoundException {
-        DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-4").asInternalModel();
+        DoiUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("no-round-trip-fail-R3-4").asInternalModel();
         setDateToCurrentYear(utlatandeFromJson.getDodsdatum());
         setDateToCurrentYear(utlatandeFromJson.getAntraffatDodDatum());
         setDateToLastYear(utlatandeFromJson.getOperationDatum());

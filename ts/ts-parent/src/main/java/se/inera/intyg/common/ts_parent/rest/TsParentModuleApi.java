@@ -52,7 +52,6 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
@@ -95,9 +94,6 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Autowired(required = false)
     protected WebcertModuleService moduleService;
-
-    @Autowired
-    private ModelCompareUtil<T> modelCompareUtil;
 
     @Autowired
     private InternalDraftValidator<T> validator;
@@ -236,10 +232,7 @@ public abstract class TsParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        T newUtlatande;
-        newUtlatande = getInternal(currentState);
-
-        return modelCompareUtil.isValidForNotification(newUtlatande);
+        return true;
     }
 
     @Override

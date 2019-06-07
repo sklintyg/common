@@ -21,6 +21,8 @@ package se.inera.intyg.common.luse.v1.model.converter;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -34,6 +36,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.helger.schematron.svrl.SVRLHelper;
@@ -41,13 +44,12 @@ import com.helger.schematron.svrl.SVRLHelper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.luse.v1.model.converter.InternalToTransport;
-import se.inera.intyg.common.luse.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.rest.LuseModuleApiV1;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -61,6 +63,14 @@ public class TransportToInternalTest {
     private ObjectFactory objectFactory;
     private JAXBContext jaxbContext;
     private RegisterCertificateValidator validator = new RegisterCertificateValidator(LuseModuleApiV1.SCHEMATRON_FILE);
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     private static LuseUtlatandeV1 getUtlatande() {
         LuseUtlatandeV1.Builder utlatande = LuseUtlatandeV1.builder();
@@ -108,7 +118,7 @@ public class TransportToInternalTest {
     @Test
     public void endToEnd() throws Exception {
         LuseUtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
         LuseUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
 
         String xml = xmlToString(transportCertificate);

@@ -30,21 +30,35 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.SvarBuilder;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class InternalToTransportUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger(InternalToTransportUtil.class);
+
     private InternalToTransportUtil() {
     }
 
-    public static void handleDiagnosSvar(List<Svar> svars, List<Diagnos> diagnoser) {
+    private static boolean isDiagnoseCodeValid(Diagnos diagnos, WebcertModuleService webcertModuleService) {
+        if (webcertModuleService == null) {
+            LOG.debug("No WebcertModuleService available for validation (happens when outside of Webcert context, e.g. Intygstjanst)");
+            return true;
+        }
+        return webcertModuleService.validateDiagnosisCode(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem());
+    }
+
+    public static void handleDiagnosSvar(List<Svar> svars, List<Diagnos> diagnoser, WebcertModuleService webcertModuleService) {
         SvarBuilder diagnosSvar = aSvar(DIAGNOS_SVAR_ID_6);
         if (diagnoser != null) {
             for (int i = 0; i < diagnoser.size(); i++) {
                 Diagnos diagnos = diagnoser.get(i);
-                if (diagnos.getDiagnosKod() == null) {
+                if (!isDiagnoseCodeValid(diagnos, webcertModuleService)) {
                     continue;
                 }
                 Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());

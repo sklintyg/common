@@ -273,30 +273,36 @@ public final class UtlatandeToIntyg {
                 HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
 
         if (hypoglykemier.getAterkommandeSenasteAret() != null) {
-            svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
+            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
                     .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()))
-                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
-                            getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()))
-                    .build());
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()));
+            if (hypoglykemier.getAterkommandeSenasteTidpunkt() != null && hypoglykemier.getAterkommandeSenasteTidpunkt().isValidDate()) {
+                svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()));
+            }
+            svars.add(svarBuilder.build());
         }
 
         if (hypoglykemier.getAterkommandeSenasteKvartalet() != null) {
-            svars.add(aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
+            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
                     .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()))
-                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
-                            getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()))
-                    .build());
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()));
+            if (hypoglykemier.getSenasteTidpunktVaken() != null && hypoglykemier.getSenasteTidpunktVaken().isValidDate()) {
+                svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()));
+            }
+            svars.add(svarBuilder.build());
         }
 
         if (hypoglykemier.getForekomstTrafik() != null) {
-            svars.add(aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
+            InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
                     .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID,
-                            InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()))
-                    .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
-                            getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()))
-                    .build());
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()));
+            if (hypoglykemier.getForekomstTrafikTidpunkt() != null && hypoglykemier.getForekomstTrafikTidpunkt().isValidDate()) {
+                svarBuilder.withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
+                        getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()));
+            }
+            svars.add(svarBuilder.build());
         }
     }
 

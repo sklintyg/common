@@ -62,6 +62,7 @@ import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -72,13 +73,13 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(Ag114UtlatandeV1 utlatande) throws ConverterException {
+    public static Intyg convert(Ag114UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) throws ConverterException {
         if (utlatande == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
         intyg.setTyp(getTypAvIntyg(utlatande));
-        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
@@ -94,7 +95,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(Ag114UtlatandeV1 source) {
+    private static List<Svar> getSvar(Ag114UtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();
 
         // Kategori 1
@@ -117,7 +118,7 @@ public final class UtlatandeToIntyg {
 
         // Lägg endast till diagnos om önskar förmedla är true.
         if (source.getOnskarFormedlaDiagnos() != null && source.getOnskarFormedlaDiagnos()) {
-            handleDiagnosSvar(svars, source.getDiagnoser());
+            handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
         }
 
         // Kategori 5 Arbetsformaga
@@ -138,7 +139,7 @@ public final class UtlatandeToIntyg {
 
         // Kategori Behov av sjukskrivning
         InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
-        if (sjukskrivningsperiod != null) {
+        if (sjukskrivningsperiod != null && sjukskrivningsperiod.isValid()) {
             svars.add(aSvar(BEDOMNING_SVAR_ID_7)
                     .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
                     .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,

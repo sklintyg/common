@@ -21,6 +21,8 @@ package se.inera.intyg.common.luae_na.v1.model.converter;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -34,6 +36,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.helger.schematron.svrl.SVRLHelper;
@@ -46,6 +49,7 @@ import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -59,6 +63,14 @@ public class TransportToInternalTest {
     private ObjectFactory objectFactory;
     private JAXBContext jaxbContext;
     private RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaenaModuleApiV1.SCHEMATRON_FILE);
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     private static LuaenaUtlatandeV1 getUtlatande() {
         LuaenaUtlatandeV1.Builder utlatande = LuaenaUtlatandeV1.builder();
@@ -106,7 +118,7 @@ public class TransportToInternalTest {
     @Test
     public void endToEnd() throws Exception {
         LuaenaUtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
         LuaenaUtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
 
         String xml = xmlToString(transportCertificate);

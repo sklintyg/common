@@ -35,7 +35,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
 import com.google.common.base.Charsets;
@@ -476,7 +475,7 @@ public class LisjpModuleApiTest {
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
         LisjpUtlatandeV1 utlatande = getUtlatandeFromFile();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
 
@@ -490,7 +489,7 @@ public class LisjpModuleApiTest {
 
         LisjpUtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
                 Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(fromString, toString))));
-        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
 
@@ -584,7 +583,7 @@ public class LisjpModuleApiTest {
                 Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(middleDate4, toString)),
                 Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
                         new InternalLocalDateInterval(fromString, middleDate1))));
-        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
 

@@ -27,6 +27,9 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
@@ -36,12 +39,17 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Test
     public void testConvert() throws Exception {
@@ -76,7 +84,7 @@ public class UtlatandeToIntygTest {
                 patientPostort,
                 null, null);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -120,7 +128,7 @@ public class UtlatandeToIntygTest {
         String relationIntygsId = "relationIntygsId";
         Ag7804UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertNotNull(intyg.getRelation());
         assertEquals(1, intyg.getRelation().size());
         assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());

@@ -64,12 +64,11 @@ public final class SosUtlatandeToIntyg {
                 dodsdatum.withDelsvar(DODSDATUM_SAKERT_DELSVAR_ID, utlatande.getDodsdatumSakert().toString());
             }
             dodsdatum.withDelsvar(DODSDATUM_DELSVAR_ID, getInternalDateContentFillWithZeros(utlatande.getDodsdatum()));
-            if (utlatande.getAntraffatDodDatum() != null) {
+            if (utlatande.getAntraffatDodDatum() != null && utlatande.getAntraffatDodDatum().isValidDate()) {
                 dodsdatum.withDelsvar(ANTRAFFAT_DOD_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getAntraffatDodDatum()));
             }
             svar.add(dodsdatum.build());
         }
-
         // Svar 3
         if (utlatande.getDodsplatsBoende() != null || utlatande.getDodsplatsKommun() != null) {
             InternalConverterUtil.SvarBuilder dodsplats = aSvar(DODSPLATS_SVAR_ID)

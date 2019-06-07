@@ -133,7 +133,7 @@ public class InternalValidatorTest {
 
     @Test
     public void testR3_4() throws ScenarioNotFoundException {
-        DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-R3-4").asInternalModel();
+        DbUtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("validation-fail-R3-4").asInternalModel();
         internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getDodsdatum(), 3);
         internalValidatorHelper.setNowMinusDays(utlatandeFromJson.getUndersokningDatum(), 4);
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);

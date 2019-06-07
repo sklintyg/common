@@ -49,7 +49,6 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.converter.InternalToRevoke;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -97,9 +96,6 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private ModelCompareUtil<T> modelCompareUtil;
 
     @Autowired(required = false)
     @Qualifier("registerCertificateClient")
@@ -186,7 +182,7 @@ public abstract class AfParentModuleApi<T extends AfUtlatande> implements Module
 
     @Override
     public boolean shouldNotify(String persistedState, String currentState) throws ModuleException {
-        return modelCompareUtil.isValidForNotification(getInternal(currentState));
+        return true;
     }
 
     @Override

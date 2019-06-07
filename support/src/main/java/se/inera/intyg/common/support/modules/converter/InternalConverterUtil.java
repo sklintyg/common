@@ -83,6 +83,7 @@ public final class InternalConverterUtil {
     private static final String NOT_AVAILABLE = "N/A";
     private static final int DATE_PARSE_SECTIONS = 3;
     private static final Pattern GENERAL_DATE_FORMAT = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
+    private static final int MIN_YEAR = 1000;
 
     static ObjectFactory objectFactory = new ObjectFactory();
 
@@ -213,7 +214,13 @@ public final class InternalConverterUtil {
 
     public static Year getYearContent(String yearString) {
         try {
-            return Year.of(Integer.parseInt(yearString));
+            if (yearString != null) {
+                int intYear = Integer.parseInt(yearString);
+                if (intYear >= MIN_YEAR) {
+                    return Year.of(intYear);
+                }
+            }
+            return null;
         } catch (IllegalArgumentException e) {
             /*
              * During conversion for CertificateStatusUpdateForCare v3
