@@ -67,7 +67,7 @@ public final class UtlatandeToIntyg {
         List<Svar> svars = new ArrayList<>();
 
         int medicinsktUnderlagInstans = 1;
-        if (source.getUndersokningsDatum() != null) {
+        if (source.getUndersokningsDatum() != null && source.getUndersokningsDatum().isValidDate()) {
             final UnderlagsTyp underlagsTyp = UnderlagsTyp.UNDERSOKNING;
             final SvarBuilder svarBuilder =
                 aSvar(MEDICINSKUNDERLAG_SVAR_ID_1, medicinsktUnderlagInstans++)
@@ -76,7 +76,7 @@ public final class UtlatandeToIntyg {
 
             svars.add(svarBuilder.build());
         }
-        if (source.getAnnatDatum() != null) {
+        if (source.getAnnatDatum() != null && source.getAnnatDatum().isValidDate()) {
             final UnderlagsTyp underlagsTyp = UnderlagsTyp.ANNAT;
 
             final SvarBuilder svarBuilder =
@@ -93,15 +93,17 @@ public final class UtlatandeToIntyg {
         if (source.getArbetsmarknadspolitisktProgram() != null) {
             final ArbetsmarknadspolitisktProgram program = source.getArbetsmarknadspolitisktProgram();
             final ArbetsmarknadspolitisktProgram.Omfattning omfattning = program.getOmfattning();
-            final InternalConverterUtil.SvarBuilder svarBuilder = aSvar(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_2)
-                    .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_21, program.getMedicinskBedomning())
-                    .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_22,
-                            aCV(ArbetsmarknadspolitisktProgram.Omfattning.KODVERK, omfattning.getId(), omfattning.getLabel()));
-            if (program.getOmfattningDeltid() != null) {
-                svarBuilder.withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23,
-                        aPQ(UNIT_HOUR, Double.valueOf(program.getOmfattningDeltid())));
+            if (omfattning != null) {
+                final InternalConverterUtil.SvarBuilder svarBuilder = aSvar(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_2)
+                        .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_21, program.getMedicinskBedomning())
+                        .withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_22,
+                                aCV(ArbetsmarknadspolitisktProgram.Omfattning.KODVERK, omfattning.getId(), omfattning.getLabel()));
+                if (program.getOmfattningDeltid() != null) {
+                    svarBuilder.withDelsvar(ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23,
+                            aPQ(UNIT_HOUR, Double.valueOf(program.getOmfattningDeltid())));
+                }
+                svars.add(svarBuilder.build());
             }
-            svars.add(svarBuilder.build());
         }
 
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_3, FUNKTIONSNEDSATTNING_DELSVAR_ID_31, source.getFunktionsnedsattning());
@@ -110,8 +112,8 @@ public final class UtlatandeToIntyg {
 
         int sjukfranvaroInstans = 1;
         for (Sjukfranvaro sjukfranvaro : source.getSjukfranvaro()) {
-            if (sjukfranvaro.getChecked() != null
-                    && sjukfranvaro.getChecked()) {
+            if (sjukfranvaro.getChecked() != null && sjukfranvaro.getChecked()
+                    && sjukfranvaro.getPeriod() != null && sjukfranvaro.getPeriod().isValid()) {
                 final InternalLocalDateInterval period = sjukfranvaro.getPeriod();
                 final InternalConverterUtil.SvarBuilder svarBuilder = aSvar(SJUKFRANVARO_SVAR_ID_6, sjukfranvaroInstans++);
                 if (sjukfranvaro.getNiva() != null) {
@@ -124,19 +126,23 @@ public final class UtlatandeToIntyg {
 
         if (source.getBegransningSjukfranvaro() != null) {
             final BegransningSjukfranvaro begransningSjukfranvaro = source.getBegransningSjukfranvaro();
-            svars.add(aSvar(BEGRANSNING_SJUKFRANVARO_SVAR_ID_7)
-                .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71, begransningSjukfranvaro.getKanBegransas().toString())
-                .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_72, begransningSjukfranvaro.getBeskrivning())
-                .build());
+            if (begransningSjukfranvaro.getKanBegransas() != null) {
+                svars.add(aSvar(BEGRANSNING_SJUKFRANVARO_SVAR_ID_7)
+                        .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71, begransningSjukfranvaro.getKanBegransas().toString())
+                        .withDelsvar(BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_72, begransningSjukfranvaro.getBeskrivning())
+                        .build());
+            }
         }
 
         if (source.getPrognosAtergang() != null) {
             final PrognosAtergang prognosAtergang = source.getPrognosAtergang();
             final PrognosAtergang.Prognos prognos = prognosAtergang.getPrognos();
-            svars.add(aSvar(PROGNOS_ATERGANG_SVAR_ID_8)
-                .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81, aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(), prognos.getLabel()))
-                .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_82, prognosAtergang.getAnpassningar())
-                .build());
+            if (prognos != null) {
+                svars.add(aSvar(PROGNOS_ATERGANG_SVAR_ID_8)
+                        .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81, aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(), prognos.getLabel()))
+                        .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_82, prognosAtergang.getAnpassningar())
+                        .build());
+            }
         }
 
         return svars;

@@ -94,7 +94,7 @@ public final class UtlatandeToIntyg {
                                     utlatande.getUndersokningYttre().getBeskrivning()));
                 }
             }
-            if (utlatande.getUndersokningDatum() != null) {
+            if (utlatande.getUndersokningDatum() != null && utlatande.getUndersokningDatum().isValidDate()) {
                 undersokning.withDelsvar(UNDERSOKNING_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getUndersokningDatum()));
             }
             svar.add(undersokning.build());

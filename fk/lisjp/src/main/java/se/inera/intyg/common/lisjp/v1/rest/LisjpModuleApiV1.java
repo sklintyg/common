@@ -59,6 +59,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
 @Component(value = "moduleapi.lisjp.v1")
 public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
@@ -106,7 +107,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     @Override
     protected RegisterCertificateType internalToTransport(LisjpUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+        return InternalToTransport.convert(utlatande, moduleService);
     }
 
     @Override
@@ -116,7 +117,7 @@ public class LisjpModuleApiV1 extends FkParentModuleApi<LisjpUtlatandeV1> {
 
     @Override
     protected Intyg utlatandeToIntyg(LisjpUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+        return UtlatandeToIntyg.convert(utlatande, moduleService);
     }
 
     @Override

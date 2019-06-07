@@ -20,15 +20,18 @@ package se.inera.intyg.common.ag7804.v1.model.converter;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
 
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -42,6 +45,7 @@ import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -49,6 +53,14 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class TransportToInternalTest {
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     public static Ag7804UtlatandeV1 getUtlatande() {
         Ag7804UtlatandeV1.Builder utlatande = Ag7804UtlatandeV1.builder();
@@ -90,7 +102,7 @@ public class TransportToInternalTest {
     @Test
     public void endToEnd() throws Exception {
         Ag7804UtlatandeV1 originalUtlatande = getUtlatande();
-        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande);
+        RegisterCertificateType transportCertificate = InternalToTransport.convert(originalUtlatande, webcertModuleService);
         Ag7804UtlatandeV1 convertedIntyg = TransportToInternal.convert(transportCertificate.getIntyg());
         assertEquals(originalUtlatande, convertedIntyg);
     }

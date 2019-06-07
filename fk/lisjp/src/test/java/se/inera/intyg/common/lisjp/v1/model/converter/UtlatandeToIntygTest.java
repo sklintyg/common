@@ -19,12 +19,16 @@
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
@@ -33,9 +37,13 @@ import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Test
     public void testConvert() throws Exception {
@@ -68,7 +76,7 @@ public class UtlatandeToIntygTest {
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -112,7 +120,7 @@ public class UtlatandeToIntygTest {
         String relationIntygsId = "relationIntygsId";
         LisjpUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertNotNull(intyg.getRelation());
         assertEquals(1, intyg.getRelation().size());
         assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
@@ -126,14 +134,14 @@ public class UtlatandeToIntygTest {
         Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
         LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().isEmpty());
     }
 
     @Test
     public void testConvertWithConcatToOvrigt() {
         LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!").build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
                 intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
@@ -143,7 +151,7 @@ public class UtlatandeToIntygTest {
     public void testConvertWithConcatToOvrigt2() {
         LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!")
                 .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"
                 + "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: Motivering2!\nTheRealOvrigt",
@@ -155,7 +163,7 @@ public class UtlatandeToIntygTest {
         Sysselsattning sysselsattning = Sysselsattning.create(null);
         LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setSysselsattning(Arrays.asList(sysselsattning)).build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().isEmpty());
     }
 

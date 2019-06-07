@@ -26,7 +26,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
@@ -40,7 +39,6 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.*;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException.ErrorIdEnum;
@@ -105,8 +103,6 @@ public class FkParentModuleApiTest {
     private WebcertModelFactory<Utlatande> webcertModelFactory;
     @Mock
     private RegisterCertificateResponderInterface registerCertificateResponderInterface;
-    @Mock
-    private ModelCompareUtil<Utlatande> modelCompareUtil;
     @Mock
     private GetCertificateResponderInterface getCertificateResponderInterface;
     @Mock
@@ -248,22 +244,6 @@ public class FkParentModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testSendCertificateToRecipientLogicalAddressMissing() throws Exception {
         moduleApi.sendCertificateToRecipient("xml", "", "recipientId");
-    }
-
-    @Test
-    public void testShouldNotifyTrue() throws Exception {
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(true);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertTrue(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
-    }
-
-    @Test
-    public void testShouldNotifyFalse() throws Exception {
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(false);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertFalse(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
     }
 
     @Test

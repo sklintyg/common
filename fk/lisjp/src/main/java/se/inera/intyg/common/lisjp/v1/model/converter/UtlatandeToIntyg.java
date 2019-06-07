@@ -20,6 +20,7 @@ package se.inera.intyg.common.lisjp.v1.model.converter;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil;
 import se.inera.intyg.common.fkparent.model.converter.RespConstants;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
@@ -28,6 +29,7 @@ import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -35,7 +37,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import java.util.ArrayList;
 import java.util.List;
 
-import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
@@ -94,10 +95,10 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(LisjpUtlatandeV1 utlatande) {
+    public static Intyg convert(LisjpUtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
         intyg.setTyp(getTypAvIntyg(utlatande));
-        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
@@ -110,7 +111,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(LisjpUtlatandeV1 source) {
+    private static List<Svar> getSvar(LisjpUtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();
 
         addIfNotNull(svars, AVSTANGNING_SMITTSKYDD_SVAR_ID_27, AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27, source.getAvstangningSmittskydd());
@@ -132,7 +133,7 @@ public final class UtlatandeToIntyg {
 
         addIfNotBlank(svars, NUVARANDE_ARBETE_SVAR_ID_29, NUVARANDE_ARBETE_DELSVAR_ID_29, source.getNuvarandeArbete());
 
-        handleDiagnosSvar(svars, source.getDiagnoser());
+        InternalToTransportUtil.handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
 
         handleIcf(svars, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_DELSVAR_ID_35,
                 source.getFunktionsnedsattning(), source.getFunktionsKategorier(),
@@ -147,13 +148,15 @@ public final class UtlatandeToIntyg {
 
         int sjukskrivningInstans = 1;
         for (Sjukskrivning sjukskrivning : source.getSjukskrivningar()) {
-            svars.add(aSvar(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, sjukskrivningInstans++)
-                    .withDelsvar(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
-                            aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivning.getSjukskrivningsgrad().getId(),
-                                    sjukskrivning.getSjukskrivningsgrad().getLabel()))
-                    .withDelsvar(BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32,
-                            aDatePeriod(sjukskrivning.getPeriod().fromAsLocalDate(), sjukskrivning.getPeriod().tomAsLocalDate()))
-                    .build());
+            if (sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().isValid()) {
+                svars.add(aSvar(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, sjukskrivningInstans++)
+                        .withDelsvar(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
+                                aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivning.getSjukskrivningsgrad().getId(),
+                                        sjukskrivning.getSjukskrivningsgrad().getLabel()))
+                        .withDelsvar(BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32,
+                                aDatePeriod(sjukskrivning.getPeriod().fromAsLocalDate(), sjukskrivning.getPeriod().tomAsLocalDate()))
+                        .build());
+            }
         }
 
         addIfNotBlank(svars, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_DELSVAR_ID_37,

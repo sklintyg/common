@@ -21,14 +21,18 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -41,6 +45,7 @@ import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
@@ -51,6 +56,14 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { BefattningService.class })
 public class InternalToTransportTest {
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     private static URL getResource(String href) {
         return Thread.currentThread().getContextClassLoader().getResource(href);
@@ -96,7 +109,7 @@ public class InternalToTransportTest {
     @Test
     public void testInternalToTransportConversion() throws Exception {
         Ag114UtlatandeV1 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
+        RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
         Ag114UtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
         assertEquals(expected, actual);
@@ -104,13 +117,13 @@ public class InternalToTransportTest {
 
     @Test(expected = ConverterException.class)
     public void testInternalToTransportSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+        InternalToTransport.convert(null, webcertModuleService);
     }
 
     @Test
     public void convertDecorateSvarPaNoRelationTest() throws Exception {
         Ag114UtlatandeV1 utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 }

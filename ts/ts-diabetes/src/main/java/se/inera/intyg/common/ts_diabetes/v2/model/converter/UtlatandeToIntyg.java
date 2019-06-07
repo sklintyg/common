@@ -47,11 +47,7 @@ import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_SVAR_ID_40;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_SVAR_ID_39;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_UNDER_VAKEN_TID_SVAR_ID_42;
@@ -171,21 +167,13 @@ public final class UtlatandeToIntyg {
         if (source == null) {
             return;
         }
-        if (source.getObservationsperiod() != null) {
-            // CHECKSTYLE:OFF EmptyBlock
-            try {
-                svars.add(aSvar(AR_FOR_DIABETESDIAGNOS_SVAR_ID_35)
-                        .withDelsvar(AR_FOR_DIABETESDIAGNOS_DELSVAR_ID_35,
-                                aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getObservationsperiod()))))
-                        .build());
-            } catch (IllegalArgumentException e) {
-                /*
-                 * During conversion for CertificateStatusUpdateForCare v3
-                 * the utlatande might still be an utkast, meaning dates might
-                 * be invalid - in that case conversion skips them.
-                 */
-            }
-            // CHECKSTYLE:ON EmptyBlock
+
+        Year observationsperiod = getYearContent(source.getObservationsperiod());
+        if (observationsperiod != null) {
+            svars.add(aSvar(AR_FOR_DIABETESDIAGNOS_SVAR_ID_35)
+                    .withDelsvar(AR_FOR_DIABETESDIAGNOS_DELSVAR_ID_35,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, observationsperiod))
+                    .build());
         }
 
         if (source.getDiabetestyp() != null) {
@@ -205,19 +193,10 @@ public final class UtlatandeToIntyg {
         if (source.getInsulin() != null) {
             diabetesBehandling.withDelsvar(INSULINBEHANDLING_DELSVAR_ID_19, source.getInsulin().toString());
         }
-        if (source.getInsulinBehandlingsperiod() != null) {
-            // CHECKSTYLE:OFF EmptyBlock
-            try {
-                diabetesBehandling.withDelsvar(INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID_19,
-                        aPartialDate(PartialDateTypeFormatEnum.YYYY, Year.of(Integer.parseInt(source.getInsulinBehandlingsperiod()))));
-            } catch (IllegalArgumentException e) {
-                /*
-                 * During conversion for CertificateStatusUpdateForCare v3
-                 * the utlatande might still be an utkast, meaning dates might
-                 * be invalid - in that case conversion skips them.
-                 */
-            }
-            // CHECKSTYLE:ON EmptyBlock
+        Year insulinBehandlingsperiod = getYearContent(source.getInsulinBehandlingsperiod());
+        if (insulinBehandlingsperiod != null) {
+            diabetesBehandling.withDelsvar(INSULINBEHANDLING_SEDAN_AR_DELSVAR_ID_19,
+                    aPartialDate(PartialDateTypeFormatEnum.YYYY, insulinBehandlingsperiod));
         }
         if (!Strings.nullToEmpty(source.getAnnanBehandlingBeskrivning()).trim().isEmpty()) {
             diabetesBehandling.withDelsvar(ANNAN_BEHANDLING_DELSVAR_ID_19, source.getAnnanBehandlingBeskrivning());

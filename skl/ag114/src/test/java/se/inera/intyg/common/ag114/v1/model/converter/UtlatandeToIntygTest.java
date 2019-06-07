@@ -32,6 +32,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1.Builder;
@@ -44,14 +47,19 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PQType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Test
     public void testConvert() throws Exception {
@@ -86,7 +94,7 @@ public class UtlatandeToIntygTest {
                 patientPostort,
                 null, null).build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -130,7 +138,7 @@ public class UtlatandeToIntygTest {
         String relationIntygsId = "relationIntygsId";
         Ag114UtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertNotNull(intyg.getRelation());
         assertEquals(1, intyg.getRelation().size());
         assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
@@ -151,7 +159,7 @@ public class UtlatandeToIntygTest {
         utlatandeBuilder.setSjukskrivningsgrad(expectedSjukskrivningsGrad);
         utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), webcertModuleService);
 
         final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
         assertNotNull(actualSjukskrivningsGrad);
@@ -172,7 +180,7 @@ public class UtlatandeToIntygTest {
         Builder utlatandeBuilder = buildUtlatandeTemplate();
         utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), webcertModuleService);
 
         final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
         assertNull(actualSjukskrivningsGrad);
@@ -192,7 +200,7 @@ public class UtlatandeToIntygTest {
         utlatandeBuilder.setSjukskrivningsgrad(expectedSjukskrivningsGrad);
         utlatandeBuilder.setSjukskrivningsperiod(sjukskrivningsPeriod);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
+        Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), webcertModuleService);
 
         final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
         assertNull(actualSjukskrivningsGrad);

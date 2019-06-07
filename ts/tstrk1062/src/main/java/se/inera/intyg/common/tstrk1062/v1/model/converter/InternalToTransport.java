@@ -21,6 +21,7 @@ package se.inera.intyg.common.tstrk1062.v1.model.converter;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
@@ -29,13 +30,14 @@ public final class InternalToTransport {
     private InternalToTransport() {
     }
 
-    public static RegisterCertificateType convert(TsTrk1062UtlatandeV1 source) throws ConverterException {
+    public static RegisterCertificateType convert(TsTrk1062UtlatandeV1 source, WebcertModuleService webcertModuleService)
+            throws ConverterException {
         if (source == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
         final RegisterCertificateType tsTrk1062Type = new RegisterCertificateType();
-        tsTrk1062Type.setIntyg(UtlatandeToIntyg.convert(source));
+        tsTrk1062Type.setIntyg(UtlatandeToIntyg.convert(source, webcertModuleService));
         tsTrk1062Type.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
 
         return tsTrk1062Type;

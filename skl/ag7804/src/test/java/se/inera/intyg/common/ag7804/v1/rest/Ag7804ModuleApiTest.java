@@ -405,7 +405,7 @@ public class Ag7804ModuleApiTest {
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
         Ag7804UtlatandeV1 utlatande = getUtlatandeFromFile();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
 

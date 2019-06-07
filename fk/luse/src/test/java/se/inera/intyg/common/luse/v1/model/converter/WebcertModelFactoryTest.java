@@ -24,8 +24,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.luse.v1.model.converter.InternalToTransport;
-import se.inera.intyg.common.luse.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -35,6 +33,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -54,9 +53,12 @@ public class WebcertModelFactoryTest {
     private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
     @InjectMocks
     WebcertModelFactoryImpl modelFactory;
+
     @Mock
     private IntygTextsService intygTextsService;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Before
     public void setUp() {
@@ -95,7 +97,7 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
         LuseUtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertTrue(InternalToTransport.convert(draft).getIntyg().getSvar().isEmpty());
+        assertTrue(InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().isEmpty());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

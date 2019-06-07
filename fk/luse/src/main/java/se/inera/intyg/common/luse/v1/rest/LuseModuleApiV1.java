@@ -49,6 +49,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
 @Component(value = "moduleapi.luse.v1")
 public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
     public static final String SCHEMATRON_FILE = "luse.v1.sch";
@@ -94,7 +95,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     @Override
     protected RegisterCertificateType internalToTransport(LuseUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+        return InternalToTransport.convert(utlatande, moduleService);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class LuseModuleApiV1 extends FkParentModuleApi<LuseUtlatandeV1> {
 
     @Override
     protected Intyg utlatandeToIntyg(LuseUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+        return UtlatandeToIntyg.convert(utlatande, moduleService);
     }
 
     @Override

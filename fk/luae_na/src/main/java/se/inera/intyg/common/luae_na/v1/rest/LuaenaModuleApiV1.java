@@ -94,7 +94,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     protected RegisterCertificateType internalToTransport(LuaenaUtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+        return InternalToTransport.convert(utlatande, moduleService);
     }
 
     @Override
@@ -104,7 +104,7 @@ public class LuaenaModuleApiV1 extends FkParentModuleApi<LuaenaUtlatandeV1> {
 
     @Override
     protected Intyg utlatandeToIntyg(LuaenaUtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+        return UtlatandeToIntyg.convert(utlatande, moduleService);
     }
 
     @Override

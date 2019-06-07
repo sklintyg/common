@@ -117,7 +117,7 @@ public final class UtlatandeToIntyg {
                     if (dodsorsak.getBeskrivning() != null) {
                         foljdSvar.withDelsvar(FOLJD_OM_DELSVAR_ID, dodsorsak.getBeskrivning());
                     }
-                    if (dodsorsak.getDatum() != null) {
+                    if (dodsorsak.getDatum() != null && dodsorsak.getDatum().isValidDate()) {
                         foljdSvar.withDelsvar(FOLJD_DATUM_DELSVAR_ID, getInternalDateContent(dodsorsak.getDatum()));
                     }
                     if (dodsorsak.getSpecifikation() != null) {
@@ -139,7 +139,7 @@ public final class UtlatandeToIntyg {
                     if (bidragandeSjukdom.getBeskrivning() != null) {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID, bidragandeSjukdom.getBeskrivning());
                     }
-                    if (bidragandeSjukdom.getDatum() != null) {
+                    if (bidragandeSjukdom.getDatum() != null && bidragandeSjukdom.getDatum().isValidDate()) {
                         sjukdomSvar.withDelsvar(BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID, getInternalDateContent(bidragandeSjukdom.getDatum()));
                     }
                     if (bidragandeSjukdom.getSpecifikation() != null) {
@@ -168,7 +168,7 @@ public final class UtlatandeToIntyg {
                     break;
                 }
             }
-            if (utlatande.getOperationDatum() != null) {
+            if (utlatande.getOperationDatum() != null && utlatande.getOperationDatum().isValidDate()) {
                 operation.withDelsvar(OPERATION_DATUM_DELSVAR_ID, getInternalDateContent(utlatande.getOperationDatum()));
             }
             if (utlatande.getOperationAnledning() != null) {

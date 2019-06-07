@@ -20,6 +20,8 @@ package se.inera.intyg.common.luse.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.*;
 import java.net.URL;
@@ -28,12 +30,13 @@ import java.util.stream.Collectors;
 import javax.xml.bind.JAXB;
 import javax.xml.transform.stream.StreamSource;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -44,6 +47,7 @@ import com.helger.schematron.svrl.SVRLHelper;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
@@ -64,10 +68,18 @@ public class ConverterTest {
     @InjectMocks
     private InternalDraftValidatorImpl internalValidator;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
+
     private ObjectMapper objectMapper = new CustomObjectMapper();
 
     public ConverterTest() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Before
+    public void setup() {
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     }
 
     @Test
@@ -92,7 +104,7 @@ public class ConverterTest {
         String json = getJsonFromTransport(transport);
         LuseUtlatandeV1 utlatandeFromJson = objectMapper.readValue(json, LuseUtlatandeV1.class);
 
-        RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson);
+        RegisterCertificateType transportConvertedALot = InternalToTransport.convert(utlatandeFromJson, webcertModuleService);
         String convertedXML = getXmlFromModel(transportConvertedALot);
 
         // Do schematron validation on the xml-string from the converted transport format

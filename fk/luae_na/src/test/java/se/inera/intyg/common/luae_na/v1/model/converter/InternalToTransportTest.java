@@ -22,12 +22,16 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
@@ -37,6 +41,7 @@ import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -44,6 +49,14 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class InternalToTransportTest {
+
+    private WebcertModuleService webcertModuleService;
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
+    }
 
     public static LuaenaUtlatandeV1 getUtlatande() {
         return getUtlatande(null, null, null);
@@ -78,7 +91,7 @@ public class InternalToTransportTest {
     @Test
     public void testInternalToTransportConversion() throws Exception {
         LuaenaUtlatandeV1 expected = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(expected);
+        RegisterCertificateType transport = InternalToTransport.convert(expected, webcertModuleService);
         LuaenaUtlatandeV1 actual = TransportToInternal.convert(transport.getIntyg());
 
         assertEquals(expected, actual);
@@ -89,7 +102,7 @@ public class InternalToTransportTest {
         final String meddelandeId = "meddelandeId";
         final String referensId = "referensId";
         LuaenaUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, referensId);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
         assertEquals(referensId, transport.getSvarPa().getReferensId());
@@ -99,7 +112,7 @@ public class InternalToTransportTest {
     public void convertDecorateSvarPaReferensIdNullTest() throws Exception {
         final String meddelandeId = "meddelandeId";
         LuaenaUtlatandeV1 utlatande = getUtlatande(RelationKod.KOMPLT, meddelandeId, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa().getMeddelandeId());
         assertNull(transport.getSvarPa().getReferensId());
@@ -108,19 +121,19 @@ public class InternalToTransportTest {
     @Test
     public void convertDecorateSvarPaNoRelationTest() throws Exception {
         LuaenaUtlatandeV1 utlatande = getUtlatande();
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 
     @Test
     public void convertDecorateSvarPaNotKompltTest() throws Exception {
         LuaenaUtlatandeV1 utlatande = getUtlatande(RelationKod.FRLANG, null, null);
-        RegisterCertificateType transport = InternalToTransport.convert(utlatande);
+        RegisterCertificateType transport = InternalToTransport.convert(utlatande, webcertModuleService);
         assertNull(transport.getSvarPa());
     }
 
     @Test(expected = ConverterException.class)
     public void testConvertSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+        InternalToTransport.convert(null, webcertModuleService);
     }
 }

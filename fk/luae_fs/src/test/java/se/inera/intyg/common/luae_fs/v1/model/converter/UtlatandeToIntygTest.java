@@ -20,6 +20,9 @@ package se.inera.intyg.common.luae_fs.v1.model.converter;
 
 import com.google.common.collect.ImmutableList;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
@@ -28,19 +31,22 @@ import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
-import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
     private final String PNR_TOLVAN = "191212121212";
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Test
     public void testConvert() throws Exception {
@@ -73,7 +79,7 @@ public class UtlatandeToIntygTest {
                 vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
                 null, null);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertEquals(enhetsId, intyg.getIntygsId().getRoot());
         assertEquals(intygsId, intyg.getIntygsId().getExtension());
@@ -117,7 +123,7 @@ public class UtlatandeToIntygTest {
         String relationIntygsId = "relationIntygsId";
         LuaefsUtlatandeV1 utlatande = buildUtlatande(relationKod, relationIntygsId);
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertNotNull(intyg.getRelation());
         assertEquals(1, intyg.getRelation().size());
         assertEquals(relationKod.value(), intyg.getRelation().get(0).getTyp().getCode());
@@ -131,7 +137,7 @@ public class UtlatandeToIntygTest {
         Diagnos diagnos = Diagnos.create(null, Diagnoskodverk.ICD_10_SE.name(), null, null);
         LuaefsUtlatandeV1 utlatande = buildUtlatande().toBuilder().setDiagnoser(Arrays.asList(diagnos)).build();
 
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().isEmpty());
     }
 
@@ -141,7 +147,7 @@ public class UtlatandeToIntygTest {
                 .setUnderlagFinns(true)
                 .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
                 .build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertEquals(2, intyg.getSvar().size());
         assertEquals("2018-01-01", intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0));
     }
@@ -152,10 +158,9 @@ public class UtlatandeToIntygTest {
                 .setUnderlagFinns(true)
                 .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
                 .build();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        assertEquals(2, intyg.getSvar().size());
-        assertEquals(Underlag.UnderlagsTyp.OVRIGT.getId(), ((CVType)((JAXBElement)intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0)).getValue()).getCode());
-        assertEquals("2018-", intyg.getSvar().get(1).getDelsvar().get(1).getContent().get(0));
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
+        assertEquals(1, intyg.getSvar().size());
+        assertEquals("true", intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
     }
 
     private LuaefsUtlatandeV1 buildUtlatande() {

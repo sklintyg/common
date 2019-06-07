@@ -33,6 +33,7 @@ import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -54,6 +55,8 @@ public class WebcertModelFactoryTest {
     @InjectMocks
     WebcertModelFactoryImpl testee;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Before
     public void setupMocks() {
@@ -90,7 +93,7 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
         Ag114UtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertEquals("Should only contain 'Nuvarande arbete'", 1, InternalToTransport.convert(draft).getIntyg().getSvar().size());
+        assertEquals("Should only contain 'Nuvarande arbete'", 1, InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().size());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

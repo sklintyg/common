@@ -88,6 +88,7 @@ import se.inera.intyg.common.ag7804.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -97,10 +98,10 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(Ag7804UtlatandeV1 utlatande) {
+    public static Intyg convert(Ag7804UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
         intyg.setTyp(getTypAvIntyg(utlatande));
-        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
@@ -113,7 +114,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(Ag7804UtlatandeV1 source) {
+    private static List<Svar> getSvar(Ag7804UtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();
 
         addIfNotNull(svars, AVSTANGNING_SMITTSKYDD_SVAR_ID_27, AVSTANGNING_SMITTSKYDD_DELSVAR_ID_27, source.getAvstangningSmittskydd());
@@ -138,7 +139,7 @@ public final class UtlatandeToIntyg {
         //Diagnos
         addIfNotNull(svars, ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100, ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100,
                 source.getOnskarFormedlaDiagnos());
-        handleDiagnosSvar(svars, source.getDiagnoser());
+        handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
 
 
         addIfNotNull(svars, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101,
@@ -151,13 +152,15 @@ public final class UtlatandeToIntyg {
 
         int sjukskrivningInstans = 1;
         for (Sjukskrivning sjukskrivning : source.getSjukskrivningar()) {
-            svars.add(aSvar(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, sjukskrivningInstans++)
-                    .withDelsvar(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
-                            aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivning.getSjukskrivningsgrad().getId(),
-                                    sjukskrivning.getSjukskrivningsgrad().getLabel()))
-                    .withDelsvar(BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32,
-                            aDatePeriod(sjukskrivning.getPeriod().fromAsLocalDate(), sjukskrivning.getPeriod().tomAsLocalDate()))
-                    .build());
+            if (sjukskrivning.getPeriod() != null && sjukskrivning.getPeriod().isValid()) {
+                svars.add(aSvar(BEHOV_AV_SJUKSKRIVNING_SVAR_ID_32, sjukskrivningInstans++)
+                        .withDelsvar(BEHOV_AV_SJUKSKRIVNING_NIVA_DELSVARSVAR_ID_32,
+                                aCV(SJUKSKRIVNING_CODE_SYSTEM, sjukskrivning.getSjukskrivningsgrad().getId(),
+                                        sjukskrivning.getSjukskrivningsgrad().getLabel()))
+                        .withDelsvar(BEHOV_AV_SJUKSKRIVNING_PERIOD_DELSVARSVAR_ID_32,
+                                aDatePeriod(sjukskrivning.getPeriod().fromAsLocalDate(), sjukskrivning.getPeriod().tomAsLocalDate()))
+                        .build());
+            }
         }
 
         addIfNotBlank(svars, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_SVAR_ID_37, FORSAKRINGSMEDICINSKT_BESLUTSSTOD_DELSVAR_ID_37,

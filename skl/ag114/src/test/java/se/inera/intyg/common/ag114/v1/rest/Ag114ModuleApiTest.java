@@ -50,7 +50,6 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -127,9 +126,6 @@ public class Ag114ModuleApiTest {
     @Spy
     private IntygTextsService intygTextsServiceMock;
 
-    @Mock
-    private ModelCompareUtil<Utlatande> modelCompareUtil;
-
     @Spy
     private WebcertModelFactoryImpl webcertModelFactory;
 
@@ -175,7 +171,7 @@ public class Ag114ModuleApiTest {
     @Test
     public void testGetAdditionalInfo() throws Exception {
         Ag114UtlatandeV1 utlatande = getUtlatandeFromFile();
-        Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        Intyg intyg = UtlatandeToIntyg.convert(utlatande, moduleService);
         String result = moduleApi.getAdditionalInfo(intyg);
 
         assertEquals("2018-11-10 - 2018-11-20", result);
@@ -427,24 +423,6 @@ public class Ag114ModuleApiTest {
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
         assertNotEquals("", res);
-    }
-
-    @Test
-    public void testShouldNotifyTrue() throws Exception {
-        final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(true);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertTrue(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
-    }
-
-    @Test
-    public void testShouldNotifyFalse() throws Exception {
-        final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(false);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertFalse(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
     }
 
     // Successful usage of getUtlatandeFromJson is used in a lot of other tests.

@@ -22,19 +22,21 @@ import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public final class InternalToTransport {
     private InternalToTransport() {
     }
 
-    public static RegisterCertificateType convert(LuaenaUtlatandeV1 source) throws ConverterException {
+    public static RegisterCertificateType convert(LuaenaUtlatandeV1 source, WebcertModuleService webcertModuleService)
+            throws ConverterException {
         if (source == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }
 
         RegisterCertificateType luaenaType = new RegisterCertificateType();
-        luaenaType.setIntyg(UtlatandeToIntyg.convert(source));
+        luaenaType.setIntyg(UtlatandeToIntyg.convert(source, webcertModuleService));
         luaenaType.setSvarPa(InternalConverterUtil.getMeddelandeReferensOfType(source, RelationKod.KOMPLT));
         return luaenaType;
     }

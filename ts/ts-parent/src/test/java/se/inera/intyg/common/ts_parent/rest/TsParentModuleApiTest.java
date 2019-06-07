@@ -51,7 +51,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +68,6 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
-import se.inera.intyg.common.support.model.util.ModelCompareUtil;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -121,8 +119,6 @@ public class TsParentModuleApiTest {
     private InternalDraftValidator<Utlatande> internalDraftValidator;
     @Mock
     private WebcertModelFactory<Utlatande> webcertModelFactory;
-    @Mock
-    private ModelCompareUtil<Utlatande> modelCompareUtil;
     @Mock
     private GetCertificateResponderInterface getCertificateResponderInterface;
     @Mock
@@ -212,22 +208,6 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testPdfEmployer() throws Exception {
         moduleApi.pdfEmployer("internalModel", new ArrayList<>(), ApplicationOrigin.INTYGSTJANST, null, UtkastStatus.SIGNED);
-    }
-
-    @Test
-    public void testShouldNotifyTrue() throws Exception {
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(true);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertTrue(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
-    }
-
-    @Test
-    public void testShouldNotifyFalse() throws Exception {
-        when(modelCompareUtil.isValidForNotification(any(Utlatande.class))).thenReturn(false);
-        boolean res = moduleApi.shouldNotify("", json);
-        assertFalse(res);
-        verify(modelCompareUtil).isValidForNotification(any(Utlatande.class));
     }
 
     @Test

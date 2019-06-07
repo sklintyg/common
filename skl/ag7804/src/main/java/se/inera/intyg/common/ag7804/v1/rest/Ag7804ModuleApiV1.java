@@ -115,7 +115,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     protected RegisterCertificateType internalToTransport(Ag7804UtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+        return InternalToTransport.convert(utlatande, moduleService);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
 
     @Override
     protected Intyg utlatandeToIntyg(Ag7804UtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+        return UtlatandeToIntyg.convert(utlatande, moduleService);
     }
 
     @Override

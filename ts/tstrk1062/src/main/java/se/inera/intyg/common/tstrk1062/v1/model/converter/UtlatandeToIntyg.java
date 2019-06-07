@@ -29,8 +29,11 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
@@ -43,16 +46,18 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 
+    private static final Logger LOG = LoggerFactory.getLogger(UtlatandeToIntyg.class);
+
     private static final String DEFAULT_VERSION = "1.0";
 
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande) {
+    public static Intyg convert(TsTrk1062UtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
 
         intyg.setTyp(getTypAvIntyg());
-        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setVersion(getVersion(utlatande).orElse(DEFAULT_VERSION));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
 
@@ -67,7 +72,7 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(TsTrk1062UtlatandeV1 source) {
+    private static List<Svar> getSvar(TsTrk1062UtlatandeV1 source, WebcertModuleService webcertModuleService) {
         final List<Svar> svars = new ArrayList<>();
 
         if (source.getIntygAvser() != null && source.getIntygAvser().getBehorigheter() != null) {
@@ -96,7 +101,7 @@ public final class UtlatandeToIntyg {
             case DIAGNOS_KODAD:
                 final ImmutableList<DiagnosKodad> diagnosKodad = source.getDiagnosKodad();
                 if (diagnosKodad != null) {
-                    handleDiagnosKodad(diagnosKodad, svars);
+                    handleDiagnosKodad(diagnosKodad, svars, webcertModuleService);
                 }
                 break;
             case DIAGNOS_FRITEXT:
@@ -161,40 +166,43 @@ public final class UtlatandeToIntyg {
         return svars;
     }
 
-    private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars) {
+    private static boolean isDiagnoseCodeValid(DiagnosKodad diagnos, WebcertModuleService webcertModuleService) {
+        if (webcertModuleService == null) {
+            LOG.debug("No WebcertModuleService available for validation (happens when outside of Webcert context, e.g. Intygstjanst)");
+            return true;
+        }
+        return webcertModuleService.validateDiagnosisCode(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem());
+    }
+
+    private static void handleDiagnosKodad(ImmutableList<DiagnosKodad> diagnosKodad, List<Svar> svars,
+                                           WebcertModuleService webcertModuleService) {
         int diagnosKodadInstans = 1;
         for (DiagnosKodad diagnos : diagnosKodad) {
-            if (diagnos.getDiagnosKod() == null) {
-                continue;
+            Year diagnosArtal = getYearContent(diagnos.getDiagnosArtal());
+            if (isDiagnoseCodeValid(diagnos, webcertModuleService) && diagnosArtal != null) {
+                svars.add(aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, diagnosKodadInstans++)
+                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
+                                aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
+                                        diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
+                        .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
+                                aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal))
+                        .build());
             }
-            svars.add(aSvar(ALLMANT_DIAGNOSKOD_KODAD_SVAR_ID, diagnosKodadInstans++)
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_ID,
-                            aCV(Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem()).getCodeSystem(),
-                                    diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_ID, diagnos.getDiagnosBeskrivning())
-                    .withDelsvar(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_ID,
-                            aPartialDate(PartialDateTypeFormatEnum.YYYY, getYear(diagnos.getDiagnosArtal())))
-                    .build());
         }
     }
 
     private static void handleDiagnosFritext(DiagnosFritext diagnosFritext, List<Svar> svars) {
-        SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID);
-        diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
-                .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
-                        aPartialDate(PartialDateTypeFormatEnum.YYYY, getYear(diagnosFritext.getDiagnosArtal())));
-
-        if (!diagnosSvar.delSvars.isEmpty()) {
-            svars.add(diagnosSvar.build());
+        Year diagnosArtal = getYearContent(diagnosFritext.getDiagnosArtal());
+        if (diagnosArtal != null) {
+            SvarBuilder diagnosSvar = aSvar(ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_ID);
+            diagnosSvar.withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_ID, diagnosFritext.getDiagnosFritext())
+                    .withDelsvar(ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_ID,
+                            aPartialDate(PartialDateTypeFormatEnum.YYYY, diagnosArtal));
+            if (!diagnosSvar.delSvars.isEmpty()) {
+                svars.add(diagnosSvar.build());
+            }
         }
-    }
-
-    private static Year getYear(String artalAsString) {
-        int artalAsInt = 0;
-        if (artalAsString != null) {
-            artalAsInt = Integer.parseInt(artalAsString);
-        }
-        return Year.of(artalAsInt);
     }
 
     private static void handleLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<Svar> svars) {

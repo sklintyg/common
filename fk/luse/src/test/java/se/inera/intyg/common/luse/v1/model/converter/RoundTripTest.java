@@ -19,7 +19,8 @@
 package se.inera.intyg.common.luse.v1.model.converter;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 import java.io.StringWriter;
 import java.util.Collection;
@@ -30,10 +31,12 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 import org.skyscreamer.jsonassert.JSONAssert;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -49,6 +52,7 @@ import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.luse.v1.utils.Scenario;
 import se.inera.intyg.common.luse.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.luse.v1.utils.ScenarioNotFoundException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
@@ -63,10 +67,18 @@ public class RoundTripTest {
     @SuppressWarnings("unused") // It is actually used to name the test
     private String name;
 
+    private WebcertModuleService webcertModuleService;
+
     public RoundTripTest(String name, Scenario scenario) throws Exception {
         new TestContextManager(getClass()).prepareTestInstance(this);
         this.scenario = scenario;
         this.name = name;
+    }
+
+    @Before
+    public void setup() {
+        webcertModuleService = Mockito.mock(WebcertModuleService.class);
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     }
 
     @Parameters(name = "{index}: Scenario: {0}")
@@ -83,7 +95,7 @@ public class RoundTripTest {
     @Test
     public void testRoundTripInternalFirst() throws Exception {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
-        RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
+        RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel(), webcertModuleService);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
@@ -126,7 +138,7 @@ public class RoundTripTest {
         StringWriter expected = new StringWriter();
         StringWriter actual = new StringWriter();
         marshaller.marshal(wrapJaxb(scenario.asTransportModel()), expected);
-        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
+        marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal, webcertModuleService)), actual);
 
         Diff diff = DiffBuilder
                 .compare(Input.fromString(expected.toString()))

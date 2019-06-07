@@ -24,25 +24,33 @@ import java.time.LocalDateTime;
 
 import org.junit.Test;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
+@RunWith(MockitoJUnitRunner.class)
 public class InternalToTransportTest {
+
+    @Mock
+    private WebcertModuleService webcertModuleService;
 
     @Test(expected = ConverterException.class)
     public void testConvertSourceNull() throws Exception {
-        InternalToTransport.convert(null);
+        InternalToTransport.convert(null, webcertModuleService);
     }
 
     @Test
     public void testConvertSourceWithoutMessage() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = getUtlatande();
 
-        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande);
+        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
         assertNotNull("RegisterCertificateType should not be null", tsTsrk1062);
         assertNotNull("Intyg should not be null", tsTsrk1062.getIntyg());
@@ -61,7 +69,7 @@ public class InternalToTransportTest {
 
         utlatande.getGrundData().setRelation(relation);
 
-        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande);
+        RegisterCertificateType tsTsrk1062 = InternalToTransport.convert(utlatande, webcertModuleService);
 
         assertNotNull("RegisterCertificateType should not be null", tsTsrk1062);
         assertNotNull("Intyg should not be null", tsTsrk1062.getIntyg());

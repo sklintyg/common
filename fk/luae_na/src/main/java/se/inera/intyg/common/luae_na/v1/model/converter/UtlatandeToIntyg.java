@@ -26,6 +26,7 @@ import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
@@ -100,10 +101,10 @@ public final class UtlatandeToIntyg {
     private UtlatandeToIntyg() {
     }
 
-    public static Intyg convert(LuaenaUtlatandeV1 utlatande) {
+    public static Intyg convert(LuaenaUtlatandeV1 utlatande, WebcertModuleService webcertModuleService) {
         Intyg intyg = InternalConverterUtil.getIntyg(utlatande, false);
         intyg.setTyp(getTypAvIntyg(utlatande));
-        intyg.getSvar().addAll(getSvar(utlatande));
+        intyg.getSvar().addAll(getSvar(utlatande, webcertModuleService));
         intyg.setUnderskrift(InternalConverterUtil.base64StringToUnderskriftType(utlatande));
         return intyg;
     }
@@ -116,11 +117,11 @@ public final class UtlatandeToIntyg {
         return typAvIntyg;
     }
 
-    private static List<Svar> getSvar(LuaenaUtlatandeV1 source) {
+    private static List<Svar> getSvar(LuaenaUtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();
 
         int grundForMUInstans = 1;
-        if (source.getUndersokningAvPatienten() != null) {
+        if (source.getUndersokningAvPatienten() != null && source.getUndersokningAvPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
@@ -129,7 +130,7 @@ public final class UtlatandeToIntyg {
                             InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
                     .build());
         }
-        if (source.getJournaluppgifter() != null) {
+        if (source.getJournaluppgifter() != null && source.getJournaluppgifter().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
@@ -138,7 +139,7 @@ public final class UtlatandeToIntyg {
                             InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
                     .build());
         }
-        if (source.getAnhorigsBeskrivningAvPatienten() != null) {
+        if (source.getAnhorigsBeskrivningAvPatienten() != null && source.getAnhorigsBeskrivningAvPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
@@ -147,7 +148,7 @@ public final class UtlatandeToIntyg {
                             InternalConverterUtil.getInternalDateContent(source.getAnhorigsBeskrivningAvPatienten()))
                     .build());
         }
-        if (source.getAnnatGrundForMU() != null) {
+        if (source.getAnnatGrundForMU() != null && source.getAnnatGrundForMU().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
                             aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
@@ -157,7 +158,7 @@ public final class UtlatandeToIntyg {
                     .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, source.getAnnatGrundForMUBeskrivning()).build());
         }
 
-        if (source.getKannedomOmPatient() != null) {
+        if (source.getKannedomOmPatient() != null && source.getKannedomOmPatient().isValidDate()) {
             svars.add(aSvar(KANNEDOM_SVAR_ID_2).withDelsvar(KANNEDOM_DELSVAR_ID_2,
                     InternalConverterUtil.getInternalDateContent(source.getKannedomOmPatient()))
                     .build());
@@ -169,17 +170,19 @@ public final class UtlatandeToIntyg {
 
         int underlagInstans = 1;
         for (Underlag underlag : source.getUnderlag()) {
-            svars.add(
-                    aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
-                            .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
-                                    : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
-                            .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
-                            .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
+            if (underlag.getDatum() != null && underlag.getDatum().isValidDate()) {
+                svars.add(
+                        aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
+                                .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
+                                        : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
+                                .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
+                                .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
+            }
         }
 
         addIfNotBlank(svars, SJUKDOMSFORLOPP_SVAR_ID_5, SJUKDOMSFORLOPP_DELSVAR_ID_5, source.getSjukdomsforlopp());
 
-        handleDiagnosSvar(svars, source.getDiagnoser());
+        handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
 
         if (source.getDiagnosgrund() != null) {
             svars.add(aSvar(DIAGNOSGRUND_SVAR_ID_7).withDelsvar(DIAGNOSGRUND_DELSVAR_ID_7, source.getDiagnosgrund()).build());

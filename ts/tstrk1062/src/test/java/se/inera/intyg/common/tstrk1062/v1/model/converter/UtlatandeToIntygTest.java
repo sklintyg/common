@@ -19,6 +19,8 @@
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
 import static junit.framework.TestCase.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.*;
 
@@ -33,10 +35,13 @@ import org.junit.Test;
 
 import com.google.common.collect.ImmutableList;
 
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.support.Constants;
-import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.tstrk1062.support.TsTrk1062EntryPoint;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.*;
@@ -44,33 +49,37 @@ import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
 
     TsTrk1062UtlatandeV1.Builder builderTemplate;
 
+    @Mock
+    private WebcertModuleService webcertModuleService;
+
     @Before
-    public void setUp() throws Exception {
-        builderTemplate = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()));
+    public void setUp() {
+        builderTemplate = TsTrk1062UtlatandeV1.builder().setGrundData(buildGrundData(LocalDateTime.now()));
+        when(webcertModuleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
     }
 
     @Test
-    public void convertUtlatandeIntygsTyp() throws Exception {
+    public void convertUtlatandeIntygsTyp() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertIntygsTyp(utlatande, intyg);
     }
 
     @Test
-    public void convertUtlatandeIntygsVersion() throws Exception {
+    public void convertUtlatandeIntygsVersion() {
         final TsTrk1062UtlatandeV1 utlatande = builderTemplate
                 .setTextVersion("TextVersion")
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         assertEquals("Intygsversion is not equal", utlatande.getTextVersion(), intyg.getVersion());
     }
@@ -81,7 +90,7 @@ public class UtlatandeToIntygTest {
                 .setIntygAvser(IntygAvser.create(EnumSet.of(IntygAvser.BehorighetsTyp.IAV11)))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertIntygAvser(utlatande.getIntygAvser(), svar.getAllDelsvar(INTYG_AVSER_SVAR_ID_1, INTYG_AVSER_DELSVAR_ID_1));
@@ -93,7 +102,7 @@ public class UtlatandeToIntygTest {
                 .setIdKontroll(IdKontroll.create(IdKontrollKod.KORKORT))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertIdKontroll(utlatande.getIdKontroll(), svar.getDelsvar(ID_KONTROLL_SVAR_ID_1, ID_KONTROLL_DELSVAR_ID_1));
@@ -106,7 +115,7 @@ public class UtlatandeToIntygTest {
                 .setDiagnosFritext(DiagnosFritext.create("Diagnoser", "2017"))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertDiagnosFritext(utlatande.getDiagnosFritext(),
@@ -131,7 +140,7 @@ public class UtlatandeToIntygTest {
                 .setDiagnosKodad(diagnosKodadList)
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertDiagnosKodad(utlatande.getDiagnosKodad(), svar);
@@ -144,7 +153,7 @@ public class UtlatandeToIntygTest {
                         null))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertLakemedelsbehandlingNej(utlatande.getLakemedelsbehandling(), svar);
@@ -157,7 +166,7 @@ public class UtlatandeToIntygTest {
                         null))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertLakemedelsbehandlingJaPagar(utlatande.getLakemedelsbehandling(), svar);
@@ -170,7 +179,7 @@ public class UtlatandeToIntygTest {
                         "Avslutad orsak."))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertLakemedelsbehandlingJaAvslutad(utlatande.getLakemedelsbehandling(), svar);
@@ -182,7 +191,7 @@ public class UtlatandeToIntygTest {
                 .setBedomningAvSymptom("Bedömning av...")
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertBedomningAvSymptom(utlatande.getBedomningAvSymptom(),
@@ -195,7 +204,7 @@ public class UtlatandeToIntygTest {
                 .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.NEJ))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertPrognosTillstandAsBoolean("false", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
@@ -207,7 +216,7 @@ public class UtlatandeToIntygTest {
                 .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.JA))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertPrognosTillstandAsBoolean("true", svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
@@ -219,7 +228,7 @@ public class UtlatandeToIntygTest {
                 .setPrognosTillstand(PrognosTillstand.create(PrognosTillstand.PrognosTillstandTyp.KANEJBEDOMA))
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertPrognosTillstandAsCode(utlatande.getPrognosTillstand(), svar.getDelsvar(SYMPTOM_PROGNOS_SVAR_ID, SYMPTOM_PROGNOS_DELSVAR_ID));
@@ -231,7 +240,7 @@ public class UtlatandeToIntygTest {
                 .setOvrigaKommentarer("Ovriga kommentarer")
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertOvrigaKommentarer(utlatande.getOvrigaKommentarer(),
@@ -244,7 +253,7 @@ public class UtlatandeToIntygTest {
                 .setBedomning(Bedomning.builder().setUppfyllerBehorighetskrav(EnumSet.of(Bedomning.BehorighetsTyp.VAR11)).build())
                 .build();
 
-        final Intyg intyg = UtlatandeToIntyg.convert(utlatande);
+        final Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
         final SvarsWrapper svar = new SvarsWrapper(intyg.getSvar());
         assertBedomning(utlatande.getBedomning(), svar.getAllDelsvar(BEDOMNING_UPPFYLLER_SVAR_ID, BEDOMNING_UPPFYLLER_DELSVAR_ID));

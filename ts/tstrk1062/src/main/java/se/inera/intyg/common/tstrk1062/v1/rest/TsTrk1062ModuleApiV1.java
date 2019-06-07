@@ -124,7 +124,7 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
 
     @Override
     protected Intyg utlatandeToIntyg(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
-        return UtlatandeToIntyg.convert(utlatande);
+        return UtlatandeToIntyg.convert(utlatande, moduleService);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class TsTrk1062ModuleApiV1 extends TsParentModuleApi<TsTrk1062UtlatandeV1
 
     @Override
     protected RegisterCertificateType internalToTransport(TsTrk1062UtlatandeV1 utlatande) throws ConverterException {
-        return InternalToTransport.convert(utlatande);
+        return InternalToTransport.convert(utlatande, moduleService);
     }
 
     @Override
