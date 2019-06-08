@@ -139,7 +139,8 @@ public final class UtlatandeToIntyg {
             final PrognosAtergang.Prognos prognos = prognosAtergang.getPrognos();
             if (prognos != null) {
                 svars.add(aSvar(PROGNOS_ATERGANG_SVAR_ID_8)
-                        .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81, aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(), prognos.getLabel()))
+                        .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_81, aCV(PrognosAtergang.Prognos.KODVERK, prognos.getId(),
+                                prognos.getLabel()))
                         .withDelsvar(PROGNOS_ATERGANG_DELSVAR_ID_82, prognosAtergang.getAnpassningar())
                         .build());
             }
