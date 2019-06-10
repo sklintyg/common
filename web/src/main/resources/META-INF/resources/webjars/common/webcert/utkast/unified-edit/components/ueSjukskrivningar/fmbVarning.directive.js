@@ -47,11 +47,11 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                         var fmbVarning = data;
                         $scope.fmbVarning = fmbVarning;
 
-                        if(fmbVarning.overskriderRekommenderadSjukskrivningstid){
-                            if(fmbVarning.totalTidigareSjukskrivningstid < 1){
+                        if (fmbVarning.overskriderRekommenderadSjukskrivningstid) {
+                            if (fmbVarning.totalTidigareSjukskrivningstid < 1) {
                                 $scope.fmbVarning.text = 'Den föreslagna sjukskrivningsperioden är längre än FMBs rekommendation på ' +
-                                    fmbVarning.maximaltRekommenderadSjukskrivningstid
-                                    + ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
+                                    fmbVarning.maximaltRekommenderadSjukskrivningstid + ' dagar (' +
+                                    fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
                                     fmbVarning.aktuellIcd10Kod + '. Ange en motivering för att underlätta Försäkringskassans handläggning.';
                             } else {
 
