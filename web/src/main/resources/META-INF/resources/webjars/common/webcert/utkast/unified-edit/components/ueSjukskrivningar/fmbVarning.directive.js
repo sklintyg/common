@@ -59,7 +59,7 @@ angular.module('common').directive('fmbVarning', ['$log', '$filter', 'common.fmb
                                     fmbVarning.totalSjukskrivningstidInklusiveForeslagen +
                                     ' dagar och därmed längre än FMBs rekommendation på ' +
                                     fmbVarning.maximaltRekommenderadSjukskrivningstid +
-                                    ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ' ) för diagnosen ' +
+                                    ' dagar (' + fmbVarning.maximaltRekommenderadSjukskrivningstidSource + ') för diagnosen ' +
                                     fmbVarning.aktuellIcd10Kod +
                                     '. Ange en motivering för att underlätta Försäkringskassans handläggning. Sjukskrivningsperioden är baserad på patientens sammanhängande intyg på denna vårdenhet.';
                             }
