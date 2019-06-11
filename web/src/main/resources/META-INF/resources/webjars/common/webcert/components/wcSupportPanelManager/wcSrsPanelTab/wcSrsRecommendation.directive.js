@@ -22,11 +22,16 @@
 angular.module('common').directive('wcSrsRecommendation', [
     function() {
         'use strict';
-
         return {
-            restrict: 'EA',
-            link: function(scope, element, attrs) {
-
+            restrict: 'E',
+            scope: {
+                atgard: '='
+            },
+            link: function($scope, element, attrs) {
+                $scope.collapsed = true;
+                $scope.collapseClicked = function() {
+                    $scope.collapsed = !$scope.collapsed;
+                };
             },
             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendation.directive.html'
         };

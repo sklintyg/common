@@ -70,10 +70,6 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     var chartWidth = 0;
                     var chartHeight = 0;
 
-                    var setTooltipText = function (result) {
-                        $scope.popoverTextNationalStatisticsChart = $scope.srs.prediktionInfo ? $scope.srs.prediktionInfo : 'Andel avslutade sjukskrivningsfall';
-                    };
-
                     var updateCharts = function (result) {
                         chartFactory.addColor(result.statistik);
                         updateResponsiveDesign();
@@ -81,7 +77,6 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                     };
 
                     var dataReceivedSuccess = function(result) {
-                        setTooltipText(result);
                         $scope.statisticNotDone = false;
                         $scope.doneLoading = true;
                         $timeout(function() {
@@ -274,9 +269,6 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         if(statistikChart && typeof statistikChart.destroy === 'function') {
                             statistikChart.destroy();
                         }
-                    });
-                    $scope.$watch('srs.prediktionInfo', function(newVal, oldVal) {
-                        setTooltipText(newVal);
                     });
 
                     $scope.$watch('srs.statistik', function(newVal, oldVal) {

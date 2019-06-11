@@ -1,14 +1,8 @@
-<div id="srsResult{{id}}">
+<div id="srs-result">
 
-
-<!-- TODO: Tag eventuellt bort när slutligt beslut om UI för diagnoskod på högre nivå tagits -->
-<!--    <div ng-if="srs.prediktionInfo">-->
-<!--        <wc-srs-info-box message-string="srs.prediktionInfo"></wc-srs-info-box>-->
-<!--    </div>-->
-
-    <div class="srs-panel-body-content">
+    <div class="srs-panel-body-content" ng-if="!srs.isReadOnly">
         <ul id="tab{{id}}" class="nav nav-tabs nav-justified">
-            <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Åtgärder</a></li>
+            <li class="rounded active"><a data-toggle="tab" ng-click="setActiveTab('atgarder')" href="#atgarder{{id}}">Råd och åtgärder</a></li>
             <li class="rounded" ng-if="srs.isForlangning"><a data-toggle="tab" ng-click="setActiveTab('prediction')" href="#prediction{{id}}">Tidigare riskbedömning</a></li>
             <li class="rounded"><a data-toggle="tab" ng-click="setActiveTab('statistics')" href="#statstics{{id}}">Statistik</a></li>
         </ul>
@@ -22,50 +16,27 @@
                 <div ng-if="srs.atgarderError">
                     <wc-srs-error-box message-string="srs.atgarderError"></wc-srs-error-box>
                 </div>
-
-    <!-- ÅTGÄRDER - OBS -->
-                <div id="atgarderObs" class="recommendation-list">
-                <h3>Tänk på att</h3>
-                <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
-                    <div class="line fullWidth" ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderObs">
-                            <wc-srs-recommendation atgard="{{atgard}}" />
-                    </div>
-                    <div ng-if="srs.atgarder.moreAtgarderObs">
-                        <div class="fullWidth" id="collapseObserves" ng-if="!isObserveCollapsed">
-                            <div class="line fullWidth" ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderObs">
-                                <wc-srs-recommendation atgard="{{atgard}}" />
-                            </div>
-                        </div>
-                        <div class="recommendation-line fullWidth">
-                            <div class="srs-observe-list-collapser" ng-click="isObserveCollapsed = !isObserveCollapsed">
-                                {{isObserveCollapsed ? 'Se fler...':'Se färre...'}}
-                                <i class="glyphicon"
-                                   ng-class="{'glyphicon-menu-down': isObserveCollapsed, 'glyphicon-menu-up': !isObserveCollapsed}"></i></div>
-                        </div>
-                    </div>
-                </div>
-    <!-- ÅTGÄRDER - REK -->
-                <div id="atgarderRek" class="recommendation-list">
-                <h3>Åtgärdsrekommendationer</h3>
-                <b>{{srs.atgarder.atgarderDiagnosisCode}} - {{srs.atgarder.atgarderDiagnosisDescription}}</b>
-
-                    <div class="line fullWidth" ng-repeat="(key,atgard) in srs.atgarder.firstAtgarderRek">
-                            <wc-srs-recommendation atgard="{{atgard}}" />
-                    </div>
-                    <div ng-if="srs.atgarder.moreAtgarderRek">
-                        <div class="fullWidth" id="collapseRecommendations" ng-if="!isRecommendationsCollapsed">
-                            <div class="line fullWidth" ng-repeat="(key,atgard) in srs.atgarder.moreAtgarderRek">
-                                <wc-srs-recommendation atgard="{{atgard}}" />
-                            </div>
-                        </div>
-                        <div class="recommendation-line fullWidth">
-                            <div class="srs-recommendation-list-collapser" ng-click="isRecommendationsCollapsed = !isRecommendationsCollapsed">
-                                {{isRecommendationsCollapsed ? 'Se fler åtgärder...':'Se färre åtgärder...'}}
-                                <i class="glyphicon"
-                                   ng-class="{'glyphicon-menu-down': isRecommendationsCollapsed, 'glyphicon-menu-up': !isRecommendationsCollapsed}"></i></div>
-                        </div>
-                    </div>
-                </div>
+    <!-- ÅTGÄRDER - Förlängning -->
+                <wc-srs-recommendation-list
+                        ng-if="srs.isForlangning"
+                        title="Tänk på att vid förlängning"
+                        recommendations="srs.atgarder.atgarderExt"
+                        srs-scope="srs"/>
+    <!-- ÅTGÄRDER - Tänk på att -->
+                <wc-srs-recommendation-list
+                        title="{{srs.isReadOnly?'Som läkare, tänk på att':'Tänk på att'}}"
+                        recommendations="srs.atgarder.atgarderObs"
+                        srs-scope="srs"
+                />
+    <!-- ÅTGÄRDER - Åtgärdsrekommendationer -->
+                <wc-srs-recommendation-list
+                        title="Åtgärdsrekommendationer"
+                        more-title="Se fler åtgärder..."
+                        less-title="Se färre åtgärder..."
+                        srs-scope="srs"
+                        recommendations="srs.atgarder.atgarderRek"
+                        srs-scope="srs"/>
+    <!-- NER INFO -->
                 <div class="srs-more-information-section">
                     <h3>Mer information</h3>
                     <a ng-click="redirectToAtgardExternalSite(); logAtgarderLasMerButtonClicked();">Information om {{srs.atgarder.atgarderDiagnosisDescription}} hos Rätt Sjukskrivning</a>
@@ -82,7 +53,7 @@
 <!-- STATISTIK -->
 
 
-        <div id="statstics{{id}}" class="tab-pane fade">
+        <div ng-if="!srs.isReadOnly" id="statstics{{id}}" class="tab-pane fade">
             <div class="srs-panel-body-content">
                 <div ng-if="srs.statistikInfo">
                     <wc-srs-info-box message-string="srs.statistikInfo"></wc-srs-info-box>

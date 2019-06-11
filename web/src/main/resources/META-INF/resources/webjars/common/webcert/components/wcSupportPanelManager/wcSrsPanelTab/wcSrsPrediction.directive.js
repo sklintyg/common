@@ -20,12 +20,43 @@
  * Recommendation directive
  */
 angular.module('common').directive('wcSrsPrediction', [
-    function() {
+    'common.srsProxy',
+    function(srsProxy) {
         'use strict';
 
         return {
             restrict: 'EA',
             link: function(scope, element, attrs) {
+                scope.srs.isQuestionsCollapsed = false;
+                scope.questionsCollapserClicked = function() {
+                    if (scope.srs.isQuestionsCollapsed) {
+                        srsProxy.logSrsShowQuestionsClicked(scope.srs.userClientContext, scope.srs.intygId,
+                            scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                    } else {
+                        srsProxy.logSrsHideQuestionsClicked(scope.srs.userClientContext, scope.srs.intygId,
+                            scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                    }
+                    scope.srs.isQuestionsCollapsed = !scope.srs.isQuestionsCollapsed;
+                };
+                scope.calculateClicked = function() {
+                    srsProxy.logSrsCalculateClicked(scope.srs.userClientContext, scope.srs.intygId,
+                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                    scope.retrieveAndSetPrediction().then(function() {
+                        scope.srs.showVisaKnapp = false;
+                        scope.setPrediktionMessages();
+                        scope.setPredictionRiskLevel();
+                    });
+                };
+                scope.retrieveAndSetPrediction = function() {
+                    var qaIds = scope.getSelectedAnswerOptions();
+                    return srsProxy.getPrediction(scope.srs.intygId, scope.srs.personId, scope.srs.diagnosKod,
+                        qaIds).then(function(prediction) {
+                            scope.srs.prediction = prediction;
+                    }, function(error) {
+                        scope.srs.prediction = 'error';
+                    });
+                };
+
 
             },
             templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPrediction.directive.html'

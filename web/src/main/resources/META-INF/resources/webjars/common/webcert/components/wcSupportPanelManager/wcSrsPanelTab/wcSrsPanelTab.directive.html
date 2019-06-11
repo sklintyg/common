@@ -1,33 +1,55 @@
 <!-- PATIENT CONSENT CHECKBOX--->
-<div class="tab-content-title-row">
+<div class="tab-content-title-row" ng-if="!srs.isReadOnly">
     <span class="tab-content-title-row-title" ng-show="!srs.srsApplicable">
         Stöd för rätt sjukskrivning
     </span>
     <span class="tab-content-title-row-title" ng-show="srs.srsApplicable">
         <div class="fullWidth form-group ng-scope">
-            <p>Patienten samtycker till att delta i SRS pilotprojekt</p>
+            <p>Patienten samtycker till att delta i SRS pilot</p>
+
             <div class="srs-option-grid-ms1row">
                 <div class="srs-option-grid-cell">
-                    <label class="radio-inline">
-                        <input type="radio" name="consent-to-srs-radio" ng-value="'JA'" ng-model="srs.consent" ng-change="setConsent('true')"> Ja</label>
+                    <wc-radio-wrapper>
+                        <input id="consent-yes" type="radio" name="consent-to-srs-radio"
+                               ng-value="'JA'" ng-model="srs.consent" ng-change="setConsent('true')">
+                        <label for="consent-yes">Ja</label>
+                    </wc-radio-wrapper>
                 </div>
+
                 <div class="srs-option-grid-cell">
-                    <label class="radio-inline">
-                        <input type="radio" name="consent-to-srs-radio" ng-value="false" ng-model="srs.consent" ng-change="setConsent(false)"> Nej</label>
+                    <wc-radio-wrapper>
+                        <input id="consent-no" type="radio" name="consent-to-srs-radio" ng-value="false"
+                               ng-model="srs.consent" ng-change="setConsent(false)">
+                        <label for="consent-no">Nej</label>
+                    </wc-radio-wrapper>
                 </div>
             </div>
         </div>
     </span>
 </div>
 
+<!-- HEADER IF READONLY/REHABSTÖD -->
+<div class="tab-content-title-row" ng-if="srs.isReadOnly">
+    <span class="tab-content-title-row-title">
+        Stöd för rätt sjukskrivning
+    </span>
+</div>
+
 <!-- DIAGNOSIS HEADER--->
-<div class="srs-diagnos-row" ng-class="{'has-diagnose' : srs.diagnosKod && srs.diagnosBeskrivning}">
+<div class="srs-diagnos-row" ng-class="{'has-diagnose' : srs.diagnosKod && srs.diagnosBeskrivning}" ng-if="!srs.isReadOnly">
     <div class="srs-panel-title" ng-show="srs.diagnosKod">
         <span id="srs_diagnos_heading">{{srs.diagnosKod}} - {{srs.diagnosBeskrivning}}</span>
     </div>
 </div>
 <wc-support-panel-scrollable-body dom-id="srs-panel-scrollable-body">
     <div class="srs-panel-body-content">
+
+        <!-- TÄNK PÅ ATT FÖR REHABKOORDINATORER -->
+        <wc-srs-recommendation-list
+                ng-if="srs.isReadOnly && srs.srsApplicable"
+                title="Som rehabkoordinator, tänk på att"
+                recommendations="srs.atgarder.atgarderReh"
+                srs-scope="srs"/>
 
 <!-- CONSENT ERROR MESSAGE -->
         <div ng-if="srs.consentError">
@@ -44,7 +66,7 @@
 
     <div class="srs-panel-body-content">
         <div ng-if="srs.diagnosKod && !srs.srsApplicable" class="no-diagnose-entered">
-            SRS är ej tillgängligt för diagnoskod {{srs.diagnosKod}}
+            För den angivna diagnosen ({{srs.diagnosKod}}) finns för tillfället inget stöd för sjukskrivning.
         </div>
 
         <div ng-if="!srs.diagnosKod" class="no-diagnose-entered">

@@ -72,14 +72,18 @@ angular.module('common').controller(
                         },
                         active: true
                     });
-                    //Show srs also?
+                    // SRS read only view
                     if (authorityService.isAuthorityActive(
                         {feature: 'SRS', intygstyp: ViewState.common.intygProperties.type})) {
                         panelConfig.tabs.push({
-                            id: 'wc-srs-diagnose-info',
+                            id: 'wc-srs-panel-tab',
                             title: 'common.supportpanel.srs.title',
+                            icon: 'lightbulb_outline',
                             tooltip: 'common.supportpanel.srs.tooltip',
                             config: {
+                                intygContext: panelConfig.intygContext,
+                                isReadOnly: true,
+                                readOnlyIntyg: ViewState.cert,
                                 diagnoseCode: DiagnosExtractor.call(null, ViewState.cert)
                             },
                             active: false
