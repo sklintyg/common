@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
-    function($http, $q, $log) {
+angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$http', '$q', '$log',
+    function(ObjectHelper, $http, $q, $log) {
         'use strict';
 
         function _createGarbageQuestionAnswer() {
@@ -36,56 +36,30 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
 
         function _getPredictionFromResponseData(data) {
             /*jshint maxcomplexity:12 */
-            var prediction = {};
             if(data === 'error'){
                 return data;
             }
-            if(data.predictionDiagnosisDescription) {
-                prediction.predictionDiagnosisDescription = data.predictionDiagnosisDescription;
-            }
-            if(data.predictionDiagnosisCode) {
-                prediction.predictionDiagnosisCode = data.predictionDiagnosisCode;
-            }
-            if(data.predictionDescription) {
-                prediction.description = data.predictionDescription;
-            }
-            if(data.predictionLevel) {
-                prediction.level = data.predictionLevel;
-            }
-            if(data.predictionStatusCode) {
-                prediction.statusCode = data.predictionStatusCode;
-            }
-            if (data.predictionProbabilityOverLimit) {
-                prediction.probabilityOverLimit = data.predictionProbabilityOverLimit;
-            }
-            if (data.predictionPrevalence) {
-                prediction.prevalence = data.predictionPrevalence;
-            }
-            if (data.predictionPhysiciansOwnOpinionRisk) {
-                prediction.opinion = data.predictionPhysiciansOwnOpinionRisk;
-            }
-            if (data.predictionQuestionsResponses) {
-                prediction.predictionQuestionsResponses = data.predictionQuestionsResponses;
-            }
-            if (data.predictionTimestamp) {
-                prediction.predictionTimestamp = data.predictionTimestamp;
-                prediction.predictionDate = moment(Date.parse(data.predictionTimestamp)).format('YYYY-MM-DD');
-            }
-            return prediction;
+            return {
+                predictionDiagnosisDescription: data.predictionDiagnosisDescription,
+                predictionDiagnosisCode: data.predictionDiagnosisCode,
+                description: data.predictionDescription,
+                level: data.predictionLevel,
+                statusCode: data.predictionStatusCode,
+                probabilityOverLimit: data.predictionProbabilityOverLimit,
+                prevalence: data.predictionPrevalence,
+                opinion: data.predictionPhysiciansOwnOpinionRisk,
+                predictionQuestionsResponses: data.predictionQuestionsResponses,
+                predictionTimestamp: data.predictionTimestamp,
+                predictionDate: data.predictionTimestamp?moment(Date.parse(data.predictionTimestamp)).format('YYYY-MM-DD'):undefined
+            };
         }
 
         function _getAtgarderFromResponseData(data) {
             var atgarder = {};
             /* jshint ignore:start */
-            if(data.atgarderDiagnosisDescription) {
-                atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
-            }
-            if(data.atgarderDiagnosisCode) {
-                atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
-            }
-            if (data.atgarderStatusCode) {
-                atgarder.atgarderStatusCode = data.atgarderStatusCode;
-            }
+            atgarder.atgarderDiagnosisDescription = data.atgarderDiagnosisDescription;
+            atgarder.atgarderDiagnosisCode = data.atgarderDiagnosisCode;
+            atgarder.atgarderStatusCode = data.atgarderStatusCode;
             if (data.atgarderRek) {
                 atgarder.atgarderRek = {
                     diagnosisCode: data.atgarderDiagnosisCode,
@@ -122,27 +96,16 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
         }
 
         function _getStatistikFromResponseData(data) {
-            var statistik = {};
-            /* jshint ignore:start */
-            if(data.statistikDiagnosisDescription) {
-                statistik.statistikDiagnosisDescription = data.statistikDiagnosisDescription;
-            }
-            if(data.statistikDiagnosisCode) {
-                statistik.statistikDiagnosisCode = data.statistikDiagnosisCode;
-            }
-            if (data.statistikStatusCode) {
-                statistik.statistikStatusCode = data.statistikStatusCode;
-            }
-            if (data.statistikBild) {
-                statistik.statistikBild = data.statistikBild;
-            }
-            if (data.statistikNationellStatistik) {
-                statistik.nationellStatistik = data.statistikNationellStatistik;
-            }
+            var statistik = {
+                statistikDiagnosisDescription: data.statistikDiagnosisDescription,
+                statistikDiagnosisCode: data.statistikDiagnosisCode,
+                statistikStatusCode: data.statistikStatusCode,
+                statistikBild: data.statistikBild,
+                nationellStatistik: data.statistikNationellStatistik
+            };
             if(angular.equals({}, statistik)) {
                 statistik = null;
             }
-            /* jshint ignore:end */
             return statistik;
         }
 
@@ -199,162 +162,32 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             });
         }
 
-        function isDefined(input) {
-            return input !== undefined && input !== '';
-        }
-
-        // SRS_LOADED,
-        function _logSrsLoaded(userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) &&
-                isDefined(careUnitId) && isDefined(diagnosisCode)) {
+        /**
+         * Monitor logging for SRS
+         * @param eventType 'SRS_LOADED', 'SRS_PANEL_ACTIVATED', 'SRS_CONSENT_ANSWERED', 'SRS_QUESTION_ANSWERED'
+         *  'SRS_CALCULATE_CLICKED', 'SRS_HIDE_QUESTIONS_CLICKED', 'SRS_SHOW_QUESTIONS_CLICKED',
+         *  'SRS_MEASURES_SHOW_MORE_CLICKED', 'SRS_MEASURES_LINK_CLICKED', 'SRS_STATISTICS_ACTIVATED',
+         *  'SRS_STATISTICS_LINK_CLICKED'
+         * @param userClientContext The client context UTK=utkast, REH
+         * @param intygsId
+         * @param caregiverId
+         * @param careUnitId
+         * @param diagnosisCode only used on 'SRS_LOADED'
+         * @private
+         */
+        function _logSrsMonitor(eventType, userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode) {
+            if (ObjectHelper.isDefined(eventType) && ObjectHelper.isDefined(userClientContext) &&
+                ObjectHelper.isDefined(intygsId) && ObjectHelper.isDefined(caregiverId) &&
+                ObjectHelper.isDefined(careUnitId) &&
+                (eventType!=='SRS_LOADED' || eventType==='SRS_LOADED' && ObjectHelper.isDefined(diagnosisCode))) {
                 $http.post('/api/jslog/srs', {
-                    'event': 'SRS_LOADED',
+                    'event': eventType,
                     'info': {
                         'userClientContext': userClientContext,
                         'intygId': intygsId,
                         'caregiverId': caregiverId,
                         'careUnitId': careUnitId,
                         'mainDiagnosisCode': diagnosisCode
-                    }
-                });
-            }
-        }
-        // SRS_PANEL_ACTIVATED,
-        function _logSrsPanelActivated(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_PANEL_ACTIVATED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_CONSENT_ANSWERED,
-        function _logSrsConsentAnswered(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_CONSENT_ANSWERED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_QUESTION_ANSWERED,
-        function _logSrsQuestionAnswered(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_QUESTION_ANSWERED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_CALCULATE_CLICKED,
-        function _logSrsCalculateClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_CALCULATE_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_HIDE_QUESTIONS_CLICKED,
-        function _logSrsHideQuestionsClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_HIDE_QUESTIONS_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_SHOW_QUESTIONS_CLICKED,
-        function _logSrsShowQuestionsClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_SHOW_QUESTIONS_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_MEASURES_SHOW_MORE_CLICKED,
-        function _logSrsMeasuresShowMoreClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_MEASURES_SHOW_MORE_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_MEASURES_LINK_CLICKED,
-        function _logSrsMeasuresLinkClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_MEASURES_LINK_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_STATISTICS_ACTIVATED,
-        function _logSrsStatisticsActivated(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_STATISTICS_ACTIVATED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
-                    }
-                });
-            }
-        }
-        // SRS_STATISTICS_LINK_CLICKED
-        function _logSrsStatisticsLinkClicked(userClientContext, intygsId, caregiverId, careUnitId) {
-            if (isDefined(userClientContext) && isDefined(intygsId) && isDefined(caregiverId) && isDefined(careUnitId)) {
-                $http.post('/api/jslog/srs', {
-                    'event': 'SRS_STATISTICS_LINK_CLICKED',
-                    'info': {
-                        'userClientContext': userClientContext,
-                        'intygId': intygsId,
-                        'caregiverId': caregiverId,
-                        'careUnitId': careUnitId
                     }
                 });
             }
@@ -382,17 +215,34 @@ angular.module('common').factory('common.srsProxy', ['$http', '$q', '$log',
             getHistoricPredictionForDiagnosis: _getHistoricPredictionForDiagnosis,
             setConsent: _setConsent,
             getSrsForDiagnoseOnly: _getSrsForDiagnoseOnly,
-            logSrsLoaded: _logSrsLoaded,
-            logSrsPanelActivated: _logSrsPanelActivated,
-            logSrsConsentAnswered: _logSrsConsentAnswered,
-            logSrsQuestionAnswered: _logSrsQuestionAnswered,
-            logSrsCalculateClicked: _logSrsCalculateClicked,
-            logSrsHideQuestionsClicked: _logSrsHideQuestionsClicked,
-            logSrsShowQuestionsClicked: _logSrsShowQuestionsClicked,
-            logSrsMeasuresShowMoreClicked: _logSrsMeasuresShowMoreClicked,
-            logSrsMeasuresLinkClicked: _logSrsMeasuresLinkClicked,
-            logSrsStatisticsActivated: _logSrsStatisticsActivated,
-            logSrsStatisticsLinkClicked: _logSrsStatisticsLinkClicked
+            logSrsLoaded: function(userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode) {
+                _logSrsMonitor('SRS_LOADED', userClientContext, intygsId, caregiverId, careUnitId, diagnosisCode);},
+            logSrsPanelActivated: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_PANEL_ACTIVATED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsConsentAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_CONSENT_ANSWERED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsQuestionAnswered: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_QUESTION_ANSWERED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsCalculateClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_CALCULATE_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsHideQuestionsClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_HIDE_QUESTIONS_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsShowQuestionsClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_SHOW_QUESTIONS_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsMeasuresShowMoreClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_MEASURES_SHOW_MORE_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsMeasuresLinkClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_MEASURES_LINK_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsStatisticsActivated: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_STATISTICS_ACTIVATED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsStatisticsLinkClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_STATISTICS_LINK_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+
+            __test__: {
+                getPredictionFromResponseData: _getPredictionFromResponseData,
+                getStatistikFromResponseData: _getStatistikFromResponseData,
+                logSrsMonitoring: _logSrsMonitor
+            }
         };
     }]);
 
