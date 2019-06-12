@@ -64,10 +64,8 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
                     ArendeListViewState.setArendeList(result);
 
                     angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
-                        if (arendeListItem.isOpen()) {
-                            if (arendeListItem.isKomplettering()) {
-                                $scope.unhandledKompletteringCount++;
-                            }
+                        if (arendeListItem.isOpen() && arendeListItem.isKomplettering()) {
+                            $scope.unhandledKompletteringCount++;
                         }
                     });
 
@@ -85,7 +83,7 @@ angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
                 });
             }
             $scope.kompletteringarFilter = function(arendeListItem) {
-                return arendeListItem.isKomplettering();
+                return arendeListItem.isOpen() && arendeListItem.isKomplettering();
             };
 
             fetchArenden($stateParams.certificateId, $state.current.data.intygType);
