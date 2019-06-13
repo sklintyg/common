@@ -24,9 +24,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Strings;
+import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
+import se.inera.intyg.common.lisjp.model.internal.Prognos;
+import se.inera.intyg.common.lisjp.model.internal.PrognosDagarTillArbeteTyp;
+import se.inera.intyg.common.lisjp.model.internal.PrognosTyp;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
+import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -35,6 +45,11 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Factory for creating an editable model.
@@ -60,6 +75,56 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LisjpUtlatan
         LOG.trace("Creating draft with id {}", newDraftData.getCertificateId());
 
         LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
+
+        /*
+        Tanken är att CreateNewDraftHolder har en optional List<Svar> (medskickad från CreateDraftCertificareResponder) innehållande potentiell
+
+        förifyllnadsinformation från CreateDraftCertificate 3.3
+        De intyg som skall ha stöd för förifyllnad, kan traversera den strukturen och utifrån den sätta Utlåtande properties direkt i templateobjektet mha fristående:
+
+        PrefillBuilder.prefill(LisjpUtlatandeV1.Builder template, List<Svar> prefillSvar)
+
+        Ev skall tomt datum i "Baserat på" svaren defaulta till dagens datum
+        Ev skall tomt fält i sjukskrivningspersion from fält sättas till dagens datum
+        Ev skall tom diagnosbeskrivning slås upp från medskickad diagnoskod.
+        */
+
+        template.setAktivitetsbegransning("En förifylld aktivitetsbegränsingstext");
+        template.setFunktionsnedsattning("En förifylld funktionsnedsättningstext");
+        //template.setAvstangningSmittskydd(true);
+
+        template.setNuvarandeArbete("Förifyllt nuvarande arbete (och krysset)");
+        template.setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)));
+        template.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
+        String from = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
+        String tom ="";
+        Sjukskrivning p1 = Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(from,tom));
+        template.setSjukskrivningar(Arrays.asList(p1));
+
+        Diagnos d1 = Diagnos.create("J22", Diagnoskodverk.ICD_10_SE.name(), "DIagnosbeskrivningen", "diagnosDisplayValue");
+        Diagnos d2 = Diagnos.create("J922", Diagnoskodverk.ICD_10_SE.name(), "", "diagnosDisplayValue");
+        template.setDiagnoser(Arrays.asList(d1, d2));
+
+        template.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_60));
+        ArbetslivsinriktadeAtgarder a1 = ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING);
+        template.setArbetslivsinriktadeAtgarder(Arrays.asList(a1));
+        template.setArbetslivsinriktadeAtgarderBeskrivning("Förifylld ArbetslivsinriktadeAtgarderBeskrivning (och val av Arbetsanpassning)");
+
+        template.setArbetsresor(true);
+        template.setKontaktMedFk(true);
+        template.setAnledningTillKontakt("Förifylld anledning till kontakt med FK");
+
+        template.setArbetstidsforlaggning(true);
+        template.setArbetstidsforlaggningMotivering("Förifylld arbetstidsforlaggning Motivering");
+
+        template.setPagaendeBehandling("Förifylld Pågående behandling");
+        template.setPlaneradBehandling("Förifylld Planerad behandling");
+
+        template.setOvrigt("FÖrifyllt Övrigfält");
+        template.setForsakringsmedicinsktBeslutsstod("Förifyllt försäkringsmedicinskt beslutstöd");
+
+
+
         GrundData grundData = new GrundData();
 
         populateWithId(template, newDraftData.getCertificateId());
