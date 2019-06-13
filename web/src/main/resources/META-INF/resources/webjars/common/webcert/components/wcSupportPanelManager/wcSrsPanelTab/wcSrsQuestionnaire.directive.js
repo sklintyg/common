@@ -17,9 +17,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * Display SRS questionaire
+ * Display SRS questionnaire
  */
-angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', 'common.srsViewState',
+angular.module('common').directive('wcSrsQuestionnaire', ['common.srsProxy', 'common.srsViewState',
     function(srsProxy, srsViewState) {
         'use strict';
 
@@ -27,6 +27,8 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', 'com
             restrict: 'E',
             link: function(scope, element, attrs) {
                 scope.change = function() {
+                    srsProxy.logSrsQuestionAnswered(scope.srs.userClientContext, scope.srs.intygId,
+                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
                     if(!scope.prediction) {
                         scope.prediction = {};
                     }
@@ -41,6 +43,6 @@ angular.module('common').directive('wcSrsQuestionaire', ['common.srsProxy', 'com
 
                 };
             },
-            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsQuestionaire.directive.html'
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsQuestionnaire.directive.html'
         };
     }]);

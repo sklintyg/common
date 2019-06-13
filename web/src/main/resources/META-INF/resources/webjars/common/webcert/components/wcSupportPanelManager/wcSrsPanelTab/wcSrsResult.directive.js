@@ -37,7 +37,7 @@
  */
 
 /**
- * Display SRS questionaire
+ * Display SRS questionnaire
  */
 angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelper', 'common.srsProxy', 'common.srsLinkCreator',
     function($window, ObjectHelper, srsProxy, srsLinkCreator) {
@@ -46,20 +46,26 @@ angular.module('common').directive('wcSrsResult', ['$window', 'common.ObjectHelp
         return {
             restrict: 'E',
             link: function (scope, element, attrs) {
-
                 scope.externalRisk = {
                     templateUrl: '/web/webjars/common/webcert/utkast/srs/wcSrsResult.risk-popover.html'
                 };
 
-                scope.isRecommendationsCollapsed = true;
-                scope.isObserveCollapsed = true;
-
-                scope.onRecommendationCollapserClicked = function() {
-                    scope.isRecommendationsCollapsed = !scope.isRecommendationsCollapsed;
+                scope.logAtgarderLasMerButtonClicked = function() {
+                    srsProxy.logSrsMeasuresLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
+                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
                 };
 
-                scope.onObserveCollapserCLicked = function() {
-                    scope.isObserveCollapsed = !scope.isObserveCollapsed;
+                scope.logStatistikLasMerButtonClicked = function() {
+                    srsProxy.logSrsStatisticsLinkClicked(scope.srs.userClientContext, scope.srs.intygId,
+                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                };
+
+                scope.setActiveTab = function(tabname) {
+                    if (tabname === 'statistics') {
+                        srsProxy.logSrsStatisticsActivated(scope.srs.userClientContext, scope.srs.intygId,
+                            scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                    }
+                    scope.srs.activeTab = tabname;
                 };
 
                 scope.readMoreRisk = function(){

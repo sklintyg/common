@@ -1,0 +1,33 @@
+<div id="questionnaire" class="intyg-block__titlerow ng-scope">
+    <section>
+        <div >
+            <div ng-repeat="question in srs.questions track by $index" class="srs-question-element">
+                <b>{{question.text}}</b>
+                <div class="srs-question-answers srs-option-grid">
+                    <div class="srs-question-answer srs-option-grid-cell"
+                         ng-repeat="answer in question.answerOptions track by $index" for="{{answer}}">
+                        <wc-radio-wrapper>
+                            <input type="radio" ng-disabled="srs.consent !== 'JA' || srs.isForlangning" ng-change="change()"
+                                   id="q-{{question.questionId}}-a-{{answer.id}}"
+                                   name="q{{question.questionId}}" ng-model="question.model" ng-value="answer" />
+                            <label for="q-{{question.questionId}}-a-{{answer.id}}">{{answer.text}}</label>
+                        </wc-radio-wrapper>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="srs-questions-submit">
+            <button type="button" id="showBtn-a8722b69-ae4c-4d28-bdf4-9af526c29a44" class="floatLeft btn btn-secondary ng-binding"
+                    ng-click="calculateClicked()"
+                    ng-disabled="!srs.showVisaKnapp || srs.consent !== 'JA' || srs.isForlangning"
+                    ng-if="!srs.isForlangning"
+
+                    popover-popup-delay="300" popover-append-to-body="true"
+                popover-placement="auto top">
+                    Beräkna
+            </button>
+        </div>
+    </section>
+    <br><br>
+</div>

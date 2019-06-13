@@ -1,4 +1,5 @@
 wc-srs-panel-tab {
+  overflow: auto;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -41,8 +42,9 @@ wc-srs-panel-tab {
     border-left: 0px;
     border-right: 0px;
     border-style: solid;
-    border-color: #E8E8E8;
-    background-color: #F1F1F1;
+    border-color: $wc-color-24;
+    border-bottom-color: $wc-color-13;
+    background-color: $wc-color-28;
     height: 13px;
   }
 
@@ -164,164 +166,51 @@ wc-srs-panel-tab {
   }
 
   .srs-question-answers {
+    padding-top: 10px;
     padding-bottom: 20px;
-    //display: flex;
-    //flex-flow: row wrap;
-    //flex-wrap: wrap;
-    //justify-content: space-around;
   }
 
   .srs-question-answer {
-    //flex: 1 1 130px;
   }
 
-  //// Special construct since IE don't support automatic wrapping in grids
-  //.srs-question-answer:nth-child(n+1) {
-  //  -ms-grid-column: 1;
-  //  -ms-grid-row: 1;
-  //}
-  //.srs-question-answer:nth-child(n+2) {
-  //  -ms-grid-column: 2;
-  //  -ms-grid-row: 1;
-  //}
-  //.srs-question-answer:nth-child(n+3) {
-  //  -ms-grid-column: 3;
-  //  -ms-grid-row: 1;
-  //}
-  //.srs-question-answer:nth-child(n+4) {
-  //  -ms-grid-column: 4;
-  //  -ms-grid-row: 1;
-  //}
-  //.srs-question-answer:nth-child(n+5) {
-  //  -ms-grid-column: 1;
-  //  -ms-grid-row: 2;
-  //}
-  //.srs-question-answer:nth-child(n+6) {
-  //  -ms-grid-column: 2;
-  //  -ms-grid-row: 2;
-  //}
-  //.srs-question-answer:nth-child(n+7) {
-  //  -ms-grid-column: 3;
-  //  -ms-grid-row: 2;
-  //}
-  //.srs-question-answer:nth-child(n+8) {
-  //  -ms-grid-column: 4;
-  //  -ms-grid-row: 2;
-  //}
 
-  //// Special construct since IE don't support automatic wrapping in grids
-  //@media (max-width: 1200px) {
-  //  .srs-question-answers {
-  //    display: -ms-grid;
-  //    //display: grid;
-  //
-  //    -ms-grid-columns: 1fr 1fr;
-  //    //grid-template-columns: repeat(auto-fill, minmax(130px,1fr));
-  //    -ms-grid-rows: 1fr 1fr 1fr 1fr;
-  //  }
-  //  .srs-question-answer:nth-child(n+1) {
-  //    -ms-grid-column: 1;
-  //    -ms-grid-row: 1;
-  //  }
-  //  .srs-question-answer:nth-child(n+2) {
-  //    -ms-grid-column: 2;
-  //    -ms-grid-row: 1;
-  //  }
-  //  .srs-question-answer:nth-child(n+3) {
-  //    -ms-grid-column: 1;
-  //    -ms-grid-row: 2;
-  //  }
-  //  .srs-question-answer:nth-child(n+4) {
-  //    -ms-grid-column: 2;
-  //    -ms-grid-row: 2;
-  //  }
-  //  .srs-question-answer:nth-child(n+5) {
-  //    -ms-grid-column: 1;
-  //    -ms-grid-row: 3;
-  //  }
-  //  .srs-question-answer:nth-child(n+6) {
-  //    -ms-grid-column: 2;
-  //    -ms-grid-row: 3;
-  //  }
-  //  .srs-question-answer:nth-child(n+7) {
-  //    -ms-grid-column: 1;
-  //    -ms-grid-row: 4;
-  //  }
-  //  .srs-question-answer:nth-child(n+8) {
-  //    -ms-grid-column: 2;
-  //    -ms-grid-row: 4;
-  //  }
-  //
-  //}
+  // Internal tab
+  ul.nav.nav-tabs > li.rounded > a {
+    background-color: $wc-color-00 !important; // Need to use important because somebody used important on the wc-common.css
+    border-color: $wc-color-00;
+    border-radius: 16px;
+    color: $wc-color-19 !important;// Need to use important because somebody used important on the wc-common.css
+    text-decoration: none;
+  }
 
-    // Internal tab
-    ul.nav.nav-tabs > li.rounded > a {
-      background-color: #FFFFFF !important; // Need to use important because somebody used important on the wc-common.css
-      border-color: #FFFFFF;
-      border-radius: 16px;
-      color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
-      text-decoration: none;
-    }
+  ul.nav.nav-tabs > li.rounded > a:hover {
+    border-color: $wc-color-21;
+    color: $wc-color-19 !important;// Need to use important because somebody used important on the wc-common.css
+  }
 
-    ul.nav.nav-tabs > li.rounded > a:hover {
-      border-color: #496CEC;
-      color: #292F4F !important;// Need to use important because somebody used important on the wc-common.css
-    }
+  ul.nav.nav-tabs > li.rounded.active > a {
+    background-color: $wc-color-21 !important; // Need to use important because somebody used important on the wc-common.css
+    border-color: $wc-color-21;
+    color: $wc-color-00 !important;// Need to use important because somebody used important on the wc-common.css
+  }
 
-    ul.nav.nav-tabs > li.rounded.active > a {
-      background-color: #496CEC !important; // Need to use important because somebody used important on the wc-common.css
-      border-color: #496CEC;
-      color: #FFFFFF !important;// Need to use important because somebody used important on the wc-common.css
-    }
-
-    .nav {
-      .nav-tabs {
-        .rounded {
-          border-radius: 14px;
-        }
-        .rounded.active {
-          background-color: #496CEC;
-        }
-      }
-    }
-
-  #srsResult .tab-pane {
+  #srs-result .tab-pane {
     padding-top: 20px;
   }
 
-
-   //.nav-tabs > li.rounded.active > a,
-   //.nav-tabs > li.rounded.active > a:hover,
-   //.nav-tabs > li.rounded.active > a:focus  {
-   //  background-color: $wc-color-00 !important;
-   //  color: $wc-color-07 !important;
-   //}
-   //
-   //.nav-tabs > li.rounded > a  {
-   //  background-color: $wc-color-10 !important;
-   //  color: $wc-color-00 !important;
-   //}
-   //
-   //.tab-inactive{
-   //  background-color: $wc-color-10 !important;
-   //  color: $wc-color-00 !important;
-   //}
-
-
-  #statistik {
-
-  }
-
-  #atgarder {
+  wc-srs-recommendation-list {
+    margin-bottom: 10px;
 
     .srsRecommendation {
-      margin-left: 10px;
-      padding-top: 10px;
-      padding-bottom: 10px;
-      display: block;
+      margin-left: 15px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+
+      .clearfix {
+        clear: both;
+      }
 
       .collapser {
-        display: block;
         text-decoration: underline;
         font-family: Roboto, helvetica, arial, sans-serif;
         cursor: pointer;
@@ -329,7 +218,6 @@ wc-srs-panel-tab {
 
       .recommendation-line {
         margin-left: 5px;
-        display: block;
       }
 
       .srsRecommendationTitle {
@@ -342,16 +230,14 @@ wc-srs-panel-tab {
       }
 
       .srsRecommendationText {
-        color: #777;
-        padding-bottom: 20px;
+        color: $wc-color-09;
       }
     }
 
-    .srs-recommendation-list-collapser, .srs-observe-list-collapser {
+    .srs-recommendation-list-collapser {
       text-decoration: underline;
-      font-family: Roboto, helvetica, arial, sans-serif;
+      padding-bottom: 10px;
       text-align: center;
-      overflow: auto;
       cursor: pointer;
       width: 100%;
     }

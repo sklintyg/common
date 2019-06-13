@@ -37,7 +37,7 @@
  */
 
 /**
- * Display SRS questionaire
+ * Display SRS questionnaire
  */
 angular.module('common').directive('wcSrsErrorBox', [
     function (srsProxy) {
@@ -51,6 +51,6 @@ angular.module('common').directive('wcSrsErrorBox', [
             link: function (scope, element, attrs) {
                
             },
-            templateUrl: '/web/webjars/common/webcert/utkast/srs/components/wcSrsErrorBox.directive.html'
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/common/wcSrsErrorBox.directive.html'
         };
     }]);

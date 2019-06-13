@@ -3,7 +3,7 @@
             <div class="risk-widget">
                 <div class="risk-widget-header">
                     <span class="risk-widget-title">
-                        <span class="risk-header-line">Risk för sjukskrivning längre än 90 dagar</span>
+                        <h3 class="risk-header-line">Risk för sjukskrivning längre än 90 dagar</h3>
                         <span>{{srs.prediction.predictionDiagnosisCode}} {{srs.prediction.predictionDiagnosisDescription}}</span>
 
                         <i class="material-icons md-18 diagnosinfo"
@@ -22,7 +22,7 @@
                         <li>Genomsnittlig risk: {{srs.prediction.prevalence*100|number: '0'}}%</li>
                         <li data-ng-if="srs.prediction.probabilityOverLimit">
                             <b>Patientens risk: {{srs.prediction.probabilityOverLimit*100|number: '0'}}%
-                            ({{srs.prediction.riskLevel}})</b>
+                            ({{srs.prediction.riskLevel}}<span ng-if="srs.prediction.predictionDate"> - beräknad {{srs.prediction.predictionDate}}</span>)</b>
                         </li>
                     </ul>
                 </div>
