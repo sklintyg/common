@@ -174,7 +174,8 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                 backgroundColor : null, //transparent
                                 plotBorderWidth: 1,
                                 width: chartWidth,
-                                height: chartHeight
+                                height: chartHeight,
+                                marginTop: 14
                             },
                             title: {
                                 text: null
@@ -252,7 +253,7 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                                         title = title.oldName ? title.oldName : title.name;
                                     }
 
-                                    return title + ' dagar <b>' + this.y + '</b> ' + '%';
+                                    return title + ' dagar <b>' + this.y + '%</b>';
                                 }
                             },
                             credits : {
