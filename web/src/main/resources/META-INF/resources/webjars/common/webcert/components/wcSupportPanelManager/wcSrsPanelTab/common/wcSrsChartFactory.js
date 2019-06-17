@@ -152,15 +152,15 @@ angular.module('common').factory('common.wcSrsChartFactory',
             if (chartType === 'bubble') {
                 formatter = function() {
                     var value = percentChart ?
-                        Highcharts.numberFormat(this.percentage, 0, ',') + ' %' :
+                        Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
                         ControllerCommons.makeThousandSeparated(this.point.z);
                     return '<b>' + value + '</b> ' + unit + ' för ' + this.series.name;
                 };
             } else {
                 formatter = function() {
                     var value = percentChart ?
-                        Highcharts.numberFormat(this.percentage, 0, ',') + ' %' :
-                        ControllerCommons.makeThousandSeparated(this.y) + (usingAndel ? ' %' : '');
+                        Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
+                        ControllerCommons.makeThousandSeparated(this.y) + (usingAndel ? '%' : '');
 
                     var title = this.x ? this.x : this.point.name;
 
@@ -168,7 +168,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                         title = title.oldName ? title.oldName : title.name;
                     }
 
-                    return title + ' <b>' + value + '</b> ' + unit;
+                    return title + ' <b>' + value + unit + '</b>' ;
                 };
             }
 
@@ -295,7 +295,7 @@ angular.module('common').factory('common.wcSrsChartFactory',
                     },
                     labels : {
                         formatter : function() {
-                            return ControllerCommons.makeThousandSeparated(this.value) + (options.unit ? options.unit : (options.percentChart || options.usingAndel ? ' %' : ''));
+                            return ControllerCommons.makeThousandSeparated(this.value) + (options.unit ? options.unit : (options.percentChart || options.usingAndel ? '%' : ''));
                         }
                     }
                 }],
