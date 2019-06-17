@@ -20,11 +20,11 @@ angular.module('common').controller('smi.EditCertCtrl',
     ['$scope', '$state', '$stateParams',
         'common.UtkastService', 'common.UserModel', 'common.fmbService', 'common.fmbViewState',
         'ViewState', 'UtkastConfigFactory', 'common.PrefilledUserDataService', 'supportPanelConfigFactory',
-        'common.receiverService',
+        'common.receiverService', 'common.ResourceLinkService',
         function($scope, $state, $stateParams,
             UtkastService, UserModel, fmbService, fmbViewState, viewState, utkastConfigFactory,
             prefilledUserDataService,
-            supportPanelConfigFactory, receiverService) {
+            supportPanelConfigFactory, receiverService, ResourceLinkService) {
             'use strict';
 
             /**********************************************************************************
@@ -62,10 +62,10 @@ angular.module('common').controller('smi.EditCertCtrl',
                     fmbService.updateFmbTextsForAllDiagnoses(intygModel.diagnoser);
                 }
 
-                if (!viewState.draftModel.isLocked()) {
+                if (ResourceLinkService.isLinkTypeExists(viewState.draftModel.links, 'REDIGERA_UTKAST')) {
                     $scope.editEnabled = true;
                 } else {
-                    if (angular.isFunction(viewState.getLockedDraftAlert)) {
+                    if (viewState.draftModel.isLocked() && angular.isFunction(viewState.getLockedDraftAlert)) {
                         UtkastService.updatePreviousIntygUtkast(intygModel.grundData.patient.personId).then(function() {
                             $scope.lockedAlerts = viewState.getLockedDraftAlert();
                         });
