@@ -43,11 +43,15 @@ angular.module('common').directive('serviceBanner', function() {
         banners.push({
           id: 'serviceBanner' + i++,
           severity: getSeverity(banner.priority),
-          text: banner.message
+          text: addExternalIcon(banner.message)
         });
       });
 
       $scope.banners = banners;
     }
   };
+
+  function addExternalIcon(text) {
+    return text.replace(new RegExp('</a>', 'g'), '<i class="material-icons">&#xe895;</i></a>');
+  }
 });
