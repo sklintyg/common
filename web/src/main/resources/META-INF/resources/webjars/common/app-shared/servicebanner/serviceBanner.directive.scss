@@ -39,10 +39,12 @@ service-banner {
       color: $wc-color-07;
     }
 
+    /* autoprefixer: off */
     /* IE11 underline fix */
     a::after {
       text-decoration: underline;
     }
+    /* autoprefixer: on */
 
     a::after {
       content: 'launch';
