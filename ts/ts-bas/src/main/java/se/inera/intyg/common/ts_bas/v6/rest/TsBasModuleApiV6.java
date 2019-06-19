@@ -24,14 +24,16 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterCertificateV3;
 import static se.inera.intyg.common.support.modules.transformer.XslTransformerUtil.isRegisterTsBas;
 
-
+import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
+import javax.xml.transform.stream.StreamSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,11 +41,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.stereotype.Component;
+import org.w3.wsaddressing10.AttributedURIType;
 
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
+import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter.ModelConverter;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
@@ -80,10 +91,12 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
     @Qualifier("sendTSClientFactory")
     private SendTSClientFactory sendTSClientFactory;
 
-
     @Autowired(required = false)
     @Qualifier("tsBasRegisterCertificateVersion")
     private String registerCertificateVersion;
+
+    @Autowired(required = false)
+    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     private SendTSClient sendTsBasClient;
 
@@ -93,15 +106,6 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
 
     @PostConstruct
     public void init() {
-        /*
-        Map<RegisterCertificateVersionType, SendTSClient> map = Stream.of(
-                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V1, new RegisterCertificateV1Client()),
-                new AbstractMap.SimpleImmutableEntry<>(RegisterCertificateVersionType.VERSION_V3, new RegisterCertificateV3Client()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-
-        SendTSClientFactory sendTSClientFactory = new SendTSClientFactory();
-        */
         if (registerCertificateVersion == null) {
             registerCertificateVersion = TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
         }
@@ -222,4 +226,27 @@ public class TsBasModuleApiV6 extends TsParentModuleApi<TsBasUtlatandeV6> {
         return new PatientDetailResolveOrder(null, adressStrat, avlidenStrat, otherStrat);
     }
 
+    @Override
+    public void revokeCertificate(String xmlBody, String logicalAddress) throws ModuleException {
+        AttributedURIType uri = new AttributedURIType();
+        uri.setValue(logicalAddress);
+
+        RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
+                RevokeMedicalCertificateRequestType.class);
+        RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
+        if (response.getResult().getResultCode().equals(ResultCodeEnum.ERROR)) {
+            String message = "Revoke sent to " + logicalAddress + " failed with error: " + response.getResult().getErrorText();
+            LOG.error(message);
+            throw new ExternalServiceCallException(message);
+        }
+    }
+
+    @Override
+    public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
+        RevokeMedicalCertificateRequestType request = new RevokeMedicalCertificateRequestType();
+        request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
+
+        JAXBElement<RevokeMedicalCertificateRequestType> el = new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+        return XmlMarshallerHelper.marshal(el);
+    }
 }
