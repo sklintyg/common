@@ -27,11 +27,11 @@ angular.module('common').directive('serviceBanner', function() {
 
       function getSeverity(priority) {
         switch(priority) {
-        case 'HIGH':
+        case 'HOG':
           return 'danger';
-        case 'MEDIUM':
+        case 'MEDEL':
           return 'warning';
-        case 'LOW':
+        case 'LAG':
           return 'info';
         }
       }
