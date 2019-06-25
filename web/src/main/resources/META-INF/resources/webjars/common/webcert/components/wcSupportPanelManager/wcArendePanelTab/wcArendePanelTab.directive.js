@@ -43,12 +43,18 @@ angular.module('common').directive('wcArendePanelTab', [
                     $scope.isFilterKomplettering = value;
                 };
 
-                $scope.isReadOnlyView = function() {
-                    // If user have no access to create or answer questions, the view is considered read only.
+                $scope.isAdministrativeQuestionViewReadOnly = function() {
+                    // If user has no access to create or answer administrative questions, the view is considered read only.
                     return !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
                         'SKAPA_FRAGA') &&
                         !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
                             'BESVARA_FRAGA');
+                };
+
+                $scope.isComplementQuestionViewReadOnly = function() {
+                    // If user has no access to answer complement questions, the view is considered read only
+                    return !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                        'BESVARA_KOMPLETTERING');
                 };
 
                 $scope.$on('$destroy', function() {

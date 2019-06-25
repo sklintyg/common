@@ -8,7 +8,8 @@
     <li ng-class="{active: isFilterKomplettering}" ng-if="!viewState.activeErrorMessageKey">
       <a ng-click="setFilterKomplettering(true)" id="arende-filter-kompletteringsbegaran">
         Kompletteringsbegäran
-        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat" ng-if="config.intygContext.isSigned && unhandledKompletteringCount > 0">
+        <span id="arende-kompletteringsbegaran-count" class="badge badge__stat"
+              ng-if="config.intygContext.isSigned && unhandledKompletteringCount > 0 && !isComplementQuestionViewReadOnly()">
           {{unhandledKompletteringCount}}
         </span>
       </a>
@@ -18,7 +19,7 @@
         Administrativa frågor
         <span id="arende-administrativafragor-count" class="badge badge__stat" 
           ng-if="(viewState.intygProperties.isInteractionEnabled || config.intygContext.isSigned && unhandledKompletteringCount > 0)
-                && unhandledAdministrativaFragorCount > 0 && !isReadOnlyView()">
+                && unhandledAdministrativaFragorCount > 0 && !isAdministrativeQuestionViewReadOnly()">
           {{unhandledAdministrativaFragorCount}}
         </span>
       </a>
