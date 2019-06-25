@@ -1,9 +1,17 @@
 wc-srs-panel-tab {
   overflow: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   flex: 1;
   min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
+
+  .tab-content-title-row-title {
+    label.header-label {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
 
   /* We need to override the padding of the default webcert scollable panel to be able to have the
      thick-divider below span the entire width
@@ -11,6 +19,7 @@ wc-srs-panel-tab {
      */
   wc-support-panel-scrollable-body .tab-content-scrollable-body {
     padding: 20px 0px 0 0px;
+    overflow-x: hidden;
   }
 
   /* Reset the default webcert padding on the panel content */
@@ -69,8 +78,11 @@ wc-srs-panel-tab {
     display: grid;
     -ms-grid-columns: 1fr 1fr 1fr 1fr;
     grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
-    -ms-grid-rows: 1fr 1fr;
     margin-left: 5px;
+    .option-label {
+      max-width: 120px;
+      word-wrap: break-word;
+    }
   }
 
   .srs-option-grid-ms1row {
@@ -80,7 +92,6 @@ wc-srs-panel-tab {
     grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
     -ms-grid-rows: unset;
     margin-left: 5px;
-
   }
 
   // Special construct since IE don't support automatic wrapping in grids
@@ -122,12 +133,6 @@ wc-srs-panel-tab {
     .srs-option-grid {
       display: -ms-grid;
       -ms-grid-columns: 1fr 1fr;
-      -ms-grid-rows: 1fr 1fr 1fr 1fr;
-    }
-    .srs-option-grid-ms1row {
-      display: -ms-grid;
-      -ms-grid-columns: 1fr 1fr;
-      -ms-grid-rows: unset;
     }
 
     .srs-option-grid-cell:nth-child(n+1) {
@@ -161,6 +166,47 @@ wc-srs-panel-tab {
     .srs-option-grid-cell:nth-child(n+8) {
       -ms-grid-column: 2;
       -ms-grid-row: 4;
+    }
+
+  }
+  // Special construct since IE don't support automatic wrapping in grids
+  @media (max-width: 740px) {
+    .srs-option-grid {
+      display: -ms-grid;
+      -ms-grid-columns: 1fr;
+    }
+
+    .srs-option-grid-cell:nth-child(n+1) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 1;
+    }
+    .srs-option-grid-cell:nth-child(n+2) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 2;
+    }
+    .srs-option-grid-cell:nth-child(n+3) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 3;
+    }
+    .srs-option-grid-cell:nth-child(n+4) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 4;
+    }
+    .srs-option-grid-cell:nth-child(n+5) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 5;
+    }
+    .srs-option-grid-cell:nth-child(n+6) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 6;
+    }
+    .srs-option-grid-cell:nth-child(n+7) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 7;
+    }
+    .srs-option-grid-cell:nth-child(n+8) {
+      -ms-grid-column: 1;
+      -ms-grid-row: 8;
     }
 
   }

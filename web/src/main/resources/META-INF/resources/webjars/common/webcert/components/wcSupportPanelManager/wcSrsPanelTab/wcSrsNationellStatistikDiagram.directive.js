@@ -111,14 +111,14 @@ angular.module('common').directive('wcSrsNationellStatistikDiagram',
                         else if (windowWidth < 1000 && windowWidth >= 800 && currentResponsiveSize !== 'smaller') {
                             newSize = {
                                 responsiveSize: 'smaller',
-                                width: 280,
+                                width: 270,
                                 height: 160
                             };
                         }
                         else if (windowWidth < 800 && currentResponsiveSize !== 'smallest') {
                             newSize = {
                                 responsiveSize: 'smallest',
-                                width: 240,
+                                width: 180,
                                 height: 137
                             };
                         }
