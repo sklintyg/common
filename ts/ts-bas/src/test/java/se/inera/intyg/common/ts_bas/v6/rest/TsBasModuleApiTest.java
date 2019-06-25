@@ -22,14 +22,16 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION1;
 import static se.inera.intyg.common.ts_parent.rest.TsParentModuleApi.REGISTER_CERTIFICATE_VERSION3;
-
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -55,11 +57,17 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.w3.wsaddressing10.AttributedURIType;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
+import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateResponseType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.ResultOfCall;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -68,9 +76,8 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.support.modules.support.api.exception.ExternalServiceCallException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.support.modules.transformer.XslTransformer;
-import se.inera.intyg.common.support.modules.transformer.XslTransformerType;
 import se.inera.intyg.common.support.modules.transformer.XslTransformerUtil;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
@@ -95,7 +102,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * response headers and response statuses etc are correct.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = { BefattningService.class })
 public class TsBasModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
@@ -114,6 +121,9 @@ public class TsBasModuleApiTest {
 
     @Mock
     private SendTSClient sendTsBasClient;
+
+    @Mock
+    private RevokeMedicalCertificateResponderInterface revokeCertificateClient;
 
     public TsBasModuleApiTest() {
         MockitoAnnotations.initMocks(this);
@@ -242,6 +252,7 @@ public class TsBasModuleApiTest {
         TsBasUtlatandeV6 res = moduleApi.getUtlatandeFromXml(xml);
         assertNotNull(res);
     }
+
     @Test
     public void getAdditionalInfoFromUtlatandeTest() throws Exception {
         TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
@@ -349,7 +360,88 @@ public class TsBasModuleApiTest {
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
 
         assertNotNull(res);
-        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
+        JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
+    }
+
+    @Test
+    public void testRevokeCertificateResponseOK() throws Exception {
+        final TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final HoSPersonal skapatAv = createHosPersonal();
+        final String meddelande = "Revoke message";
+
+        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+
+        ResultOfCall result = mock(ResultOfCall.class);
+        doReturn(ResultCodeEnum.OK).when(result).getResultCode();
+
+        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        doReturn(result).when(response).getResult();
+
+        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
+
+        final String logicalAddress = "Logical address";
+        moduleApi.revokeCertificate(xmlBody, logicalAddress);
+
+        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
+    }
+
+    @Test
+    public void testRevokeCertificateResponseINFO() throws Exception {
+        final TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final HoSPersonal skapatAv = createHosPersonal();
+        final String meddelande = "Revoke message";
+
+        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+
+        ResultOfCall result = mock(ResultOfCall.class);
+        doReturn(ResultCodeEnum.INFO).when(result).getResultCode();
+
+        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        doReturn(result).when(response).getResult();
+
+        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
+
+        final String logicalAddress = "Logical address";
+        moduleApi.revokeCertificate(xmlBody, logicalAddress);
+
+        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
+    }
+
+    @Test
+    public void testRevokeCertificateResponseERROR() throws Exception {
+        final TsBasUtlatandeV6 utlatande = ScenarioFinder.getInternalScenario("valid-maximal").asInternalModel();
+        final HoSPersonal skapatAv = createHosPersonal();
+        final String meddelande = "Revoke message";
+
+        final String xmlBody = moduleApi.createRevokeRequest(utlatande, skapatAv, meddelande);
+
+        final String errorMessage = "felmeddelande";
+        ResultOfCall result = mock(ResultOfCall.class);
+        doReturn(ResultCodeEnum.ERROR).when(result).getResultCode();
+        doReturn(errorMessage).when(result).getErrorText();
+
+        RevokeMedicalCertificateResponseType response = mock(RevokeMedicalCertificateResponseType.class);
+        doReturn(result).when(response).getResult();
+
+        doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
+
+        final String logicalAddress = "Logical address";
+
+        final String expectedMessage = "Revoke sent to " + logicalAddress + " failed with error: " + errorMessage;
+        try {
+            moduleApi.revokeCertificate(xmlBody, logicalAddress);
+            fail();
+        } catch (ExternalServiceCallException ex) {
+            assertEquals(expectedMessage, ex.getMessage());
+        }
+
+        verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
+                any(RevokeMedicalCertificateRequestType.class));
     }
 
     private IntygMeta createMeta() throws ScenarioNotFoundException {

@@ -175,6 +175,11 @@ wc-srs-panel-tab {
 
 
   // Internal tab
+  ul.nav.nav-tabs > li.rounded {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
   ul.nav.nav-tabs > li.rounded > a {
     background-color: $wc-color-00 !important; // Need to use important because somebody used important on the wc-common.css
     border-color: $wc-color-00;

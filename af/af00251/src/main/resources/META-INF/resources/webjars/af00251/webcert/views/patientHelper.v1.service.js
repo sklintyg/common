@@ -20,8 +20,9 @@ angular.module('af00251').service('af00251.PatientHelperService.v1',
         function() {
             'use strict';
 
+            // PS-003: Show for af00251
             function _showPatientNameChangedIntegration() {
-                return false;
+                return true;
             }
 
             function _showPatientNameChangedPU() {

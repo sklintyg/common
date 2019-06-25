@@ -42,7 +42,7 @@ angular.module('common').service('common.PatientService',
                     // Dynamically inject the patient helper with intygstyp specific rules.
                     var patientHelper = factoryResolverHelper.resolvePatientHelper(intyg.typ, intyg.textVersion);
 
-                    // PS-004 -----------------------------------------------------------------------------
+                    // PS-003 -----------------------------------------------------------------------------
                     // 1. Should only displayed for djupintegrerade
                     if (UserModel.isDjupintegration()) {
                         // Show for ts-utkast and all fk
@@ -51,15 +51,14 @@ angular.module('common').service('common.PatientService',
                         }
                     }
 
-
-                    //PS-005 -----------------------------------------------------------------------------
-                    // INTYG + TS - > Potentially show PS-005
+                    //PS-004 -----------------------------------------------------------------------------
+                    // INTYG + TS - > Potentially show PS-004
                     if (patientHelper.showPatientNameChangedPU(isIntyg)) {
                         patient.changedNamePu = intygProperties.patientNameChangedInPU;
                     }
 
 
-                    // PS-006 -----------------------------------------------------------------------------
+                    // PS-005 -----------------------------------------------------------------------------
                     // Should only be displayed for TS / INTYG / Fristående
                     if (patientHelper.showPatientAddressChangedPU(isIntyg) && UserModel.isNormalOrigin()) {
                         patient.changedAddressPu = intygProperties.patientAddressChangedInPU;
@@ -67,7 +66,7 @@ angular.module('common').service('common.PatientService',
 
                     return patient;
                 };
-            
+
                 /**
                  * When a deep-integration user requests an intyg, the original request may contain name and address.
                  * This method matches the supplied parameters (if applicable) with the patient address on the requested

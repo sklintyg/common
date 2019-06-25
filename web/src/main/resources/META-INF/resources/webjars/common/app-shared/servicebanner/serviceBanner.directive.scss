@@ -38,6 +38,11 @@ service-banner {
     a:hover {
       color: $wc-color-07;
     }
+
+    a i {
+      font-size: inherit;
+      margin-left: 3px;
+    }
   }
 
   .alert {

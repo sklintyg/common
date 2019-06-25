@@ -27,11 +27,11 @@ angular.module('common').directive('serviceBanner', function() {
 
       function getSeverity(priority) {
         switch(priority) {
-        case 'HIGH':
+        case 'HOG':
           return 'danger';
-        case 'MEDIUM':
+        case 'MEDEL':
           return 'warning';
-        case 'LOW':
+        case 'LAG':
           return 'info';
         }
       }
@@ -43,11 +43,15 @@ angular.module('common').directive('serviceBanner', function() {
         banners.push({
           id: 'serviceBanner' + i++,
           severity: getSeverity(banner.priority),
-          text: banner.message
+          text: addExternalIcon(banner.message)
         });
       });
 
       $scope.banners = banners;
     }
   };
+
+  function addExternalIcon(text) {
+    return text.replace(new RegExp('</a>', 'g'), '<i class="material-icons">&#xe895;</i></a>');
+  }
 });
