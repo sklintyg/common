@@ -20,9 +20,9 @@ angular.module('ag114').service('ag114.PatientHelperService.v1',
         function() {
             'use strict';
 
-            // PS-004: Never show for AG1-14
+            // PS-003: Show for AG1-14
             function _showPatientNameChangedIntegration() {
-                return false;
+                return true;
             }
             // PS-005: Never show for AG1-14
             function _showPatientNameChangedPU() {

@@ -20,19 +20,19 @@ angular.module('tstrk1009').service('tstrk1009.PatientHelperService.v1',
         function() {
             'use strict';
 
-            // PS-004: Show for ts utkast
-            function _showPatientNameChangedIntegration(isIntyg) {
-                return !isIntyg;
+            // PS-003: Namn diffar mellan PU och JS - visas för både utkast och intyg
+            function _showPatientNameChangedIntegration() {
+                return true;
             }
-            // PS-005: Show for signed ts
+            // PS-004: Namnet har ändrats i PU - endast för intyg
             function _showPatientNameChangedPU(isIntyg) {
                 return isIntyg;
             }
-            // PS-006: Show for signed ts
+            // PS-005: Adress skiljer sig mot PU - endast för intyg
             function _showPatientAddressChangedPU(isIntyg) {
                 return isIntyg;
             }
-            // INTYG-5146: Show for ts utkast
+            // INTYG-5146: Visas endast för utkast
             function _showMissingAddressParameter(isIntyg) {
                 return !isIntyg;
             }
