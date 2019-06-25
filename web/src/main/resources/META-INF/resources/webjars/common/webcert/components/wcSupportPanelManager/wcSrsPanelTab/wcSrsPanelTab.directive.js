@@ -93,14 +93,13 @@ angular.module('common').directive('wcSrsPanelTab',
                 });
             };
 
-            $scope.setConsent = function(consent) {
-                $scope.srs.consent = consent ? 'JA' : 'NEJ';
+            $scope.setConsent = function() {
+                var consent = $scope.srs.consent === 'JA';
                 if (consent) {
                     srsProxy.logSrsConsentAnswered($scope.srs.userClientContext, $scope.srs.intygId,
                         $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
                 }
                 srsProxy.setConsent($scope.srs.personId, $scope.srs.hsaId, consent);
-
                 if ($scope.srs.consent === 'NEJ') {
                     var cleanPrediction = angular.copy($scope.srs.prediction);
                     cleanPrediction.probabilityOverLimit = null;
@@ -172,11 +171,6 @@ angular.module('common').directive('wcSrsPanelTab',
                                 srsViewState.diagnosisListFetching.then(function() {
                                     loadSrs();
                                 });
-                            } else {
-                                if (newVal === false && oldVal === true) {
-                                    reset();
-                                    $scope.srs.srsApplicable = isSrsApplicable($scope.srs.diagnosKod);
-                                }
                             }
                         });
                     }

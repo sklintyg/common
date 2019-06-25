@@ -81,24 +81,24 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 width: 400,
                                 height: 267
                             };
-                        } else if (windowWidth < 1200 && windowWidth >= 1000 && currentResponsiveSize !== 'normal') {
+                        } else if (windowWidth < 1200 && windowWidth >= 1020 && currentResponsiveSize !== 'normal') {
                             newSize = {
                                 responsiveSize: 'normal',
                                 width: 360,
                                 height: 240
                             };
                         }
-                        else if (windowWidth < 1000 && windowWidth >= 800 && currentResponsiveSize !== 'smaller') {
+                        else if (windowWidth < 1020 && windowWidth >= 870 && currentResponsiveSize !== 'smaller') {
                             newSize = {
                                 responsiveSize: 'smaller',
                                 width: 300,
                                 height: 200
                             };
                         }
-                        else if (windowWidth < 800 && currentResponsiveSize !== 'smallest') {
+                        else if (windowWidth < 870 && currentResponsiveSize !== 'smallest') {
                             newSize = {
                                 responsiveSize: 'smallest',
-                                width: 240,
+                                width: 230,
                                 height: 160
                             };
                         }
@@ -110,16 +110,6 @@ angular.module('common').directive('wcSrsRiskDiagram',
                         if (newSize) {
                             chartWidth = newSize.width;
                             chartHeight = newSize.height;
-                            if (newSize.responsiveSize === 'smallest' && chartData.risk) {
-                                chartData.risk.chartData[0].name = 'Gen.sn.';
-                                chartData.risk.chartData[1].name = 'Pat.';
-                            } else if (newSize.responsiveSize === 'smaller' && chartData.risk) {
-                                chartData.risk.chartData[0].name = 'Genomsnitt';
-                                chartData.risk.chartData[1].name = 'Patient';
-                            } else if (chartData.risk){
-                                chartData.risk.chartData[0].name = 'Genomsnittlig risk';
-                                chartData.risk.chartData[1].name = 'Patientens risk';
-                            }
                             if (responsiveSize !== 'INIT') {
                                 // The timeout is needed to get things working in IE during resize
                                 setTimeout(function () {
@@ -127,6 +117,16 @@ angular.module('common').directive('wcSrsRiskDiagram',
                                 }, 1);
                             }
                             responsiveSize = newSize.responsiveSize;
+                        }
+                        if (responsiveSize === 'smallest' && chartData.risk) {
+                            chartData.risk.chartData[0].name = 'Gen.sn.';
+                            chartData.risk.chartData[1].name = 'Pat.';
+                        } else if (responsiveSize === 'smaller' && chartData.risk) {
+                            chartData.risk.chartData[0].name = 'Genomsnitt';
+                            chartData.risk.chartData[1].name = 'Patient';
+                        } else if (chartData.risk) {
+                            chartData.risk.chartData[0].name = 'Genomsnittlig risk';
+                            chartData.risk.chartData[1].name = 'Patientens risk';
                         }
                     }
 

@@ -5,24 +5,13 @@
     </span>
     <span class="tab-content-title-row-title" ng-show="srs.srsApplicable">
         <div class="fullWidth form-group ng-scope">
-            <p>Patienten samtycker till att delta i SRS pilot</p>
-
-            <div class="srs-option-grid-ms1row">
-                <div class="srs-option-grid-cell">
-                    <wc-radio-wrapper>
-                        <input id="consent-yes" type="radio" name="consent-to-srs-radio"
-                               ng-value="'JA'" ng-model="srs.consent" ng-change="setConsent('true')">
-                        <label for="consent-yes">Ja</label>
-                    </wc-radio-wrapper>
-                </div>
-
-                <div class="srs-option-grid-cell">
-                    <wc-radio-wrapper>
-                        <input id="consent-no" type="radio" name="consent-to-srs-radio" ng-value="false"
-                               ng-model="srs.consent" ng-change="setConsent(false)">
-                        <label for="consent-no">Nej</label>
-                    </wc-radio-wrapper>
-                </div>
+            <wc-checkbox-wrapper>
+                <input id="consent-yes" type="checkbox" name="consent-to-srs-radio"
+                       ng-true-value="'JA'" ng-false-value="'NEJ'"
+                       ng-model="srs.consent"
+                       ng-change="setConsent()">
+                <label class="header-label" for="consent-yes">Patienten samtycker till att delta i SRS pilot</label>
+            </wc-checkbox-wrapper>
             </div>
         </div>
     </span>
