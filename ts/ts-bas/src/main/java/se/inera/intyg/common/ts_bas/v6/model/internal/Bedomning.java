@@ -51,9 +51,6 @@ public abstract class Bedomning {
         @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
         public abstract Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp);
 
-        @JsonProperty("kanInteTaStallning")
-        public abstract Builder setKanInteTaStallning(Boolean kanInteTaStallning);
-
         @JsonProperty("lakareSpecialKompetens")
         public abstract Builder setLakareSpecialKompetens(String lakareSpecialKompetens);
 
@@ -62,9 +59,6 @@ public abstract class Bedomning {
     @Nullable
     @JsonSerialize(using = BedomningKorkortstypEnumSetSerializer.class)
     public abstract Set<BedomningKorkortstyp> getKorkortstyp();
-
-    @Nullable
-    public abstract Boolean getKanInteTaStallning();
 
     @Nullable
     public abstract String getLakareSpecialKompetens();

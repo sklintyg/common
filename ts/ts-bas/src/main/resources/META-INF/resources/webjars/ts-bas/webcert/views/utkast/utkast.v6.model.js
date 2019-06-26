@@ -26,11 +26,6 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
 
             var korkortstyp = backendBedomning.korkortstyp;
 
-            korkortstyp.push({
-                type:'KAN_INTE_TA_STALLNING',
-                selected: angular.isDefined(backendBedomning.kanInteTaStallning) && backendBedomning.kanInteTaStallning
-            });
-
             return {
                 korkortstyp: tsBaseHelper.setupKorkortstypChoices(korkortstyp, ['KAN_INTE_TA_STALLNING']),
                 lakareSpecialKompetens: backendBedomning.lakareSpecialKompetens
@@ -40,16 +35,8 @@ angular.module('ts-bas').factory('ts-bas.Domain.IntygModel.v6',
         var bedomningToTransform = function(frontendObject) {
 
             var transformedFrontendObject = angular.copy(frontendObject);
-            var index = u.findIndexWithPropertyValue(transformedFrontendObject.korkortstyp, 'type', 'KAN_INTE_TA_STALLNING');
-            var kanInteTaStallning;
-            if(index !== -1) {
-                kanInteTaStallning = transformedFrontendObject.korkortstyp[index].selected;
-                transformedFrontendObject.korkortstyp.splice(index);
-            }
-
             var backendBedomning = {
                 korkortstyp: transformedFrontendObject.korkortstyp,
-                kanInteTaStallning: kanInteTaStallning,
                 lakareSpecialKompetens: transformedFrontendObject.lakareSpecialKompetens
             };
             return backendBedomning;
