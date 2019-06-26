@@ -10,7 +10,7 @@
                             <input type="radio" ng-disabled="srs.consent !== 'JA' || srs.isForlangning" ng-change="change()"
                                    id="q-{{question.questionId}}-a-{{answer.id}}"
                                    name="q{{question.questionId}}" ng-model="question.model" ng-value="answer" />
-                            <label for="q-{{question.questionId}}-a-{{answer.id}}">{{answer.text}}</label>
+                            <label class="option-label" for="q-{{question.questionId}}-a-{{answer.id}}">{{answer.text}}</label>
                         </wc-radio-wrapper>
                     </div>
                 </div>
