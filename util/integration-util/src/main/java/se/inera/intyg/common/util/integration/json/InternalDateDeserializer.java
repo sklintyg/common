@@ -18,17 +18,16 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import java.io.IOException;
-import java.time.Instant;
-import java.time.ZoneId;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
 
 public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
@@ -58,7 +57,7 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
             // Skip the time and return at date
             return InternalDateAdapter.parseInternalDate(year, month, day);
         case VALUE_NUMBER_INT:
-            return new InternalDate(Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.of("Europe/Stockholm")).toLocalDate());
+            return new InternalDate(Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate());
         case VALUE_STRING:
             String str = jp.getText().trim();
             if (str.length() == 0) { // [JACKSON-360]
