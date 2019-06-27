@@ -28,7 +28,8 @@ wc-intyg-button-bar {
   }
   div.white-space-no-wrap {
     display: flex;
-    > button, div {
+    > button,
+    > div {
       margin-left: 9px;
     }
   }
