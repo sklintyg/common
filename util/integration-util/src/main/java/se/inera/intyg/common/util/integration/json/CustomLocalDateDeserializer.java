@@ -18,14 +18,16 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
-import java.io.IOException;
-import java.time.*;
-import java.time.format.DateTimeFormatter;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class is based on the LocalDateDeserializer class. It's content was copied
@@ -97,7 +99,7 @@ public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
             // Skip the time and return at date
             return LocalDate.of(year, month, day);
         case VALUE_NUMBER_INT:
-            return Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.of("Europe/Stockholm")).toLocalDate();
+            return Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate();
         case VALUE_STRING:
             String str = jp.getText().trim();
             if (str.length() == 0) { // [JACKSON-360]
