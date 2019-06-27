@@ -66,7 +66,7 @@ angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
             }
 
             if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
-                    !(isSigned || isKompletteringsUtkast)) {
+                    !(isSigned || isKompletteringsUtkast || isLocked)) {
                 config.tabs.push({
                     id: 'wc-srs-panel-tab',
                     title: 'common.supportpanel.srs.title',
