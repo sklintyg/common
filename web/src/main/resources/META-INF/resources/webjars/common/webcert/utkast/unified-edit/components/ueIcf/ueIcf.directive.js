@@ -48,7 +48,7 @@ angular.module('common').directive('ueIcf', [ 'ueUtil', '$window', 'common.IcfPr
                     if(scope.model.diagnoser && scope.model.diagnoser.length > 0) {
                         var unikaDiagnoser = [];
                         var diagnoser = scope.model.diagnoser.filter(function(v) {
-                            if (v.diagnosKod && unikaDiagnoser.indexOf(v.diagnosKod)) {
+                            if (v.diagnosKod && unikaDiagnoser.indexOf(v.diagnosKod) === -1) {
                                 unikaDiagnoser.push(v.diagnosKod);
                                 return true;
                             }
