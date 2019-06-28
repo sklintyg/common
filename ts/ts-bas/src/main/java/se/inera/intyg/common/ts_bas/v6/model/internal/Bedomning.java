@@ -31,7 +31,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import javax.annotation.Nullable;
 
 @JsonDeserialize(builder = Bedomning.Builder.class)
-public class Bedomning {
+public final class Bedomning {
 
     private Set<BedomningKorkortstyp> korkortstyp;
     private String lakareSpecialKompetens;
@@ -72,8 +72,8 @@ public class Bedomning {
         public Builder setKanInteTaStallning(Boolean kanInteTaStallning) {
             if (kanInteTaStallning) {
                 if (this.korkortstyp != null && !this.korkortstyp.isEmpty()) {
-                    throw new IllegalStateException("Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from " +
-                            "the database. This indicates that the code is not working as excepted.");
+                    throw new IllegalStateException("Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from "
+                            + "the database. This indicates that the code is not working as excepted.");
                 }
                 this.korkortstyp = EnumSet.of(BedomningKorkortstyp.KAN_INTE_TA_STALLNING);
             }

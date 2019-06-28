@@ -120,8 +120,6 @@ import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.inera.intygstjanster.ts.services.v1.Korkortsbehorighet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
@@ -768,7 +766,8 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
-                    TsBasKorkortsbehorighetKod korkortsbehorighetKod = TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
+                    TsBasKorkortsbehorighetKod korkortsbehorighetKod =
+                            TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
                     BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.name());
                     bedomningsSet.add(bedomningKorkortstyp);
                     break;
