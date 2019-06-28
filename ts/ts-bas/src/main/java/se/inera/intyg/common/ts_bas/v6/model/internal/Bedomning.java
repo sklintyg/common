@@ -18,10 +18,10 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.internal;
 
+import java.util.EnumSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
@@ -30,44 +30,74 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.annotation.Nullable;
 
-@AutoValue
-@JsonDeserialize(builder = AutoValue_Bedomning.Builder.class)
-public abstract class Bedomning {
+@JsonDeserialize(builder = Bedomning.Builder.class)
+public class Bedomning {
 
-    public static Builder builder() {
-        return new AutoValue_Bedomning.Builder();
+    private Set<BedomningKorkortstyp> korkortstyp;
+    private String lakareSpecialKompetens;
+
+    private Bedomning(Set<BedomningKorkortstyp> korkortstyp, String lakareSpecialKompetens) {
+        this.korkortstyp = korkortstyp;
+        this.lakareSpecialKompetens = lakareSpecialKompetens;
     }
 
-    @AutoValue.Builder
-    public abstract static class Builder {
+    public static Builder builder() {
+        return new Bedomning.Builder();
+    }
 
-        abstract Bedomning autoBuild();
+    public static class Builder {
+
+        private Set<BedomningKorkortstyp> korkortstyp;
+        private String lakareSpecialKompetens;
 
         public Bedomning build() {
-            return autoBuild();
-        };
+            return new Bedomning(this.korkortstyp, this.lakareSpecialKompetens);
+        }
 
         @JsonProperty("korkortstyp")
         @JsonDeserialize(using = BedomningKorkortstypEnumSetDeserializer.class)
-        public abstract Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp);
+        public Builder setKorkortstyp(Set<BedomningKorkortstyp> korkortstyp) {
+            this.korkortstyp = korkortstyp;
+            return this;
+        }
 
+        /**
+         * @deprecated This method exist only to be backward compatible with the old json-format. It is only used when reading the
+         *             old json-format from the database. When Bedomning is store in the database this variable is not used, instead
+         *             KAN_INTE_TA_STALLNING is stored in korkortstyp.<br/>
+         *             The method is not used from the front-end code.<br/>
+         */
+        @Deprecated
         @JsonProperty("kanInteTaStallning")
-        public abstract Builder setKanInteTaStallning(Boolean kanInteTaStallning);
+        public Builder setKanInteTaStallning(Boolean kanInteTaStallning) {
+            if (kanInteTaStallning) {
+                if (this.korkortstyp != null && !this.korkortstyp.isEmpty()) {
+                    throw new IllegalStateException("Both kanInteTaStallning and korkortstyp is set in the Bedomning object read from " +
+                            "the database. This indicates that the code is not working as excepted.");
+                }
+                this.korkortstyp = EnumSet.of(BedomningKorkortstyp.KAN_INTE_TA_STALLNING);
+            }
+            return this;
+        }
 
         @JsonProperty("lakareSpecialKompetens")
-        public abstract Builder setLakareSpecialKompetens(String lakareSpecialKompetens);
+        public Builder setLakareSpecialKompetens(String lakareSpecialKompetens) {
+            this.lakareSpecialKompetens = lakareSpecialKompetens;
+            return this;
+        }
 
     }
 
     @Nullable
     @JsonSerialize(using = BedomningKorkortstypEnumSetSerializer.class)
-    public abstract Set<BedomningKorkortstyp> getKorkortstyp();
+    public Set<BedomningKorkortstyp> getKorkortstyp() {
+        return this.korkortstyp;
+    }
 
     @Nullable
-    public abstract Boolean getKanInteTaStallning();
-
-    @Nullable
-    public abstract String getLakareSpecialKompetens();
+    public String getLakareSpecialKompetens() {
+        return this.lakareSpecialKompetens;
+    }
 
     public static class BedomningKorkortstypEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
         protected BedomningKorkortstypEnumSetSerializer() {
