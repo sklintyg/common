@@ -18,19 +18,6 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.internal;
 
-/**
- * Values.
- C1,
- * C1E,
- * C,
- * CE,
- * D1,
- * D1E,
- * D,
- * DE,
- * TAXI,
- * ANNAT;
- */
 public enum BedomningKorkortstyp {
     C1,
     C1E,
@@ -41,5 +28,6 @@ public enum BedomningKorkortstyp {
     D,
     DE,
     TAXI,
-    ANNAT;
+    ANNAT,
+    KAN_INTE_TA_STALLNING;
 }

@@ -649,8 +649,7 @@ var viewConfig = [
                                 return model.selected ? model.type : null;
                             },
                             separator: ', ',
-                            modelProp: 'bedomning.korkortstyp',
-                            noValue: 'DFR_33.2.RBK'
+                            modelProp: 'bedomning.korkortstyp'
                         }]
                     }
                 ]
