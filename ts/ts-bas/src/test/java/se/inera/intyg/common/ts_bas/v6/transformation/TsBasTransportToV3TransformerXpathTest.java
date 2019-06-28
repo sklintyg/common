@@ -48,7 +48,6 @@ import org.xml.sax.SAXException;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
-import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.common.ts_parent.transformation.test.XPathEvaluator;
@@ -319,17 +318,16 @@ public class TsBasTransportToV3TransformerXpathTest {
         // Bedömning
         BedomningTypBas bedomning = utlatande.getBedomning();
 
-        //TODO: Erik: Fix
-//        for (KorkortsbehorighetTsBas t : bedomning.getKorkortstyp()) {
-//            TsBasKorkortsbehorighetKod kod =  TsBasKorkortsbehorighetKod.valueOf(t.value().value());
-//            assertTrue(kod.getDescription(), xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE,
-//                    kod.getCode())));
-//        }
-//
-//        if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
-//            assertTrue(KorkortsbehorighetKod.KANINTETASTALLNING.getDescription(),
-//                    xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
-//        }
+        for (KorkortsbehorighetTsBas t : bedomning.getKorkortstyp()) {
+            KorkortsbehorighetKod kod =  KorkortsbehorighetKod.valueOf(t.value().value());
+            assertTrue(kod.getDescription(), xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE,
+                    kod.getCode())));
+        }
+
+        if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
+            assertTrue(KorkortsbehorighetKod.KANINTETASTALLNING.getDescription(),
+                    xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
+        }
 
         if (bedomning.getBehovAvLakareSpecialistKompetens() != null) {
             assertEquals(bedomning.getBehovAvLakareSpecialistKompetens(), xPath.evaluate(XPathExpressionsV3.BEDOMNING_SPECIALIST_XPATH));

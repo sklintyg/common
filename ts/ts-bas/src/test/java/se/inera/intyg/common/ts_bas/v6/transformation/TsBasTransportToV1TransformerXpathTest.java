@@ -396,16 +396,15 @@ public class TsBasTransportToV1TransformerXpathTest {
         assertTrue("Rekommendation REK8",
                 xPath.evaluate(new BooleanXPathExpression("utlatande/p:rekommendation/p:rekommendationskod/@code = 'REK8'")));
 
-        //TODO: Erik: Fix
-//        for (KorkortsbehorighetTsBas t : utlatande.getBedomning().getKorkortstyp()) {
-//            KorkortsbehorighetKod k = KorkortsbehorighetKod.valueOf(t.value().value());
-//            assertTrue(String.format("Rekommendationsvärde %s", k.getCode()),
-//                    xPath.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.REKOMMENDATION_VARDE_TEMPLATE, k.getCode())));
-//        }
-//        if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
-//            assertTrue("Rekommendationsvärde Kan inte ta ställning (VAR11)",
-//                    xPath.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.REKOMMENDATION_VARDE_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
-//        }
+        for (KorkortsbehorighetTsBas t : utlatande.getBedomning().getKorkortstyp()) {
+            KorkortsbehorighetKod k = KorkortsbehorighetKod.valueOf(t.value().value());
+            assertTrue(String.format("Rekommendationsvärde %s", k.getCode()),
+                    xPath.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.REKOMMENDATION_VARDE_TEMPLATE, k.getCode())));
+        }
+        if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
+            assertTrue("Rekommendationsvärde Kan inte ta ställning (VAR11)",
+                    xPath.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.REKOMMENDATION_VARDE_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
+        }
 
         if (utlatande.getBedomning().getBehovAvLakareSpecialistKompetens() != null) {
             assertEquals(String.format("REK9 med beskrivning  %s", utlatande.getBedomning().getBehovAvLakareSpecialistKompetens()), utlatande
