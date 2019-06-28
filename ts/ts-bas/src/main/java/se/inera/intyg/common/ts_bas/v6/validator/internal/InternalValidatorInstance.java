@@ -220,7 +220,7 @@ public class InternalValidatorInstance {
             return;
         }
 
-        if (bedomning.getKorkortstyp().isEmpty()) {
+        if (bedomning.getKorkortstyp() == null || bedomning.getKorkortstyp().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_BEDOMNING, "bedomning.korkortstyp", ValidationMessageType.EMPTY);
         }
     }
