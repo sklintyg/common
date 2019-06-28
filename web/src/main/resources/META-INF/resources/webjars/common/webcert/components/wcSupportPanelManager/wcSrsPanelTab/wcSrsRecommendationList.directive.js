@@ -52,10 +52,10 @@ angular.module('common').directive('wcSrsRecommendationList', [
                     $scope.isMoreCollapsed = !$scope.isMoreCollapsed;
                 };
                 if(!$attrs.moreTitle) {
-                    $scope.moreTitle = 'Se fler...';
+                    $scope.moreTitle = 'Se fler';
                 }
                 if(!$attrs.lessTitle) {
-                    $scope.lessTitle = 'Se färre...';
+                    $scope.lessTitle = 'Se färre';
                 }
                 $scope.diagnosisCode = 'Laddar diagnoskod';
                 $scope.diagnosisDescription = 'Laddar diagnosbeskrivning';
