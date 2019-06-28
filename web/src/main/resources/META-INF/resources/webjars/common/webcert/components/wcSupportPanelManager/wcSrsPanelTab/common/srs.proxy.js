@@ -136,9 +136,12 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
         }
 
         function _getDiagnosisCodes() {
-            return $http.get('/api/srs/codes').then(function(response) {
-                return response.data;
-            });
+            return $http.get('/api/srs/codes').then(
+                function(response) {
+                    return response;
+                }, function(err) {
+                    return err;
+                });
         }
 
         function _setConsent(patientId, careUnitHsaId, consentGiven) {
@@ -157,9 +160,12 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
         }
 
         function _getQuestions(diagnosKod) {
-            return $http.get('/api/srs/questions/' + diagnosKod).then(function(response) {
-                return response.data;
-            });
+            return $http.get('/api/srs/questions/' + diagnosKod).then(
+                function(response) {
+                    return response;
+                }, function(err){
+                    return err;
+                });
         }
 
         /**
