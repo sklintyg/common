@@ -79,17 +79,24 @@ angular.module('common').directive('wcSrsPanelTab',
             };
 
             $scope.getQuestions = function(diagnosKod) {
-                return srsProxy.getQuestions(diagnosKod).then(function(questions) {
+                return srsProxy.getQuestions(diagnosKod).then(function(response) {
                     $scope.srs.selectedButtons = [];
-                    var qas = questions;
-                    for (var i = 0; i < questions.length; i++) {
-                        for (var e = 0; e < questions[i].answerOptions.length; e++) {
-                            if (questions[i].answerOptions[e].defaultValue) {
-                                qas[i].model = questions[i].answerOptions[e];
+                    if (response.status === 200) {
+                        var questions = response.data;
+                        var qas = questions;
+                        for (var i = 0; i < questions.length; i++) {
+                            for (var e = 0; e < questions[i].answerOptions.length; e++) {
+                                if (questions[i].answerOptions[e].defaultValue) {
+                                    qas[i].model = questions[i].answerOptions[e];
+                                }
                             }
                         }
+                        return qas;
+                    } else {
+                        $scope.srs.backendError = 'Tekniskt fel: ' +
+                            'Stödet Risk och råd är inte tillgängligt eftersom tjänsten inte svarar just nu';
+                        reset();
                     }
-                    return qas;
                 });
             };
 
@@ -161,6 +168,7 @@ angular.module('common').directive('wcSrsPanelTab',
                         $scope.$watch('srs.originalDiagnosKod', function(newVal, oldVal) {
                             if (newVal === null) {
                                 reset();
+                                resetMessages();
                             } else if (newVal !== oldVal) {
                                 applySrsForDiagnosCode();
                             }
@@ -190,6 +198,9 @@ angular.module('common').directive('wcSrsPanelTab',
                 resetMessages();
                 reset();
                 $scope.srs.diagnosKod = srsViewState.originalDiagnosKod;
+                if ($scope.srs.diagnosisCodes === 'error') {
+                    loadDiagCodes();
+                }
                 $scope.srs.diagnosisListFetching.then(function() {
                     $scope.srs.srsApplicable = isSrsApplicable($scope.srs.diagnosKod);
                     // TODO: Check if we remove patient data already otherwise replace this with
@@ -207,7 +218,7 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function setConsentMessages() {
                 if ($scope.srs.consent === 'error') {
-                    $scope.srs.consentError = 'Tekniskt fel. Det gick inte att hämta information om samtycke.';
+                    $scope.srs.consentError = 'Tekniskt fel: Det gick inte att hämta information om tidigare samtycke';
                 }
             }
 
@@ -216,7 +227,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.atgarderError = '';
                 if ($scope.srs.atgarder) {
                     if ($scope.srs.atgarder === 'error') {
-                        $scope.srs.atgarderError = 'Tekniskt fel.\nDet gick inte att hämta information om åtgärder.';
+                        $scope.srs.atgarderError = 'Tekniskt fel: Det gick inte att hämta Råd och åtgärder';
                     }
                     else if ($scope.srs.atgarder.atgarderStatusCode === 'INFORMATION_SAKNAS') {
                         $scope.srs.atgarderInfo = 'Observera! För ' + $scope.srs.diagnosKod +
@@ -236,7 +247,7 @@ angular.module('common').directive('wcSrsPanelTab',
                 if ($scope.srs.statistik) {
                     if ($scope.srs.statistik === 'error') {
                         $scope.srs.statistikError =
-                            'Tekniskt fel.\nDet gick inte att hämta information om statistik';
+                            'Tekniskt fel: Det gick inte att hämta Nationell statistik';
                     }
                     else if ($scope.srs.statistik.statistikStatusCode === 'STATISTIK_SAKNAS' ||
                         !$scope.srs.statistik.nationellStatistik) {
@@ -272,6 +283,12 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
 
                 function isSrsApplicableForCode(diagnosKod) {
+                    if ($scope.srs.diagnosisCodes === 'error') {
+                        $scope.srs.backendError = 'Tekniskt fel: ' +
+                            'Stödet Risk och råd är inte tillgängligt eftersom tjänsten inte svarar just nu';
+                        reset();
+                        return false;
+                    }
                     return diagnosKod !== undefined &&
                         diagnosKod !== null &&
                         $scope.srs.diagnosisCodes.indexOf(diagnosKod.substring(0, 3)) !== -1;
@@ -280,16 +297,26 @@ angular.module('common').directive('wcSrsPanelTab',
 
             function loadDiagCodes() {
                 $scope.srs.diagnosisListFetching = srsProxy.getDiagnosisCodes().then(function(diagnosisCodes) {
-                    $scope.srs.diagnosisCodes = diagnosisCodes;
+                    if(diagnosisCodes.status === 200){
+                        $scope.srs.diagnosisCodes = diagnosisCodes.data;
+                    }
+                    else{
+                        $scope.srs.diagnosisCodes = 'error';
+                        $scope.srs.backendError = 'Tekniskt fel: ' +
+                            'Stödet Risk och råd är inte tillgängligt eftersom tjänsten inte svarar just nu';
+                        reset();
+                    }
                 });
             }
 
             function loadSrs() {
                 $scope.getQuestions($scope.srs.diagnosKod).then(function(questions) {
                     setConsentMessages();
-                    $scope.srs.questions = questions;
-                    $scope.srs.allQuestionsAnswered = $scope.questionsFilledForVisaButton();
-                    $scope.srs.showVisaKnapp = $scope.srs.allQuestionsAnswered;
+                    if (!$scope.srs.isForlangning || ($scope.srs.isForlangning && !$scope.srs.extensionPredictionFetched)) {
+                        $scope.srs.questions = questions;
+                        $scope.srs.allQuestionsAnswered = $scope.questionsFilledForVisaButton();
+                        $scope.srs.showVisaKnapp = $scope.srs.allQuestionsAnswered;
+                    }
                     $scope.retrieveAndSetAtgarderAndStatistikAndHistoricPrediction().then(function () {
                         setAtgarderMessages();
                         setStatistikMessages();
@@ -305,12 +332,10 @@ angular.module('common').directive('wcSrsPanelTab',
                 $scope.srs.prediktionError = '';
                 if ($scope.srs.prediction === 'error') {
                     $scope.srs.prediktionError =
-                        'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
-                } else {
-                    if ($scope.srs.prediction.statusCode === 'NOT_OK') {
-                        $scope.srs.prediktionError =
-                            'Tekniskt fel. \nDet gick inte att hämta information om risk för lång sjukskrivning';
-                    }
+                        'Tekniskt fel: Det gick inte att hämta risk för sjukskrivning längre än 90 dagar';
+                } else if ($scope.srs.prediction.statusCode === 'NOT_OK') {
+                    $scope.srs.prediktionError =
+                        'Tekniskt fel: Det gick inte att hämta risk för sjukskrivning längre än 90 dagar';
                 }
             };
 
@@ -331,6 +356,7 @@ angular.module('common').directive('wcSrsPanelTab',
 
 
             function resetMessages(){
+                $scope.srs.backendError = '';
                 $scope.srs.consentError = '';
 
                 $scope.srs.atgarderInfo = '';
