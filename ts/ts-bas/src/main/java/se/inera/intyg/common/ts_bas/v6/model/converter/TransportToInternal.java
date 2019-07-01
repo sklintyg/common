@@ -115,12 +115,11 @@ import org.slf4j.LoggerFactory;
 
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
+import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
 import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.inera.intygstjanster.ts.services.v1.Korkortsbehorighet;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
@@ -155,7 +154,6 @@ public final class TransportToInternal {
         Utvecklingsstorning.Builder utvecklingsstorning = Utvecklingsstorning.builder();
 
         EnumSet<IntygAvserKategori> intygAvserSet = EnumSet.noneOf(IntygAvserKategori.class);
-        bedomning.setKanInteTaStallning(false);
         EnumSet<BedomningKorkortstyp> bedomningsSet = EnumSet.noneOf(BedomningKorkortstyp.class);
 
         for (Svar svar : source.getSvar()) {
@@ -768,14 +766,10 @@ public final class TransportToInternal {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
-                    KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
-                    if (korkortsbehorighetKod == KorkortsbehorighetKod.KANINTETASTALLNING) {
-                        bedomning.setKanInteTaStallning(true);
-                    } else {
-                        Korkortsbehorighet korkortsbehorighet = Korkortsbehorighet.fromValue(korkortsbehorighetKod.name());
-                        BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighet.value());
-                        bedomningsSet.add(bedomningKorkortstyp);
-                    }
+                    TsBasKorkortsbehorighetKod korkortsbehorighetKod =
+                            TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
+                    BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.name());
+                    bedomningsSet.add(bedomningKorkortstyp);
                     break;
                 default:
                     throw new IllegalArgumentException();

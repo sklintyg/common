@@ -22,12 +22,12 @@ import com.google.common.base.Strings;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
+import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
 import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
@@ -372,19 +372,12 @@ public final class UtlatandeToIntyg {
         int behorighetInstans = 1;
         if (source.getKorkortstyp() != null) {
             for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
-                KorkortsbehorighetKod korkortsbehorighet = KorkortsbehorighetKod.valueOf(korkortstyp.name());
+                TsBasKorkortsbehorighetKod korkortsbehorighet = TsBasKorkortsbehorighetKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
                         .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
                                 aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
                         .build());
             }
-        }
-        if (source.getKanInteTaStallning() != null && source.getKanInteTaStallning()) {
-            svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans)
-                    .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
-                            aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, KorkortsbehorighetKod.KANINTETASTALLNING.getCode(),
-                                    KorkortsbehorighetKod.KANINTETASTALLNING.getDescription()))
-                    .build());
         }
         addIfNotBlank(svars, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34,
                 source.getLakareSpecialKompetens());
