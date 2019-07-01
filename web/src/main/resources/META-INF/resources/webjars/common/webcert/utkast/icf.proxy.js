@@ -23,13 +23,13 @@ angular.module('common').factory('common.IcfProxy',
         function _getIcf(diagnoser, onSuccess, onError) {
             var restPath = '/api/icf?' + _generateQueryFromDiagnos(diagnoser);
             $http.get(restPath).then(function(response) {
-                if (response && response.statusText === 'OK') {
+                if (response && response.status === 200) {
                     onSuccess(response.data);
                 } else {
                     onError(response);
                 }
             }, function(response) {
-                $log.error('IcfProxy.getIcf, Error: ' + response.statusText);
+                $log.error('IcfProxy.getIcf, Error: ' + response.status + ': ' + response.statusText);
                 onError(response);
             });
         }
