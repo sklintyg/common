@@ -52,9 +52,11 @@ angular.module('common').directive('wcArendePanelTab', [
                 };
 
                 $scope.isComplementQuestionViewReadOnly = function() {
-                    // If user has no access to answer complement questions, the view is considered read only
+                    // If user has no access to answer complement questions, the view is considered read only.
                     return !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
-                        'BESVARA_KOMPLETTERING');
+                        'BESVARA_KOMPLETTERING') &&
+                        !ResourceLinkService.isLinkTypeExists(ArendeListViewState.intygProperties.links,
+                            'BESVARA_FRAGA');
                 };
 
                 $scope.$on('$destroy', function() {
