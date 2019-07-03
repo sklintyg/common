@@ -237,6 +237,8 @@ angular.module('common').factory('common.srsProxy', ['common.ObjectHelper', '$ht
                 _logSrsMonitor('SRS_SHOW_QUESTIONS_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsMeasuresShowMoreClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_MEASURES_SHOW_MORE_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
+            logSrsMeasuresExpandOneClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
+                _logSrsMonitor('SRS_MEASURES_EXPAND_ONE_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsMeasuresLinkClicked: function(userClientContext, intygsId, caregiverId, careUnitId) {
                 _logSrsMonitor('SRS_MEASURES_LINK_CLICKED', userClientContext, intygsId, caregiverId, careUnitId);},
             logSrsStatisticsActivated: function(userClientContext, intygsId, caregiverId, careUnitId) {
