@@ -61,8 +61,10 @@
     </div>
 
     <div class="srs-panel-body-content">
-        <div ng-if="srs.diagnosKod && !srs.srsApplicable && !srs.backendError" class="no-diagnose-entered">
-            För den angivna diagnosen ({{srs.diagnosKod}}) finns för tillfället inget stöd för sjukskrivning.
+        <div ng-if="srs.diagnosKod && !srs.srsApplicable && !srs.backendError">
+            <wc-alert-message alert-severity="info">
+                För den angivna diagnosen finns för tillfället inget stöd från Risk och råd.
+            </wc-alert-message>
         </div>
 
         <div ng-if="!srs.diagnosKod" class="no-diagnose-entered">
