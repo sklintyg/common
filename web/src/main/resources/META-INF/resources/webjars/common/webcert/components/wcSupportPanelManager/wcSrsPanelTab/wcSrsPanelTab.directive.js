@@ -48,8 +48,11 @@ angular.module('common').directive('wcSrsPanelTab',
                     .then(function(data) {
                         $scope.srs.statistik = data.statistik || 'error';
                         $scope.srs.atgarder = data.atgarder || 'error';
-
-                        if (!$scope.srs.isForlangning || ($scope.srs.isForlangning && !$scope.srs.extensionPredictionFetched)) {
+                        // If we are in the extension view, update the prediction values if it is the first load (page load) or if the
+                        // currently loaded prediction doesn't have a personalized prediction (probabilityOverLimit)
+                        // This makes the prediction from the previous
+                        if (!$scope.srs.isForlangning || ($scope.srs.isForlangning && (!$scope.srs.extensionPredictionFetched ||
+                            !$scope.srs.prediction.probabilityOverLimit))) {
                             $scope.srs.prediction = data.prediktion || 'error';
                             $scope.srs.extensionPredictionFetched = true;
                         }
@@ -203,14 +206,12 @@ angular.module('common').directive('wcSrsPanelTab',
                 }
                 $scope.srs.diagnosisListFetching.then(function() {
                     $scope.srs.srsApplicable = isSrsApplicable($scope.srs.diagnosKod);
-                    // TODO: Check if we remove patient data already otherwise replace this with
-                    //  removing patient data if the consent is removed
                     if ($scope.srs.srsApplicable) {
-                        if (!$scope.srs.shownFirstTime) { // TODO: Needs to be combined with intygsId if we shall have something like this
+                        if (!$scope.srs.shownFirstTime) {
                             srsProxy.logSrsLoaded($scope.srs.userClientContext, $scope.srs.intygId,
                                 $scope.srs.vardgivareHsaId, $scope.srs.hsaId, $scope.srs.diagnosKod);
                         }
-                        $scope.srs.shownFirstTime = true; // TODO: do we need to make this survive a page reload?
+                        $scope.srs.shownFirstTime = true; // TODO: can we make this survive a page reload?
                         loadSrs();
                     }
                 });
