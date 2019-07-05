@@ -62,8 +62,8 @@ public class PdfGenerator {
             + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_SIGNED_TEXT_CUSTOMIZED = "Detta är en anpassad utskrift av ett elektroniskt intyg. "
             + "Viss information i intyget har valts bort. Intyget har signerats elektroniskt av intygsutfärdaren.";
-    private static final String INFO_SIGNED_TEXT_COMMON = " Intyget är avsett för patientens arbetsgivare som längst till och "
-            + "med dag 14 i sjukskrivningsperioden.";
+    private static final String INFO_SIGNED_TEXT_COMMON = "Intyget är avsett för patientens arbetsgivare och "
+            + "används under sjuklöneperioden.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och "
             + "ska INTE skickas till arbetsgivaren.";
     private static final String OPTIONAL_FIELD_DIAGNOSER = TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
@@ -149,6 +149,7 @@ public class PdfGenerator {
             buf.append(INFO_SIGNED_TEXT_CUSTOMIZED);
         }
 
+        buf.append(" ");
         buf.append(INFO_SIGNED_TEXT_COMMON);
 
         return buf.toString();
