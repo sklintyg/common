@@ -132,14 +132,11 @@
                                field-configs="[fieldConfig.funktionsnedsattningGrupp, fieldConfig.aktivitetsbegransning]"
                                summary="summary">
     <div selectable-field-wrapper
-         label-key="FRG_101.RBK"
+         label-key="FRG_35.RBK"
          cert-model="cert"
-         field-config="fieldConfig.funktionsnedsattningGrupp"
+         field-config="fieldConfig.funktionsnedsattning"
          summary="summary"
          show-deselected="showDeselected">
-      <div id="onskarFormedlaFunktionsnedsattning" class="inline-single-value">{{cert.onskarFormedlaFunktionsnedsattning | uvBoolFilter}}</div>
-      <h4></h4>
-      <h3><span dynamic-label key="FRG_35.RBK"></span></h3>
       <h4><span dynamic-label key="DFR_35.1.RBK"></span></h4>
       <div id="funktionsnedsattning" class="multiline">{{cert.funktionsnedsattning}}</div>
     </div>

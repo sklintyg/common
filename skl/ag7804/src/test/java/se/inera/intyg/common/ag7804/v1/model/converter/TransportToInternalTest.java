@@ -82,7 +82,6 @@ public class TransportToInternalTest {
         utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
         utlatande.setArbetsresor(false);
         utlatande.setSjukskrivningar(createSjukskrivningar());
-        utlatande.setOnskarFormedlaFunktionsnedsattning(true);
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
         utlatande.setOvrigt("Trevlig kille");
         utlatande.setKontaktMedAg(true);

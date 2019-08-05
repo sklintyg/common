@@ -22,18 +22,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-
-import org.apache.cxf.helpers.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import se.inera.intyg.common.ag7804.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -84,7 +80,6 @@ public class Ag7804ModuleApiRenewalTest {
 
         // Blanked out values
         assertNull(renewCopy.getOnskarFormedlaDiagnos());
-        assertNull(renewCopy.getOnskarFormedlaFunktionsnedsattning());
 
         assertNull(renewCopy.getUndersokningAvPatienten());
         assertNull(renewCopy.getTelefonkontaktMedPatienten());

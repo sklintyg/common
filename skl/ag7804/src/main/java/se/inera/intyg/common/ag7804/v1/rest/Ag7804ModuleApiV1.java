@@ -189,7 +189,6 @@ public class Ag7804ModuleApiV1 extends AgParentModuleApi<Ag7804UtlatandeV1> {
                     .setArbetstidsforlaggning(null)
                     .setArbetstidsforlaggningMotivering(null)
                     .setOnskarFormedlaDiagnos(null)
-                    .setOnskarFormedlaFunktionsnedsattning(null)
                     .setKontaktMedAg(null)
                     .setAnledningTillKontakt(null)
                     .build();

@@ -18,9 +18,23 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.UUID;
+import javax.xml.parsers.DocumentBuilderFactory;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,23 +47,7 @@ import org.w3c.dom.NodeList;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.SortedMap;
-import java.util.TreeMap;
-import java.util.UUID;
 import se.inera.intyg.common.support.services.BefattningService;
-
-
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -149,7 +147,6 @@ public class UVRendererTest {
         replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
         replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
         replacementConfig.put("funktionsnedsattning", "Denna text är istället för funktionsnedsattning!");
-        replacementConfig.put("onskarFormedlaFunktionsnedsattning", "Denna text är istället för funktionsnedsattning!");
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
                 .withIntygJsonModel(cleanedJson)
                 .withUpJsModel(upJsModel)

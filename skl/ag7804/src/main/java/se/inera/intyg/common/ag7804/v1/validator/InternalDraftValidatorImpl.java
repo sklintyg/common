@@ -42,13 +42,14 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.GRUNDFORMEDIC
 import static se.inera.intyg.common.ag7804.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_103;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_JSON_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_SVAR_JSON_ID_19;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PLANERADBEHANDLING_SVAR_JSON_ID_20;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -57,13 +58,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.PrognosTyp;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
@@ -240,22 +236,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag7804
     }
 
     private void validateFunktionsnedsattning(Ag7804UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
-        if (utlatande.getOnskarFormedlaFunktionsnedsattning() == null) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                    ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101,
-                    ValidationMessageType.EMPTY);
-        } else if (utlatande.getOnskarFormedlaFunktionsnedsattning()
-                && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+        if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
             se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
                     FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
                     ValidationMessageType.EMPTY,
                     "ag7804.validation.funktionsnedsattning.missing");
 
-        } else if (!utlatande.getOnskarFormedlaFunktionsnedsattning()
-                && !Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
-            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING,
-                    FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35,
-                    ValidationMessageType.INCORRECT_COMBINATION);
         }
     }
 
