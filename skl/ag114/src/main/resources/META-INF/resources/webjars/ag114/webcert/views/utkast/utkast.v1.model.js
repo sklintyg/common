@@ -32,6 +32,13 @@ angular.module('ag114').factory('ag114.Domain.IntygModel.v1',
                         'textVersion': undefined,
                         'grundData': grundData,
 
+                        // Kategori 7 Grund för medicinskt underlag
+                        'undersokningAvPatienten': undefined,
+                        'telefonkontaktMedPatienten': undefined,
+                        'journaluppgifter': undefined,
+                        'annatGrundForMU': undefined,
+                        'annatGrundForMUBeskrivning': undefined,
+
                         // Kategori 1 sysselsättning
                         'sysselsattning': new ModelAttr('sysselsattning', {
                             toTransform: ModelTransform.enumToTransform,

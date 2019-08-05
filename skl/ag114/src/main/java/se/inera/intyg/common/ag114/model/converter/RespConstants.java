@@ -22,6 +22,7 @@ package se.inera.intyg.common.ag114.model.converter;
  * Created by marced on 2018-11-30.
  */
 public final class RespConstants {
+    public static final String CATEGORY_GRUNDFORMU = "grundformu";
     public static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
     public static final String CATEGORY_DIAGNOS = "diagnos";
     public static final String CATEGORY_ARBETSFORMAGA = "arbetsformaga";
@@ -72,6 +73,42 @@ public final class RespConstants {
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9 = "anledningTillKontakt";
     public static final String ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9 = "9.2";
 
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10 = "10";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10 = "baseratPa";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1 = "10.1";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2 = "10.2";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_10_2 = "undersokningAvPatienten";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_10_2 = "journaluppgifter";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2 = "telefonkontaktMedPatienten";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2 = "annatGrundForMU";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3 = "10.3";
+    public static final String GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_10_3 = "annatGrundForMUBeskrivning";
+
     private RespConstants() {
+    }
+
+    public enum ReferensTyp {
+        UNDERSOKNING("UNDERSOKNING", "Min undersökning av patienten"),
+        TELEFONKONTAKT("TELEFONKONTAKT", "Min telefonkontakt med patienten"),
+        JOURNAL("JOURNALUPPGIFTER", "Journaluppgifter från den"),
+        ANNAT("ANNAT", "Annat");
+
+        public final String transportId;
+        public final String label;
+
+        ReferensTyp(String transportId, String label) {
+            this.transportId = transportId;
+            this.label = label;
+        }
+
+        public static ReferensTyp byTransportId(String transportId) {
+            String normId = transportId != null ? transportId.trim() : null;
+            for (ReferensTyp referensTyp : values()) {
+                if (referensTyp.transportId.equals(normId)) {
+                    return referensTyp;
+                }
+            }
+            throw new IllegalArgumentException();
+        }
     }
 }

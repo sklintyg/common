@@ -67,17 +67,6 @@
       <ns3:displayName>Kirurg</ns3:displayName>
     </specialistkompetens>
   </skapadAv>
-  <svar id="10">
-    <instans>1</instans>
-    <delsvar id="10.1">
-      <ns3:cv>
-        <ns3:code>UNDERSOKNING</ns3:code>
-        <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
-        <ns3:displayName>Min unders&#xF6;kning av patienten</ns3:displayName>
-      </ns3:cv>
-    </delsvar>
-    <delsvar id="10.2">2015-06-06</delsvar>
-  </svar>
   <svar id="1">
     <instans>1</instans>
     <delsvar id="1.1">
@@ -92,44 +81,13 @@
     <delsvar id="2.1">Inget</delsvar>
   </svar>
   <svar id="3">
-    <delsvar id="3.1">true</delsvar>
-  </svar>
-  <svar id="4">
-    <instans>1</instans>
-    <delsvar id="4.1">Klämskada skuldra</delsvar>
-    <delsvar id="4.2">
-      <ns3:cv>
-        <ns3:code>S47</ns3:code>
-        <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
-      </ns3:cv>
-    </delsvar>
-  </svar>
-  <svar id="4">
-    <instans>2</instans>
-    <delsvar id="4.1">Diagnos S48</delsvar>
-    <delsvar id="4.2">
-      <ns3:cv>
-        <ns3:code>S48</ns3:code>
-        <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
-      </ns3:cv>
-    </delsvar>
-  </svar>
-  <svar id="4">
-    <instans>3</instans>
-    <delsvar id="4.1"></delsvar>
-    <delsvar id="4.2">
-      <ns3:cv>
-        <ns3:code>S49</ns3:code>
-        <ns3:codeSystem>1.2.752.116.1.1.1.1.3</ns3:codeSystem>
-      </ns3:cv>
-    </delsvar>
+    <delsvar id="3.1">false</delsvar>
   </svar>
   <svar id="5">
-    <delsvar id="5.1">Kan jobba halvtid numera.</delsvar>
+    <delsvar id="5.1">Kan jobba halvtid.</delsvar>
   </svar>
   <svar id="6">
     <delsvar id="6.1">true</delsvar>
-    <delsvar id="6.2">Beskrivning av förmåga</delsvar>
   </svar>
   <svar id="7">
     <delsvar id="7.1">
@@ -144,13 +102,6 @@
         <ns3:end>2018-11-20</ns3:end>
       </ns3:datePeriod>
     </delsvar>
-  </svar>
-  <svar id="8">
-    <delsvar id="8.1">text</delsvar>
-  </svar>
-  <svar id="9">
-    <delsvar id="9.1">true</delsvar>
-    <delsvar id="9.2">Gillar kontakt</delsvar>
   </svar>
 </ns2:intyg>
 </ns2:RegisterCertificate>

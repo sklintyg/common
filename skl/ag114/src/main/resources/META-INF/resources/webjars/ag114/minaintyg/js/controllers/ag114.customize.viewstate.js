@@ -25,15 +25,28 @@ angular.module('ag114').factory('ag114.customizeViewstate', function() {
      */
 
     var _fieldConfig = {
-
-        'sysselsattning': { mandatory: true, selected: true, fields: ['sysselsattning', 'nuvarandeArbete'] },
-        'nuvarandeArbete': { mandatory: true, selected: true, fields: ['nuvarandeArbete'] },
-        'diagnosGrupp': { mandatory: false, selected: true, fields: ['onskarFormedlaDiagnos', 'diagnoser'] },
-        'nedsattArbetsformaga': { mandatory: true, selected: true, fields: ['nedsattArbetsformaga'] },
-        'arbetsformagaTrotsSjukdom': { mandatory: true, selected: true, fields: ['arbetsformagaTrotsSjukdom', 'arbetsformagaTrotsSjukdomBeskrivning']},
-        'sjukskrivningsgrad': { mandatory: true, selected: true, fields: ['sjukskrivningsgrad', 'sjukskrivningsperiod'] },
-        'ovrigaUpplysningar': { mandatory: true, selected: true, fields: ['ovrigaUpplysningar']},
-        'kontaktMedArbetsgivaren': { mandatory: true, selected: true, fields: ['kontaktMedArbetsgivaren', 'anledningTillKontakt']}
+        'grund': {
+            mandatory: true,
+            selected: true,
+            fields: ['undersokningAvPatienten', 'telefonkontaktMedPatienten', 'journaluppgifter', 'annatGrundForMU',
+                'annatGrundForMUBeskrivning']
+        },
+        'sysselsattning': {mandatory: true, selected: true, fields: ['sysselsattning', 'nuvarandeArbete']},
+        'nuvarandeArbete': {mandatory: true, selected: true, fields: ['nuvarandeArbete']},
+        'diagnosGrupp': {mandatory: false, selected: true, fields: ['onskarFormedlaDiagnos', 'diagnoser']},
+        'nedsattArbetsformaga': {mandatory: true, selected: true, fields: ['nedsattArbetsformaga']},
+        'arbetsformagaTrotsSjukdom': {
+            mandatory: true,
+            selected: true,
+            fields: ['arbetsformagaTrotsSjukdom', 'arbetsformagaTrotsSjukdomBeskrivning']
+        },
+        'sjukskrivningsgrad': {mandatory: true, selected: true, fields: ['sjukskrivningsgrad', 'sjukskrivningsperiod']},
+        'ovrigaUpplysningar': {mandatory: true, selected: true, fields: ['ovrigaUpplysningar']},
+        'kontaktMedArbetsgivaren': {
+            mandatory: true,
+            selected: true,
+            fields: ['kontaktMedArbetsgivaren', 'anledningTillKontakt']
+        }
 
     };
 

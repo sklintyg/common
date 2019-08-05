@@ -23,6 +23,10 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFO
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.BEDOMNING_SVAR_ID_7;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
@@ -40,6 +44,7 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_S
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_ID_1;
 import static se.inera.intyg.common.ag114.support.Ag114EntryPoint.KV_INTYGSTYP_CODE;
 import static se.inera.intyg.common.ag114.v1.model.converter.InternalToTransportUtil.handleDiagnosSvar;
+import static se.inera.intyg.common.agparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGSTYP_CODE_SYSTEM;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
@@ -49,13 +54,11 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.JAXBElement;
-
-import com.google.common.base.Strings;
-
+import se.inera.intyg.common.ag114.model.converter.RespConstants;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -97,6 +100,9 @@ public final class UtlatandeToIntyg {
 
     private static List<Svar> getSvar(Ag114UtlatandeV1 source, WebcertModuleService webcertModuleService) {
         List<Svar> svars = new ArrayList<>();
+
+        // Kategori 7
+        getGrundForMUSvar(source, svars);
 
         // Kategori 1
         int sysselsattningInstans = 1;
@@ -164,6 +170,50 @@ public final class UtlatandeToIntyg {
         }
 
         return svars;
+    }
+
+
+    private static void getGrundForMUSvar(Ag114UtlatandeV1 source, List<Svar> svars) {
+        int grundForMUInstans = 1;
+        if (source.getUndersokningAvPatienten() != null && source.getUndersokningAvPatienten().isValidDate()) {
+            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
+                        RespConstants.ReferensTyp.UNDERSOKNING.label))
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                    InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
+                .build());
+        }
+
+        if (source.getTelefonkontaktMedPatienten() != null && source.getTelefonkontaktMedPatienten().isValidDate()) {
+            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.TELEFONKONTAKT.transportId,
+                        RespConstants.ReferensTyp.TELEFONKONTAKT.label))
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                    InternalConverterUtil.getInternalDateContent(source.getTelefonkontaktMedPatienten()))
+                .build());
+        }
+
+        if (source.getJournaluppgifter() != null && source.getJournaluppgifter().isValidDate()) {
+            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
+                        RespConstants.ReferensTyp.JOURNAL.label))
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                    InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
+                .build());
+        }
+
+        if (source.getAnnatGrundForMU() != null && source.getAnnatGrundForMU().isValidDate()) {
+            svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10, grundForMUInstans++)
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1,
+                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
+                        RespConstants.ReferensTyp.ANNAT.label))
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2,
+                    InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
+                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3, source.getAnnatGrundForMUBeskrivning()).build());
+        }
     }
 
     private static JAXBElement<PQType> addSjukskrivningsGradIfNotEmpty(String sjukskrivningsgrad) {

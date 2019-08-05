@@ -1,6 +1,46 @@
 <div class="selectable-field-list">
 
 
+  <!-- Grund för medicinskt underlag -->
+  <selectable-category-wrapper
+      category-label="KAT_7.RBK"
+      cert-model="cert"
+      field-configs="[fieldConfig.grund]"
+      summary="summary">
+    <div selectable-field-wrapper
+         label-key="FRG_10.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.grund"
+         summary="summary"
+         show-deselected="showDeselected">
+      <div ng-show="cert.undersokningAvPatienten!=null">
+        <div id="undersokningAvPatienten" class="inline-single-value">
+          <h4><span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-show="cert.telefonkontaktMedPatienten !=null">
+        <div id="telefonkontaktMedPatienten" class="inline-single-value">
+          <h4><span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span></h4><span>  {{cert.telefonkontaktMedPatienten | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-show="cert.journaluppgifter!=null">
+        <div id="journaluppgifter" class="inline-single-value">
+          <h4><span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span></h4><span>  {{cert.journaluppgifter | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <div ng-show="cert.annatGrundForMU!=null">
+        <div id="annatGrundForMU" class="inline-single-value">
+          <h4><span dynamic-label
+                    key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
+        </div>
+      </div>
+      <h4><span dynamic-label key="DFR_10.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span></h4>
+      <div ng-show="cert.annatGrundForMUBeskrivning!=null" class="inline-single-value">
+        {{cert.annatGrundForMUBeskrivning}}
+      </div>
+    </div>
+  </selectable-category-wrapper>
+
   <!-- Sysselsättning -->
   <selectable-category-wrapper category-label="KAT_1.RBK"
                                cert-model="cert"

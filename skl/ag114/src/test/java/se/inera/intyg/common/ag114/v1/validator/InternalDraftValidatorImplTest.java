@@ -19,6 +19,9 @@
 package se.inera.intyg.common.ag114.v1.validator;
 
 import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10;
 import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_BEDOMNING;
@@ -72,6 +75,18 @@ public class InternalDraftValidatorImplTest {
     public void testSuccessMaxedUtlatande() throws ScenarioNotFoundException {
         ValidateDraftResponse res = validateScenarioFile("pass-maxed");
         assertEquals(0, getNumberOfInternalValidationErrors(res));
+    }
+
+    @Test
+    public void testFailsWhenMissingGrundForMU() throws ScenarioNotFoundException {
+        Ag114UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-missing-grundformu").asInternalModel();
+
+        ValidateDraftResponse res = internalValidator.validateDraft(utlatandeFromJson);
+        assertEquals(1, getNumberOfInternalValidationErrors(res));
+        ValidationMessage error = res.getValidationErrors().get(0);
+        Assert.assertEquals(CATEGORY_GRUNDFORMU, error.getCategory());
+        Assert.assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10, error.getField());
+        assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
     @Test

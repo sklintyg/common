@@ -21,13 +21,23 @@ package se.inera.intyg.common.ag114.v1.validator;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_10_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_10_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
+import com.google.common.base.Strings;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +47,7 @@ import org.springframework.stereotype.Component;
 import se.inera.intyg.common.ag114.model.converter.RespConstants;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
@@ -56,7 +67,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     @Override
     public ValidateDraftResponse validateDraft(Ag114UtlatandeV1 utlatande) {
         List<ValidationMessage> validationMessages = new ArrayList<>();
-
+        validateGrundForMU(utlatande, validationMessages);
         validateSysselsattning(utlatande, validationMessages);
         validateDiagnos(utlatande, validationMessages);
         validateNedsattArbetsformaga(utlatande, validationMessages);
@@ -68,6 +79,66 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         return ValidatorUtil.buildValidateDraftResponse(validationMessages);
     }
 
+
+    private void validateGrundForMU(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
+
+        // GrundForMU have 1..4 multiplicity
+        if (utlatande.getUndersokningAvPatienten() == null
+            && utlatande.getTelefonkontaktMedPatienten() == null
+            && utlatande.getJournaluppgifter() == null
+            && utlatande.getAnnatGrundForMU() == null) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10,
+                ValidationMessageType.EMPTY);
+        }
+
+        // R18 - no need to check. they are already separated as different attributes and cannot occur twice.
+
+        // R21 - no date in future
+        if (utlatande.getUndersokningAvPatienten() != null) {
+            validateGrundForMuDate(utlatande.getUndersokningAvPatienten(), validationMessages,
+                GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_10_2);
+        }
+        if (utlatande.getJournaluppgifter() != null) {
+            validateGrundForMuDate(utlatande.getJournaluppgifter(), validationMessages,
+                GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_10_2);
+        }
+        if (utlatande.getTelefonkontaktMedPatienten() != null) {
+            validateGrundForMuDate(utlatande.getTelefonkontaktMedPatienten(), validationMessages,
+                GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2);
+        }
+        if (utlatande.getAnnatGrundForMU() != null) {
+           validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2);
+        }
+
+        // R19
+        if (utlatande.getAnnatGrundForMU() != null && Strings.nullToEmpty(utlatande.getAnnatGrundForMUBeskrivning()).trim().isEmpty()) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_10_3, ValidationMessageType.EMPTY);
+        }
+
+        // R20
+        if (utlatande.getAnnatGrundForMU() == null && !Strings.isNullOrEmpty(utlatande.getAnnatGrundForMUBeskrivning())) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2,
+                ValidationMessageType.EMPTY,
+                "ag114.validation.grund-for-mu.annat.beskrivning.invalid_combination");
+        }
+    }
+
+    private static void validateGrundForMuDate(InternalDate date, List<ValidationMessage> validationMessages, String jsonId) {
+
+        boolean isValid = validateDate(date, validationMessages, CATEGORY_GRUNDFORMU, jsonId, null);
+
+        // R21: For syntactically valid dates, verify it's not a future date
+        if (isValid && date.asLocalDate().isAfter(LocalDate.now())) {
+            se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError(validationMessages, CATEGORY_GRUNDFORMU,
+                jsonId, ValidationMessageType.OTHER,
+                "common.validation.c-06");
+        }
+
+
+    }
     private void validateBedomning(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
 
         // Sjukskrivningsgrad
