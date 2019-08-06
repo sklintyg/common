@@ -36,10 +36,10 @@ angular.module('ag7804').factory('ag7804.customizeViewstate', function() {
                 'annatGrundForMUBeskrivning'
             ]
         },
-        'funktionsnedsattningGrupp': {
-            mandatory: false,
+        'funktionsnedsattning': {
+            mandatory: true,
             selected: true,
-            fields: ['onskarFormedlaFunktionsnedsattning', 'funktionsnedsattning']
+            fields: ['funktionsnedsattning']
         },
         'aktivitetsbegransning': {mandatory: true, selected: true, fields: ['aktivitetsbegransning']},
         'sysselsattning': {mandatory: true, selected: true, fields: ['sysselsattning', 'nuvarandeArbete']},

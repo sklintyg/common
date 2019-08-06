@@ -19,10 +19,11 @@
 package se.inera.intyg.common.ag7804.v1.pdf;
 
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
@@ -30,16 +31,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.ag7804.support.Ag7804EntryPoint;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
@@ -75,11 +70,6 @@ public class PdfGenerator {
     private static final String OPTIONAL_FIELD_FORMEDLA_DIAGNOSER = ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
     private static final String OPTIONAL_FIELD_DIAGNOSER = DIAGNOS_SVAR_JSON_ID_6;
     private static final String OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT = "På patientens begäran uppges inte diagnos";
-
-    private static final String OPTIONAL_FIELD_FORMEDLA_FUNKTIONSNEDSATTNING = ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101;
-    private static final String OPTIONAL_FIELD_FUNKTIONSNEDSATTNING = FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
-    private static final String OPTIONAL_FIELD_FUNKTIONSNEDSATTNING_REPLACEMENT_TEXT = "På patientens begäran uppges inte "
-            + "funktionsnedsättning";
 
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
@@ -143,15 +133,6 @@ public class PdfGenerator {
             if (optionalFields.stream().anyMatch(s -> s.equals(SKIP_SYMBOL + OPTIONAL_FIELD_FORMEDLA_DIAGNOSER))) {
                 overrides.put(OPTIONAL_FIELD_FORMEDLA_DIAGNOSER, OPTIONAL_FIELD_DIAGNOSER_REPLACEMENT_TEXT);
             }
-
-            // Override funktionsnedsattning field(s) ?
-            if (optionalFields.stream().anyMatch(s -> s.equals(SKIP_SYMBOL + OPTIONAL_FIELD_FUNKTIONSNEDSATTNING))) {
-                overrides.put(OPTIONAL_FIELD_FUNKTIONSNEDSATTNING, OPTIONAL_FIELD_FUNKTIONSNEDSATTNING_REPLACEMENT_TEXT);
-            }
-            if (optionalFields.stream().anyMatch(s -> s.equals(SKIP_SYMBOL + OPTIONAL_FIELD_FORMEDLA_FUNKTIONSNEDSATTNING))) {
-                overrides.put(OPTIONAL_FIELD_FORMEDLA_FUNKTIONSNEDSATTNING, OPTIONAL_FIELD_FUNKTIONSNEDSATTNING_REPLACEMENT_TEXT);
-            }
-
         }
         return overrides;
     }

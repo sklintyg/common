@@ -115,7 +115,6 @@ angular.module('ag7804').factory('ag7804.Domain.IntygModel.v1',
                         }),
 
                         // Kategori 4 Sjukdomens konsekvenser
-                        'onskarFormedlaFunktionsnedsattning' : undefined,
                         'funktionsnedsattning': undefined,
                         'aktivitetsbegransning': undefined,
 

@@ -24,7 +24,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.DIAGNOS_SVAR_JSON_ID_6;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_JSON_ID_100;
 
 import java.lang.reflect.Field;
@@ -34,14 +33,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal;
 import se.inera.intyg.common.ag7804.model.internal.Prognos;
@@ -88,7 +85,6 @@ public class InternalDraftValidatorTest {
                 .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.ARBETSSOKANDE)))
                 .setOnskarFormedlaDiagnos(true)
                 .setDiagnoser(buildDiagnoser("J22"))
-                .setOnskarFormedlaFunktionsnedsattning(true)
                 .setFunktionsnedsattning("funktionsnedsattning")
                 .setAktivitetsbegransning("aktivitetsbegransning")
                 .setPrognos(Prognos.create(PrognosTyp.MED_STOR_SANNOLIKHET, null))
@@ -419,34 +415,6 @@ public class InternalDraftValidatorTest {
         assertEquals(1, res.getValidationErrors().size());
         assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateFunktionsnedsattningMissingButExpected() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setOnskarFormedlaFunktionsnedsattning(true)
-                .setFunktionsnedsattning(null)
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals("funktionsnedsattning", res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-    }
-
-    @Test
-    public void validateFunktionsnedsattningPresentButNotWanted() throws Exception {
-        Ag7804UtlatandeV1 utlatande = builderTemplate
-                .setOnskarFormedlaFunktionsnedsattning(false)
-                .setFunktionsnedsattning("funk")
-                .build();
-
-        ValidateDraftResponse res = validator.validateDraft(utlatande);
-
-        assertEquals(1, res.getValidationErrors().size());
-        assertEquals(FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35, res.getValidationErrors().get(0).getField());
-        assertEquals(ValidationMessageType.INCORRECT_COMBINATION, res.getValidationErrors().get(0).getType());
     }
 
     @Test

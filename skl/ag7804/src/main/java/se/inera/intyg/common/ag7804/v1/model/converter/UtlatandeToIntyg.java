@@ -50,8 +50,6 @@ import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARB
 import static se.inera.intyg.common.ag7804.converter.RespConstants.NUVARANDE_ARBETE_SVAR_ID_29;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_DELSVAR_ID_100;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_ID_100;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101;
-import static se.inera.intyg.common.ag7804.converter.RespConstants.ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_DELSVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.OVRIGT_SVAR_ID_25;
 import static se.inera.intyg.common.ag7804.converter.RespConstants.PAGAENDEBEHANDLING_DELSVAR_ID_19;
@@ -76,11 +74,9 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
 
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.common.base.Strings;
-
 import se.inera.intyg.common.ag7804.converter.RespConstants;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.ag7804.model.internal.Sjukskrivning;
@@ -142,8 +138,6 @@ public final class UtlatandeToIntyg {
         handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
 
 
-        addIfNotNull(svars, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101, ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101,
-                source.getOnskarFormedlaFunktionsnedsattning());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_SVAR_ID_35, FUNKTIONSNEDSATTNING_DELSVAR_ID_35, source.getFunktionsnedsattning());
         addIfNotBlank(svars, AKTIVITETSBEGRANSNING_SVAR_ID_17, AKTIVITETSBEGRANSNING_DELSVAR_ID_17, source.getAktivitetsbegransning());
 

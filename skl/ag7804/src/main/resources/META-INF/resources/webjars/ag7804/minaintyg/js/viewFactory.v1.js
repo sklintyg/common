@@ -33,7 +33,7 @@ angular.module('ag7804').factory('ag7804.viewFactory.v1', [
         };
 
         var _enableCustomizeCertificate = function(cert) {
-            return !cert.avstangningSmittskydd && (cert.onskarFormedlaDiagnos || cert.onskarFormedlaFunktionsnedsattning);
+            return !cert.avstangningSmittskydd && cert.onskarFormedlaDiagnos;
         };
 
         return {

@@ -40,9 +40,6 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
             function isDiagnoseRequired(model) {
                 return model.onskarFormedlaDiagnos === true && !ObjectHelper.deepGet(model, 'diagnoser[0].diagnosKod');
             }
-            function isFunktionsNedsattningRequired(model) {
-                return model.onskarFormedlaFunktionsnedsattning === true && !model.funktionsnedsattning;
-            }
 
             function _getConfig(viewState) {
                 var categoryIds = _getCategoryIds();
@@ -168,25 +165,15 @@ angular.module('ag7804').factory('ag7804.UtkastConfigFactory.v1',
                     ]),
 
                     kategori(categoryIds[4], 'KAT_4.RBK', 'KAT_4.HLP', { hideExpression: 'model.avstangningSmittskydd' }, [
-                        fraga(101, 'FRG_101.RBK', 'FRG_101.HLP', { required: true, requiredProp: 'onskarFormedlaFunktionsnedsattning', cssClass: 'yellow-banner'}, [{
-                            type: 'ue-radio',
-                            modelProp: 'onskarFormedlaFunktionsnedsattning'
-                        }]),
-                        fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {
-                            hideExpression: 'model.onskarFormedlaFunktionsnedsattning === false'
-                        }, [
+                        fraga(35, 'FRG_35.RBK', 'FRG_35.HLP', {}, [
                             {   type: 'ue-form-label',
                                 key: 'DFR_35.1.RBK',
                                 helpKey: 'DFR_35.1.HLP',
                                 required: true,
-                                requiredProp: isFunktionsNedsattningRequired,
-                                hideHelpExpression: 'model.onskarFormedlaFunktionsnedsattning !== true'
+                                requiredProp: 'funktionsnedsattning'
                              },
                              { type: 'ue-textarea',
-                                 modelProp: 'funktionsnedsattning',
-                                 disabledFunc: function(model) {
-                                    return ObjectHelper.isEmpty(model.onskarFormedlaFunktionsnedsattning);
-                                 }
+                                 modelProp: 'funktionsnedsattning'
                              }
                         ]),
                         fraga(17, 'FRG_17.RBK', 'FRG_17.HLP', {}, [{

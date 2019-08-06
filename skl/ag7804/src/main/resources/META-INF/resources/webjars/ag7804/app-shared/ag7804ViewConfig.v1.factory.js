@@ -128,14 +128,6 @@ angular.module('ag7804').factory('ag7804.viewConfigFactory.v1', [ 'uvUtil', func
         components: [
             {
                 type: 'uv-fraga',
-                labelKey: 'FRG_101.RBK',
-                components: [ {
-                    type: 'uv-boolean-value',
-                    modelProp: 'onskarFormedlaFunktionsnedsattning'
-                } ]
-            },
-            {
-                type: 'uv-fraga',
                 labelKey: 'FRG_35.RBK',
                 components: [ {
                     type: 'uv-del-fraga',
