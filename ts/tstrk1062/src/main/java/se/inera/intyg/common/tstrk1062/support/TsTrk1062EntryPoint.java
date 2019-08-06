@@ -30,10 +30,9 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 public class TsTrk1062EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "tstrk1062";
-    // CHECKSTYLE:OFF LineLength
-    public static final String MODULE_NAME = "Transportstyrelsens Läkarintyg ADHD";
-    // CHECKSTYLE:ON LineLength
-    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens Läkarintyg ADHD";
+    public static final String MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
+
+    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkarintyg ADHD";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1062";
 
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
