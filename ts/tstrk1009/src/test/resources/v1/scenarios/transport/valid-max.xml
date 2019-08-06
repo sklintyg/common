@@ -26,7 +26,7 @@
     <ns3:typ>
       <ns5:code>TSTRK1009</ns5:code>
       <ns5:codeSystem>f6fb361a-e31d-48b8-8657-99b63912dd9b</ns5:codeSystem>
-      <ns5:displayName>Transportstyrelsens läkares anmälan</ns5:displayName>
+      <ns5:displayName>Läkares anmälan till Transportstyrelsen</ns5:displayName>
     </ns3:typ>
     <ns3:version>1.0</ns3:version>
     <ns3:signeringstidpunkt>2019-01-23T12:49:15</ns3:signeringstidpunkt>
