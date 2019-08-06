@@ -86,6 +86,17 @@
       <ns3:displayName>Kirurg</ns3:displayName>
     </specialistkompetens>
   </skapadAv>
+  <svar id="10">
+    <instans>1</instans>
+    <delsvar id="10.1">
+      <ns3:cv>
+        <ns3:code>UNDERSOKNING</ns3:code>
+        <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
+        <ns3:displayName>Min unders&#xF6;kning av patienten</ns3:displayName>
+      </ns3:cv>
+    </delsvar>
+    <delsvar id="10.2">2015-06-06</delsvar>
+  </svar>
   <svar id="1">
     <instans>1</instans>
     <delsvar id="1.1">

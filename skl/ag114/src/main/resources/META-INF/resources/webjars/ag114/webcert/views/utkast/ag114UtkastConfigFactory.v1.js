@@ -30,7 +30,8 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
                     3: 'arbetsformaga',
                     4: 'bedomning',
                     5: 'ovrigt',
-                    6: 'kontakt'
+                    6: 'kontakt',
+                    7: 'grundformu'
                 };
             }
 
@@ -39,9 +40,68 @@ angular.module('ag114').factory('ag114.UtkastConfigFactory.v1',
 
                 var kategori = ueFactoryTemplates.kategori;
                 var fraga = ueFactoryTemplates.fraga;
+                var today = moment().format('YYYY-MM-DD');
 
                 var config = [
-
+                    kategori(categoryIds[7], 'KAT_7.RBK', 'KAT_7.HLP', {}, [
+                        fraga(1, 'FRG_10.RBK', 'FRG_10.HLP',
+                            {
+                                validationContext: {
+                                    key: 'baseratPa',
+                                    type: 'ue-checkgroup'
+                                },
+                                required: true,
+                                requiredProp: ['undersokningAvPatienten', 'telefonkontaktMedPatienten', 'journaluppgifter', 'annatGrundForMU']
+                            },
+                            [{
+                                type: 'ue-grid',
+                                independentRowValidation: true,
+                                components: [[{
+                                    label: {
+                                        key: 'KV_FKMU_0001.UNDERSOKNING.RBK',
+                                        helpKey: 'KV_FKMU_0001.UNDERSOKNING.HLP'
+                                    },
+                                    type: 'ue-checkbox-date',
+                                    modelProp: 'undersokningAvPatienten',
+                                    maxDate: today
+                                }], [{
+                                    label: {
+                                        key: 'KV_FKMU_0001.TELEFONKONTAKT.RBK',
+                                        helpKey: 'KV_FKMU_0001.TELEFONKONTAKT.HLP'
+                                    },
+                                    type: 'ue-checkbox-date',
+                                    modelProp: 'telefonkontaktMedPatienten',
+                                    maxDate: today
+                                }], [{
+                                    label: {
+                                        key: 'KV_FKMU_0001.JOURNALUPPGIFTER.RBK',
+                                        helpKey: 'KV_FKMU_0001.JOURNALUPPGIFTER.HLP'
+                                    },
+                                    type: 'ue-checkbox-date',
+                                    modelProp: 'journaluppgifter',
+                                    maxDate: today
+                                }], [{
+                                    label: {
+                                        key: 'KV_FKMU_0001.ANNAT.RBK',
+                                        helpKey: 'KV_FKMU_0001.ANNAT.HLP'
+                                    },
+                                    type: 'ue-checkbox-date',
+                                    modelProp: 'annatGrundForMU',
+                                    maxDate: today
+                                }], [{
+                                    label: {
+                                        key: 'DFR_10.3.RBK',
+                                        helpKey: 'DFR_10.3.HLP',
+                                        required: true,
+                                        requiredProp: 'annatGrundForMUBeskrivning'
+                                    },
+                                    type: 'ue-textarea',
+                                    hideExpression: '!model.annatGrundForMU',
+                                    modelProp: 'annatGrundForMUBeskrivning'
+                                }]]
+                            }]
+                        )
+                    ]),
                     // Sysselsättning
                     kategori(categoryIds[1], 'KAT_1.RBK', 'KAT_1.HLP', {signingDoctor: true}, [
                         fraga(1, 'FRG_1.RBK', 'FRG_1.HLP', { required: true, requiredProp: ['sysselsattning["NUVARANDE_ARBETE"]']}, [{

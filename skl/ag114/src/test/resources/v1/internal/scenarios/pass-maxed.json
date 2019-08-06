@@ -35,6 +35,11 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
+  "telefonkontaktMedPatienten": "2015-12-08",
+  "undersokningAvPatienten" : "2015-12-09",
+  "journaluppgifter" : "2015-12-10",
+  "annatGrundForMU" : "2015-12-13",
+  "annatGrundForMUBeskrivning" : "Annat grund för MU",
   "sysselsattning": [{
     "typ": "NUVARANDE_ARBETE"
   }],

@@ -24,6 +24,11 @@ package se.inera.intyg.common.ag114.v1.model.internal;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_10_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_10_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_JSON_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
@@ -49,6 +54,7 @@ import com.google.common.collect.ImmutableList;
 
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -76,6 +82,24 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
     public String getTyp() {
         return Ag114EntryPoint.MODULE_ID;
     }
+
+    // Kategori 7 – Grund för medicinskt underlag
+    // Fråga 10.1 / 10.2
+    @Nullable
+    public abstract InternalDate getUndersokningAvPatienten();
+
+    @Nullable
+    public abstract InternalDate getTelefonkontaktMedPatienten();
+
+    @Nullable
+    public abstract InternalDate getJournaluppgifter();
+
+    @Nullable
+    public abstract InternalDate getAnnatGrundForMU();
+
+    // Fråga 10.3 Annan grund för MU
+    @Nullable
+    public abstract String getAnnatGrundForMUBeskrivning();
 
     // - - - - - - - - - - - - - - - - - - - - - -
     // Kategori 1 – Sysselsättning
@@ -159,6 +183,21 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(SIGNATURE)
         public abstract Builder setSignature(String signature);
+
+        @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_10_2)
+        public abstract Builder setUndersokningAvPatienten(InternalDate undersokningAvPatienten);
+
+        @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2)
+        public abstract Builder setTelefonkontaktMedPatienten(InternalDate telefonkontaktMedPatienten);
+
+        @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_10_2)
+        public abstract Builder setJournaluppgifter(InternalDate journaluppgifter);
+
+        @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2)
+        public abstract Builder setAnnatGrundForMU(InternalDate annatGrundForMU);
+
+        @JsonProperty(GRUNDFORMEDICINSKTUNDERLAG_BESKRIVNING_DELSVAR_JSON_ID_10_3)
+        public abstract Builder setAnnatGrundForMUBeskrivning(String annatGrundForMUBeskrivning);
 
         @JsonProperty(TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1)
         public abstract Builder setSysselsattning(List<Sysselsattning> sysselsattning);

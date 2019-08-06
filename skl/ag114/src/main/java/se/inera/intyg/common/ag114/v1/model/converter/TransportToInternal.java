@@ -23,6 +23,10 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFO
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.BEDOMNING_SVAR_ID_7;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.KONTAKT_ONSKAS_DELSVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.KONTAKT_ONSKAS_SVAR_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_DELSVAR_ID_5;
@@ -48,9 +52,11 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 import java.util.ArrayList;
 import java.util.List;
 
+import se.inera.intyg.common.ag114.model.converter.RespConstants;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
@@ -83,6 +89,9 @@ public final class TransportToInternal {
 
         for (Svar svar : source.getSvar()) {
             switch (svar.getId()) {
+            case GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10:
+                handleGrundForMedicinsktUnderlag(utlatande, svar);
+                break;
             case TYP_AV_SYSSELSATTNING_SVAR_ID_1:
                 handleSysselsattning(sysselsattningar, svar);
                 break;
@@ -116,6 +125,43 @@ public final class TransportToInternal {
         utlatande.setSysselsattning(sysselsattningar);
         utlatande.setDiagnoser(diagnoser);
     }
+
+    private static void handleGrundForMedicinsktUnderlag(Ag114UtlatandeV1.Builder utlatande, Svar svar) throws ConverterException {
+        InternalDate grundForMedicinsktUnderlagDatum = null;
+        RespConstants.ReferensTyp grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.ANNAT;
+        for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+            switch (delsvar.getId()) {
+                case GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_10_1:
+                    String referensTypString = getCVSvarContent(delsvar).getCode();
+                    grundForMedicinsktUnderlagTyp = RespConstants.ReferensTyp.byTransportId(referensTypString);
+                    break;
+                case GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_10_2:
+                    grundForMedicinsktUnderlagDatum = new InternalDate(getStringContent(delsvar));
+                    break;
+                case GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_10_3:
+                    utlatande.setAnnatGrundForMUBeskrivning(getStringContent(delsvar));
+                    break;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+
+        switch (grundForMedicinsktUnderlagTyp) {
+            case UNDERSOKNING:
+                utlatande.setUndersokningAvPatienten(grundForMedicinsktUnderlagDatum);
+                break;
+            case JOURNAL:
+                utlatande.setJournaluppgifter(grundForMedicinsktUnderlagDatum);
+                break;
+            case TELEFONKONTAKT:
+                utlatande.setTelefonkontaktMedPatienten(grundForMedicinsktUnderlagDatum);
+                break;
+            case ANNAT:
+                utlatande.setAnnatGrundForMU(grundForMedicinsktUnderlagDatum);
+                break;
+        }
+    }
+
 
     private static void handleNuvarandeArbete(Ag114UtlatandeV1.Builder utlatande, Svar svar) {
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
