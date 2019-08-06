@@ -8,6 +8,7 @@ dependencies {
 
   compile "org.apache.commons:commons-text:${commonsTextVersion}"
 
-  compile "commons-io:commons-io:2.4"
-  compile "com.itextpdf:itext7-core:7.1.1"
+  compile "commons-io:commons-io:${commonsIoVersion}"
+  compile "com.itextpdf:itext7-core:${itext7Version}"
+  compile "com.itextpdf:html2pdf:${itextPdfHtmlVersion}"
 }

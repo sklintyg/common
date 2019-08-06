@@ -18,7 +18,12 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import static se.inera.intyg.common.pdf.model.UVComponent.FRAGA_DELFRAGA_FONT_SIZE;
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 import com.google.common.base.Strings;
+import com.itextpdf.html2pdf.HtmlConverter;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
@@ -32,8 +37,19 @@ import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.AreaBreak;
 import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.IBlockElement;
+import com.itextpdf.layout.element.IElement;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.AreaBreakType;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -59,19 +75,6 @@ import se.inera.intyg.common.pdf.model.UVSkapadAv;
 import se.inera.intyg.common.pdf.model.UVTable;
 import se.inera.intyg.common.pdf.model.UVTemplateString;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.Charset;
-import java.util.Map;
-
-import static se.inera.intyg.common.pdf.model.UVComponent.FRAGA_DELFRAGA_FONT_SIZE;
-import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders PDFs using iText7 based on the uv view configs.
@@ -276,13 +279,37 @@ public class UVRenderer {
                         .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
             }
 
-            summaryDiv.add(new Paragraph(summaryPart.getBodyText() + "\n")
-                    .setMarginTop(0f)
-                    .setFont(svarFont)
-                    .setFontSize(SVAR_FONT_SIZE));
+            try {
+                String text = "<div style=\"white-space: pre-line;\">" + summaryPart.getBodyText() + "</div>";
+
+                List<IElement> elements = HtmlConverter.convertToElements(text);
+
+                elements.forEach(e -> summaryDiv.add(styleElement(((IBlockElement) e))));
+            } catch (IOException e) {
+                throw new IllegalArgumentException("Could parse html: " + e.getMessage());
+            }
         });
 
         document.add(summaryDiv);
+    }
+
+    private IBlockElement styleElement(IBlockElement element) {
+
+        if (element instanceof Div) {
+            Div div = (Div) element;
+            div.getChildren().forEach(ie -> {
+                if (ie instanceof IBlockElement) {
+                    styleElement((IBlockElement) ie);
+                }
+            });
+            return div.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+        } else if (element instanceof Paragraph) {
+            return ((Paragraph) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE).setMarginTop(0f);
+        } else if (element instanceof com.itextpdf.layout.element.List) {
+          return ((com.itextpdf.layout.element.List) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+        }
+
+        return element;
     }
 
     private void render(Div parentDiv, ScriptObjectMirror currentUvNode) {
