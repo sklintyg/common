@@ -30,15 +30,17 @@ import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 public class Tstrk1009EntryPoint implements ModuleEntryPoint {
 
     public static final String MODULE_ID = "tstrk1009";
-    public static final String MODULE_NAME = "Transportstyrelsens läkares anmälan";
-    public static final String ISSUER_MODULE_NAME = "Transportstyrelsens läkares anmälan";
-    public static final String SCHEMATRON_FILE = "tstrk1009.v1.sch";
+    public static final String MODULE_NAME = "Läkares anmälan till Transportstyrelsen";
+    public static final String ISSUER_MODULE_NAME = "Läkares anmälan till Transportstyrelsen";
     public static final String KV_UTLATANDETYP_INTYG_CODE = "TSTRK1009";
-    // CHECKSTYLE:OFF LineLength
+    public static final String SCHEMATRON_FILE = "tstrk1009.v1.sch";
+
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
-    private static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";
-     // CHECKSTYLE:ON LineLength
+
+    // CHECKSTYLE:OFF LineLength
+    private static final String MODULE_DESCRIPTION = "Läkares anmälan om medicinsk olämplighet att inneha körkort, körkortstillstånd, traktorkort eller taxiförarlegitimation";
+    // CHECKSTYLE:ON LineLength
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
