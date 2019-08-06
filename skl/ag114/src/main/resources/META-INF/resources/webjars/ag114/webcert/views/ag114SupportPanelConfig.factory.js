@@ -32,7 +32,7 @@ angular.module('ag114').factory('ag114.supportPanelConfigFactory', [ 'common.fea
             intygContext: {
                 type: 'ag114',
                 intygTypeVersion: intygTypeVersion,
-                aboutMsgKey: 'FRM_1.RBK',
+                aboutMsgKey: 'FRM_2.RBK',
                 id: id,
                 isSigned: isSigned
             }
