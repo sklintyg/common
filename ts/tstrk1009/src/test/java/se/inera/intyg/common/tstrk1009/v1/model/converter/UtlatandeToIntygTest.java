@@ -24,14 +24,12 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import javax.xml.bind.JAXBElement;
 import java.time.LocalDateTime;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.xml.bind.JAXBElement;
+import org.junit.Test;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -39,12 +37,13 @@ import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Relation;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.IntygetAvser;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.KorkortBehorighetGrupp;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Korkortsbehorighet;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 public class UtlatandeToIntygTest {
 
@@ -88,7 +87,7 @@ public class UtlatandeToIntygTest {
         assertNotNull(intyg.getVersion());
         assertEquals("TSTRK1009", intyg.getTyp().getCode());
         assertEquals("f6fb361a-e31d-48b8-8657-99b63912dd9b", intyg.getTyp().getCodeSystem());
-        assertEquals("Transportstyrelsens läkares anmälan", intyg.getTyp().getDisplayName());
+        assertEquals("Läkares anmälan till Transportstyrelsen", intyg.getTyp().getDisplayName());
         assertEquals(signeringsdatum, intyg.getSigneringstidpunkt());
         assertNotNull(patientPersonId, intyg.getPatient().getPersonId().getRoot());
         assertEquals(PNR_TOLVAN_EXPECTED, intyg.getPatient().getPersonId().getExtension());
