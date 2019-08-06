@@ -74,7 +74,6 @@ public final class CopyFromUtlatandeHelper {
                 .setOvrigt(source.getOvrigt())
 
                 .setOnskarFormedlaDiagnos(null)
-                .setOnskarFormedlaFunktionsnedsattning(null)
                 .setKontaktMedAg(null)
                 .setAnledningTillKontakt(null);
 

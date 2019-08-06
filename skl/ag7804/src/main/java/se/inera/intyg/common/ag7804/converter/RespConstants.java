@@ -108,9 +108,6 @@ public final class RespConstants {
     public static final String ARBETSRESOR_SVAR_JSON_ID_34 = "arbetsresor";
 
 
-    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_SVAR_ID_101 = "101";
-    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_ID_101 = "101.1";
-    public static final String ONSKAR_FORMEDLA_FUNKTIONSNEDSATTNING_DELSVAR_JSON_ID_101 = "onskarFormedlaFunktionsnedsattning";
     public static final String FUNKTIONSNEDSATTNING_SVAR_ID_35 = "35";
     public static final String FUNKTIONSNEDSATTNING_DELSVAR_ID_35 = "35.1";
     public static final String FUNKTIONSNEDSATTNING_SVAR_JSON_ID_35 = "funktionsnedsattning";
