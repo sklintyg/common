@@ -13,7 +13,7 @@ ext {
     schemasContractVersion = "2.1.8"
 
     autovalueVersion = "1.5"
-    cxfVersion = "3.1.3"
+    cxfVersion = "3.2.4"
     fkEIntygAdapterVersion = "2.2-RC3-INTYG"
     guavaVersion = "24.1-jre"
     commonsCollectionsVersion = "4.2"
