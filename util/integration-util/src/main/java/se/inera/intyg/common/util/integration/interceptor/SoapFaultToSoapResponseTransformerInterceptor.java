@@ -58,6 +58,7 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
   static {
     try {
       // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
+      // This can only be done if CXF version is 3.2.4 or below.
       Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
       transformFactoryField.setAccessible(true);
       TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
@@ -70,8 +71,8 @@ public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterc
 
   public static final int HTTP_OK = 200;
 
-  public SoapFaultToSoapResponseTransformerInterceptor(String phase) {
-    super(phase);
+  public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
+    super(xsltPath);
   }
 
   @Override
