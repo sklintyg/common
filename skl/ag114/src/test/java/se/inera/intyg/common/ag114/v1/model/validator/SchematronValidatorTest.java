@@ -21,14 +21,11 @@ package se.inera.intyg.common.ag114.v1.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.net.URL;
-
-import org.apache.commons.io.Charsets;
-import org.junit.Test;
-
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-
+import java.net.URL;
+import org.apache.commons.io.Charsets;
+import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
@@ -58,7 +55,8 @@ public class SchematronValidatorTest {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-invalid-sjukskrivningsgrad.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
-        assertTrue(response.getValidationErrors().get(0).contains("'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%"));
+        assertTrue(response.getValidationErrors().get(0)
+            .contains("'Nedsättningsgrad arbetsförmåga' måste besvaras med ett värde mellan 0 och 100%"));
     }
 
     @Test
@@ -75,7 +73,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0).contains(
-                "Om 'Finns arbetsförmåga trots sjukdom' besvarats med 'Ja' måste 'Beskriv arbetsförmåga trots sjukdom' besvaras."));
+            "Om 'Finns arbetsförmåga trots sjukdom' besvarats med 'Ja' måste 'Beskriv arbetsförmåga trots sjukdom' besvaras."));
     }
 
     @Test
@@ -84,7 +82,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0).contains(
-                "Om 'Önskar förmedla diagnos (FRG 3.1)' besvaras med 'Ja' är frågan 'Typ av diagnos (FRG 4)' obligatorisk att besvara."));
+            "Om 'Önskar förmedla diagnos (FRG 3.1)' besvaras med 'Ja' är frågan 'Typ av diagnos (FRG 4)' obligatorisk att besvara."));
     }
 
     @Test
@@ -105,7 +103,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsOnMissingOnskarFormedlaDiagnosDelsvar() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-missing-diagnosformedlingdelsvar.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0).contains("'Önskar förmedla diagnoser' måste ha ett 'Önskar förmedla diagnoser'."));
@@ -117,7 +116,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras."));
+            .contains("Om 'Kontakt med arbetsgivaren önskas' besvarats med 'Ja' måste 'Kontakt vem och varför' besvaras."));
     }
 
     @Test
@@ -126,16 +125,18 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("Sträng kan inte vara tom."));
+            .contains("Sträng kan inte vara tom."));
     }
 
     @Test
     public void failsOnMissingBedomningAvNedsattningAvArbetsformaga() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningbedomningavnedsattningavarbetsformaga.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-missing-sjukskrivningbedomningavnedsattningavarbetsformaga.xml"),
+                Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'."));
+            .contains("Ett 'AG1-14' måste innehålla 1 'Bedömning av nedsättning av arbetsförmåga'."));
     }
 
     @Test
@@ -144,7 +145,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'."));
+            .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Nedsättningsgrad arbetsförmåga'."));
     }
 
     @Test
@@ -153,7 +154,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'."));
+            .contains("'Bedömning av nedsättning av arbetsförmåga' måste ha ett 'Period för nedsatt arbetsförmåga'."));
     }
 
     @Test
@@ -162,7 +163,7 @@ public class SchematronValidatorTest {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
         assertTrue(response.getValidationErrors().get(0)
-                .contains("'Typ av sysselsättning' måste ha värdet NUVARANDE_ARBETE."));
+            .contains("'Typ av sysselsättning' måste ha värdet NUVARANDE_ARBETE."));
     }
 
 }

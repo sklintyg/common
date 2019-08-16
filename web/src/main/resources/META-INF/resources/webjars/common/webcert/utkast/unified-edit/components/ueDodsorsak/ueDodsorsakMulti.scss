@@ -6,9 +6,11 @@
     display: inline-block;
     padding: 10px 0;
   }
+
   table {
     width: 100%;
   }
+
   th {
     font-weight: normal;
     vertical-align: bottom;
@@ -17,6 +19,7 @@
   td {
     padding-right: 4px;
     padding-bottom: 10px;
+
     &.dodsorsak-validation .validation-error {
       margin-top: 0;
     }
@@ -29,9 +32,11 @@
   .btn.red {
     color: $wc-color-11;
   }
+
   .btn.red:hover {
     color: $wc-color-00;
   }
+
   .dropdown-row {
     min-width: 139px;
   }

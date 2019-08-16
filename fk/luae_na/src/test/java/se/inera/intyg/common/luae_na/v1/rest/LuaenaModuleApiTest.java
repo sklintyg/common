@@ -39,12 +39,13 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBST
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.SUBSTANSINTAG_SVAR_JSON_ID_21;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,10 +54,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.intyg.common.luae_na.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_na.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
@@ -129,7 +126,7 @@ public class LuaenaModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/luae_na.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -190,8 +187,8 @@ public class LuaenaModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         Mockito.doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LuaenaUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LuaenaUtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -212,8 +209,8 @@ public class LuaenaModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LuaenaUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LuaenaUtlatandeV1.class);
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -248,11 +245,11 @@ public class LuaenaModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(anyString(), eq(LuaenaUtlatandeV1.class));
+            .when(objectMapper)
+            .readValue(anyString(), eq(LuaenaUtlatandeV1.class));
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
         verify(moduleService, times(1)).getDescriptionFromDiagnosKod(anyString(), anyString());
@@ -263,12 +260,12 @@ public class LuaenaModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(anyString(), eq(LuaenaUtlatandeV1.class));
+            .when(objectMapper)
+            .readValue(anyString(), eq(LuaenaUtlatandeV1.class));
 
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), LocalDateTime.now());
         assertEquals(internalModel, response);
@@ -280,7 +277,7 @@ public class LuaenaModuleApiTest {
         LuaenaUtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
 
         Map<String, List<String>> res = moduleApi.getModuleSpecificArendeParameters(utlatande,
-                Arrays.asList(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, FORSLAG_TILL_ATGARD_SVAR_ID_24, SUBSTANSINTAG_SVAR_ID_21));
+            Arrays.asList(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, FORSLAG_TILL_ATGARD_SVAR_ID_24, SUBSTANSINTAG_SVAR_ID_21));
 
         assertNotNull(res);
         assertEquals(3, res.keySet().size());
@@ -288,7 +285,7 @@ public class LuaenaModuleApiTest {
         assertEquals(2, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).size());
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(0));
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
+            res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
         assertNotNull(res.get(FORSLAG_TILL_ATGARD_SVAR_ID_24));
         assertEquals(1, res.get(FORSLAG_TILL_ATGARD_SVAR_ID_24).size());
         assertEquals(FORSLAG_TILL_ATGARD_SVAR_JSON_ID_24, res.get(FORSLAG_TILL_ATGARD_SVAR_ID_24).get(0));
@@ -324,12 +321,12 @@ public class LuaenaModuleApiTest {
         final String kommentar = "kommentarText";
 
         LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -348,12 +345,12 @@ public class LuaenaModuleApiTest {
         final String kommentar = "";
 
         LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -372,12 +369,12 @@ public class LuaenaModuleApiTest {
         final String kommentar = "kommentarText";
 
         LuaenaUtlatandeV1 utlatande = LuaenaUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -437,6 +434,6 @@ public class LuaenaModuleApiTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 }

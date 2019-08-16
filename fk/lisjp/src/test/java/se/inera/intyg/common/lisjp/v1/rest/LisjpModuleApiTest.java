@@ -18,6 +18,29 @@
  */
 package se.inera.intyg.common.lisjp.v1.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
+import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +49,6 @@ import java.util.Map;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,16 +58,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 import org.springframework.core.io.ClassPathResource;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.lisjp.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.lisjp.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
-import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.lisjp.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.lisjp.v1.validator.InternalDraftValidatorImpl;
@@ -85,27 +104,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ARBETSTIDSFORLAGGNING_SVAR_JSON_ID_33;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_ID_39;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.PROGNOS_SVAR_JSON_ID_39;
-import static se.inera.intyg.common.lisjp.v1.rest.LisjpModuleApiV1.PREFIX;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -151,8 +149,8 @@ public class LisjpModuleApiTest {
     @Test(expected = ModuleSystemException.class)
     public void testPdfEmployerNotAllowedForSmittskydd() throws Exception {
         doReturn(ScenarioFinder.getInternalScenario("pass-smittskydd").asInternalModel())
-                .when(objectMapper)
-                .readValue("internal model", LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue("internal model", LisjpUtlatandeV1.class);
 
         List<Status> statuses = new ArrayList<>();
         List<String> optionalFields = new ArrayList<>();
@@ -177,7 +175,7 @@ public class LisjpModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/transport/lisjp.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -204,8 +202,8 @@ public class LisjpModuleApiTest {
     @Test
     public void testValidateShouldUseValidator() throws Exception {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue("internal model", LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue("internal model", LisjpUtlatandeV1.class);
         moduleApi.validateDraft("internal model");
         verify(internalDraftValidator, times(1)).validateDraft(any());
     }
@@ -263,7 +261,7 @@ public class LisjpModuleApiTest {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
@@ -276,8 +274,8 @@ public class LisjpModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -296,8 +294,8 @@ public class LisjpModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -318,8 +316,8 @@ public class LisjpModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -340,8 +338,8 @@ public class LisjpModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -356,8 +354,8 @@ public class LisjpModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(null)
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
 
@@ -369,8 +367,8 @@ public class LisjpModuleApiTest {
         final String utlatandeJson = "utlatandeJson";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(utlatandeJson, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(utlatandeJson, LisjpUtlatandeV1.class);
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -380,12 +378,12 @@ public class LisjpModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -397,12 +395,12 @@ public class LisjpModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, LisjpUtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, LisjpUtlatandeV1.class);
 
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -455,7 +453,7 @@ public class LisjpModuleApiTest {
         LisjpUtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
 
         Map<String, List<String>> res = moduleApi.getModuleSpecificArendeParameters(utlatande,
-                Arrays.asList(PROGNOS_SVAR_ID_39, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, ARBETSTIDSFORLAGGNING_SVAR_ID_33));
+            Arrays.asList(PROGNOS_SVAR_ID_39, GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, ARBETSTIDSFORLAGGNING_SVAR_ID_33));
 
         assertNotNull(res);
         assertEquals(3, res.keySet().size());
@@ -463,7 +461,7 @@ public class LisjpModuleApiTest {
         assertEquals(2, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).size());
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(0));
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
+            res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
         assertNotNull(res.get(PROGNOS_SVAR_ID_39));
         assertEquals(1, res.get(PROGNOS_SVAR_ID_39).size());
         assertEquals(PROGNOS_SVAR_JSON_ID_39, res.get(PROGNOS_SVAR_ID_39).get(0));
@@ -488,7 +486,7 @@ public class LisjpModuleApiTest {
         final String toString = "2016-03-02";
 
         LisjpUtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
-                Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(fromString, toString))));
+            Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(fromString, toString))));
         Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
@@ -503,12 +501,12 @@ public class LisjpModuleApiTest {
         final String kommentar = "kommentarText";
 
         LisjpUtlatandeV1 utlatande = LisjpUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -527,12 +525,12 @@ public class LisjpModuleApiTest {
         final String kommentar = "";
 
         LisjpUtlatandeV1 utlatande = LisjpUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -551,12 +549,12 @@ public class LisjpModuleApiTest {
         final String kommentar = "kommentarText";
 
         LisjpUtlatandeV1 utlatande = LisjpUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         when(webcertModelFactory.createCopy(any(), any())).thenReturn(utlatande);
 
@@ -578,11 +576,11 @@ public class LisjpModuleApiTest {
         final String toString = "2016-03-02";
 
         LisjpUtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
-                Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(middleDate2, middleDate3)),
-                Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(middleDate4, toString)),
-                Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
-                        new InternalLocalDateInterval(fromString, middleDate1))));
+            Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
+                new InternalLocalDateInterval(middleDate2, middleDate3)),
+            Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT, new InternalLocalDateInterval(middleDate4, toString)),
+            Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
+                new InternalLocalDateInterval(fromString, middleDate1))));
         Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build(), moduleService);
 
         String result = moduleApi.getAdditionalInfo(intyg);
@@ -599,7 +597,7 @@ public class LisjpModuleApiTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -645,7 +643,7 @@ public class LisjpModuleApiTest {
 
     private LisjpUtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
+            TESTFILE_UTLATANDE).getFile(), LisjpUtlatandeV1.class);
     }
 
 }

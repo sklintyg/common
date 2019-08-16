@@ -26,7 +26,7 @@ angular.module('common').directive('serviceBanner', function() {
     controller: function($scope, moduleConfig) {
 
       function getSeverity(priority) {
-        switch(priority) {
+        switch (priority) {
         case 'HOG':
           return 'danger';
         case 'MEDEL':

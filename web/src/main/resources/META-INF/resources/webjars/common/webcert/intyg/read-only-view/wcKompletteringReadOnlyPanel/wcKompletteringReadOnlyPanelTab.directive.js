@@ -18,77 +18,76 @@
  */
 
 angular.module('common').directive('wcKompletteringReadOnlyPanelTab', [
-    '$log', '$q', '$rootScope', '$state', '$stateParams', '$timeout', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
-    'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
-    function($log, $q, $rootScope, $state, $stateParams, $timeout, ObjectHelper, ErrorHelper, UserModel,
-        ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
+  '$log', '$q', '$rootScope', '$state', '$stateParams', '$timeout', 'common.ObjectHelper', 'common.ErrorHelper', 'common.UserModel',
+  'common.ArendeProxy', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.statService',
+  function($log, $q, $rootScope, $state, $stateParams, $timeout, ObjectHelper, ErrorHelper, UserModel,
+      ArendeProxy, ArendeListViewState, ArendeHelper, statService) {
     'use strict';
 
     return {
-        restrict: 'E',
-        scope: {
-            config: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/intyg/read-only-view/wcKompletteringReadOnlyPanel/wcKompletteringReadOnlyPanelTab.directive.html',
-        controller: function($scope) {
+      restrict: 'E',
+      scope: {
+        config: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/intyg/read-only-view/wcKompletteringReadOnlyPanel/wcKompletteringReadOnlyPanelTab.directive.html',
+      controller: function($scope) {
 
-            ArendeListViewState.reset();
-            ArendeListViewState.setIntygType($state.current.data.intygType);
-            ArendeListViewState.intyg = null;
-            $scope.viewState = ArendeListViewState;
-            $scope.unhandledKompletteringCount = 0;
+        ArendeListViewState.reset();
+        ArendeListViewState.setIntygType($state.current.data.intygType);
+        ArendeListViewState.intyg = null;
+        $scope.viewState = ArendeListViewState;
+        $scope.unhandledKompletteringCount = 0;
 
-            $scope.$on('$destroy', function() {
-                //Since ArendeListViewState is a service that's used elsewhere we need to clean up
-                //loaded state related to this instance
-                ArendeListViewState.reset();
+        $scope.$on('$destroy', function() {
+          //Since ArendeListViewState is a service that's used elsewhere we need to clean up
+          //loaded state related to this instance
+          ArendeListViewState.reset();
+        });
+
+        var abortFetchArenden;
+        $scope.$on('$destroy', function() {
+          if (abortFetchArenden) {
+            abortFetchArenden.resolve();
+            abortFetchArenden = null;
+          }
+        });
+
+        function fetchArenden(intygId, intygTyp) {
+
+          abortFetchArenden = $q.defer();
+
+          ArendeProxy.getArenden(intygId, intygTyp, abortFetchArenden.promise, function(result) {
+            $log.debug('getArendeForCertificate:success data:' + result);
+            ArendeListViewState.activeErrorMessageKey = null;
+
+            ArendeListViewState.setArendeList(result);
+
+            angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
+              if (arendeListItem.isOpen() && arendeListItem.isKomplettering()) {
+                $scope.unhandledKompletteringCount++;
+              }
             });
 
-
-            var abortFetchArenden;
-            $scope.$on('$destroy', function() {
-                if (abortFetchArenden) {
-                    abortFetchArenden.resolve();
-                    abortFetchArenden = null;
-                }
+            $timeout(function() {
+              ArendeListViewState.doneLoading = true;
             });
+          }, function(errorData) {
+            // show error view
+            ArendeListViewState.doneLoading = true;
 
-            function fetchArenden(intygId, intygTyp) {
+            ArendeListViewState.activeErrorMessageKey = 'common.error.could_not_load_cert_qa';
 
-                abortFetchArenden = $q.defer();
+            abortFetchArenden = null;
 
-                ArendeProxy.getArenden(intygId, intygTyp, abortFetchArenden.promise, function(result) {
-                    $log.debug('getArendeForCertificate:success data:' + result);
-                    ArendeListViewState.activeErrorMessageKey = null;
-
-                    ArendeListViewState.setArendeList(result);
-
-                    angular.forEach(ArendeListViewState.arendeList, function(arendeListItem) {
-                        if (arendeListItem.isOpen() && arendeListItem.isKomplettering()) {
-                            $scope.unhandledKompletteringCount++;
-                        }
-                    });
-
-                    $timeout(function(){
-                        ArendeListViewState.doneLoading = true;
-                    });
-                }, function(errorData) {
-                    // show error view
-                    ArendeListViewState.doneLoading = true;
-
-                    ArendeListViewState.activeErrorMessageKey = 'common.error.could_not_load_cert_qa';
-
-                    abortFetchArenden = null;
-
-                });
-            }
-            $scope.kompletteringarFilter = function(arendeListItem) {
-                return arendeListItem.isOpen() && arendeListItem.isKomplettering();
-            };
-
-            fetchArenden($stateParams.certificateId, $state.current.data.intygType);
-
-    
+          });
         }
+
+        $scope.kompletteringarFilter = function(arendeListItem) {
+          return arendeListItem.isOpen() && arendeListItem.isKomplettering();
+        };
+
+        fetchArenden($stateParams.certificateId, $state.current.data.intygType);
+
+      }
     };
-} ]);
+  }]);

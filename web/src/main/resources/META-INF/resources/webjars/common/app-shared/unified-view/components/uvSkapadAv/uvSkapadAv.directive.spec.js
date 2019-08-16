@@ -18,60 +18,60 @@
  */
 
 describe('uvSkapadAv Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-        $scope.viewDataMock = {
-            uppgifter: {
-                skapadAv: {
-                    personId: 'personId',
-                    fullstandigtNamn: 'fullstandigtNamn',
-                    vardenhet: {
-                        enhetsnamn: 'enhetsnamn',
-                        postadress: 'postadress',
-                        postnummer: 'postnummer',
-                        postort: 'postort',
-                        telefonnummer: 'telefonnummer',
-                        vardgivare: {
-                            vardgivarnamn: 'vardgivarnamn'
-                        }
-
-                    }
-                }
+    $scope.viewDataMock = {
+      uppgifter: {
+        skapadAv: {
+          personId: 'personId',
+          fullstandigtNamn: 'fullstandigtNamn',
+          vardenhet: {
+            enhetsnamn: 'enhetsnamn',
+            postadress: 'postadress',
+            postnummer: 'postnummer',
+            postort: 'postort',
+            telefonnummer: 'telefonnummer',
+            vardgivare: {
+              vardgivarnamn: 'vardgivarnamn'
             }
-        };
 
-        $scope.configMock = {
-            modelProp: 'uppgifter.skapadAv'
-        };
+          }
+        }
+      }
+    };
 
-        element = $compile('<uv-skapad-av config="configMock" view-data="viewDataMock"></uv-skapad-av>')($scope);
+    $scope.configMock = {
+      modelProp: 'uppgifter.skapadAv'
+    };
 
-    } ]));
+    element = $compile('<uv-skapad-av config="configMock" view-data="viewDataMock"></uv-skapad-av>')($scope);
 
-    it('should extract correct value from viewData when value exists', function() {
-        $scope.$digest();
-        expect(element.isolateScope().vm).toEqual($scope.viewDataMock.uppgifter.skapadAv);
-    });
+  }]));
 
-    it('should display correct info', function() {
-        $scope.$digest();
+  it('should extract correct value from viewData when value exists', function() {
+    $scope.$digest();
+    expect(element.isolateScope().vm).toEqual($scope.viewDataMock.uppgifter.skapadAv);
+  });
 
-        expect($(element).find('#fullstandigtNamn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.fullstandigtNamn);
-        expect($(element).find('#vardenhet-telefon').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.telefonnummer);
-        expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.enhetsnamn);
-        expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.vardgivare.vardgivarnamn);
-        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postadress);
-        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postnummer);
-        expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postort);
-    });
+  it('should display correct info', function() {
+    $scope.$digest();
+
+    expect($(element).find('#fullstandigtNamn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.fullstandigtNamn);
+    expect($(element).find('#vardenhet-telefon').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.telefonnummer);
+    expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.enhetsnamn);
+    expect($(element).find('#vardenhet-namn').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.vardgivare.vardgivarnamn);
+    expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postadress);
+    expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postnummer);
+    expect($(element).find('#vardenhet-adress').text()).toContain($scope.viewDataMock.uppgifter.skapadAv.vardenhet.postort);
+  });
 
 });

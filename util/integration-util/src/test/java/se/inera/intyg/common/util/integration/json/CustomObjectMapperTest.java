@@ -18,16 +18,16 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
+import static org.junit.Assert.assertThat;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
 
 /**
  * @author Magnus Ekstrand on 2017-11-24.
@@ -37,7 +37,7 @@ public class CustomObjectMapperTest {
 
     @Test
     public void givenNullsIgnoredGloballyWhenWritingObjectWithNullFieldThenIgnored()
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);

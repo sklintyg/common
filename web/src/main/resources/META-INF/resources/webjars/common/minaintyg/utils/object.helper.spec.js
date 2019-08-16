@@ -18,78 +18,77 @@
  */
 
 describe('ObjectHelper', function() {
-    'use strict';
+  'use strict';
 
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('common'));
 
-    var objectHelper;
+  var objectHelper;
 
-    beforeEach(angular.mock.inject(['common.ObjectHelper', function(_objectHelper_) {
-        objectHelper = _objectHelper_;
-    }]));
+  beforeEach(angular.mock.inject(['common.ObjectHelper', function(_objectHelper_) {
+    objectHelper = _objectHelper_;
+  }]));
 
-    // isDefined
-    it('should return false for undefined', function() {
-        expect(objectHelper.isDefined(undefined)).toEqual(false);
-    });
+  // isDefined
+  it('should return false for undefined', function() {
+    expect(objectHelper.isDefined(undefined)).toEqual(false);
+  });
 
-    it('should return false for null', function() {
-        expect(objectHelper.isDefined(null)).toEqual(false);
-    });
+  it('should return false for null', function() {
+    expect(objectHelper.isDefined(null)).toEqual(false);
+  });
 
-    it('should return true for empty string', function() {
-        expect(objectHelper.isDefined('')).toEqual(true);
-    });
+  it('should return true for empty string', function() {
+    expect(objectHelper.isDefined('')).toEqual(true);
+  });
 
-    // isEmpty
-    it('should return true for null string', function() {
-        expect(objectHelper.isEmpty(null)).toEqual(true);
-        expect(objectHelper.isEmpty(undefined)).toEqual(true);
-    });
-    it('should return true for empty string', function() {
-        expect(objectHelper.isEmpty('')).toEqual(true);
-    });
+  // isEmpty
+  it('should return true for null string', function() {
+    expect(objectHelper.isEmpty(null)).toEqual(true);
+    expect(objectHelper.isEmpty(undefined)).toEqual(true);
+  });
+  it('should return true for empty string', function() {
+    expect(objectHelper.isEmpty('')).toEqual(true);
+  });
 
-    it('should return true for empty string', function() {
-        expect(objectHelper.isEmpty('hello')).toEqual(false);
-    });
+  it('should return true for empty string', function() {
+    expect(objectHelper.isEmpty('hello')).toEqual(false);
+  });
 
+  // isModelValue
+  it('should return true for none-empty string', function() {
+    expect(objectHelper.isModelValue('hello')).toEqual(true);
+  });
 
-    // isModelValue
-    it('should return true for none-empty string', function() {
-        expect(objectHelper.isModelValue('hello')).toEqual(true);
-    });
+  it('should return false for empty string', function() {
+    expect(objectHelper.isModelValue('')).toEqual(false);
+  });
 
-    it('should return false for empty string', function() {
-        expect(objectHelper.isModelValue('')).toEqual(false);
-    });
+  it('should return false for undefined', function() {
+    expect(objectHelper.isModelValue()).toEqual(false);
+  });
 
-    it('should return false for undefined', function() {
-        expect(objectHelper.isModelValue()).toEqual(false);
-    });
+  it('should return false for null', function() {
+    expect(objectHelper.isModelValue(null)).toEqual(false);
+  });
 
-    it('should return false for null', function() {
-        expect(objectHelper.isModelValue(null)).toEqual(false);
-    });
+  it('should return false for empty array', function() {
+    expect(objectHelper.isModelValue([])).toEqual(false);
+  });
 
-    it('should return false for empty array', function() {
-        expect(objectHelper.isModelValue([])).toEqual(false);
-    });
+  it('should return true for none-empty array', function() {
+    expect(objectHelper.isModelValue(['something'])).toEqual(true);
+  });
 
-    it('should return true for none-empty array', function() {
-        expect(objectHelper.isModelValue(['something'])).toEqual(true);
-    });
+  it('should return true for object', function() {
+    expect(objectHelper.isModelValue({})).toEqual(true);
+  });
 
-    it('should return true for object', function() {
-        expect(objectHelper.isModelValue({})).toEqual(true);
-    });
+  it('should return false for false', function() {
+    expect(objectHelper.isModelValue(false)).toEqual(false);
+  });
 
-    it('should return false for false', function() {
-        expect(objectHelper.isModelValue(false)).toEqual(false);
-    });
-
-    it('should return true for true', function() {
-        expect(objectHelper.isModelValue(false)).toEqual(false);
-    });
+  it('should return true for true', function() {
+    expect(objectHelper.isModelValue(false)).toEqual(false);
+  });
 
 });

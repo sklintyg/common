@@ -18,22 +18,6 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import org.junit.Test;
-import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
-import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.Assert.assertNotNull;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_AKTIVITETSBEGRANSNING;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_ANLEDNING_TILL_FKKONTAKT;
@@ -49,30 +33,46 @@ import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuild
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_SMITTSKYDD;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_SYSSELSATTNING_EJ_NUVARANDEARBETE;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.Test;
+import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
+import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
 /**
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual
  * inspection
  * of the resulting pdf files, as we don't have any easy way of programmatically assert the content of the pdf.
  */
 public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitionBuilderTest {
+
     private static final String HSVARD_RECIPIENT_ID = "HSVARD";
     List<String> allOptionalFields = Arrays.asList(
-            OPT_SMITTSKYDD,
-            OPT_GRUND_FOR_MU,
-            OPT_SYSSELSATTNING_EJ_NUVARANDEARBETE,
-            OPT_FUNKTIONSNADSATTNING,
-            OPT_AKTIVITETSBEGRANSNING,
-            OPT_AKTIVITETSBEGRANSNING,
-            OPT_DIAGNOSER,
-            OPT_PAGAENDE_BEHANDLING,
-            OPT_PLANERAD_BEHANDLING,
-            OPT_FORSAKRINGSMEDICINSKS_BESLUTSTOD,
-            OPT_ARBETSTIDSFORLAGGNING_MOTIVERING,
-            OPT_OVRIGT,
-            OPT_KONTAKT_MED_FK,
-            OPT_ANLEDNING_TILL_FKKONTAKT,
-            "9001",
-            "9002");
+        OPT_SMITTSKYDD,
+        OPT_GRUND_FOR_MU,
+        OPT_SYSSELSATTNING_EJ_NUVARANDEARBETE,
+        OPT_FUNKTIONSNADSATTNING,
+        OPT_AKTIVITETSBEGRANSNING,
+        OPT_AKTIVITETSBEGRANSNING,
+        OPT_DIAGNOSER,
+        OPT_PAGAENDE_BEHANDLING,
+        OPT_PLANERAD_BEHANDLING,
+        OPT_FORSAKRINGSMEDICINSKS_BESLUTSTOD,
+        OPT_ARBETSTIDSFORLAGGNING_MOTIVERING,
+        OPT_OVRIGT,
+        OPT_KONTAKT_MED_FK,
+        OPT_ANLEDNING_TILL_FKKONTAKT,
+        "9001",
+        "9002");
 
     @Test
     public void testGenerateWithAllOptionalFields() throws Exception {
@@ -96,12 +96,12 @@ public class EmployeeLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinitio
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin, List<String> optionalFields)
-            throws PdfGeneratorException, IOException {
+        throws PdfGeneratorException, IOException {
         EmployeeLisjpPdfDefinitionBuilder employeePdfBuilder = new EmployeeLisjpPdfDefinitionBuilder(optionalFields);
         for (LisjpUtlatandeV1 intyg : intygList) {
             FkPdfDefinition pdfDefinition = employeePdfBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
-                    .generatePdf(pdfDefinition);
+                .generatePdf(pdfDefinition);
 
             assertNotNull(generatorResult);
 

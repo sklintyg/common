@@ -18,9 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1062.support;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.Optional;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;

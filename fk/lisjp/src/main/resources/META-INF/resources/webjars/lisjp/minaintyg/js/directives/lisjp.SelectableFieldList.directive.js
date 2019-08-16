@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('lisjp').directive('lisjpSelectableFieldList', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            fieldConfig: '=',
-            cert: '=',
-            summary: '=',
-            showDeselected: '='
+  return {
+    restrict: 'E',
+    scope: {
+      fieldConfig: '=',
+      cert: '=',
+      summary: '=',
+      showDeselected: '='
 
-        },
-        templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/lisjp.SelectableFieldList.directive.html'
-    };
+    },
+    templateUrl: '/web/webjars/lisjp/minaintyg/js/directives/lisjp.SelectableFieldList.directive.html'
+  };
 });

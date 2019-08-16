@@ -22,7 +22,8 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.INTYGETAVSER_SVAR_ID;
 
-
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -30,17 +31,11 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import javax.xml.bind.JAXB;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -86,13 +81,13 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         TsDiabetesUtlatandeV3 tsDiabetesUtlatandeV3 = getInternal(internalModel);
         IntygTexts texts = getTexts(TsDiabetesEntryPoint.MODULE_ID, tsDiabetesUtlatandeV3.getTextVersion());
 
         Personnummer personId = tsDiabetesUtlatandeV3.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(tsDiabetesUtlatandeV3.getId(), internalModel, personId, texts, statuses, applicationOrigin,
-                utkastStatus);
+            utkastStatus);
     }
 
     @Override
@@ -108,8 +103,8 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
             if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
                 String message = response.getResult().getResultText();
                 LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
+                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                    message);
                 throw new ExternalServiceCallException(message);
             }
         } catch (SOAPFaultException e) {
@@ -129,7 +124,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     protected Intyg utlatandeToIntyg(TsDiabetesUtlatandeV3 utlatande)
-            throws ConverterException {
+        throws ConverterException {
         return UtlatandeToIntyg.convert(utlatande);
     }
 
@@ -145,7 +140,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     protected TsDiabetesUtlatandeV3 transportToInternal(se.riv.clinicalprocess.healthcond.certificate.v3.Intyg intyg)
-            throws ConverterException {
+        throws ConverterException {
         return TransportToInternal.convert(intyg);
     }
 
@@ -180,9 +175,9 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
         }
 
         return types.stream()
-                .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
-                .map(IntygAvserKod::getDescription)
-                .collect(Collectors.joining(", "));
+            .map(cv -> IntygAvserKod.fromCode(cv.getCode()))
+            .map(IntygAvserKod::getDescription)
+            .collect(Collectors.joining(", "));
     }
 
     @Override
@@ -195,7 +190,7 @@ public class TsDiabetesModuleApiV3 extends TsParentModuleApi<TsDiabetesUtlatande
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
-            throws ModuleException {
+        throws ModuleException {
         try {
             TsDiabetesUtlatandeV3 utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
             return toInternalModelResponse(utlatande);

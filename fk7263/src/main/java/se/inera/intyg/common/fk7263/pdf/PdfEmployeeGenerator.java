@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
+import java.io.ByteArrayOutputStream;
+import java.util.List;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -48,15 +47,15 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
     private List<String> selectedOptionalFields;
 
     public PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus)
-            throws PdfGeneratorException {
+        List<String> optionalFields, UtkastStatus utkastStatus)
+        throws PdfGeneratorException {
         this(intyg, statuses, applicationOrigin, optionalFields, utkastStatus, true);
     }
 
     protected PdfEmployeeGenerator(Fk7263Utlatande intyg, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> selectedOptionalFields,
-            UtkastStatus utkastStatus, boolean flatten)
-            throws PdfGeneratorException {
+        List<String> selectedOptionalFields,
+        UtkastStatus utkastStatus, boolean flatten)
+        throws PdfGeneratorException {
         try {
             this.selectedOptionalFields = selectedOptionalFields;
             this.intyg = intyg;
@@ -70,41 +69,40 @@ public class PdfEmployeeGenerator extends PdfAbstractGenerator {
             boolean isLocked = UtkastStatus.DRAFT_LOCKED == utkastStatus;
 
             switch (applicationOrigin) {
-            case MINA_INTYG:
+                case MINA_INTYG:
 
-                //In MI mode, we dont care about isUtkast or not - since only signed intyg are available
-                generateMIPdfWithOptionalFields(selectedOptionalFields);
-                // perform additional decoration for MI originated pdf
-                maskSendToFkInformation(pdfStamper);
-                if (isCustomized()) {
-                    mark(pdfStamper, WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
+                    //In MI mode, we dont care about isUtkast or not - since only signed intyg are available
+                    generateMIPdfWithOptionalFields(selectedOptionalFields);
+                    // perform additional decoration for MI originated pdf
+                    maskSendToFkInformation(pdfStamper);
+                    if (isCustomized()) {
+                        mark(pdfStamper, WATERMARK_TEXT_CONTENT_IS_CUSTOMIZED, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                             MARK_AS_EMPLOYER_MI_HEIGHT, MARK_AS_EMPLOYER_MI_WIDTH);
-                } else {
-                    markAsElectronicCopy(pdfStamper);
-                }
+                    } else {
+                        markAsElectronicCopy(pdfStamper);
+                    }
 
-                createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), MINA_INTYG_MARGIN_TEXT);
-                break;
-            case WEBCERT:
-                generateMinimalPdf();
+                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), MINA_INTYG_MARGIN_TEXT);
+                    break;
+                case WEBCERT:
+                    generateMinimalPdf();
 
-                // perform additional decoration for WC originated pdf
-                maskSendToFkInformation(pdfStamper);
-                mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
+                    // perform additional decoration for WC originated pdf
+                    maskSendToFkInformation(pdfStamper);
+                    mark(pdfStamper, WATERMARK_TEXT_WC_EMPLOYER_MINIMAL_COPY, MARK_AS_EMPLOYER_START_X, MARK_AS_EMPLOYER_START_Y,
                         MARK_AS_EMPLOYER_WC_HEIGTH, MARK_AS_EMPLOYER_WC_WIDTH);
 
-                if (!isUtkast) {
-                    createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
-                }
+                    if (!isUtkast) {
+                        createRightMarginText(pdfStamper, pdfReader.getNumberOfPages(), intyg.getId(), WEBCERT_MARGIN_TEXT);
+                    }
 
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
             }
 
             // Add applicable watermarks
             addIntygStateWatermark(pdfStamper, pdfReader.getNumberOfPages(), isUtkast, isMakulerad(statuses), isLocked);
-
 
             pdfStamper.setFormFlattening(flatten);
             pdfStamper.close();

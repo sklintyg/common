@@ -17,40 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('ueKategori', ['$parse', 'common.ObjectHelper',
-    function($parse, ObjectHelper) {
-        'use strict';
+  function($parse, ObjectHelper) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueKategori/ueKategori.directive.html',
-            link: function($scope) {
-                if ($scope.config.label.required) {
-                    $scope.hasUnfilledRequirements = function() {
-                        var reqProp = $scope.config.label.requiredProp;
-                        if (reqProp) {
-                            if (angular.isArray(reqProp)) {
-                                for (var i = 0; i < reqProp.length; i++) {
-                                    if(ObjectHelper.isFalsy($parse(reqProp[i])($scope.model))) {
-                                        continue;
-                                    }
-                                    return false;
-                                }
-                                return true;
-                            } else {
-                                var req = $parse(reqProp)($scope.model);
-                                if(!ObjectHelper.isDefined(req) || req === false) {
-                                    return true;
-                                }
-                            }
-                        }
-                        return true;
-                    };
+    return {
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueKategori/ueKategori.directive.html',
+      link: function($scope) {
+        if ($scope.config.label.required) {
+          $scope.hasUnfilledRequirements = function() {
+            var reqProp = $scope.config.label.requiredProp;
+            if (reqProp) {
+              if (angular.isArray(reqProp)) {
+                for (var i = 0; i < reqProp.length; i++) {
+                  if (ObjectHelper.isFalsy($parse(reqProp[i])($scope.model))) {
+                    continue;
+                  }
+                  return false;
                 }
+                return true;
+              } else {
+                var req = $parse(reqProp)($scope.model);
+                if (!ObjectHelper.isDefined(req) || req === false) {
+                  return true;
+                }
+              }
             }
-        };
-    }]);
+            return true;
+          };
+        }
+      }
+    };
+  }]);

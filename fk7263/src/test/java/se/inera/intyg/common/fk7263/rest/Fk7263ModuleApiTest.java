@@ -28,14 +28,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aDatePeriod;
 
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import javax.xml.bind.JAXBElement;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -45,11 +45,6 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.w3.wsaddressing10.AttributedURIType;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
@@ -121,7 +116,7 @@ public class Fk7263ModuleApiTest {
         assertEquals("nyNamn", updatedIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
         assertEquals("nyForskrivarkod", updatedIntyg.getGrundData().getSkapadAv().getForskrivarKod());
         assertEquals(vardenhet.getEnhetsnamn(), updatedIntyg.getGrundData().getSkapadAv().getVardenhet()
-                .getEnhetsnamn());
+            .getEnhetsnamn());
     }
 
     @Test
@@ -213,7 +208,7 @@ public class Fk7263ModuleApiTest {
 
         // Wen
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", null);
@@ -233,7 +228,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FK");
@@ -253,7 +248,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.okResult());
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         // Then
         fk7263ModuleApi.sendCertificateToRecipient(xml, "logicalAddress", "FKASSA");
@@ -429,7 +424,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.infoResult(RegisterMedicalCertificateResponderImpl.CERTIFICATE_ALREADY_EXISTS));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         try {
             fk7263ModuleApi.registerCertificate(json, "logicalAddress");
@@ -451,7 +446,7 @@ public class Fk7263ModuleApiTest {
         response.setResult(ResultOfCallUtil.infoResult("INFO"));
 
         when(registerMedicalCertificateClient.registerMedicalCertificate(
-                any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
+            any(AttributedURIType.class), any(RegisterMedicalCertificateType.class))).thenReturn(response);
 
         try {
             fk7263ModuleApi.registerCertificate(json, "logicalAddress");
@@ -464,7 +459,7 @@ public class Fk7263ModuleApiTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
+            TESTFILE_UTLATANDE).getFile(), Fk7263Utlatande.class);
     }
 
     private String toJsonString(Fk7263Utlatande utlatande) throws ModuleException {
@@ -523,8 +518,8 @@ public class Fk7263ModuleApiTest {
         Fk7263Utlatande internal = objectMapper.readValue(jsonString, Fk7263Utlatande.class);
         RegisterMedicalCertificateType external = InternalToTransport.getJaxbObject(internal);
         JAXBElement<RegisterMedicalCertificateType> el =
-                new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
-                        .ObjectFactory().createRegisterMedicalCertificate(external);
+            new se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3
+                .ObjectFactory().createRegisterMedicalCertificate(external);
         return XmlMarshallerHelper.marshal(el);
     }
 

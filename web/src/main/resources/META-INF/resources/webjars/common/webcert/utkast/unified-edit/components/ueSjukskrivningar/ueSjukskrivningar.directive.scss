@@ -8,6 +8,7 @@ ue-sjukskrivningar {
 
   .hours-wrapper {
     margin: 1em 0;
+
     span i {
       padding-top: 10px;
     }
@@ -21,7 +22,7 @@ ue-sjukskrivningar {
     font-weight: normal;
     width: auto;
     margin-bottom: 6px;
-   
+
     input[type=checkbox].big-checkbox {
       margin-top: 5px;
     }
@@ -31,7 +32,9 @@ ue-sjukskrivningar {
     i {
       margin-left: -4px;
     }
+
     color: $wc-color-21;
+
     &.period {
       padding-bottom: 18px;
     }
@@ -40,9 +43,11 @@ ue-sjukskrivningar {
   .sjukskrivningar_period label {
     margin-right: 9px;
   }
+
   .fold-slide-animation {
     padding-top: 10px;
   }
+
   .flex-wrapper {
     display: flex;
     flex-direction: row;
@@ -52,7 +57,7 @@ ue-sjukskrivningar {
   }
 
   .checkbox-width {
-     width: 12em;
+    width: 12em;
   }
 
   .padding-bottom {
@@ -61,30 +66,31 @@ ue-sjukskrivningar {
 
   .date-width {
     width: 16em;
-     padding-left: 23px;
+    padding-left: 23px;
   }
 
-  .sjukskrivningar-section{
+  .sjukskrivningar-section {
     margin-bottom: 12px;
-    ue-validation-list{
 
-      .validation-error{
+    ue-validation-list {
+
+      .validation-error {
         margin: 6.5px 0;
       }
     }
   }
 
   @media (max-width: 750px) {
-   .hours-wrapper {
-     span i {
-       padding-top: 0;
-     }
-   }
+    .hours-wrapper {
+      span i {
+        padding-top: 0;
+      }
+    }
   }
 
   @media (max-width: 990px) {
-     .padding-right {
-       padding-right: 8px;
-     }
+    .padding-right {
+      padding-right: 8px;
+    }
   }
 }

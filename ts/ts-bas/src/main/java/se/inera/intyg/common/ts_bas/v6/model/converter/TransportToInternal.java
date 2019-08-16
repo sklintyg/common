@@ -110,21 +110,40 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDINSATSER_M
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30;
 
+import java.util.EnumSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.converter.TransportConverterUtil;
 import se.inera.intyg.common.ts_bas.v6.codes.TsBasKorkortsbehorighetKod;
-import se.inera.intyg.common.ts_bas.v6.model.internal.*;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
+import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
+import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
+import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Kognitivt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Neurologi;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Njurar;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Psykiskt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
+import se.inera.intyg.common.ts_bas.v6.model.internal.SomnVakenhet;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Synskarpevarden;
+import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Utvecklingsstorning;
+import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
-
-import java.util.EnumSet;
 
 public final class TransportToInternal {
 
@@ -277,7 +296,7 @@ public final class TransportToInternal {
     }
 
     private static void handleIntygAvser(TsBasUtlatandeV6.Builder utlatande, Svar svar,
-                                         EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
+        EnumSet<IntygAvserKategori> intygAvserSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case INTYG_AVSER_DELSVAR_ID_1:
@@ -294,7 +313,7 @@ public final class TransportToInternal {
             switch (delsvar.getId()) {
                 case IDENTITET_STYRKT_GENOM_ID_2:
                     utlatande.setVardkontakt(Vardkontakt.create(VARDKONTAKT_TYP,
-                            IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
+                        IdKontrollKod.fromCode(getCVSvarContent(delsvar).getCode()).name()));
                     break;
                 default:
                     throw new IllegalArgumentException();
@@ -762,12 +781,12 @@ public final class TransportToInternal {
     }
 
     private static void handleUppfyllerKravForBehorighet(Bedomning.Builder bedomning, Svar svar,
-                                                         EnumSet<BedomningKorkortstyp> bedomningsSet) throws ConverterException {
+        EnumSet<BedomningKorkortstyp> bedomningsSet) throws ConverterException {
         for (Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33:
                     TsBasKorkortsbehorighetKod korkortsbehorighetKod =
-                            TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
+                        TsBasKorkortsbehorighetKod.fromCode(getCVSvarContent(delsvar).getCode());
                     BedomningKorkortstyp bedomningKorkortstyp = BedomningKorkortstyp.valueOf(korkortsbehorighetKod.name());
                     bedomningsSet.add(bedomningKorkortstyp);
                     break;

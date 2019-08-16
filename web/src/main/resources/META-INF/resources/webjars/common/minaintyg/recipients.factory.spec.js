@@ -18,33 +18,32 @@
  */
 
 describe('recipientsFactory', function() {
-    'use strict';
+  'use strict';
 
-    var recipientsFactory;
+  var recipientsFactory;
 
-    beforeEach(angular.mock.module('common', function($provide) {}));
+  beforeEach(angular.mock.module('common', function($provide) {
+  }));
 
-    beforeEach(angular.mock.inject(['common.recipientsFactory', function(_recipientsFactory_) {
-        var knownRecipients = [
-            { id : 'FK', name: 'Kassan'},
-            { id : 'FBA', name: 'Företaget AB'},
-            { id : 'TRANSP', name: 'Transportstyrelsen'}
-        ];
+  beforeEach(angular.mock.inject(['common.recipientsFactory', function(_recipientsFactory_) {
+    var knownRecipients = [
+      {id: 'FK', name: 'Kassan'},
+      {id: 'FBA', name: 'Företaget AB'},
+      {id: 'TRANSP', name: 'Transportstyrelsen'}
+    ];
 
-        recipientsFactory = _recipientsFactory_;
-        recipientsFactory.setRecipients(knownRecipients);
-    }]));
+    recipientsFactory = _recipientsFactory_;
+    recipientsFactory.setRecipients(knownRecipients);
+  }]));
 
-    it('should return correct name when recipient was found', function() {
-        var result = recipientsFactory.getNameForId('TRANSP');
-        expect(result).toEqual('Transportstyrelsen');
-    });
+  it('should return correct name when recipient was found', function() {
+    var result = recipientsFactory.getNameForId('TRANSP');
+    expect(result).toEqual('Transportstyrelsen');
+  });
 
-    it('should return undefined  when recipient is not found', function() {
-        var result = recipientsFactory.getNameForId('dummy');
-        expect(result).toBeUndefined();
-    });
-
-
+  it('should return undefined  when recipient is not found', function() {
+    var result = recipientsFactory.getNameForId('dummy');
+    expect(result).toBeUndefined();
+  });
 
 });

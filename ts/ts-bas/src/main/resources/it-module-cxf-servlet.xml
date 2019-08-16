@@ -32,11 +32,10 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
   <cxf:bus>
-      <cxf:features>
-          <cxf:logging />
-      </cxf:features>
+    <cxf:features>
+      <cxf:logging/>
+    </cxf:features>
   </cxf:bus>
-
 
   <bean id="tsBasRegisterCertificateVersion" class="java.lang.String">
     <constructor-arg value="${tsbas.send.certificate.to.recipient.registercertificate.version}"/>
@@ -50,15 +49,13 @@
     <constructor-arg value="${registercertificatev3.endpoint.url}"/>
   </bean>
 
-
   <util:map id="registerCertificateClientMap">
-    <entry key="v1" value-ref="tsBasRegisterCertificateV1Client" />
-    <entry key="v3" value-ref="tsBasRegisterCertificateV3Client" />
+    <entry key="v1" value-ref="tsBasRegisterCertificateV1Client"/>
+    <entry key="v3" value-ref="tsBasRegisterCertificateV3Client"/>
   </util:map>
 
   <bean id="sendTSClientFactory" class=" se.inera.intyg.common.ts_parent.integration.SendTSClientFactory">
     <constructor-arg ref="registerCertificateClientMap"/>
   </bean>
-
 
 </beans>

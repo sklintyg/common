@@ -23,9 +23,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-
 import java.time.LocalDateTime;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,7 +33,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -66,7 +63,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_3)))
-                .thenReturn(INTYG_TYPE_VERSION_3_1);
+            .thenReturn(INTYG_TYPE_VERSION_3_1);
     }
 
     public WebcertModelFactoryTest() {

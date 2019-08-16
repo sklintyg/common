@@ -32,12 +32,10 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-
+import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -109,7 +107,7 @@ public abstract class TsDiabetesUtlatandeV3 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsDiabetesUtlatandeV3.Builder()
-                .setSignature(null);
+            .setSignature(null);
     }
 
     @AutoValue.Builder

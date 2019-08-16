@@ -18,22 +18,22 @@
  */
 
 angular.module('common')
-    .directive('backLink', ['$history', '$state', function($history, $state) {
-        'use strict';
-        return {
-            restrict: 'A',
-            scope: {
-                defaultRoute: '='
-            },
-            link: function (scope, elem, attrs) {
-                elem.bind('click', function () {
-                    var history = $history.all();
-                    if(history.length === 1 && history[0].state.name === '') {
-                        $state.go(scope.defaultRoute);
-                        return;
-                    }
-                    $history.back();
-                });
-            }
-        };
-    }]);
+.directive('backLink', ['$history', '$state', function($history, $state) {
+  'use strict';
+  return {
+    restrict: 'A',
+    scope: {
+      defaultRoute: '='
+    },
+    link: function(scope, elem, attrs) {
+      elem.bind('click', function() {
+        var history = $history.all();
+        if (history.length === 1 && history[0].state.name === '') {
+          $state.go(scope.defaultRoute);
+          return;
+        }
+        $history.back();
+      });
+    }
+  };
+}]);

@@ -4,6 +4,7 @@ ue-year {
 
   input.form-control {
     width: 4em;
+
     &:disabled, fieldset[disabled] & {
       background-color: $wc-color-20;
       color: $wc-color-09;

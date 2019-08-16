@@ -18,19 +18,19 @@
  */
 angular.module('common').service('common.UtkastValidationViewState',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            this.reset = function() {
-                this.sections  = null;
-                this.messages  = null;
-                this.messagesGrouped  = null;
-                this.messagesByField = null;
+        this.reset = function() {
+          this.sections = null;
+          this.messages = null;
+          this.messagesGrouped = null;
+          this.messagesByField = null;
 
-                this.warningMessages  = null;
-                this.warningMessagesByField = null;
-            };
+          this.warningMessages = null;
+          this.warningMessagesByField = null;
+        };
 
-            this.reset();
-        }
+        this.reset();
+      }
     ]);

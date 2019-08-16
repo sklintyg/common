@@ -1,5 +1,5 @@
 ue-validation-list,
-.ue-validation-list{
+.ue-validation-list {
 
   .validation-error, .validation-warning {
     @extend %wc-typo-07;
@@ -7,6 +7,7 @@ ue-validation-list,
     margin-top: 13px;
     display: block;
   }
+
   .validation-warning {
     color: $wc-color-07;
   }

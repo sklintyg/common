@@ -20,61 +20,60 @@
  * Directive to make sure value is only numbers
  */
 angular.module('common').directive('wcNumber', ['common.ObjectHelper',
-    function(ObjectHelper) {
-        'use strict';
+  function(ObjectHelper) {
+    'use strict';
 
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function(scope, element, attrs, ngModel) {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
 
-                var active = attrs.wcNumber;
-                if(!ObjectHelper.stringBoolToBool(active)){
-                    return;
-                }
+        var active = attrs.wcNumber;
+        if (!ObjectHelper.stringBoolToBool(active)) {
+          return;
+        }
 
-                var allowWhitespaceCharacters;
-                if (typeof attrs.allowWhitespaceCharacters === 'undefined') {
-                    allowWhitespaceCharacters = true;
-                } else {
-                    allowWhitespaceCharacters = attrs.allowWhitespaceCharacters;
-                }
+        var allowWhitespaceCharacters;
+        if (typeof attrs.allowWhitespaceCharacters === 'undefined') {
+          allowWhitespaceCharacters = true;
+        } else {
+          allowWhitespaceCharacters = attrs.allowWhitespaceCharacters;
+        }
 
-                function handleViewValueUpdate(newValue, oldValue) {
+        function handleViewValueUpdate(newValue, oldValue) {
 
-                    if(!newValue) {
-                        return;
-                    }
+          if (!newValue) {
+            return;
+          }
 
-                    function preventUnwantedCharacters(newValue, oldValue) {
+          function preventUnwantedCharacters(newValue, oldValue) {
 
-                        function updateViewValue(value) {
-                            ngModel.$setViewValue(value);
-                            ngModel.$render();
-                        }
-
-                        var lookingLikeNr;
-                        if (ObjectHelper.stringBoolToBool(allowWhitespaceCharacters)) {
-                            lookingLikeNr = /^[0-9\s]*$/i;
-                        } else {
-                            lookingLikeNr = /^[0-9]*$/i;
-                        }
-
-
-                        if (!newValue.match(lookingLikeNr)) {
-                            // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
-                            newValue = oldValue;
-                            updateViewValue(newValue);
-                        }
-                    }
-
-                    preventUnwantedCharacters(newValue, oldValue);
-                }
-
-                scope.$watch(function() {
-                    return ngModel.$viewValue;
-                }, handleViewValueUpdate);
-
+            function updateViewValue(value) {
+              ngModel.$setViewValue(value);
+              ngModel.$render();
             }
-        };
-    }]);
+
+            var lookingLikeNr;
+            if (ObjectHelper.stringBoolToBool(allowWhitespaceCharacters)) {
+              lookingLikeNr = /^[0-9\s]*$/i;
+            } else {
+              lookingLikeNr = /^[0-9]*$/i;
+            }
+
+            if (!newValue.match(lookingLikeNr)) {
+              // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+              newValue = oldValue;
+              updateViewValue(newValue);
+            }
+          }
+
+          preventUnwantedCharacters(newValue, oldValue);
+        }
+
+        scope.$watch(function() {
+          return ngModel.$viewValue;
+        }, handleViewValueUpdate);
+
+      }
+    };
+  }]);

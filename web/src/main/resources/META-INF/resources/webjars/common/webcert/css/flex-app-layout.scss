@@ -6,13 +6,13 @@ html,
 body {
   //Needed to allow having nested flex containers that expands & handle overflow themselves
   height: 100%;
-  overflow:hidden;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
 // used for positioning of the minimized sidebar
-.webcert-workarea-wrapper{
+.webcert-workarea-wrapper {
   position: relative;
   width: 100%;
   display: flex;
@@ -51,9 +51,9 @@ body {
 
     //Hack to fix IE not respecting padding bottom
     &:after {
-      content:'';
-      display:block;
-      padding-bottom:35px;
+      content: '';
+      display: block;
+      padding-bottom: 35px;
     }
 
     &.container-fluid {
@@ -66,7 +66,7 @@ body {
 
   .webcert-workarea-vflex-container {
     display: flex;
-    flex:1;
+    flex: 1;
     flex-direction: column;
     min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
   }
@@ -80,7 +80,7 @@ body {
     min-height: 1%; //without a min-height IE11/edge wont shrink flex-items
     min-width: 1%;
 
-    .main-area{
+    .main-area {
       flex-grow: 1;
       max-width: 60%;
     }
@@ -94,9 +94,9 @@ body {
       background-color: $wc-color-27;
 
       &:after {
-        content:'';
-        display:block;
-        padding-bottom:35px;
+        content: '';
+        display: block;
+        padding-bottom: 35px;
       }
     }
 
@@ -105,7 +105,7 @@ body {
       min-width: 1%;
     }
 
-    .bottom-fadeout-gradient-main{
+    .bottom-fadeout-gradient-main {
       @extend %bottom-gradient;
       width: $wc-max-content-width * 0.6;
       left: auto;
@@ -115,7 +115,7 @@ body {
     }
   }
 
-  .webcert-workarea-intyg-header{
+  .webcert-workarea-intyg-header {
     flex: 1 0 auto;
     position: relative; // needed for box shadow to show above intyg/utkast
     z-index: 5;

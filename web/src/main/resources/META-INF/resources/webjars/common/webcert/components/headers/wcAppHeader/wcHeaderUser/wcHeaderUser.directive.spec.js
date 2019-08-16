@@ -18,280 +18,280 @@
  */
 
 describe('wcHeaderUser Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $initialScope;
-    var directiveScope;
-    var compile;
-    var element;
-    var $uibModal;
-    var $q;
-    var $window;
-    var UserModel;
-    var initialMockedUser = {
-        'privatLakareAvtalGodkand': false,
-        'namn': 'Åsa Andersson',
-        'vardgivare': [ {
-            'id': 'VG1',
-            'namn': 'WebCert-Vårdgivare1',
-            'vardenheter': [ {
-                'id': 'VG1-VE1',
-                'namn': 'WebCert-Enhet1'
-            }, {
-                'id': 'VG1-VE2',
-                'namn': 'WebCert-Enhet2'
-            } ]
-        } ],
-        'valdVardenhet': {
-            'id': 'VG1-VE1',
-            'namn': 'WebCert-Enhet1'
-        },
-        'valdVardgivare': {
-            'id': 'VG1',
-            'namn': 'WebCert-Vårdgivare2',
-            'vardenheter': [ {
-                'id': 'VG1-VE1',
-                'namn': 'WebCert-Enhet1'
-            }, {
-                'id': 'VG1-VE2',
-                'namn': 'WebCert-Enhet2'
-            } ]
-        },
-        'authenticationMethod': 'FAKE',
-        'features': {
-            'HANTERA_INTYGSUTKAST': {
-                'name': 'HANTERA_INTYGSUTKAST',
-                'desc': 'Hantera intygsutkast',
-                'global': true,
-                'intygstyper': [ 'fk7263', 'ts-bas', 'ts-diabetes', 'luse', 'lisjp', 'luae_na', 'luae_fs', 'db', 'doi' ]
-            }
-        },
-        'roles': {
-            'LAKARE': {
-                'name': 'LAKARE',
-                'desc': 'Läkare'
-            }
-        },
-        'authorities': {
+  var $initialScope;
+  var directiveScope;
+  var compile;
+  var element;
+  var $uibModal;
+  var $q;
+  var $window;
+  var UserModel;
+  var initialMockedUser = {
+    'privatLakareAvtalGodkand': false,
+    'namn': 'Åsa Andersson',
+    'vardgivare': [{
+      'id': 'VG1',
+      'namn': 'WebCert-Vårdgivare1',
+      'vardenheter': [{
+        'id': 'VG1-VE1',
+        'namn': 'WebCert-Enhet1'
+      }, {
+        'id': 'VG1-VE2',
+        'namn': 'WebCert-Enhet2'
+      }]
+    }],
+    'valdVardenhet': {
+      'id': 'VG1-VE1',
+      'namn': 'WebCert-Enhet1'
+    },
+    'valdVardgivare': {
+      'id': 'VG1',
+      'namn': 'WebCert-Vårdgivare2',
+      'vardenheter': [{
+        'id': 'VG1-VE1',
+        'namn': 'WebCert-Enhet1'
+      }, {
+        'id': 'VG1-VE2',
+        'namn': 'WebCert-Enhet2'
+      }]
+    },
+    'authenticationMethod': 'FAKE',
+    'features': {
+      'HANTERA_INTYGSUTKAST': {
+        'name': 'HANTERA_INTYGSUTKAST',
+        'desc': 'Hantera intygsutkast',
+        'global': true,
+        'intygstyper': ['fk7263', 'ts-bas', 'ts-diabetes', 'luse', 'lisjp', 'luae_na', 'luae_fs', 'db', 'doi']
+      }
+    },
+    'roles': {
+      'LAKARE': {
+        'name': 'LAKARE',
+        'desc': 'Läkare'
+      }
+    },
+    'authorities': {
 
-            'NAVIGERING': {
-                'name': 'NAVIGERING',
-                'desc': 'Navigera i menyer, på logo, via tillbakaknappar',
-                'intygstyper': [],
-                'requestOrigins': [ {
-                    'name': 'NORMAL',
-                    'intygstyper': []
-                }, {
-                    'name': 'UTHOPP',
-                    'intygstyper': []
-                } ]
-            },
-            'ATKOMST_ANDRA_ENHETER': {
-                'name': 'ATKOMST_ANDRA_ENHETER',
-                'desc': 'Åtkomst andra vårdenheter',
-                'intygstyper': [],
-                'requestOrigins': [ {
-                    'name': 'NORMAL',
-                    'intygstyper': []
-                }, {
-                    'name': 'UTHOPP',
-                    'intygstyper': []
-                } ]
-            }
-        },
-        'origin': 'NORMAL',
-        'anvandarPreference': {},
-        'sekretessMarkerad': false,
-        'lakare': true,
-        'privatLakare': false,
-        'totaltAntalVardenheter': 2
+      'NAVIGERING': {
+        'name': 'NAVIGERING',
+        'desc': 'Navigera i menyer, på logo, via tillbakaknappar',
+        'intygstyper': [],
+        'requestOrigins': [{
+          'name': 'NORMAL',
+          'intygstyper': []
+        }, {
+          'name': 'UTHOPP',
+          'intygstyper': []
+        }]
+      },
+      'ATKOMST_ANDRA_ENHETER': {
+        'name': 'ATKOMST_ANDRA_ENHETER',
+        'desc': 'Åtkomst andra vårdenheter',
+        'intygstyper': [],
+        'requestOrigins': [{
+          'name': 'NORMAL',
+          'intygstyper': []
+        }, {
+          'name': 'UTHOPP',
+          'intygstyper': []
+        }]
+      }
+    },
+    'origin': 'NORMAL',
+    'anvandarPreference': {},
+    'sekretessMarkerad': false,
+    'lakare': true,
+    'privatLakare': false,
+    'totaltAntalVardenheter': 2
+  };
+
+  var mockedModuleConfig = {
+    PP_HOST: 'PP_HOST:9999',
+    DASHBOARD_URL: 'DASHBOARD_URL'
+  };
+
+  function getSekretessLink() {
+    return $(element).find('#wc-vardperson-sekretess-info-dialog--link');
+  }
+
+  function runDirective() {
+    element = compile('<wc-header-user></wc-header-user>')($initialScope);
+    $initialScope.$digest();
+
+    directiveScope = element.isolateScope() || element();
+  }
+
+  beforeEach(module('htmlTemplates'));
+  beforeEach(module('common'));
+
+  //mocks
+  beforeEach(module(function($provide) {
+
+    $provide.constant('moduleConfig', mockedModuleConfig);
+
+    $window = {
+      location: {
+        href: null
+      }
     };
+    $provide.value('$window', $window);
 
-    var mockedModuleConfig = {
-        PP_HOST: 'PP_HOST:9999',
-        DASHBOARD_URL: 'DASHBOARD_URL'
-    };
+  }));
 
-    function getSekretessLink() {
-        return $(element).find('#wc-vardperson-sekretess-info-dialog--link');
-    }
+  beforeEach(inject(['$compile', '$rootScope', '$uibModal', '$window', '$q', 'common.UserModel',
+    function($compile, $rootScope, _$uibModal_, _$window_, _$q_, _UserModel_) {
+      compile = $compile;
+      $initialScope = $rootScope.$new();
+      $uibModal = _$uibModal_;
+      $window = _$window_;
+      $q = _$q_;
+      UserModel = _UserModel_;
 
-    function runDirective() {
-        element = compile('<wc-header-user></wc-header-user>')($initialScope);
-        $initialScope.$digest();
+      //Set a fresh COPY of initial user model before each test, so tests don't affect each other.
+      UserModel.setUser(angular.copy(initialMockedUser));
 
-        directiveScope = element.isolateScope() || element();
-    }
+    }]));
 
-    beforeEach(module('htmlTemplates'));
-    beforeEach(module('common'));
+  describe('Verify user name and role', function() {
+    it('Should show users name and role', function() {
+      //Act
+      runDirective();
+      //Assert
+      expect($(element).find('#wc-header-user-name').text()).toContain(UserModel.user.namn);
+      expect($(element).find('#wc-header-user-role').text()).toContain(UserModel.user.role);
+    });
+  });
 
-    //mocks
-    beforeEach(module(function($provide) {
+  describe('Verify PP user menu', function() {
 
-        $provide.constant('moduleConfig', mockedModuleConfig);
+    it('Should NOT show expand menu if user not PP', function() {
+      //Arrange
 
-        $window = {
-            location: {
-                href: null
-            }
+      //Act
+      runDirective();
+
+      //Assert
+      expect($(element).find('#expand-usermenu-btn').length).toBe(0);
+    });
+
+    it('Should show show expand menu if user not PP', function() {
+      //Arrange
+      UserModel.user.roles.PRIVATLAKARE = {};
+
+      //Act
+      runDirective();
+
+      //Assert
+      expect($(element).find('#expand-usermenu-btn').length).toBe(1);
+    });
+
+    it('should expand menu when clicked', function() {
+      //Arrange
+      UserModel.user.roles.PRIVATLAKARE = {};
+
+      //Act
+      runDirective();
+
+      //Assert
+      expect($(element).find('#expand-usermenu-btn').length).toBe(1);
+      expect(directiveScope.menu.expanded).toBeFalsy();
+
+      //Act again..Should be able to click expand button
+      $(element).find('#expand-usermenu-btn').click();
+
+      //Assert again..
+      expect(directiveScope.menu.expanded).toBeTruthy();
+      expect($(element).find('#editUserLink').length).toBe(1);
+
+    });
+
+    it('should change url when editUserLink is clicked', function() {
+      //Arrange
+      UserModel.user.roles.PRIVATLAKARE = {};
+
+      //Act
+      runDirective();
+      $(element).find('#expand-usermenu-btn').click();
+
+      //Assert
+      expect(directiveScope.menu.expanded).toBeTruthy();
+      expect($(element).find('#editUserLink').length).toBe(1);
+
+      //then click link
+      $(element).find('#editUserLink').click();
+
+      //Assert
+      expect($window.location.href).toContain(mockedModuleConfig.PP_HOST);
+      expect($window.location.href).toContain(mockedModuleConfig.DASHBOARD_URL);
+
+    });
+
+  });
+
+  describe('Verify sekretess info message', function() {
+
+    it('Should not show sekretessmessage if not sekretessmarkerad', function() {
+      //Arrange
+      //Act
+      runDirective();
+      //Assert
+      expect(getSekretessLink().length).toBe(0);
+    });
+
+    it('Should show sekretessmessage dialog if sekretessmarkerad', function() {
+      //Arrange
+      UserModel.user.sekretessMarkerad = true;
+      UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', true);
+      //return a modal instance with a result promise
+      spyOn($uibModal, 'open').and.callFake(function() {
+        return {
+          result: $q.defer().promise
         };
-        $provide.value('$window', $window);
+      });
 
-    }));
+      //Act
+      runDirective();
 
-    beforeEach(inject([ '$compile', '$rootScope', '$uibModal', '$window', '$q', 'common.UserModel',
-            function($compile, $rootScope, _$uibModal_, _$window_, _$q_, _UserModel_) {
-                compile = $compile;
-                $initialScope = $rootScope.$new();
-                $uibModal = _$uibModal_;
-                $window = _$window_;
-                $q = _$q_;
-                UserModel = _UserModel_;
+      //Assert
+      expect(getSekretessLink().text()).toContain('Sekretessmarkering');
 
-                //Set a fresh COPY of initial user model before each test, so tests don't affect each other.
-                UserModel.setUser(angular.copy(initialMockedUser));
+      //trigger open dialog
+      getSekretessLink().click();
 
-            } ]));
-
-    describe('Verify user name and role', function() {
-        it('Should show users name and role', function() {
-            //Act
-            runDirective();
-            //Assert
-            expect($(element).find('#wc-header-user-name').text()).toContain(UserModel.user.namn);
-            expect($(element).find('#wc-header-user-role').text()).toContain(UserModel.user.role);
-        });
-    });
-
-    describe('Verify PP user menu', function() {
-
-        it('Should NOT show expand menu if user not PP', function() {
-            //Arrange
-
-            //Act
-            runDirective();
-
-            //Assert
-            expect($(element).find('#expand-usermenu-btn').length).toBe(0);
-        });
-
-        it('Should show show expand menu if user not PP', function() {
-            //Arrange
-            UserModel.user.roles.PRIVATLAKARE = {};
-
-            //Act
-            runDirective();
-
-            //Assert
-            expect($(element).find('#expand-usermenu-btn').length).toBe(1);
-        });
-
-        it('should expand menu when clicked', function() {
-            //Arrange
-            UserModel.user.roles.PRIVATLAKARE = {};
-
-            //Act
-            runDirective();
-
-            //Assert
-            expect($(element).find('#expand-usermenu-btn').length).toBe(1);
-            expect(directiveScope.menu.expanded).toBeFalsy();
-
-            //Act again..Should be able to click expand button
-            $(element).find('#expand-usermenu-btn').click();
-
-            //Assert again..
-            expect(directiveScope.menu.expanded).toBeTruthy();
-            expect($(element).find('#editUserLink').length).toBe(1);
-
-        });
-
-        it('should change url when editUserLink is clicked', function() {
-            //Arrange
-            UserModel.user.roles.PRIVATLAKARE = {};
-
-            //Act
-            runDirective();
-            $(element).find('#expand-usermenu-btn').click();
-
-            //Assert
-            expect(directiveScope.menu.expanded).toBeTruthy();
-            expect($(element).find('#editUserLink').length).toBe(1);
-
-            //then click link
-            $(element).find('#editUserLink').click();
-
-            //Assert
-            expect($window.location.href).toContain(mockedModuleConfig.PP_HOST);
-            expect($window.location.href).toContain(mockedModuleConfig.DASHBOARD_URL);
-
-        });
+      //Assert
+      expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
+        id: 'SekretessInfoMessage'
+      }));
 
     });
 
-    describe('Verify sekretess info message', function() {
+    it('Should launch sekretess confirmation dialog dialog if sekretessmarkerad and not confirmed', function() {
 
-        it('Should not show sekretessmessage if not sekretessmarkerad', function() {
-            //Arrange
-            //Act
-            runDirective();
-            //Assert
-            expect(getSekretessLink().length).toBe(0);
-        });
+      //One coould argue that testing the wcVardPersonSekretess directives beahviour here is out of scope, why not
+      //make sure it's there and at least is triggered.
 
-        it('Should show sekretessmessage dialog if sekretessmarkerad', function() {
-            //Arrange
-            UserModel.user.sekretessMarkerad = true;
-            UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', true);
-            //return a modal instance with a result promise
-            spyOn($uibModal, 'open').and.callFake(function() {
-                return {
-                    result: $q.defer().promise
-                };
-            });
+      //Arrange
+      UserModel.user.sekretessMarkerad = true;
 
-            //Act
-            runDirective();
+      //return a modal instance with a result promise
+      spyOn($uibModal, 'open').and.callFake(function() {
+        return {
+          result: $q.defer().promise
+        };
+      });
 
-            //Assert
-            expect(getSekretessLink().text()).toContain('Sekretessmarkering');
+      //Act
+      runDirective();
 
-            //trigger open dialog
-            getSekretessLink().click();
+      //Assert
+      // The embedded wcVardPersonSekretess directive should reacted on this, and lauch the confirmation dialog..
+      expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
+        id: 'SekretessConsentDialog'
+      }));
 
-            //Assert
-            expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
-                id: 'SekretessInfoMessage'
-            }));
-
-        });
-
-        it('Should launch sekretess confirmation dialog dialog if sekretessmarkerad and not confirmed', function() {
-
-            //One coould argue that testing the wcVardPersonSekretess directives beahviour here is out of scope, why not
-            //make sure it's there and at least is triggered.
-
-            //Arrange
-            UserModel.user.sekretessMarkerad = true;
-
-            //return a modal instance with a result promise
-            spyOn($uibModal, 'open').and.callFake(function() {
-                return {
-                    result: $q.defer().promise
-                };
-            });
-
-            //Act
-            runDirective();
-
-            //Assert
-            // The embedded wcVardPersonSekretess directive should reacted on this, and lauch the confirmation dialog..
-            expect($uibModal.open).toHaveBeenCalledWith(jasmine.objectContaining({
-                id: 'SekretessConsentDialog'
-            }));
-
-        });
     });
+  });
 
 });

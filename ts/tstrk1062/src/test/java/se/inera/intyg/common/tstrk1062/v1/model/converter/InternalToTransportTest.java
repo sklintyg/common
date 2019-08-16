@@ -18,17 +18,22 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.converter;
 
-import static junit.framework.TestCase.*;
+import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
 
 import java.time.LocalDateTime;
-
 import org.junit.Test;
-
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.tstrk1062.v1.model.internal.TsTrk1062UtlatandeV1;
@@ -80,7 +85,7 @@ public class InternalToTransportTest {
 
     private TsTrk1062UtlatandeV1 getUtlatande() {
         final TsTrk1062UtlatandeV1.Builder builderTemplate = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()));
+            .setGrundData(buildGrundData(LocalDateTime.now()));
         return builderTemplate.build();
     }
 

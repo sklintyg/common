@@ -22,7 +22,6 @@ package se.inera.intyg.common.ts_diabetes.v2.model.internal;
  * Class encapsulating the values for synskarpa for a single eye.
  *
  * @author erik
- *
  */
 public class Synskarpevarden {
 

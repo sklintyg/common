@@ -18,22 +18,22 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import se.inera.intyg.common.support.services.BefattningService;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.inera.intyg.common.fkparent.pdf.eventhandlers.*;
-import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
-import se.inera.intyg.common.fkparent.pdf.model.FkPage;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import se.inera.intyg.common.fkparent.pdf.eventhandlers.PageNumberingEventHandler;
+import se.inera.intyg.common.fkparent.pdf.model.FkLabel;
+import se.inera.intyg.common.fkparent.pdf.model.FkPage;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.support.services.BefattningService;
 
 /**
  * Created 24/11-16
@@ -48,7 +48,7 @@ public class PdfGeneratorTest {
 
         FkPage page = new FkPage();
         FkLabel mainHeader = new FkLabel("Test Header")
-                .size(40, 12f);
+            .size(40, 12f);
         page.getChildren().add(mainHeader);
 
         def.addChild(page);
@@ -56,7 +56,7 @@ public class PdfGeneratorTest {
     }
 
     @Test
-    public void testGeneratePdf() throws Exception{
+    public void testGeneratePdf() throws Exception {
         FkPdfDefinition def = buildPdfDefinition();
         byte[] pdfFileBytes = PdfGenerator.generatePdf(def);
         assertNotNull(pdfFileBytes);

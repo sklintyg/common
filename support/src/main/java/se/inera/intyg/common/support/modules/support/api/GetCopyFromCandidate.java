@@ -22,6 +22,7 @@ package se.inera.intyg.common.support.modules.support.api;
  * Created by marced on 2018-12-13.
  */
 public class GetCopyFromCandidate {
+
     private String intygType;
     private String intygTypeVersion;
     private String intygId;

@@ -19,16 +19,16 @@
 
 angular.module('common').controller('smi.EditCert.UECtrl',
     ['$scope', '$state', 'ViewState', 'UtkastConfigFactory',
-        function URCtrl($scope, $state, viewState, UtkastConfigFactory) {
+      function URCtrl($scope, $state, viewState, UtkastConfigFactory) {
 
-            'use strict';
+        'use strict';
 
-            $scope.viewState = viewState;
+        $scope.viewState = viewState;
 
-            $scope.model = viewState.intygModel;
+        $scope.model = viewState.intygModel;
 
-            $scope.ueConfig = UtkastConfigFactory.getConfig(viewState);
+        $scope.ueConfig = UtkastConfigFactory.getConfig(viewState);
 
-            $scope.certForm.formState = {};
-        }
+        $scope.certForm.formState = {};
+      }
     ]);

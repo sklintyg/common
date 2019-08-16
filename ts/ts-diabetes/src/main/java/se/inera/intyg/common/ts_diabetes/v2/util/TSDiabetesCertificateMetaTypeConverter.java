@@ -18,15 +18,13 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.util;
 
+import com.google.common.base.Splitter;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import com.google.common.base.Splitter;
-
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -47,7 +45,7 @@ public final class TSDiabetesCertificateMetaTypeConverter {
         metaData.setIssuerName(tsDiabetesIntyg.getGrundData().getSkapadAv().getFullstandigtNamn());
         metaData.setFacilityName(tsDiabetesIntyg.getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn());
         metaData.setSignDate(
-                LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            LocalDateTime.parse(tsDiabetesIntyg.getGrundData().getSigneringsTidstampel(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         metaData.setAdditionalInfo(convertFromKodverkValues(intygMeta.getAdditionalInfo()));
         metaData.setAvailable("true".equals(intygMeta.getAvailable().toLowerCase()));
         List<Status> statuses = toStatusList(intygMeta.getStatus());
@@ -62,7 +60,6 @@ public final class TSDiabetesCertificateMetaTypeConverter {
      * To be backwards compatible with existing data, we keep that behaviour and transform the values here when fetching
      * data.
      *
-     * @param additionalInfo
      * @return Commaseparated string of intygAvser descriptions
      */
     private static String convertFromKodverkValues(String additionalInfo) {
@@ -84,7 +81,7 @@ public final class TSDiabetesCertificateMetaTypeConverter {
 
     public static List<Status> toStatusList(List<IntygStatus> certificateStatuses) {
         List<Status> statuses = certificateStatuses != null ? new ArrayList<>(certificateStatuses.size())
-                : Collections.<Status> emptyList();
+            : Collections.<Status>emptyList();
         if (certificateStatuses != null) {
             for (IntygStatus certificateStatus : certificateStatuses) {
                 if (certificateStatus != null) {
@@ -97,7 +94,7 @@ public final class TSDiabetesCertificateMetaTypeConverter {
 
     public static Status toStatus(IntygStatus certificateStatus) {
         return new Status(CertificateState.valueOf(certificateStatus.getType().value()),
-                certificateStatus.getTarget(),
-                LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            certificateStatus.getTarget(),
+            LocalDateTime.parse(certificateStatus.getTimestamp(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
     }
 }

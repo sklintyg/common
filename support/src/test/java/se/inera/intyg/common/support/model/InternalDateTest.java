@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.support.model;
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
-
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 public class InternalDateTest {
 
@@ -76,7 +77,7 @@ public class InternalDateTest {
         assertTrue(invalidDate.beforeMinDateOrInFuture(LocalDate.now().minusYears(1)));
     }
 
-    @Test (expected = ModelException.class)
+    @Test(expected = ModelException.class)
     public void testInvalidAsLocalDate() {
         InternalDate partialDate = new InternalDate("2001-");
         partialDate.asLocalDate();
@@ -88,7 +89,7 @@ public class InternalDateTest {
         dateButIncorrect.asLocalDate();
     }
 
-    @Test (expected = ModelException.class)
+    @Test(expected = ModelException.class)
     public void testInvalidEmpty() {
         InternalDate empty = new InternalDate("");
         empty.asLocalDate();

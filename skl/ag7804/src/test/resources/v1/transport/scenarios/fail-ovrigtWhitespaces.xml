@@ -110,7 +110,7 @@
       <delsvar id="17.1">Kommer inte in i bilen</delsvar>
     </svar>
     <svar id="25">
-      <delsvar id="25.1">   </delsvar>
+      <delsvar id="25.1"></delsvar>
     </svar>
     <svar id="32">
       <instans>1</instans>
@@ -143,7 +143,9 @@
         <ns3:cv>
           <ns3:code>STOR_SANNOLIKHET</ns3:code>
           <ns3:codeSystem>KV_FKMU_0006</ns3:codeSystem>
-          <ns3:displayName>Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning</ns3:displayName>
+          <ns3:displayName>Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter
+            denna sjukskrivning
+          </ns3:displayName>
         </ns3:cv>
       </delsvar>
     </svar>

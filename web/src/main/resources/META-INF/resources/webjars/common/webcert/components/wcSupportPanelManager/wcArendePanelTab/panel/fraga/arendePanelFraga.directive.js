@@ -24,26 +24,26 @@
  * arendePanelFraga directive. Handles fraga part of a arendePanel.
  */
 angular.module('common').directive('arendePanelFraga',
-    [ 'common.anchorScrollService',
-        function(anchorScroll) {
-            'use strict';
+    ['common.anchorScrollService',
+      function(anchorScroll) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.html',
-                scope: {
-                    panelId: '@',
-                    arendeListItem: '='
-                },
-                link:function(scope) {
-                    scope.scrollToFraga = function(komplettering) {
-                        //Both uv-wc-fraga (intyg) and wc-fraga-formly wrapper (utkast) sets this anchor id format
-                        var target = 'komplettering_' + komplettering.id;
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.html',
+          scope: {
+            panelId: '@',
+            arendeListItem: '='
+          },
+          link: function(scope) {
+            scope.scrollToFraga = function(komplettering) {
+              //Both uv-wc-fraga (intyg) and wc-fraga-formly wrapper (utkast) sets this anchor id format
+              var target = 'komplettering_' + komplettering.id;
 
-                       //Since the actual anchor for komplettering target reside inside a "kategori/fraga" we need a small offset so that
-                        // the name of the field is visible after scroll.
-                        anchorScroll.scrollIntygContainerTo(target, parseInt($('#certificate-content-container').offset().top + 60, 10));
-                    };
-                }
+              //Since the actual anchor for komplettering target reside inside a "kategori/fraga" we need a small offset so that
+              // the name of the field is visible after scroll.
+              anchorScroll.scrollIntygContainerTo(target, parseInt($('#certificate-content-container').offset().top + 60, 10));
             };
-        }]);
+          }
+        };
+      }]);

@@ -18,109 +18,109 @@
  */
 
 describe('tstrk1062UtkastConfigFactory', function() {
-    'use strict';
+  'use strict';
 
-    var element;
-    var UtkastConfigFactory;
-    var $scope;
+  var element;
+  var UtkastConfigFactory;
+  var $scope;
 
-    beforeEach(angular.mock.module('common', 'tstrk1062'));
-    beforeEach(inject(['$compile', '$rootScope', 'tstrk1062.UtkastConfigFactory.v1', 'tstrk1062.Domain.IntygModel.v1',
-        function($compile, $rootScope, _UtkastConfigFactory_, _IntygModel_) {
-            UtkastConfigFactory = _UtkastConfigFactory_;
+  beforeEach(angular.mock.module('common', 'tstrk1062'));
+  beforeEach(inject(['$compile', '$rootScope', 'tstrk1062.UtkastConfigFactory.v1', 'tstrk1062.Domain.IntygModel.v1',
+    function($compile, $rootScope, _UtkastConfigFactory_, _IntygModel_) {
+      UtkastConfigFactory = _UtkastConfigFactory_;
 
-            $scope = $rootScope.$new();
-            $scope.model = _IntygModel_._members.build().content;
-            $scope.ueConfig = UtkastConfigFactory.getConfig();
-            element = angular.element(
-                '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
-            $compile(element)($scope);
-            $scope.$digest();
-        }]));
+      $scope = $rootScope.$new();
+      $scope.model = _IntygModel_._members.build().content;
+      $scope.ueConfig = UtkastConfigFactory.getConfig();
+      element = angular.element(
+          '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
+      $compile(element)($scope);
+      $scope.$digest();
+    }]));
 
-    describe('lakemedelsbehandling', function() {
+  describe('lakemedelsbehandling', function() {
 
-        it('should show extra fields when "lakemedelsbehandling.harHaft"-option is selected', function() {
+    it('should show extra fields when "lakemedelsbehandling.harHaft"-option is selected', function() {
 
-            $scope.model.lakemedelsbehandling.harHaft = false;
-            $scope.$digest();
+      $scope.model.lakemedelsbehandling.harHaft = false;
+      $scope.$digest();
 
-            expect(element.find('#form_lakemedelsbehandling-pagar').length).toBe(0);
+      expect(element.find('#form_lakemedelsbehandling-pagar').length).toBe(0);
 
-            $scope.model.lakemedelsbehandling.harHaft = true;
-            $scope.$digest();
+      $scope.model.lakemedelsbehandling.harHaft = true;
+      $scope.$digest();
 
-            expect(element.find('#form_lakemedelsbehandling-pagar').length).toBe(1);
-
-        });
-
-        it('should show extra fields when "lakemedelsbehandling.pagar"-option is selected', function() {
-
-            $scope.model.lakemedelsbehandling.pagar = false;
-            $scope.$digest();
-
-            expect(element.find('#form_lakemedelsbehandling-aktuell').length).toBe(0);
-            expect(element.find('#form_lakemedelsbehandling-pagatt').length).toBe(0);
-            expect(element.find('#form_lakemedelsbehandling-effekt').length).toBe(0);
-            expect(element.find('#form_lakemedelsbehandling-foljsamhet').length).toBe(0);
-
-            expect(element.find('#form_lakemedelsbehandling-avslutadTidpunkt').length).toBe(1);
-            expect(element.find('#form_lakemedelsbehandling-avslutadOrsak').length).toBe(1);
-
-            $scope.model.lakemedelsbehandling.pagar = true;
-            $scope.$digest();
-
-            expect(element.find('#form_lakemedelsbehandling-aktuell').length).toBe(1);
-            expect(element.find('#form_lakemedelsbehandling-pagatt').length).toBe(1);
-            expect(element.find('#form_lakemedelsbehandling-effekt').length).toBe(1);
-            expect(element.find('#form_lakemedelsbehandling-foljsamhet').length).toBe(1);
-
-            expect(element.find('#form_lakemedelsbehandling-avslutadTidpunkt').length).toBe(0);
-            expect(element.find('#form_lakemedelsbehandling-avslutadOrsak').length).toBe(0);
-
-        });
+      expect(element.find('#form_lakemedelsbehandling-pagar').length).toBe(1);
 
     });
 
-    describe('diagnos', function() {
+    it('should show extra fields when "lakemedelsbehandling.pagar"-option is selected', function() {
 
-        var initializeDiagnosKodad = function() {
-            var getInitValue = function() {
-                return {
-                    diagnosKodSystem: 'ICD_10_SE',
-                    diagnosKod: undefined,
-                    diagnosBeskrivning: undefined,
-                    diagnosArtal: undefined
-                };
-            };
+      $scope.model.lakemedelsbehandling.pagar = false;
+      $scope.$digest();
 
-            $scope.model.diagnosKodad = [getInitValue(), getInitValue(), getInitValue(), getInitValue()];
+      expect(element.find('#form_lakemedelsbehandling-aktuell').length).toBe(0);
+      expect(element.find('#form_lakemedelsbehandling-pagatt').length).toBe(0);
+      expect(element.find('#form_lakemedelsbehandling-effekt').length).toBe(0);
+      expect(element.find('#form_lakemedelsbehandling-foljsamhet').length).toBe(0);
+
+      expect(element.find('#form_lakemedelsbehandling-avslutadTidpunkt').length).toBe(1);
+      expect(element.find('#form_lakemedelsbehandling-avslutadOrsak').length).toBe(1);
+
+      $scope.model.lakemedelsbehandling.pagar = true;
+      $scope.$digest();
+
+      expect(element.find('#form_lakemedelsbehandling-aktuell').length).toBe(1);
+      expect(element.find('#form_lakemedelsbehandling-pagatt').length).toBe(1);
+      expect(element.find('#form_lakemedelsbehandling-effekt').length).toBe(1);
+      expect(element.find('#form_lakemedelsbehandling-foljsamhet').length).toBe(1);
+
+      expect(element.find('#form_lakemedelsbehandling-avslutadTidpunkt').length).toBe(0);
+      expect(element.find('#form_lakemedelsbehandling-avslutadOrsak').length).toBe(0);
+
+    });
+
+  });
+
+  describe('diagnos', function() {
+
+    var initializeDiagnosKodad = function() {
+      var getInitValue = function() {
+        return {
+          diagnosKodSystem: 'ICD_10_SE',
+          diagnosKod: undefined,
+          diagnosBeskrivning: undefined,
+          diagnosArtal: undefined
         };
+      };
 
-        it('should show extra fields depending on the selection of "diagnosRegistrering.typ"-option', function() {
+      $scope.model.diagnosKodad = [getInitValue(), getInitValue(), getInitValue(), getInitValue()];
+    };
 
-            initializeDiagnosKodad();
+    it('should show extra fields depending on the selection of "diagnosRegistrering.typ"-option', function() {
 
-            expect(element.find('#form_diagnosKodad').length).toBe(0);
-            expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(0);
-            expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(0);
+      initializeDiagnosKodad();
 
-            $scope.model.diagnosRegistrering.typ = 'DIAGNOS_KODAD';
-            $scope.$digest();
+      expect(element.find('#form_diagnosKodad').length).toBe(0);
+      expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(0);
+      expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(0);
 
-            expect(element.find('#form_diagnosKodad').length).toBe(1);
-            expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(0);
-            expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(0);
+      $scope.model.diagnosRegistrering.typ = 'DIAGNOS_KODAD';
+      $scope.$digest();
 
-            $scope.model.diagnosRegistrering.typ = 'DIAGNOS_FRITEXT';
-            $scope.$digest();
+      expect(element.find('#form_diagnosKodad').length).toBe(1);
+      expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(0);
+      expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(0);
 
-            expect(element.find('#form_diagnosKodad').length).toBe(0);
-            expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(1);
-            expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(1);
+      $scope.model.diagnosRegistrering.typ = 'DIAGNOS_FRITEXT';
+      $scope.$digest();
 
-        });
+      expect(element.find('#form_diagnosKodad').length).toBe(0);
+      expect(element.find('#form_diagnosFritext-diagnosFritext').length).toBe(1);
+      expect(element.find('#diagnosFritext-diagnosArtal').length).toBe(1);
 
     });
+
+  });
 
 });

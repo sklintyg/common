@@ -2,12 +2,8 @@
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <div class="input-wrapper">
       <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
-             ng-model="modelGetterSetter"
-             ng-model-options="{ getterSetter: true }"
-             ng-blur="updateValidation()"
-             ng-disabled="::config.disabled"
-             ue-decimal-ts-syn="2"
-             maxlength="4">
+             ng-model="modelGetterSetter" ng-model-options="{ getterSetter: true }" ng-blur="updateValidation()"
+             ng-disabled="::config.disabled" ue-decimal-ts-syn="2" maxlength="4">
     </div>
   </ue-validation-wrapper>
 </div>

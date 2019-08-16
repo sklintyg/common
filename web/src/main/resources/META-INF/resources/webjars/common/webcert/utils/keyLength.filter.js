@@ -18,9 +18,9 @@
  */
 angular.module('common').filter('keyLength',
     function() {
-        'use strict';
+      'use strict';
 
-        return function(input) {
-            return Object.keys(input).length;
-        };
+      return function(input) {
+        return Object.keys(input).length;
+      };
     });

@@ -21,11 +21,10 @@ package se.inera.intyg.common.ts_bas.v6.model.internal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
-
-import javax.annotation.Nullable;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TsBasUtlatandeV6.Builder.class)
@@ -113,13 +112,13 @@ public abstract class TsBasUtlatandeV6 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsBasUtlatandeV6.Builder()
-                .setPsykiskt(Psykiskt.create(null))
-                .setKognitivt(Kognitivt.create(null))
-                .setNjurar(Njurar.create(null))
-                .setSomnVakenhet(SomnVakenhet.create(null))
-                .setNeurologi(Neurologi.create(null))
-                .setUtvecklingsstorning(Utvecklingsstorning.builder().build())
-                .setSignature(null);
+            .setPsykiskt(Psykiskt.create(null))
+            .setKognitivt(Kognitivt.create(null))
+            .setNjurar(Njurar.create(null))
+            .setSomnVakenhet(SomnVakenhet.create(null))
+            .setNeurologi(Neurologi.create(null))
+            .setUtvecklingsstorning(Utvecklingsstorning.builder().build())
+            .setSignature(null);
     }
 
     @AutoValue.Builder

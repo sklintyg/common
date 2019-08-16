@@ -18,101 +18,101 @@
  */
 angular.module('common').directive('ueDodsorsakMulti',
     ['ueUtil', '$timeout', 'common.UtkastValidationService', 'common.UtkastValidationViewState', 'common.dynamicLabelService',
-        function(ueUtil, $timeout, UtkastValidationService, UtkastValidationViewState, dynamicLabelService) {
+      function(ueUtil, $timeout, UtkastValidationService, UtkastValidationViewState, dynamicLabelService) {
         'use strict';
 
         return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.directive.html',
-            link: function($scope) {
-                ueUtil.standardSetup($scope);
+          restrict: 'E',
+          scope: {
+            form: '=',
+            config: '=',
+            model: '='
+          },
+          templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.directive.html',
+          link: function($scope) {
+            ueUtil.standardSetup($scope);
 
-                $scope.validation = UtkastValidationViewState;
+            $scope.validation = UtkastValidationViewState;
 
-                var rows;
+            var rows;
 
-                $scope.addRow = function() {
+            $scope.addRow = function() {
 
-                    if (rows.length >= $scope.config.maxRows) {
-                        return;
-                    }
+              if (rows.length >= $scope.config.maxRows) {
+                return;
+              }
 
-                    rows.push({beskrivning: null, datum: null, specifikation: ''});
-                    $scope.form.$setDirty();
-                };
+              rows.push({beskrivning: null, datum: null, specifikation: ''});
+              $scope.form.$setDirty();
+            };
 
-                $scope.deleteRow = function(index) {
+            $scope.deleteRow = function(index) {
 
-                    if (index === 0 && rows.length === 1) {
-                        rows[0] = {beskrivning: null, datum: null, specifikation: null};
-                    } else {
-                        rows.splice(index, 1);
-                    }
+              if (index === 0 && rows.length === 1) {
+                rows[0] = {beskrivning: null, datum: null, specifikation: null};
+              } else {
+                rows.splice(index, 1);
+              }
 
-                    $scope.form.$setDirty();
-                };
+              $scope.form.$setDirty();
+            };
 
-                $scope.hasValidationError = function(field, index) {
-                    return $scope.validation && $scope.validation.messagesByField &&
-                        !!$scope.validation.messagesByField[$scope.config.modelProp.toLowerCase() + '[' + index +
-                        '].' + field];
-                };
+            $scope.hasValidationError = function(field, index) {
+              return $scope.validation && $scope.validation.messagesByField &&
+                  !!$scope.validation.messagesByField[$scope.config.modelProp.toLowerCase() + '[' + index +
+                  '].' + field];
+            };
 
-                $scope.validate = function() {
-                    // When a date is selected from the date popup a blur event is sent.
-                    // In the current version of Angular UI this blur event is sent before utkast model is updated
-                    // This timeout ensures we get the new value in $scope.model
-                    $timeout(function() {
-                        UtkastValidationService.validate($scope.model);
-                    });
-                };
+            $scope.validate = function() {
+              // When a date is selected from the date popup a blur event is sent.
+              // In the current version of Angular UI this blur event is sent before utkast model is updated
+              // This timeout ensures we get the new value in $scope.model
+              $timeout(function() {
+                UtkastValidationService.validate($scope.model);
+              });
+            };
 
-                $scope.$watch('validation.messagesByField', function() {
-                    if ($scope.validation) {
-                        $scope.orsakValidations = [];
-                        angular.forEach($scope.validation.messagesByField, function(validations, key) {
-                            if (key.substr(0, $scope.config.modelProp.length) ===
-                                $scope.config.modelProp.toLowerCase()) {
-                                $scope.orsakValidations = $scope.orsakValidations.concat(validations);
-                            }
-                        });
-                    }
+            $scope.$watch('validation.messagesByField', function() {
+              if ($scope.validation) {
+                $scope.orsakValidations = [];
+                angular.forEach($scope.validation.messagesByField, function(validations, key) {
+                  if (key.substr(0, $scope.config.modelProp.length) ===
+                      $scope.config.modelProp.toLowerCase()) {
+                    $scope.orsakValidations = $scope.orsakValidations.concat(validations);
+                  }
                 });
+              }
+            });
 
-                var chooseOption = {
-                    id: '',
-                    label: 'Välj...'
-                };
+            var chooseOption = {
+              id: '',
+              label: 'Välj...'
+            };
 
-                function update() {
+            function update() {
 
-                    $scope.orsakOptions = [chooseOption];
-                    if ($scope.config.orsaksTyper) {
-                        $scope.config.orsaksTyper.forEach(function(orsaksTyp) {
-                            $scope.orsakOptions.push({
-                                'id': orsaksTyp,
-                                'label': dynamicLabelService.getProperty('DELAD_SVAR.' + orsaksTyp + '.RBK')
-                            });
-                        });
-                    }
-                }
-
-                $scope.$on('dynamicLabels.updated', update);
-
-                function setRows() {
-                    rows = $scope.model[$scope.config.modelProp];
-                }
-
-                $scope.$on('intyg.loaded', setRows);
-
-                setRows();
-                update();
+              $scope.orsakOptions = [chooseOption];
+              if ($scope.config.orsaksTyper) {
+                $scope.config.orsaksTyper.forEach(function(orsaksTyp) {
+                  $scope.orsakOptions.push({
+                    'id': orsaksTyp,
+                    'label': dynamicLabelService.getProperty('DELAD_SVAR.' + orsaksTyp + '.RBK')
+                  });
+                });
+              }
             }
+
+            $scope.$on('dynamicLabels.updated', update);
+
+            function setRows() {
+              rows = $scope.model[$scope.config.modelProp];
+            }
+
+            $scope.$on('intyg.loaded', setRows);
+
+            setRows();
+            update();
+          }
         };
-    }
-]);
+      }
+    ]);

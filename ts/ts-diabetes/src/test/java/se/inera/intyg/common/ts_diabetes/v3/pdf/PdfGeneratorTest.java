@@ -18,10 +18,18 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.pdf;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static se.inera.intyg.common.ts_diabetes.v3.pdf.PdfGenerator.CERTIFICATE_FILE_PREFIX;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.UUID;
+import java.util.regex.Pattern;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,16 +41,6 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static se.inera.intyg.common.ts_diabetes.v3.pdf.PdfGenerator.CERTIFICATE_FILE_PREFIX;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -57,11 +55,12 @@ public class PdfGeneratorTest {
         IntygTexts intygTexts = intygsTextRepositoryHelper.getTexts(TsDiabetesEntryPoint.MODULE_ID, "3.0");
 
         String jsonModel = IOUtils.toString(new ClassPathResource("v3/internal/scenarios/pass-complete.json").getInputStream(),
-                Charset.forName("UTF-8"));
-        PdfResponse pdfResponse = testee.generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
+            Charset.forName("UTF-8"));
+        PdfResponse pdfResponse = testee
+            .generatePdf(UUID.randomUUID().toString(), jsonModel, Personnummer.createPersonnummer("19121212-1212").get(), intygTexts,
                 new ArrayList<>(), ApplicationOrigin.WEBCERT, UtkastStatus.SIGNED);
         assertNotNull(pdfResponse);
-        Pattern p = Pattern.compile("^" +  CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
+        Pattern p = Pattern.compile("^" + CERTIFICATE_FILE_PREFIX + "[\\d]{2}_[\\d]{2}_[\\d]{2}_[\\d]{4}\\.pdf$");
         assertTrue("Filename must match regexp.", p.matcher(pdfResponse.getFilename()).matches());
     }
 

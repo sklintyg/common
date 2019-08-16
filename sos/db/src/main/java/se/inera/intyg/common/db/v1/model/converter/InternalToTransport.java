@@ -23,6 +23,7 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public final class InternalToTransport {
+
     private InternalToTransport() {
     }
 

@@ -2,7 +2,8 @@
 
   <div class="arende-header-icon" ng-switch="arendeListItem.isKomplettering()">
     <div ng-switch-when="true" ng-switch="headerType">
-      <img ng-switch-when="fraga" src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/FK.png">
+      <img ng-switch-when="fraga"
+           src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/FK.png">
       <i ng-switch-when="svar" class="icon-wc-ikon-comment icon-wc-32"></i>
     </div>
     <div ng-switch-when="false" ng-switch="headerType">
@@ -13,12 +14,10 @@
 
   <div class="arende-header-middle">
     <div ng-switch="headerData.frageStallare | lowercase">
-      <span class="arende-sender" ng-switch-when="wc"
-            id="question-fraga-vard-aktor-namn-{{headerData.internReferens}}">{{headerData.vardaktorNamn}}</span>
+      <span class="arende-sender" ng-switch-when="wc" id="question-fraga-vard-aktor-namn-{{headerData.internReferens}}">{{headerData.vardaktorNamn}}</span>
       <span ng-switch-default dynamic-label
             key="common.arende.fragestallare.{{headerData.frageStallare | lowercase}}"></span>
-      <div id="fkKontakter-{{headerData.internReferens}}"
-           ng-repeat="kontakt in headerData.externaKontakter">
+      <div id="fkKontakter-{{headerData.internReferens}}" ng-repeat="kontakt in headerData.externaKontakter">
         {{kontakt}}<br />
       </div>
     </div>
@@ -27,7 +26,8 @@
   </div>
 
   <div class="arende-header-right">
-    <arende-hantera ng-if="showHantera" arende-list-item="arendeListItem" parent-view-state="parentViewState"></arende-hantera>
+    <arende-hantera ng-if="showHantera" arende-list-item="arendeListItem"
+                    parent-view-state="parentViewState"></arende-hantera>
 
     <span class="arende-header-date" id="arende-skickaddatum-{{headerData.internReferens}}">
       {{headerData.timestamp | date:'short'}}

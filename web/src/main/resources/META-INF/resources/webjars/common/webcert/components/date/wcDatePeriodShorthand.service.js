@@ -17,32 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.wcDatePeriodShorthandService', ['$log', 'common.DateUtilsService',  function($log, dateUtilsService) {
-    'use strict';
+angular.module('common').factory('common.wcDatePeriodShorthandService',
+    ['$log', 'common.DateUtilsService', function($log, dateUtilsService) {
+      'use strict';
 
-    /*
-     If user enters a valid "in the future" code such a "d40" into the tom-field, it's
-     date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
-     */
-    function _applyToDateCodes(fromValue, tomValue) {
+      /*
+       If user enters a valid "in the future" code such a "d40" into the tom-field, it's
+       date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
+       */
+      function _applyToDateCodes(fromValue, tomValue) {
 
         //1. fromField must have a valid date for his to work
         if (!fromValue || !dateUtilsService.dateReg.test(fromValue)) {
-            return;
+          return;
         }
 
         //2. The entered code must be a parsable expression
         var days = dateUtilsService.parseDayCodes(tomValue);
         if (days !== null) {
-            //Take away 1 day, because the dayCode defines the total length of the interval we should get.
-            return moment(fromValue).add(days - 1, 'days').format('YYYY-MM-DD');
+          //Take away 1 day, because the dayCode defines the total length of the interval we should get.
+          return moment(fromValue).add(days - 1, 'days').format('YYYY-MM-DD');
         }
 
         return;
-    }
+      }
 
-    return {
+      return {
         applyToDateCodes: _applyToDateCodes
-    };
+      };
 
-}]);
+    }]);

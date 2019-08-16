@@ -12,10 +12,7 @@
       <div class="row" data-ng-repeat="row in model[config.modelProp]">
         <div class="col-xs-3">
           <wc-checkbox-wrapper>
-            <input type="checkbox"
-                   class="form-control"
-                   ng-model="row.checked"
-                   ng-checked="row.period.from"
+            <input type="checkbox" class="form-control" ng-model="row.checked" ng-checked="row.period.from"
                    ng-change="viewstate.updateCheckBox({{$index}}); validate()"
                    ng-attr-id="{{config.modelProp}}-{{$index}}-checked">
 
@@ -25,13 +22,9 @@
             </label>
           </wc-checkbox-wrapper>
 
-          <input type="text" ng-if="row.niva !== 100" ng-model="row.niva"
-                 class="form-control niva"
-                 ng-blur="validate()" maxlength="3" wc-number="true"
-                 ng-class="{'validation-error' : hasValidationError({{$index}}, 'niva')}"
-                 id="{{config.modelProp}}-{{$index}}-niva"
-                 wc-number="true"
-                 min="1" max="100"/>
+          <input type="text" ng-if="row.niva !== 100" ng-model="row.niva" class="form-control niva" ng-blur="validate()"
+                 maxlength="3" wc-number="true" ng-class="{'validation-error' : hasValidationError({{$index}}, 'niva')}"
+                 id="{{config.modelProp}}-{{$index}}-niva" wc-number="true" min="1" max="100" />
           <span class="full-time-label-span" ng-if="row.niva === 100">100</span>%
 
         </div>
@@ -40,8 +33,7 @@
         <div class="col-xs-4">
           <label for="{{config.modelProp}}-{{$index}}-from">Fr.o.m</label>
           <span wc-date-period-field model="model" field="{{config.modelProp}}" index="{{$index}}" type="from"
-                ng-model="row.period"
-                on-blur="validate()"
+                ng-model="row.period" on-blur="validate()"
                 ng-class="{'validation-error' : hasValidationError({{$index}}, 'period') || hasValidationError({{$index}}, 'period.from')}">
 
           </span>
@@ -76,11 +68,10 @@
       <div class="row">
         <div class="col-xs-12">
           <button type="button" ng-disabled="viewstate.model.length >= config.maxRows" class="btn btn-type-8"
-                  id="{{config.modelProp}}-addRow"
-                  ng-click="viewstate.addRow()"><i class="material-icons">add_circle</i> Lägg till period
+                  id="{{config.modelProp}}-addRow" ng-click="viewstate.addRow()"><i
+              class="material-icons">add_circle</i> Lägg till period
           </button>
-          <ue-validation-list field-type="ue-sjukfranvaro"
-                              validations="overlapValidations"></ue-validation-list>
+          <ue-validation-list field-type="ue-sjukfranvaro" validations="overlapValidations"></ue-validation-list>
         </div>
       </div>
 

@@ -22,58 +22,58 @@
 
 angular.module('common').factory('common.ArendeNewModel',
     [function() {
-        'use strict';
+      'use strict';
 
-        /**
-         * Constructor
-         */
-        function ArendeNewModel(data) {
+      /**
+       * Constructor
+       */
+      function ArendeNewModel(data) {
 
-            // Topics are defined under RE-13
-            this.topics = [
-                {
-                    label: 'Välj typ av fråga',
-                    id: null
-                }
-            ];
+        // Topics are defined under RE-13
+        this.topics = [
+          {
+            label: 'Välj typ av fråga',
+            id: null
+          }
+        ];
 
-            if (data === 'fk7263') {
-                this.topics.push({
-                    label: 'Arbetstidsförläggning',
-                    id: 'ARBETSTIDSFORLAGGNING'
-                });
-            }
-
-            this.topics.push(
-                {
-                    label: 'Avstämningsmöte',
-                    id: 'AVSTMN'
-                },
-                {
-                    label: 'Kontakt',
-                    id: 'KONTKT'
-                },
-                {
-                    label: 'Övrigt',
-                    id: 'OVRIGT'
-                }
-            );
-
-            this.saveState = 'normal';
-
-            var model = this;
-            this.reset = function() {
-                model.chosenTopic = this.topics[0].id; // 'Välj ämne' is default
-                model.frageText = '';
-                model.saveState = 'normal';
-            };
-            this.reset();
+        if (data === 'fk7263') {
+          this.topics.push({
+            label: 'Arbetstidsförläggning',
+            id: 'ARBETSTIDSFORLAGGNING'
+          });
         }
 
-        ArendeNewModel.build = function(data) {
-            return new ArendeNewModel(data);
-        };
+        this.topics.push(
+            {
+              label: 'Avstämningsmöte',
+              id: 'AVSTMN'
+            },
+            {
+              label: 'Kontakt',
+              id: 'KONTKT'
+            },
+            {
+              label: 'Övrigt',
+              id: 'OVRIGT'
+            }
+        );
 
-        return ArendeNewModel;
+        this.saveState = 'normal';
+
+        var model = this;
+        this.reset = function() {
+          model.chosenTopic = this.topics[0].id; // 'Välj ämne' is default
+          model.frageText = '';
+          model.saveState = 'normal';
+        };
+        this.reset();
+      }
+
+      ArendeNewModel.build = function(data) {
+        return new ArendeNewModel(data);
+      };
+
+      return ArendeNewModel;
     }
-]);
+    ]);

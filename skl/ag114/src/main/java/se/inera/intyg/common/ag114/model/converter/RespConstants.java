@@ -22,6 +22,7 @@ package se.inera.intyg.common.ag114.model.converter;
  * Created by marced on 2018-11-30.
  */
 public final class RespConstants {
+
     public static final String CATEGORY_GRUNDFORMU = "grundformu";
     public static final String CATEGORY_SYSSELSATTNING = "sysselsattning";
     public static final String CATEGORY_DIAGNOS = "diagnos";

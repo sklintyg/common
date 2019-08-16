@@ -16,72 +16,72 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcExpandableContent', [ '$timeout', 'common.messageService', function($timeout, messageService) {
-    'use strict';
+angular.module('common').directive('wcExpandableContent', ['$timeout', 'common.messageService', function($timeout, messageService) {
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            content: '=',
-            thresholdPixelHeight: '@',
-            linkDomId: '@'
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcExpandableContent/wcExpandableContent.directive.html',
-        link: function($scope, element) {
+  return {
+    restrict: 'E',
+    scope: {
+      content: '=',
+      thresholdPixelHeight: '@',
+      linkDomId: '@'
+    },
+    templateUrl: '/web/webjars/common/webcert/components/wcExpandableContent/wcExpandableContent.directive.html',
+    link: function($scope, element) {
 
-            //Get a handle to the actual element that holds the content
-            var contentDiv = element[0].querySelector('.content');
+      //Get a handle to the actual element that holds the content
+      var contentDiv = element[0].querySelector('.content');
 
-            $scope.vm = {
-                showControls: false,
-                showsAll: false
-            };
+      $scope.vm = {
+        showControls: false,
+        showsAll: false
+      };
 
-            var _setHeightConstraint = function(constrain) {
-                angular.element(contentDiv).css('max-height', constrain ? $scope.thresholdPixelHeight : 'none');
-                angular.element(contentDiv).css('overflow-y', constrain ? 'hidden' : 'visible');
+      var _setHeightConstraint = function(constrain) {
+        angular.element(contentDiv).css('max-height', constrain ? $scope.thresholdPixelHeight : 'none');
+        angular.element(contentDiv).css('overflow-y', constrain ? 'hidden' : 'visible');
 
-            };
+      };
 
-            var _update = function() {
+      var _update = function() {
 
-                //Start by using the specified height constraint
-                _setHeightConstraint(true);
+        //Start by using the specified height constraint
+        _setHeightConstraint(true);
 
-                var offsetHeight = contentDiv.offsetHeight;
-                var scrollHeight = contentDiv.scrollHeight;
-                var contentTruncated = scrollHeight > offsetHeight;
+        var offsetHeight = contentDiv.offsetHeight;
+        var scrollHeight = contentDiv.scrollHeight;
+        var contentTruncated = scrollHeight > offsetHeight;
 
-                //Is there isn't any content rendered in the element yet (like first call to update) - do nothing..
-                if (offsetHeight > 0) {
-                    //If not all content could be displayed withing the constraint - we should enable the show more/less controls
-                    if (contentTruncated) {
-                        $scope.vm.showControls = contentTruncated;
-                    }
+        //Is there isn't any content rendered in the element yet (like first call to update) - do nothing..
+        if (offsetHeight > 0) {
+          //If not all content could be displayed withing the constraint - we should enable the show more/less controls
+          if (contentTruncated) {
+            $scope.vm.showControls = contentTruncated;
+          }
 
-                    //Potentially remove constraint if user toggled so that all should be shown
-                    _setHeightConstraint(!$scope.vm.showsAll);
-                }
-
-            };
-
-            $scope.toggle = function() {
-                $scope.vm.showsAll = !$scope.vm.showsAll;
-                _update();
-            };
-
-            // Sent by wcSupportPanelManager when tab is changed.
-            // wcSupportPanelManager uses ng-show, content will be in dom but offsetHeight will be 0 until it is displayed.
-            $scope.$on('panel.activated', function() {
-                $timeout(function(){
-                    _update();
-                });
-            });
-
-            //Let the DOM render the content and then check if we have overflow..
-            $timeout(function(){
-                _update();
-            });
+          //Potentially remove constraint if user toggled so that all should be shown
+          _setHeightConstraint(!$scope.vm.showsAll);
         }
-    };
-} ]);
+
+      };
+
+      $scope.toggle = function() {
+        $scope.vm.showsAll = !$scope.vm.showsAll;
+        _update();
+      };
+
+      // Sent by wcSupportPanelManager when tab is changed.
+      // wcSupportPanelManager uses ng-show, content will be in dom but offsetHeight will be 0 until it is displayed.
+      $scope.$on('panel.activated', function() {
+        $timeout(function() {
+          _update();
+        });
+      });
+
+      //Let the DOM render the content and then check if we have overflow..
+      $timeout(function() {
+        _update();
+      });
+    }
+  };
+}]);

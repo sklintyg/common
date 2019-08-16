@@ -18,23 +18,6 @@
  */
 package se.inera.intyg.common.doi.v1.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableList;
-import se.inera.intyg.common.doi.model.internal.Dodsorsak;
-import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-
-import javax.annotation.Nullable;
-import java.util.List;
-
 import static se.inera.intyg.common.sos_parent.support.RespConstants.ANTRAFFAT_DOD_DATUM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BARN_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
@@ -59,13 +42,29 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TERMINAL_DODSORSAK_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.TEXTVERSION_JSON_ID;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import java.util.List;
+import javax.annotation.Nullable;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.sos_parent.model.internal.SosUtlatande;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_DoiUtlatandeV1.Builder.class)
 public abstract class DoiUtlatandeV1 implements SosUtlatande {
 
     public static Builder builder() {
         return new AutoValue_DoiUtlatandeV1.Builder().setGrunder(ImmutableList.<Dodsorsaksgrund>of())
-                .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
+            .setBidragandeSjukdomar(ImmutableList.<Dodsorsak>of()).setFoljd(ImmutableList.<Dodsorsak>of());
     }
 
     @Override
@@ -155,6 +154,7 @@ public abstract class DoiUtlatandeV1 implements SosUtlatande {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract DoiUtlatandeV1 build();
 
         @JsonProperty(ID_JSON_ID)

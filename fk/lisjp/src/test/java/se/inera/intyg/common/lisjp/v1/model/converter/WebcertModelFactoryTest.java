@@ -18,14 +18,21 @@
  */
 package se.inera.intyg.common.lisjp.v1.model.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -36,14 +43,6 @@ import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUti
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.schemas.contract.Personnummer;
-
-import java.time.LocalDateTime;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WebcertModelFactoryTest {
@@ -63,7 +62,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(LisjpEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_2);
     }
 
     @Test

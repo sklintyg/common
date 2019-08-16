@@ -22,11 +22,9 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
 import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
 
-
 import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.NotSupportedException;
 import javax.xml.bind.JAXB;
@@ -35,7 +33,6 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPMessage;
-
 import javax.xml.transform.stream.StreamSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +40,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.w3.wsaddressing10.AttributedURIType;
-
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificate.rivtabp20.v1.RevokeMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.ObjectFactory;
 import se.inera.ifv.insuranceprocess.healthreporting.revokemedicalcertificateresponder.v1.RevokeMedicalCertificateRequestType;
@@ -143,9 +139,9 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         // check whether call was successful or not
         if (response.getResultat().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response.getResultat().getResultText(),
-                    RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
-                            ? ErrorIdEnum.VALIDATION_ERROR
-                            : ErrorIdEnum.APPLICATION_ERROR);
+                RegisterTSDiabetesResponderImpl.CERTIFICATE_ALREADY_EXISTS.equals(response.getResultat().getResultText())
+                    ? ErrorIdEnum.VALIDATION_ERROR
+                    : ErrorIdEnum.APPLICATION_ERROR);
         } else if (response.getResultat().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response.getResultat().getErrorId() + " : " + response.getResultat().getResultText());
         }
@@ -175,20 +171,20 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         GetTSDiabetesResponseType diabetesResponseType = diabetesGetClient.getTSDiabetes(logicalAddress, type);
 
         switch (diabetesResponseType.getResultat().getResultCode()) {
-        case INFO:
-        case OK:
-            return convert(diabetesResponseType, false);
-        case ERROR:
-            switch (diabetesResponseType.getResultat().getErrorId()) {
-            case REVOKED:
-                return convert(diabetesResponseType, true);
-            case VALIDATION_ERROR:
-                throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
-                        + diabetesResponseType.getResultat().getResultText());
-            default:
-                throw new ModuleException(
-                        "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
-            }
+            case INFO:
+            case OK:
+                return convert(diabetesResponseType, false);
+            case ERROR:
+                switch (diabetesResponseType.getResultat().getErrorId()) {
+                    case REVOKED:
+                        return convert(diabetesResponseType, true);
+                    case VALIDATION_ERROR:
+                        throw new ModuleException("GetTSDiabetes WS call: VALIDATION_ERROR :"
+                            + diabetesResponseType.getResultat().getResultText());
+                    default:
+                        throw new ModuleException(
+                            "GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
+                }
         }
         throw new ModuleException("GetTSDiabetes WS call: ERROR :" + diabetesResponseType.getResultat().getResultText());
     }
@@ -199,7 +195,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         uri.setValue(logicalAddress);
 
         RevokeMedicalCertificateRequestType request = JAXB.unmarshal(new StreamSource(new StringReader(xmlBody)),
-                RevokeMedicalCertificateRequestType.class);
+            RevokeMedicalCertificateRequestType.class);
         RevokeMedicalCertificateResponseType response = revokeCertificateClient.revokeMedicalCertificate(uri, request);
         if (!response.getResult().getResultCode().equals(ResultCodeEnum.OK)) {
             String message = "Could not send revoke to " + logicalAddress;
@@ -214,7 +210,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
         request.setRevoke(ModelConverter.buildRevokeTypeFromUtlatande(utlatande, meddelande));
 
         JAXBElement<RevokeMedicalCertificateRequestType> el =
-                new ObjectFactory().createRevokeMedicalCertificateRequest(request);
+            new ObjectFactory().createRevokeMedicalCertificateRequest(request);
         return XmlMarshallerHelper.marshal(el);
     }
 
@@ -224,7 +220,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
     public TsDiabetesUtlatandeV2 getUtlatandeFromXml(String xml) throws ModuleException {
         try {
             RegisterTSDiabetesType jaxbObject = JAXB.unmarshal(new StringReader(xml),
-                    RegisterTSDiabetesType.class);
+                RegisterTSDiabetesType.class);
             return TransportToInternalConverter.convert(jaxbObject.getIntyg());
         } catch (ConverterException e) {
             LOG.error("Could not get utlatande from xml: {}", e.getMessage());
@@ -237,7 +233,7 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
             TsDiabetesUtlatandeV2 utlatande = TransportToInternalConverter.convert(diabetesResponseType.getIntyg());
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TSDiabetesCertificateMetaTypeConverter.toCertificateMetaData(diabetesResponseType.getMeta(),
-                    diabetesResponseType.getIntyg());
+                diabetesResponseType.getIntyg());
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
@@ -277,10 +273,10 @@ public class TsDiabetesModuleApiV2 extends TsParentModuleApi<TsDiabetesUtlatande
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             return new PdfResponse(pdfGenerator.generatePDF(getInternal(internalModel), statuses, applicationOrigin, utkastStatus),
-                    pdfGenerator.generatePdfFilename(getInternal(internalModel)));
+                pdfGenerator.generatePdfFilename(getInternal(internalModel)));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for certificate!", e);

@@ -17,30 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-diabetes').service('ts-diabetes.PatientHelperService.v3',
-        function() {
-            'use strict';
+    function() {
+      'use strict';
 
-            // PS-03
-            function _showPatientNameChangedIntegration(isIntyg) {
-                return true;
-            }
-            // PS-04
-            function _showPatientNameChangedPU(isIntyg) {
-                return false;
-            }
-            // PS-05
-            function _showPatientAddressChangedPU(isIntyg) {
-                return false;
-            }
-            // PS-08
-            function _showMissingAddressParameter(isIntyg) {
-                return false;
-            }
+      // PS-03
+      function _showPatientNameChangedIntegration(isIntyg) {
+        return true;
+      }
 
-            return {
-                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-                showPatientNameChangedPU: _showPatientNameChangedPU,
-                showPatientAddressChangedPU: _showPatientAddressChangedPU,
-                showMissingAddressParameter: _showMissingAddressParameter
-            };
-        });
+      // PS-04
+      function _showPatientNameChangedPU(isIntyg) {
+        return false;
+      }
+
+      // PS-05
+      function _showPatientAddressChangedPU(isIntyg) {
+        return false;
+      }
+
+      // PS-08
+      function _showMissingAddressParameter(isIntyg) {
+        return false;
+      }
+
+      return {
+        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+        showPatientNameChangedPU: _showPatientNameChangedPU,
+        showPatientAddressChangedPU: _showPatientAddressChangedPU,
+        showMissingAddressParameter: _showMissingAddressParameter
+      };
+    });

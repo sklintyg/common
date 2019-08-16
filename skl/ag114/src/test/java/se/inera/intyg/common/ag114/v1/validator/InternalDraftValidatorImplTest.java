@@ -19,17 +19,14 @@
 package se.inera.intyg.common.ag114.v1.validator;
 
 import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_10;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10;
-import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_ARBETSFORMAGA;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_BEDOMNING;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_DIAGNOS;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_GRUNDFORMU;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_KONTAKT;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.CATEGORY_SYSSELSATTNING;
-import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER;
-import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
+import static se.inera.intyg.common.ag114.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_10;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.NUVARANDE_ARBETE_SVAR_JSON_ID_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3;
@@ -37,6 +34,8 @@ import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRI
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_DIAGNOS_SVAR_JSON_ID_4;
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT;
+import static se.inera.intyg.common.ag114.v1.validator.InternalDraftValidatorImpl.COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -44,7 +43,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.validator.TestConfiguration;
 import se.inera.intyg.common.ag114.v1.utils.ScenarioFinder;

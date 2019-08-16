@@ -19,31 +19,34 @@
   -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:sec="http://cxf.apache.org/configuration/security"
-    xmlns:http="http://cxf.apache.org/transports/http/configuration" xmlns:cxf="http://cxf.apache.org/core" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+    xmlns:http="http://cxf.apache.org/transports/http/configuration"
     xmlns:jaxws="http://cxf.apache.org/jaxws"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
-    http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
-    http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 
-    <beans profile="dev,it-fk-stub">
-        <bean id="register-fk-stub" class="se.inera.intyg.common.fkparent.integration.stub.RegisterCertificateResponderStub" />
-        <jaxws:endpoint address="/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21" implementor="#register-fk-stub">
-            <jaxws:schemaLocations>
-                <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.2.xsd</jaxws:schemaLocation>
-                <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd</jaxws:schemaLocation>
-                <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd</jaxws:schemaLocation>
-                <jaxws:schemaLocation>classpath:/core_components/xmldsig-core-schema_0.1.xsd</jaxws:schemaLocation>
-                <jaxws:schemaLocation>classpath:/core_components/xmldsig-filter2.xsd</jaxws:schemaLocation>
-                <jaxws:schemaLocation>classpath:/interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd</jaxws:schemaLocation>
-            </jaxws:schemaLocations>
-        </jaxws:endpoint>
-    </beans>
+    http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
 
-    <beans>
-        <bean class="se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK"></bean>
-    </beans>
+  <beans profile="dev,it-fk-stub">
+    <bean id="register-fk-stub" class="se.inera.intyg.common.fkparent.integration.stub.RegisterCertificateResponderStub"/>
+    <jaxws:endpoint address="/stubs/clinicalprocess/healthcond/certificate/RegisterCertificate/3/rivtabp21" implementor="#register-fk-stub">
+      <jaxws:schemaLocations>
+        <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.2.xsd
+        </jaxws:schemaLocation>
+        <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_types_3.2.xsd
+        </jaxws:schemaLocation>
+        <jaxws:schemaLocation>classpath:/core_components/clinicalprocess_healthcond_certificate_3.2_ext.xsd
+        </jaxws:schemaLocation>
+        <jaxws:schemaLocation>classpath:/core_components/xmldsig-core-schema_0.1.xsd</jaxws:schemaLocation>
+        <jaxws:schemaLocation>classpath:/core_components/xmldsig-filter2.xsd</jaxws:schemaLocation>
+        <jaxws:schemaLocation>
+          classpath:/interactions/RegisterCertificateInteraction/RegisterCertificateResponder_3.1.xsd
+        </jaxws:schemaLocation>
+      </jaxws:schemaLocations>
+    </jaxws:endpoint>
+  </beans>
+
+  <beans>
+    <bean class="se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK"></bean>
+  </beans>
 
 </beans>

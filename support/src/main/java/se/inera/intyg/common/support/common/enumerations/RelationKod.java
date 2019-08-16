@@ -45,6 +45,6 @@ public enum RelationKod {
 
     public static RelationKod fromValue(String value) {
         return Stream.of(RelationKod.values()).filter(s -> value.equals(s.value())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(value));
+            .orElseThrow(() -> new IllegalArgumentException(value));
     }
 }

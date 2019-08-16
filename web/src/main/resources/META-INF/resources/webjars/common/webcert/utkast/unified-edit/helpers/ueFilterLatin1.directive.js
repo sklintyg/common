@@ -18,31 +18,31 @@
  */
 
 angular.module('common').directive('ueFilterLatin1', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function(scope, element, attrs, ngModelCtrl) {
+  return {
+    restrict: 'A',
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModelCtrl) {
 
-            // Whitelist allowing linefeed and latin1 characters except other control characters
-            var re = /[^\n\u0020-\u007E\u00A1-\u00AC\u00AE-\u00FF]/g;
+      // Whitelist allowing linefeed and latin1 characters except other control characters
+      var re = /[^\n\u0020-\u007E\u00A1-\u00AC\u00AE-\u00FF]/g;
 
-            function filter(valFromView) {
-                if (!valFromView || !angular.isString(valFromView)) {
-                    return valFromView;
-                }
-                var filtered = valFromView.replace(re, '');
-                if (filtered !== valFromView) {
-                    ngModelCtrl.$setViewValue(filtered);
-                    ngModelCtrl.$render();
-                }
-                return valFromView.replace(re, '');
-            }
-
-            ngModelCtrl.$parsers.push(filter);
-            ngModelCtrl.$formatters.push(filter);
+      function filter(valFromView) {
+        if (!valFromView || !angular.isString(valFromView)) {
+          return valFromView;
         }
-    };
+        var filtered = valFromView.replace(re, '');
+        if (filtered !== valFromView) {
+          ngModelCtrl.$setViewValue(filtered);
+          ngModelCtrl.$render();
+        }
+        return valFromView.replace(re, '');
+      }
+
+      ngModelCtrl.$parsers.push(filter);
+      ngModelCtrl.$formatters.push(filter);
+    }
+  };
 
 });

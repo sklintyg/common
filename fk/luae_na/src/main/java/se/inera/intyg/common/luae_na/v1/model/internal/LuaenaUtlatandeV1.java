@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luae_na.v1.model.internal;
 
 // CHECKSTYLE:OFF LineLength
+
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.AVSLUTADBEHANDLING_SVAR_JSON_ID_18;
@@ -56,24 +57,22 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAGFINNS_SVAR_JSON_ID_3;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.UNDERLAG_SVAR_JSON_ID_4;
-// CHECKSTYLE:ON LineLength
-
-import java.util.List;
-
-import javax.annotation.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-
+import java.util.List;
+import javax.annotation.Nullable;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_na.support.LuaenaEntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
+
+// CHECKSTYLE:ON LineLength
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_LuaenaUtlatandeV1.Builder.class)
@@ -238,10 +237,10 @@ public abstract class LuaenaUtlatandeV1 implements Utlatande {
     public abstract Builder toBuilder();
 
     public static Builder builder() {
-        return new AutoValue_LuaenaUtlatandeV1.Builder().setUnderlag(ImmutableList.<Underlag> of())
-                .setDiagnoser(ImmutableList.<Diagnos> of())
-                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
-                .setSignature(null);
+        return new AutoValue_LuaenaUtlatandeV1.Builder().setUnderlag(ImmutableList.<Underlag>of())
+            .setDiagnoser(ImmutableList.<Diagnos>of())
+            .setTillaggsfragor(ImmutableList.<Tillaggsfraga>of())
+            .setSignature(null);
     }
 
     @AutoValue.Builder

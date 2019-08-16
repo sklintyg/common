@@ -17,30 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-diabetes').service('ts-diabetes.PatientHelperService.v2',
-        function() {
-            'use strict';
+    function() {
+      'use strict';
 
-            // PS-03: Show for ts utkast
-            function _showPatientNameChangedIntegration(isIntyg) {
-                return !isIntyg;
-            }
-            // PS-04: Show for signed ts
-            function _showPatientNameChangedPU(isIntyg) {
-                return isIntyg;
-            }
-            // PS-05: Show for signed ts
-            function _showPatientAddressChangedPU(isIntyg) {
-                return isIntyg;
-            }
-            // PS-08
-            function _showMissingAddressParameter(isIntyg) {
-                return !isIntyg;
-            }
+      // PS-03: Show for ts utkast
+      function _showPatientNameChangedIntegration(isIntyg) {
+        return !isIntyg;
+      }
 
-            return {
-                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-                showPatientNameChangedPU: _showPatientNameChangedPU,
-                showPatientAddressChangedPU: _showPatientAddressChangedPU,
-                showMissingAddressParameter: _showMissingAddressParameter
-            };
-        });
+      // PS-04: Show for signed ts
+      function _showPatientNameChangedPU(isIntyg) {
+        return isIntyg;
+      }
+
+      // PS-05: Show for signed ts
+      function _showPatientAddressChangedPU(isIntyg) {
+        return isIntyg;
+      }
+
+      // PS-08
+      function _showMissingAddressParameter(isIntyg) {
+        return !isIntyg;
+      }
+
+      return {
+        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+        showPatientNameChangedPU: _showPatientNameChangedPU,
+        showPatientAddressChangedPU: _showPatientAddressChangedPU,
+        showMissingAddressParameter: _showMissingAddressParameter
+      };
+    });

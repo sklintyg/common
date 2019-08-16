@@ -45,20 +45,14 @@
           <span dynamic-label key="modules.customize.message.customize.disabled"></span>
         </div>
 
-        <mi-certificate-action-buttons cert-model="cert"
-                                       enable-archive="true"
-                                       enable-print="true"
-                                       enable-send="enableSend"
-                                       enable-customize="enableCustomize()"
-                                       is-replaced="certMeta.isReplaced"
-                                       on-send="send(cert)"
-                                       on-customize-pdf="customizeCertificate()"
-        ></mi-certificate-action-buttons>
+        <mi-certificate-action-buttons cert-model="cert" enable-archive="true" enable-print="true"
+                                       enable-send="enableSend" enable-customize="enableCustomize()"
+                                       is-replaced="certMeta.isReplaced" on-send="send(cert)"
+                                       on-customize-pdf="customizeCertificate()"></mi-certificate-action-buttons>
 
 
         <mi-compact-certificate-header cert-meta-model="certMeta"></mi-compact-certificate-header>
-        <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}"
-                              config="uvConfig"
+        <uv-render-components ng-class="{'certificate-header-replaced' : certMeta.isReplaced}" config="uvConfig"
                               view-data="cert"></uv-render-components>
 
         <div ng-if="!errorMessage" class="row col-xs-12 text-muted">

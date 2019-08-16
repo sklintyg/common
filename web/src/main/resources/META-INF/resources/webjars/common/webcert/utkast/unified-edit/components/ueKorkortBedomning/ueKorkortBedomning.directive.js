@@ -17,33 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueKorkortBedomning', [ 'ueUtil',
-    function(ueUtil) {
+angular.module('common').directive('ueKorkortBedomning', ['ueUtil',
+  function(ueUtil) {
     'use strict';
     return {
-        restrict: 'E',
-        scope: {
-            form: '=',
-            config: '=',
-            model: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.html',
-        link: function($scope) {
-            ueUtil.standardSetup($scope);
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.html',
+      link: function($scope) {
+        ueUtil.standardSetup($scope);
 
-            $scope.$watch('model.' + $scope.config.modelProp + '.kanInteTaStallning', function(newValue) {
-                var korkortstypModelProp = $scope.config.modelProp + '.korkortstyp';
-                if (newValue) {
-                    $scope.model.updateToAttic(korkortstypModelProp);
-                    $scope.model.clear(korkortstypModelProp);
-                }
-                else {
-                    if ($scope.model.isInAttic(korkortstypModelProp)) {
-                        $scope.model.restoreFromAttic(korkortstypModelProp);
-                    }
-                }
-            });
-        }
+        $scope.$watch('model.' + $scope.config.modelProp + '.kanInteTaStallning', function(newValue) {
+          var korkortstypModelProp = $scope.config.modelProp + '.korkortstyp';
+          if (newValue) {
+            $scope.model.updateToAttic(korkortstypModelProp);
+            $scope.model.clear(korkortstypModelProp);
+          } else {
+            if ($scope.model.isInAttic(korkortstypModelProp)) {
+              $scope.model.restoreFromAttic(korkortstypModelProp);
+            }
+          }
+        });
+      }
     };
 
-}]);
+  }]);

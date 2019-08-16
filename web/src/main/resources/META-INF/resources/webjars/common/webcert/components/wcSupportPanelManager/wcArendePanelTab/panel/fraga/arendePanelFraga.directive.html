@@ -5,14 +5,11 @@
     <div class="arende-block-body" id="{{panelId}}-arende-fragetext-{{arendeListItem.arende.fraga.internReferens}}">
 
       <div class="arende-meddelande" ng-if="arendeListItem.arende.fraga.meddelande">
-        <wc-expandable-content
-            content="arendeListItem.arende.fraga.meddelande"
-            threshold-pixel-height="60px"
-            link-dom-id="{{panelId}}-arende-fragetext-content-link-{{arendeListItem.arende.fraga.internReferens}}">
+        <wc-expandable-content content="arendeListItem.arende.fraga.meddelande" threshold-pixel-height="60px"
+                               link-dom-id="{{panelId}}-arende-fragetext-content-link-{{arendeListItem.arende.fraga.internReferens}}">
       </div>
 
-      <div class="arende-komplettera"
-           id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
+      <div class="arende-komplettera" id="{{panelId}}-fkKompletteringar-{{arendeListItem.arende.fraga.internReferens}}"
            ng-repeat="komplettering in arendeListItem.kompletteringar">
 
         <!-- fk7263 -->
@@ -22,7 +19,8 @@
         </span>
 
         <!-- nya ärendehanteringen -->
-        <button class="arende-visa-komplettering-button" ng-if="komplettering.frgId" ng-click="scrollToFraga(komplettering)">
+        <button class="arende-visa-komplettering-button" ng-if="komplettering.frgId"
+                ng-click="scrollToFraga(komplettering)">
           <i class="material-icons">navigate_before</i>
           <div class="arende-visa-komplettering-text">
             Visa kompletteringsbegäran för:
@@ -34,7 +32,8 @@
 
     </div>
 
-    <div class="arende-svara-senast" ng-if="arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.sistaDatumForSvar">
+    <div class="arende-svara-senast"
+         ng-if="arendeListItem.arende.fraga.status != 'CLOSED' && arendeListItem.arende.fraga.sistaDatumForSvar">
       <i class="material-icons">date_range</i> Svara senast: {{arendeListItem.arende.fraga.sistaDatumForSvar}}
     </div>
 

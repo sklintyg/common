@@ -22,7 +22,6 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -30,10 +29,8 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
@@ -79,8 +76,9 @@ public class DomainTransportModelValidatorTest {
     private void validateUtlatande(Scenario scenario) {
         try {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSDiabetesType> jaxbElement = new JAXBElement<RegisterTSDiabetesType>(new QName("ns3:RegisterTSDiabetes"), RegisterTSDiabetesType.class,
-                    scenario.asTransportModel());
+            JAXBElement<RegisterTSDiabetesType> jaxbElement = new JAXBElement<RegisterTSDiabetesType>(new QName("ns3:RegisterTSDiabetes"),
+                RegisterTSDiabetesType.class,
+                scenario.asTransportModel());
             JAXBContext context = JAXBContext.newInstance(RegisterTSDiabetesType.class);
             context.createMarshaller().marshal(jaxbElement, output);
 

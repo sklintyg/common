@@ -18,45 +18,46 @@
  */
 angular.module('common').controller(
     'common.ViewCertCtrl',
-    [ '$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'viewFactory',
-        function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, viewFactory) {
-            'use strict';
-            $scope.certificateId = $stateParams.certificateId;
-            $scope.cert = undefined;
+    ['$location', '$log', '$stateParams', '$scope', 'common.IntygService', 'viewConfigFactory', 'viewFactory',
+      function($location, $log, $stateParams, $scope, certificateService, viewConfigFactory, viewFactory) {
+        'use strict';
+        $scope.certificateId = $stateParams.certificateId;
+        $scope.cert = undefined;
 
-            $scope.intygsTyp = viewFactory.intygsTyp;
-            $scope.enableSend = !!viewFactory.getSendUrl();
-            $scope.selectRecipientKey = viewFactory.selectRecipientKey;
+        $scope.intygsTyp = viewFactory.intygsTyp;
+        $scope.enableSend = !!viewFactory.getSendUrl();
+        $scope.selectRecipientKey = viewFactory.selectRecipientKey;
 
-            $scope.enableCustomize = function() {
-                return angular.isFunction(viewFactory.enableCustomizeCertificate) && viewFactory.enableCustomizeCertificate($scope.cert);
-            };
+        $scope.enableCustomize = function() {
+          return angular.isFunction(viewFactory.enableCustomizeCertificate) && viewFactory.enableCustomizeCertificate($scope.cert);
+        };
 
-            $scope.send = function() {
-                $location.path(viewFactory.getSendUrl());
-            };
+        $scope.send = function() {
+          $location.path(viewFactory.getSendUrl());
+        };
 
-            $scope.customizeCertificate = function() {
-                viewFactory.customizeCertificate();
-            };
+        $scope.customizeCertificate = function() {
+          viewFactory.customizeCertificate();
+        };
 
-            $scope.errorMessage = null;
-            $scope.doneLoading = false;
-            certificateService.getCertificate(viewFactory.intygsTyp, $stateParams.intygTypeVersion, $stateParams.certificateId, function(result) {
-                $scope.doneLoading = true;
-                if (result !== null) {
-                    $scope.cert = result.utlatande;
-                    $scope.certMeta = result.meta;
-                    $scope.errorMessage = null;
-                } else {
-                    $scope.errorMessage = 'error.certnotfound';
-                }
+        $scope.errorMessage = null;
+        $scope.doneLoading = false;
+        certificateService.getCertificate(viewFactory.intygsTyp, $stateParams.intygTypeVersion, $stateParams.certificateId,
+            function(result) {
+              $scope.doneLoading = true;
+              if (result !== null) {
+                $scope.cert = result.utlatande;
+                $scope.certMeta = result.meta;
+                $scope.errorMessage = null;
+              } else {
+                $scope.errorMessage = 'error.certnotfound';
+              }
             }, function(errorMsgKey) {
-                $scope.doneLoading = true;
-                $log.debug('getCertificate got error ' + errorMsgKey);
-                $scope.errorMessage = errorMsgKey;
+              $scope.doneLoading = true;
+              $log.debug('getCertificate got error ' + errorMsgKey);
+              $scope.errorMessage = errorMsgKey;
             });
 
-            $scope.pagefocus = true;
-            $scope.uvConfig = viewConfigFactory.getViewConfig();
-        } ]);
+        $scope.pagefocus = true;
+        $scope.uvConfig = viewConfigFactory.getViewConfig();
+      }]);

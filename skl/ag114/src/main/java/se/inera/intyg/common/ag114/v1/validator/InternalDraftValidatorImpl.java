@@ -40,10 +40,8 @@ import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import se.inera.intyg.common.ag114.model.converter.RespConstants;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
@@ -108,7 +106,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
                 GRUNDFORMEDICINSKTUNDERLAG_TELEFONKONTAKT_PATIENT_SVAR_JSON_ID_10_2);
         }
         if (utlatande.getAnnatGrundForMU() != null) {
-           validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2);
+            validateGrundForMuDate(utlatande.getAnnatGrundForMU(), validationMessages, GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_10_2);
         }
 
         // R19
@@ -139,35 +137,36 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
 
 
     }
+
     private void validateBedomning(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
 
         // Sjukskrivningsgrad
         if (validatorUtilSKL.hasNoContent(utlatande.getSjukskrivningsgrad())) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         } else {
             if (!validatorUtilSKL.isIntInRange(utlatande.getSjukskrivningsgrad(), SJUKSKRIVNINGSGRAD_FROM, SJUKSKRIVNINGSGRAD_TOM)) {
                 ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSGRAD_SVAR_JSON_ID_7_1,
-                        ValidationMessageType.OTHER, AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT);
+                    ValidationMessageType.OTHER, AG114_SJUKSKRIVNINGSGRAD_INVALID_PERCENT);
             }
         }
         // Sjukskrivningsperiod
         if (utlatande.getSjukskrivningsperiod() == null) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".period",
-                    ValidationMessageType.EMPTY, "common.validation.ue-sjukfranvaro.period.invalid");
+                SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".period",
+                ValidationMessageType.EMPTY, "common.validation.ue-sjukfranvaro.period.invalid");
         } else {
 
             boolean fromDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getFrom(), validationMessages,
-                    RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from", null);
+                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".from", null);
 
             boolean toDateValid = ValidatorUtil.validateDate(utlatande.getSjukskrivningsperiod().getTom(), validationMessages,
-                    RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", null);
+                RespConstants.CATEGORY_BEDOMNING, SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom", null);
 
             if (fromDateValid && toDateValid && !utlatande.getSjukskrivningsperiod().isValid()) {
                 ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_BEDOMNING,
-                        SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
-                        ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
+                    SJUKSKRIVNINGSPERIOD_SVAR_JSON_ID_7_2 + ".tom",
+                    ValidationMessageType.INCORRECT_COMBINATION, COMMON_VALIDATION_DATE_PERIOD_INVALID_ORDER);
             }
         }
 
@@ -176,17 +175,17 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private void validateSysselsattning(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // SysselSattning skall alltid ha fixed värde NUVARANDE_ARBETE
         if (utlatande.getSysselsattning() == null
-                || utlatande.getSysselsattning().size() != 1
-                || !utlatande.getSysselsattning().get(0).getTyp().equals(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
+            || utlatande.getSysselsattning().size() != 1
+            || !utlatande.getSysselsattning().get(0).getTyp().equals(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_SYSSELSATTNING,
-                    TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
-                    ValidationMessageType.EMPTY);
+                TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_1,
+                ValidationMessageType.EMPTY);
         }
 
         // NuvarandeArbete är mandatory
         if (validatorUtilSKL.hasNoContent(utlatande.getNuvarandeArbete())) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_SYSSELSATTNING, NUVARANDE_ARBETE_SVAR_JSON_ID_2,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
 
     }
@@ -194,7 +193,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private void validateDiagnos(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (utlatande.getOnskarFormedlaDiagnos() == null) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_DIAGNOS, ONSKAR_FORMEDLA_DIAGNOS_SVAR_JSON_ID_3,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         } else if (utlatande.getOnskarFormedlaDiagnos()) {
             validatorUtilSKL.validateDiagnose(utlatande.getDiagnoser(), validationMessages);
         }
@@ -203,7 +202,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private void validateNedsattArbetsformaga(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (validatorUtilSKL.hasNoContent(utlatande.getNedsattArbetsformaga())) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_ARBETSFORMAGA, NEDSATT_ARBETSFORMAGA_SVAR_JSON_ID_5,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
     }
 
@@ -211,14 +210,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
         // Ja/Nej obligatoriskt att besvara..
         if (utlatande.getArbetsformagaTrotsSjukdom() == null) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_ARBETSFORMAGA,
-                    ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1,
-                    ValidationMessageType.EMPTY);
+                ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_1,
+                ValidationMessageType.EMPTY);
         } else if (utlatande.getArbetsformagaTrotsSjukdom()
-                && validatorUtilSKL.hasNoContent(utlatande.getArbetsformagaTrotsSjukdomBeskrivning())) {
+            && validatorUtilSKL.hasNoContent(utlatande.getArbetsformagaTrotsSjukdomBeskrivning())) {
             // Om ja, så är beskrivningen obligatoriskt
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_ARBETSFORMAGA,
-                    ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2,
-                    ValidationMessageType.EMPTY);
+                ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_JSON_ID_6_2,
+                ValidationMessageType.EMPTY);
         }
     }
 
@@ -226,15 +225,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Ag114U
     private void validateKontakt(Ag114UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Om kryssat ja, är beskrivning mandatory
         if (utlatande.getKontaktMedArbetsgivaren() != null && utlatande.getKontaktMedArbetsgivaren()
-                && validatorUtilSKL.hasNoContent(utlatande.getAnledningTillKontakt())) {
+            && validatorUtilSKL.hasNoContent(utlatande.getAnledningTillKontakt())) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9,
-                    ValidationMessageType.EMPTY);
+                ValidationMessageType.EMPTY);
         }
         // ..men får ej förekomma om ej kryssat ja
         if ((utlatande.getKontaktMedArbetsgivaren() == null || !utlatande.getKontaktMedArbetsgivaren())
-                && !validatorUtilSKL.hasNoContent(utlatande.getAnledningTillKontakt())) {
+            && !validatorUtilSKL.hasNoContent(utlatande.getAnledningTillKontakt())) {
             ValidatorUtil.addValidationError(validationMessages, RespConstants.CATEGORY_KONTAKT, ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9,
-                    ValidationMessageType.INCORRECT_COMBINATION);
+                ValidationMessageType.INCORRECT_COMBINATION);
         }
     }
 }

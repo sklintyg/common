@@ -1,7 +1,8 @@
 <div wc-date-period-manager model="model" class="ue-sjukskrivningar">
   <ue-label config="::config.label" model="::model"></ue-label>
 
-  <wc-alert-message ng-attr-id="lastEffectiveDateNoticeText|ueDomIdFilter" alert-severity="info" ng-if="lastEffectiveDateNoticeText">
+  <wc-alert-message ng-attr-id="lastEffectiveDateNoticeText|ueDomIdFilter" alert-severity="info"
+                    ng-if="lastEffectiveDateNoticeText">
     {{lastEffectiveDateNoticeText}}
   </wc-alert-message>
 
@@ -9,13 +10,9 @@
     <div ng-if="!intygIsLocked">
       <label>
         <span dynamic-label key="{{::hoursPerWeek.labelkey1}}"></span>
-        <input class="form-control hoursPerWeek" type="text"
-               ng-model="viewstate.hoursPerWeek"
-               wc-number="true"
-               ue-filter-latin1
-               ng-change="viewstate.updateHoursPerWeek()"
-               ng-blur="validate()"
-               maxlength="2"> <span dynamic-label key="{{::hoursPerWeek.labelkey2}}"></span>
+        <input class="form-control hoursPerWeek" type="text" ng-model="viewstate.hoursPerWeek" wc-number="true"
+               ue-filter-latin1 ng-change="viewstate.updateHoursPerWeek()" ng-blur="validate()" maxlength="2"> <span
+          dynamic-label key="{{::hoursPerWeek.labelkey2}}"></span>
         <span wc-help-chevron help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
       </label>
       <span wc-help-chevron-text help-text-key="{{::hoursPerWeek.hlpKey}}"></span>
@@ -30,7 +27,8 @@
           <div class="col-lg-12 col-md-4 col-sm-12 checkbox-width">
             <wc-checkbox-wrapper class="padding-bottom">
               <input type="checkbox" ng-model="viewstate.periods[field].checked"
-                     ng-change="viewstate.updateCheckBox(field); validate()"  ng-attr-id="{{::config.modelProp + field|ueDomIdFilter}}">
+                     ng-change="viewstate.updateCheckBox(field); validate()"
+                     ng-attr-id="{{::config.modelProp + field|ueDomIdFilter}}">
               <label ng-attr-for="{{::config.modelProp + field|ueDomIdFilter}}">
                 <span dynamic-label key="{{::config.code}}.{{::field}}.RBK"></span>
               </label>
@@ -42,8 +40,9 @@
             <div class="col-md-8 col-sm-12 date-width">
               <div class="sjukskrivningar_period flex-wrapper">
                 <label for="{{::config.modelProp}}-{{::field}}-from">Fr.o.m</label>
-                <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}" type="from"
-                      on-blur="validate()" ng-class="{'validation-error' : hasValidationError(field, 'from')}"></span>
+                <span wc-date-period-field model="::model" field="{{::config.modelProp}}" index="{{::field}}"
+                      type="from" on-blur="validate()"
+                      ng-class="{'validation-error' : hasValidationError(field, 'from')}"></span>
               </div>
             </div>
             <div class="col-md-12 col-sm-12 date-width">
@@ -56,19 +55,19 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <ue-validation-list field-type="sjukskrivning_period" validations="validationsForPeriod[field]"></ue-validation-list>
+          <ue-validation-list field-type="sjukskrivning_period"
+                              validations="validationsForPeriod[field]"></ue-validation-list>
         </div>
       </div>
 
-      <div class="fold-animation fold-slide-animation ifyllnadsstod"
-           ng-if="viewstate.periods[field].valid">
+      <div class="fold-animation fold-slide-animation ifyllnadsstod" ng-if="viewstate.periods[field].valid">
         Arbetstid: {{viewstate.periods[field].hoursPerWeek | number : 2}} timmar/vecka i
         {{viewstate.periods[field].days}} dagar.
       </div>
     </div>
 
     <ue-validation-list field-type="sjukskrivning_period" validations="overlapValidations"></ue-validation-list>
-    
+
     <div ng-if="viewstate.totalDays && !intygIsLocked" class="fold-animation fold-slide-animation ifyllnadsstod period">
       <i class="material-icons">lightbulb_outline</i>Intyget motsvarar en period på {{viewstate.totalDays}} dagar.
     </div>

@@ -18,62 +18,61 @@
  */
 angular.module('common').directive('ueRenderComponentsSpinner',
     function($browser, $compile, $timeout, $animate) {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            link: function($scope, $element) {
+      return {
+        restrict: 'E',
+        scope: {
+          form: '=',
+          config: '=',
+          model: '='
+        },
+        link: function($scope, $element) {
 
-                if ($scope.config.length === 0) {
-                    return;
-                }
+          if ($scope.config.length === 0) {
+            return;
+          }
 
-                var spinners = [];
-                var timeoutPromise;
+          var spinners = [];
+          var timeoutPromise;
 
-                function addSpinner() {
-                    var template = '<div class="card"><wc-spinner show-spinner="true"></wc-spinner></div>';
-                    var spinner = $compile(template)($scope);
-                    $element.append(spinner);
-                    return spinner;
-                }
+          function addSpinner() {
+            var template = '<div class="card"><wc-spinner show-spinner="true"></wc-spinner></div>';
+            var spinner = $compile(template)($scope);
+            $element.append(spinner);
+            return spinner;
+          }
 
-                function replaceSpinner(i) {
-                    var template = '<ue-dynamic-component form="::form" config="::config[' + i + ']" model="::model" />';
-                    spinners[i].replaceWith($compile(template)($scope));
+          function replaceSpinner(i) {
+            var template = '<ue-dynamic-component form="::form" config="::config[' + i + ']" model="::model" />';
+            spinners[i].replaceWith($compile(template)($scope));
 
-                    if (i + 1 < $scope.config.length) {
-                        timeoutReplaceSpinner(i + 1);
-                    }
-                    else {
-                        $animate.enabled(true);
-                    }
-                }
-
-                function timeoutReplaceSpinner(i) {
-                    timeoutPromise = $timeout(function() {
-                        timeoutPromise = null;
-                        replaceSpinner(i);
-                    });
-                }
-
-                $animate.enabled(false);
-                for (var i = 0; i < $scope.config.length; i++) {
-                    spinners[i] = addSpinner();
-                }
-                timeoutReplaceSpinner(0);
-
-                $scope.$on('$destroy', function() {
-                    $animate.enabled(true);
-                    if (timeoutPromise) {
-                        $timeout.cancel(timeoutPromise);
-                    }
-                });
+            if (i + 1 < $scope.config.length) {
+              timeoutReplaceSpinner(i + 1);
+            } else {
+              $animate.enabled(true);
             }
-        };
+          }
+
+          function timeoutReplaceSpinner(i) {
+            timeoutPromise = $timeout(function() {
+              timeoutPromise = null;
+              replaceSpinner(i);
+            });
+          }
+
+          $animate.enabled(false);
+          for (var i = 0; i < $scope.config.length; i++) {
+            spinners[i] = addSpinner();
+          }
+          timeoutReplaceSpinner(0);
+
+          $scope.$on('$destroy', function() {
+            $animate.enabled(true);
+            if (timeoutPromise) {
+              $timeout.cancel(timeoutPromise);
+            }
+          });
+        }
+      };
     });

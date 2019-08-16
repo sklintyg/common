@@ -17,36 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 describe('ueFilterLatin1 Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.inject(function($compile, $rootScope) {
-        $scope = $rootScope.$new();
+  beforeEach(angular.mock.inject(function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-        $scope.model = '';
+    $scope.model = '';
 
-        element = $compile(
-            '<textarea ng-model="model" ue-filter-latin1></textarea>'
-        )($scope);
-    }));
+    element = $compile(
+        '<textarea ng-model="model" ue-filter-latin1></textarea>'
+    )($scope);
+  }));
 
-    it('Should allow all non control character latin1 characters', function() {
-        var testValue = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
-        testValue += '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
+  it('Should allow all non control character latin1 characters', function() {
+    var testValue = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+    testValue += '¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
 
-        $(element).val(testValue).trigger('input');
-        $scope.$digest();
-        expect($scope.model).toBe(testValue);
-    });
+    $(element).val(testValue).trigger('input');
+    $scope.$digest();
+    expect($scope.model).toBe(testValue);
+  });
 
-    it('Should not allow control characters or other unicode characters', function() {
-        var testValue = 'AB👽C\n123'; // jshint ignore:line
+  it('Should not allow control characters or other unicode characters', function() {
+    var testValue = 'AB👽C\n123'; // jshint ignore:line
 
-        $(element).val(testValue).trigger('input');
-        $scope.$digest();
-        expect($scope.model).toBe('ABC\n123');
-    });
+    $(element).val(testValue).trigger('input');
+    $scope.$digest();
+    expect($scope.model).toBe('ABC\n123');
+  });
 
 });

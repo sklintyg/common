@@ -18,89 +18,89 @@
  */
 
 describe('featureService', function() {
-    'use strict';
+  'use strict';
 
-    var featureService;
-    var UserModel;
+  var featureService;
+  var UserModel;
 
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject(['common.featureService', 'common.UserModel',
-        function(_featureService_, _UserModel_) {
-            featureService = _featureService_;
-            UserModel = _UserModel_;
-        }
-    ]));
+  beforeEach(angular.mock.inject(['common.featureService', 'common.UserModel',
+    function(_featureService_, _UserModel_) {
+      featureService = _featureService_;
+      UserModel = _UserModel_;
+    }
+  ]));
 
-    describe('#isFeatureActive', function() {
+  describe('#isFeatureActive', function() {
 
-        it ('should be false for invalid feature', function () {
-            expect(featureService.isFeatureActive('')).toBeFalsy();
-            expect(featureService.isFeatureActive(null)).toBeFalsy();
-        });
-
-        it ('should be false if no features is set on the user', function () {
-            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
-        });
-
-        it ('should be false if the feature is not available', function () {
-            UserModel.user = {
-                features : {
-                    'HANTERA_INTYGSUTKAST': {
-                        'global': true,
-                        'intygstyper': []
-                    }
-                }
-            };
-            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
-        });
-
-        it ('should be true if the feature is available', function () {
-            UserModel.user = {
-                features : {
-                    'HANTERA_INTYGSUTKAST': {
-                        'global': true,
-                        'intygstyper': []
-                    },
-                    'HANTERA_FRAGOR': {
-                        'global': true,
-                        'intygstyper': []
-                    }
-                }
-            };
-            expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeTruthy();
-        });
-
-        it ('should be true if the feature is available in a module', function () {
-            UserModel.user = {
-                features : {
-                    'HANTERA_INTYGSUTKAST': {
-                        'global': true,
-                        'intygstyper': []
-                    },
-                    'HANTERA_FRAGOR': {
-                        'global': true,
-                        'intygstyper': ['fk7263']
-                    }
-                }
-            };
-            expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeTruthy();
-        });
-
-        it ('should be false if the feature is not available a module', function () {
-            UserModel.user = {
-                features : {
-                    'HANTERA_INTYGSUTKAST': {
-                        'global': true,
-                        'intygstyper': []
-                    },
-                    'HANTERA_FRAGOR': {
-                        'global': true,
-                        'intygstyper': []
-                    }
-                }
-            };
-            expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeFalsy();
-        });
+    it('should be false for invalid feature', function() {
+      expect(featureService.isFeatureActive('')).toBeFalsy();
+      expect(featureService.isFeatureActive(null)).toBeFalsy();
     });
+
+    it('should be false if no features is set on the user', function() {
+      expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
+    });
+
+    it('should be false if the feature is not available', function() {
+      UserModel.user = {
+        features: {
+          'HANTERA_INTYGSUTKAST': {
+            'global': true,
+            'intygstyper': []
+          }
+        }
+      };
+      expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeFalsy();
+    });
+
+    it('should be true if the feature is available', function() {
+      UserModel.user = {
+        features: {
+          'HANTERA_INTYGSUTKAST': {
+            'global': true,
+            'intygstyper': []
+          },
+          'HANTERA_FRAGOR': {
+            'global': true,
+            'intygstyper': []
+          }
+        }
+      };
+      expect(featureService.isFeatureActive('HANTERA_FRAGOR')).toBeTruthy();
+    });
+
+    it('should be true if the feature is available in a module', function() {
+      UserModel.user = {
+        features: {
+          'HANTERA_INTYGSUTKAST': {
+            'global': true,
+            'intygstyper': []
+          },
+          'HANTERA_FRAGOR': {
+            'global': true,
+            'intygstyper': ['fk7263']
+          }
+        }
+      };
+      expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeTruthy();
+    });
+
+    it('should be false if the feature is not available a module', function() {
+      UserModel.user = {
+        features: {
+          'HANTERA_INTYGSUTKAST': {
+            'global': true,
+            'intygstyper': []
+          },
+          'HANTERA_FRAGOR': {
+            'global': true,
+            'intygstyper': []
+          }
+        }
+      };
+      expect(featureService.isFeatureActive('HANTERA_FRAGOR', 'fk7263')).toBeFalsy();
+    });
+  });
 });

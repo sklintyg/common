@@ -19,11 +19,14 @@
 package se.inera.intyg.common.support.model.converter.util;
 
 import com.google.common.base.Strings;
-import se.inera.intyg.common.support.model.common.internal.*;
+import java.time.LocalDateTime;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-
-import java.time.LocalDateTime;
 
 public final class WebcertModelFactoryUtil {
 
@@ -36,7 +39,7 @@ public final class WebcertModelFactoryUtil {
     }
 
     public static void populateGrunddataFromCreateDraftCopyHolder(GrundData grundData, CreateDraftCopyHolder copyData)
-            throws ConverterException {
+        throws ConverterException {
         validateRequest(copyData.getSkapadAv());
 
         if (grundData.getSkapadAv().getVardenhet().getEnhetsid().equals(copyData.getSkapadAv().getVardenhet().getEnhetsid())) {
@@ -58,7 +61,7 @@ public final class WebcertModelFactoryUtil {
     }
 
     public static void populateGrunddataFromCreateNewDraftHolder(GrundData grundData,
-            CreateNewDraftHolder newDraftData) throws ConverterException {
+        CreateNewDraftHolder newDraftData) throws ConverterException {
         validateRequest(newDraftData.getSkapadAv());
         grundData.setSkapadAv(newDraftData.getSkapadAv());
         populateWithPatientInfo(grundData, newDraftData.getPatient());

@@ -18,49 +18,48 @@
  */
 
 describe('wcVardPersonSekretess Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
-    var $uibModal;
-    var UserModel;
-    var initialMockedUser = {
-        sekretessMarkerad: true,
-        anvandarPreference: {}
+  var $scope;
+  var element;
+  var $uibModal;
+  var UserModel;
+  var initialMockedUser = {
+    sekretessMarkerad: true,
+    anvandarPreference: {}
 
-    };
+  };
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', '$uibModal', 'common.UserModel', function($compile, $rootScope, _$uibModal_, _UserModel_) {
+  beforeEach(angular.mock.inject(
+      ['$compile', '$rootScope', '$uibModal', 'common.UserModel', function($compile, $rootScope, _$uibModal_, _UserModel_) {
         $scope = $rootScope.$new();
         $uibModal = _$uibModal_;
         UserModel = _UserModel_;
         UserModel.setUser(initialMockedUser);
 
-
         element = $compile('<wc-vard-person-sekretess></wc-vard-person-sekretess>')($scope);
 
-    } ]));
+      }]));
 
-    it('Should show consent dialog if sekretessMarkering is true and consent not approved', function() {
-        UserModel.user.sekretessMarkerad = true;
-        UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', undefined);
-        spyOn($uibModal, 'open');
+  it('Should show consent dialog if sekretessMarkering is true and consent not approved', function() {
+    UserModel.user.sekretessMarkerad = true;
+    UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', undefined);
+    spyOn($uibModal, 'open');
 
-        $scope.$digest();
-        expect($(document).find('#wc-vardperson-sekretess-modal-dialog--consent-btn').length).toBe(1);
-    });
+    $scope.$digest();
+    expect($(document).find('#wc-vardperson-sekretess-modal-dialog--consent-btn').length).toBe(1);
+  });
 
-    it('Should NOT show consent dialog if sekretessMarkering is true and consent already approved', function() {
-        UserModel.user.sekretessMarkerad = true;
-        UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', true);
-        spyOn($uibModal, 'open');
+  it('Should NOT show consent dialog if sekretessMarkering is true and consent already approved', function() {
+    UserModel.user.sekretessMarkerad = true;
+    UserModel.setAnvandarPreference('wc.vardperson.sekretess.approved', true);
+    spyOn($uibModal, 'open');
 
-        $scope.$digest();
+    $scope.$digest();
 
-        expect($uibModal.open).toHaveBeenCalledTimes(0);
-    });
+    expect($uibModal.open).toHaveBeenCalledTimes(0);
+  });
 });

@@ -25,14 +25,14 @@
  */
 angular.module('common').directive('arendePanelHeaderAmne',
     [function() {
-            'use strict';
+      'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.directive.html',
-                scope: {
-                    headerType: '=',
-                    arendeListItem: '='
-                }
-            };
-        }]);
+      return {
+        restrict: 'E',
+        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.directive.html',
+        scope: {
+          headerType: '=',
+          arendeListItem: '='
+        }
+      };
+    }]);

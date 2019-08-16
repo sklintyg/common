@@ -22,16 +22,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
-import se.inera.intyg.common.support.model.InternalDate;
-
 import javax.annotation.Nullable;
+import se.inera.intyg.common.support.model.InternalDate;
 
 @AutoValue
 public abstract class MedicinsktUnderlag {
 
     @JsonCreator
     public static MedicinsktUnderlag create(@JsonProperty("medicinsktUnderlagTyp") MedicinsktUnderlagTyp medicinsktUnderlagTyp,
-            @JsonProperty("datum") InternalDate datum, @JsonProperty("annanGrund") String annanGrund) {
+        @JsonProperty("datum") InternalDate datum, @JsonProperty("annanGrund") String annanGrund) {
         return new AutoValue_MedicinsktUnderlag(medicinsktUnderlagTyp, datum, annanGrund);
     }
 
@@ -51,6 +50,7 @@ public abstract class MedicinsktUnderlag {
 
         private final int id;
         private final String label;
+
         MedicinsktUnderlagTyp(int id, String label) {
             this.id = id;
             this.label = label;

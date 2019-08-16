@@ -18,45 +18,45 @@
  */
 
 describe('PrefilledUserDataService', function() {
-    'use strict';
+  'use strict';
 
-    var prefilledUserDataService;
+  var prefilledUserDataService;
 
-    beforeEach(angular.mock.inject(['common.PrefilledUserDataService',
-        function(_prefilledUserDataService_) {
-            prefilledUserDataService = _prefilledUserDataService_;
-        }]));
+  beforeEach(angular.mock.inject(['common.PrefilledUserDataService',
+    function(_prefilledUserDataService_) {
+      prefilledUserDataService = _prefilledUserDataService_;
+    }]));
 
-    describe('For postadress', function() {
-        var patient;
+  describe('For postadress', function() {
+    var patient;
 
-        beforeEach(function() {
-            patient = {};
-            patient.postadress = 'Foovägen';
-            patient.postnummer = '12345';
-            patient.postort = 'Barsala';
-        });
-
-        it('should return positive when all parts of are present', function() {
-            expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(true);
-        });
-
-        describe('should return negative if any part are ', function() {
-
-            it('missing', function() {
-                delete patient.postort;
-                expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
-            });
-
-            it('empty', function() {
-                patient.postort = '';
-                expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
-            });
-        });
-
-        it('should return undefined if given undefined', function() {
-            expect(prefilledUserDataService.searchForPrefilledPatientData(undefined)).toBe(undefined);
-        });
+    beforeEach(function() {
+      patient = {};
+      patient.postadress = 'Foovägen';
+      patient.postnummer = '12345';
+      patient.postort = 'Barsala';
     });
+
+    it('should return positive when all parts of are present', function() {
+      expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(true);
+    });
+
+    describe('should return negative if any part are ', function() {
+
+      it('missing', function() {
+        delete patient.postort;
+        expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
+      });
+
+      it('empty', function() {
+        patient.postort = '';
+        expect(prefilledUserDataService.searchForPrefilledPatientData(patient).completeAddress).toBe(false);
+      });
+    });
+
+    it('should return undefined if given undefined', function() {
+      expect(prefilledUserDataService.searchForPrefilledPatientData(undefined)).toBe(undefined);
+    });
+  });
 });
 

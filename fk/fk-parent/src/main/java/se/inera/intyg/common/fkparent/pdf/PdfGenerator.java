@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import java.io.ByteArrayOutputStream;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
@@ -29,7 +25,9 @@ import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfName;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
-
+import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 
 /**
@@ -40,6 +38,7 @@ import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
  */
 // CHECKSTYLE:OFF MagicNumber
 public final class PdfGenerator {
+
     private PdfGenerator() {
     }
 

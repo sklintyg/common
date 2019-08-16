@@ -18,102 +18,101 @@
  */
 
 describe('lisjp.IntygViewStateService', function() {
-    'use strict';
+  'use strict';
 
-    var IntygViewState;
+  var IntygViewState;
 
-    beforeEach(angular.mock.module('common', function($provide) {
-    }));
+  beforeEach(angular.mock.module('common', function($provide) {
+  }));
 
-    beforeEach(angular.mock.inject(['lisjp.IntygController.ViewStateService',
-        function(_IntygViewState_) {
-            IntygViewState = _IntygViewState_;
-        }]));
+  beforeEach(angular.mock.inject(['lisjp.IntygController.ViewStateService',
+    function(_IntygViewState_) {
+      IntygViewState = _IntygViewState_;
+    }]));
 
-    describe('send', function() {
+  describe('send', function() {
 
-        it ('should show observandum in the right conditions (LISJP)', function() {
+    it('should show observandum in the right conditions (LISJP)', function() {
 
-            /**
-             * Visa observandum om:
-             * Perioden intyget avser är kortare eller lika med 7 dagar
-             * Alternativet Arbetssökande (LISJP) eller Arbetslöshet (FK7263) är EJ valt.
-             * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt (LISJP)
-             */
+      /**
+       * Visa observandum om:
+       * Perioden intyget avser är kortare eller lika med 7 dagar
+       * Alternativet Arbetssökande (LISJP) eller Arbetslöshet (FK7263) är EJ valt.
+       * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt (LISJP)
+       */
 
-            IntygViewState.intygModel = {
-                typ: 'lisjp',
-                sjukskrivningar: [
-                    {
-                        period: {
-                            from: '2018-01-01',
-                            tom: '2018-01-02'
-                        }
-                    },
-                    {
-                        period: {
-                            from: '2018-01-03',
-                            tom: '2018-01-04'
-                        }
-                    },
-                    {
-                        period: {
-                            from: '2018-01-06',
-                            tom: '2018-01-07'
-                        }
-                    }
-                ],
-                sysselsattning: [
-                    { typ: 'STUDIER' }
-                ]
-            };
+      IntygViewState.intygModel = {
+        typ: 'lisjp',
+        sjukskrivningar: [
+          {
+            period: {
+              from: '2018-01-01',
+              tom: '2018-01-02'
+            }
+          },
+          {
+            period: {
+              from: '2018-01-03',
+              tom: '2018-01-04'
+            }
+          },
+          {
+            period: {
+              from: '2018-01-06',
+              tom: '2018-01-07'
+            }
+          }
+        ],
+        sysselsattning: [
+          {typ: 'STUDIER'}
+        ]
+      };
 
-            // Model starts correct = 7 days duration
-            expect(IntygViewState.calculateSjukskrivningDuration()).toBe(7);
+      // Model starts correct = 7 days duration
+      expect(IntygViewState.calculateSjukskrivningDuration()).toBe(7);
 
-            // Model starts correct = 7 days duration
-            expect(IntygViewState.getObservandumId()).not.toBe(null);
+      // Model starts correct = 7 days duration
+      expect(IntygViewState.getObservandumId()).not.toBe(null);
 
+      // Longer period should result in null message id
 
-            // Longer period should result in null message id
+      IntygViewState.intygModel.sjukskrivningar = [
+        {
+          period: {
+            from: '2018-01-01',
+            tom: '2018-01-02'
+          }
+        },
+        {
+          period: {
+            from: '2018-01-03',
+            tom: '2018-01-04'
+          }
+        },
+        {
+          period: {
+            from: '2018-01-06',
+            tom: '2018-01-08' // <--
+          }
+        }
+      ];
 
-            IntygViewState.intygModel.sjukskrivningar = [
-                {
-                    period: {
-                        from: '2018-01-01',
-                        tom: '2018-01-02'
-                    }
-                },
-                {
-                    period: {
-                        from: '2018-01-03',
-                        tom: '2018-01-04'
-                    }
-                },
-                {
-                    period: {
-                        from: '2018-01-06',
-                        tom: '2018-01-08' // <--
-                    }
-                }
-            ];
+      expect(IntygViewState.calculateSjukskrivningDuration()).toBe(8);
+      expect(IntygViewState.getObservandumId()).toBe(null);
+      expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeTruthy();
 
-            expect(IntygViewState.calculateSjukskrivningDuration()).toBe(8);
-            expect(IntygViewState.getObservandumId()).toBe(null);
-            expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeTruthy();
+      IntygViewState.intygModel.sysselsattning = [
+        {typ: 'ARBETSSOKANDE'}
+      ];
+      expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeFalsy();
 
-            IntygViewState.intygModel.sysselsattning = [
-                { typ: 'ARBETSSOKANDE' }
-            ];
-            expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeFalsy();
-
-            IntygViewState.intygModel.sysselsattning = [
-                { typ: 'NUVARANDE_ARBETE' },
-                { typ: 'STUDIER' }
-            ];
-            expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeFalsy();
-        });
-
+      IntygViewState.intygModel.sysselsattning = [
+        {typ: 'NUVARANDE_ARBETE'},
+        {typ: 'STUDIER'}
+      ];
+      expect(IntygViewState.shouldSysselsattningSpawnObservandum()).toBeFalsy();
     });
+
+  });
 
 });

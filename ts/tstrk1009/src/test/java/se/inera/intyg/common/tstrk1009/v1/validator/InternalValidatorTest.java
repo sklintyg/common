@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.tuple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
@@ -76,13 +75,13 @@ public class InternalValidatorTest {
         // Then
         assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
         assertThat(vdr.getValidationErrors())
-                .hasSize(5)
-                .extracting("category", "field", "type")
-                .contains(tuple("identitet", "identitetStyrktGenom.typ", ValidationMessageType.EMPTY),
-                        tuple("anmalan", "anmalanAvser.typ", ValidationMessageType.EMPTY),
-                        tuple("medicinskaforhallanden", "medicinskaForhallanden", ValidationMessageType.EMPTY),
-                        tuple("medicinskaforhallanden", "senasteUndersokningsdatum", ValidationMessageType.EMPTY),
-                        tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.EMPTY));
+            .hasSize(5)
+            .extracting("category", "field", "type")
+            .contains(tuple("identitet", "identitetStyrktGenom.typ", ValidationMessageType.EMPTY),
+                tuple("anmalan", "anmalanAvser.typ", ValidationMessageType.EMPTY),
+                tuple("medicinskaforhallanden", "medicinskaForhallanden", ValidationMessageType.EMPTY),
+                tuple("medicinskaforhallanden", "senasteUndersokningsdatum", ValidationMessageType.EMPTY),
+                tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.EMPTY));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 
@@ -98,9 +97,9 @@ public class InternalValidatorTest {
         // Then
         assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
         assertThat(vdr.getValidationErrors())
-                .hasSize(1)
-                .extracting("category", "field", "type")
-                .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
+            .hasSize(1)
+            .extracting("category", "field", "type")
+            .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 
@@ -116,9 +115,9 @@ public class InternalValidatorTest {
         // Then
         assertThat(vdr.getStatus()).isEqualTo(ValidationStatus.INVALID);
         assertThat(vdr.getValidationErrors())
-                .hasSize(1)
-                .extracting("category", "field", "type")
-                .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
+            .hasSize(1)
+            .extracting("category", "field", "type")
+            .contains(tuple("bedomning", "intygetAvserBehorigheter.typer", ValidationMessageType.OTHER));
         assertThat(vdr.getValidationWarnings()).isEmpty();
     }
 }

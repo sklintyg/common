@@ -17,40 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.wcDatePeriodFieldHelper', function() {
-    'use strict';
+  'use strict';
 
-    /**
-     * -------|      |------
-     * ----|...   |------
-     */
-    function isTomWithinPeriod(datePeriod, datePeriod2) {
-        return datePeriod.from.moment &&
-            datePeriod.tom.moment &&
-            datePeriod2.tom.moment &&
-            (datePeriod2.tom.moment.isSame(datePeriod.from.moment) || datePeriod2.tom.moment.isAfter(datePeriod.from.moment)) &&
-            (datePeriod2.tom.moment.isSame(datePeriod.tom.moment) || datePeriod2.tom.moment.isBefore(datePeriod.tom.moment));
-    }
+  /**
+   * -------|      |------
+   * ----|...   |------
+   */
+  function isTomWithinPeriod(datePeriod, datePeriod2) {
+    return datePeriod.from.moment &&
+        datePeriod.tom.moment &&
+        datePeriod2.tom.moment &&
+        (datePeriod2.tom.moment.isSame(datePeriod.from.moment) || datePeriod2.tom.moment.isAfter(datePeriod.from.moment)) &&
+        (datePeriod2.tom.moment.isSame(datePeriod.tom.moment) || datePeriod2.tom.moment.isBefore(datePeriod.tom.moment));
+  }
 
-    /**
-     * -------|      |------
-     * ----------|   ...|------
-     */
-    function isFromWithinPeriod(datePeriod, datePeriod2) {
-        return datePeriod.from.moment &&
-            datePeriod.tom.moment &&
-            datePeriod2.from.moment &&
-            (datePeriod2.from.moment.isSame(datePeriod.from.moment) || datePeriod2.from.moment.isAfter(datePeriod.from.moment)) &&
-            (datePeriod2.from.moment.isSame(datePeriod.tom.moment) || datePeriod2.from.moment.isBefore(datePeriod.tom.moment));
-    }
+  /**
+   * -------|      |------
+   * ----------|   ...|------
+   */
+  function isFromWithinPeriod(datePeriod, datePeriod2) {
+    return datePeriod.from.moment &&
+        datePeriod.tom.moment &&
+        datePeriod2.from.moment &&
+        (datePeriod2.from.moment.isSame(datePeriod.from.moment) || datePeriod2.from.moment.isAfter(datePeriod.from.moment)) &&
+        (datePeriod2.from.moment.isSame(datePeriod.tom.moment) || datePeriod2.from.moment.isBefore(datePeriod.tom.moment));
+  }
 
-    var hasOverlap = function(datePeriod, datePeriod2) {
-        return isFromWithinPeriod(datePeriod, datePeriod2) ||
-            isTomWithinPeriod(datePeriod, datePeriod2) ||
-            isFromWithinPeriod(datePeriod2, datePeriod) ||
-            isTomWithinPeriod(datePeriod2, datePeriod);
-    };
+  var hasOverlap = function(datePeriod, datePeriod2) {
+    return isFromWithinPeriod(datePeriod, datePeriod2) ||
+        isTomWithinPeriod(datePeriod, datePeriod2) ||
+        isFromWithinPeriod(datePeriod2, datePeriod) ||
+        isTomWithinPeriod(datePeriod2, datePeriod);
+  };
 
-    return {
-        hasOverlap: hasOverlap
-    };
+  return {
+    hasOverlap: hasOverlap
+  };
 });

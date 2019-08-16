@@ -17,23 +17,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular
-    .module('common')
-    .directive('wcToggle', [
-        function() {
-            'use strict';
+.module('common')
+.directive('wcToggle', [
+  function() {
+    'use strict';
 
     return {
-        restrict: 'E',
-        scope: {
-            toggle: '&',
-            toggleId: '@',
-            label: '@',
-            disable: '<'
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcToggle/wcToggle.directive.html',
-        controller: function($scope) {
-            $scope.value = false;
-        }
+      restrict: 'E',
+      scope: {
+        toggle: '&',
+        toggleId: '@',
+        label: '@',
+        disable: '<'
+      },
+      templateUrl: '/web/webjars/common/webcert/components/wcToggle/wcToggle.directive.html',
+      controller: function($scope) {
+        $scope.value = false;
+      }
 
     };
-}]);
+  }]);

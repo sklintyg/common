@@ -17,37 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.Domain.GrundDataModel',
-    [ 'common.Domain.SkapadAvModel', 'common.Domain.PatientModel', 'common.Domain.RelationModel',
-        function(SkapadAvModel, PatientModel, RelationModel) {
-            'use strict';
+    ['common.Domain.SkapadAvModel', 'common.Domain.PatientModel', 'common.Domain.RelationModel',
+      function(SkapadAvModel, PatientModel, RelationModel) {
+        'use strict';
 
-            /**
-             * Constructor, with class name
-             */
-            function GrundDataModel() {
-                this.skapadAv = SkapadAvModel.build();
-                this.patient = PatientModel.build();
-                this.relation = RelationModel.build();
-            }
-
-            GrundDataModel.prototype.update = function (grundData) {
-                // refresh the model data
-                if(grundData === undefined) {
-                    return;
-                }
-                this.skapadAv.update(grundData.skapadAv);
-                this.patient.update(grundData.patient);
-                this.relation.update(grundData.relation);
-            };
-
-            GrundDataModel.build = function() {
-                return new GrundDataModel();
-            };
-
-            /**
-             * Return the constructor function GrundDataModel
-             */
-            return GrundDataModel;
-
+        /**
+         * Constructor, with class name
+         */
+        function GrundDataModel() {
+          this.skapadAv = SkapadAvModel.build();
+          this.patient = PatientModel.build();
+          this.relation = RelationModel.build();
         }
+
+        GrundDataModel.prototype.update = function(grundData) {
+          // refresh the model data
+          if (grundData === undefined) {
+            return;
+          }
+          this.skapadAv.update(grundData.skapadAv);
+          this.patient.update(grundData.patient);
+          this.relation.update(grundData.relation);
+        };
+
+        GrundDataModel.build = function() {
+          return new GrundDataModel();
+        };
+
+        /**
+         * Return the constructor function GrundDataModel
+         */
+        return GrundDataModel;
+
+      }
     ]);

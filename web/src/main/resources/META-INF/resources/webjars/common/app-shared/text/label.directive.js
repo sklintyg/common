@@ -17,47 +17,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('dynamicLabel',
-    [ '$compile', '$log', '$rootScope', 'common.dynamicLabelService', 'common.messageService',
-        function($compile, $log, $rootScope, dynamicLabelService, messageService) {
-            'use strict';
+    ['$compile', '$log', '$rootScope', 'common.dynamicLabelService', 'common.messageService',
+      function($compile, $log, $rootScope, dynamicLabelService, messageService) {
+        'use strict';
 
-            return {
-                restrict: 'EA',
-                scope: {
-                    'key': '@',
-                    'params': '<',
-                    'fallbackValue': '@',
-                    'supportExternalLink': '<'
-                },
-                replace: true,
-                link: function(scope, element, attr) {
-                    var result;
+        return {
+          restrict: 'EA',
+          scope: {
+            'key': '@',
+            'params': '<',
+            'fallbackValue': '@',
+            'supportExternalLink': '<'
+          },
+          replace: true,
+          link: function(scope, element, attr) {
+            var result;
 
-                    function updateText(interpolatedKey) {
-                        // Try to find the key in the messageService first
-                        result = messageService.propertyExists(angular.lowercase(interpolatedKey));
+            function updateText(interpolatedKey) {
+              // Try to find the key in the messageService first
+              result = messageService.propertyExists(angular.lowercase(interpolatedKey));
 
-                        if (!result) {
-                            result = dynamicLabelService.getProperty(interpolatedKey, scope.supportExternalLink);
-                        } else {
-                            result = messageService.getProperty(angular.lowercase(interpolatedKey), scope.params);
-                        }
+              if (!result) {
+                result = dynamicLabelService.getProperty(interpolatedKey, scope.supportExternalLink);
+              } else {
+                result = messageService.getProperty(angular.lowercase(interpolatedKey), scope.params);
+              }
 
-                        if (!result && scope.fallbackValue) {
-                            result = scope.fallbackValue;
-                        }
+              if (!result && scope.fallbackValue) {
+                result = scope.fallbackValue;
+              }
 
-                        element.empty();
-                        element.append(result);
-                        $compile(element.contents())(scope);
-                    }
+              element.empty();
+              element.append(result);
+              $compile(element.contents())(scope);
+            }
 
-                    scope.$on('dynamicLabels.updated', function() {
-                        updateText(attr.key);
-                    });
+            scope.$on('dynamicLabels.updated', function() {
+              updateText(attr.key);
+            });
 
-                    // observe changes to interpolated attribute
-                    attr.$observe('key', updateText);
-                }
-            };
-        }]);
+            // observe changes to interpolated attribute
+            attr.$observe('key', updateText);
+          }
+        };
+      }]);

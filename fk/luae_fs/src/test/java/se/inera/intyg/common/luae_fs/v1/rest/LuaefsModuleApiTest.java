@@ -44,15 +44,16 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDIC
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22;
 import static se.inera.intyg.common.fkparent.rest.FkParentModuleApi.PREFIX;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -61,20 +62,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.luae_fs.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.luae_fs.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
 import se.inera.intyg.common.luae_fs.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
@@ -157,7 +152,7 @@ public class LuaefsModuleApiTest {
 
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
         when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(LuaefsEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1);
+            .thenReturn(INTYG_TYPE_VERSION_1);
 
     }
 
@@ -184,7 +179,7 @@ public class LuaefsModuleApiTest {
     public void testSendCertificateToRecipientFailsForNonOkResponse() throws Exception {
         String xmlContents = Resources.toString(Resources.getResource("v1/luae_fs-simple-valid.xml"), Charsets.UTF_8);
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
     }
 
@@ -212,7 +207,7 @@ public class LuaefsModuleApiTest {
     public void testGetCertificateWhenSOAPExceptionThowsModuleException() throws Exception {
         SOAPFaultException ex = new SOAPFaultException(SOAPFactory.newInstance().createFault());
         doThrow(ex).when(getCertificateResponderInterface).getCertificate(anyString(),
-                any());
+            any());
 
         moduleApi.getCertificate("id", LOGICAL_ADDRESS, "INVANA");
     }
@@ -220,7 +215,7 @@ public class LuaefsModuleApiTest {
     @Test
     public void testRegisterCertificate() throws IOException, ModuleException {
         final String json = Resources
-                .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
+            .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         LuaefsUtlatandeV1 utlatande = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         when(objectMapper.readValue(json, LuaefsUtlatandeV1.class)).thenReturn(utlatande);
@@ -237,7 +232,7 @@ public class LuaefsModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
-                .readValue(anyString(), eq(LuaefsUtlatandeV1.class));
+            .readValue(anyString(), eq(LuaefsUtlatandeV1.class));
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
@@ -259,7 +254,7 @@ public class LuaefsModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
-                .readValue(anyString(), eq(LuaefsUtlatandeV1.class));
+            .readValue(anyString(), eq(LuaefsUtlatandeV1.class));
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
@@ -303,7 +298,8 @@ public class LuaefsModuleApiTest {
     public void testCreateNewInternal() throws Exception {
 
         CreateNewDraftHolder createNewDraftHolder =
-                new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
+            new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(),
+                createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 
@@ -319,7 +315,7 @@ public class LuaefsModuleApiTest {
         RegisterCertificateResponseType result = createReturnVal(ResultCodeType.ERROR);
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any())).thenReturn(result);
         final String json = Resources
-                .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
+            .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
     }
@@ -330,7 +326,7 @@ public class LuaefsModuleApiTest {
     @Test
     public void testUpdateBeforeSave() throws IOException, ModuleException {
         final String json = Resources
-                .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
+            .toString(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getURL(), Charsets.UTF_8);
 
         LuaefsUtlatandeV1 utlatandeBeforeSave = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(TEST_HSA_ID, utlatandeBeforeSave.getGrundData().getSkapadAv().getPersonId());
@@ -390,8 +386,8 @@ public class LuaefsModuleApiTest {
         LuaefsUtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel();
 
         Map<String, List<String>> res = moduleApi.getModuleSpecificArendeParameters(utlatande,
-                Arrays.asList(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22, FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11,
-                        GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, AKTIVITETSBEGRANSNING_SVAR_ID_17));
+            Arrays.asList(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22, FUNKTIONSNEDSATTNING_PSYKISK_SVAR_ID_11,
+                GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, AKTIVITETSBEGRANSNING_SVAR_ID_17));
 
         assertNotNull(res);
         assertEquals(4, res.keySet().size());
@@ -399,7 +395,7 @@ public class LuaefsModuleApiTest {
         assertEquals(2, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).size());
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(0));
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1,
-                res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
+            res.get(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1).get(1));
         assertNotNull(res.get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22));
         assertEquals(1, res.get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22).size());
         assertEquals(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_JSON_ID_22, res.get(MEDICINSKAFORUTSATTNINGARFORARBETE_SVAR_ID_22).get(0));
@@ -438,16 +434,16 @@ public class LuaefsModuleApiTest {
         final String kommentar = "kommentarText";
 
         LuaefsUtlatandeV1 utlatande = LuaefsUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         doReturn(utlatande)
-                .when(webcertModelFactory)
-                .createCopy(any(), any());
+            .when(webcertModelFactory)
+            .createCopy(any(), any());
 
         String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatandeV1 utlatandeFromJson = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
@@ -464,16 +460,16 @@ public class LuaefsModuleApiTest {
         final String kommentar = "";
 
         LuaefsUtlatandeV1 utlatande = LuaefsUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         doReturn(utlatande)
-                .when(webcertModelFactory)
-                .createCopy(any(), any());
+            .when(webcertModelFactory)
+            .createCopy(any(), any());
 
         String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatandeV1 utlatandeFromJson = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
@@ -490,16 +486,16 @@ public class LuaefsModuleApiTest {
         final String kommentar = "kommentarText";
 
         LuaefsUtlatandeV1 utlatande = LuaefsUtlatandeV1
-                .builder()
-                .setId("utlatande-id")
-                .setGrundData(new GrundData())
-                .setTextVersion("textVersion")
-                .setOvrigt(ovrigt)
-                .build();
+            .builder()
+            .setId("utlatande-id")
+            .setGrundData(new GrundData())
+            .setTextVersion("textVersion")
+            .setOvrigt(ovrigt)
+            .build();
 
         doReturn(utlatande)
-                .when(webcertModelFactory)
-                .createCopy(any(), any());
+            .when(webcertModelFactory)
+            .createCopy(any(), any());
 
         String result = moduleApi.createCompletionFromTemplate(createCopyHolder(), utlatande, kommentar);
         LuaefsUtlatandeV1 utlatandeFromJson = (LuaefsUtlatandeV1) moduleApi.getUtlatandeFromJson(result);
@@ -510,7 +506,7 @@ public class LuaefsModuleApiTest {
     }
 
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
-            throws IOException, ModuleException {
+        throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
         String xmlContents = Resources.toString(Resources.getResource("v1/luae_fs-simple-valid.xml"), Charsets.UTF_8);
@@ -582,11 +578,11 @@ public class LuaefsModuleApiTest {
 
     private LuaefsUtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper()
-                .readValue(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getFile(), LuaefsUtlatandeV1.class);
+            .readValue(new ClassPathResource("v1/LuaefsModuleApiTest/valid-utkast-sample.json").getFile(), LuaefsUtlatandeV1.class);
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 }

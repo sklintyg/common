@@ -18,15 +18,15 @@
  */
 angular.module('doi').service('doi.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService',
-        function($log, CommonViewState) {
-            'use strict';
+      function($log, CommonViewState) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.reset = function() {
-                this.common.reset();
-                this.common.intygProperties.type = 'doi';
-            };
+        this.reset = function() {
+          this.common.reset();
+          this.common.intygProperties.type = 'doi';
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

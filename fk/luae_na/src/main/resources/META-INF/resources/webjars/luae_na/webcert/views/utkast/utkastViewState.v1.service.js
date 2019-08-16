@@ -18,47 +18,47 @@
  */
 angular.module('luae_na').service('luae_na.EditCertCtrl.ViewStateService.v1',
     ['$log', '$state', 'common.UtkastViewStateService', 'luae_na.Domain.IntygModel.v1',
-        'common.dynamicLabelService',
-        function($log, $state, CommonViewState, IntygModel, dynamicLabelService) {
-            'use strict';
+      'common.dynamicLabelService',
+      function($log, $state, CommonViewState, IntygModel, dynamicLabelService) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.intygModel = undefined;
-            this.draftModel = undefined;
+        this.intygModel = undefined;
+        this.draftModel = undefined;
 
-            this.setDraftModel = function(draftModel){
-                this.draftModel = draftModel;
-                this.intygModel = draftModel.content;
-            };
+        this.setDraftModel = function(draftModel) {
+          this.draftModel = draftModel;
+          this.intygModel = draftModel.content;
+        };
 
-            this.inputLimits = {
-                arbetsformagaPrognos: 600,
-                nuvarandeArbetsuppgifter: 120,
-                atgardInomSjukvarden: 66,
-                annanAtgard: 66,
-                aktivitetsbegransning: 1100,
-                funktionsnedsattning: 450,
-                sjukdomsforlopp: 270,
-                diagnosBeskrivning :220,
-                ovrigt: 360,
-                finishedBehandling: 999,
-                pagaendeBehandling: 999,
-                planeradBehandling: 999,
-                forslagTillAtgard: 999
-            };
+        this.inputLimits = {
+          arbetsformagaPrognos: 600,
+          nuvarandeArbetsuppgifter: 120,
+          atgardInomSjukvarden: 66,
+          annanAtgard: 66,
+          aktivitetsbegransning: 1100,
+          funktionsnedsattning: 450,
+          sjukdomsforlopp: 270,
+          diagnosBeskrivning: 220,
+          ovrigt: 360,
+          finishedBehandling: 999,
+          pagaendeBehandling: 999,
+          planeradBehandling: 999,
+          forslagTillAtgard: 999
+        };
 
-            this.reset = function() {
-                CommonViewState.reset();
-                CommonViewState.intyg.type = 'luae_na';
-                this.setDraftModel(IntygModel._members.build());
-                return this;
-            };
+        this.reset = function() {
+          CommonViewState.reset();
+          CommonViewState.intyg.type = 'luae_na';
+          this.setDraftModel(IntygModel._members.build());
+          return this;
+        };
 
-            this.clearModel = function(){
-                this.intygModel = undefined;
-                this.draftModel = undefined;
-            };
+        this.clearModel = function() {
+          this.intygModel = undefined;
+          this.draftModel = undefined;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

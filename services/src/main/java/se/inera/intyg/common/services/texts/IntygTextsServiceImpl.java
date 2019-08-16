@@ -46,8 +46,8 @@ public class IntygTextsServiceImpl implements IntygTextsService {
         final Integer integerVersion = Ints.tryParse(stringVersion);
 
         final String version = integerVersion != null
-                ? integerVersion.toString() + ".0"
-                : stringVersion;
+            ? integerVersion.toString() + ".0"
+            : stringVersion;
 
         return repo.isVersionSupported(intygsTyp, version);
     }

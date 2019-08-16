@@ -1,5 +1,6 @@
-<h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}" dynamic-label key="{{ config.labelKey }}" /></h4>
-<span ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">
+<h4 ng-if="config.labelKey"><span ng-attr-id="{{config.type + '-label-' + config.labelKey | uvDomIdFilter}}"
+                                  dynamic-label key="{{ config.labelKey }}" /></h4><span
+    ng-attr-id="{{config.modelProp | uvDomIdFilter}}" class="value">
   <span ng-if="hasStrictBooleanValue()">{{value | uvBoolFilter}}</span>
   <uv-no-value ng-if="!hasStrictBooleanValue()"></uv-no-value>
 </span>

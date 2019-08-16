@@ -3,9 +3,11 @@ wc-patient-status {
     display: flex;
     flex-wrap: wrap;
   }
+
   wc-alert-message .alert {
     margin: 10px 0 0 0;
     white-space: nowrap;
+
     .multiline {
       white-space: nowrap;
     }

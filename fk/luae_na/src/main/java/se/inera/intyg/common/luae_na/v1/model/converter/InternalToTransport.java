@@ -26,11 +26,12 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 public final class InternalToTransport {
+
     private InternalToTransport() {
     }
 
     public static RegisterCertificateType convert(LuaenaUtlatandeV1 source, WebcertModuleService webcertModuleService)
-            throws ConverterException {
+        throws ConverterException {
         if (source == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }

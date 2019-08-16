@@ -18,62 +18,60 @@
  */
 
 describe('uvFraga Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(module('common', function($compileProvider) {
-        // Create a mocked version of the dynamic label directive for easier and more
-        // focused unittesting of THIS directive.
-        // (That the dynamic-label directive works should be tested by that directive)
-        $compileProvider.directive('dynamicLabel', function() {
-            return {
-                priority: 100,
-                terminal: true,
-                restrict: 'A',
-                scope: {
-                    key: '@'
-                },
-                template: '<span></span>',
-                link: function($scope, $element) {
-                    $element.append('dynamicLabel-' + $scope.key);
-                }
-            };
-        });
-    }));
-
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
-
-        $scope.viewDataMock = {};
-
-        $scope.configMock = {
-            labelKey: 'FRAGA1.1.RBK',
-            components: [ {
-                type: 'uv-del-fraga',
-                labelKey: 'FRG_26.RBK'
-            } ]
-        };
-
-        element = $compile('<uv-fraga config="configMock" view-data="viewDataMock"></uv-fraga>')($scope);
-
-    } ]));
-
-    it('should display title when labelKey is configured', function() {
-        $scope.$digest();
-        expect($(element).find('> h3').text()).toBe('dynamicLabel-FRAGA1.1.RBK');
+  beforeEach(module('common', function($compileProvider) {
+    // Create a mocked version of the dynamic label directive for easier and more
+    // focused unittesting of THIS directive.
+    // (That the dynamic-label directive works should be tested by that directive)
+    $compileProvider.directive('dynamicLabel', function() {
+      return {
+        priority: 100,
+        terminal: true,
+        restrict: 'A',
+        scope: {
+          key: '@'
+        },
+        template: '<span></span>',
+        link: function($scope, $element) {
+          $element.append('dynamicLabel-' + $scope.key);
+        }
+      };
     });
+  }));
 
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-    it('should render child components', function() {
-        $scope.$digest();
-        expect($(element).find('uv-del-fraga').length).toBe(1);
-        expect($(element).find('uv-del-fraga > div > div > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
-    });
+    $scope.viewDataMock = {};
 
+    $scope.configMock = {
+      labelKey: 'FRAGA1.1.RBK',
+      components: [{
+        type: 'uv-del-fraga',
+        labelKey: 'FRG_26.RBK'
+      }]
+    };
+
+    element = $compile('<uv-fraga config="configMock" view-data="viewDataMock"></uv-fraga>')($scope);
+
+  }]));
+
+  it('should display title when labelKey is configured', function() {
+    $scope.$digest();
+    expect($(element).find('> h3').text()).toBe('dynamicLabel-FRAGA1.1.RBK');
+  });
+
+  it('should render child components', function() {
+    $scope.$digest();
+    expect($(element).find('uv-del-fraga').length).toBe(1);
+    expect($(element).find('uv-del-fraga > div > div > h4').text()).toBe('dynamicLabel-FRG_26.RBK');
+  });
 
 });

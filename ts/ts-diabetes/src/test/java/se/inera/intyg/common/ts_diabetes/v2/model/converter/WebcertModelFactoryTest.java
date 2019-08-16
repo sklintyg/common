@@ -25,12 +25,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,10 +39,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -60,6 +56,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class WebcertModelFactoryTest {
+
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
     private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
 
@@ -72,7 +69,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_1);
+            .thenReturn(INTYG_TYPE_VERSION_1_1);
     }
 
 

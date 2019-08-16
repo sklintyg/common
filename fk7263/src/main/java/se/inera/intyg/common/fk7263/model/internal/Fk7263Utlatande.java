@@ -23,7 +23,6 @@ import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.DEFAULT_LOCK
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
@@ -457,17 +456,17 @@ public class Fk7263Utlatande implements Utlatande {
 
     public String getForskrivarkodOchArbetsplatskod() {
         return Strings.emptyToNull(Joiner.on(" - ").skipNulls()
-                .join(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
-                .trim());
+            .join(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
+            .trim());
     }
 
     public String getNamnfortydligandeOchAdress() {
         return join("\n", getGrundData().getSkapadAv().getFullstandigtNamn(),
-                getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn(),
-                getGrundData().getSkapadAv().getVardenhet().getPostadress(),
-                join(" ", getGrundData().getSkapadAv().getVardenhet().getPostnummer(),
-                        getGrundData().getSkapadAv().getVardenhet().getPostort()),
-                getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
+            getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn(),
+            getGrundData().getSkapadAv().getVardenhet().getPostadress(),
+            join(" ", getGrundData().getSkapadAv().getVardenhet().getPostnummer(),
+                getGrundData().getSkapadAv().getVardenhet().getPostort()),
+            getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
     }
 
     public LocalDateInterval getGiltighet() {
@@ -483,7 +482,7 @@ public class Fk7263Utlatande implements Utlatande {
     }
 
     public void setArbetsformagaPrognosGarInteAttBedomaBeskrivning(
-            String arbetsformagaPrognosGarInteAttBedomaBeskrivning) {
+        String arbetsformagaPrognosGarInteAttBedomaBeskrivning) {
         this.arbetsformagaPrognosGarInteAttBedomaBeskrivning = arbetsformagaPrognosGarInteAttBedomaBeskrivning;
     }
 

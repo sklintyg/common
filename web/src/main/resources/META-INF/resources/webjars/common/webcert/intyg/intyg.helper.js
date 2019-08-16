@@ -17,91 +17,91 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygHelper',
-    [ '$log', '$state', 'common.ObjectHelper',
-        function($log, $state, ObjectHelper) {
-            'use strict';
+    ['$log', '$state', 'common.ObjectHelper',
+      function($log, $state, ObjectHelper) {
+        'use strict';
 
-            function _goToDraft(type, intygTypeVersion, intygId, extraStateParams) {
-                if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
-                    $log.error('goToDraft: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
-                            ' intygId=' + intygId);
-                    return;
-                }
+        function _goToDraft(type, intygTypeVersion, intygId, extraStateParams) {
+          if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
+            $log.error('goToDraft: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
+                ' intygId=' + intygId);
+            return;
+          }
 
-                var stateParams = {
-                    certificateId: intygId,
-                    intygTypeVersion: intygTypeVersion
-                };
+          var stateParams = {
+            certificateId: intygId,
+            intygTypeVersion: intygTypeVersion
+          };
 
-                if (angular.isDefined(extraStateParams)) {
-                    stateParams = angular.extend(stateParams, extraStateParams);
-                }
+          if (angular.isDefined(extraStateParams)) {
+            stateParams = angular.extend(stateParams, extraStateParams);
+          }
 
-                $state.go(type + '.utkast', stateParams);
+          $state.go(type + '.utkast', stateParams);
+        }
+
+        function _goToIntyg(type, intygTypeVersion, intygId) {
+          if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
+            $log.error('goToIntyg: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
+                ' intygId=' + intygId);
+            return;
+          }
+
+          $state.go('webcert.intyg.' + type, {
+            certificateId: intygId,
+            intygTypeVersion: intygTypeVersion
+          });
+        }
+
+        function _isSentToTarget(statusArr, target) {
+          if (statusArr) {
+            for (var i = 0; i < statusArr.length; i++) {
+              if (statusArr[i].target === target && statusArr[i].type === 'SENT') {
+                return true;
+              }
             }
+          }
+          return false;
+        }
 
-            function _goToIntyg(type, intygTypeVersion, intygId) {
-                if (ObjectHelper.isEmpty(type) || ObjectHelper.isEmpty(intygTypeVersion) || ObjectHelper.isEmpty(intygId)) {
-                    $log.error('goToIntyg: Mandatory parameter missing, got type=' + type + ', intygTypeVersion=' + intygTypeVersion +
-                            ' intygId=' + intygId);
-                    return;
-                }
-
-                $state.go('webcert.intyg.' + type, {
-                    certificateId: intygId,
-                    intygTypeVersion: intygTypeVersion
-                });
+        function _sentToTargetTimestamp(statusArr, target) {
+          if (statusArr) {
+            for (var i = 0; i < statusArr.length; i++) {
+              if (statusArr[i].target === target && statusArr[i].type === 'SENT') {
+                return statusArr[i].timestamp;
+              }
             }
+          }
+        }
 
-            function _isSentToTarget(statusArr, target) {
-                if (statusArr) {
-                    for (var i = 0; i < statusArr.length; i++) {
-                        if (statusArr[i].target === target && statusArr[i].type === 'SENT') {
-                            return true;
-                        }
-                    }
-                }
-                return false;
+        function _isRevoked(statusArr) {
+          if (statusArr) {
+            for (var i = 0; i < statusArr.length; i++) {
+              if (statusArr[i].type === 'CANCELLED') {
+                return true;
+              }
             }
+          }
+          return false;
+        }
 
-            function _sentToTargetTimestamp(statusArr, target) {
-                if (statusArr) {
-                    for (var i = 0; i < statusArr.length; i++) {
-                        if (statusArr[i].target === target && statusArr[i].type === 'SENT') {
-                            return statusArr[i].timestamp;
-                        }
-                    }
-                }
+        function _revokedTimestamp(statusArr) {
+          if (statusArr) {
+            for (var i = 0; i < statusArr.length; i++) {
+              if (statusArr[i].type === 'CANCELLED') {
+                return statusArr[i].timestamp;
+              }
             }
+          }
+        }
 
-            function _isRevoked(statusArr) {
-                if (statusArr) {
-                    for (var i = 0; i < statusArr.length; i++) {
-                        if (statusArr[i].type === 'CANCELLED') {
-                            return true;
-                        }
-                    }
-                }
-                return false;
-            }
-
-            function _revokedTimestamp(statusArr) {
-                if (statusArr) {
-                    for (var i = 0; i < statusArr.length; i++) {
-                        if (statusArr[i].type === 'CANCELLED') {
-                            return statusArr[i].timestamp;
-                        }
-                    }
-                }
-            }
-
-            // Return public API for the service
-            return {
-                goToDraft: _goToDraft,
-                goToIntyg: _goToIntyg,
-                isRevoked: _isRevoked,
-                revokedTimestamp: _revokedTimestamp,
-                isSentToTarget: _isSentToTarget,
-                sentToTargetTimestamp: _sentToTargetTimestamp
-            };
-        }]);
+        // Return public API for the service
+        return {
+          goToDraft: _goToDraft,
+          goToIntyg: _goToIntyg,
+          isRevoked: _isRevoked,
+          revokedTimestamp: _revokedTimestamp,
+          isSentToTarget: _isSentToTarget,
+          sentToTargetTimestamp: _sentToTargetTimestamp
+        };
+      }]);

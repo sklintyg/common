@@ -17,83 +17,81 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('af00213').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    var commonPath = '/web/webjars/common/webcert/';
+  var commonPath = '/web/webjars/common/webcert/';
 
-    var editViewState = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('af00213.EditCertCtrl.ViewStateService', $stateParams);
-    };
+  var editViewState = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('af00213.EditCertCtrl.ViewStateService', $stateParams);
+  };
 
-    var utkastConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
-    };
+  var utkastConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('af00213.UtkastConfigFactory', $stateParams);
+  };
 
-    var viewConfig = function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
-    };
+  var viewConfig = function(factoryResolverHelper, $stateParams) {
+    return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
+  };
 
-    $stateProvider.
-        state('af00213', {
-            url: '/af00213'
-        }).
-        state('af00213.utkast', {
-            data: { defaultActive : 'index', intygType: 'af00213', useFmb: false },
-            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                ViewState: editViewState,
-                UtkastConfigFactory: utkastConfig,
-                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
-            },
-            views : {
-                'content@' : {
-                    templateUrl: commonPath + 'utkast/smiUtkast.html',
-                    controller: 'smi.EditCertCtrl'
-                },
+  $stateProvider.state('af00213', {
+    url: '/af00213'
+  }).state('af00213.utkast', {
+    data: {defaultActive: 'index', intygType: 'af00213', useFmb: false},
+    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: editViewState,
+      UtkastConfigFactory: utkastConfig,
+      supportPanelConfigFactory: 'af00213.supportPanelConfigFactory'
+    },
+    views: {
+      'content@': {
+        templateUrl: commonPath + 'utkast/smiUtkast.html',
+        controller: 'smi.EditCertCtrl'
+      },
 
-                'header@' : {
-                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-                },
+      'header@': {
+        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+      },
 
-                'header@af00213.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                    controller: 'common.UtkastHeader'
-                },
+      'header@af00213.utkast': {
+        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+        controller: 'common.UtkastHeader'
+      },
 
-                'footer@af00213.utkast' : {
-                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-                    controller: 'common.UtkastFooter'
-                },
+      'footer@af00213.utkast': {
+        templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+        controller: 'common.UtkastFooter'
+      },
 
-                'utkast@af00213.utkast' : {
-                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-                    controller: 'smi.EditCert.UECtrl'
-                 }
-            }
-        }).state('webcert.intyg.af00213', {
-            data: { defaultActive : 'index', intygType: 'af00213' },
-            url:'/intyg/af00213/:intygTypeVersion/:certificateId/:focusOn?:signed',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                ViewState: 'af00213.IntygController.ViewStateService',
-                ViewConfigFactory: viewConfig,
-                supportPanelConfigFactory: 'af00213.supportPanelConfigFactory',
-                IntygViewState: 'af00213.IntygController.ViewStateService'
-            },
-            views: {
-                'intyg@webcert.intyg' : {
-                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                    controller: 'smi.ViewCertCtrlUv'
-                },
-                'header@webcert.intyg.af00213' : {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        });
+      'utkast@af00213.utkast': {
+        templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+        controller: 'smi.EditCert.UECtrl'
+      }
+    }
+  }).state('webcert.intyg.af00213', {
+    data: {defaultActive: 'index', intygType: 'af00213'},
+    url: '/intyg/af00213/:intygTypeVersion/:certificateId/:focusOn?:signed',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: 'af00213.IntygController.ViewStateService',
+      ViewConfigFactory: viewConfig,
+      supportPanelConfigFactory: 'af00213.supportPanelConfigFactory',
+      IntygViewState: 'af00213.IntygController.ViewStateService'
+    },
+    views: {
+      'intyg@webcert.intyg': {
+        templateUrl: commonPath + 'intyg/smiIntygUv.html',
+        controller: 'smi.ViewCertCtrlUv'
+      },
+      'header@webcert.intyg.af00213': {
+        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+        controller: 'common.IntygHeader'
+      }
+    }
+  });
 });

@@ -18,18 +18,17 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
+import javax.annotation.Nullable;
 
 @AutoValue
 public abstract class Tillaggsfraga {
 
     @JsonCreator
     public static Tillaggsfraga create(@JsonProperty("id") String id,
-            @JsonProperty("svar") String svar) {
+        @JsonProperty("svar") String svar) {
         return new AutoValue_Tillaggsfraga(id, svar);
     }
 

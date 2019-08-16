@@ -2,14 +2,17 @@
   <div ng-repeat="validation in validations">
     <div class="validation-error ng-animate-disabled" data-validation-section="{{getSection(validation)}}">
       <span ng-if="!validation.message" dynamic-label key="common.validation.{{fieldType}}.{{validation.type}}"></span>
-      <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}" stat-key="{{validation.message}}"></span>
+      <span ng-if="validation.message" combined-label="" dyn-key="{{validation.dynamicKey}}"
+            stat-key="{{validation.message}}"></span>
     </div>
   </div>
 
   <div ng-repeat="warning in warnings">
     <div class="validation-warning ng-animate-disabled">
-      <span ng-if="!warning.message" dynamic-label key="common.validation.{{fieldType}}.{{warning.type}}" fallback-value="missing: common.validation.{{fieldType}}.{{warning.type}}"></span>
-      <span ng-if="warning.message" combined-label="" dyn-key="{{warning.dynamicKey}}" stat-key="{{warning.message}}"></span>
+      <span ng-if="!warning.message" dynamic-label key="common.validation.{{fieldType}}.{{warning.type}}"
+            fallback-value="missing: common.validation.{{fieldType}}.{{warning.type}}"></span>
+      <span ng-if="warning.message" combined-label="" dyn-key="{{warning.dynamicKey}}"
+            stat-key="{{warning.message}}"></span>
     </div>
   </div>
 </div>

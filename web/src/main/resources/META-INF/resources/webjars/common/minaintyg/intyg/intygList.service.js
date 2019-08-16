@@ -17,90 +17,90 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygListService', ['$rootScope', '$http', '$log',
-    function($rootScope, $http, $log) {
-        'use strict';
+  function($rootScope, $http, $log) {
+    'use strict';
 
-        // cached certificates response
-        var cachedArchiveList = null;
+    // cached certificates response
+    var cachedArchiveList = null;
 
-        var _selectedCertificate = null;
+    var _selectedCertificate = null;
 
-        function _emptyCache() {
-            $log.debug('Clearing archived cache');
-            cachedArchiveList = null;
-        }
+    function _emptyCache() {
+      $log.debug('Clearing archived cache');
+      cachedArchiveList = null;
+    }
 
-        function _getCertificates(callback) {
-            $http.get('/api/certificates').then(function(response) {
-                callback(response.data);
-            }, function(response) {
-                $log.error('error ' + response.status);
-                //give calling code a chance to handle error
-                callback(null);
-            });
-        }
+    function _getCertificates(callback) {
+      $http.get('/api/certificates').then(function(response) {
+        callback(response.data);
+      }, function(response) {
+        $log.error('error ' + response.status);
+        //give calling code a chance to handle error
+        callback(null);
+      });
+    }
 
-        function _getArchivedCertificates(callback) {
-            if (cachedArchiveList !== null) {
-                $log.debug('returning cached archive response');
-                callback(cachedArchiveList);
-                return;
-            }
-            $http.get('/api/certificates/archived').then(function(response) {
-                $log.debug('populating archive cache');
-                cachedArchiveList = response.data;
-                callback(cachedArchiveList);
-            }, function(response) {
-                $log.error('error ' + response.status);
-                //give calling code a chance to handle error
-                callback(null);
-            });
-        }
+    function _getArchivedCertificates(callback) {
+      if (cachedArchiveList !== null) {
+        $log.debug('returning cached archive response');
+        callback(cachedArchiveList);
+        return;
+      }
+      $http.get('/api/certificates/archived').then(function(response) {
+        $log.debug('populating archive cache');
+        cachedArchiveList = response.data;
+        callback(cachedArchiveList);
+      }, function(response) {
+        $log.error('error ' + response.status);
+        //give calling code a chance to handle error
+        callback(null);
+      });
+    }
 
-        function _archiveCertificate(item, callback) {
-            $log.debug('Archiving ' + item.id);
+    function _archiveCertificate(item, callback) {
+      $log.debug('Archiving ' + item.id);
 
-            $http.put('/api/certificates/' + item.id + '/archive').then(function(response) {
-                _emptyCache();
-                callback(response.data, item);
-            }, function(response) {
-                $log.error('error ' + response.status);
-                //give calling code a chance to handle error
-                callback(null);
-            });
-        }
+      $http.put('/api/certificates/' + item.id + '/archive').then(function(response) {
+        _emptyCache();
+        callback(response.data, item);
+      }, function(response) {
+        $log.error('error ' + response.status);
+        //give calling code a chance to handle error
+        callback(null);
+      });
+    }
 
-        function _restoreCertificate(item, callback) {
-            $log.debug('restoring ' + item.id);
-            $http.put('/api/certificates/' + item.id + '/restore').then(function(response) {
-                _emptyCache();
-                callback(response.data, item);
-            }, function(response) {
-                $log.error('error ' + response.status);
-                //give calling code a chance to handle error
-                callback(null);
-            });
-        }
+    function _restoreCertificate(item, callback) {
+      $log.debug('restoring ' + item.id);
+      $http.put('/api/certificates/' + item.id + '/restore').then(function(response) {
+        _emptyCache();
+        callback(response.data, item);
+      }, function(response) {
+        $log.error('error ' + response.status);
+        //give calling code a chance to handle error
+        callback(null);
+      });
+    }
 
-        function _getKnownRecipients(callback) {
-            $log.debug('getting all available recipients');
-            $http.get('/api/certificates/recipients/list').then(function(response) {
-                $rootScope.$broadcast('recipients.updated');
-                callback(response.data);
-            }, function(response) {
-                $log.error('error ' + response.status);
-                callback(null);
-            });
-        }
+    function _getKnownRecipients(callback) {
+      $log.debug('getting all available recipients');
+      $http.get('/api/certificates/recipients/list').then(function(response) {
+        $rootScope.$broadcast('recipients.updated');
+        callback(response.data);
+      }, function(response) {
+        $log.error('error ' + response.status);
+        callback(null);
+      });
+    }
 
-        // Return public API for our service
-        return {
-            getCertificates: _getCertificates,
-            getArchivedCertificates: _getArchivedCertificates,
-            archiveCertificate: _archiveCertificate,
-            restoreCertificate: _restoreCertificate,
-            selectedCertificate: _selectedCertificate,
-            emptyCache: _emptyCache,
-            getKnownRecipients: _getKnownRecipients
-        };
-    }]);
+    // Return public API for our service
+    return {
+      getCertificates: _getCertificates,
+      getArchivedCertificates: _getArchivedCertificates,
+      archiveCertificate: _archiveCertificate,
+      restoreCertificate: _restoreCertificate,
+      selectedCertificate: _selectedCertificate,
+      emptyCache: _emptyCache,
+      getKnownRecipients: _getKnownRecipients
+    };
+  }]);

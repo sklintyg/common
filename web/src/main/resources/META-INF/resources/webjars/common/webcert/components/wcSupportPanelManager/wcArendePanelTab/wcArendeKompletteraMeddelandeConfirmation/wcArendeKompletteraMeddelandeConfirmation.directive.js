@@ -18,33 +18,33 @@
  */
 
 angular.module('common').directive('wcArendeKompletteraMeddelandeConfirmation',
-    [ '$timeout',
-        function($timeout) {
-            'use strict';
+    ['$timeout',
+      function($timeout) {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.directive.html', // jshint ignore:line
-                scope: {
-                    arendeList: '='
-                },
-                controller: function($scope, $element, $attrs) {
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.directive.html', // jshint ignore:line
+          scope: {
+            arendeList: '='
+          },
+          controller: function($scope, $element, $attrs) {
 
-                    $scope.showKompletteringBesvaradesMedMeddelande = false;
+            $scope.showKompletteringBesvaradesMedMeddelande = false;
 
-                    $scope.$on('arenden.updated', update);
-                    update();
+            $scope.$on('arenden.updated', update);
+            update();
 
-                    function update() {
-                        $timeout(function() {
-                            angular.forEach($scope.arendeList, function(arendeListItem) {
-                                if (arendeListItem.isKomplettering() && arendeListItem.arende.svar.meddelande) {
-                                    $scope.showKompletteringBesvaradesMedMeddelande = true;
-                                }
-                            });
-                        });
-                    }
+            function update() {
+              $timeout(function() {
+                angular.forEach($scope.arendeList, function(arendeListItem) {
+                  if (arendeListItem.isKomplettering() && arendeListItem.arende.svar.meddelande) {
+                    $scope.showKompletteringBesvaradesMedMeddelande = true;
+                  }
+                });
+              });
+            }
 
-                }
-            };
-        }]);
+          }
+        };
+      }]);

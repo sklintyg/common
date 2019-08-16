@@ -25,17 +25,15 @@ import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetai
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
+import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.doi.v1.model.converter.InternalToTransport;
 import se.inera.intyg.common.doi.v1.model.converter.TransportToInternal;
 import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
 import se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator;
-import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.sos_parent.pdf.SoSPdfGeneratorException;
 import se.inera.intyg.common.sos_parent.rest.SosParentModuleApi;
@@ -44,12 +42,13 @@ import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
-import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder;
+import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
@@ -88,7 +87,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             if (ApplicationOrigin.WEBCERT != applicationOrigin) {
                 throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
@@ -97,7 +96,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
             IntygTexts texts = getTexts(DoiModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
             DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(),
-                    pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
+                pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for " + DoiModuleEntryPoint.MODULE_ID + " certificate!", e);
@@ -106,7 +105,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsorsaksintyg.");
     }
 

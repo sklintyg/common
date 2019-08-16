@@ -1,1 +1,144 @@
-{"id":"6c6b817a-6a12-4337-ab7a-e574881822ee","grundData":{"skapadAv":{"personId":"TSTNMT2321000156-1079","fullstandigtNamn":"Arnold Johansson","forskrivarKod":"0000000","befattningar":[],"specialiteter":[],"vardenhet":{"enhetsid":"TSTNMT2321000156-1077","enhetsnamn":"NMT vg3 ve1","postadress":"NMT gata 3","postnummer":"12345","postort":"Testhult","telefonnummer":"0101112131416","epost":"enhet3@webcert.invalid.se","vardgivare":{"vardgivarid":"TSTNMT2321000156-102Q","vardgivarnamn":"NMT vg3"},"arbetsplatsKod":"1234567890"}},"patient":{"personId":"191212121212","fullstandigtNamn":"Tolvan Tolvansson","fornamn":"Tolvan","efternamn":"Tolvansson","postadress":"Svensson, Storgatan 1, PL 1234","postnummer":"12345","postort":"Småmåla","sekretessmarkering":false,"avliden":false,"samordningsNummer":false}},"textVersion":"6.8","vardkontakt":{},"intygAvser":{"korkortstyp":[{"type":"C1","selected":false},{"type":"C1E","selected":false},{"type":"C","selected":false},{"type":"CE","selected":false},{"type":"D1","selected":false},{"type":"D1E","selected":false},{"type":"D","selected":false},{"type":"DE","selected":false},{"type":"TAXI","selected":false},{"type":"ANNAT","selected":false}]},"syn":{},"horselBalans":{},"funktionsnedsattning":{},"hjartKarl":{},"diabetes":{},"neurologi":{},"medvetandestorning":{},"njurar":{},"kognitivt":{},"somnVakenhet":{},"narkotikaLakemedel":{},"psykiskt":{},"utvecklingsstorning":{},"sjukhusvard":{},"medicinering":{},"bedomning":{"korkortstyp":[{"type":"C1","selected":false},{"type":"C1E","selected":false},{"type":"C","selected":false},{"type":"CE","selected":false},{"type":"D1","selected":false},{"type":"D1E","selected":false},{"type":"D","selected":false},{"type":"DE","selected":false},{"type":"TAXI","selected":false},{"type":"ANNAT","selected":false}]},"typ":"ts-bas"}
+{
+  "id": "6c6b817a-6a12-4337-ab7a-e574881822ee",
+  "grundData": {
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
+      }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "postadress": "Svensson, Storgatan 1, PL 1234",
+      "postnummer": "12345",
+      "postort": "Småmåla",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    }
+  },
+  "textVersion": "6.8",
+  "vardkontakt": {},
+  "intygAvser": {
+    "korkortstyp": [
+      {
+        "type": "C1",
+        "selected": false
+      },
+      {
+        "type": "C1E",
+        "selected": false
+      },
+      {
+        "type": "C",
+        "selected": false
+      },
+      {
+        "type": "CE",
+        "selected": false
+      },
+      {
+        "type": "D1",
+        "selected": false
+      },
+      {
+        "type": "D1E",
+        "selected": false
+      },
+      {
+        "type": "D",
+        "selected": false
+      },
+      {
+        "type": "DE",
+        "selected": false
+      },
+      {
+        "type": "TAXI",
+        "selected": false
+      },
+      {
+        "type": "ANNAT",
+        "selected": false
+      }
+    ]
+  },
+  "syn": {},
+  "horselBalans": {},
+  "funktionsnedsattning": {},
+  "hjartKarl": {},
+  "diabetes": {},
+  "neurologi": {},
+  "medvetandestorning": {},
+  "njurar": {},
+  "kognitivt": {},
+  "somnVakenhet": {},
+  "narkotikaLakemedel": {},
+  "psykiskt": {},
+  "utvecklingsstorning": {},
+  "sjukhusvard": {},
+  "medicinering": {},
+  "bedomning": {
+    "korkortstyp": [
+      {
+        "type": "C1",
+        "selected": false
+      },
+      {
+        "type": "C1E",
+        "selected": false
+      },
+      {
+        "type": "C",
+        "selected": false
+      },
+      {
+        "type": "CE",
+        "selected": false
+      },
+      {
+        "type": "D1",
+        "selected": false
+      },
+      {
+        "type": "D1E",
+        "selected": false
+      },
+      {
+        "type": "D",
+        "selected": false
+      },
+      {
+        "type": "DE",
+        "selected": false
+      },
+      {
+        "type": "TAXI",
+        "selected": false
+      },
+      {
+        "type": "ANNAT",
+        "selected": false
+      }
+    ]
+  },
+  "typ": "ts-bas"
+}

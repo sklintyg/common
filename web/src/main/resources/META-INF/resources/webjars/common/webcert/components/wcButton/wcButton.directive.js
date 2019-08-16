@@ -20,20 +20,20 @@
  * Show an alert box
  */
 angular.module('common').directive('wcButton',
-        function() {
-            'use strict';
+    function() {
+      'use strict';
 
-            return {
-                restrict: 'E',
-                transclude: true,
-                scope: {
-                    'btnId': '@',
-                    'btnTooltip' : '@',
-                    'btnClass' : '@',
-                    'loading': '<',
-                    'btnDisabled': '<',
-                    'btnClick': '&'
-                },
-                templateUrl: '/web/webjars/common/webcert/components/wcButton/wcButton.directive.html'
-            };
-        });
+      return {
+        restrict: 'E',
+        transclude: true,
+        scope: {
+          'btnId': '@',
+          'btnTooltip': '@',
+          'btnClass': '@',
+          'loading': '<',
+          'btnDisabled': '<',
+          'btnClick': '&'
+        },
+        templateUrl: '/web/webjars/common/webcert/components/wcButton/wcButton.directive.html'
+      };
+    });

@@ -25,29 +25,28 @@
  */
 angular.module('common').directive('arendePanelHeader',
     [function() {
-            'use strict';
+      'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.html',
-                scope: {
-                    headerType: '@',
-                    showHantera: '=',
-                    arendeListItem: '=',
-                    parentViewState: '='
-                },
-                link: function($scope) {
-                    if ($scope.headerType === 'fraga') {
-                        $scope.headerData = $scope.arendeListItem.arende.fraga;
-                    }
-                    else if ($scope.headerType === 'svar') {
-                        $scope.headerData = $scope.arendeListItem.arende.svar;
+      return {
+        restrict: 'E',
+        templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.html',
+        scope: {
+          headerType: '@',
+          showHantera: '=',
+          arendeListItem: '=',
+          parentViewState: '='
+        },
+        link: function($scope) {
+          if ($scope.headerType === 'fraga') {
+            $scope.headerData = $scope.arendeListItem.arende.fraga;
+          } else if ($scope.headerType === 'svar') {
+            $scope.headerData = $scope.arendeListItem.arende.svar;
 
-                        if($scope.arendeListItem.arende.answeredWithIntyg){
-                            $scope.headerData.vardaktorNamn = $scope.arendeListItem.arende.answeredWithIntyg.namnetPaSkapareAvIntyg;
-                            $scope.headerData.frageStallare = 'WC';
-                        }
-                    }
-                }
-            };
-        }]);
+            if ($scope.arendeListItem.arende.answeredWithIntyg) {
+              $scope.headerData.vardaktorNamn = $scope.arendeListItem.arende.answeredWithIntyg.namnetPaSkapareAvIntyg;
+              $scope.headerData.frageStallare = 'WC';
+            }
+          }
+        }
+      };
+    }]);

@@ -1,25 +1,19 @@
 <div id="utkast-footer" class="utkast-footer" ng-mousedown="initValidationSequence()">
 
   <!-- Läkare: Signera -->
-  <wc-utkast-footer-sign
-      ng-if="editEnabled"
-      wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}"
-      view-state="viewState"
-      cert-form="certForm"></wc-utkast-footer-sign>
+  <wc-utkast-footer-sign ng-if="editEnabled" wc-authority="SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}"
+                         view-state="viewState" cert-form="certForm"></wc-utkast-footer-sign>
 
   <!-- Vårdadmin -->
-  <div ng-if="editEnabled" class="vardadmin-footer" wc-authority="!SIGNERA_INTYG" intygstyp="{{::viewState.common.intyg.type}}">
+  <div ng-if="editEnabled" class="vardadmin-footer" wc-authority="!SIGNERA_INTYG"
+       intygstyp="{{::viewState.common.intyg.type}}">
     <!-- Vårdadmin kan notifiera via statusuppdatering för SMI-intyg -->
-    <wc-utkast-footer-notify
-        wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
-        view-state="viewState"
-        cert-form="certForm"></wc-utkast-footer-notify>
+    <wc-utkast-footer-notify wc-authority="NOTIFIERING_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+                             view-state="viewState" cert-form="certForm"></wc-utkast-footer-notify>
 
     <!-- Notifiera läkare genom att vidarebefordra -->
-    <wc-utkast-footer-vidarebefordra
-        wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
-        view-state="viewState"
-        cert-form="certForm"></wc-utkast-footer-vidarebefordra>
+    <wc-utkast-footer-vidarebefordra wc-authority="VIDAREBEFORDRA_UTKAST" intygstyp="{{::viewState.common.intyg.type}}"
+                                     view-state="viewState" cert-form="certForm"></wc-utkast-footer-vidarebefordra>
   </div>
 
   <div class="intygs-id">

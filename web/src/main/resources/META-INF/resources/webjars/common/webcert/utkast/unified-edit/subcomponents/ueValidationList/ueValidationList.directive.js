@@ -18,28 +18,28 @@
  */
 angular.module('common').directive('ueValidationList',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.html',
-                scope: {
-                    validations: '=',
-                    warnings: '=',
-                    fieldType: '@'
-                },
-                link: function(scope) {
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.html',
+          scope: {
+            validations: '=',
+            warnings: '=',
+            fieldType: '@'
+          },
+          link: function(scope) {
 
-                    // This is used to create keys for lookup
-                    scope.getSection = function(message) {
-                        var section = message.field.toLowerCase();
-                        var i = message.field.indexOf('.');
-                        if (i >= 0) {
-                            section = message.field.substring(0, i).toLowerCase();
-                        }
-                        return section;
-                    };
-                }
+            // This is used to create keys for lookup
+            scope.getSection = function(message) {
+              var section = message.field.toLowerCase();
+              var i = message.field.indexOf('.');
+              if (i >= 0) {
+                section = message.field.substring(0, i).toLowerCase();
+              }
+              return section;
             };
-        }]);
+          }
+        };
+      }]);

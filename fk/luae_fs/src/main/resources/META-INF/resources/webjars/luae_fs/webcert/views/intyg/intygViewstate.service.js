@@ -18,25 +18,25 @@
  */
 angular.module('luae_fs').service('luae_fs.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService', 'common.messageService',
-        function($log, CommonViewState, messageService) {
-            'use strict';
+      function($log, CommonViewState, messageService) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.reset = function() {
-                this.common.reset();
-                this.common.intygProperties.type = 'luae_fs';
-            };
+        this.reset = function() {
+          this.common.reset();
+          this.common.intygProperties.type = 'luae_fs';
+        };
 
-            this.getSendContent = function(intygType) {
+        this.getSendContent = function(intygType) {
 
-                var sendContentModel = {
-                    observandumId: undefined,
-                    bodyText: messageService.getProperty(intygType + '.label.send.body')
-                };
+          var sendContentModel = {
+            observandumId: undefined,
+            bodyText: messageService.getProperty(intygType + '.label.send.body')
+          };
 
-                return sendContentModel;
-            };
+          return sendContentModel;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

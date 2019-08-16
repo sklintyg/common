@@ -17,50 +17,50 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.moduleService', ['common.dynamicLinkService', function(dynamicLinkService) {
-    'use strict';
+  'use strict';
 
-    var _moduleArray = null;
+  var _moduleArray = null;
 
-    function _findModuleById(moduleId) {
-        var filterArray = [];
-        if (Array.isArray(_moduleArray)) {
-            filterArray = _moduleArray.filter(function(module) {
-                return module.id === moduleId;
-            });
+  function _findModuleById(moduleId) {
+    var filterArray = [];
+    if (Array.isArray(_moduleArray)) {
+      filterArray = _moduleArray.filter(function(module) {
+        return module.id === moduleId;
+      });
+    }
+
+    // The filter() method creates a new array with all elements
+    // that pass the test implemented by the provided function.
+    // If there were an element that passed the test, the filterArray
+    // only have one item since _moduleArray only keep unique entries.
+    return filterArray.length > 0 ? filterArray[0] : null;
+  }
+
+  function _getModuleName(moduleId) {
+    var module = _findModuleById(moduleId);
+    return !module ? '' : module.label;
+  }
+
+  function _setModules(modules) {
+    _moduleArray = modules;
+    if (_moduleArray) {
+      _moduleArray.forEach(function(intygModule) {
+        if (intygModule.detailedDescription) {
+          intygModule.detailedDescription = dynamicLinkService.processLinkTags(intygModule.detailedDescription);
         }
-
-        // The filter() method creates a new array with all elements
-        // that pass the test implemented by the provided function.
-        // If there were an element that passed the test, the filterArray
-        // only have one item since _moduleArray only keep unique entries.
-        return filterArray.length > 0 ? filterArray[0] : null;
+      });
     }
+  }
 
-    function _getModuleName(moduleId) {
-        var module = _findModuleById(moduleId);
-        return !module ? '' : module.label;
-    }
+  function _getModules(modules) {
+    return _moduleArray;
+  }
 
-    function _setModules(modules) {
-        _moduleArray = modules;
-        if(_moduleArray){
-            _moduleArray.forEach(function(intygModule) {
-                if(intygModule.detailedDescription){
-                    intygModule.detailedDescription = dynamicLinkService.processLinkTags(intygModule.detailedDescription);
-                }
-            });
-        }
-    }
-
-    function _getModules(modules) {
-        return _moduleArray;
-    }
-
-    return {
-        getModule: _findModuleById,
-        getModuleName: _getModuleName,
-        setModules: _setModules,
-        getModules: _getModules
-    };
+  return {
+    getModule: _findModuleById,
+    getModuleName: _getModuleName,
+    setModules: _setModules,
+    getModules: _getModules
+  };
 }]);
 

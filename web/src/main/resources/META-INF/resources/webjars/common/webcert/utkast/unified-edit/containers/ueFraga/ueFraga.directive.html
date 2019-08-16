@@ -10,12 +10,9 @@
     <div ng-repeat="cvk in validationKeys">
       <!-- show error for: {{cvk}} -->
 
-      <ue-validation-list
-          class="ng-animate-disabled"
-          field-type="{{cvk.type}}"
-          warnings="validation.warningMessagesByField[cvk.key]"
-          validations="validation.messagesByField[cvk.key]">
-      </ue-validation-list>
+      <ue-validation-list class="ng-animate-disabled" field-type="{{cvk.type}}"
+                          warnings="validation.warningMessagesByField[cvk.key]"
+                          validations="validation.messagesByField[cvk.key]"></ue-validation-list>
     </div>
   </div>
 </wc-fraga-komplettering>

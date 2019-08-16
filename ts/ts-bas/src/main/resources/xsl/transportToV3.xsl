@@ -597,10 +597,10 @@
     <xsl:variable name="parentName" select="name(parent::node())"/>
     <xsl:variable name="mappingNode">
       <xsl:if test="contains($parentName, 'intygAvser')">
-        <xsl:copy-of select="$intygAvser" />
+        <xsl:copy-of select="$intygAvser"/>
       </xsl:if>
       <xsl:if test="contains($parentName, 'bedomning')">
-        <xsl:copy-of select="$korkortsTyp" />
+        <xsl:copy-of select="$korkortsTyp"/>
       </xsl:if>
     </xsl:variable>
 

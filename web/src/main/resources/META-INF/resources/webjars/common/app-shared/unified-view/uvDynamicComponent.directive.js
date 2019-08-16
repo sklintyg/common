@@ -18,17 +18,17 @@
  */
 angular.module('common').directive('uvDynamicComponent',
     function($compile) {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                viewData: '='
-            },
-            link: function($scope, $element) {
-                var componentTemplate = '<' + $scope.config.type + ' config="config" view-data="viewData"></' + $scope.config.type +'>';
-                $element.append($compile(componentTemplate)($scope));
-            }
-        };
+      return {
+        restrict: 'E',
+        scope: {
+          config: '=',
+          viewData: '='
+        },
+        link: function($scope, $element) {
+          var componentTemplate = '<' + $scope.config.type + ' config="config" view-data="viewData"></' + $scope.config.type + '>';
+          $element.append($compile(componentTemplate)($scope));
+        }
+      };
     });

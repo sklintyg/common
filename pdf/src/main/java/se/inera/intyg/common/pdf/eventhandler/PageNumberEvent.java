@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -30,10 +34,6 @@ import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
-
-import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders the page number. Note that quirky placeholder stuff going on since we don't know the total number of pages
@@ -64,13 +64,13 @@ public class PageNumberEvent implements IEventHandler {
         int pageNumber = pdf.getPageNumber(page);
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         Paragraph p = new Paragraph()
-                .add("Sida ").add(String.valueOf(pageNumber) + "(")
-                .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+            .add("Sida ").add(String.valueOf(pageNumber) + "(")
+            .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(p, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET,
-                TextAlignment.RIGHT);
+            TextAlignment.RIGHT);
         pdfCanvas.addXObject(placeholder, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET - DESCENT);
         pdfCanvas.release();
     }
@@ -79,6 +79,6 @@ public class PageNumberEvent implements IEventHandler {
         Canvas canvas = new Canvas(placeholder, pdf);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(String.valueOf(pdf.getNumberOfPages() + ")"),
-                0, DESCENT, TextAlignment.LEFT);
+            0, DESCENT, TextAlignment.LEFT);
     }
 }

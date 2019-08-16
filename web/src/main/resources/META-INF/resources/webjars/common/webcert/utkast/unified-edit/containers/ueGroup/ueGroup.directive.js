@@ -18,15 +18,15 @@
  */
 angular.module('common').directive('ueGroup',
     function() {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGroup/ueGroup.directive.html'
-        };
+      return {
+        restrict: 'E',
+        scope: {
+          form: '=',
+          config: '=',
+          model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGroup/ueGroup.directive.html'
+      };
     });

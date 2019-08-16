@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygErsattRequestModel', [
-    'common.IntygCopyRequestModel',
-    function(IntygCopyRequestModel) {
-        'use strict';
+  'common.IntygCopyRequestModel',
+  function(IntygCopyRequestModel) {
+    'use strict';
 
-        /**
-         * Constructor
-         *
-         * parameters intygId, intygType, patientPersonnummer
-         *
-         * @inherits IntygCopyRequestModel
-         */
-        function IntygErsattRequestModel(data) {
-            IntygCopyRequestModel.apply(this, [data]);
-            this.ersatt = true;
-        }
-
-        IntygErsattRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
-        IntygErsattRequestModel.prototype.constructor = IntygErsattRequestModel;
-
-        IntygErsattRequestModel.build = function(data) {
-            return new IntygErsattRequestModel(data);
-        };
-
-        return IntygErsattRequestModel;
+    /**
+     * Constructor
+     *
+     * parameters intygId, intygType, patientPersonnummer
+     *
+     * @inherits IntygCopyRequestModel
+     */
+    function IntygErsattRequestModel(data) {
+      IntygCopyRequestModel.apply(this, [data]);
+      this.ersatt = true;
     }
+
+    IntygErsattRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
+    IntygErsattRequestModel.prototype.constructor = IntygErsattRequestModel;
+
+    IntygErsattRequestModel.build = function(data) {
+      return new IntygErsattRequestModel(data);
+    };
+
+    return IntygErsattRequestModel;
+  }
 ]);

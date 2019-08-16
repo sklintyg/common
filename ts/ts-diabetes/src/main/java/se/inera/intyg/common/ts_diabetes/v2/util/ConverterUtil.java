@@ -19,11 +19,10 @@
 package se.inera.intyg.common.ts_diabetes.v2.util;
 
 import com.google.common.base.Joiner;
-
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 
 public final class ConverterUtil {
 

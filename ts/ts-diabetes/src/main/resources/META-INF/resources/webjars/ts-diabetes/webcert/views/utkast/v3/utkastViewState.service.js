@@ -18,30 +18,30 @@
  */
 angular.module('ts-diabetes').service('ts-diabetes.UtkastController.ViewStateService.v3',
     ['$log', '$state', 'common.UtkastViewStateService', 'ts-diabetes.Domain.IntygModel.v3',
-        function($log, $state, CommonViewState, IntygModel) {
-            'use strict';
+      function($log, $state, CommonViewState, IntygModel) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.intygModel = undefined;
-            this.draftModel = undefined;
+        this.intygModel = undefined;
+        this.draftModel = undefined;
 
-            this.setDraftModel = function(draftModel){
-                this.draftModel = draftModel;
-                this.intygModel = draftModel.content;
-            };
+        this.setDraftModel = function(draftModel) {
+          this.draftModel = draftModel;
+          this.intygModel = draftModel.content;
+        };
 
-            this.reset = function() {
-                CommonViewState.reset();
-                CommonViewState.intyg.type = 'ts-diabetes';
-                this.setDraftModel(IntygModel._members.build());
-                return this;
-            };
+        this.reset = function() {
+          CommonViewState.reset();
+          CommonViewState.intyg.type = 'ts-diabetes';
+          this.setDraftModel(IntygModel._members.build());
+          return this;
+        };
 
-            this.clearModel = function(){
-                this.intygModel = undefined;
-                this.draftModel = undefined;
-            };
+        this.clearModel = function() {
+          this.intygModel = undefined;
+          this.draftModel = undefined;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

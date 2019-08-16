@@ -17,46 +17,44 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('message',
-    [ '$log', '$rootScope', 'common.messageService',
-        function($log, $rootScope, messageService) {
-            'use strict';
+    ['$log', '$rootScope', 'common.messageService',
+      function($log, $rootScope, messageService) {
+        'use strict';
 
-            return {
-                restrict: 'EA',
-                scope: {
-                    'key': '@',
-                    'param': '=',
-                    'params': '='
-                },
-                replace: true,
-                template: '<span ng-bind-html="resultValue"></span>',
-                link: function(scope, element, attr) {
-                    var result;
-                    // observe changes to interpolated attribute
-                    attr.$observe('key', function(interpolatedKey) {
-                        var normalizedKey = angular.lowercase(interpolatedKey);
-                        var useLanguage;
-                        if (typeof attr.lang !== 'undefined') {
-                            useLanguage = attr.lang;
-                        } else {
-                            useLanguage = $rootScope.lang;
-                        }
+        return {
+          restrict: 'EA',
+          scope: {
+            'key': '@',
+            'param': '=',
+            'params': '='
+          },
+          replace: true,
+          template: '<span ng-bind-html="resultValue"></span>',
+          link: function(scope, element, attr) {
+            var result;
+            // observe changes to interpolated attribute
+            attr.$observe('key', function(interpolatedKey) {
+              var normalizedKey = angular.lowercase(interpolatedKey);
+              var useLanguage;
+              if (typeof attr.lang !== 'undefined') {
+                useLanguage = attr.lang;
+              } else {
+                useLanguage = $rootScope.lang;
+              }
 
-                        var parameters = [];
-                        if (typeof scope.param !== 'undefined') {
-                            parameters.push(scope.param);
-                        }
-                        else if (typeof scope.params !== 'undefined') {
-                            parameters.push.apply(parameters, scope.params);
-                        }
+              var parameters = [];
+              if (typeof scope.param !== 'undefined') {
+                parameters.push(scope.param);
+              } else if (typeof scope.params !== 'undefined') {
+                parameters.push.apply(parameters, scope.params);
+              }
 
-                        result = messageService.getProperty(normalizedKey, parameters, useLanguage, attr.fallback, (typeof attr.fallbackDefaultLang !== 'undefined'));
+              result = messageService.getProperty(normalizedKey, parameters, useLanguage, attr.fallback,
+                  (typeof attr.fallbackDefaultLang !== 'undefined'));
 
-
-
-                        // now get the value to display..
-                        scope.resultValue = result;
-                    });
-                }
-            };
-        }]);
+              // now get the value to display..
+              scope.resultValue = result;
+            });
+          }
+        };
+      }]);

@@ -18,84 +18,84 @@
  */
 
 describe('uvBooelanValue Directive', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(module('common', function($compileProvider) {
-        // Create a mocked version of the dynamic label directive for easier and more
-        // focused unittesting of THIS directive.
-        // (That the dynamic-label directive works should be tested by that directive)
-        $compileProvider.directive('dynamicLabel', function() {
-            return {
-                priority: 100,
-                terminal: true,
-                restrict: 'A',
-                scope: {
-                    key: '@'
-                },
-                template: '<span></span>',
-                link: function($scope, $element) {
-                    $element.append('dynamicLabel-' + $scope.key);
-                }
-            };
-        });
-    }));
-
-    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
-
-        $scope.viewDataMock = {
-            property1: {
-                isRelevant: true
-            }
-        };
-
-        $scope.configMock = {
-            labelKey: 'DUMMY.1.RBK',
-            modelProp: 'property1.isRelevant'
-        };
-
-        element = $compile('<uv-boolean-value config="configMock" view-data="viewDataMock"></uv-boolean-value>')($scope);
-
-    } ]));
-
-    it('should display title when labelKey is configured', function() {
-        $scope.$digest();
-        expect($(element).find('h4').text()).toBe('dynamicLabel-DUMMY.1.RBK');
+  beforeEach(module('common', function($compileProvider) {
+    // Create a mocked version of the dynamic label directive for easier and more
+    // focused unittesting of THIS directive.
+    // (That the dynamic-label directive works should be tested by that directive)
+    $compileProvider.directive('dynamicLabel', function() {
+      return {
+        priority: 100,
+        terminal: true,
+        restrict: 'A',
+        scope: {
+          key: '@'
+        },
+        template: '<span></span>',
+        link: function($scope, $element) {
+          $element.append('dynamicLabel-' + $scope.key);
+        }
+      };
     });
-    it('should not display title when labelKey is not configured', function() {
-        $scope.configMock.labelKey = undefined;
-        $scope.$digest();
-        expect($(element).find('h4').length).toBe(0);
-    });
+  }));
 
-    it('should display "Ja" when value is strictly true', function() {
-        $scope.$digest();
-        expect(element.isolateScope().value).toEqual(true);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
-        expect($(element).find('span').text()).toContain('Ja');
-    });
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-    it('should display "Nej" when value is strictly false', function() {
-        $scope.viewDataMock.property1.isRelevant = false;
+    $scope.viewDataMock = {
+      property1: {
+        isRelevant: true
+      }
+    };
 
-        $scope.$digest();
-        expect(element.isolateScope().value).toEqual(false);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
-        expect($(element).find('span').text()).toContain('Nej');
-    });
+    $scope.configMock = {
+      labelKey: 'DUMMY.1.RBK',
+      modelProp: 'property1.isRelevant'
+    };
 
-    it('should by default display Ej angivet when value is not explictly true or false', function() {
-        $scope.viewDataMock.property1 = undefined;
+    element = $compile('<uv-boolean-value config="configMock" view-data="viewDataMock"></uv-boolean-value>')($scope);
 
-        $scope.$digest();
-        expect(element.isolateScope().value).toEqual(undefined);
-        expect(element.isolateScope().hasStrictBooleanValue()).toEqual(false);
-    });
+  }]));
+
+  it('should display title when labelKey is configured', function() {
+    $scope.$digest();
+    expect($(element).find('h4').text()).toBe('dynamicLabel-DUMMY.1.RBK');
+  });
+  it('should not display title when labelKey is not configured', function() {
+    $scope.configMock.labelKey = undefined;
+    $scope.$digest();
+    expect($(element).find('h4').length).toBe(0);
+  });
+
+  it('should display "Ja" when value is strictly true', function() {
+    $scope.$digest();
+    expect(element.isolateScope().value).toEqual(true);
+    expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
+    expect($(element).find('span').text()).toContain('Ja');
+  });
+
+  it('should display "Nej" when value is strictly false', function() {
+    $scope.viewDataMock.property1.isRelevant = false;
+
+    $scope.$digest();
+    expect(element.isolateScope().value).toEqual(false);
+    expect(element.isolateScope().hasStrictBooleanValue()).toEqual(true);
+    expect($(element).find('span').text()).toContain('Nej');
+  });
+
+  it('should by default display Ej angivet when value is not explictly true or false', function() {
+    $scope.viewDataMock.property1 = undefined;
+
+    $scope.$digest();
+    expect(element.isolateScope().value).toEqual(undefined);
+    expect(element.isolateScope().hasStrictBooleanValue()).toEqual(false);
+  });
 
 });

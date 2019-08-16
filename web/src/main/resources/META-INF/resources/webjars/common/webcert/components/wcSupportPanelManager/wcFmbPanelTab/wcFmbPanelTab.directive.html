@@ -2,7 +2,8 @@
   <span class="tab-content-title-row-title">Diagnosspecifik information</span>
 </div>
 
-<div class="fmb-diagnos-row" ng-class="{'has-diagnose' : !vm.noDataMessage.warning && !vm.noDataMessage.incorrectKodverk}">
+<div class="fmb-diagnos-row"
+     ng-class="{'has-diagnose' : !vm.noDataMessage.warning && !vm.noDataMessage.incorrectKodverk}">
   <span ng-repeat="d in fmb.diagnoses" class="fmb-diagnos-description">
    <wc-radio-wrapper>
         <input type="radio" name="fmb-radio-selectors" ng-attr-id="fmb_diagnos_radio_{{d.originalDiagnosKod}}"
@@ -10,13 +11,12 @@
        <label ng-attr-for="fmb_diagnos_radio_{{d.originalDiagnosKod}}"
               ng-class="{'disabled' :!d.hasInfo,  'active': d === vm.activeDiagnose}">
           <span uib-popover="{{!d.hasInfo ? 'Det finns inget FMB-stöd för den angivna diagnosen.' :''}}"
-                popover-popup-delay="300" popover-append-to-body="true"
-                popover-placement="top">
+                popover-popup-delay="300" popover-append-to-body="true" popover-placement="top">
                 <span>{{d.originalDiagnosBeskrivning}}</span> <i class="material-icons md-18 diagnosinfo"
-                   ng-if="d.diagnosKod !== d.originalDiagnosKod && d.hasInfo"
-                   uib-popover="Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}."
-                   popover-popup-delay="300" popover-append-to-body="true"
-                  popover-placement="top">info_outline</i>
+                                                                 ng-if="d.diagnosKod !== d.originalDiagnosKod && d.hasInfo"
+                                                                 uib-popover="Det FMB-stöd som visas är för koden {{d.diagnosKod}} - {{d.diagnosBeskrivning}}."
+                                                                 popover-popup-delay="300" popover-append-to-body="true"
+                                                                 popover-placement="top">info_outline</i>
           </span>
         </label>
   </wc-radio-wrapper>
@@ -34,7 +34,8 @@
         </h4>
 
         <section ng-attr-id="fmb_text_{{::section.heading}}" ng-if="section.data.text">
-          <wc-expandable-content content="section.data.text" threshold-pixel-height="80px" link-dom-id="fmb-text-expandable-content-link-{{::section.heading}}">
+          <wc-expandable-content content="section.data.text" threshold-pixel-height="80px"
+                                 link-dom-id="fmb-text-expandable-content-link-{{::section.heading}}">
 
           </wc-expandable-content>
         </section>
@@ -53,8 +54,7 @@
     </div>
     <div class="fmb-more-information-section">
       <h4 ng-if="vm.referensLink">Mer Information</h4>
-      <a href="{{vm.referensLink}}"
-        target="_blank" rel="noopener noreferrer">
+      <a href="{{vm.referensLink}}" target="_blank" rel="noopener noreferrer">
          {{vm.referensDescr}}
         <i ng-if="vm.referensDescr" class="external-link-icon material-icons">launch</i>
       </a>
@@ -66,12 +66,10 @@
                     ng-if="vm.noDataMessage.info"></wc-alert-message>
 
   <div ng-if="vm.noDataMessage.warning || vm.noDataMessage.incorrectKodverk" class="no-diagnose-entered">
-    <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/fmb_no_diagnose.svg"/>
+    <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/fmb_no_diagnose.svg" />
     <div ng-if="vm.noDataMessage.warning" dynamic-label key="{{::vm.noDataMessage.warning }}"></div>
-    <div ng-if="vm.noDataMessage.incorrectKodverk"
-         dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"
-         uib-popover="{{'FMB-stöd ska ej hämtas upp.'}}"
-         popover-popup-delay="300" popover-append-to-body="true"
+    <div ng-if="vm.noDataMessage.incorrectKodverk" dynamic-label key="{{::vm.noDataMessage.incorrectKodverk }}"
+         uib-popover="{{'FMB-stöd ska ej hämtas upp.'}}" popover-popup-delay="300" popover-append-to-body="true"
          popover-placement="top"></div>
   </div>
 
@@ -79,7 +77,6 @@
 
 <div class="fmb-footer">
   <span dynamiclink key="fmbSoc" class="dark"></span>
-  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png"
-       width="40"
+  <img src="/web/webjars/common/webcert/components/wcSupportPanelManager/wcFmbPanelTab/socialstyrelsen.png" width="40"
        height="26">
 </div>

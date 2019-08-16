@@ -26,5 +26,5 @@ public enum ValidationMessageType {
     OTHER,
     PERIOD_OVERLAP,
     WARN // Warn never generates error or stops signing. It's used for non-blocking info/warning messages
-         // such as when user has specified a date which is in the future which may be weird but not invalid.
+    // such as when user has specified a date which is in the future which may be weird but not invalid.
 }

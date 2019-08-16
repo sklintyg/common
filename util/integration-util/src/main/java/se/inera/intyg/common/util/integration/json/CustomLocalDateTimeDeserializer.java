@@ -18,6 +18,13 @@
  */
 package se.inera.intyg.common.util.integration.json;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.core.JsonTokenId;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.Instant;
@@ -26,14 +33,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.JsonTokenId;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTime> {
 
@@ -113,15 +112,15 @@ public class CustomLocalDateTimeDeserializer extends StdDeserializer<LocalDateTi
     }
 
     private void rethrowDateTimeException(JsonParser p, DeserializationContext context,
-            DateTimeException e0, String value) throws JsonMappingException {
+        DateTimeException e0, String value) throws JsonMappingException {
         JsonMappingException e;
         if (e0 instanceof DateTimeParseException) {
             e = context.weirdStringException(value, handledType(), e0.getMessage());
             e.initCause(e0);
         } else {
             e = JsonMappingException.from(p,
-                    String.format("Failed to deserialize %s: (%s) %s", handledType().getName(), e0.getClass().getName(), e0.getMessage()),
-                    e0);
+                String.format("Failed to deserialize %s: (%s) %s", handledType().getName(), e0.getClass().getName(), e0.getMessage()),
+                e0);
         }
         throw e;
     }

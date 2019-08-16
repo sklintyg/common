@@ -5,6 +5,7 @@ $wc-help-chevron-padding-top: 25px;
   position: relative;
   background: #e9eaed;
 }
+
 .wc-help-chevron__arrow_box:after {
   bottom: 100%;
   left: 35px;
@@ -19,12 +20,15 @@ $wc-help-chevron-padding-top: 25px;
   border-width: 10px;
   margin-left: -15px;
 }
+
 .wc-help-chevron__margin-bottom {
   margin-top: 0px;
 }
+
 .wc-help-chevron__margin-bottom.in {
   margin-bottom: 15px;
 }
+
 .wc-help-chevron__textarea {
   line-height: $wc-help-chevron-line-height;
   cursor: default;

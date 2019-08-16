@@ -16,35 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('uvKodverkValue', [ 'uvUtil', function(uvUtil) {
-    'use strict';
+angular.module('common').directive('uvKodverkValue', ['uvUtil', function(uvUtil) {
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            config: '=',
-            viewData: '='
-        },
-        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.html',
-        link: function($scope) {
+  return {
+    restrict: 'E',
+    scope: {
+      config: '=',
+      viewData: '='
+    },
+    templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.html',
+    link: function($scope) {
 
-            $scope.labelKeys = _buildLabelKeys();
+      $scope.labelKeys = _buildLabelKeys();
 
-            function _buildLabelKeys() {
-                var labelKeys = [];
-                for (var i = 0; i < $scope.config.kvModelProps.length; i++) {
-                    var modelProp = $scope.config.kvModelProps[i];
-                    var resolvedValue = uvUtil.getValue($scope.viewData, modelProp);
-                    if (uvUtil.isValidValue(resolvedValue)) {
-                        var resolvedKey = $scope.config.kvLabelKeys[i].replace('{var}', resolvedValue);
-                        labelKeys.push({
-                            key: resolvedKey,
-                            modelProp: modelProp
-                        });
-                    }
-                }
-                return labelKeys;
-            }
+      function _buildLabelKeys() {
+        var labelKeys = [];
+        for (var i = 0; i < $scope.config.kvModelProps.length; i++) {
+          var modelProp = $scope.config.kvModelProps[i];
+          var resolvedValue = uvUtil.getValue($scope.viewData, modelProp);
+          if (uvUtil.isValidValue(resolvedValue)) {
+            var resolvedKey = $scope.config.kvLabelKeys[i].replace('{var}', resolvedValue);
+            labelKeys.push({
+              key: resolvedKey,
+              modelProp: modelProp
+            });
+          }
         }
-    };
-} ]);
+        return labelKeys;
+      }
+    }
+  };
+}]);

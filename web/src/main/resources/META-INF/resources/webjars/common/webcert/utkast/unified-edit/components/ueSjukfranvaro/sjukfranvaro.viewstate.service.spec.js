@@ -18,100 +18,99 @@
  */
 
 describe('sjukfranvaro', function() {
-    'use strict';
+  'use strict';
 
-    var SjukfranvaroViewState;
-    var model;
+  var SjukfranvaroViewState;
+  var model;
 
-    var dirtyCallback = function() {
+  var dirtyCallback = function() {
 
-    };
+  };
 
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(inject(['common.SjukfranvaroViewStateService', function(_SjukfranvaroViewState_) {
-        SjukfranvaroViewState = _SjukfranvaroViewState_;
-        SjukfranvaroViewState.reset();
-        model = [
-            {
-                checked: false,
-                niva: '100',
-                period: {
-                    from: '',
-                    tom: ''
-                }
-            },
-            {
-                checked: false,
-                niva: '50',
-                period: {
-                    from: '',
-                    tom: ''
-                }
-            }
-            ];
-        SjukfranvaroViewState.setup(model, 4, dirtyCallback);
-        SjukfranvaroViewState.updatePeriods();
-    }]));
+  beforeEach(inject(['common.SjukfranvaroViewStateService', function(_SjukfranvaroViewState_) {
+    SjukfranvaroViewState = _SjukfranvaroViewState_;
+    SjukfranvaroViewState.reset();
+    model = [
+      {
+        checked: false,
+        niva: '100',
+        period: {
+          from: '',
+          tom: ''
+        }
+      },
+      {
+        checked: false,
+        niva: '50',
+        period: {
+          from: '',
+          tom: ''
+        }
+      }
+    ];
+    SjukfranvaroViewState.setup(model, 4, dirtyCallback);
+    SjukfranvaroViewState.updatePeriods();
+  }]));
 
-    it('Should be able to calculate workperiod', function() {
+  it('Should be able to calculate workperiod', function() {
 
-        model[0].period.from = '2018-12-03';
-        model[0].period.tom = '2018-12-06';
-        model[0].checked = true;
+    model[0].period.from = '2018-12-03';
+    model[0].period.tom = '2018-12-06';
+    model[0].checked = true;
 
-        SjukfranvaroViewState.updatePeriods();
+    SjukfranvaroViewState.updatePeriods();
 
-        expect(SjukfranvaroViewState.totalDays).toBe(4);
-    });
+    expect(SjukfranvaroViewState.totalDays).toBe(4);
+  });
 
-    it('Should be able to calculate total workperiod with several periods', function() {
+  it('Should be able to calculate total workperiod with several periods', function() {
 
-        model[0].period.from = '2018-12-03';
-        model[0].period.tom = '2018-12-06';
-        model[0].checked = true;
+    model[0].period.from = '2018-12-03';
+    model[0].period.tom = '2018-12-06';
+    model[0].checked = true;
 
-        model[1].period.from = '2018-12-07';
-        model[1].period.tom = '2018-12-12';
-        model[1].checked = true;
+    model[1].period.from = '2018-12-07';
+    model[1].period.tom = '2018-12-12';
+    model[1].checked = true;
 
+    SjukfranvaroViewState.updatePeriods();
 
-        SjukfranvaroViewState.updatePeriods();
+    expect(SjukfranvaroViewState.totalDays).toBe(10);
+  });
 
-        expect(SjukfranvaroViewState.totalDays).toBe(10);
-    });
+  it('Should set today if no previous sjukskrivningsgrad', function() {
+    // Simulate user enables checkbox 50% sjukskrivning
+    model[0].checked = true;
+    SjukfranvaroViewState.updateCheckBox(0);
 
-    it('Should set today if no previous sjukskrivningsgrad', function() {
-        // Simulate user enables checkbox 50% sjukskrivning
-        model[0].checked = true;
-        SjukfranvaroViewState.updateCheckBox(0);
+    var now = new Date();
+    var month = now.getMonth() + 1;
+    month = (month < 10) ? '0' + month : month;
+    var day = now.getDate();
+    day = (day < 10) ? '0' + day : day;
 
-        var now = new Date();
-        var month = now.getMonth() + 1;
-        month = (month < 10) ? '0' + month : month;
-        var day = now.getDate();
-        day = (day < 10) ? '0' + day : day;
+    var today = now.getFullYear() + '-' + month + '-' + day;
+    expect(model[0].period.from).toBe(today);
+    expect(model[0].period.tom).toBe(undefined);
+  });
 
-        var today = now.getFullYear() + '-' + month + '-' + day;
-        expect(model[0].period.from).toBe(today);
-        expect(model[0].period.tom).toBe(undefined);
-    });
+  it('Should be able to continue period from a higher sjukskrivningsgrad', function() {
 
-    it('Should be able to continue period from a higher sjukskrivningsgrad', function() {
+    model[0].period.from = '2018-12-03';
+    model[0].period.tom = '2018-12-06';
+    model[0].checked = true;
 
-        model[0].period.from = '2018-12-03';
-        model[0].period.tom = '2018-12-06';
-        model[0].checked = true;
+    SjukfranvaroViewState.updatePeriods();
 
-        SjukfranvaroViewState.updatePeriods();
+    // Simulate user enables next row checkbox
+    model[1].checked = true;
+    SjukfranvaroViewState.updateCheckBox(1);
 
-        // Simulate user enables next row checkbox
-        model[1].checked = true;
-        SjukfranvaroViewState.updateCheckBox(1);
-
-        expect(model[1].period.from).toBe('2018-12-07');
-        expect(model[1].period.tom).toBe(undefined);
-    });
+    expect(model[1].period.from).toBe('2018-12-07');
+    expect(model[1].period.tom).toBe(undefined);
+  });
 
 });
 

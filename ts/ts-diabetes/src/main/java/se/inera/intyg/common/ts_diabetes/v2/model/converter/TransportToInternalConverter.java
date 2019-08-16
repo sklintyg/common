@@ -18,7 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
+import static se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil.getTextVersion;
+
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Diabetes;
@@ -29,7 +33,6 @@ import se.inera.intyg.common.ts_diabetes.v2.model.internal.Syn;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Synskarpevarden;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Vardkontakt;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
 import se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil;
 import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
@@ -39,9 +42,6 @@ import se.inera.intygstjanster.ts.services.v1.IntygsAvserTypDiabetes;
 import se.inera.intygstjanster.ts.services.v1.KorkortsbehorighetTsDiabetes;
 import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
-
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.VARDKONTAKT_TYP;
-import static se.inera.intyg.common.ts_parent.model.converter.TransportToInternalUtil.getTextVersion;
 
 public final class TransportToInternalConverter {
 
@@ -137,9 +137,9 @@ public final class TransportToInternalConverter {
         if (source.isHarAllvarligForekomstVakenTid() != null) {
             hypoglykemier.setAllvarligForekomstVakenTid(source.isHarAllvarligForekomstVakenTid());
             if (source.isHarAllvarligForekomstVakenTid()
-                    && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
+                && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
                 hypoglykemier.setAllvarligForekomstVakenTidObservationstid(
-                        InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
+                    InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
             }
         }
         hypoglykemier.setEgenkontrollBlodsocker(source.isGenomforEgenkontrollBlodsocker());

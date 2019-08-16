@@ -35,196 +35,195 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-
-  "intygAvser":{
-    "kategorier":[
+  "intygAvser": {
+    "kategorier": [
       {
-        "type":"AM",
-        "selected":true
+        "type": "AM",
+        "selected": true
       },
       {
-        "type":"A1",
-        "selected":true
+        "type": "A1",
+        "selected": true
       },
       {
-        "type":"A2",
-        "selected":true
+        "type": "A2",
+        "selected": true
       },
       {
-        "type":"A",
-        "selected":true
+        "type": "A",
+        "selected": true
       },
       {
-        "type":"B",
-        "selected":true
+        "type": "B",
+        "selected": true
       },
       {
-        "type":"BE",
-        "selected":true
+        "type": "BE",
+        "selected": true
       },
       {
-        "type":"TRAKTOR",
-        "selected":true
+        "type": "TRAKTOR",
+        "selected": true
       },
       {
-        "type":"C1",
-        "selected":true
+        "type": "C1",
+        "selected": true
       },
       {
-        "type":"C1E",
-        "selected":true
+        "type": "C1E",
+        "selected": true
       },
       {
-        "type":"C",
-        "selected":true
+        "type": "C",
+        "selected": true
       },
       {
-        "type":"CE",
-        "selected":true
+        "type": "CE",
+        "selected": true
       },
       {
-        "type":"D1",
-        "selected":true
+        "type": "D1",
+        "selected": true
       },
       {
-        "type":"D1E",
-        "selected":true
+        "type": "D1E",
+        "selected": true
       },
       {
-        "type":"D",
-        "selected":true
+        "type": "D",
+        "selected": true
       },
       {
-        "type":"DE",
-        "selected":true
+        "type": "DE",
+        "selected": true
       },
       {
-        "type":"TAXI",
-        "selected":true
+        "type": "TAXI",
+        "selected": true
       }
     ]
   },
-  "identitetStyrktGenom":{
-    "typ":"ID_KORT"
+  "identitetStyrktGenom": {
+    "typ": "ID_KORT"
   },
-  "allmant":{
-    "diabetesDiagnosAr":"2000",
-    "typAvDiabetes":"ANNAN",
-    "beskrivningAnnanTypAvDiabetes":"Annan diabetes",
-    "behandling":{
-      "endastKost":true,
-      "tabletter":true,
-      "tablettRiskHypoglykemi":true,
-      "insulin":true,
-      "insulinSedanAr":"2010",
-      "annanBehandling":true,
-      "annanBehandlingBeskrivning":"Annan behandling"
+  "allmant": {
+    "diabetesDiagnosAr": "2000",
+    "typAvDiabetes": "ANNAN",
+    "beskrivningAnnanTypAvDiabetes": "Annan diabetes",
+    "behandling": {
+      "endastKost": true,
+      "tabletter": true,
+      "tablettRiskHypoglykemi": true,
+      "insulin": true,
+      "insulinSedanAr": "2010",
+      "annanBehandling": true,
+      "annanBehandlingBeskrivning": "Annan behandling"
     }
   },
-  "hypoglykemier":{
-    "sjukdomenUnderKontroll":true,
-    "nedsattHjarnfunktion":true,
-    "forstarRisker":true,
-    "fortrogenMedSymptom":true,
-    "saknarFormagaVarningstecken":true,
-    "kunskapLampligaAtgarder":true,
-    "egenkontrollBlodsocker":true,
-    "aterkommandeSenasteAret":true,
-    "aterkommandeSenasteTidpunkt":"2018-09-10",
-    "aterkommandeSenasteKvartalet":true,
-    "senasteTidpunktVaken":"2018-09-10",
-    "forekomstTrafik":true,
-    "forekomstTrafikTidpunkt":"2018-09-10"
+  "hypoglykemier": {
+    "sjukdomenUnderKontroll": true,
+    "nedsattHjarnfunktion": true,
+    "forstarRisker": true,
+    "fortrogenMedSymptom": true,
+    "saknarFormagaVarningstecken": true,
+    "kunskapLampligaAtgarder": true,
+    "egenkontrollBlodsocker": true,
+    "aterkommandeSenasteAret": true,
+    "aterkommandeSenasteTidpunkt": "2018-09-10",
+    "aterkommandeSenasteKvartalet": true,
+    "senasteTidpunktVaken": "2018-09-10",
+    "forekomstTrafik": true,
+    "forekomstTrafikTidpunkt": "2018-09-10"
   },
-  "synfunktion":{
-    "misstankeOgonsjukdom":true,
-    "ogonbottenFotoSaknas":true,
-    "vanster":{
-      "utanKorrektion":0,
-      "medKorrektion":0.0
+  "synfunktion": {
+    "misstankeOgonsjukdom": true,
+    "ogonbottenFotoSaknas": true,
+    "vanster": {
+      "utanKorrektion": 0,
+      "medKorrektion": 0.0
     },
-    "hoger":{
-      "utanKorrektion":0.1,
-      "medKorrektion":1.0
+    "hoger": {
+      "utanKorrektion": 0.1,
+      "medKorrektion": 1.0
     },
-    "binokulart":{
-      "utanKorrektion":2.2,
-      "medKorrektion":0.6
+    "binokulart": {
+      "utanKorrektion": 2.2,
+      "medKorrektion": 0.6
     }
   },
-  "ovrigt":"Övrigt",
-  "bedomning":{
-    "uppfyllerBehorighetskrav":[
+  "ovrigt": "Övrigt",
+  "bedomning": {
+    "uppfyllerBehorighetskrav": [
       {
-        "type":"C1",
-        "selected":true
+        "type": "C1",
+        "selected": true
       },
       {
-        "type":"C1E",
-        "selected":true
+        "type": "C1E",
+        "selected": true
       },
       {
-        "type":"C",
-        "selected":true
+        "type": "C",
+        "selected": true
       },
       {
-        "type":"CE",
-        "selected":true
+        "type": "CE",
+        "selected": true
       },
       {
-        "type":"D1",
-        "selected":true
+        "type": "D1",
+        "selected": true
       },
       {
-        "type":"D1E",
-        "selected":true
+        "type": "D1E",
+        "selected": true
       },
       {
-        "type":"D",
-        "selected":true
+        "type": "D",
+        "selected": true
       },
       {
-        "type":"DE",
-        "selected":true
+        "type": "DE",
+        "selected": true
       },
       {
-        "type":"TAXI",
-        "selected":true
+        "type": "TAXI",
+        "selected": true
       },
       {
-        "type":"AM",
-        "selected":true
+        "type": "AM",
+        "selected": true
       },
       {
-        "type":"A1",
-        "selected":true
+        "type": "A1",
+        "selected": true
       },
       {
-        "type":"A2",
-        "selected":true
+        "type": "A2",
+        "selected": true
       },
       {
-        "type":"A",
-        "selected":true
+        "type": "A",
+        "selected": true
       },
       {
-        "type":"B",
-        "selected":true
+        "type": "B",
+        "selected": true
       },
       {
-        "type":"BE",
-        "selected":true
+        "type": "BE",
+        "selected": true
       },
       {
-        "type":"TRAKTOR",
-        "selected":true
+        "type": "TRAKTOR",
+        "selected": true
       },
       {
-        "type":"KANINTETASTALLNING",
-        "selected":false
+        "type": "KANINTETASTALLNING",
+        "selected": false
       }
     ],
-    "lampligtInnehav":true,
-    "borUndersokasBeskrivning":"specialistkompetens"
+    "lampligtInnehav": true,
+    "borUndersokasBeskrivning": "specialistkompetens"
   }
 }

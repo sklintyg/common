@@ -19,10 +19,12 @@
 package se.inera.intyg.common.sos_parent.model.internal;
 
 public final class DodsplatsBoendeConstants {
+
     public static final String SJUKHUS_VALUE = "Sjukhus";
     public static final String ORDINART_BOENDE_VALUE = "Ordinärt boende";
     public static final String SARSKILT_BOENDE_VALUE = "Särskilt boende";
     public static final String ANNAN_VALUE = "Annan/okänd";
 
-    private DodsplatsBoendeConstants() { }
+    private DodsplatsBoendeConstants() {
+    }
 }

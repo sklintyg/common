@@ -27,16 +27,17 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-
 import se.inera.intyg.common.services.texts.IntygTextsService;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
@@ -60,7 +61,7 @@ public class WebCertModelFactoryImplTest {
         intygTextsService = mock(IntygTextsService.class);
         modelFactory = new WebcertModelFactoryImpl(intygTextsService);
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(TsTrk1062EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_2);
     }
 
     @Test
@@ -76,7 +77,7 @@ public class WebCertModelFactoryImplTest {
         final HoSPersonal skapadAv = utlatande.getGrundData().getSkapadAv();
         assertNotNull("SkapadAv is null", skapadAv);
         assertEquals("Vårdgivare not equal", vardenhet.getVardgivare().getVardgivarid(),
-                skapadAv.getVardenhet().getVardgivare().getVardgivarid());
+            skapadAv.getVardenhet().getVardgivare().getVardgivarid());
         assertEquals("Vårdenhet not equal", vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid());
         assertEquals("PersonalId not equal", hosPersonal.getPersonId(), skapadAv.getPersonId());
         final Patient actualPatient = utlatande.getGrundData().getPatient();
@@ -88,8 +89,8 @@ public class WebCertModelFactoryImplTest {
     @Test
     public void testCreateCopy() throws Exception {
         TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final Vardenhet vardenhet = getVardenhet();
         final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
@@ -121,8 +122,8 @@ public class WebCertModelFactoryImplTest {
     @Test(expected = ConverterException.class)
     public void testCreateCopyWithoutId() throws Exception {
         TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final Vardenhet vardenhet = getVardenhet();
         final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);

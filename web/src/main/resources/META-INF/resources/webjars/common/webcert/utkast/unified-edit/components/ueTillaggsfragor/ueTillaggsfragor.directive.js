@@ -17,60 +17,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueTillaggsfragor', ['$compile', 'common.ueFactoryTemplatesHelper', function($compile, ueFactoryTemplates) {
-    'use strict';
+angular.module('common').directive('ueTillaggsfragor',
+    ['$compile', 'common.ueFactoryTemplatesHelper', function($compile, ueFactoryTemplates) {
+      'use strict';
 
-    return {
+      return {
         restrict: 'E',
         scope: {
-            form: '=',
-            config: '=',
-            model: '='
+          form: '=',
+          config: '=',
+          model: '='
         },
         link: function($scope, $element) {
 
-            function buildTillaggsfragor() {
-                $scope.tillaggsfragorConfig = {};
-                if ($scope.model.tillaggsfragor && $scope.model.tillaggsfragor.length > 0) {
+          function buildTillaggsfragor() {
+            $scope.tillaggsfragorConfig = {};
+            if ($scope.model.tillaggsfragor && $scope.model.tillaggsfragor.length > 0) {
 
-                    var fragor = [];
+              var fragor = [];
 
-                    for (var i = 0; i < $scope.model.tillaggsfragor.length; i++) {
-                        var tillaggsfraga = $scope.model.tillaggsfragor[i];
-                        fragor.push(ueFactoryTemplates.fraga(
-                            tillaggsfraga.id,
-                            'DFR_' + tillaggsfraga.id + '.1.RBK',
-                            'DFR_' + tillaggsfraga.id + '.1.HLP',
-                            {},
-                            [{
-                                type: 'ue-textarea',
-                                modelProp: 'tillaggsfragor[' + i + '].svar',
-                                id: 'tillaggsfragor_' + tillaggsfraga.id
-                            }]
-                        ));
-                    }
+              for (var i = 0; i < $scope.model.tillaggsfragor.length; i++) {
+                var tillaggsfraga = $scope.model.tillaggsfragor[i];
+                fragor.push(ueFactoryTemplates.fraga(
+                    tillaggsfraga.id,
+                    'DFR_' + tillaggsfraga.id + '.1.RBK',
+                    'DFR_' + tillaggsfraga.id + '.1.HLP',
+                    {},
+                    [{
+                      type: 'ue-textarea',
+                      modelProp: 'tillaggsfragor[' + i + '].svar',
+                      id: 'tillaggsfragor_' + tillaggsfraga.id
+                    }]
+                ));
+              }
 
-                    $scope.tillaggsfragorConfig = [ueFactoryTemplates.kategori(
-                        'tillaggsfragor',
-                        'KAT_9999.RBK',
-                        'KAT_9999.HLP',
-                        {
-                            hideExpression: 'model.avstangningSmittskydd'
-                        },
-                        fragor)];
+              $scope.tillaggsfragorConfig = [ueFactoryTemplates.kategori(
+                  'tillaggsfragor',
+                  'KAT_9999.RBK',
+                  'KAT_9999.HLP',
+                  {
+                    hideExpression: 'model.avstangningSmittskydd'
+                  },
+                  fragor)];
 
-                    // ue uses one-time-binding, this will force a redraw
-                    var template = '<ue-render-components form="::form" config="tillaggsfragorConfig" model="::model" />';
-                    $element.empty();
-                    $element.append($compile(template)($scope));
-                }
+              // ue uses one-time-binding, this will force a redraw
+              var template = '<ue-render-components form="::form" config="tillaggsfragorConfig" model="::model" />';
+              $element.empty();
+              $element.append($compile(template)($scope));
             }
+          }
 
+          buildTillaggsfragor();
+          $scope.$on('intyg.loaded', function() {
             buildTillaggsfragor();
-            $scope.$on('intyg.loaded', function () {
-                buildTillaggsfragor();
-            });
+          });
         }
-    };
+      };
 
-}]);
+    }]);

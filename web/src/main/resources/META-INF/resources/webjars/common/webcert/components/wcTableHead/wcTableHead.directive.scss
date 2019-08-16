@@ -3,10 +3,12 @@ $th-link-color: $wc-color-08;
 a.wc-table-head {
   color: $th-link-color;
   text-decoration: none;
+
   &:hover, &:focus {
     color: $th-link-color;
     text-decoration: underline;
   }
+
   .icon-wc-ikon-42:before,
   .icon-wc-ikon-43:before,
   .icon-wc-ikon-44:before {

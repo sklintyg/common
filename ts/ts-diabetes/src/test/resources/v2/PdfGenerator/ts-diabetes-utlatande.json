@@ -30,29 +30,32 @@
       "postort": "Testort"
     }
   },
-  "vardkontakt" : {
-    "typ" : "5880005",
-    "idkontroll" : "PASS"
+  "vardkontakt": {
+    "typ": "5880005",
+    "idkontroll": "PASS"
   },
-  "intygAvser" : {
-    "korkortstyp" : [
-      {"type": "A1", "selected": true}
+  "intygAvser": {
+    "korkortstyp": [
+      {
+        "type": "A1",
+        "selected": true
+      }
     ]
   },
-  "diabetes" : {
-    "observationsperiod" : "2012",
-    "diabetestyp" : "DIABETES_TYP_2",
-    "endastKost" : true
+  "diabetes": {
+    "observationsperiod": "2012",
+    "diabetestyp": "DIABETES_TYP_2",
+    "endastKost": true
   },
-  "hypoglykemier" : {
-    "kunskapOmAtgarder" : false,
-    "teckenNedsattHjarnfunktion" : false,
-    "allvarligForekomstVakenTid" : false
+  "hypoglykemier": {
+    "kunskapOmAtgarder": false,
+    "teckenNedsattHjarnfunktion": false,
+    "allvarligForekomstVakenTid": false
   },
-  "syn" : {
-    "separatOgonlakarintyg" : true
+  "syn": {
+    "separatOgonlakarintyg": true
   },
-  "bedomning" : {
-    "kanInteTaStallning" : true
+  "bedomning": {
+    "kanInteTaStallning": true
   }
 }

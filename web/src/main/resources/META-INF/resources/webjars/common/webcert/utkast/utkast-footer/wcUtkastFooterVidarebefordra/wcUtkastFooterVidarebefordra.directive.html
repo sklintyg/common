@@ -1,24 +1,18 @@
 <div class="admin-row">
-  <wc-button
-      btn-id="vidarebefordraEjHanterad"
-      btn-class="btn-success"
-      btn-click="vidarebefordraUtkast()"
-      btn-tooltip="{{::forwardBtnTooltip}}"
-  >
+  <wc-button btn-id="vidarebefordraEjHanterad" btn-class="btn-success" btn-click="vidarebefordraUtkast()"
+             btn-tooltip="{{::forwardBtnTooltip}}">
     <i class="icon-wc-ikon-reply"></i>
     {{::forwardBtnText}}
   </wc-button>
 
   <wc-checkbox-wrapper>
-    <input id="mark-as-vidarebefordrad" type="checkbox" wc-ignore-dirty ng-disabled="viewState.common.vidarebefordraInProgress"
-           ng-model="viewState.draftModel.vidarebefordrad" ng-change="onVidarebefordradChange()" />
+    <input id="mark-as-vidarebefordrad" type="checkbox" wc-ignore-dirty
+           ng-disabled="viewState.common.vidarebefordraInProgress" ng-model="viewState.draftModel.vidarebefordrad"
+           ng-change="onVidarebefordradChange()" />
     <label for="mark-as-vidarebefordrad">Vidarebefordrad</label>
   </wc-checkbox-wrapper>
 
-  <wc-toggle
-      data-ng-if="!viewState.common.intyg.isComplete"
-      toggle-id="show-missing-btn"
-      toggle="showMissing(value)"
-      label="{{::checkMissingLabel}}"></wc-toggle>
+  <wc-toggle data-ng-if="!viewState.common.intyg.isComplete" toggle-id="show-missing-btn" toggle="showMissing(value)"
+             label="{{::checkMissingLabel}}"></wc-toggle>
 
 </div>

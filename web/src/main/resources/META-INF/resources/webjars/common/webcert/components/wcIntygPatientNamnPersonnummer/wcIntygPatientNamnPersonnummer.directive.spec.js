@@ -18,56 +18,56 @@
  */
 
 describe('wcIntygPatientNamnPersonnummerDirective', function() {
-    'use strict';
+  'use strict';
 
-    var $scope;
-    var element;
+  var $scope;
+  var element;
 
-    beforeEach(angular.mock.module('htmlTemplates'));
-    beforeEach(angular.mock.module('common'));
+  beforeEach(angular.mock.module('htmlTemplates'));
+  beforeEach(angular.mock.module('common'));
 
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-        $scope = $rootScope.$new();
+  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+    $scope = $rootScope.$new();
 
-        $rootScope.lang = 'sv';
+    $rootScope.lang = 'sv';
 
-        $scope.patientName = '';
-        $scope.personId = '';
-        $scope.oldPersonId = '';
+    $scope.patientName = '';
+    $scope.personId = '';
+    $scope.oldPersonId = '';
 
-        element = $compile(
-            '<div wc-intyg-patient-namn-personnummer patient-name="patientName" person-id="personId" old-person-id="oldPersonId"></div>'
-        )($scope);
+    element = $compile(
+        '<div wc-intyg-patient-namn-personnummer patient-name="patientName" person-id="personId" old-person-id="oldPersonId"></div>'
+    )($scope);
 
-    }]));
+  }]));
 
-    it('should display name and personId', function() {
-        $scope.patientName = 'Name';
-        $scope.personId = '123456-7890';
-        $scope.$digest();
+  it('should display name and personId', function() {
+    $scope.patientName = 'Name';
+    $scope.personId = '123456-7890';
+    $scope.$digest();
 
-        expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
-        expect($(element).find('.old-person-id').length).toBe(0);
-    });
+    expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
+    expect($(element).find('.old-person-id').length).toBe(0);
+  });
 
-    it('should display name, personId and oldPersonId is the same', function() {
-        $scope.patientName = 'Name';
-        $scope.personId = '123456-7890';
-        $scope.oldPersonId = '123456-7890';
-        $scope.$digest();
+  it('should display name, personId and oldPersonId is the same', function() {
+    $scope.patientName = 'Name';
+    $scope.personId = '123456-7890';
+    $scope.oldPersonId = '123456-7890';
+    $scope.$digest();
 
-        expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
-        expect($(element).find('.old-person-id').length).toBe(0);
-    });
+    expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
+    expect($(element).find('.old-person-id').length).toBe(0);
+  });
 
-    it('should display name, personId and oldPersonId is different', function() {
-        $scope.patientName = 'Name';
-        $scope.personId = '123456-7890';
-        $scope.oldPersonId = '223456-7890';
-        $scope.$digest();
+  it('should display name, personId and oldPersonId is different', function() {
+    $scope.patientName = 'Name';
+    $scope.personId = '123456-7890';
+    $scope.oldPersonId = '223456-7890';
+    $scope.$digest();
 
-        expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
-        expect($(element).find('.old-person-id').text()).toContain('f.d. 223456-7890');
-    });
+    expect($(element).find('#patientNamnPersonnummer').text()).toContain('Name - 123456-7890');
+    expect($(element).find('.old-person-id').text()).toContain('f.d. 223456-7890');
+  });
 
 });

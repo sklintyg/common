@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('tstrk1009', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('tstrk1009', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
-angular.module('tstrk1009').run([ 'common.messageService', 'tstrk1009.messages',
-    function(messageService, tstrk1009Messages) {
-        'use strict';
+angular.module('tstrk1009').run(['common.messageService', 'tstrk1009.messages',
+  function(messageService, tstrk1009Messages) {
+    'use strict';
 
-        messageService.addResources(tstrk1009Messages);
-    }]);
+    messageService.addResources(tstrk1009Messages);
+  }]);

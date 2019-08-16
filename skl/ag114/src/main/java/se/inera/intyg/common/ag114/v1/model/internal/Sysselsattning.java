@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.ag114.v1.model.internal;
 
-import javax.annotation.Nullable;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
+import javax.annotation.Nullable;
 
 @AutoValue
 public abstract class Sysselsattning {

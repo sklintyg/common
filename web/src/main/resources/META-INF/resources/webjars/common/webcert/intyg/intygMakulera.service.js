@@ -17,138 +17,140 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygMakulera',
-    [ '$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.UtkastProxy', 'common.ObjectHelper', 'common.IntygCopyRequestModel',
-        'common.IntygHelper', 'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService', 'common.featureService',
-        'common.messageService',
-        function($log, $stateParams, dialogService, IntygProxy, UtkastProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper,
-            CommonViewState, ArendeListViewStateService, moduleService, featureService,
-            messageService) {
-            'use strict';
+    ['$log', '$stateParams', 'common.dialogService', 'common.IntygProxy', 'common.UtkastProxy', 'common.ObjectHelper',
+      'common.IntygCopyRequestModel',
+      'common.IntygHelper', 'common.IntygViewStateService', 'common.ArendeListViewStateService', 'common.moduleService',
+      'common.featureService',
+      'common.messageService',
+      function($log, $stateParams, dialogService, IntygProxy, UtkastProxy, ObjectHelper, IntygCopyRequestModel, IntygHelper,
+          CommonViewState, ArendeListViewStateService, moduleService, featureService,
+          messageService) {
+        'use strict';
 
-            // Makulera dialog setup
-            var makuleraDialog = {
-                isOpen: false
-            };
+        // Makulera dialog setup
+        var makuleraDialog = {
+          isOpen: false
+        };
 
-            function _revokeSigneratIntyg(intygMakuleraMethod, intyg, dialogModel, makuleraDialog, onSuccess) {
+        function _revokeSigneratIntyg(intygMakuleraMethod, intyg, dialogModel, makuleraDialog, onSuccess) {
 
-                dialogModel.showerror = false;
+          dialogModel.showerror = false;
 
-                var revokeMessage = {
-                    message : '',
-                    reason : dialogModel.makuleraModel.reason
-                };
-                if (dialogModel.makuleraModel.reason) {
-                    revokeMessage.message += dialogModel.labels[dialogModel.makuleraModel.reason];
-                    if (dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason]) {
-                        revokeMessage.message += ' ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
-                    }
-                }
-                revokeMessage.message.trim();
-
-                function onMakuleraComplete() {
-                    dialogModel.makuleraProgressDone = true;
-                    makuleraDialog.close();
-                    onSuccess();
-                }
-
-                function onMakuleraFail(error) {
-                    $log.debug('Revoke failed: ' + error);
-                    dialogModel.makuleraProgressDone = true;
-                    dialogModel.ersattProgressDone = true;
-                    dialogModel.showerror = true;
-                }
-
-                if(intygMakuleraMethod === 'REVOKE') {
-                    dialogModel.makuleraProgressDone = false;
-
-                    if (intyg.utkast) {
-                        UtkastProxy.makuleraUtkast(intyg.id, intyg.intygType, revokeMessage,
-                            onMakuleraComplete, onMakuleraFail);
-                    } else {
-                        IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
-                            onMakuleraComplete, onMakuleraFail);
-                    }
-                }
+          var revokeMessage = {
+            message: '',
+            reason: dialogModel.makuleraModel.reason
+          };
+          if (dialogModel.makuleraModel.reason) {
+            revokeMessage.message += dialogModel.labels[dialogModel.makuleraModel.reason];
+            if (dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason]) {
+              revokeMessage.message += ' ' + dialogModel.makuleraModel.clarification[dialogModel.makuleraModel.reason];
             }
+          }
+          revokeMessage.message.trim();
 
-            function _makulera(intyg, confirmationMessage, onSuccess) {
-                function isMakuleraEnabled(model) {
-                    return model.makuleraProgressDone && // model.ersattProgressDone &&
-                        (
-                            model.choices.length === 0 ||
-                            (ObjectHelper.isDefined(model.makuleraModel.reason) &&
-                                model.makuleraModel.reason !== 'ANNAT_ALLVARLIGT_FEL') ||
-                            (model.makuleraModel.reason === 'ANNAT_ALLVARLIGT_FEL' &&
-                                !ObjectHelper.isEmpty(model.makuleraModel.clarification[model.makuleraModel.reason]))
-                        );
-                }
+          function onMakuleraComplete() {
+            dialogModel.makuleraProgressDone = true;
+            makuleraDialog.close();
+            onSuccess();
+          }
 
-                function getMakuleraText() {
-                    var textId = intyg.intygType + '.makulera.body.common-header';
-                    if (!messageService.propertyExists(textId)) {
-                        // If intyg hasn't specified a text, fall back to common text
-                        textId = 'label.makulera.body.common-header';
-                    }
-                    return textId;
-                }
+          function onMakuleraFail(error) {
+            $log.debug('Revoke failed: ' + error);
+            dialogModel.makuleraProgressDone = true;
+            dialogModel.ersattProgressDone = true;
+            dialogModel.showerror = true;
+          }
 
-                var dialogMakuleraModel = {
-                    hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
-                    isMakuleraEnabled: isMakuleraEnabled,
-                    makuleraProgressDone: true,
-                    focus: false,
-                    bodyTextId: getMakuleraText(),
-                    errormessageid: 'error.failedtomakuleraintyg',
-                    showerror: false,
-                    labels: {},
-                    choices: [],
-                    makuleraModel: {
-                        reason: undefined,
-                        clarification: []
-                    },
-                    recipient: 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase()
-                };
+          if (intygMakuleraMethod === 'REVOKE') {
+            dialogModel.makuleraProgressDone = false;
 
-                if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, intyg.intygType)) {
-                    dialogMakuleraModel.labels = {
-                        'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
-                        'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
-                    };
-                }
-
-                // Fill dialogMakuleraModel.choices array with choices based on labels
-                angular.forEach(dialogMakuleraModel.labels, function(label, key) {
-
-                    this.push({
-                        label: label,
-                        value: key,
-                        textAreaLabel: key === 'FEL_PATIENT' ? 'Ange orsak vid behov.' : 'Ange orsaken till felet.',
-                        required: key !== 'FEL_PATIENT'
-                    });
-                }, dialogMakuleraModel.choices);
-                
-                makuleraDialog = dialogService.showDialog({
-                    dialogId: 'makulera-dialog',
-                    titleId: 'label.makulera',
-                    templateUrl: '/web/webjars/common/webcert/intyg/intygMakulera.dialog.html',
-                    model: dialogMakuleraModel,
-                    button1click: function() {
-                        $log.debug('revoking intyg from dialog' + intyg);
-                        _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
-                    },
-                    button1text: 'common.makulera',
-                    button1id: 'button1makulera-dialog',
-                    button3text: 'common.cancel',
-                    button3id: 'button3makulera-dialog',
-                    autoClose: false
-                });
-
-                return makuleraDialog;
+            if (intyg.utkast) {
+              UtkastProxy.makuleraUtkast(intyg.id, intyg.intygType, revokeMessage,
+                  onMakuleraComplete, onMakuleraFail);
+            } else {
+              IntygProxy.makuleraIntyg(intyg.id, intyg.intygType, revokeMessage,
+                  onMakuleraComplete, onMakuleraFail);
             }
+          }
+        }
 
-            // Return public API for the service
-            return {
-                makulera: _makulera
+        function _makulera(intyg, confirmationMessage, onSuccess) {
+          function isMakuleraEnabled(model) {
+            return model.makuleraProgressDone && // model.ersattProgressDone &&
+                (
+                    model.choices.length === 0 ||
+                    (ObjectHelper.isDefined(model.makuleraModel.reason) &&
+                        model.makuleraModel.reason !== 'ANNAT_ALLVARLIGT_FEL') ||
+                    (model.makuleraModel.reason === 'ANNAT_ALLVARLIGT_FEL' &&
+                        !ObjectHelper.isEmpty(model.makuleraModel.clarification[model.makuleraModel.reason]))
+                );
+          }
+
+          function getMakuleraText() {
+            var textId = intyg.intygType + '.makulera.body.common-header';
+            if (!messageService.propertyExists(textId)) {
+              // If intyg hasn't specified a text, fall back to common text
+              textId = 'label.makulera.body.common-header';
+            }
+            return textId;
+          }
+
+          var dialogMakuleraModel = {
+            hasUnhandledArenden: ArendeListViewStateService.hasUnhandledItems(),
+            isMakuleraEnabled: isMakuleraEnabled,
+            makuleraProgressDone: true,
+            focus: false,
+            bodyTextId: getMakuleraText(),
+            errormessageid: 'error.failedtomakuleraintyg',
+            showerror: false,
+            labels: {},
+            choices: [],
+            makuleraModel: {
+              reason: undefined,
+              clarification: []
+            },
+            recipient: 'common.recipient.' + moduleService.getModule(intyg.intygType).defaultRecipient.toLowerCase()
+          };
+
+          if (featureService.isFeatureActive(featureService.features.MAKULERA_INTYG_KRAVER_ANLEDNING, intyg.intygType)) {
+            dialogMakuleraModel.labels = {
+              'FEL_PATIENT': 'Intyget har utfärdats på fel patient.',
+              'ANNAT_ALLVARLIGT_FEL': 'Annat allvarligt fel.'
             };
-        }]);
+          }
+
+          // Fill dialogMakuleraModel.choices array with choices based on labels
+          angular.forEach(dialogMakuleraModel.labels, function(label, key) {
+
+            this.push({
+              label: label,
+              value: key,
+              textAreaLabel: key === 'FEL_PATIENT' ? 'Ange orsak vid behov.' : 'Ange orsaken till felet.',
+              required: key !== 'FEL_PATIENT'
+            });
+          }, dialogMakuleraModel.choices);
+
+          makuleraDialog = dialogService.showDialog({
+            dialogId: 'makulera-dialog',
+            titleId: 'label.makulera',
+            templateUrl: '/web/webjars/common/webcert/intyg/intygMakulera.dialog.html',
+            model: dialogMakuleraModel,
+            button1click: function() {
+              $log.debug('revoking intyg from dialog' + intyg);
+              _revokeSigneratIntyg('REVOKE', intyg, dialogMakuleraModel, makuleraDialog, onSuccess);
+            },
+            button1text: 'common.makulera',
+            button1id: 'button1makulera-dialog',
+            button3text: 'common.cancel',
+            button3id: 'button3makulera-dialog',
+            autoClose: false
+          });
+
+          return makuleraDialog;
+        }
+
+        // Return public API for the service
+        return {
+          makulera: _makulera
+        };
+      }]);

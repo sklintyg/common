@@ -22,79 +22,79 @@
  * samordningsnummer) but it allows the user to input the number in any of the valid formats.
  */
 angular.module('common').directive('wcPersonNumber', ['common.PersonIdValidatorService', 'common.UtilsService',
-    function(personIdValidator, utils) {
-        'use strict';
+  function(personIdValidator, utils) {
+    'use strict';
 
-        return {
-            restrict: 'A',
-            require: 'ngModel',
-            link: function(scope, element, attrs, ngModel) {
+    return {
+      restrict: 'A',
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
 
-                ngModel.$validators.validPnr = function(modelValue, viewValue) {
+        ngModel.$validators.validPnr = function(modelValue, viewValue) {
 
-                    if(viewValue === ''){
-                        return true;
-                    }
+          if (viewValue === '') {
+            return true;
+          }
 
-                    var number = personIdValidator.validate(viewValue);
+          var number = personIdValidator.validate(viewValue);
 
-                    if (ngModel.$viewValue === '') {
-                        ngModel.$setUntouched();
-                    }
-                    return number !== undefined;
-                };
-
-                function handleViewValueUpdate(newValue, oldValue) {
-
-                    if(newValue === ''){
-                        ngModel.$setUntouched();
-                        ngModel.$setValidity('validPnr', true);
-                    }
-
-                    if(!newValue) {
-                        return;
-                    }
-
-                    function preventUnwantedCharacters(newValue, oldValue) {
-
-                        function updateViewValue(value) {
-                            ngModel.$setViewValue(value);
-                            ngModel.$render();
-                        }
-
-                        var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
-
-                        // if new value is longer than older we care, otherwise something that we already approved was removed
-                        if (!oldValue || (newValue.length > oldValue.length)) {
-                            if (!newValue.match(lookingLikePnr) ||
-                                (newValue.length !== 9 && newValue[newValue.length - 1] === '-')) {
-                                // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
-                                newValue = oldValue;
-                                updateViewValue(newValue);
-                            } else if (newValue.length === 8 || newValue.length === 9) {
-                                // add dash if 8 chars were typed
-                                newValue = utils.insertAt(newValue, '-', 8);
-                                updateViewValue(newValue);
-                            }
-                            if (newValue && newValue.length === 13) {
-                                ngModel.$setTouched();
-                            }
-                        } else if ((!oldValue || (newValue.length <= oldValue.length)) &&
-                            !newValue.match(lookingLikePnr)) {
-
-                            // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
-                            newValue = oldValue;
-                            updateViewValue(newValue);
-                        }
-                    }
-
-                    preventUnwantedCharacters(newValue, oldValue);
-                }
-
-                scope.$watch(function() {
-                    return ngModel.$viewValue;
-                }, handleViewValueUpdate);
-
-            }
+          if (ngModel.$viewValue === '') {
+            ngModel.$setUntouched();
+          }
+          return number !== undefined;
         };
-    }]);
+
+        function handleViewValueUpdate(newValue, oldValue) {
+
+          if (newValue === '') {
+            ngModel.$setUntouched();
+            ngModel.$setValidity('validPnr', true);
+          }
+
+          if (!newValue) {
+            return;
+          }
+
+          function preventUnwantedCharacters(newValue, oldValue) {
+
+            function updateViewValue(value) {
+              ngModel.$setViewValue(value);
+              ngModel.$render();
+            }
+
+            var lookingLikePnr = /^[0-9]*-?[0-9]*$/i;
+
+            // if new value is longer than older we care, otherwise something that we already approved was removed
+            if (!oldValue || (newValue.length > oldValue.length)) {
+              if (!newValue.match(lookingLikePnr) ||
+                  (newValue.length !== 9 && newValue[newValue.length - 1] === '-')) {
+                // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+                newValue = oldValue;
+                updateViewValue(newValue);
+              } else if (newValue.length === 8 || newValue.length === 9) {
+                // add dash if 8 chars were typed
+                newValue = utils.insertAt(newValue, '-', 8);
+                updateViewValue(newValue);
+              }
+              if (newValue && newValue.length === 13) {
+                ngModel.$setTouched();
+              }
+            } else if ((!oldValue || (newValue.length <= oldValue.length)) &&
+                !newValue.match(lookingLikePnr)) {
+
+              // remove last addition if it doesn't match the pnr pattern or if dash was added prematurely/late
+              newValue = oldValue;
+              updateViewValue(newValue);
+            }
+          }
+
+          preventUnwantedCharacters(newValue, oldValue);
+        }
+
+        scope.$watch(function() {
+          return ngModel.$viewValue;
+        }, handleViewValueUpdate);
+
+      }
+    };
+  }]);

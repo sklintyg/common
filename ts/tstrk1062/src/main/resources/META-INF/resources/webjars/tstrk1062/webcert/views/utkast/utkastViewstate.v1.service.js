@@ -18,31 +18,31 @@
  */
 angular.module('tstrk1062').service('tstrk1062.UtkastController.ViewStateService.v1',
     ['$log', 'tstrk1062.Domain.IntygModel.v1', 'common.UtkastViewStateService',
-        function($log, IntygModel, CommonViewState) {
-            'use strict';
+      function($log, IntygModel, CommonViewState) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.intygModel = undefined;
-            this.draftModel = undefined;
+        this.intygModel = undefined;
+        this.draftModel = undefined;
 
-            this.clearModel = function() {
-                this.intygModel = undefined;
-                this.draftModel = undefined;
-            };
+        this.clearModel = function() {
+          this.intygModel = undefined;
+          this.draftModel = undefined;
+        };
 
-            this.setDraftModel = function(draftModel) {
-                this.draftModel = draftModel;
-                this.intygModel = draftModel.content;
-            };
+        this.setDraftModel = function(draftModel) {
+          this.draftModel = draftModel;
+          this.intygModel = draftModel.content;
+        };
 
-            this.reset = function() {
+        this.reset = function() {
 
-                CommonViewState.reset();
-                CommonViewState.intyg.type = 'tstrk1062';
-                this.setDraftModel(IntygModel._members.build());
-                return this;
-            };
+          CommonViewState.reset();
+          CommonViewState.intyg.type = 'tstrk1062';
+          this.setDraftModel(IntygModel._members.build());
+          return this;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

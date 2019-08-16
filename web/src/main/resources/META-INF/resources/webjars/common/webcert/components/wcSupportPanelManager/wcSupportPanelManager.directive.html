@@ -1,11 +1,8 @@
 <div class="inside-wrapper">
   <ul class="support-tabs" id="support-tabs">
     <li ng-repeat="tab in config.tabs" role="presentation" ng-class="{'active': tab.active}">
-      <a href ng-click="onSelect(tab, $event)"
-         ng-attr-id="{{::'tab-link-' + tab.id}}"
-         uib-popover="{{::getText(tab.tooltip)}}"
-         popover-placement="auto top"
-         popover-append-to-body="true">
+      <a href ng-click="onSelect(tab, $event)" ng-attr-id="{{::'tab-link-' + tab.id}}"
+         uib-popover="{{::getText(tab.tooltip)}}" popover-placement="auto top" popover-append-to-body="true">
         <i data-ng-if="tab.icon" class="material-icons">{{::tab.icon}}</i>
         <span dynamic-label key="{{::tab.title}}"></span>
       </a>
@@ -14,13 +11,12 @@
 
   <ul class="minimized-support-tabs" id="minimized-support-tabs" ng-if="!config.disableMinimizeMode">
     <li ng-repeat="tab in config.tabs" role="presentation" ng-class="{'active': tab.active}">
-      <a href ng-click="onSelectMinimized(tab, $event)"
-         ng-attr-id="{{::'tab-minimized-link-' + tab.id}}"
-         uib-popover="{{::getText(tab.minimized.tooltip)}}"
-         popover-placement="left auto">
+      <a href ng-click="onSelectMinimized(tab, $event)" ng-attr-id="{{::'tab-minimized-link-' + tab.id}}"
+         uib-popover="{{::getText(tab.minimized.tooltip)}}" popover-placement="left auto">
         <i data-ng-if="tab.minimized.icon && !tab.minimized.iconIsCustom" class="material-icons">{{::tab.minimized.icon}}</i>
         <i data-ng-if="tab.minimized.iconIsCustom" class="{{::tab.minimized.icon}} icon-wc-24"></i>
-        <span class="notification" ng-if="tab.minimized.notificationCount > 0">{{tab.minimized.notificationCount}}</span>
+        <span class="notification"
+              ng-if="tab.minimized.notificationCount > 0">{{tab.minimized.notificationCount}}</span>
         <span dynamic-label key="{{::tab.minimized.title}}"></span>
       </a>
     </li>
@@ -28,16 +24,14 @@
 
   <div class="tab-content-wrapper">
     <div class="sidebar-minimize" ng-if="!config.disableMinimizeMode">
-      <a href id="sidebar-minimize"
-         ng-click="setMinimized(true)"
-         uib-popover="{{::getText('common.supportpanel.minimize.tooltip')}}"
-         popover-placement="left auto"
-        >
+      <a href id="sidebar-minimize" ng-click="setMinimized(true)"
+         uib-popover="{{::getText('common.supportpanel.minimize.tooltip')}}" popover-placement="left auto">
         <i class="icon-wc-ikon-49 icon-wc-24"></i>
       </a>
     </div>
     <div class="tab-content-container ng-hide" ng-repeat="tab in config.tabs" ng-show="tab.active">
-      <wc-support-panel-component-renderer component-name="{{tab.id}}" config="tab.config"></wc-support-panel-component-renderer>
+      <wc-support-panel-component-renderer component-name="{{tab.id}}"
+                                           config="tab.config"></wc-support-panel-component-renderer>
     </div>
   </div>
 </div>

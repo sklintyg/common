@@ -2,18 +2,19 @@
   <button type="button" class="close" ng-click="close()">×</button>
   <h3 class="modal-title" tabindex="-1">
     <span dynamic-label key="listtable.headers.latestEvent"></span>
-    <span class="nrofstatusesshown" message params="[filteredEvents.length, filteredEvents.length]" key="certificates.events.eventsshown"></span>
+    <span class="nrofstatusesshown" message params="[filteredEvents.length, filteredEvents.length]"
+          key="certificates.events.eventsshown"></span>
   </h3>
 </div>
 
 <div class="modal-body">
   <div class="modal-event-rows">
-    <div class="modal-event-row"
-         ng-repeat="event in filteredEvents track by $index"
-         ng-init="info = getEventInfo(event)"
-         ng-attr-id="event-{{::certId}}-{{::$index}}" ng-class-odd="'stripe-dark'">
-      <span class="modal-event-timestamp" ng-attr-id="event-timestamp-{{::certId}}-{{::$index}}2">{{::info.timestamp}}</span>
-      <latest-events-text class="modal-event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}2" text="info.text" view-cert="viewCert(type, id)"></latest-events-text>
+    <div class="modal-event-row" ng-repeat="event in filteredEvents track by $index"
+         ng-init="info = getEventInfo(event)" ng-attr-id="event-{{::certId}}-{{::$index}}" ng-class-odd="'stripe-dark'">
+      <span class="modal-event-timestamp"
+            ng-attr-id="event-timestamp-{{::certId}}-{{::$index}}2">{{::info.timestamp}}</span>
+      <latest-events-text class="modal-event-text" ng-attr-id="event-text-{{::certId}}-{{::$index}}2" text="info.text"
+                          view-cert="viewCert(type, id)"></latest-events-text>
     </div>
   </div>
 </div>

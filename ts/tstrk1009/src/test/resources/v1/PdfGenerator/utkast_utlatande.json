@@ -6,7 +6,9 @@
     "skapadAv": {
       "personId": "SE0000000000-1333",
       "fullstandigtNamn": "Doktor Thompson",
-      "specialiteter" : ["SPECIALITET"],
+      "specialiteter": [
+        "SPECIALITET"
+      ],
       "vardenhet": {
         "enhetsid": "SE0000000000-1337",
         "enhetsnamn": "Vårdenhet Väst",
@@ -19,7 +21,7 @@
           "vardgivarnamn": "Vårdgivarnamn"
         }
       },
-      "befattningar" : []
+      "befattningar": []
     },
     "patient": {
       "personId": "19121212-1212",
@@ -31,106 +33,106 @@
       "postort": "Testort"
     }
   },
-  "intygAvser":{
-    "korkortstyp":[
+  "intygAvser": {
+    "korkortstyp": [
       {
-        "type":"C1",
-        "selected":false
+        "type": "C1",
+        "selected": false
       },
       {
-        "type":"C1E",
-        "selected":false
+        "type": "C1E",
+        "selected": false
       },
       {
-        "type":"C",
-        "selected":false
+        "type": "C",
+        "selected": false
       },
       {
-        "type":"CE",
-        "selected":false
+        "type": "CE",
+        "selected": false
       },
       {
-        "type":"D1",
-        "selected":false
+        "type": "D1",
+        "selected": false
       },
       {
-        "type":"D1E",
-        "selected":false
+        "type": "D1E",
+        "selected": false
       },
       {
-        "type":"D",
-        "selected":false
+        "type": "D",
+        "selected": false
       },
       {
-        "type":"DE",
-        "selected":false
+        "type": "DE",
+        "selected": false
       },
       {
-        "type":"TAXI",
-        "selected":false
+        "type": "TAXI",
+        "selected": false
       },
       {
-        "type":"ANNAT",
-        "selected":false
+        "type": "ANNAT",
+        "selected": false
       }
     ]
   },
-  "syn":{},
-  "horselBalans":{},
-  "funktionsnedsattning":{},
-  "hjartKarl":{},
-  "diabetes":{},
-  "neurologi":{},
-  "medvetandestorning":{},
-  "njurar":{},
-  "kognitivt":{},
-  "somnVakenhet":{},
-  "narkotikaLakemedel":{},
-  "psykiskt":{},
-  "utvecklingsstorning":{},
-  "sjukhusvard":{},
-  "medicinering":{},
-  "bedomning":{
-    "korkortstyp":[
+  "syn": {},
+  "horselBalans": {},
+  "funktionsnedsattning": {},
+  "hjartKarl": {},
+  "diabetes": {},
+  "neurologi": {},
+  "medvetandestorning": {},
+  "njurar": {},
+  "kognitivt": {},
+  "somnVakenhet": {},
+  "narkotikaLakemedel": {},
+  "psykiskt": {},
+  "utvecklingsstorning": {},
+  "sjukhusvard": {},
+  "medicinering": {},
+  "bedomning": {
+    "korkortstyp": [
       {
-        "type":"C1",
-        "selected":false
+        "type": "C1",
+        "selected": false
       },
       {
-        "type":"C1E",
-        "selected":false
+        "type": "C1E",
+        "selected": false
       },
       {
-        "type":"C",
-        "selected":false
+        "type": "C",
+        "selected": false
       },
       {
-        "type":"CE",
-        "selected":false
+        "type": "CE",
+        "selected": false
       },
       {
-        "type":"D1",
-        "selected":false
+        "type": "D1",
+        "selected": false
       },
       {
-        "type":"D1E",
-        "selected":false
+        "type": "D1E",
+        "selected": false
       },
       {
-        "type":"D",
-        "selected":false
+        "type": "D",
+        "selected": false
       },
       {
-        "type":"DE",
-        "selected":false
+        "type": "DE",
+        "selected": false
       },
       {
-        "type":"TAXI",
-        "selected":false
+        "type": "TAXI",
+        "selected": false
       },
       {
-        "type":"ANNAT",
-        "selected":false
+        "type": "ANNAT",
+        "selected": false
       }
     ]
   }

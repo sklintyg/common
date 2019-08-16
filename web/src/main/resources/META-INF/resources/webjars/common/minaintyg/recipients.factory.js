@@ -17,26 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.recipientsFactory', function() {
-    'use strict';
+  'use strict';
 
-    var _knownRecipients = [];
+  var _knownRecipients = [];
 
-    function _getNameForId(recipientId) {
-            var result;
-            angular.forEach(_knownRecipients, function (candidate) {
-                if (candidate.id === recipientId.toUpperCase()) {
-                    result = candidate.name;
-                }
-            });
-            return result;
-    }
+  function _getNameForId(recipientId) {
+    var result;
+    angular.forEach(_knownRecipients, function(candidate) {
+      if (candidate.id === recipientId.toUpperCase()) {
+        result = candidate.name;
+      }
+    });
+    return result;
+  }
 
-    function _setRecipients(arr) {
-        _knownRecipients = arr;
-    }
+  function _setRecipients(arr) {
+    _knownRecipients = arr;
+  }
 
-    return {
-        setRecipients: _setRecipients,
-        getNameForId: _getNameForId
-    };
+  return {
+    setRecipients: _setRecipients,
+    getNameForId: _getNameForId
+  };
 });

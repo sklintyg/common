@@ -18,10 +18,9 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
+import java.util.Map;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import java.util.Map;
 
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.
@@ -29,12 +28,13 @@ import java.util.Map;
  * Contains all intyg- and intygstyp specific data needed for complete rendering.
  */
 public class PrintConfig {
+
     public static final String UTSK001_HEADER = "Skicka intyg till mottagare";
     public static final String UTSK001_BODY = "Du som fått ett intyg utfärdat kan snabbt och säkert hantera detta "
-            + "intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren."
-            + "\n\n"
-            + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. "
-            + "Det enda du behöver för att logga in är e-legitimation.";
+        + "intyg i e-tjänsten Mina intyg. Där kan du till exempel skicka intyget till mottagaren."
+        + "\n\n"
+        + "Du når Mina intyg via 1177 Vårdguidens webbplats 1177.se eller via minaintyg.se. "
+        + "Det enda du behöver för att logga in är e-legitimation.";
 
     private String intygJsonModel;
     private String upJsModel;
@@ -130,6 +130,7 @@ public class PrintConfig {
     public boolean showSignatureLine() {
         return showSignatureLine;
     }
+
     public Map<String, String> getModelPropReplacements() {
         return modelPropReplacements;
     }
@@ -139,6 +140,7 @@ public class PrintConfig {
     }
 
     public static final class PrintConfigBuilder {
+
         private String intygJsonModel;
         private String upJsModel;
         private String personnummer;
@@ -249,10 +251,12 @@ public class PrintConfig {
             this.showSignatureLine = showSignatureLine;
             return this;
         }
+
         public PrintConfigBuilder withModelPropReplacements(Map<String, String> modelPropReplacements) {
             this.modelPropReplacements = modelPropReplacements;
             return this;
         }
+
         public PrintConfig build() {
             PrintConfig printConfig = new PrintConfig();
             printConfig.isUtkast = this.isUtkast;

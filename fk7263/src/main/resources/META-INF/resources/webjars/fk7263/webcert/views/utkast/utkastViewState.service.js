@@ -18,29 +18,26 @@
  */
 angular.module('fk7263').service('fk7263.EditCertCtrl.ViewStateService',
     ['$log', 'common.UtkastViewStateService', 'fk7263.Domain.IntygModel',
-        function($log, CommonViewState, IntygModel) {
-            'use strict';
+      function($log, CommonViewState, IntygModel) {
+        'use strict';
 
+        //We still need a barebone utkast viewstate to utilize utkastservice load functionality...
+        this.common = CommonViewState;
 
-            //We still need a barebone utkast viewstate to utilize utkastservice load functionality...
-            this.common = CommonViewState;
+        this.intygModel = undefined;
+        this.draftModel = undefined;
 
-            this.intygModel = undefined;
-            this.draftModel = undefined;
+        this.setDraftModel = function(draftModel) {
+          this.draftModel = draftModel;
+          this.intygModel = draftModel.content;
+        };
 
-            this.setDraftModel = function(draftModel){
-                this.draftModel = draftModel;
-                this.intygModel = draftModel.content;
-            };
+        this.reset = function() {
+          CommonViewState.reset();
+          CommonViewState.intyg.type = 'fk7263';
+          this.setDraftModel(IntygModel._members.build());
+          return this;
+        };
 
-
-            this.reset = function() {
-                CommonViewState.reset();
-                CommonViewState.intyg.type = 'fk7263';
-                this.setDraftModel(IntygModel._members.build());
-                return this;
-            };
-
-
-            this.reset();
-        }]);
+        this.reset();
+      }]);

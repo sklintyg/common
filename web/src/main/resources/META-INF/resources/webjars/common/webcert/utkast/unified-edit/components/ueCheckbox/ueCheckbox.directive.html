@@ -1,14 +1,11 @@
 <div class="ue-del-fraga">
 
-    <wc-checkbox-wrapper>
-      <input type="checkbox"
-           ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
-           ng-model="modelGetterSetter"
-           ng-model-options="{ getterSetter: true }"
-           ng-change="updateValidation()">
-      <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}" ng-class="::{'bold': config.label.bold}">
-        <span dynamic-label key="{{::config.label.key}}"></span>
-      </label>
-    </wc-checkbox-wrapper>
+  <wc-checkbox-wrapper>
+    <input type="checkbox" ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" ng-model="modelGetterSetter"
+           ng-model-options="{ getterSetter: true }" ng-change="updateValidation()">
+    <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}" ng-class="::{'bold': config.label.bold}">
+      <span dynamic-label key="{{::config.label.key}}"></span>
+    </label>
+  </wc-checkbox-wrapper>
 
 </div>

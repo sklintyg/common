@@ -18,13 +18,12 @@
  */
 package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certificate.converter;
 
-import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
-import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
+import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
+import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
 
 /**
  * @author andreaskaltenbach

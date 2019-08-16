@@ -18,67 +18,66 @@
  */
 
 describe('Service: PingService', function() {
-    'use strict';
-    var $httpBackend, $interval, pingService;
+  'use strict';
+  var $httpBackend, $interval, pingService;
 
-    // Load the module and mock away everything that is needed necessary.
-    beforeEach(angular.mock.module('common', function(/*$provide*/) {
+  // Load the module and mock away everything that is needed necessary.
+  beforeEach(angular.mock.module('common', function(/*$provide*/) {
 
-    }));
+  }));
 
+  // Initialize the controller and a mock scope
 
-    // Initialize the controller and a mock scope
+  beforeEach(angular.mock.inject([
+    '$httpBackend', '$interval', 'common.pingService',
+    function(_$httpBackend_, _$interval_, _pingService_) {
+      $interval = _$interval_;
+      $httpBackend = _$httpBackend_;
+      pingService = _pingService_;
+    }
+  ]));
 
-    beforeEach(angular.mock.inject([
-        '$httpBackend', '$interval', 'common.pingService',
-        function(_$httpBackend_, _$interval_, _pingService_) {
-            $interval = _$interval_;
-            $httpBackend = _$httpBackend_;
-            pingService = _pingService_;
-        }
-    ]));
+  describe('pingService', function() {
+    it('should not ping backend until after threshold delay value', function() {
 
-    describe('pingService', function() {
-        it('should not ping backend until after threshold delay value', function() {
+      pingService.registerUserAction('Test');
+      $interval.flush(pingService._THROTTLE_VALUE_ - 10);
 
-            pingService.registerUserAction('Test');
-            $interval.flush(pingService._THROTTLE_VALUE_ - 10);
-
-        });
     });
+  });
 
-    describe('pingService', function() {
-        it('should ping backend after threshold delay value', function() {
+  describe('pingService', function() {
+    it('should ping backend after threshold delay value', function() {
 
-            $httpBackend.expectGET('/api/anvandare/ping').respond(200);
+      $httpBackend.expectGET('/api/anvandare/ping').respond(200);
 
-            pingService.registerUserAction('Test');
+      pingService.registerUserAction('Test');
 
-            $interval.flush(pingService._THROTTLE_VALUE_ + 10);
+      $interval.flush(pingService._THROTTLE_VALUE_ + 10);
 
-            expect($httpBackend.flush).not.toThrow();
+      expect($httpBackend.flush).not.toThrow();
 
-        });
     });
+  });
 
-    describe('pingService', function() {
-        it('should throttle backend ping requests', function() {
+  describe('pingService', function() {
+    it('should throttle backend ping requests', function() {
 
-            $httpBackend.expectGET('/api/anvandare/ping').respond(200);
+      $httpBackend.expectGET('/api/anvandare/ping').respond(200);
 
-            pingService.registerUserAction('Test1');
-            pingService.registerUserAction('Test2');
-            pingService.registerUserAction('Test3');
-            pingService.registerUserAction('Test4');
-            $interval.flush(pingService._THROTTLE_VALUE_ + 10);
-            expect($httpBackend.flush).not.toThrow();
+      pingService.registerUserAction('Test1');
+      pingService.registerUserAction('Test2');
+      pingService.registerUserAction('Test3');
+      pingService.registerUserAction('Test4');
+      $interval.flush(pingService._THROTTLE_VALUE_ + 10);
+      expect($httpBackend.flush).not.toThrow();
 
-        });
     });
+  });
 
-    afterEach(function() {
-        $httpBackend.verifyNoOutstandingExpectation();
-        $httpBackend.verifyNoOutstandingRequest();
-    });
+  afterEach(function() {
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
 
 });

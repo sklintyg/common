@@ -19,31 +19,31 @@
 angular.module('af00251', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('af00251').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    $stateProvider.state('af00251-view', {
-        url: '/af00251/:intygTypeVersion/view/:certificateId',
-        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-        controller: 'common.ViewCertCtrl',
-        resolve: {
-            viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-              return factoryResolverHelper.resolve('af00251.viewConfigFactory', $stateParams);
-            },
-            viewFactory: function(factoryResolverHelper, $stateParams) {
-                return factoryResolverHelper.resolve('af00251.viewFactory', $stateParams);
-            }
-        },
-        data: {
-            title: 'Läkarintyg för deltagare i arbetsmarknadspolitiska program',
-            keepInboxTabActive: true,
-            breadcrumb: ['inkorg', 'intyg']
-        }
-    });
+  $stateProvider.state('af00251-view', {
+    url: '/af00251/:intygTypeVersion/view/:certificateId',
+    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+    controller: 'common.ViewCertCtrl',
+    resolve: {
+      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('af00251.viewConfigFactory', $stateParams);
+      },
+      viewFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('af00251.viewFactory', $stateParams);
+      }
+    },
+    data: {
+      title: 'Läkarintyg för deltagare i arbetsmarknadspolitiska program',
+      keepInboxTabActive: true,
+      breadcrumb: ['inkorg', 'intyg']
+    }
+  });
 });
 
 // Inject language resources
 angular.module('af00251').run(['common.messageService', 'af00251.messages', function(messageService, af00251Messages) {
-    'use strict';
+  'use strict';
 
-    messageService.addResources(af00251Messages);
+  messageService.addResources(af00251Messages);
 }]);

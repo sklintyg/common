@@ -2,12 +2,8 @@
   <ue-label config="::config.label" model="::model"></ue-label>
   <div class="textarea-wrapper">
     <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control"
-              rows="{{::config.rows || 6}}"
-              auto-expand
-              ue-filter-latin1
-              ng-model="modelGetterSetter"
-              ng-model-options="{ debounce: 500, getterSetter: true }"
-              maxlength="{{::config.htmlMaxlength || 3500}}"
+              rows="{{::config.rows || 6}}" auto-expand ue-filter-latin1 ng-model="modelGetterSetter"
+              ng-model-options="{ debounce: 500, getterSetter: true }" maxlength="{{::config.htmlMaxlength || 3500}}"
               ng-blur="updateValidation()">
     </textarea>
   </div>

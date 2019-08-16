@@ -1,4 +1,5 @@
-<div ng-attr-id="{{alertId | uvDomIdFilter}}" class="alert alert-{{::alertSeverity}}" ng-class="::{'alert-warning': alertSeverity === 'sekretess'}">
+<div ng-attr-id="{{alertId | uvDomIdFilter}}" class="alert alert-{{::alertSeverity}}"
+     ng-class="::{'alert-warning': alertSeverity === 'sekretess'}">
   <div class="alert-icon" ng-switch="::alertSeverity">
     <i ng-switch-when="info" class="material-icons">info_outline</i>
     <i ng-switch-when="warning" class="material-icons">error_outline</i>

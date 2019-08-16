@@ -21,15 +21,15 @@
  * This sole purpose of this simple directive is to centralize the apperance of a filed that has no value to show.
  */
 angular.module('common').directive('uvNoValue', function() {
-    'use strict';
+  'use strict';
 
-    return {
-        restrict: 'E',
-        scope: {
-            text: '='
-        },
-        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvNoValue/uvNoValue.directive.html',
-        controller: function($scope){
-        }
-    };
+  return {
+    restrict: 'E',
+    scope: {
+      text: '='
+    },
+    templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvNoValue/uvNoValue.directive.html',
+    controller: function($scope) {
+    }
+  };
 });

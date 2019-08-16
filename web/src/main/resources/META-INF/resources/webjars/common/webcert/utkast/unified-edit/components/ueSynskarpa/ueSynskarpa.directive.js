@@ -16,20 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueSynskarpa', [ 'ueUtil',
-    function(ueUtil) {
-        'use strict';
+angular.module('common').directive('ueSynskarpa', ['ueUtil',
+  function(ueUtil) {
+    'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                form: '=',
-                config: '=',
-                model: '='
-            },
-            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.html',
-            link: function($scope) {
-                ueUtil.standardSetup($scope);
-            }
-        };
-    }]);
+    return {
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.html',
+      link: function($scope) {
+        ueUtil.standardSetup($scope);
+      }
+    };
+  }]);

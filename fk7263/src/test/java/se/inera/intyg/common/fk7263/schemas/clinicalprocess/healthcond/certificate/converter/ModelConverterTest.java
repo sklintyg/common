@@ -25,9 +25,7 @@ import static org.junit.Assert.assertNull;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
 import org.junit.Test;
-
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
@@ -46,8 +44,9 @@ public class ModelConverterTest {
         String careUnitName = "careUnitName";
         String additionalInfo = "additionalInfo";
         LocalDateTime signedDate = LocalDateTime.now();
-        CertificateHolder source = buildCertificateHolder(certificateId, certificateType, validFromDate, validToDate, signingDoctorName, careUnitName,
-                signedDate, additionalInfo, false);
+        CertificateHolder source = buildCertificateHolder(certificateId, certificateType, validFromDate, validToDate, signingDoctorName,
+            careUnitName,
+            signedDate, additionalInfo, false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -67,8 +66,9 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeDateMissing() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", null, "signingDoctorName", "careUnitName",
-                LocalDateTime.now(), "additionalInfo", false);
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", null, "signingDoctorName",
+            "careUnitName",
+            LocalDateTime.now(), "additionalInfo", false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -78,8 +78,9 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeDeleted() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14", "signingDoctorName", "careUnitName",
-                LocalDateTime.now(), "additionalInfo", true);
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
+            "signingDoctorName", "careUnitName",
+            LocalDateTime.now(), "additionalInfo", true);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -89,8 +90,9 @@ public class ModelConverterTest {
 
     @Test
     public void testToCertificateMetaTypeSignedDateMissing() {
-        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14", "signingDoctorName", "careUnitName",
-                null, "additionalInfo", false);
+        CertificateHolder source = buildCertificateHolder("certificateId", "certificateType", "2016-10-11", "2016-10-14",
+            "signingDoctorName", "careUnitName",
+            null, "additionalInfo", false);
 
         CertificateMetaType res = ModelConverter.toCertificateMetaType(source);
 
@@ -99,7 +101,7 @@ public class ModelConverterTest {
     }
 
     private CertificateHolder buildCertificateHolder(String certificateId, String certificateType, String validFromDate, String validToDate,
-            String signingDoctorName, String careUnitName, LocalDateTime signedDate, String additionalInfo, boolean isDeleted) {
+        String signingDoctorName, String careUnitName, LocalDateTime signedDate, String additionalInfo, boolean isDeleted) {
         CertificateHolder source = new CertificateHolder();
         source.setId(certificateId);
         source.setType(certificateType);
@@ -110,7 +112,8 @@ public class ModelConverterTest {
         source.setSignedDate(signedDate);
         source.setAdditionalInfo(additionalInfo);
         source.setCertificateStates(new ArrayList<>());
-        source.getCertificateStates().add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
+        source.getCertificateStates()
+            .add(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now().minusDays(2)));
         source.setDeleted(isDeleted);
         return source;
     }

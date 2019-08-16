@@ -23,14 +23,14 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.util.*;
-
+import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;

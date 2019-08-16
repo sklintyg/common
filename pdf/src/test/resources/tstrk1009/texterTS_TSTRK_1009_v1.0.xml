@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<texter typ="TSTRK1009" giltigFrom="2019-01-09" version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<texter typ="TSTRK1009" giltigFrom="2019-01-09" version="1.0">
 
-	<!--
-	============================
-	KATEGORI: Informationstexter
-	============================
-	-->
-	<text id="FRM_1.RBK">Transportstyrelsens läkares anmälan TSTRK1009 ska användas för läkares anmälan om medicinsk olämplighet att inneha körkortstillstånd, körkort, traktorkort eller taxiförarlegitimation</text>
-	<text id="FRM_2.RBK"><![CDATA[<b>Läkares anmälan TSTRK1009 v.1.x</b>
+  <!--
+  ============================
+  KATEGORI: Informationstexter
+  ============================
+  -->
+  <text id="FRM_1.RBK">Transportstyrelsens läkares anmälan TSTRK1009 ska användas för läkares anmälan om medicinsk
+    olämplighet att inneha körkortstillstånd, körkort, traktorkort eller taxiförarlegitimation
+  </text>
+  <text id="FRM_2.RBK"><![CDATA[<b>Läkares anmälan TSTRK1009 v.1.x</b>
 
 		<b>Bestämmelser om läkares anmälningsskyldighet m.m.</b>
 
@@ -66,22 +68,22 @@
 
 	]]></text>
 
-	<!--
+  <!--
   ==================================
   KATEGORI 1: Identitet styrkt genom
   ==================================
   -->
-	<text id="KAT_1.RBK">Identitet</text>
-	<text id="FRG_2.RBK">Identitet styrkt genom</text>
+  <text id="KAT_1.RBK">Identitet</text>
+  <text id="FRG_2.RBK">Identitet styrkt genom</text>
 
-	<text id="IDENTITET_ID_KORT.RBK">ID-kort</text>
-	<text id="IDENTITET_FORETAG_ELLER_TJANSTEKORT.RBK">Företagskort eller tjänstekort</text>
-	<text id="IDENTITET_KORKORT.RBK">Svenskt körkort</text>
-	<text id="IDENTITET_PERS_KANNEDOM.RBK">Personlig kännedom</text>
-	<text id="IDENTITET_FORSAKRAN_KAP18.RBK">Försäkran enligt 18 kap 4 §</text>
-	<text id="IDENTITET_PASS.RBK">Pass</text>
+  <text id="IDENTITET_ID_KORT.RBK">ID-kort</text>
+  <text id="IDENTITET_FORETAG_ELLER_TJANSTEKORT.RBK">Företagskort eller tjänstekort</text>
+  <text id="IDENTITET_KORKORT.RBK">Svenskt körkort</text>
+  <text id="IDENTITET_PERS_KANNEDOM.RBK">Personlig kännedom</text>
+  <text id="IDENTITET_FORSAKRAN_KAP18.RBK">Försäkran enligt 18 kap 4 §</text>
+  <text id="IDENTITET_PASS.RBK">Pass</text>
 
-	<text id="FRG_2.HLP"><![CDATA[<b>ID-kort</b>
+  <text id="FRG_2.HLP"><![CDATA[<b>ID-kort</b>
 		Avser SIS-märkt ID-kort, svenskt nationellt ID-kort eller ID-kort utfärdat av Skatteverket.
 
 		<b>Företagskort eller tjänstekort</b>
@@ -94,31 +96,33 @@
 		Avser svenskt EU-pass, annat EU-pass utfärdade från och med den 1 september 2006, pass utfärdat av Island, Liechtenstein, Norge eller Schweiz från och med den 1 september 2006.
 	]]></text>
 
-	<!--
+  <!--
   =========================
   KATEGORI 2: Anmälan avser
   =========================
   -->
-	<text id="KAT_2.RBK">Anmälan</text>
-	<text id="FRG_46.RBK">Anmälan avser</text>
-	<text id="FRG_46.HLP"><![CDATA[<b>Anmälan om olämplighet</b>
+  <text id="KAT_2.RBK">Anmälan</text>
+  <text id="FRG_46.RBK">Anmälan avser</text>
+  <text id="FRG_46.HLP"><![CDATA[<b>Anmälan om olämplighet</b>
 		Om en läkare vid undersökning av en person finner att personen av medicinska skäl är olämplig att ha körkort, körkortstillstånd, traktorkort eller taxiförarlegitimation, ska läkaren anmäla det till Transportstyrelsen. Innan anmälan görs ska läkaren underrätta personen.
 
 		<b>Anmälan om sannolik olämplighet</b>
 		Om en läkare vid undersökning eller genomgång av journalhandlingar finner det sannolikt att personen av medicinska skäl är olämplig att ha körkort, körkortstillstånd, traktorkort eller taxiförarlegitimation och personen motsätter sig fortsatt undersökning eller utredning, ska läkaren anmäla förhållandet till Transportstyrelsen. Personen som anmälan avser behöver inte underrättas innan anmälan görs.
 	]]></text>
 
-	<text id="KV_SVAR_OLAMPLIGHET.OLAMPLIGHET.RBK">Anmälan om olämplighet</text>
-	<text id="KV_SVAR_OLAMPLIGHET.SANNOLIK_OLAMPLIGHET.RBK">Anmälan om sannolik olämplighet</text>
+  <text id="KV_SVAR_OLAMPLIGHET.OLAMPLIGHET.RBK">Anmälan om olämplighet</text>
+  <text id="KV_SVAR_OLAMPLIGHET.SANNOLIK_OLAMPLIGHET.RBK">Anmälan om sannolik olämplighet</text>
 
-	<!--
+  <!--
   ===================================
   KATEGORI 3: Medicinska förhållanden
   ===================================
   -->
-	<text id="KAT_3.RBK">Medicinska förhållanden</text>
-	<text id="FRG_47.RBK">Medicinska förhållanden som utgör grund för anmälan (ange t.ex. diagnos och funktionsnedsättning)</text>
-	<text id="FRG_47.HLP"><![CDATA[<b>Vid synnedsättning</b>
+  <text id="KAT_3.RBK">Medicinska förhållanden</text>
+  <text id="FRG_47.RBK">Medicinska förhållanden som utgör grund för anmälan (ange t.ex. diagnos och
+    funktionsnedsättning)
+  </text>
+  <text id="FRG_47.HLP"><![CDATA[<b>Vid synnedsättning</b>
 		Se läkarintyg ”läkarintyg synfunktion” (TSTRK 1032) påwww.transportstyrelsen.seför ledning. Bedömningen ska göras utifrån 2 kap. Transportstyrelsens föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m.
 
 		<b>Vid hjärt- och kärlsjukdom</b
@@ -167,17 +171,16 @@
 		Se läkarintyg ”läkarintyg avseende ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning” (TSTRK 1062) på <a href="http://www.transportstyrelsen.se" target="_blank">www.transportstyrelsen.se</a> för ledning. Bedömningen ska göras utifrån 15 kap. Transportstyrelsens föreskrifter och allmänna råd (TSFS 2010:125) om medicinska krav för innehav av körkort m.m.
 	]]></text>
 
-	<text id="FRG_48.RBK">Senaste undersökningsdatum</text>
+  <text id="FRG_48.RBK">Senaste undersökningsdatum</text>
 
-
-	<!--
+  <!--
   ====================
   KATEGORI 4: Bedöming
   ====================
   -->
-	<text id="KAT_4.RBK">Bedömning</text>
-	<text id="FRG_1.RBK">På grunder som anges ovan bedömer jag att personen är olämplig/sannolikt olämplig att ha</text>
-	<text id="FRG_1.HLP"><![CDATA[AM - moped klass I
+  <text id="KAT_4.RBK">Bedömning</text>
+  <text id="FRG_1.RBK">På grunder som anges ovan bedömer jag att personen är olämplig/sannolikt olämplig att ha</text>
+  <text id="FRG_1.HLP"><![CDATA[AM - moped klass I
 				A1 - lätt motorcykel
 				A2 - mellanstor motorcykel
 				A - motorcykel
@@ -193,57 +196,60 @@
 				DE - buss och ett eller flera släpfordon oavsett vikt
 				Taxi - taxiförarlegitimation]]></text>
 
-	<!--
+  <!--
   ==================
   KATEGORI 6: Övrigt
   ==================
    -->
-	<text id="KAT_6.RBK">Övrigt</text>
+  <text id="KAT_6.RBK">Övrigt</text>
 
-	<text id="FRG_32.RBK">Övriga kommentarer och upplysningar</text>
+  <text id="FRG_32.RBK">Övriga kommentarer och upplysningar</text>
 
-	<!--
+  <!--
   =====================
   KATEGORI 7: Bedömning
   =====================
   -->
-	<text id="KAT_7.RBK">Bedömning</text>
+  <text id="KAT_7.RBK">Bedömning</text>
 
-	<text id="FRG_33.RBK">Ange för vilka behörigheter som patienten uppfyller kraven enligt Transportstyrelsens föreskrifter och allmänna råd om medicinska krav för innehav av körkort m.m.(TSFS 2010:125)</text>
-	<text id="FRG_33.HLP"><![CDATA[<span style="text-align:left">AM = moped klass I<br/>A1 = lätt motorcykel<br/>A2 = mellanstor motorcykel<br/>A = motorcykel<br/>B = personbil, lätt lastbil och enbart ett lätt släpfordon<br/>BE = personbil, lätt lastbil och ett eller flera släpfordon. Släpens totalvikt får inte överstiga 3,5 ton.<br/>C1 = medeltung lastbil och enbart ett lätt släpfordon<br/>C1E = medeltung lastbil och ett eller flera släpfordon oavsett vikt<br/>C = tung lastbil och enbart ett lätt släpfordon<br/>CE = tung lastbil och ett eller flera släpfordon oavsett vikt<br/>D1 = mellanstor buss och enbart ett lätt släpfordon<br/>D1E = mellanstor buss och ett eller flera släpfordon oavsett vikt<br/>D = buss och enbart ett lätt släpfordon<br/>DE = buss och ett eller flera släpfordon oavsett vikt<br/>Taxi = taxiförarlegitimation</span>]]></text>
+  <text id="FRG_33.RBK">Ange för vilka behörigheter som patienten uppfyller kraven enligt Transportstyrelsens
+    föreskrifter och allmänna råd om medicinska krav för innehav av körkort m.m.(TSFS 2010:125)
+  </text>
+  <text id="FRG_33.HLP">
+    <![CDATA[<span style="text-align:left">AM = moped klass I<br/>A1 = lätt motorcykel<br/>A2 = mellanstor motorcykel<br/>A = motorcykel<br/>B = personbil, lätt lastbil och enbart ett lätt släpfordon<br/>BE = personbil, lätt lastbil och ett eller flera släpfordon. Släpens totalvikt får inte överstiga 3,5 ton.<br/>C1 = medeltung lastbil och enbart ett lätt släpfordon<br/>C1E = medeltung lastbil och ett eller flera släpfordon oavsett vikt<br/>C = tung lastbil och enbart ett lätt släpfordon<br/>CE = tung lastbil och ett eller flera släpfordon oavsett vikt<br/>D1 = mellanstor buss och enbart ett lätt släpfordon<br/>D1E = mellanstor buss och ett eller flera släpfordon oavsett vikt<br/>D = buss och enbart ett lätt släpfordon<br/>DE = buss och ett eller flera släpfordon oavsett vikt<br/>Taxi = taxiförarlegitimation</span>]]></text>
 
-	<text id="KV_KORKORTSBEHORIGHET_AM.RBK">AM</text>
-	<text id="KV_KORKORTSBEHORIGHET_A1.RBK">A1</text>
-	<text id="KV_KORKORTSBEHORIGHET_A2.RBK">A2</text>
-	<text id="KV_KORKORTSBEHORIGHET_A.RBK">A</text>
-	<text id="KV_KORKORTSBEHORIGHET_B.RBK">B</text>
-	<text id="KV_KORKORTSBEHORIGHET_BE.RBK">BE</text>
-	<text id="KV_KORKORTSBEHORIGHET_TRAKTOR.RBK">Traktor</text>
-	<text id="KV_KORKORTSBEHORIGHET_C1.RBK">C1</text>
-	<text id="KV_KORKORTSBEHORIGHET_C1E.RBK">C1E</text>
-	<text id="KV_KORKORTSBEHORIGHET_C.RBK">C</text>
-	<text id="KV_KORKORTSBEHORIGHET_CE.RBK">CE</text>
-	<text id="KV_KORKORTSBEHORIGHET_D1.RBK">D1</text>
-	<text id="KV_KORKORTSBEHORIGHET_D1E.RBK">D1E</text>
-	<text id="KV_KORKORTSBEHORIGHET_D.RBK">D</text>
-	<text id="KV_KORKORTSBEHORIGHET_DE.RBK">DE</text>
-	<text id="KV_KORKORTSBEHORIGHET_TAXI.RBK">Taxi</text>
-	<text id="KV_KORKORTSBEHORIGHET_KANINTETASTALLNING.RBK">Kan inte ta ställning</text>
+  <text id="KV_KORKORTSBEHORIGHET_AM.RBK">AM</text>
+  <text id="KV_KORKORTSBEHORIGHET_A1.RBK">A1</text>
+  <text id="KV_KORKORTSBEHORIGHET_A2.RBK">A2</text>
+  <text id="KV_KORKORTSBEHORIGHET_A.RBK">A</text>
+  <text id="KV_KORKORTSBEHORIGHET_B.RBK">B</text>
+  <text id="KV_KORKORTSBEHORIGHET_BE.RBK">BE</text>
+  <text id="KV_KORKORTSBEHORIGHET_TRAKTOR.RBK">Traktor</text>
+  <text id="KV_KORKORTSBEHORIGHET_C1.RBK">C1</text>
+  <text id="KV_KORKORTSBEHORIGHET_C1E.RBK">C1E</text>
+  <text id="KV_KORKORTSBEHORIGHET_C.RBK">C</text>
+  <text id="KV_KORKORTSBEHORIGHET_CE.RBK">CE</text>
+  <text id="KV_KORKORTSBEHORIGHET_D1.RBK">D1</text>
+  <text id="KV_KORKORTSBEHORIGHET_D1E.RBK">D1E</text>
+  <text id="KV_KORKORTSBEHORIGHET_D.RBK">D</text>
+  <text id="KV_KORKORTSBEHORIGHET_DE.RBK">DE</text>
+  <text id="KV_KORKORTSBEHORIGHET_TAXI.RBK">Taxi</text>
+  <text id="KV_KORKORTSBEHORIGHET_KANINTETASTALLNING.RBK">Kan inte ta ställning</text>
 
-	<text id="SVAR_ALLA.RBK">Alla behörigheter inkl. körkortstillstånd, traktorkort och taxiförarlegitimation</text>
-	<text id="SVAR_A_B_TRAKTOR.RBK">AM, A1, A2, A, B, BE, traktorkort</text>
-	<text id="SVAR_C_E.RBK">C1, C1E, C, CE</text>
-	<text id="SVAR_D.RBK">D1, D1E, D, DE</text>
-	<text id="SVAR_TAXI.RBK">Taxiförarlegitimation</text>
-	<text id="SVAR_KANINTETASTALLNING.RBK">Kan inte ta ställning</text>
+  <text id="SVAR_ALLA.RBK">Alla behörigheter inkl. körkortstillstånd, traktorkort och taxiförarlegitimation</text>
+  <text id="SVAR_A_B_TRAKTOR.RBK">AM, A1, A2, A, B, BE, traktorkort</text>
+  <text id="SVAR_C_E.RBK">C1, C1E, C, CE</text>
+  <text id="SVAR_D.RBK">D1, D1E, D, DE</text>
+  <text id="SVAR_TAXI.RBK">Taxiförarlegitimation</text>
+  <text id="SVAR_KANINTETASTALLNING.RBK">Kan inte ta ställning</text>
 
-	<!--
-	=================================
-	KATEGORI 5: Information om beslut
-	=================================
-	-->
+  <!--
+  =================================
+  KATEGORI 5: Information om beslut
+  =================================
+  -->
 
-	<text id="KAT_5.RBK">Information om beslut</text>
-	<text id="FRG_49.RBK">Information om Transportstyrelsens beslut önskas</text>
+  <text id="KAT_5.RBK">Information om beslut</text>
+  <text id="FRG_49.RBK">Information om Transportstyrelsens beslut önskas</text>
 
 </texter>

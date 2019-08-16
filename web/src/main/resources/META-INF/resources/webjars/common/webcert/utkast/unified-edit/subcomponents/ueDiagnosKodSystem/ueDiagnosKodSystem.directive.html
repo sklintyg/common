@@ -1,24 +1,25 @@
 <div class="ue-diagnos-kod-system">
-    <div class="row bottom-padding-small checkbox-wrapper">
-        <div class="bottom-padding-small col-xs-12"><span class="choose-code" dynamic-label key="common.sit.label.valj-version-icd-10"></span></div>
-        <div class="padding-left">
-            <div class="form-group">
-                <wc-radio-wrapper class="margin-right">
-                    <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
-                           ng-model="diagnosViewState.diagnosKodSystem" checked="checked"
-                           ng-change="onChangeKodverk(); validate()">
-                    <label for="diagnoseKodverk_ICD_10_SE">
-                        <span dynamic-label key="common.sit.label.diagnoskodverk.fullstandig"></span>
-                    </label>
-                </wc-radio-wrapper>
-                <wc-radio-wrapper>
-                    <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
-                           ng-model="diagnosViewState.diagnosKodSystem" ng-change="onChangeKodverk(); validate()">
-                    <label for="diagnoseKodverk_KSH_97_P">
-                    <span dynamic-label key="common.sit.label.diagnoskodverk.primarvard"></span>
-                    </label>
-                </wc-radio-wrapper>
-            </div>
-        </div>
+  <div class="row bottom-padding-small checkbox-wrapper">
+    <div class="bottom-padding-small col-xs-12"><span class="choose-code" dynamic-label
+                                                      key="common.sit.label.valj-version-icd-10"></span></div>
+    <div class="padding-left">
+      <div class="form-group">
+        <wc-radio-wrapper class="margin-right">
+          <input type="radio" id="diagnoseKodverk_ICD_10_SE" name="diagnosKodSystem" value="ICD_10_SE"
+                 ng-model="diagnosViewState.diagnosKodSystem" checked="checked"
+                 ng-change="onChangeKodverk(); validate()">
+          <label for="diagnoseKodverk_ICD_10_SE">
+            <span dynamic-label key="common.sit.label.diagnoskodverk.fullstandig"></span>
+          </label>
+        </wc-radio-wrapper>
+        <wc-radio-wrapper>
+          <input type="radio" id="diagnoseKodverk_KSH_97_P" name="diagnosKodSystem" value="KSH_97_P"
+                 ng-model="diagnosViewState.diagnosKodSystem" ng-change="onChangeKodverk(); validate()">
+          <label for="diagnoseKodverk_KSH_97_P">
+            <span dynamic-label key="common.sit.label.diagnoskodverk.primarvard"></span>
+          </label>
+        </wc-radio-wrapper>
+      </div>
     </div>
+  </div>
 </div>

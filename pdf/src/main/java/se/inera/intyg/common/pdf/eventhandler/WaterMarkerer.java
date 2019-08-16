@@ -30,7 +30,6 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
-
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
 /**
@@ -70,7 +69,7 @@ public class WaterMarkerer implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(watermarkFont);
@@ -81,8 +80,8 @@ public class WaterMarkerer implements IEventHandler {
         final float y = (pageSize.getTop() + pageSize.getBottom()) / 2;
 
         canvas.showTextAligned(resolveText(),
-                x,
-                y, TextAlignment.CENTER, VerticalAlignment.MIDDLE, (float) Math.toRadians(ROTATION));
+            x,
+            y, TextAlignment.CENTER, VerticalAlignment.MIDDLE, (float) Math.toRadians(ROTATION));
 
     }
 

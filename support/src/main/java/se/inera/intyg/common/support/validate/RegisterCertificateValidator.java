@@ -19,13 +19,13 @@
 package se.inera.intyg.common.support.validate;
 
 import com.helger.schematron.xslt.SchematronResourceSCH;
+import javax.annotation.Nonnull;
+import javax.xml.transform.Source;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 
-import javax.annotation.Nonnull;
-import javax.xml.transform.Source;
-
 public class RegisterCertificateValidator {
+
     private SchematronResourceSCH schematronResource;
 
     public RegisterCertificateValidator(@Nonnull final String location) {

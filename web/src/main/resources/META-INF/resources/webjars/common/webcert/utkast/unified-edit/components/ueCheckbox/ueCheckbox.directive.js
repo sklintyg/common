@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueCheckbox', [ 'ueUtil', function(ueUtil) {
-    'use strict';
-    return {
-        restrict: 'E',
-        scope: {
-            config: '=',
-            model: '=',
-            form: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckbox/ueCheckbox.directive.html',
-        link: function($scope) {
-            ueUtil.standardSetup($scope);
-        }
-    };
+angular.module('common').directive('ueCheckbox', ['ueUtil', function(ueUtil) {
+  'use strict';
+  return {
+    restrict: 'E',
+    scope: {
+      config: '=',
+      model: '=',
+      form: '='
+    },
+    templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckbox/ueCheckbox.directive.html',
+    link: function($scope) {
+      ueUtil.standardSetup($scope);
+    }
+  };
 
 }]);

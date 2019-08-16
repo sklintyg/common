@@ -16,39 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').controller('common.IntygHeader', [ '$scope', '$state', '$timeout',
-    'IntygViewState', 'common.IntygHeaderViewState', 'common.IntygHeaderService',
-    function($scope, $state, $timeout,
-        IntygViewState, IntygHeaderViewState, IntygHeaderService) {
-       'use strict';
+angular.module('common').controller('common.IntygHeader', ['$scope', '$state', '$timeout',
+  'IntygViewState', 'common.IntygHeaderViewState', 'common.IntygHeaderService',
+  function($scope, $state, $timeout,
+      IntygViewState, IntygHeaderViewState, IntygHeaderService) {
+    'use strict';
 
-        $scope.intygViewState = IntygViewState;
+    $scope.intygViewState = IntygViewState;
 
-        var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
+    var intygType = $state.current.data.intygType; // get type from state so we dont have to wait for intyg.load
 
-        IntygHeaderViewState.setIntygViewState(IntygViewState, intygType);
+    IntygHeaderViewState.setIntygViewState(IntygViewState, intygType);
 
-        $scope.$on('intyg.loaded', function(event, intyg){
-            if (intyg === null) {
-                IntygHeaderViewState.arendenLoaded = true;
-            }
-            IntygHeaderService.updatePreviousIntygUtkast(intyg);
-            // Wait for digest to remove buttons first
-            $timeout(function(){
-                IntygHeaderViewState.intygLoaded = true;
-            });
-        });
+    $scope.$on('intyg.loaded', function(event, intyg) {
+      if (intyg === null) {
+        IntygHeaderViewState.arendenLoaded = true;
+      }
+      IntygHeaderService.updatePreviousIntygUtkast(intyg);
+      // Wait for digest to remove buttons first
+      $timeout(function() {
+        IntygHeaderViewState.intygLoaded = true;
+      });
+    });
 
-        $scope.$on('arenden.updated', function() {
-            // Wait for digest to remove buttons first
-            $timeout(function(){
-                IntygHeaderViewState.arendenLoaded = true;
-            });
-        });
+    $scope.$on('arenden.updated', function() {
+      // Wait for digest to remove buttons first
+      $timeout(function() {
+        IntygHeaderViewState.arendenLoaded = true;
+      });
+    });
 
-        //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
-        // - make sure it's closed properly
-        $scope.$on('$destroy', function() {
-            IntygHeaderService.closeDialogs();
-        });
-    }]);
+    //Potentially we are showing a copy/forny/ersatt dialog when exiting (clicked back etc)
+    // - make sure it's closed properly
+    $scope.$on('$destroy', function() {
+      IntygHeaderService.closeDialogs();
+    });
+  }]);

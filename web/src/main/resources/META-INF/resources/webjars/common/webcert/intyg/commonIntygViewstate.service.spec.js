@@ -18,34 +18,34 @@
  */
 
 describe('commonIntygViewstateService', function() {
-    'use strict';
+  'use strict';
 
-    var CommonIntygViewState;
+  var CommonIntygViewState;
 
-    beforeEach(angular.mock.inject(['common.IntygViewStateService',
-        function(_CommonIntygViewState_) {
-            CommonIntygViewState = _CommonIntygViewState_;
-        }
-    ]));
+  beforeEach(angular.mock.inject(['common.IntygViewStateService',
+    function(_CommonIntygViewState_) {
+      CommonIntygViewState = _CommonIntygViewState_;
+    }
+  ]));
 
-    describe('isRevoked', function() {
-        it('should be true if intyg is not already makulerat or on queue to be makulerat', function() {
-            CommonIntygViewState.isIntygOnRevokeQueue = true;
-            CommonIntygViewState.intygProperties.isRevoked = false;
-            expect(CommonIntygViewState.isRevoked()).toBeTruthy();
+  describe('isRevoked', function() {
+    it('should be true if intyg is not already makulerat or on queue to be makulerat', function() {
+      CommonIntygViewState.isIntygOnRevokeQueue = true;
+      CommonIntygViewState.intygProperties.isRevoked = false;
+      expect(CommonIntygViewState.isRevoked()).toBeTruthy();
 
-            CommonIntygViewState.isIntygOnRevokeQueue = false;
-            CommonIntygViewState.intygProperties.isRevoked = true;
-            expect(CommonIntygViewState.isRevoked()).toBeTruthy();
+      CommonIntygViewState.isIntygOnRevokeQueue = false;
+      CommonIntygViewState.intygProperties.isRevoked = true;
+      expect(CommonIntygViewState.isRevoked()).toBeTruthy();
 
-            CommonIntygViewState.isIntygOnRevokeQueue = true;
-            CommonIntygViewState.intygProperties.isRevoked = true;
-            expect(CommonIntygViewState.isRevoked()).toBeTruthy();
-        });
-        it('should be false if intyg is already makulerat or on queue to be makulerat', function() {
-            CommonIntygViewState.isIntygOnRevokeQueue = false;
-            CommonIntygViewState.intygProperties.isRevoked = false;
-            expect(CommonIntygViewState.isRevoked()).toBeFalsy();
-        });
+      CommonIntygViewState.isIntygOnRevokeQueue = true;
+      CommonIntygViewState.intygProperties.isRevoked = true;
+      expect(CommonIntygViewState.isRevoked()).toBeTruthy();
     });
+    it('should be false if intyg is already makulerat or on queue to be makulerat', function() {
+      CommonIntygViewState.isIntygOnRevokeQueue = false;
+      CommonIntygViewState.intygProperties.isRevoked = false;
+      expect(CommonIntygViewState.isRevoked()).toBeFalsy();
+    });
+  });
 });

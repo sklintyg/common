@@ -1,9 +1,7 @@
 <span>
 
   <!-- error from button interaction -->
-  <wc-alert-message id="utkast-inline-error"
-                    ng-if="utkastViewState.common.error.saveErrorCode"
-                    alert-severity="danger">
+  <wc-alert-message id="utkast-inline-error" ng-if="utkastViewState.common.error.saveErrorCode" alert-severity="danger">
     <span ng-bind-html="utkastViewState.common.error.saveErrorMessage"></span>
   </wc-alert-message>
 

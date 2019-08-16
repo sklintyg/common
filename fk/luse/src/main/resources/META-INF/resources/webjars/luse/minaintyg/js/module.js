@@ -16,33 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('luse', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
+angular.module('luse', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('luse').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    $stateProvider.
-        state('luse-view', {
-            url :'/luse/:intygTypeVersion/view/:certificateId',
-            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-            controller: 'common.ViewCertCtrl',
-            resolve: {
-                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-                    return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
-                },
-                viewFactory: function(factoryResolverHelper, $stateParams) {
-                    return factoryResolverHelper.resolve('luse.viewFactory', $stateParams);
-                }
-            },
-            data : { title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
-                breadcrumb: ['inkorg', 'intyg'] }
-        });
+  $stateProvider.state('luse-view', {
+    url: '/luse/:intygTypeVersion/view/:certificateId',
+    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+    controller: 'common.ViewCertCtrl',
+    resolve: {
+      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luse.viewConfigFactory', $stateParams);
+      },
+      viewFactory: function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('luse.viewFactory', $stateParams);
+      }
+    },
+    data: {
+      title: 'Läkarutlåtande för sjukersättning', keepInboxTabActive: true,
+      breadcrumb: ['inkorg', 'intyg']
+    }
+  });
 });
 
 // Inject language resources
 angular.module('luse').run(['common.messageService', 'luse.messages',
-    function(messageService, luseMessages) {
-        'use strict';
+  function(messageService, luseMessages) {
+    'use strict';
 
-        messageService.addResources(luseMessages);
-    }]);
+    messageService.addResources(luseMessages);
+  }]);

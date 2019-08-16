@@ -17,37 +17,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.AvtalProxy',
-    [ '$http', '$log', 'common.AvtalModel',
-        function($http, $log, AvtalModel) {
-            'use strict';
+    ['$http', '$log', 'common.AvtalModel',
+      function($http, $log, AvtalModel) {
+        'use strict';
 
-            /**
-             * getLatestAvtal
-             */
-            function _getLatestAvtal(onSuccess, onError) {
-                var restPath = '/api/anvandare/latestavtal';
-                $http.get(restPath).then(function(response) {
-                    $log.debug(response.data);
-                    onSuccess(AvtalModel.build(response.data));
-                }, function() {
-                    $log.warn('Avtal-tjänsten kunde inte kontaktas.');
-                    onError();
-                });
-            }
+        /**
+         * getLatestAvtal
+         */
+        function _getLatestAvtal(onSuccess, onError) {
+          var restPath = '/api/anvandare/latestavtal';
+          $http.get(restPath).then(function(response) {
+            $log.debug(response.data);
+            onSuccess(AvtalModel.build(response.data));
+          }, function() {
+            $log.warn('Avtal-tjänsten kunde inte kontaktas.');
+            onError();
+          });
+        }
 
-            function _approve(onSuccess, onError){
-                var restPath = '/api/anvandare/godkannavtal';
-                $http.put(restPath).then(function() {
-                    onSuccess();
-                }, function() {
-                    $log.warn('Avtal-tjänsten kunde inte kontaktas.');
-                    onError();
-                });
-            }
+        function _approve(onSuccess, onError) {
+          var restPath = '/api/anvandare/godkannavtal';
+          $http.put(restPath).then(function() {
+            onSuccess();
+          }, function() {
+            $log.warn('Avtal-tjänsten kunde inte kontaktas.');
+            onError();
+          });
+        }
 
-             // Return public API for the service
-            return {
-                getLatestAvtal: _getLatestAvtal,
-                approve: _approve
-            };
-        }]);
+        // Return public API for the service
+        return {
+          getLatestAvtal: _getLatestAvtal,
+          approve: _approve
+        };
+      }]);

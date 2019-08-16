@@ -18,12 +18,12 @@
  */
 angular.module('common').directive('wcRadioWrapper',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                transclude: true,
-                templateUrl: '/web/webjars/common/webcert/components/wcRadioWrapper/wcRadioWrapper.directive.html'
-            };
-        }]);
+        return {
+          restrict: 'E',
+          transclude: true,
+          templateUrl: '/web/webjars/common/webcert/components/wcRadioWrapper/wcRadioWrapper.directive.html'
+        };
+      }]);

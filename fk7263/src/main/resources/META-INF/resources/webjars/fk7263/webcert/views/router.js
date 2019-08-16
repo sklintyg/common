@@ -20,94 +20,90 @@
  * Created by stephenwhite on 05/03/15.
  */
 angular.module('fk7263').config(function($stateProvider) {
-    'use strict';
+  'use strict';
 
-    var commonPath = '/web/webjars/common/webcert/';
-    var intygsTypPath = '/web/webjars/fk7263/webcert/';
+  var commonPath = '/web/webjars/common/webcert/';
+  var intygsTypPath = '/web/webjars/fk7263/webcert/';
 
-    $stateProvider.
-    state('fk7263', {
-        url: '/fk7263'
-    }).
-    state('fk7263.utkast', {
-        data: { defaultActive : 'index', intygType: 'fk7263'},
-        url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
-        params: {
-            focusOn: ''
-        },
-        resolve: {
-            ViewState: 'fk7263.EditCertCtrl.ViewStateService'
-        },
-        views : {
-            'header@': {
-                templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-            },
-            'content@': {
-                templateUrl: commonPath + 'intyg/smiIntygUv.html',
-                controller: 'fk7263.EditCertCtrl'
-            },
+  $stateProvider.state('fk7263', {
+    url: '/fk7263'
+  }).state('fk7263.utkast', {
+    data: {defaultActive: 'index', intygType: 'fk7263'},
+    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      ViewState: 'fk7263.EditCertCtrl.ViewStateService'
+    },
+    views: {
+      'header@': {
+        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+      },
+      'content@': {
+        templateUrl: commonPath + 'intyg/smiIntygUv.html',
+        controller: 'fk7263.EditCertCtrl'
+      },
 
-            'header@fk7263.utkast': {
-                templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-                controller: 'common.UtkastHeader'
-            }
-        }
-    }).
-        state('webcert.intyg.fk7263', {
-            data: { defaultActive : 'index', intygType: 'fk7263' },
-            url:'/intyg/fk7263/:intygTypeVersion/:certificateId/:focusOn?:signed',
-            params: {
-                focusOn: ''
-            },
-            resolve: {
-                supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory',
-                IntygViewState: 'fk7263.IntygController.ViewStateService'
-            },
-            views: {
-                'intyg@webcert.intyg' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'fk7263.ViewCertCtrl'
-                },
-                'header@webcert.intyg.fk7263' : {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).
-        state('webcert.fragasvar.fk7263', {
-            data: { defaultActive : 'enhet-arenden', intygType: 'fk7263' },
-            url: '/fragasvar/fk7263/:intygTypeVersion/:certificateId',
-            resolve: {
-                supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory',
-                IntygViewState: 'fk7263.IntygController.ViewStateService'
-            },
-            views: {
-                'intyg@webcert.fragasvar' : {
-                    templateUrl: intygsTypPath + 'views/intyg/intyg.html',
-                    controller: 'fk7263.ViewCertCtrl'
-                },
-                'header@webcert.fragasvar.fk7263' : {
-                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-                    controller: 'common.IntygHeader'
-                }
-            }
-        }).state('fk7263-readonly', {
-        data: { intygType: 'fk7263' },
-        url: '/intyg-read-only/fk7263/:intygTypeVersion/:certificateId',
-        resolve: {
-            ViewState: 'fk7263.IntygController.ViewStateService',
-            ViewConfigFactory: 'fk7263.viewConfigFactory',
-            DiagnosExtractor: function() {
-                return function (fk7263Model) {
-                    return fk7263Model.diagnosKod;
-                };
-            }
-        },
-        views: {
-            'content@': {
-                templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
-                controller: 'common.wcIntygReadOnlyViewController'
-            }
-        }
-    });
+      'header@fk7263.utkast': {
+        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+        controller: 'common.UtkastHeader'
+      }
+    }
+  }).state('webcert.intyg.fk7263', {
+    data: {defaultActive: 'index', intygType: 'fk7263'},
+    url: '/intyg/fk7263/:intygTypeVersion/:certificateId/:focusOn?:signed',
+    params: {
+      focusOn: ''
+    },
+    resolve: {
+      supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory',
+      IntygViewState: 'fk7263.IntygController.ViewStateService'
+    },
+    views: {
+      'intyg@webcert.intyg': {
+        templateUrl: intygsTypPath + 'views/intyg/intyg.html',
+        controller: 'fk7263.ViewCertCtrl'
+      },
+      'header@webcert.intyg.fk7263': {
+        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+        controller: 'common.IntygHeader'
+      }
+    }
+  }).state('webcert.fragasvar.fk7263', {
+    data: {defaultActive: 'enhet-arenden', intygType: 'fk7263'},
+    url: '/fragasvar/fk7263/:intygTypeVersion/:certificateId',
+    resolve: {
+      supportPanelConfigFactory: 'fk7263.supportPanelConfigFactory',
+      IntygViewState: 'fk7263.IntygController.ViewStateService'
+    },
+    views: {
+      'intyg@webcert.fragasvar': {
+        templateUrl: intygsTypPath + 'views/intyg/intyg.html',
+        controller: 'fk7263.ViewCertCtrl'
+      },
+      'header@webcert.fragasvar.fk7263': {
+        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+        controller: 'common.IntygHeader'
+      }
+    }
+  }).state('fk7263-readonly', {
+    data: {intygType: 'fk7263'},
+    url: '/intyg-read-only/fk7263/:intygTypeVersion/:certificateId',
+    resolve: {
+      ViewState: 'fk7263.IntygController.ViewStateService',
+      ViewConfigFactory: 'fk7263.viewConfigFactory',
+      DiagnosExtractor: function() {
+        return function(fk7263Model) {
+          return fk7263Model.diagnosKod;
+        };
+      }
+    },
+    views: {
+      'content@': {
+        templateUrl: commonPath + 'intyg/read-only-view/wcIntygReadOnlyView.template.html',
+        controller: 'common.wcIntygReadOnlyViewController'
+      }
+    }
+  });
 });

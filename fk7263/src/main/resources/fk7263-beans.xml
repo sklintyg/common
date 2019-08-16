@@ -17,17 +17,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <bean class="se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl" />
+  <bean class="se.inera.intyg.common.fk7263.model.converter.WebcertModelFactoryImpl"/>
 
-  <bean name="moduleapi.fk7263.v1" class="se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi" />
+  <bean name="moduleapi.fk7263.v1" class="se.inera.intyg.common.fk7263.rest.Fk7263ModuleApi"/>
 
-  <bean class="se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil" />
+  <bean class="se.inera.intyg.common.fk7263.model.util.Fk7263ModelCompareUtil"/>
 
-  <bean class="se.inera.intyg.common.fk7263.validator.InternalDraftValidator" />
+  <bean class="se.inera.intyg.common.fk7263.validator.InternalDraftValidator"/>
 
-  <bean id="Fk7263EntryPoint" class="se.inera.intyg.common.fk7263.support.Fk7263EntryPoint" />
+  <bean id="Fk7263EntryPoint" class="se.inera.intyg.common.fk7263.support.Fk7263EntryPoint"/>
 
 </beans>

@@ -18,54 +18,55 @@
  */
 
 describe('moduleService', function() {
-    'use strict';
+  'use strict';
 
-    var moduleService;
+  var moduleService;
 
-    beforeEach(angular.mock.module('common', function($provide) {}));
+  beforeEach(angular.mock.module('common', function($provide) {
+  }));
 
-    beforeEach(angular.mock.inject(['common.moduleService', function(_moduleService_) {
-        var modules = [
-            { id : 'luse', label: 'Läkarutlåtande för sjukersättning'},
-            { id : 'lisjp', label: 'Läkarintyg för sjukpenning'},
-            { id : 'fk7263', label: 'Läkarintyg FK 7263'}
-        ];
+  beforeEach(angular.mock.inject(['common.moduleService', function(_moduleService_) {
+    var modules = [
+      {id: 'luse', label: 'Läkarutlåtande för sjukersättning'},
+      {id: 'lisjp', label: 'Läkarintyg för sjukpenning'},
+      {id: 'fk7263', label: 'Läkarintyg FK 7263'}
+    ];
 
-        moduleService = _moduleService_;
-        moduleService.setModules(modules);
-    }]));
+    moduleService = _moduleService_;
+    moduleService.setModules(modules);
+  }]));
 
-    it('should return a module object when module was found', function() {
-        var module = moduleService.getModule('lisjp');
-        expect(module.id === 'lisjp').toBeTruthy();
-        expect(module.label === 'Läkarintyg för sjukpenning').toBeTruthy();
-    });
+  it('should return a module object when module was found', function() {
+    var module = moduleService.getModule('lisjp');
+    expect(module.id === 'lisjp').toBeTruthy();
+    expect(module.label === 'Läkarintyg för sjukpenning').toBeTruthy();
+  });
 
-    it('should return null when module wasn\'t found', function() {
-        var module = moduleService.getModule('xxxxx');
-        expect(module === null).toBeTruthy();
-    });
+  it('should return null when module wasn\'t found', function() {
+    var module = moduleService.getModule('xxxxx');
+    expect(module === null).toBeTruthy();
+  });
 
-    it('should return null when underlying modules array is empty', function() {
-        moduleService.setModules([]);
-        var module = moduleService.getModule('lisjp');
-        expect(module === null).toBeTruthy();
-    });
+  it('should return null when underlying modules array is empty', function() {
+    moduleService.setModules([]);
+    var module = moduleService.getModule('lisjp');
+    expect(module === null).toBeTruthy();
+  });
 
-    it('should return null when underlying modules array is null', function() {
-        moduleService.setModules(null);
-        var module = moduleService.getModule('lisjp');
-        expect(module === null).toBeTruthy();
-    });
+  it('should return null when underlying modules array is null', function() {
+    moduleService.setModules(null);
+    var module = moduleService.getModule('lisjp');
+    expect(module === null).toBeTruthy();
+  });
 
-    it('should return the module\'s name when module was found', function() {
-        var name = moduleService.getModuleName('luse');
-        expect(name === 'Läkarutlåtande för sjukersättning').toBeTruthy();
-    });
+  it('should return the module\'s name when module was found', function() {
+    var name = moduleService.getModuleName('luse');
+    expect(name === 'Läkarutlåtande för sjukersättning').toBeTruthy();
+  });
 
-    it('should return empty string when module wasn\'t found', function() {
-        var name = moduleService.getModuleName('xxxxx');
-        expect(name === '').toBeTruthy();
-    });
+  it('should return empty string when module wasn\'t found', function() {
+    var name = moduleService.getModuleName('xxxxx');
+    expect(name === '').toBeTruthy();
+  });
 
 });

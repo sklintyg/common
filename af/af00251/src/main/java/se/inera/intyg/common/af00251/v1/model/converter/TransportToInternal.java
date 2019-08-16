@@ -18,6 +18,38 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.AKTIVITETSBEGRANSNING_DELSVAR_ID_41;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.AKTIVITETSBEGRANSNING_SVAR_ID_4;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_21;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_22;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_DELSVAR_ID_23;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_ID_2;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_71;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_DELSVAR_ID_72;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_ID_7;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FORHINDER_DELSVAR_ID_51;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FORHINDER_SVAR_ID_5;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FUNKTIONSNEDSATTNING_DELSVAR_ID_31;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FUNKTIONSNEDSATTNING_SVAR_ID_3;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_DELSVAR_ID_11;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_DELSVAR_ID_12;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_DELSVAR_ID_13;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_ID_1;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_DELSVAR_ID_81;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_DELSVAR_ID_82;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_ID_8;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_DELSVAR_ID_61;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_DELSVAR_ID_62;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_ID_6;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.UnderlagsTyp;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getBooleanContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getDatePeriodTypeContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getPQSvarContent;
+import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+
+import java.util.ArrayList;
+import java.util.List;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram;
 import se.inera.intyg.common.af00251.v1.model.internal.BegransningSjukfranvaro;
@@ -32,12 +64,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
-import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.*;
-
 public final class TransportToInternal {
 
     private TransportToInternal() {
@@ -46,7 +72,7 @@ public final class TransportToInternal {
     public static AF00251UtlatandeV1 convert(Intyg source) throws ConverterException {
         AF00251UtlatandeV1.Builder utlatande = AF00251UtlatandeV1.builder();
         utlatande.setId(source.getIntygsId()
-                              .getExtension());
+            .getExtension());
         utlatande.setGrundData(TransportConverterUtil.getGrundData(source, false));
         utlatande.setTextVersion(source.getVersion());
         utlatande.setSignature(TransportConverterUtil.signatureTypeToBase64(source.getUnderskrift()));

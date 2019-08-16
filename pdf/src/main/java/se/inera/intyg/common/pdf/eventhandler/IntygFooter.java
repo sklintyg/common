@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -29,10 +33,6 @@ import com.itextpdf.kernel.pdf.canvas.PdfCanvas;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.property.TextAlignment;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
-
-import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders the footer elements.
@@ -68,8 +68,8 @@ public class IntygFooter implements IEventHandler {
             case MINA_INTYG:
                 appName = MINA_INTYG_APP_NAME;
                 break;
-                default:
-                    throw new IllegalStateException("Unhandled ApplicationOrigin: " + applicationOrigin);
+            default:
+                throw new IllegalStateException("Unhandled ApplicationOrigin: " + applicationOrigin);
         }
 
         PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
@@ -77,13 +77,13 @@ public class IntygFooter implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera AB\nwww.inera.se",
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
 
         pdfCanvas.moveTo(millimetersToPoints(PAGE_MARGIN_LEFT), LINE_Y_OFFSET);
         pdfCanvas.lineTo(page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT), LINE_Y_OFFSET);

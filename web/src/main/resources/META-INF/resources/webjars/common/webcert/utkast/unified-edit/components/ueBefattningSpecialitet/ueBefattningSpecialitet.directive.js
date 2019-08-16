@@ -16,24 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('ueBefattningSpecialitet', [ 'common.UserModel',
-    function(UserModel) {
+angular.module('common').directive('ueBefattningSpecialitet', ['common.UserModel',
+  function(UserModel) {
     'use strict';
 
     return {
-        restrict: 'E',
-        scope: {
-            form: '=',
-            config: '=',
-            model: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueBefattningSpecialitet/ueBefattningSpecialitet.directive.html',
-        link: function($scope) {
-            //Make a printable list of Befattningar (which as of yet consists of un-readable codes...)
-            $scope.befattningar = UserModel.user.befattningar;
+      restrict: 'E',
+      scope: {
+        form: '=',
+        config: '=',
+        model: '='
+      },
+      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueBefattningSpecialitet/ueBefattningSpecialitet.directive.html',
+      link: function($scope) {
+        //Make a printable list of Befattningar (which as of yet consists of un-readable codes...)
+        $scope.befattningar = UserModel.user.befattningar;
 
-            //Make a printable list of Specialiteter
-            $scope.specialiteter = UserModel.user.specialiseringar.join(', ');
-        }
+        //Make a printable list of Specialiteter
+        $scope.specialiteter = UserModel.user.specialiseringar.join(', ');
+      }
     };
-}]);
+  }]);

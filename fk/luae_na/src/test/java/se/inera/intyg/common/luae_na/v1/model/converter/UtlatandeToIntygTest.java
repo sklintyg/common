@@ -18,7 +18,14 @@
  */
 package se.inera.intyg.common.luae_na.v1.model.converter;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.google.common.collect.ImmutableList;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -29,17 +36,15 @@ import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.*;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Relation;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-
-import javax.xml.bind.JAXBElement;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-
-import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UtlatandeToIntygTest {
@@ -76,9 +81,10 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         LuaenaUtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -145,9 +151,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertUnderlagEmptyUnderlagsTyp() {
         LuaenaUtlatandeV1 utlatande = buildUtlatande().toBuilder()
-                .setUnderlagFinns(true)
-                .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
-                .build();
+            .setUnderlagFinns(true)
+            .setUnderlag(ImmutableList.of(Underlag.create(null, new InternalDate("2018-01-01"), "")))
+            .build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertEquals(2, intyg.getSvar().size());
         assertEquals("2018-01-01", intyg.getSvar().get(1).getDelsvar().get(0).getContent().get(0));
@@ -156,9 +162,9 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvertUnderlagUnfinishedDate() {
         LuaenaUtlatandeV1 utlatande = buildUtlatande().toBuilder()
-                .setUnderlagFinns(true)
-                .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
-                .build();
+            .setUnderlagFinns(true)
+            .setUnderlag(ImmutableList.of(Underlag.create(Underlag.UnderlagsTyp.OVRIGT, new InternalDate("2018-"), "")))
+            .build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertEquals(1, intyg.getSvar().size());
         assertEquals("true", intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
@@ -170,16 +176,18 @@ public class UtlatandeToIntygTest {
 
     private LuaenaUtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private LuaenaUtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-                                             String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-                                             String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-                                             String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-                                             String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         LuaenaUtlatandeV1.Builder template = LuaenaUtlatandeV1.builder();
         template.setId(intygsId);

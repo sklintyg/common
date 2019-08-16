@@ -129,33 +129,33 @@ public class UVRenderer {
 
             // Load icons for observandum
             this.observandumIcon = new PdfImageXObject(
-                    ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
+                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-icon.png").getInputStream())));
             this.observandumInfoIcon = new PdfImageXObject(
-                    ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
+                ImageDataFactory.create(IOUtils.toByteArray(new ClassPathResource("obs-info-icon.png").getInputStream())));
 
             // Initialize event handlers for header, footer etc.
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
+                new IntygHeader(printConfig, kategoriFont, fragaDelFragaFont, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
+                new IntygFooter(svarFont, printConfig.getApplicationOrigin()));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new MarginTexts(printConfig, svarFont));
+                new MarginTexts(printConfig, svarFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    new WaterMarkerer(printConfig, watermarkFont));
+                new WaterMarkerer(printConfig, watermarkFont));
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                        new SignBox(printConfig, signBoxFont));
+                new SignBox(printConfig, signBoxFont));
 
             PageNumberEvent pageNumberEvent = new PageNumberEvent(svarFont);
             pdf.addEventHandler(PdfDocumentEvent.END_PAGE,
-                    pageNumberEvent);
+                pageNumberEvent);
 
             // Initialize document
             Document document = new Document(pdf, PageSize.A4);
             document.setMargins(
-                    millimetersToPoints(PAGE_MARGIN_TOP),
-                    millimetersToPoints(PAGE_MARGIN_LEFT),
-                    millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
-                    millimetersToPoints(PAGE_MARGIN_LEFT));
+                millimetersToPoints(PAGE_MARGIN_TOP),
+                millimetersToPoints(PAGE_MARGIN_LEFT),
+                millimetersToPoints(printConfig.showSignBox() ? PAGE_MARGIN_BOTTOM_WITH_SIGNBOX : PAGE_MARGIN_BOTTOM_WITHOUT_SIGNBOX),
+                millimetersToPoints(PAGE_MARGIN_LEFT));
 
             // Initialize script engine
             engine = new ScriptEngineManager().getEngineByName("nashorn");
@@ -170,7 +170,7 @@ public class UVRenderer {
 
             // Load unified print JS model
             InputStreamReader inputStreamReader = new InputStreamReader(
-                    IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
+                IOUtils.toInputStream(printConfig.getUpJsModel()), Charset.forName("UTF-8"));
             engine.eval(inputStreamReader);
             ScriptObjectMirror viewConfig = (ScriptObjectMirror) engine.eval("viewConfig");
             engine.put("viewConfig", viewConfig);
@@ -274,9 +274,9 @@ public class UVRenderer {
 
             if (summaryPart.getHeading() != null) {
                 summaryDiv.add(new Paragraph(summaryPart.getHeading())
-                        .setMarginBottom(0f)
-                        .setFont(fragaDelFragaFont)
-                        .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+                    .setMarginBottom(0f)
+                    .setFont(fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
             }
 
             try {
@@ -306,7 +306,7 @@ public class UVRenderer {
         } else if (element instanceof Paragraph) {
             return ((Paragraph) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE).setMarginTop(0f);
         } else if (element instanceof com.itextpdf.layout.element.List) {
-          return ((com.itextpdf.layout.element.List) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+            return ((com.itextpdf.layout.element.List) element).setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         }
 
         return element;
@@ -321,23 +321,23 @@ public class UVRenderer {
         switch (type) {
             case "uv-kategori":
                 renderChildren = new UVKategori(this)
-                        .render(currentDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
                 break;
             case "uv-fraga":
                 renderChildren = new UVFraga(this)
-                        .render(currentDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
                 break;
             case "uv-del-fraga":
                 renderChildren = new UVDelfraga(this)
-                        .render(currentDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
                 break;
             case "uv-simple-value":
                 renderChildren = new UVSimpleValue(this)
-                        .render(currentDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
                 break;
             case "uv-template-string":
                 renderChildren = new UVTemplateString(this)
-                        .render(currentDiv, currentUvNode);
+                    .render(currentDiv, currentUvNode);
                 break;
             case "uv-kodverk-value":
                 renderChildren = new UVKodverkValue(this).render(currentDiv, currentUvNode);

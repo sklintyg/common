@@ -18,11 +18,9 @@
  */
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Strings;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.doi.support.DoiModuleEntryPoint;
@@ -59,7 +57,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DoiUtlatande
         template.setGrundData(grundData);
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(DoiModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(DoiModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.build();
     }

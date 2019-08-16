@@ -18,38 +18,38 @@
  */
 angular.module('af00213').service('af00213.EditCertCtrl.ViewStateService.v1',
     ['$log', '$state', 'common.UtkastViewStateService', 'af00213.Domain.IntygModel.v1',
-        function($log, $state, CommonViewState, IntygModel) {
-            'use strict';
+      function($log, $state, CommonViewState, IntygModel) {
+        'use strict';
 
-            this.common = CommonViewState;
+        this.common = CommonViewState;
 
-            this.intygModel = undefined;
-            this.draftModel = undefined;
+        this.intygModel = undefined;
+        this.draftModel = undefined;
 
-            this.setDraftModel = function(draftModel){
-                this.draftModel = draftModel;
-                this.intygModel = draftModel.content;
-            };
+        this.setDraftModel = function(draftModel) {
+          this.draftModel = draftModel;
+          this.intygModel = draftModel.content;
+        };
 
-            this.inputLimits = {
-                aktivitetsbegransning: 1100,
-                funktionsnedsattning: 450,
-                ovrigt: 360,
-                pagaendeBehandling: 999,
-                planeradBehandling: 999
-            };
+        this.inputLimits = {
+          aktivitetsbegransning: 1100,
+          funktionsnedsattning: 450,
+          ovrigt: 360,
+          pagaendeBehandling: 999,
+          planeradBehandling: 999
+        };
 
-            this.reset = function() {
-                CommonViewState.reset();
-                CommonViewState.intyg.type = 'af00213';
-                this.setDraftModel(IntygModel._members.build());
-                return this;
-            };
+        this.reset = function() {
+          CommonViewState.reset();
+          CommonViewState.intyg.type = 'af00213';
+          this.setDraftModel(IntygModel._members.build());
+          return this;
+        };
 
-            this.clearModel = function(){
-                this.intygModel = undefined;
-                this.draftModel = undefined;
-            };
+        this.clearModel = function() {
+          this.intygModel = undefined;
+          this.draftModel = undefined;
+        };
 
-            this.reset();
-        }]);
+        this.reset();
+      }]);

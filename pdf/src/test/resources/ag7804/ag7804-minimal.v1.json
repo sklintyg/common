@@ -1,55 +1,55 @@
 {
-    "id": "84d59e36-4b44-4b0f-b217-faf79a2f9ac2",
-    "grundData": {
-      "signeringsdatum": "2018-12-07T09:00:04.564",
-      "skapadAv": {
-        "personId": "TSTNMT2321000156-1079",
-        "fullstandigtNamn": "Arnold Johansson",
-        "forskrivarKod": "0000000",
-        "befattningar": [],
-        "specialiteter": [],
-        "vardenhet": {
-          "enhetsid": "TSTNMT2321000156-1077",
-          "enhetsnamn": "NMT vg3 ve1",
-          "postadress": "NMT gata 3",
-          "postnummer": "12345",
-          "postort": "Testhult",
-          "telefonnummer": "0101112131416",
-          "epost": "enhet3@webcert.invalid.se",
-          "vardgivare": {
-            "vardgivarid": "TSTNMT2321000156-102Q",
-            "vardgivarnamn": "NMT vg3"
-          },
-          "arbetsplatsKod": "1234567890"
-        }
-      },
-      "patient": {
-        "personId": "191212121212",
-        "fullstandigtNamn": "Tolvan Tolvansson",
-        "fornamn": "Tolvan",
-        "efternamn": "Tolvansson",
-        "sekretessmarkering": false,
-        "avliden": false,
-        "samordningsNummer": false
-      },
-      "relation": {}
-    },
-    "textVersion": "1.0",
-    "avstangningSmittskydd": true,
-    "sysselsattning": [],
-    "onskarFormedlaDiagnos": false,
-    "diagnoser": [],
-    "sjukskrivningar": [
-      {
-        "sjukskrivningsgrad": "EN_FJARDEDEL",
-        "period": {
-          "from": "2018-12-07",
-          "tom": "2018-12-07"
-        }
+  "id": "84d59e36-4b44-4b0f-b217-faf79a2f9ac2",
+  "grundData": {
+    "signeringsdatum": "2018-12-07T09:00:04.564",
+    "skapadAv": {
+      "personId": "TSTNMT2321000156-1079",
+      "fullstandigtNamn": "Arnold Johansson",
+      "forskrivarKod": "0000000",
+      "befattningar": [],
+      "specialiteter": [],
+      "vardenhet": {
+        "enhetsid": "TSTNMT2321000156-1077",
+        "enhetsnamn": "NMT vg3 ve1",
+        "postadress": "NMT gata 3",
+        "postnummer": "12345",
+        "postort": "Testhult",
+        "telefonnummer": "0101112131416",
+        "epost": "enhet3@webcert.invalid.se",
+        "vardgivare": {
+          "vardgivarid": "TSTNMT2321000156-102Q",
+          "vardgivarnamn": "NMT vg3"
+        },
+        "arbetsplatsKod": "1234567890"
       }
-    ],
-    "prognos": {},
-    "arbetslivsinriktadeAtgarder": [],
-    "kontaktMedAg": false,
-    "typ": "ag7804"
-  }
+    },
+    "patient": {
+      "personId": "191212121212",
+      "fullstandigtNamn": "Tolvan Tolvansson",
+      "fornamn": "Tolvan",
+      "efternamn": "Tolvansson",
+      "sekretessmarkering": false,
+      "avliden": false,
+      "samordningsNummer": false
+    },
+    "relation": {}
+  },
+  "textVersion": "1.0",
+  "avstangningSmittskydd": true,
+  "sysselsattning": [],
+  "onskarFormedlaDiagnos": false,
+  "diagnoser": [],
+  "sjukskrivningar": [
+    {
+      "sjukskrivningsgrad": "EN_FJARDEDEL",
+      "period": {
+        "from": "2018-12-07",
+        "tom": "2018-12-07"
+      }
+    }
+  ],
+  "prognos": {},
+  "arbetslivsinriktadeAtgarder": [],
+  "kontaktMedAg": false,
+  "typ": "ag7804"
+}

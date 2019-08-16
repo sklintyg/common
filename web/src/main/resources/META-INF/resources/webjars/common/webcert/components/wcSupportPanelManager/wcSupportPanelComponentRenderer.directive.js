@@ -18,17 +18,17 @@
  */
 angular.module('common').directive('wcSupportPanelComponentRenderer',
     function($compile) {
-        'use strict';
+      'use strict';
 
-        return {
-            restrict: 'E',
-            scope: {
-                config: '=',
-                componentName: '@'
-            },
-            link: function($scope, $element) {
-                var componentTemplate = '<' + $scope.componentName + ' config="config"></' + $scope.componentName +'>';
-                $element.append($compile(componentTemplate)($scope));
-            }
-        };
+      return {
+        restrict: 'E',
+        scope: {
+          config: '=',
+          componentName: '@'
+        },
+        link: function($scope, $element) {
+          var componentTemplate = '<' + $scope.componentName + ' config="config"></' + $scope.componentName + '>';
+          $element.append($compile(componentTemplate)($scope));
+        }
+      };
     });

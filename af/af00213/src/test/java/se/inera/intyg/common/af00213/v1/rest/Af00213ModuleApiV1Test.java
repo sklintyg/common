@@ -31,16 +31,14 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import java.io.IOException;
-
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
-
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -54,10 +52,6 @@ import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
-
 import se.inera.intyg.common.af00213.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af00213.v1.utils.ScenarioFinder;
@@ -152,7 +146,7 @@ public class Af00213ModuleApiV1Test {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-                .thenReturn(createReturnVal(ResultCodeType.ERROR));
+            .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/transport/af00213.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -179,8 +173,8 @@ public class Af00213ModuleApiV1Test {
     @Test
     public void testValidateShouldUseValidator() throws Exception {
         Mockito.doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue("internal model", Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue("internal model", Af00213UtlatandeV1.class);
         moduleApi.validateDraft("internal model");
         verify(internalDraftValidator, times(1)).validateDraft(any());
     }
@@ -238,7 +232,7 @@ public class Af00213ModuleApiV1Test {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
@@ -251,8 +245,8 @@ public class Af00213ModuleApiV1Test {
         response.setResult(ResultTypeUtil.okResult());
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -271,8 +265,8 @@ public class Af00213ModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -293,8 +287,8 @@ public class Af00213ModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -315,8 +309,8 @@ public class Af00213ModuleApiV1Test {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -331,8 +325,8 @@ public class Af00213ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(null)
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
 
@@ -344,8 +338,8 @@ public class Af00213ModuleApiV1Test {
         final String utlatandeJson = "utlatandeJson";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(utlatandeJson, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(utlatandeJson, Af00213UtlatandeV1.class);
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -355,12 +349,12 @@ public class Af00213ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -372,12 +366,12 @@ public class Af00213ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-                .when(objectMapper)
-                .readValue(internalModel, Af00213UtlatandeV1.class);
+            .when(objectMapper)
+            .readValue(internalModel, Af00213UtlatandeV1.class);
 
         doReturn(internalModel)
-                .when(objectMapper)
-                .writeValueAsString(any());
+            .when(objectMapper)
+            .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -386,7 +380,7 @@ public class Af00213ModuleApiV1Test {
 
     @Test
     public void testUpdateBeforeViewing() throws IOException, ModuleException, JSONException {
-        Patient updatedPatient = createPatient("fornamn","efternamn","19270310-4321");
+        Patient updatedPatient = createPatient("fornamn", "efternamn", "19270310-4321");
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
@@ -394,7 +388,7 @@ public class Af00213ModuleApiV1Test {
         final String validMinimalJson = getResourceAsString(new ClassPathResource(TESTFILE_UTLATANDE));
         final String res = moduleApi.updateBeforeViewing(validMinimalJson, updatedPatient);
         assertNotNull(res);
-        JSONAssert.assertEquals(validMinimalJson,res, JSONCompareMode.LENIENT);
+        JSONAssert.assertEquals(validMinimalJson, res, JSONCompareMode.LENIENT);
     }
 
     @Test
@@ -447,7 +441,7 @@ public class Af00213ModuleApiV1Test {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -493,7 +487,7 @@ public class Af00213ModuleApiV1Test {
 
     private Af00213UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-                TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
+            TESTFILE_UTLATANDE).getFile(), Af00213UtlatandeV1.class);
     }
 
     private String getResourceAsString(ClassPathResource cpr) throws IOException {

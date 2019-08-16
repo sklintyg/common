@@ -22,22 +22,22 @@
 
 angular.module('common').directive('arendePaminnelse',
     [
-        function() {
-            'use strict';
+      function() {
+        'use strict';
 
-            return {
-                restrict: 'E',
-                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.html',
-                scope: {
-                    paminnelse: '=',
-                    parentViewState: '='
-                },
-                link: function($scope){
-                    $scope.arendeListItem = {
-                        arende: {
-                            fraga: $scope.paminnelse
-                        }
-                    };
-                }
+        return {
+          restrict: 'E',
+          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.html',
+          scope: {
+            paminnelse: '=',
+            parentViewState: '='
+          },
+          link: function($scope) {
+            $scope.arendeListItem = {
+              arende: {
+                fraga: $scope.paminnelse
+              }
             };
-        }]);
+          }
+        };
+      }]);

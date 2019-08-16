@@ -19,11 +19,11 @@
 package se.inera.intyg.common.support.modules.registry;
 
 import java.util.List;
-
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
 
 public interface IntygModuleRegistry {
+
     String resolveVersionFromUtlatandeJson(String intygType, String internalModel) throws ModuleNotFoundException;
 
     ModuleApi getModuleApi(String intygType, String intygTypeVersion) throws ModuleNotFoundException;

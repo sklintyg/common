@@ -21,7 +21,6 @@ package se.inera.intyg.common.support.services;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

@@ -18,23 +18,6 @@
  */
 package se.inera.intyg.common.db.v1.model.converter;
 
-import org.junit.Test;
-import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
-import se.inera.intyg.common.db.model.internal.Undersokning;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -61,6 +44,22 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNIN
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UNDERSOKNING_YTTRE_DELSVAR_ID;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.junit.Test;
+import se.inera.intyg.common.db.model.internal.Undersokning;
+import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public class UtlatandeToIntygTest {
 
@@ -103,24 +102,24 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvert() throws Exception {
         DbUtlatandeV1 utlatande = DbUtlatandeV1.builder()
-                .setId(intygsId)
-                .setTextVersion(textVersion)
-                .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                        vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
-                        efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
-                .setIdentitetStyrkt(identitetStyrkt)
-                .setDodsdatumSakert(dodsdatumSakert)
-                .setDodsdatum(dodsdatum)
-                .setAntraffatDodDatum(antraffatDod)
-                .setDodsplatsKommun(kommun)
-                .setDodsplatsBoende(boende)
-                .setBarn(barn)
-                .setExplosivImplantat(explosivImplantat)
-                .setExplosivAvlagsnat(explosivAvlagsnat)
-                .setUndersokningYttre(undersokningYttre)
-                .setUndersokningDatum(undersokningDatum)
-                .setPolisanmalan(polisanmalan)
-                .build();
+            .setId(intygsId)
+            .setTextVersion(textVersion)
+            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
+                efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
+            .setIdentitetStyrkt(identitetStyrkt)
+            .setDodsdatumSakert(dodsdatumSakert)
+            .setDodsdatum(dodsdatum)
+            .setAntraffatDodDatum(antraffatDod)
+            .setDodsplatsKommun(kommun)
+            .setDodsplatsBoende(boende)
+            .setBarn(barn)
+            .setExplosivImplantat(explosivImplantat)
+            .setExplosivAvlagsnat(explosivAvlagsnat)
+            .setUndersokningYttre(undersokningYttre)
+            .setUndersokningDatum(undersokningDatum)
+            .setPolisanmalan(polisanmalan)
+            .build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -246,32 +245,32 @@ public class UtlatandeToIntygTest {
     }
 
     @Test
-    public void testOsakertDodsdatum() throws Exception{
+    public void testOsakertDodsdatum() throws Exception {
         InternalDate zeroFilledDodsdatum = new InternalDate("2017-01-00");
         DbUtlatandeV1 utlatande = DbUtlatandeV1.builder()
-                .setId(intygsId)
-                .setTextVersion(textVersion)
-                .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt,
-                        epost, telefonNummer, vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId,
-                        forskrivarKod, patientPersonId, fornamn, efternamn, mellannamn, patientPostadress,
-                        patientPostnummer, patientPostort, signeringsdatum))
-                .setIdentitetStyrkt(identitetStyrkt)
-                .setDodsdatumSakert(false)
-                .setDodsdatum(new InternalDate("2017-01"))
-                .setAntraffatDodDatum(antraffatDod)
-                .setDodsplatsKommun(kommun)
-                .setDodsplatsBoende(boende)
-                .setBarn(barn)
-                .setExplosivImplantat(explosivImplantat)
-                .setExplosivAvlagsnat(explosivAvlagsnat)
-                .setUndersokningYttre(undersokningYttre)
-                .setUndersokningDatum(undersokningDatum)
-                .setPolisanmalan(polisanmalan)
-                .build();
+            .setId(intygsId)
+            .setTextVersion(textVersion)
+            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt,
+                epost, telefonNummer, vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId,
+                forskrivarKod, patientPersonId, fornamn, efternamn, mellannamn, patientPostadress,
+                patientPostnummer, patientPostort, signeringsdatum))
+            .setIdentitetStyrkt(identitetStyrkt)
+            .setDodsdatumSakert(false)
+            .setDodsdatum(new InternalDate("2017-01"))
+            .setAntraffatDodDatum(antraffatDod)
+            .setDodsplatsKommun(kommun)
+            .setDodsplatsBoende(boende)
+            .setBarn(barn)
+            .setExplosivImplantat(explosivImplantat)
+            .setExplosivAvlagsnat(explosivAvlagsnat)
+            .setUndersokningYttre(undersokningYttre)
+            .setUndersokningDatum(undersokningDatum)
+            .setPolisanmalan(polisanmalan)
+            .build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
-        Svar svar = intyg.getSvar().stream().filter( it ->
-                it.getId().equals(DODSDATUM_SVAR_ID)).findFirst().orElseThrow(RuntimeException::new);
+        Svar svar = intyg.getSvar().stream().filter(it ->
+            it.getId().equals(DODSDATUM_SVAR_ID)).findFirst().orElseThrow(RuntimeException::new);
         for (Svar.Delsvar delsvar : svar.getDelsvar()) {
             switch (delsvar.getId()) {
                 case DODSDATUM_SAKERT_DELSVAR_ID:
@@ -290,10 +289,10 @@ public class UtlatandeToIntygTest {
     }
 
     private GrundData createGrundData(String enhetsId, String enhetsnamn, String arbetsplatsKod, String postadress,
-          String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-          String skapadAvFullstandigtNamn, String skapadAvPersonId, String forskrivarKod, String patientPersonId,
-          String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-          String patientPostort, LocalDateTime signeringsdatum) {
+        String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String skapadAvFullstandigtNamn, String skapadAvPersonId, String forskrivarKod, String patientPersonId,
+        String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, LocalDateTime signeringsdatum) {
 
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();

@@ -17,30 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('tstrk1009').service('tstrk1009.PatientHelperService.v1',
-        function() {
-            'use strict';
+    function() {
+      'use strict';
 
-            // PS-003: Namn diffar mellan PU och JS - visas för både utkast och intyg
-            function _showPatientNameChangedIntegration() {
-                return true;
-            }
-            // PS-004: Namnet har ändrats i PU - endast för intyg
-            function _showPatientNameChangedPU(isIntyg) {
-                return isIntyg;
-            }
-            // PS-005: Adress skiljer sig mot PU - endast för intyg
-            function _showPatientAddressChangedPU(isIntyg) {
-                return isIntyg;
-            }
-            // INTYG-5146: Visas endast för utkast
-            function _showMissingAddressParameter(isIntyg) {
-                return !isIntyg;
-            }
+      // PS-003: Namn diffar mellan PU och JS - visas för både utkast och intyg
+      function _showPatientNameChangedIntegration() {
+        return true;
+      }
 
-            return {
-                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-                showPatientNameChangedPU: _showPatientNameChangedPU,
-                showPatientAddressChangedPU: _showPatientAddressChangedPU,
-                showMissingAddressParameter: _showMissingAddressParameter
-            };
-        });
+      // PS-004: Namnet har ändrats i PU - endast för intyg
+      function _showPatientNameChangedPU(isIntyg) {
+        return isIntyg;
+      }
+
+      // PS-005: Adress skiljer sig mot PU - endast för intyg
+      function _showPatientAddressChangedPU(isIntyg) {
+        return isIntyg;
+      }
+
+      // INTYG-5146: Visas endast för utkast
+      function _showMissingAddressParameter(isIntyg) {
+        return !isIntyg;
+      }
+
+      return {
+        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+        showPatientNameChangedPU: _showPatientNameChangedPU,
+        showPatientAddressChangedPU: _showPatientAddressChangedPU,
+        showMissingAddressParameter: _showMissingAddressParameter
+      };
+    });

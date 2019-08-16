@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('ag114', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
+angular.module('ag114', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 // Inject language resources
 angular.module('ag114').run(['common.messageService', 'ag114.messages',
-    function(messageService, ag114Messages) {
-        'use strict';
+  function(messageService, ag114Messages) {
+    'use strict';
 
-        messageService.addResources(ag114Messages);
-    }]);
+    messageService.addResources(ag114Messages);
+  }]);
