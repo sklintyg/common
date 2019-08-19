@@ -35,14 +35,14 @@ public final class ModelConverter {
     public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
         ClinicalProcessCertificateMetaTypeBuilder builder = new ClinicalProcessCertificateMetaTypeBuilder()
-                .certificateId(source.getId())
-                .certificateType(source.getType())
-                .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
-                .issuerName(source.getSigningDoctorName())
-                .facilityName(source.getCareUnitName())
-                .signDate(source.getSignedDate())
-                .available(String.valueOf(!source.isDeleted()))
-                .complemantaryInfo(source.getAdditionalInfo());
+            .certificateId(source.getId())
+            .certificateType(source.getType())
+            .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
+            .issuerName(source.getSigningDoctorName())
+            .facilityName(source.getCareUnitName())
+            .signDate(source.getSignedDate())
+            .available(String.valueOf(!source.isDeleted()))
+            .complemantaryInfo(source.getAdditionalInfo());
 
         CertificateMetaType meta = builder.build();
 

@@ -42,6 +42,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component(value = "luae_na.WebcertModelFactoryImpl.v1")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlatandeV1> {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -50,10 +51,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
     /**
      * Create a new luae_na draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link LuaenaUtlatandeV1} or throws a ConverterException if something unforeseen happens
-     * @throws ConverterException
      */
     @Override
     public LuaenaUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -69,14 +68,14 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuaenaUtlata
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(LuaenaEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(LuaenaEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }
 
     @Override
     public LuaenaUtlatandeV1 createCopy(CreateDraftCopyHolder copyData, Utlatande template) throws ConverterException {
-         if (!LuaenaUtlatandeV1.class.isInstance(template)) {
+        if (!LuaenaUtlatandeV1.class.isInstance(template)) {
             throw new ConverterException("Template is not of type LuaenaUtlatande");
         }
 

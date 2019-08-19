@@ -100,7 +100,7 @@ public final class InternalToTransportConverter {
         result.setSynskarpaUtanKorrektion(readUtanKorrektion(syn));
         result.setFinnsSynfaltsprovning(syn.getSynfaltsprovning() != null && syn.getSynfaltsprovning());
         result.setSynfaltsprovningUtanAnmarkning(
-                syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
+            syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
         result.setFinnsProvningOgatsRorlighet(syn.getProvningOgatsRorlighet() != null && syn.getProvningOgatsRorlighet());
         return result;
     }
@@ -142,7 +142,7 @@ public final class InternalToTransportConverter {
         Hypoglykemier result = new Hypoglykemier();
         result.setHarKunskapOmAtgarder(hypoglykemier.getKunskapOmAtgarder() != null && hypoglykemier.getKunskapOmAtgarder());
         result.setHarTeckenNedsattHjarnfunktion(hypoglykemier.getTeckenNedsattHjarnfunktion() != null
-                && hypoglykemier.getTeckenNedsattHjarnfunktion());
+            && hypoglykemier.getTeckenNedsattHjarnfunktion());
 
         if (hypoglykemier.getSaknarFormagaKannaVarningstecken() != null) {
             result.setSaknarFormagaKannaVarningstecken(hypoglykemier.getSaknarFormagaKannaVarningstecken());
@@ -165,7 +165,7 @@ public final class InternalToTransportConverter {
         if (hypoglykemier.getAllvarligForekomstVakenTid() != null) {
             result.setHarAllvarligForekomstVakenTid(hypoglykemier.getAllvarligForekomstVakenTid());
             result.setAllvarligForekomstVakenTidAr(hypoglykemier.getAllvarligForekomstVakenTidObservationstid() != null ? hypoglykemier
-                    .getAllvarligForekomstVakenTidObservationstid().getDate() : null);
+                .getAllvarligForekomstVakenTidObservationstid().getDate() : null);
         }
         return result;
     }

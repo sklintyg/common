@@ -30,7 +30,7 @@ public enum PrognosTyp {
      * Med stor sannolikhet.
      */
     MED_STOR_SANNOLIKHET("STOR_SANNOLIKHET",
-            "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning"),
+        "Patienten kommer med stor sannolikhet att kunna återgå helt i nuvarande sysselsättning efter denna sjukskrivning"),
     /**
      * Sannolikt ej återgå till nuvarande sysselsättning.
      */
@@ -43,7 +43,7 @@ public enum PrognosTyp {
      * Sannolikt återgå i sysselsättning efter x antal dagar.
      */
     ATER_X_ANTAL_DGR("ATER_X_ANTAL_DGR",
-            "Patienten kommer med stor sannolikhet att återgå helt i nuvarande sysselsättning efter x antal dagar");
+        "Patienten kommer med stor sannolikhet att återgå helt i nuvarande sysselsättning efter x antal dagar");
 
     private final String id;
     private final String label;

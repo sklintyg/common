@@ -41,12 +41,14 @@ public class IntygAvser {
     }
 
     public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
+
         protected IntygAvserEnumSetSerializer() {
             super(IntygAvserKategori.class);
         }
     }
 
     public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
+
         protected IntygAvserEnumSetDeserializer() {
             super(IntygAvserKategori.class);
         }

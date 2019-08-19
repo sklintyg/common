@@ -54,12 +54,12 @@ public class FkBasePdfDefinitionBuilder {
 
     protected String getPrintedByText(ApplicationOrigin applicationOrigin) {
         switch (applicationOrigin) {
-        case WEBCERT:
-            return "Intyget är utskrivet från Webcert";
-        case MINA_INTYG:
-            return "Intyget är utskrivet från Mina intyg";
-        default:
-            throw new IllegalArgumentException("Unknown ApplicationOrigin " + applicationOrigin);
+            case WEBCERT:
+                return "Intyget är utskrivet från Webcert";
+            case MINA_INTYG:
+                return "Intyget är utskrivet från Mina intyg";
+            default:
+                throw new IllegalArgumentException("Unknown ApplicationOrigin " + applicationOrigin);
         }
     }
 
@@ -72,21 +72,21 @@ public class FkBasePdfDefinitionBuilder {
         if (text == null && !allowMissing) {
             // Not finding a text is considered fatal
             throw new IllegalArgumentException(
-                    intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
-                            + "' requested for PDF but was not found. Please check text sources / question id's");
+                intygTexts.getIntygsTyp() + " (version " + intygTexts.getVersion() + ") dynamic text for key '" + key
+                    + "' requested for PDF but was not found. Please check text sources / question id's");
         }
         return text;
     }
 
     protected boolean isSentToFk(List<Status> statuses) {
         return statuses != null && statuses.stream()
-                .anyMatch(s -> CertificateState.SENT.equals(s.getType())
-                        && FkAbstractModuleEntryPoint.DEFAULT_RECIPIENT_ID.equals(s.getTarget()));
+            .anyMatch(s -> CertificateState.SENT.equals(s.getType())
+                && FkAbstractModuleEntryPoint.DEFAULT_RECIPIENT_ID.equals(s.getTarget()));
     }
 
     protected boolean isMakulerad(List<Status> statuses) {
         return statuses != null && statuses.stream()
-                .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
+            .anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
     }
 
     protected String nullSafeString(String string) {
@@ -119,8 +119,8 @@ public class FkBasePdfDefinitionBuilder {
     protected String buildVardEnhetAdress(Vardenhet ve) {
         StringBuilder sb = new StringBuilder();
         sb.append(nullSafeString(ve.getEnhetsnamn())).append("\n")
-                .append(nullSafeString(ve.getPostadress())).append("\n")
-                .append(nullSafeString(ve.getPostnummer())).append(" ").append(nullSafeString(ve.getPostort())).append("\n");
+            .append(nullSafeString(ve.getPostadress())).append("\n")
+            .append(nullSafeString(ve.getPostnummer())).append(" ").append(nullSafeString(ve.getPostort())).append("\n");
         if (nullSafeString(ve.getTelefonnummer()).length() > 0) {
             sb.append("Telefon: ").append(nullSafeString(ve.getTelefonnummer()));
         }
@@ -145,7 +145,7 @@ public class FkBasePdfDefinitionBuilder {
 
             if (text != null) {
                 allElements
-                        .add(new FkTillaggsFraga((i + 1) + ". " + text, tillaggsfraga.getSvar()));
+                    .add(new FkTillaggsFraga((i + 1) + ". " + text, tillaggsfraga.getSvar()));
             }
         }
 

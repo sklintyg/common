@@ -83,14 +83,14 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             Tstrk1009UtlatandeV1 utlatande = getInternal(internalModel);
             IntygTexts texts = getTexts(Tstrk1009EntryPoint.MODULE_ID, utlatande.getTextVersion());
             Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
             return new PdfGenerator().generatePdf(
-                    utlatande.getId(), internalModel, personId, texts,
-                    statuses, applicationOrigin, utkastStatus);
+                utlatande.getId(), internalModel, personId, texts,
+                statuses, applicationOrigin, utkastStatus);
         } catch (Exception e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate", e);
@@ -111,8 +111,8 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
             if (response.getResult() != null && response.getResult().getResultCode() != ResultCodeType.OK) {
                 String message = response.getResult().getResultText();
                 LOG.error("Error occured when sending certificate '{}': {}",
-                        request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
-                        message);
+                    request.getIntyg() != null ? request.getIntyg().getIntygsId() : null,
+                    message);
                 throw new ExternalServiceCallException(message);
             }
         } catch (SOAPFaultException e) {
@@ -187,8 +187,8 @@ public class Tstrk1009ModuleApiV1 extends TsParentModuleApi<Tstrk1009UtlatandeV1
         }
 
         return types.stream()
-                .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
-                .map(Korkortsbehorighet::getValue)
-                .collect(Collectors.joining(", "));
+            .map(cv -> Korkortsbehorighet.fromCode(cv.getCode()))
+            .map(Korkortsbehorighet::getValue)
+            .collect(Collectors.joining(", "));
     }
 }

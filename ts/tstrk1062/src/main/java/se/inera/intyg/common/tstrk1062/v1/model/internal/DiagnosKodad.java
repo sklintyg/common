@@ -31,10 +31,10 @@ public abstract class DiagnosKodad {
 
     @JsonCreator
     public static DiagnosKodad create(@JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID) String diagnosKod,
-            @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID) String diagnosKodSystem,
-            @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID) String diagnosBeskrivning,
-            @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DISPLAYNAME_JSON_ID) String diagnosDisplayName,
-            @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
+        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID) String diagnosKodSystem,
+        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_TEXT_DELSVAR_JSON_ID) String diagnosBeskrivning,
+        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_DISPLAYNAME_JSON_ID) String diagnosDisplayName,
+        @JsonProperty(ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID) String diagnosArtal) {
         return new AutoValue_DiagnosKodad(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName, diagnosArtal);
     }
 

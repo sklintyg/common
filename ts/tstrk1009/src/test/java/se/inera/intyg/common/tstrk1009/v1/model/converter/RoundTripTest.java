@@ -64,8 +64,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-max*").stream()
-                .map(u -> new Object[]{u.getName(), u})
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     /**
@@ -85,16 +85,17 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual.toString()))
-                .withTest(Input.fromString(expected.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
 
         final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
-                .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath().contains("patient")) //patientdetails should be trimmed
-                .collect(Collectors.toList());
+            .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath()
+                .contains("patient")) //patientdetails should be trimmed
+            .collect(Collectors.toList());
 
         assertTrue(differences.isEmpty());
 
@@ -125,23 +126,24 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual.toString()))
-                .withTest(Input.fromString(expected.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
 
         final List<Difference> differences = Lists.newArrayList(diff.getDifferences()).stream()
-                .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath().contains("patient")) //patientdetails should be trimmed
-                .collect(Collectors.toList());
+            .filter(difference -> !difference.getComparison().getControlDetails().getParentXPath()
+                .contains("patient")) //patientdetails should be trimmed
+            .collect(Collectors.toList());
 
         assertTrue(differences.toString(), differences.isEmpty());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         return new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
     }
 }

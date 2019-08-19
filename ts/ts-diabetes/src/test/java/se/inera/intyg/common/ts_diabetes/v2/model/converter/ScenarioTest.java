@@ -68,6 +68,6 @@ public class ScenarioTest {
 
     private Scenario getScenarioByName(String name, List<Scenario> scenarios) {
         return scenarios.stream().filter(s -> name.equalsIgnoreCase(s.getName())).findAny()
-                .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
+            .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
     }
 }

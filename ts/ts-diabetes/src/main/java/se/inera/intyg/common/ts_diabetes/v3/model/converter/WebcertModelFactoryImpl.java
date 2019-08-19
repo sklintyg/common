@@ -49,6 +49,7 @@ import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3
  */
 @Component("ts-diabetes.v3.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUtlatandeV3> {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -57,10 +58,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
     /**
      * Create a new ts-diabetes V3 draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link TsDiabetesUtlatandeV3} or throws a ConverterException if something unforeseen happens
-     * @throws ConverterException
      */
     @Override
     public TsDiabetesUtlatandeV3 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -82,7 +81,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

@@ -31,6 +31,7 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
+
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(DoiModuleApiV1.SCHEMATRON_FILE);
 
     @Test

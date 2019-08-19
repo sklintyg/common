@@ -89,7 +89,7 @@ public final class InternalToTransport {
 
         if (!Strings.isNullOrEmpty(source.getDiagnosKod())) {
             register.getLakarutlatande()
-                    .setMedicinsktTillstand(toMedicinsktTillstand(source.getDiagnosKod(), source.getDiagnosKodsystem1()));
+                .setMedicinsktTillstand(toMedicinsktTillstand(source.getDiagnosKod(), source.getDiagnosKodsystem1()));
             buildMedicinsktTillstandBeskrivning(register.getLakarutlatande().getMedicinsktTillstand(), source);
         }
 
@@ -101,12 +101,12 @@ public final class InternalToTransport {
 
         if (!Strings.isNullOrEmpty(source.getFunktionsnedsattning())) {
             register.getLakarutlatande().getFunktionstillstand()
-                    .add(toFunktionstillstand(source.getFunktionsnedsattning(), TypAvFunktionstillstand.KROPPSFUNKTION));
+                .add(toFunktionstillstand(source.getFunktionsnedsattning(), TypAvFunktionstillstand.KROPPSFUNKTION));
         }
 
         // add arbetsformaga to aktivitetsbegransing
         FunktionstillstandType aktivitetsbegransing = toFunktionstillstand(source.getAktivitetsbegransning(),
-                TypAvFunktionstillstand.AKTIVITET);
+            TypAvFunktionstillstand.AKTIVITET);
         aktivitetsbegransing.setArbetsformaga(toArbetsformaga(source));
 
         register.getLakarutlatande().getFunktionstillstand().add(aktivitetsbegransing);
@@ -210,18 +210,18 @@ public final class InternalToTransport {
 
         if (source.getPrognosBedomning() != null) {
             switch (source.getPrognosBedomning()) {
-            case arbetsformagaPrognosGarInteAttBedoma:
-                arbetsformagaType.setPrognosangivelse(Prognosangivelse.DET_GAR_INTE_ATT_BEDOMMA);
-                break;
-            case arbetsformagaPrognosJa:
-                arbetsformagaType.setPrognosangivelse(Prognosangivelse.ATERSTALLAS_HELT);
-                break;
-            case arbetsformagaPrognosJaDelvis:
-                arbetsformagaType.setPrognosangivelse(Prognosangivelse.ATERSTALLAS_DELVIS);
-                break;
-            case arbetsformagaPrognosNej:
-                arbetsformagaType.setPrognosangivelse(Prognosangivelse.INTE_ATERSTALLAS);
-                break;
+                case arbetsformagaPrognosGarInteAttBedoma:
+                    arbetsformagaType.setPrognosangivelse(Prognosangivelse.DET_GAR_INTE_ATT_BEDOMMA);
+                    break;
+                case arbetsformagaPrognosJa:
+                    arbetsformagaType.setPrognosangivelse(Prognosangivelse.ATERSTALLAS_HELT);
+                    break;
+                case arbetsformagaPrognosJaDelvis:
+                    arbetsformagaType.setPrognosangivelse(Prognosangivelse.ATERSTALLAS_DELVIS);
+                    break;
+                case arbetsformagaPrognosNej:
+                    arbetsformagaType.setPrognosangivelse(Prognosangivelse.INTE_ATERSTALLAS);
+                    break;
             }
         }
 
@@ -339,8 +339,7 @@ public final class InternalToTransport {
     /**
      * Build AktivitetTypes from internal model.
      *
-     * @param source
-     *            Utlatande
+     * @param source Utlatande
      * @return List of AktivitetType
      */
     private static void convertAktiviteter(RegisterMedicalCertificateType register, Fk7263Utlatande source) {
@@ -392,15 +391,15 @@ public final class InternalToTransport {
         if (source.getRehabilitering() != null) {
             AktivitetType rehab = new AktivitetType();
             switch (source.getRehabilitering()) {
-            case rehabiliteringGarInteAttBedoma:
-                rehab.setAktivitetskod(Aktivitetskod.GAR_EJ_ATT_BEDOMMA_OM_ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL);
-                break;
-            case rehabiliteringAktuell:
-                rehab.setAktivitetskod(Aktivitetskod.ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL);
-                break;
-            case rehabiliteringEjAktuell:
-                rehab.setAktivitetskod(Aktivitetskod.ARBETSLIVSINRIKTAD_REHABILITERING_AR_EJ_AKTUELL);
-                break;
+                case rehabiliteringGarInteAttBedoma:
+                    rehab.setAktivitetskod(Aktivitetskod.GAR_EJ_ATT_BEDOMMA_OM_ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL);
+                    break;
+                case rehabiliteringAktuell:
+                    rehab.setAktivitetskod(Aktivitetskod.ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL);
+                    break;
+                case rehabiliteringEjAktuell:
+                    rehab.setAktivitetskod(Aktivitetskod.ARBETSLIVSINRIKTAD_REHABILITERING_AR_EJ_AKTUELL);
+                    break;
             }
             aktivitets.add(rehab);
         }
@@ -514,8 +513,8 @@ public final class InternalToTransport {
     private static PatientType patientToJaxb(Patient source) {
         II id = new II();
         id.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(source.getPersonId()))
-                ? Constants.SAMORDNING_ID_OID
-                : Constants.PERSON_ID_OID);
+            ? Constants.SAMORDNING_ID_OID
+            : Constants.PERSON_ID_OID);
         id.setExtension(source.getPersonId().getPersonnummerWithDash());
 
         PatientType patientType = new PatientType();

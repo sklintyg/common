@@ -69,7 +69,6 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  * corresponding json- and XML-files in these directories.
  *
  * @author erik
- *
  */
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
@@ -119,18 +118,17 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
      * outcome of the test}.
      *
-     * @return Collection<Object[]>
-     * @throws ScenarioNotFoundException
+     * @return Collection<Object [ ]>
      */
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         List<Object[]> retList = ScenarioFinder.getInternalScenarios("fail-*").stream()
-                .map(u -> new Object[] { u.getName(), u, true })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u, true})
+            .collect(Collectors.toList());
         retList.addAll(
-                ScenarioFinder.getInternalScenarios("pass-*").stream()
-                        .map(u -> new Object[] { u.getName(), u, false })
-                        .collect(Collectors.toList()));
+            ScenarioFinder.getInternalScenarios("pass-*").stream()
+                .map(u -> new Object[]{u.getName(), u, false})
+                .collect(Collectors.toList()));
         return retList;
     }
 
@@ -155,10 +153,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     /**
      * Perform internal and schematron validation on the supplied Scenario.
      *
-     * @param scenario
-     * @param fail
-     *            Whether the test should expect validation errors or not.
-     * @throws Exception
+     * @param fail Whether the test should expect validation errors or not.
      */
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
         LuaenaUtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
@@ -169,7 +164,8 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
         String convertedXML = InternalToSchematronValidatorTestUtil.getXmlFromModel(intyg);
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaenaModuleApiV1.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 
@@ -179,25 +175,27 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-            String internalValidationErrors, String transportValidationErrors) {
+        String internalValidationErrors, String transportValidationErrors) {
         if (fail) {
-            assertEquals(String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
+            assertEquals(
+                String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
                     name, transportValidationErrors, internalValidationErrors),
-                    getNumberOfTransportValidationErrors(result), getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
+                getNumberOfTransportValidationErrors(result),
+                getNumberOfInternalValidationErrors(internalValidationResponse, IGNORED_FIELDS));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                    name),
-                    internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
+                name),
+                internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                    name),
-                    SVRLHelper.getAllFailedAssertions(result).size() > 0);
+                name),
+                SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                    name, internalValidationErrors),
-                    internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
+                name, internalValidationErrors),
+                internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
             assertTrue(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                    name, transportValidationErrors),
-                    SVRLHelper.getAllFailedAssertions(result).size() == 0);
+                name, transportValidationErrors),
+                SVRLHelper.getAllFailedAssertions(result).size() == 0);
         }
     }
 

@@ -47,12 +47,14 @@ public abstract class IntygAvser {
     public abstract Set<IntygAvser.BehorighetsTyp> getBehorigheter();
 
     public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
+
         protected BehorighetsTypSetEnumSetSerializer() {
             super(BehorighetsTyp.class);
         }
     }
 
     public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
+
         protected BehorighetsTypSetDeserializer() {
             super(BehorighetsTyp.class);
         }

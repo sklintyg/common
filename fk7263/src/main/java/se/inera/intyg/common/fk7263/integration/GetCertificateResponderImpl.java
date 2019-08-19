@@ -45,7 +45,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
  * @author andreaskaltenbach
  */
 public class GetCertificateResponderImpl implements
-        GetCertificateResponderInterface {
+    GetCertificateResponderInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCertificateResponderImpl.class);
 
@@ -93,7 +93,7 @@ public class GetCertificateResponderImpl implements
     protected void attachCertificateDocument(CertificateHolder certificate, GetCertificateResponseType response) {
         try {
             JAXBElement<RegisterMedicalCertificateType> el = XmlMarshallerHelper.unmarshal(
-                    certificate.getOriginalCertificate());
+                certificate.getOriginalCertificate());
             DOMResult domResult = new DOMResult();
             XmlMarshallerHelper.marshaller().marshal(el, domResult);
             CertificateType certificateType = new CertificateType();

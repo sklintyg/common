@@ -42,17 +42,17 @@ public final class TransportToInternalUtil {
         GrundData grundData = new GrundData();
         grundData.setPatient(convertPatient(source.getPatient()));
         grundData
-                .setSigneringsdatum(LocalDateTime.parse(source.getSigneringsTidstampel(), SIGNERINGS_TIDSTAMPEL_FORMAT));
+            .setSigneringsdatum(LocalDateTime.parse(source.getSigneringsTidstampel(), SIGNERINGS_TIDSTAMPEL_FORMAT));
         grundData.setSkapadAv(convertHoSPersonal(source.getSkapadAv()));
         return grundData;
     }
 
     public static DiabetesKod convertDiabetesTyp(DiabetesTypVarden kod) {
         switch (kod) {
-        case TYP_1:
-            return DiabetesKod.DIABETES_TYP_1;
-        case TYP_2:
-            return DiabetesKod.DIABETES_TYP_2;
+            case TYP_1:
+                return DiabetesKod.DIABETES_TYP_1;
+            case TYP_2:
+                return DiabetesKod.DIABETES_TYP_2;
         }
         throw new IllegalArgumentException(kod.name());
     }
@@ -70,8 +70,8 @@ public final class TransportToInternalUtil {
         // try to convert befattning from description, otherwise use it as a code
         if (!CollectionUtils.isEmpty(source.getBefattningar())) {
             hosPersonal.getBefattningar().addAll(source.getBefattningar().stream()
-                    .map(description -> BefattningService.getCodeFromDescription(description).orElse(description))
-                    .collect(Collectors.toList()));
+                .map(description -> BefattningService.getCodeFromDescription(description).orElse(description))
+                .collect(Collectors.toList()));
         }
         if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
             hosPersonal.getSpecialiteter().addAll(source.getSpecialiteter());

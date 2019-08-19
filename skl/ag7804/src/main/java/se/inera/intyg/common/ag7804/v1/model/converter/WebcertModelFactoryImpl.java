@@ -43,6 +43,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component("ag7804.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804UtlatandeV1> {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -51,10 +52,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
     /**
      * Create a new Ag7804UtlatandeV1 draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link Ag7804UtlatandeV1} or throws a ConverterException if something unforeseen happens
-     * @throws ConverterException
      */
     @Override
     public Ag7804UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -71,7 +70,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(Ag7804EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(Ag7804EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }
@@ -102,7 +101,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag7804Utlata
     }
 
     private Ag7804UtlatandeV1 handleFromLisjpCopy(CreateDraftCopyHolder copyData, LisjpUtlatandeV1 lisjpTemplate)
-            throws ConverterException {
+        throws ConverterException {
         LOG.trace("Creating copy with id {} from LisjpUtlatandeV1 with id {}", copyData.getCertificateId(), lisjpTemplate.getId());
 
         Ag7804UtlatandeV1.Builder templateBuilder = Ag7804UtlatandeV1.builder();

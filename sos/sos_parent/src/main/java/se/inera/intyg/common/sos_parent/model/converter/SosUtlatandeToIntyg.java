@@ -48,6 +48,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
  * Converters for shared svar between DB and DOI.
  */
 public final class SosUtlatandeToIntyg {
+
     private SosUtlatandeToIntyg() {
     }
 
@@ -72,11 +73,11 @@ public final class SosUtlatandeToIntyg {
         // Svar 3
         if (utlatande.getDodsplatsBoende() != null || utlatande.getDodsplatsKommun() != null) {
             InternalConverterUtil.SvarBuilder dodsplats = aSvar(DODSPLATS_SVAR_ID)
-                    .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
+                .withDelsvar(DODSPLATS_KOMMUN_DELSVAR_ID, utlatande.getDodsplatsKommun());
             if (utlatande.getDodsplatsBoende() != null) {
                 dodsplats.withDelsvar(DODSPLATS_BOENDE_DELSVAR_ID,
-                        aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
-                                utlatande.getDodsplatsBoende().getBeskrivning()));
+                    aCV(DODSPLATS_BOENDE_CODE_SYSTEM, utlatande.getDodsplatsBoende().name(),
+                        utlatande.getDodsplatsBoende().getBeskrivning()));
             }
             svar.add(dodsplats.build());
         }

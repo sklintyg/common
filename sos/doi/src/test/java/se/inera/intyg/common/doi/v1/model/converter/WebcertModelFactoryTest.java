@@ -60,6 +60,7 @@ public class WebcertModelFactoryTest {
     public void setupMocks() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(DoiModuleEntryPoint.MODULE_ID, "1.0")).thenReturn(LASTEST_MINOR_VERSION);
     }
+
     @Test
     public void testHappyPath() throws ConverterException {
         DoiUtlatandeV1 draft = modelFactory.createNewWebcertDraft(buildNewDraftData(INTYG_ID));

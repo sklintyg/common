@@ -58,21 +58,21 @@ public class MarginTexts implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(FONT_SIZE);
 
         // Left margin
         canvas.showTextAligned(printConfig.getLeftMarginTypText(),
-                millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+            millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+            millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
 
         // Right margin, visas endast för signerat intyg, ej heller på sista sidan om det är ett informationsblad.
         if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && renderIntygsId(pdf, page)) {
             canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
-                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                    millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
         }
     }
 

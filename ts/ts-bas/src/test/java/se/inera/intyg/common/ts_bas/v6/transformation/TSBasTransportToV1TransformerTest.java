@@ -80,9 +80,9 @@ public class TSBasTransportToV1TransformerTest {
     @Test
     public void testTransformation() throws Exception {
         List<String> testFiles = asList("xsl.xml", "ts-bas-max.xml", "valid-diabetes-typ2-kost.xml",
-                "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
-                "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml",
-                "valid-no-dash-personid-extension.xml");
+            "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
+            "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml",
+            "valid-no-dash-personid-extension.xml");
 
         XslTransformer transformer = new XslTransformer("xsl/transportToV1.xsl");
 

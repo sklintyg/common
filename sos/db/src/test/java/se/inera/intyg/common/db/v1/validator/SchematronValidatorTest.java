@@ -32,6 +32,7 @@ import static com.google.common.io.Resources.getResource;
 import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
+
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(DbModuleApiV1.SCHEMATRON_FILE);
 
     @Test

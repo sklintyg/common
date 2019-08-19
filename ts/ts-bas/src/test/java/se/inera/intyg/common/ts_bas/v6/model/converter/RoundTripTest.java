@@ -69,8 +69,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     /**
@@ -90,12 +90,12 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual.toString()))
-                .withTest(Input.fromString(expected.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
@@ -125,19 +125,19 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(actual.toString()))
-                .withTest(Input.fromString(expected.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .build();
+            .compare(Input.fromString(actual.toString()))
+            .withTest(Input.fromString(expected.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
         return jaxbElement;
     }
 }

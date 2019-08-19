@@ -18,15 +18,16 @@
  */
 package se.inera.intyg.common.af00251.v1.model.internal;
 
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-
 import javax.annotation.Nullable;
-
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
 
 /**
  * Fråga 2.
@@ -51,6 +52,7 @@ public abstract class ArbetsmarknadspolitisktProgram {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract ArbetsmarknadspolitisktProgram build();
 
         @JsonProperty(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21)

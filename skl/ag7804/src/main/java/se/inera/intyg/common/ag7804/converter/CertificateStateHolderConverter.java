@@ -70,18 +70,18 @@ public final class CertificateStateHolderConverter {
 
     private static StatusKod toStatusKod(CertificateState state) {
         switch (state) {
-        case RECEIVED:
-            return StatusKod.RECEIV;
-        case SENT:
-            return StatusKod.SENTTO;
-        case CANCELLED:
-            return StatusKod.CANCEL;
-        case DELETED:
-            return StatusKod.DELETE;
-        case RESTORED:
-            return StatusKod.RESTOR;
-        default:
-            throw new IllegalArgumentException(state.toString());
+            case RECEIVED:
+                return StatusKod.RECEIV;
+            case SENT:
+                return StatusKod.SENTTO;
+            case CANCELLED:
+                return StatusKod.CANCEL;
+            case DELETED:
+                return StatusKod.DELETE;
+            case RESTORED:
+                return StatusKod.RESTOR;
+            default:
+                throw new IllegalArgumentException(state.toString());
         }
     }
 

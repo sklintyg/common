@@ -36,6 +36,7 @@ public abstract class HorselBalans {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract HorselBalans build();
 
         @JsonProperty("balansrubbningar")

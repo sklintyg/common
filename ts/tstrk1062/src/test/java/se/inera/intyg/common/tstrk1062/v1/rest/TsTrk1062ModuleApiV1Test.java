@@ -78,7 +78,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BefattningService.class })
+@ContextConfiguration(classes = {BefattningService.class})
 public class TsTrk1062ModuleApiV1Test {
 
     @Mock
@@ -139,8 +139,8 @@ public class TsTrk1062ModuleApiV1Test {
 
         doReturn(mockIntygTexts).when(intygTextsService).getIntygTextsPojo(TsTrk1062EntryPoint.MODULE_ID, TEXT_VERSION);
         doReturn(expectedPdfResponse).when(pdfGenerator).generatePdf(INTYGS_ID, INTERNAL_MODEL, grundData.getPatient().getPersonId(),
-                mockIntygTexts,
-                statuses, mockApplicationOrigin, mockUtkastStatus);
+            mockIntygTexts,
+            statuses, mockApplicationOrigin, mockUtkastStatus);
 
         final PdfResponse actualPdfResponse = moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
 
@@ -214,7 +214,7 @@ public class TsTrk1062ModuleApiV1Test {
         final SOAPFault mockFault = mock(SOAPFault.class);
 
         doThrow(new SOAPFaultException(mockFault)).when(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS),
-                any());
+            any());
 
         moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
     }
@@ -238,8 +238,8 @@ public class TsTrk1062ModuleApiV1Test {
     @Test
     public void testConvertUtlatandeToIntyg() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final Intyg intyg = moduleApi.utlatandeToIntyg(utlatande);
 
@@ -256,8 +256,8 @@ public class TsTrk1062ModuleApiV1Test {
     @Test
     public void testInternalToTransport() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final RegisterCertificateType actualRegisterCertificateType = moduleApi.internalToTransport(utlatande);
 
@@ -323,19 +323,19 @@ public class TsTrk1062ModuleApiV1Test {
     public void testdecorateDiagnoserWithDescriptions() throws Exception {
         final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
         final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
-                "Diagnosbeskrivning", null, "Årtal");
+            "Diagnosbeskrivning", null, "Årtal");
 
         final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<DiagnosKodad>(1);
         expectedDiagnosKodadList.add(expectedDiagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-                .setDiagnosKodad(expectedDiagnosKodadList)
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+            .setDiagnosKodad(expectedDiagnosKodadList)
+            .build();
 
         doReturn(expectedDiagnosDisplayName).when(moduleService).getDescriptionFromDiagnosKod(expectedDiagnosKodad.getDiagnosKod(),
-                expectedDiagnosKodad.getDiagnosKodSystem());
+            expectedDiagnosKodad.getDiagnosKodSystem());
 
         final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.decorateDiagnoserWithDescriptions(utlatande);
 
@@ -346,9 +346,9 @@ public class TsTrk1062ModuleApiV1Test {
         final DiagnosKodad actualDiagnosKodad = actualDiagnosKodadList.get(0);
         assertEquals("DiagnosKodad kod should be same", expectedDiagnosKodad.getDiagnosKod(), actualDiagnosKodad.getDiagnosKod());
         assertEquals("DiagnosKodad beskrivning should be same", expectedDiagnosKodad.getDiagnosBeskrivning(),
-                actualDiagnosKodad.getDiagnosBeskrivning());
+            actualDiagnosKodad.getDiagnosBeskrivning());
         assertEquals("DiagnosKodad kodsystem should be same", expectedDiagnosKodad.getDiagnosKodSystem(),
-                actualDiagnosKodad.getDiagnosKodSystem());
+            actualDiagnosKodad.getDiagnosKodSystem());
         assertEquals("DiagnosKodad artal should be same", expectedDiagnosKodad.getDiagnosArtal(), actualDiagnosKodad.getDiagnosArtal());
         assertEquals("DiagnosKodad displayname should be same", expectedDiagnosDisplayName, actualDiagnosKodad.getDiagnosDisplayName());
     }

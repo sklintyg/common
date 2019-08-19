@@ -93,7 +93,8 @@ public class WebcertModelFactoryTest {
     public void testCreateNewWebcertDraftDoesNotGenerateIncompleteSvarInTransportFormat() throws ConverterException {
         // this to follow schema during CertificateStatusUpdateForCareV2
         Ag114UtlatandeV1 draft = testee.createNewWebcertDraft(buildNewDraftData(INTYG_ID));
-        assertEquals("Should only contain 'Nuvarande arbete'", 1, InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().size());
+        assertEquals("Should only contain 'Nuvarande arbete'", 1,
+            InternalToTransport.convert(draft, webcertModuleService).getIntyg().getSvar().size());
     }
 
     private CreateNewDraftHolder buildNewDraftData(String intygId) {

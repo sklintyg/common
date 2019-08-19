@@ -48,7 +48,7 @@ public class PdfGeneratorTest {
 
         FkPage page = new FkPage();
         FkLabel mainHeader = new FkLabel("Test Header")
-                .size(40, 12f);
+            .size(40, 12f);
         page.getChildren().add(mainHeader);
 
         def.addChild(page);
@@ -56,7 +56,7 @@ public class PdfGeneratorTest {
     }
 
     @Test
-    public void testGeneratePdf() throws Exception{
+    public void testGeneratePdf() throws Exception {
         FkPdfDefinition def = buildPdfDefinition();
         byte[] pdfFileBytes = PdfGenerator.generatePdf(def);
         assertNotNull(pdfFileBytes);

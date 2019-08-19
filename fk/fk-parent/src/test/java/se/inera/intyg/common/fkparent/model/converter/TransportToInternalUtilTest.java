@@ -49,11 +49,11 @@ public class TransportToInternalUtilTest {
         final String diagnosDisplayName3 = "displayName3";
 
         Svar svar = aSvar(DIAGNOS_SVAR_ID_6).withDelsvar("6.1", diagnosBeskrivning1)
-                .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1))
-                .withDelsvar("6.3", diagnosBeskrivning2)
-                .withDelsvar("6.4", aCV(diagnosKodSystem2, diagnosKod2, diagnosDisplayName2))
-                .withDelsvar("6.5", diagnosBeskrivning3)
-                .withDelsvar("6.6", aCV(diagnosKodSystem3, diagnosKod3, diagnosDisplayName3)).build();
+            .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1))
+            .withDelsvar("6.3", diagnosBeskrivning2)
+            .withDelsvar("6.4", aCV(diagnosKodSystem2, diagnosKod2, diagnosDisplayName2))
+            .withDelsvar("6.5", diagnosBeskrivning3)
+            .withDelsvar("6.6", aCV(diagnosKodSystem3, diagnosKod3, diagnosDisplayName3)).build();
         List<Diagnos> res = new ArrayList<>();
 
         TransportToInternalUtil.handleDiagnos(res, svar);
@@ -85,9 +85,9 @@ public class TransportToInternalUtilTest {
         final String diagnosDisplayName2 = "displayName2";
 
         Svar svar = aSvar(DIAGNOS_SVAR_ID_6).withDelsvar("6.1", diagnosBeskrivning1)
-                .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1))
-                .withDelsvar("6.3", diagnosBeskrivning2)
-                .withDelsvar("6.4", aCV(diagnosKodSystem2, diagnosKod2, diagnosDisplayName2)).build();
+            .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1))
+            .withDelsvar("6.3", diagnosBeskrivning2)
+            .withDelsvar("6.4", aCV(diagnosKodSystem2, diagnosKod2, diagnosDisplayName2)).build();
         List<Diagnos> res = new ArrayList<>();
 
         TransportToInternalUtil.handleDiagnos(res, svar);
@@ -111,7 +111,7 @@ public class TransportToInternalUtilTest {
         final String diagnosDisplayName1 = "displayName1";
 
         Svar svar = aSvar(DIAGNOS_SVAR_ID_6).withDelsvar("6.1", diagnosBeskrivning1)
-                .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1)).build();
+            .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1)).build();
         List<Diagnos> res = new ArrayList<>();
 
         TransportToInternalUtil.handleDiagnos(res, svar);
@@ -131,7 +131,7 @@ public class TransportToInternalUtilTest {
         final String diagnosDisplayName1 = "displayName1";
 
         Svar svar = aSvar(DIAGNOS_SVAR_ID_6).withDelsvar("6.1", diagnosBeskrivning1)
-                .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1)).build();
+            .withDelsvar("6.2", aCV(diagnosKodSystem1, diagnosKod1, diagnosDisplayName1)).build();
         List<Diagnos> res = new ArrayList<>();
 
         TransportToInternalUtil.handleDiagnos(res, svar);

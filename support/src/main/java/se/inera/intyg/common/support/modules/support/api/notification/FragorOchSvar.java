@@ -47,7 +47,7 @@ public class FragorOchSvar {
     @Override
     public String toString() {
         return "antalFragor=" + antalFragor + ", antalSvar=" + antalSvar + ", antalHanteradeFragor=" + antalHanteradeFragor
-                + ", antalHanteradeSvar=" + antalHanteradeSvar;
+            + ", antalHanteradeSvar=" + antalHanteradeSvar;
     }
 
     public int getAntalFragor() {

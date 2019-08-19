@@ -65,8 +65,8 @@ public class RegisterMedicalCertificateResponderStubTest {
         // read request from file
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         request = unmarshaller
-                .unmarshal(new StreamSource(new ClassPathResource("fk7263/fk7263.xml").getInputStream()), RegisterMedicalCertificateType.class)
-                .getValue();
+            .unmarshal(new StreamSource(new ClassPathResource("fk7263/fk7263.xml").getInputStream()), RegisterMedicalCertificateType.class)
+            .getValue();
     }
 
     @SuppressWarnings("unchecked")

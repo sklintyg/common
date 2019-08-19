@@ -66,6 +66,7 @@ public abstract class Behandling {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Behandling build();
 
         @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)

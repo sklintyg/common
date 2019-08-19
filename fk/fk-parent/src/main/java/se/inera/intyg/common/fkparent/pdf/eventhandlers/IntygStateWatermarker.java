@@ -43,7 +43,7 @@ public class IntygStateWatermarker extends PdfPageEventHelper {
     private static final int ROTATION = 45;
     private static final float FILL_OPACITY = 0.5f;
 
-     private Phrase watermark;
+    private Phrase watermark;
 
     public IntygStateWatermarker(boolean isUtkast, boolean isMakulerad, boolean isLocked) {
         if (isLocked) {

@@ -68,13 +68,13 @@ public class TransportToInternalTest {
         utlatande.setTextVersion("1.0");
         utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
+            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
         utlatande.setPagaendeBehandling("Medicin");
         utlatande.setPlaneradBehandling("Mer medicin");
 
         utlatande.setArbetslivsinriktadeAtgarder(
-                asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
+            asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
 
         utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(SysselsattningsTyp.STUDIER)));
         utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));

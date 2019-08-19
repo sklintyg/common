@@ -64,13 +64,13 @@ public class PageNumberEvent implements IEventHandler {
         int pageNumber = pdf.getPageNumber(page);
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         Paragraph p = new Paragraph()
-                .add("Sida ").add(String.valueOf(pageNumber) + "(")
-                .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
+            .add("Sida ").add(String.valueOf(pageNumber) + "(")
+            .setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(p, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET,
-                TextAlignment.RIGHT);
+            TextAlignment.RIGHT);
         pdfCanvas.addXObject(placeholder, pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT + 2), PAGE_NUMBER_Y_OFFSET - DESCENT);
         pdfCanvas.release();
     }
@@ -79,6 +79,6 @@ public class PageNumberEvent implements IEventHandler {
         Canvas canvas = new Canvas(placeholder, pdf);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(String.valueOf(pdf.getNumberOfPages() + ")"),
-                0, DESCENT, TextAlignment.LEFT);
+            0, DESCENT, TextAlignment.LEFT);
     }
 }

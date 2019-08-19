@@ -71,16 +71,16 @@ public class RoundTripTest {
 
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
-        Collection<Object[]> ret =  ScenarioFinder.getInternalScenarios("pass-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+        Collection<Object[]> ret = ScenarioFinder.getInternalScenarios("pass-*").stream()
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
 
         ret.addAll(ScenarioFinder.getInternalScenarios("fail-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList()));
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList()));
         ret.addAll(ScenarioFinder.getInternalScenarios("validation-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList()));
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList()));
         return ret;
     }
 
@@ -101,13 +101,13 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actual.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getIntyg()));
@@ -137,20 +137,20 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actual.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-                RegisterCertificateType.class, ws);
+            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+            RegisterCertificateType.class, ws);
         return jaxbElement;
     }
 }

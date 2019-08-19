@@ -50,6 +50,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleSystemException;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
 @Component(value = "moduleapi.doi.v1")
 public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
@@ -88,7 +89,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             if (ApplicationOrigin.WEBCERT != applicationOrigin) {
                 throw new IllegalArgumentException("Generating PDF not allowed for application origin " + applicationOrigin);
@@ -97,7 +98,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
             IntygTexts texts = getTexts(DoiModuleEntryPoint.MODULE_ID, intyg.getTextVersion());
             DoiPdfGenerator pdfGenerator = new DoiPdfGenerator(intyg, texts, statuses, utkastStatus);
             return new PdfResponse(pdfGenerator.getBytes(),
-                    pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
+                pdfGenerator.generatePdfFilename(LocalDateTime.now(), PDF_FILENAME_PREFIX));
         } catch (SoSPdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate PDF for " + DoiModuleEntryPoint.MODULE_ID + " certificate!", e);
@@ -106,7 +107,7 @@ public class DoiModuleApiV1 extends SosParentModuleApi<DoiUtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         throw new RuntimeException("Not applicable for dodsorsaksintyg.");
     }
 

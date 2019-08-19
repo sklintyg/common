@@ -86,19 +86,20 @@ public class TsBasTransportToV3TransformerXpathTest {
 
     @Test
     public void testMaximaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
-            TransformerException {
+        TransformerException {
         performTests(new ClassPathResource("v6/scenarios/transport/valid-maximal.xml"));
     }
 
     @Test
     public void testMinimaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
-            TransformerException {
+        TransformerException {
         performTests(new ClassPathResource("v6/scenarios/transport/valid-minimal.xml"));
 
     }
 
-    private void performTests(ClassPathResource cpr) throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException,
-            XPathExpressionException {
+    private void performTests(ClassPathResource cpr)
+        throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException,
+        XPathExpressionException {
 
         String xmlContent = Resources.toString(cpr.getURL(), Charsets.UTF_8);
         TSBasIntyg utlatande = JAXB.unmarshal(cpr.getFile(), RegisterTSBasType.class).getIntyg();
@@ -110,13 +111,14 @@ public class TsBasTransportToV3TransformerXpathTest {
         // Check intyg against xpath
         assertEquals("Intyg - typ", "TSTRK1007", xPath.evaluate(XPathExpressionsV3.TYP_AV_INTYG_XPATH));
 
-        assertEquals("Intyg - version", Integer.parseInt(utlatande.getVersion())+"."+Integer.parseInt(utlatande.getUtgava()), xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH));
+        assertEquals("Intyg - version", Integer.parseInt(utlatande.getVersion()) + "." + Integer.parseInt(utlatande.getUtgava()),
+            xPath.evaluate(XPathExpressionsV3.TS_VERSION_XPATH));
 
         // Patient
         Patient patient = utlatande.getGrundData().getPatient();
 
-        assertEquals("Patient - personnummer", patient.getPersonId().getExtension().replace("-",""),
-                xPath.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH));
+        assertEquals("Patient - personnummer", patient.getPersonId().getExtension().replace("-", ""),
+            xPath.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH));
         assertEquals("Patient - förnamn", patient.getFornamn(), xPath.evaluate(XPathExpressionsV3.PATIENT_FORNAMN_XPATH));
         assertEquals("Patient - efternamn", patient.getEfternamn(), xPath.evaluate(XPathExpressionsV3.PATIENT_EFTERNAMN_XPATH));
         assertEquals("Patient - postadress", patient.getPostadress(), xPath.evaluate(XPathExpressionsV3.PATIENT_POSTADRESS_XPATH));
@@ -124,7 +126,8 @@ public class TsBasTransportToV3TransformerXpathTest {
         assertEquals("Patient - postort", patient.getPostort(), xPath.evaluate(XPathExpressionsV3.PATIENT_POSTORT_XPATH));
 
         // Signeringsdatum
-        assertEquals("Signeringsdatum", utlatande.getGrundData().getSigneringsTidstampel(), xPath.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH));
+        assertEquals("Signeringsdatum", utlatande.getGrundData().getSigneringsTidstampel(),
+            xPath.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH));
 
         // Skapad Av
         SkapadAv skapadAv = utlatande.getGrundData().getSkapadAv();
@@ -135,94 +138,109 @@ public class TsBasTransportToV3TransformerXpathTest {
         }
 
         assertEquals("Skapad av - fullständigt namn", skapadAv.getFullstandigtNamn(),
-                xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
+            xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
         assertEquals("Skapad av - hsa-id", skapadAv.getPersonId().getExtension(),
-                xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH));
+            xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH));
 
         if (!skapadAv.getSpecialiteter().isEmpty()) {
             assertEquals("Skapad av - specialitet", skapadAv.getSpecialiteter().get(0),
-                    xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH));
+                xPath.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH));
         }
 
         // Vardenhet
         Vardenhet vardenhet = skapadAv.getVardenhet();
         assertEquals("Enhet - enhetsid", vardenhet.getEnhetsId().getExtension(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_ID_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_ID_XPATH));
         assertEquals("Enhet - enhetsnamn", vardenhet.getEnhetsnamn(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH));
         assertEquals("Enhet - postadress", vardenhet.getPostadress(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH));
         assertEquals("Enhet - postnummer", vardenhet.getPostnummer(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH));
         assertEquals("Enhet - postort", vardenhet.getPostort(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH));
         assertEquals("Enhet - postort", vardenhet.getTelefonnummer(),
-                xPath.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH));
+            xPath.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH));
 
         // Vardgivare
         assertEquals("Enhet - vardgivare - id", vardenhet.getVardgivare().getVardgivarid().getExtension(),
-                xPath.evaluate(XPathExpressionsV3.VARDGIVARE_ID_XPATH));
+            xPath.evaluate(XPathExpressionsV3.VARDGIVARE_ID_XPATH));
         assertEquals("Enhet - vardgivare - id", vardenhet.getVardgivare().getVardgivarnamn(),
-                xPath.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH));
+            xPath.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH));
 
         // IntygAvser
         for (KorkortsbehorighetTsBas t : utlatande.getIntygAvser().getKorkortstyp()) {
             assertTrue(xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.INTYG_AVSER_TEMPLATE,
-                    IntygAvserKod.valueOf(t.value().value()).getCode())));
+                IntygAvserKod.valueOf(t.value().value()).getCode())));
         }
 
         // ID-kontroll
         assertTrue(xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.ID_KONTROLL_TEMPLATE,
-                utlatande.getIdentitetStyrkt().getIdkontroll().value())));
+            utlatande.getIdentitetStyrkt().getIdkontroll().value())));
 
         // Synfunktion
         SynfunktionBas synfunktion = utlatande.getSynfunktion();
 
         assertEquals(Boolean.toString(synfunktion.isHarSynfaltsdefekt()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_DEFEKT_XPATH));
         assertEquals(Boolean.toString(synfunktion.isHarNattblindhet()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_NATTBLINDHET_XPATH));
-        assertEquals(Boolean.toString(synfunktion.isHarProgressivOgonsjukdom()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_PROGRESSIV_XPATH));
+        assertEquals(Boolean.toString(synfunktion.isHarProgressivOgonsjukdom()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_PROGRESSIV_XPATH));
         assertEquals(Boolean.toString(synfunktion.isHarDiplopi()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_DIPLOPI_XPATH));
         assertEquals(Boolean.toString(synfunktion.isHarNystagmus()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_NYSTAGMUS_XPATH));
 
         SynskarpaUtanKorrektion synskarpaUtanKorrektion = synfunktion.getSynskarpaUtanKorrektion();
         SynskarpaMedKorrektion synskarpaMedKorrektion = synfunktion.getSynskarpaMedKorrektion();
 
-        assertEquals(Double.toString(synskarpaUtanKorrektion.getHogerOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_HOGER_XPATH));
-        assertEquals(Double.toString(synskarpaUtanKorrektion.getVansterOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_VANSTER_XPATH));
-        assertEquals(Double.toString(synskarpaUtanKorrektion.getBinokulart()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_BINOKULART_XPATH));
+        assertEquals(Double.toString(synskarpaUtanKorrektion.getHogerOga()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_HOGER_XPATH));
+        assertEquals(Double.toString(synskarpaUtanKorrektion.getVansterOga()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_VANSTER_XPATH));
+        assertEquals(Double.toString(synskarpaUtanKorrektion.getBinokulart()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_BINOKULART_XPATH));
 
         if (synskarpaMedKorrektion.getHogerOga() != null) {
-            assertEquals(Double.toString(synskarpaMedKorrektion.getHogerOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_HOGER_XPATH));
+            assertEquals(Double.toString(synskarpaMedKorrektion.getHogerOga()),
+                xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_HOGER_XPATH));
         }
         if (synskarpaMedKorrektion.getVansterOga() != null) {
-            assertEquals(Double.toString(synskarpaMedKorrektion.getVansterOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_VANSTER_XPATH));
+            assertEquals(Double.toString(synskarpaMedKorrektion.getVansterOga()),
+                xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_VANSTER_XPATH));
         }
         if (synskarpaMedKorrektion.getBinokulart() != null) {
-            assertEquals(Double.toString(synskarpaMedKorrektion.getBinokulart()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_BINOKULART_XPATH));
+            assertEquals(Double.toString(synskarpaMedKorrektion.getBinokulart()),
+                xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_BINOKULART_XPATH));
         }
 
-        assertEquals(Boolean.toString(synskarpaMedKorrektion.isHarKontaktlinsHogerOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_HOGER_XPATH));
-        assertEquals(Boolean.toString(synskarpaMedKorrektion.isHarKontaktlinsVansterOga()), xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_VANSTER_XPATH));
+        assertEquals(Boolean.toString(synskarpaMedKorrektion.isHarKontaktlinsHogerOga()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_HOGER_XPATH));
+        assertEquals(Boolean.toString(synskarpaMedKorrektion.isHarKontaktlinsVansterOga()),
+            xPath.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_VANSTER_XPATH));
 
         // Hörsel och balanssinne
-        assertEquals(Boolean.toString(utlatande.getHorselBalanssinne().isHarBalansrubbningYrsel()), xPath.evaluate(XPathExpressionsV3.HORSEL_BALANS_XPATH));
+        assertEquals(Boolean.toString(utlatande.getHorselBalanssinne().isHarBalansrubbningYrsel()),
+            xPath.evaluate(XPathExpressionsV3.HORSEL_BALANS_XPATH));
 
         // Rörelseorganens funktioner
-        assertEquals(Boolean.toString(utlatande.getRorelseorganensFunktioner().isHarRorelsebegransning()), xPath.evaluate(XPathExpressionsV3.RORELSEORGAN_SJUKDOM_XPATH));
+        assertEquals(Boolean.toString(utlatande.getRorelseorganensFunktioner().isHarRorelsebegransning()),
+            xPath.evaluate(XPathExpressionsV3.RORELSEORGAN_SJUKDOM_XPATH));
 
         if (utlatande.getRorelseorganensFunktioner().isHarRorelsebegransning()) {
-            assertEquals(utlatande.getRorelseorganensFunktioner().getRorelsebegransningBeskrivning(), xPath.evaluate(XPathExpressionsV3.RORELSEORGAN_BESKRICNING_XPATH));
+            assertEquals(utlatande.getRorelseorganensFunktioner().getRorelsebegransningBeskrivning(),
+                xPath.evaluate(XPathExpressionsV3.RORELSEORGAN_BESKRICNING_XPATH));
         }
 
         // Hjärt- och kärlsjukdomar
         HjartKarlSjukdomar hjartKarlSjukdomar = utlatande.getHjartKarlSjukdomar();
 
-        assertEquals(Boolean.toString(hjartKarlSjukdomar.isHarRiskForsamradHjarnFunktion()), xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_FUNKTION_XPATH));
+        assertEquals(Boolean.toString(hjartKarlSjukdomar.isHarRiskForsamradHjarnFunktion()),
+            xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_FUNKTION_XPATH));
         assertEquals(Boolean.toString(hjartKarlSjukdomar.isHarHjarnskadaICNS()), xPath.evaluate(XPathExpressionsV3.HJARTKARL_SKADA_XPATH));
-        assertEquals(Boolean.toString(hjartKarlSjukdomar.isHarRiskfaktorerStroke()), xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_XPATH));
+        assertEquals(Boolean.toString(hjartKarlSjukdomar.isHarRiskfaktorerStroke()),
+            xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_XPATH));
 
         if (hjartKarlSjukdomar.isHarRiskfaktorerStroke()) {
-            assertEquals(hjartKarlSjukdomar.getRiskfaktorerStrokeBeskrivning(), xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_BESKRIVNING_XPATH));
+            assertEquals(hjartKarlSjukdomar.getRiskfaktorerStrokeBeskrivning(),
+                xPath.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_BESKRIVNING_XPATH));
         }
 
         // Diabetes
@@ -233,8 +251,7 @@ public class TsBasTransportToV3TransformerXpathTest {
         if (diabetes.isHarDiabetes()) {
             if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_1)) {
                 assertEquals("Diabetes typ1", "E10", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH));
-            }
-            else if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_2)) {
+            } else if (diabetes.getDiabetesTyp().equals(DiabetesTypVarden.TYP_2)) {
                 assertEquals("Diabetes typ2", "E11", xPath.evaluate(XPathExpressionsV3.DIABETES_TYPE_XPATH));
             }
 
@@ -242,22 +259,27 @@ public class TsBasTransportToV3TransformerXpathTest {
                 assertEquals(Boolean.toString(diabetes.isHarBehandlingKost()), xPath.evaluate(XPathExpressionsV3.DIABETES_KOST_XPATH));
             }
             if (diabetes.isHarBehandlingTabletter() != null) {
-                assertEquals(Boolean.toString(diabetes.isHarBehandlingTabletter()), xPath.evaluate(XPathExpressionsV3.DIABETES_TABLETTER_XPATH));
+                assertEquals(Boolean.toString(diabetes.isHarBehandlingTabletter()),
+                    xPath.evaluate(XPathExpressionsV3.DIABETES_TABLETTER_XPATH));
             }
             if (diabetes.isHarBehandlingInsulin() != null) {
-                assertEquals(Boolean.toString(diabetes.isHarBehandlingInsulin()), xPath.evaluate(XPathExpressionsV3.DIABETES_INSULIN_XPATH));
+                assertEquals(Boolean.toString(diabetes.isHarBehandlingInsulin()),
+                    xPath.evaluate(XPathExpressionsV3.DIABETES_INSULIN_XPATH));
             }
         }
 
         // Neurologiska sjukdomar
-        assertEquals(Boolean.toString(utlatande.isNeurologiskaSjukdomar()), xPath.evaluate(XPathExpressionsV3.NEUROLOGISKA_SJUKDOMAR_XPATH));
+        assertEquals(Boolean.toString(utlatande.isNeurologiskaSjukdomar()),
+            xPath.evaluate(XPathExpressionsV3.NEUROLOGISKA_SJUKDOMAR_XPATH));
 
         // Epilepsi, epileptiskt anfall och annan medvetandestörning
         Medvetandestorning medvetandestorning = utlatande.getMedvetandestorning();
-        assertEquals(Boolean.toString(medvetandestorning.isHarMedvetandestorning()), xPath.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_XPATH));
+        assertEquals(Boolean.toString(medvetandestorning.isHarMedvetandestorning()),
+            xPath.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_XPATH));
 
         if (medvetandestorning.isHarMedvetandestorning()) {
-            assertEquals(medvetandestorning.getMedvetandestorningBeskrivning(), xPath.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_BESKRIVNING_XPATH));
+            assertEquals(medvetandestorning.getMedvetandestorningBeskrivning(),
+                xPath.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_BESKRIVNING_XPATH));
         }
 
         // Njursjukdom
@@ -267,47 +289,61 @@ public class TsBasTransportToV3TransformerXpathTest {
         assertEquals(Boolean.toString(utlatande.isHarKognitivStorning()), xPath.evaluate(XPathExpressionsV3.DEMENS_XPATH));
 
         // Sömn- och vakenhetsstörningar
-        assertEquals(Boolean.toString(utlatande.isHarSomnVakenhetStorning()), xPath.evaluate(XPathExpressionsV3.SOMN_OCH_VAKENHETSSTORNINGAR_XPATH));
+        assertEquals(Boolean.toString(utlatande.isHarSomnVakenhetStorning()),
+            xPath.evaluate(XPathExpressionsV3.SOMN_OCH_VAKENHETSSTORNINGAR_XPATH));
 
         // Alkohol, narkotika och läkemedel
         AlkoholNarkotikaLakemedel alkoholNarkotikaLakemedel = utlatande.getAlkoholNarkotikaLakemedel();
-        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarTeckenMissbruk()), xPath.evaluate(XPathExpressionsV3.ALKOHOL_TECKEN_MISSBRUK_XPATH));
-        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarVardinsats()), xPath.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_XPATH));
+        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarTeckenMissbruk()),
+            xPath.evaluate(XPathExpressionsV3.ALKOHOL_TECKEN_MISSBRUK_XPATH));
+        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarVardinsats()),
+            xPath.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_XPATH));
 
         if (alkoholNarkotikaLakemedel.isHarVardinsats()) {
-            assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarVardinsatsProvtagningBehov()), xPath.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_PROVTAGNING_XPATH));
+            assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarVardinsatsProvtagningBehov()),
+                xPath.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_PROVTAGNING_XPATH));
         }
 
-        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarLakarordineratLakemedelsbruk()), xPath.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_XPATH));
+        assertEquals(Boolean.toString(alkoholNarkotikaLakemedel.isHarLakarordineratLakemedelsbruk()),
+            xPath.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_XPATH));
 
         if (alkoholNarkotikaLakemedel.isHarLakarordineratLakemedelsbruk()) {
-            assertEquals(alkoholNarkotikaLakemedel.getLakarordineratLakemedelOchDos(), xPath.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_LAKEMEDEL_XPATH));
+            assertEquals(alkoholNarkotikaLakemedel.getLakarordineratLakemedelOchDos(),
+                xPath.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_LAKEMEDEL_XPATH));
         }
 
         // Psykiska sjukdomar och störningar
-        assertEquals(Boolean.toString(utlatande.getMedvetandestorning().isHarMedvetandestorning()), xPath.evaluate(XPathExpressionsV3.PSYKISKA_SJUKDOMAR_XPATH));
+        assertEquals(Boolean.toString(utlatande.getMedvetandestorning().isHarMedvetandestorning()),
+            xPath.evaluate(XPathExpressionsV3.PSYKISKA_SJUKDOMAR_XPATH));
 
         // ADHD, autismspektrumtillstånd och likartade tillstånd samt psykisk utvecklingsstörning
         Utvecklingsstorning utvecklingsstorning = utlatande.getUtvecklingsstorning();
-        assertEquals(Boolean.toString(utvecklingsstorning.isHarPsykiskUtvecklingsstorning()), xPath.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_PSYKISK_XPATH));
-        assertEquals(Boolean.toString(utvecklingsstorning.isHarAndrayndrom()), xPath.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_ANDRA_XPATH));
+        assertEquals(Boolean.toString(utvecklingsstorning.isHarPsykiskUtvecklingsstorning()),
+            xPath.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_PSYKISK_XPATH));
+        assertEquals(Boolean.toString(utvecklingsstorning.isHarAndrayndrom()),
+            xPath.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_ANDRA_XPATH));
 
         // Sjukhusvård
         Sjukhusvard sjukhusvard = utlatande.getSjukhusvard();
-        assertEquals(Boolean.toString(sjukhusvard.isHarSjukhusvardEllerLakarkontakt()), xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_XPATH));
+        assertEquals(Boolean.toString(sjukhusvard.isHarSjukhusvardEllerLakarkontakt()),
+            xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_XPATH));
 
         if (sjukhusvard.isHarSjukhusvardEllerLakarkontakt()) {
             assertEquals(sjukhusvard.getSjukhusvardEllerLakarkontaktDatum(), xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_DATUM_XPATH));
-            assertEquals(sjukhusvard.getSjukhusvardEllerLakarkontaktVardinrattning(), xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_INRATTNING_XPATH));
-            assertEquals(sjukhusvard.getSjukhusvardEllerLakarkontaktAnledning(), xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_ANLEDNING_XPATH));
+            assertEquals(sjukhusvard.getSjukhusvardEllerLakarkontaktVardinrattning(),
+                xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_INRATTNING_XPATH));
+            assertEquals(sjukhusvard.getSjukhusvardEllerLakarkontaktAnledning(),
+                xPath.evaluate(XPathExpressionsV3.SJUKHUSVARD_ANLEDNING_XPATH));
         }
 
         // Övrig medicinering
         OvrigMedicinering ovrigMedicinering = utlatande.getOvrigMedicinering();
-        assertEquals(Boolean.toString(ovrigMedicinering.isHarStadigvarandeMedicinering()), xPath.evaluate(XPathExpressionsV3.OVRIG_MEDICIN_XPATH));
+        assertEquals(Boolean.toString(ovrigMedicinering.isHarStadigvarandeMedicinering()),
+            xPath.evaluate(XPathExpressionsV3.OVRIG_MEDICIN_XPATH));
 
         if (ovrigMedicinering.isHarStadigvarandeMedicinering()) {
-            assertEquals(ovrigMedicinering.getStadigvarandeMedicineringBeskrivning(), xPath.evaluate(XPathExpressionsV3.OVRIG_MEDICIN_BESKRIVNING_XPATH));
+            assertEquals(ovrigMedicinering.getStadigvarandeMedicineringBeskrivning(),
+                xPath.evaluate(XPathExpressionsV3.OVRIG_MEDICIN_BESKRIVNING_XPATH));
         }
 
         // Övrig kommentar
@@ -319,14 +355,16 @@ public class TsBasTransportToV3TransformerXpathTest {
         BedomningTypBas bedomning = utlatande.getBedomning();
 
         for (KorkortsbehorighetTsBas t : bedomning.getKorkortstyp()) {
-            KorkortsbehorighetKod kod =  KorkortsbehorighetKod.valueOf(t.value().value());
-            assertTrue(kod.getDescription(), xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE,
+            KorkortsbehorighetKod kod = KorkortsbehorighetKod.valueOf(t.value().value());
+            assertTrue(kod.getDescription(),
+                xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE,
                     kod.getCode())));
         }
 
-        if (utlatande.getBedomning().isKanInteTaStallning() !=  null && utlatande.getBedomning().isKanInteTaStallning()) {
+        if (utlatande.getBedomning().isKanInteTaStallning() != null && utlatande.getBedomning().isKanInteTaStallning()) {
             assertTrue(KorkortsbehorighetKod.KANINTETASTALLNING.getDescription(),
-                    xPath.evaluate(XPathExpressionsV3.booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
+                xPath.evaluate(XPathExpressionsV3
+                    .booleanXPath(XPathExpressionsV3.BEDOMNING_BEHORIGHET_TEMPLATE, KorkortsbehorighetKod.KANINTETASTALLNING.getCode())));
         }
 
         if (bedomning.getBehovAvLakareSpecialistKompetens() != null) {
@@ -335,7 +373,7 @@ public class TsBasTransportToV3TransformerXpathTest {
     }
 
     private XPathEvaluator createXPathEvaluator(String xml) throws ParserConfigurationException,
-            JAXBException, SAXException, IOException, TransformerException {
+        JAXBException, SAXException, IOException, TransformerException {
 
         SimpleNamespaceContext namespaces = new SimpleNamespaceContext();
         namespaces.bindDefaultNamespaceUri("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3");
@@ -350,7 +388,8 @@ public class TsBasTransportToV3TransformerXpathTest {
         return new XPathEvaluator(xPath, document);
     }
 
-    private Node generateDocumentFor(String xml) throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
+    private Node generateDocumentFor(String xml)
+        throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder parser = factory.newDocumentBuilder();
         Node node = parser.newDocument();

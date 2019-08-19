@@ -44,7 +44,8 @@ public class ListAcrofields {
 
         fieldNames.stream().forEach(s -> {
             String rawFileName = acroFields.getTranslatedFieldName(s);
-            String constantName = rawFileName.toUpperCase().replace(" ", "_").replace("Å", "A").replace("Ä", "A").replace("Ö", "O").replace("/", "_");
+            String constantName = rawFileName.toUpperCase().replace(" ", "_").replace("Å", "A").replace("Ä", "A").replace("Ö", "O")
+                .replace("/", "_");
             String possibleValues = getStates(acroFields, s);
             String type = getType(acroFields.getFieldType(s));
             String comment = "\n//Type " + type + (possibleValues.length() > 0 ? " - values [" + possibleValues + "]" : "");
@@ -60,24 +61,24 @@ public class ListAcrofields {
 
     private static String getType(int fieldType) {
         switch (fieldType) {
-        case AcroFields.FIELD_TYPE_NONE:
-            return "NONE";
-        case AcroFields.FIELD_TYPE_PUSHBUTTON:
-            return "BUTTON";
-        case AcroFields.FIELD_TYPE_CHECKBOX:
-            return "CHECKBOX";
-        case AcroFields.FIELD_TYPE_RADIOBUTTON:
-            return "RADIOBUTTON";
-        case AcroFields.FIELD_TYPE_TEXT:
-            return "TEXT";
-        case AcroFields.FIELD_TYPE_LIST:
-            return "LIST";
-        case AcroFields.FIELD_TYPE_COMBO:
-            return "COMBO";
-        case AcroFields.FIELD_TYPE_SIGNATURE:
-            return "SIGNATURE";
-        default:
-            return "?";
+            case AcroFields.FIELD_TYPE_NONE:
+                return "NONE";
+            case AcroFields.FIELD_TYPE_PUSHBUTTON:
+                return "BUTTON";
+            case AcroFields.FIELD_TYPE_CHECKBOX:
+                return "CHECKBOX";
+            case AcroFields.FIELD_TYPE_RADIOBUTTON:
+                return "RADIOBUTTON";
+            case AcroFields.FIELD_TYPE_TEXT:
+                return "TEXT";
+            case AcroFields.FIELD_TYPE_LIST:
+                return "LIST";
+            case AcroFields.FIELD_TYPE_COMBO:
+                return "COMBO";
+            case AcroFields.FIELD_TYPE_SIGNATURE:
+                return "SIGNATURE";
+            default:
+                return "?";
 
         }
 

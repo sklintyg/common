@@ -33,8 +33,7 @@ public final class InternalDateAdapter {
     /**
      * Print the string wrapped by the InternalDate object.
      *
-     * @param date
-     *            the InternalDate-object
+     * @param date the InternalDate-object
      * @return the string wrapped
      */
     public static String printInternalDate(InternalDate date) {
@@ -50,7 +49,6 @@ public final class InternalDateAdapter {
      * Attempt to parse a string to a LocalDate wrapped by an InternalDate, attempts several parsing strategies on the
      * string, if none are successful the bare string will be wrapped allowing for non-valid dates to be saved as well.
      *
-     * @param string
      * @return InternalDate wrapping either a valid LocalDate, or an arbitrary string
      */
     public static InternalDate parseInternalDate(String string) {
@@ -65,9 +63,6 @@ public final class InternalDateAdapter {
     /**
      * Make an InternalDate from int values, ensures that two digits are used in all positions (i.e '09' not '9').
      *
-     * @param year
-     * @param month
-     * @param day
      * @return InternalDate
      */
     public static InternalDate parseInternalDate(int year, int month, int day) {

@@ -28,6 +28,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 
 public class PatientDetailResolveOrder {
+
     private String predecessorType;
     private List<ResolveOrder> adressStrategy;
     private List<ResolveOrder> avlidenStrategy;
@@ -42,22 +43,22 @@ public class PatientDetailResolveOrder {
      */
     public static PatientDetailResolveOrder defaultOrder() {
         return new PatientDetailResolveOrder(null, ImmutableList.of(),
-                ImmutableList.of(ResolveOrder.PARAMS_OR_PU),
-                ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
+            ImmutableList.of(ResolveOrder.PARAMS_OR_PU),
+            ImmutableList.of(ResolveOrder.PU, ResolveOrder.PARAMS));
     }
 
     public PatientDetailResolveOrder(String predecessorType, List<ResolveOrder> adressStrategy,
-                                     List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
+        List<ResolveOrder> avlidenStrategy, List<ResolveOrder> other) {
         checkNotNull(adressStrategy);
         checkNotNull(avlidenStrategy);
         checkNotNull(other);
 
         // No predecessor --> can't use predecessor strategy.
         Preconditions.checkArgument((!Strings.isNullOrEmpty(predecessorType)
-                        || ImmutableList.of(adressStrategy, avlidenStrategy, other).stream()
-                        .flatMap(List::stream)
-                        .noneMatch(Predicate.isEqual(ResolveOrder.PREDECESSOR))),
-                "Can't use predecessor strategy without predecessor.");
+                || ImmutableList.of(adressStrategy, avlidenStrategy, other).stream()
+                .flatMap(List::stream)
+                .noneMatch(Predicate.isEqual(ResolveOrder.PREDECESSOR))),
+            "Can't use predecessor strategy without predecessor.");
 
         this.predecessorType = predecessorType;
         this.adressStrategy = ImmutableList.copyOf(adressStrategy);
@@ -82,13 +83,21 @@ public class PatientDetailResolveOrder {
     }
 
     public enum ResolveOrder {
-        /** PARAMS || PU (used for avliden).*/
+        /**
+         * PARAMS || PU (used for avliden).
+         */
         PARAMS_OR_PU,
-        /** From integrations parameters. */
+        /**
+         * From integrations parameters.
+         */
         PARAMS,
-        /** From PU.*/
+        /**
+         * From PU.
+         */
         PU,
-        /** From existing intyg, type specified by predecessorType.*/
+        /**
+         * From existing intyg, type specified by predecessorType.
+         */
         PREDECESSOR
     }
 

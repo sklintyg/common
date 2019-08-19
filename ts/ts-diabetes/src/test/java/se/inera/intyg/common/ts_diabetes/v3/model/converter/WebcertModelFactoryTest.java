@@ -66,7 +66,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_3)))
-                .thenReturn(INTYG_TYPE_VERSION_3_1);
+            .thenReturn(INTYG_TYPE_VERSION_3_1);
     }
 
     public WebcertModelFactoryTest() {

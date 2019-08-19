@@ -41,7 +41,7 @@ import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSB
 
 public class DomainTransportModelValidatorTest {
 
-	private static final String COMMON_UTLATANDE_SCHEMA = "/core_components/se_intygstjanster_services_1.0.xsd";
+    private static final String COMMON_UTLATANDE_SCHEMA = "/core_components/se_intygstjanster_services_1.0.xsd";
 
     private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "/core_components/se_intygstjanster_services_types_1.0.xsd";
 
@@ -79,7 +79,8 @@ public class DomainTransportModelValidatorTest {
     private void validateUtlatande(Scenario scenario) {
         try {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"), RegisterTSBasType.class, scenario.asTransportModel());
+            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"),
+                RegisterTSBasType.class, scenario.asTransportModel());
             JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
             context.createMarshaller().marshal(jaxbElement, output);
 

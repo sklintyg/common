@@ -28,8 +28,7 @@ public class StringXPathExpression extends AbstractXPathExpression<String> {
     /**
      * Creates a string xPath expression from an xPath string.
      *
-     * @param xPathString
-     *            The xPath string resulting in a textual result.
+     * @param xPathString The xPath string resulting in a textual result.
      */
     public StringXPathExpression(String xPathString) {
         super(xPathString, XPathConstants.STRING);

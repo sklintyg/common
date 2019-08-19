@@ -71,8 +71,8 @@ public class RoundTripTest {
     static {
         try {
             marshaller = JAXBContext.newInstance(RegisterTSDiabetesType.class, RegisterCertificateType.class, DatePeriodType.class,
-                    PartialDateType.class, se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
-                    .createMarshaller();
+                PartialDateType.class, se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType.class)
+                .createMarshaller();
             transformer = new XslTransformer("xsl/transform-ts-diabetes.xsl");
         } catch (JAXBException e) {
         }
@@ -89,8 +89,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("transform-valid-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     @Test
@@ -103,13 +103,13 @@ public class RoundTripTest {
         marshaller.marshal(objectFactory.createRegisterTSDiabetes(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actual.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternalConverter.convert(transport.getIntyg()));
@@ -129,13 +129,13 @@ public class RoundTripTest {
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actualSw.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actualSw.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
@@ -149,13 +149,13 @@ public class RoundTripTest {
         marshaller.marshal(transformedObjectFactory.createRegisterCertificate(scenario.asTransformedTransportModel()), expected);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actual))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 }

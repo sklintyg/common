@@ -38,7 +38,9 @@ public class EnumSetSerializerDeserializerTest {
      */
     public static enum TestEnum {
         ONE, TWO, THREE
-    };
+    }
+
+    ;
 
     /**
      * A simple test class with an <code>EnumSet</code> of the <code>TestEnum</code>.
@@ -100,8 +102,6 @@ public class EnumSetSerializerDeserializerTest {
 
     /**
      * Test that EnumSets are serialized as expected.
-     *
-     * @throws Exception
      */
     @Test
     public void testEnumSetSerializer() throws Exception {
@@ -142,8 +142,6 @@ public class EnumSetSerializerDeserializerTest {
 
     /**
      * Test that EnumSets are deserialized as expected.
-     *
-     * @throws Exception
      */
     @Test
     public void testEnumSetDeserializer() throws Exception {
@@ -183,12 +181,14 @@ public class EnumSetSerializerDeserializerTest {
     }
 
     public static class EnumSetSerializer extends AbstractEnumSetSerializer<TestEnum> {
+
         protected EnumSetSerializer() {
             super(TestEnum.class);
         }
     }
 
     public static class EnumSetDeserializer extends AbstractEnumSetDeserializer<TestEnum> {
+
         protected EnumSetDeserializer() {
             super(TestEnum.class);
         }

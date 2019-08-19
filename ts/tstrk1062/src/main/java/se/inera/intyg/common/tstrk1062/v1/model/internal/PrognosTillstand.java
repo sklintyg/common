@@ -28,6 +28,7 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class PrognosTillstand {
+
     @JsonCreator
     public static PrognosTillstand create(@JsonProperty(SYMPTOM_PROGNOS_DELSVAR_JSON_ID) PrognosTillstandTyp typ) {
         return new AutoValue_PrognosTillstand(typ);

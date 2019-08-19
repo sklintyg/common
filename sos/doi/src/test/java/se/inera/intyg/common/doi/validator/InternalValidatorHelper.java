@@ -26,13 +26,13 @@ import java.time.LocalDate;
 public class InternalValidatorHelper {
 
     public void setDateToCurrentYear(InternalDate date) {
-        if(date != null) {
+        if (date != null) {
             modifyDateYear(date);
         }
     }
 
     public void setDateToLastYear(InternalDate date) {
-        if(date != null) {
+        if (date != null) {
             modifyDateYear(date, -1);
         }
     }

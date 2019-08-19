@@ -44,9 +44,9 @@ public enum Specifikation {
 
     public static Specifikation fromId(String id) {
         return Stream.of(Specifikation.values())
-                .filter(undersokning -> undersokning.getId().equals(id))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException());
+            .filter(undersokning -> undersokning.getId().equals(id))
+            .findAny()
+            .orElseThrow(() -> new IllegalArgumentException());
     }
 
     public String getId() {

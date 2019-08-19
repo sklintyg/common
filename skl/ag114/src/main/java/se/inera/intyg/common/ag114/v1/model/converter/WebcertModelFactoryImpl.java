@@ -45,6 +45,7 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component(value = "ag114.WebcertModelFactoryImpl.v1")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114UtlatandeV1> {
+
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -53,10 +54,8 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114Utlatan
     /**
      * Create a new ag114 draft pre-populated with the attached data.
      *
-     * @param newDraftData
-     *            {@link CreateNewDraftHolder}
+     * @param newDraftData {@link CreateNewDraftHolder}
      * @return {@link Ag114UtlatandeV1} or throws a ConverterException if something unforeseen happens
-     * @throws ConverterException
      */
     @Override
     public Ag114UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -75,7 +74,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114Utlatan
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

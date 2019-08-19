@@ -137,9 +137,9 @@ public final class TransportToInternalConverter {
         if (source.isHarAllvarligForekomstVakenTid() != null) {
             hypoglykemier.setAllvarligForekomstVakenTid(source.isHarAllvarligForekomstVakenTid());
             if (source.isHarAllvarligForekomstVakenTid()
-                    && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
+                && InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()) != null) {
                 hypoglykemier.setAllvarligForekomstVakenTidObservationstid(
-                        InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
+                    InternalDateAdapter.parseInternalDate(source.getAllvarligForekomstVakenTidAr()));
             }
         }
         hypoglykemier.setEgenkontrollBlodsocker(source.isGenomforEgenkontrollBlodsocker());

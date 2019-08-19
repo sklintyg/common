@@ -45,8 +45,9 @@ public final class PatientValidator {
     }
 
     /**
-     *  Validate and correct patient information.
-     *  @return true if valid enough to continue
+     * Validate and correct patient information.
+     *
+     * @return true if valid enough to continue
      */
     public static List<String> validateAndCorrect(PatientType patient) {
         List<String> validationErrors = new ArrayList<String>();

@@ -50,8 +50,8 @@ import se.skl.skltpservices.adapter.fk.regmedcert.Vard2FkValidator;
 // CHECKSTYLE:OFF LineLength
 @Transactional
 @WebServiceProvider(targetNamespace = "urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificate:3:rivtabp20",
-        serviceName = "RegisterMedicalCertificateResponderService",
-        wsdlLocation = "classpath:interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateInteraction_3.1_rivtabp20.wsdl")
+    serviceName = "RegisterMedicalCertificateResponderService",
+    wsdlLocation = "classpath:interactions/RegisterMedicalCertificateInteraction/RegisterMedicalCertificateInteraction_3.1_rivtabp20.wsdl")
 public class RegisterMedicalCertificateResponderStub implements RegisterMedicalCertificateResponderInterface {
 // CHECKSTYLE:OFF LineLength
 
@@ -64,7 +64,7 @@ public class RegisterMedicalCertificateResponderStub implements RegisterMedicalC
 
     @Override
     public RegisterMedicalCertificateResponseType registerMedicalCertificate(AttributedURIType logicalAddress,
-            RegisterMedicalCertificateType request) {
+        RegisterMedicalCertificateType request) {
 
         RegisterMedicalCertificateResponseType response = new RegisterMedicalCertificateResponseType();
 

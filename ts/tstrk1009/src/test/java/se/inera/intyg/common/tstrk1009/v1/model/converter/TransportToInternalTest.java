@@ -43,15 +43,15 @@ public class TransportToInternalTest {
 
     private Tstrk1009UtlatandeV1 getUtlatande() {
         return Tstrk1009UtlatandeV1.builder()
-                .setId("1234567")
-                .setGrundData(IntygTestDataBuilder.getGrundData())
-                .setTextVersion("1.0")
-                .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.ID_KORT))
-                .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
-                .setMedicinskaForhallanden("sjukt sjuk")
-                .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
-                .setIntygetAvserBehorigheter(IntygetAvser.create(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR)))
-                .build();
+            .setId("1234567")
+            .setGrundData(IntygTestDataBuilder.getGrundData())
+            .setTextVersion("1.0")
+            .setIdentitetStyrktGenom(IdentitetStyrktGenom.create(IdKontroll.ID_KORT))
+            .setAnmalanAvser(AnmalanAvser.create(Korkortsolamplighet.OLAMPLIGHET))
+            .setMedicinskaForhallanden("sjukt sjuk")
+            .setSenasteUndersokningsdatum(new InternalDate("2018-11-11"))
+            .setIntygetAvserBehorigheter(IntygetAvser.create(EnumSet.of(KorkortBehorighetGrupp.A_B_TRAKTOR)))
+            .build();
     }
 
     @Test

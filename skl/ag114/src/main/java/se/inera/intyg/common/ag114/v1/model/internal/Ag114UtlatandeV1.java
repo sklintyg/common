@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.ag114.v1.model.internal;
 
-
 // CHECKSTYLE:OFF LineLength
 
 import static se.inera.intyg.common.ag114.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9;
@@ -163,8 +162,8 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Ag114UtlatandeV1.Builder()
-                .setDiagnoser(ImmutableList.<Diagnos> of())
-                .setSignature(null);
+            .setDiagnoser(ImmutableList.<Diagnos>of())
+            .setSignature(null);
     }
 
     @AutoValue.Builder
@@ -239,6 +238,6 @@ public abstract class Ag114UtlatandeV1 implements Utlatande {
 
         @JsonProperty(ANLEDNING_TILL_KONTAKT_DELSVAR_JSON_ID_9)
         public abstract Builder setAnledningTillKontakt(String anledningTillKontakt);
-}
+    }
 
 }

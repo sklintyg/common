@@ -136,13 +136,13 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
     private DbUtlatandeV1 dbUtlatandeV1;
 
     public DbPdfGenerator(DbUtlatandeV1 intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
-            throws SoSPdfGeneratorException {
+        throws SoSPdfGeneratorException {
         this(intyg, intygTexts, statuses, utkastStatus, true);
     }
 
     // Only called directly by tests.
     DbPdfGenerator(DbUtlatandeV1 utlatande, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus, boolean flatten)
-            throws SoSPdfGeneratorException {
+        throws SoSPdfGeneratorException {
         try {
             this.dbUtlatandeV1 = utlatande;
             outputStream = new ByteArrayOutputStream();
@@ -200,7 +200,7 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
         fillText(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
         fillText(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
-                + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
+            + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
         fillText(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress());
         fillText(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer());
         fillText(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort());
@@ -280,22 +280,19 @@ public class DbPdfGenerator extends AbstractSoSPdfGenerator {
 
     /**
      * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
-     *
-     * @param dodsplatsBoende
-     * @return
      */
     private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
         if (dodsplatsBoende != null) {
             // Pdf equivalent values are [Sjukhus,Särskilt boende,Ordinärt boende,Annan / Okänd,]
             switch (dodsplatsBoende) {
-            case ANNAN:
-                return "Annan / Okänd";
-            case SJUKHUS:
-                return "Sjukhus";
-            case ORDINART_BOENDE:
-                return "Ordinärt boende";
-            case SARSKILT_BOENDE:
-                return "Särskilt boende";
+                case ANNAN:
+                    return "Annan / Okänd";
+                case SJUKHUS:
+                    return "Sjukhus";
+                case ORDINART_BOENDE:
+                    return "Ordinärt boende";
+                case SARSKILT_BOENDE:
+                    return "Särskilt boende";
             }
         }
         return "";

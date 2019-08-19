@@ -116,7 +116,7 @@ public class InternalToTransportTest {
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LuaefsModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }

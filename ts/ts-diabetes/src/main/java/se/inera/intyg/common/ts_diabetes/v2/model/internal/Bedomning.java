@@ -81,13 +81,15 @@ public class Bedomning {
     }
 
     public static class BedomningKorkortstypEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypEnumSetSerializer() {
             super(BedomningKorkortstyp.class);
         }
     }
 
     public static class BedomningKorkortstypEnumSetDeserializer extends
-            AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+        AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypEnumSetDeserializer() {
             super(BedomningKorkortstyp.class);
         }

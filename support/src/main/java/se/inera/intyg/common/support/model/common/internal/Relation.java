@@ -48,17 +48,17 @@ public class Relation {
         }
         final Relation that = (Relation) object;
         return Objects.equals(this.relationKod, that.relationKod)
-                && Objects.equals(this.relationIntygsId, that.relationIntygsId)
-                && Objects.equals(this.meddelandeId, that.meddelandeId)
-                && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
-                && Objects.equals(this.sistaSjukskrivningsgrad, that.sistaSjukskrivningsgrad)
-                && Objects.equals(this.referensId, that.referensId);
+            && Objects.equals(this.relationIntygsId, that.relationIntygsId)
+            && Objects.equals(this.meddelandeId, that.meddelandeId)
+            && Objects.equals(this.sistaGiltighetsDatum, that.sistaGiltighetsDatum)
+            && Objects.equals(this.sistaSjukskrivningsgrad, that.sistaSjukskrivningsgrad)
+            && Objects.equals(this.referensId, that.referensId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(this.relationKod, this.relationIntygsId,
-                this.meddelandeId, this.sistaGiltighetsDatum, this.sistaSjukskrivningsgrad, this.referensId);
+            this.meddelandeId, this.sistaGiltighetsDatum, this.sistaSjukskrivningsgrad, this.referensId);
     }
 
     public RelationKod getRelationKod() {

@@ -88,11 +88,11 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         Ag114UtlatandeV1 utlatande = buildUtlatandeTemplate(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-                telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
-                patientPostort,
-                null, null).build();
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+            patientPostort,
+            null, null).build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -167,7 +167,7 @@ public class UtlatandeToIntygTest {
         assertEquals(Double.parseDouble(expectedSjukskrivningsGrad), actualSjukskrivningPQType.getValue(), 0);
         assertEquals(expectedSjukskrivningsGradUnit, actualSjukskrivningPQType.getUnit());
         final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
-                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+            SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
         assertNotNull(actualSjukskrivningsPeriod);
     }
 
@@ -185,7 +185,7 @@ public class UtlatandeToIntygTest {
         final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
         assertNull(actualSjukskrivningsGrad);
         final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
-                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+            SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
         assertNotNull(actualSjukskrivningsPeriod);
     }
 
@@ -205,7 +205,7 @@ public class UtlatandeToIntygTest {
         final Svar.Delsvar actualSjukskrivningsGrad = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7, SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1);
         assertNull(actualSjukskrivningsGrad);
         final Svar.Delsvar actualSjukskrivningsPeriod = getDelsvar(intyg.getSvar(), BEDOMNING_SVAR_ID_7,
-                SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
+            SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2);
         assertNotNull(actualSjukskrivningsPeriod);
     }
 
@@ -237,20 +237,20 @@ public class UtlatandeToIntygTest {
 
     private Builder buildUtlatandeTemplate(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatandeTemplate("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
-                "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-                "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
+            "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private Builder buildUtlatandeTemplate(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-            String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
-            String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
+        String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
         Builder template = Ag114UtlatandeV1.builder();
         template.setId(intygsId);
         template.setTextVersion(textVersion);

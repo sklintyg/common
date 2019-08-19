@@ -77,9 +77,10 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         Fk7263Utlatande utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -221,16 +222,16 @@ public class UtlatandeToIntygTest {
     }
 
     private void assertAll(Intyg intyg, Map<String, List<Svar>> testSvar) {
-        String[] svars = { GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
-                DIAGNOS_SVAR_6,
-                AKTIVITETSBEGRANSNING_SVAR_17,
-                OVRIGA_UPPLYSNINGAR_SVAR_25,
-                KONTAKT_MED_FK_SVAR_26, AVSTANGNING_SMITTSKYDD_SVAR_27,
-                SYSSELSATTNING_SVAR_28, NUVARANDE_ARBETSUPPGIFTER_SVAR_29,
-                RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34,FUNKTIONSNEDSATTNING_SVAR_35,
-                ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37,
-                DIAGNOS_FRITEXT_SVAR_10001, SJUKDOMSFORLOPP_SVAR_10002, REKOMMENDATION_KONTAKT_SVAR_10003,
-                ATGARD_INOM_SJUKVARDEN_SVAR_10004, REHABILITERING_SVAR_10005, ARBETSFORMAGA_PROGNOS_SVAR_10006 };
+        String[] svars = {GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1,
+            DIAGNOS_SVAR_6,
+            AKTIVITETSBEGRANSNING_SVAR_17,
+            OVRIGA_UPPLYSNINGAR_SVAR_25,
+            KONTAKT_MED_FK_SVAR_26, AVSTANGNING_SMITTSKYDD_SVAR_27,
+            SYSSELSATTNING_SVAR_28, NUVARANDE_ARBETSUPPGIFTER_SVAR_29,
+            RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34, FUNKTIONSNEDSATTNING_SVAR_35,
+            ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37,
+            DIAGNOS_FRITEXT_SVAR_10001, SJUKDOMSFORLOPP_SVAR_10002, REKOMMENDATION_KONTAKT_SVAR_10003,
+            ATGARD_INOM_SJUKVARDEN_SVAR_10004, REHABILITERING_SVAR_10005, ARBETSFORMAGA_PROGNOS_SVAR_10006};
         assertEquals(21, intyg.getSvar().size());
 
         for (String svar : svars) {
@@ -240,7 +241,8 @@ public class UtlatandeToIntygTest {
 
     private void assertRehabilitering(Map<String, List<Svar>> testSvar) {
         assertEquals("false", testSvar.get(REHABILITERING_SVAR_10005).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.REHABILITERING_DELSVAR_10005_1, testSvar.get(REHABILITERING_SVAR_10005).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.REHABILITERING_DELSVAR_10005_1,
+            testSvar.get(REHABILITERING_SVAR_10005).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertKontaktFk(Map<String, List<Svar>> testSvar) {
@@ -250,47 +252,60 @@ public class UtlatandeToIntygTest {
 
     private void assertRessatTillArbetet(Map<String, List<Svar>> testSvar) {
         assertEquals("true", testSvar.get(RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.RESSATT_TILL_ARBETE_AKTUELLT_DELSVAR_34_1, testSvar.get(RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.RESSATT_TILL_ARBETE_AKTUELLT_DELSVAR_34_1,
+            testSvar.get(RESSATT_TILL_ARBETE_AKTUELLT_SVAR_34).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertAvstangningSmittskydd(Map<String, List<Svar>> testSvar) {
         assertEquals("false", testSvar.get(AVSTANGNING_SMITTSKYDD_SVAR_27).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.AVSTANGNING_SMITTSKYDD_DELSVAR_27_1, testSvar.get(AVSTANGNING_SMITTSKYDD_SVAR_27).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.AVSTANGNING_SMITTSKYDD_DELSVAR_27_1,
+            testSvar.get(AVSTANGNING_SMITTSKYDD_SVAR_27).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertArbetsuppgifter(Map<String, List<Svar>> testSvar) {
         assertEquals("Arbetsuppgifter", testSvar.get(NUVARANDE_ARBETSUPPGIFTER_SVAR_29).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.NUVARANDE_ARBETSUPPGIFTER_DELSVAR_29_1, testSvar.get(NUVARANDE_ARBETSUPPGIFTER_SVAR_29).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.NUVARANDE_ARBETSUPPGIFTER_DELSVAR_29_1,
+            testSvar.get(NUVARANDE_ARBETSUPPGIFTER_SVAR_29).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertAktivitetsBegransning(Map<String, List<Svar>> testSvar) {
         assertEquals("aktivitetsbegransning", testSvar.get(AKTIVITETSBEGRANSNING_SVAR_17).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.AKTIVITETSBEGRANSNING_DELSVAR_17_1, testSvar.get(AKTIVITETSBEGRANSNING_SVAR_17).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.AKTIVITETSBEGRANSNING_DELSVAR_17_1,
+            testSvar.get(AKTIVITETSBEGRANSNING_SVAR_17).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertOvrigaUpplysningar(Map<String, List<Svar>> testSvar) {
-        assertEquals("4b: AnnanReferensBeskrivning. Kommentar", testSvar.get(OVRIGA_UPPLYSNINGAR_SVAR_25).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.OVRIGA_UPPLYSNINGAR_DELSVAR_25_1, testSvar.get(OVRIGA_UPPLYSNINGAR_SVAR_25).get(0).getDelsvar().get(0).getId());
+        assertEquals("4b: AnnanReferensBeskrivning. Kommentar",
+            testSvar.get(OVRIGA_UPPLYSNINGAR_SVAR_25).get(0).getDelsvar().get(0).getContent().get(0));
+        assertEquals(UtlatandeToIntyg.OVRIGA_UPPLYSNINGAR_DELSVAR_25_1,
+            testSvar.get(OVRIGA_UPPLYSNINGAR_SVAR_25).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertFunktionsnedsattning(Map<String, List<Svar>> testSvar) {
         assertEquals("FunktionsNedsattning", testSvar.get(FUNKTIONSNEDSATTNING_SVAR_35).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.FUNKTIONSNEDSATTNING_DELSVAR_35_1, testSvar.get(FUNKTIONSNEDSATTNING_SVAR_35).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.FUNKTIONSNEDSATTNING_DELSVAR_35_1,
+            testSvar.get(FUNKTIONSNEDSATTNING_SVAR_35).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertArbetsformagaPrognos(Map<String, List<Svar>> testSvar) {
-        assertEquals("ArbetsFormagaPrognos", testSvar.get(ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_DELSVAR_37_1, testSvar.get(ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37).get(0).getDelsvar().get(0).getId());
+        assertEquals("ArbetsFormagaPrognos",
+            testSvar.get(ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37).get(0).getDelsvar().get(0)
+                .getContent().get(0));
+        assertEquals(UtlatandeToIntyg.ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_DELSVAR_37_1,
+            testSvar.get(ARBETSFORMAGA_PROGNOS_SJUKSKRIVNING_LANGRE_AN_REKOMMENDERAD_MOTIVERING_SVAR_37).get(0).getDelsvar().get(0)
+                .getId());
     }
 
     private void assertSjukdomsForlopp(Map<String, List<Svar>> testSvar) {
         assertEquals("sjukdomsforlopp", testSvar.get(SJUKDOMSFORLOPP_SVAR_10002).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.SJUKDOMSFORLOPP_DELSVAR_10002_1, testSvar.get(SJUKDOMSFORLOPP_SVAR_10002).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.SJUKDOMSFORLOPP_DELSVAR_10002_1,
+            testSvar.get(SJUKDOMSFORLOPP_SVAR_10002).get(0).getDelsvar().get(0).getId());
     }
 
     private void assertDiagnosBeskrivning(Map<String, List<Svar>> testSvar) {
         assertEquals("DiagnosBeskrivning", testSvar.get(DIAGNOS_FRITEXT_SVAR_10001).get(0).getDelsvar().get(0).getContent().get(0));
-        assertEquals(UtlatandeToIntyg.DIAGNOS_FRITEXT_DELSVAR_10001_1, testSvar.get(DIAGNOS_FRITEXT_SVAR_10001).get(0).getDelsvar().get(0).getId());
+        assertEquals(UtlatandeToIntyg.DIAGNOS_FRITEXT_DELSVAR_10001_1,
+            testSvar.get(DIAGNOS_FRITEXT_SVAR_10001).get(0).getDelsvar().get(0).getId());
     }
 
     @SuppressWarnings("unchecked")
@@ -301,7 +316,7 @@ public class UtlatandeToIntygTest {
             JAXBElement<CVType> cv = (JAXBElement<CVType>) svar.getDelsvar().get(0).getContent().get(0);
             assertEquals(UtlatandeToIntyg.TYP_AV_SYSSELSATTNING_CODE_SYSTEM, cv.getValue().getCodeSystem());
             sysselsattningar
-                    .forEach(sysselsattning -> assertTrue(sysselsattningar.contains(cv.getValue().getCode())));
+                .forEach(sysselsattning -> assertTrue(sysselsattningar.contains(cv.getValue().getCode())));
         }
     }
 
@@ -313,13 +328,14 @@ public class UtlatandeToIntygTest {
             JAXBElement<CVType> cv = (JAXBElement<CVType>) svar.getDelsvar().get(0).getContent().get(0);
             assertEquals(UtlatandeToIntyg.GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, cv.getValue().getCodeSystem());
             grunderForMu
-            .forEach(grundForMu -> assertTrue(grunderForMu.contains(cv.getValue().getCode())));
+                .forEach(grundForMu -> assertTrue(grunderForMu.contains(cv.getValue().getCode())));
         }
     }
 
     private void assertRekommendationKontakt(Map<String, List<Svar>> testSvar) {
         assertEquals(1, testSvar.get(REKOMMENDATION_KONTAKT_SVAR_10003).size());
-        Map<String, List<Object>> rekDelsvar = testSvar.get(REKOMMENDATION_KONTAKT_SVAR_10003).get(0).getDelsvar().stream().collect(Collectors.toMap(Delsvar::getId, Delsvar::getContent));
+        Map<String, List<Object>> rekDelsvar = testSvar.get(REKOMMENDATION_KONTAKT_SVAR_10003).get(0).getDelsvar().stream()
+            .collect(Collectors.toMap(Delsvar::getId, Delsvar::getContent));
         assertEquals(rekDelsvar.get(UtlatandeToIntyg.REKOMMENDATION_KONTAKT_DELSVAR_AF_10003_1).get(0), "true");
         assertEquals(rekDelsvar.get(UtlatandeToIntyg.REKOMMENDATION_KONTAKT_DELSVAR_FHV_10003_2).get(0), "true");
         assertEquals(rekDelsvar.get(UtlatandeToIntyg.REKOMMENDATION_KONTAKT_DELSVAR_OVRIGT_10003_3).get(0), "RekommendationOvrigt");
@@ -338,7 +354,8 @@ public class UtlatandeToIntygTest {
 
     private void assertAtgard(Map<String, List<Svar>> testSvar) {
         assertEquals(1, testSvar.get(ATGARD_INOM_SJUKVARDEN_SVAR_10004).size());
-        Map<String, List<Object>> rekDelsvar = testSvar.get(ATGARD_INOM_SJUKVARDEN_SVAR_10004).get(0).getDelsvar().stream().collect(Collectors.toMap(Delsvar::getId, Delsvar::getContent));
+        Map<String, List<Object>> rekDelsvar = testSvar.get(ATGARD_INOM_SJUKVARDEN_SVAR_10004).get(0).getDelsvar().stream()
+            .collect(Collectors.toMap(Delsvar::getId, Delsvar::getContent));
         assertEquals(rekDelsvar.get(UtlatandeToIntyg.ATGARD_INOM_SJUKVARDEN_DELSVAR_10004_1).get(0), "AtgardInomSjukvarden");
         assertEquals(rekDelsvar.get(UtlatandeToIntyg.ATGARD_INOM_SJUKVARDEN_DELSVAR_10004_2).get(0), "annan atgard");
     }
@@ -370,7 +387,8 @@ public class UtlatandeToIntygTest {
         assertEquals("HELT_NEDSATT", cv.getValue().getCode());
         assertEquals("KV_FKMU_0003", cv.getValue().getCodeSystem());
         assertEquals("100%", cv.getValue().getDisplayName());
-        JAXBElement<DatePeriodType> dateperiod = (JAXBElement<DatePeriodType>) intyg.getSvar().get(0).getDelsvar().get(1).getContent().get(0);
+        JAXBElement<DatePeriodType> dateperiod = (JAXBElement<DatePeriodType>) intyg.getSvar().get(0).getDelsvar().get(1).getContent()
+            .get(0);
         assertEquals(from100.asLocalDate(), dateperiod.getValue().getStart());
         assertEquals(to100.asLocalDate(), dateperiod.getValue().getEnd());
         assertEquals("32", intyg.getSvar().get(1).getId());
@@ -411,16 +429,18 @@ public class UtlatandeToIntygTest {
 
     private Fk7263Utlatande buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private Fk7263Utlatande buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         Fk7263Utlatande utlatande = new Fk7263Utlatande();
         utlatande.setId(intygsId);

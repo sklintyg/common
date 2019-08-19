@@ -59,7 +59,7 @@ public class DoiPdfGeneratorTest {
         Properties props = new Properties();
         props.put(PDF_PATH_PROPERTY_KEY, DEFAULT_PDF_TEMPLATE);
         intygTexts = new IntygTexts("1.0", "", null, null, null,
-                null, props);
+            null, props);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class DoiPdfGeneratorTest {
         // compare expected field values with field values in generated PDF
         for (String fieldKey : generatedFields.getFields().keySet()) {
             assertEquals("Value for field " + fieldKey + " is not the expected",
-                    expectedFields.getField(fieldKey), generatedFields.getField(fieldKey));
+                expectedFields.getField(fieldKey), generatedFields.getField(fieldKey));
         }
     }
 

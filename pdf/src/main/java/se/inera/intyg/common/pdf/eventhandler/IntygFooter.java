@@ -68,8 +68,8 @@ public class IntygFooter implements IEventHandler {
             case MINA_INTYG:
                 appName = MINA_INTYG_APP_NAME;
                 break;
-                default:
-                    throw new IllegalStateException("Unhandled ApplicationOrigin: " + applicationOrigin);
+            default:
+                throw new IllegalStateException("Unhandled ApplicationOrigin: " + applicationOrigin);
         }
 
         PdfDocumentEvent docEvent = (PdfDocumentEvent) event;
@@ -77,13 +77,13 @@ public class IntygFooter implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Utskriften skapades med " + appName + " - en tjänst som drivs av Inera AB\nwww.inera.se",
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            millimetersToPoints(pageSize.getBottom() + PADDING), TextAlignment.LEFT);
 
         pdfCanvas.moveTo(millimetersToPoints(PAGE_MARGIN_LEFT), LINE_Y_OFFSET);
         pdfCanvas.lineTo(page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT), LINE_Y_OFFSET);

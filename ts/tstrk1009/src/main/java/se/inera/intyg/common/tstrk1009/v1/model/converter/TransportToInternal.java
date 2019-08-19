@@ -148,8 +148,8 @@ public final class TransportToInternal {
     }
 
     private static void handleIntygetAvserBehorighet(
-            EnumSet<Korkortsbehorighet> korkortsbehorigheter,
-            final Svar svar) throws ConverterException {
+        EnumSet<Korkortsbehorighet> korkortsbehorigheter,
+        final Svar svar) throws ConverterException {
 
         for (final Svar.Delsvar delsvar : svar.getDelsvar()) {
             if (INTYGET_AVSER_BEHORIGHET_DELSVAR_ID.equals(delsvar.getId())) {
@@ -171,8 +171,8 @@ public final class TransportToInternal {
     }
 
     private static void handleKorkortsBehorigheter(
-            final Tstrk1009UtlatandeV1.Builder utlatande,
-            final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
+        final Tstrk1009UtlatandeV1.Builder utlatande,
+        final EnumSet<Korkortsbehorighet> korkortsbehorigheter) {
 
         final EnumSet<KorkortBehorighetGrupp> intygetAvserBehorigheter = EnumSet.noneOf(KorkortBehorighetGrupp.class);
 

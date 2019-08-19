@@ -54,7 +54,7 @@ public enum KvIdKontroll {
 
     public static KvIdKontroll fromCode(String code) {
         return Stream.of(KvIdKontroll.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
+            .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     @JsonValue

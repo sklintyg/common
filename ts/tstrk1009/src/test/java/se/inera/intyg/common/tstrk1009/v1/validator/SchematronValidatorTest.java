@@ -35,6 +35,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
+
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(Tstrk1009EntryPoint.SCHEMATRON_FILE);
 
     @Test
@@ -70,6 +71,6 @@ public class SchematronValidatorTest {
     private void doFailingTest(String inputXml, int expectedNumFails) throws ModuleException {
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(response.getValidationErrors().stream().collect(Collectors.joining(", ")), expectedNumFails,
-                response.getValidationErrors().size());
+            response.getValidationErrors().size());
     }
 }

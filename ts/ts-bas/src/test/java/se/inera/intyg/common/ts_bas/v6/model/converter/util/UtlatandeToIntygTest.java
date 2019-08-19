@@ -65,9 +65,10 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         TsBasUtlatandeV6 utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -204,23 +205,26 @@ public class UtlatandeToIntygTest {
 
     private TsBasUtlatandeV6 buildUtlatande(String arbetsplatskod) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", null, null);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", null, null);
     }
 
     private TsBasUtlatandeV6 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private TsBasUtlatandeV6 buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         TsBasUtlatandeV6.Builder utlatandeBuilder = TsBasUtlatandeV6.builder();
         utlatandeBuilder.setId(intygsId);

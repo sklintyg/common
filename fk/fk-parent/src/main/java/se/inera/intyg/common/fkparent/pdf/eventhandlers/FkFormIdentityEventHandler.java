@@ -30,6 +30,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 // CHECKSTYLE:OFF MagicNumber
+
 /**
  * Stamps the fk form issue version info on each page (left side margin).
  */
@@ -53,19 +54,16 @@ public class FkFormIdentityEventHandler extends PdfPageEventHelper {
 
     /**
      * Stamps the fk issue info on each page.
-     *
-     * @param writer
-     * @param document
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
         PdfContentByte canvas = writer.getDirectContentUnder();
 
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(formId, PdfConstants.FONT_FORM_ID_LABEL), formidX, formidY,
-                ROTATION);
+            ROTATION);
         ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT,
-                new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), scanidX,
-                scanidY, ROTATION);
+            new Phrase(buildPageScanId(blankettId, blankettVersion, writer.getPageNumber()), PdfConstants.FONT_PAGESCAN_ID), scanidX,
+            scanidY, ROTATION);
 
     }
 

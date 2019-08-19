@@ -46,7 +46,6 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare;
  * external model, and populating each with mock data.
  *
  * @author erik
- *
  */
 public class TransportToInternalTest {
 
@@ -71,7 +70,7 @@ public class TransportToInternalTest {
         Specialistkompetens c = new Specialistkompetens();
         c.setDisplayName("c");
 
-        return Arrays.asList(a, b ,c);
+        return Arrays.asList(a, b, c);
     }
 
     @Test

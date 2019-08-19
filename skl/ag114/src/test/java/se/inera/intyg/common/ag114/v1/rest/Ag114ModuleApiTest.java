@@ -153,13 +153,13 @@ public class Ag114ModuleApiTest {
     public void setUp() throws Exception {
         ReflectionTestUtils.setField(webcertModelFactory, "intygTexts", intygTextsServiceMock);
         when(intygTextsServiceMock.getLatestVersionForSameMajorVersion(eq(Ag114EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1);
+            .thenReturn(INTYG_TYPE_VERSION_1);
     }
 
     @Test
     public void testValidateDraft() throws Exception {
         when(internalDraftValidator.validateDraft(any(Utlatande.class)))
-                .thenReturn(new ValidateDraftResponse(ValidationStatus.VALID, new ArrayList<>()));
+            .thenReturn(new ValidateDraftResponse(ValidationStatus.VALID, new ArrayList<>()));
 
         ValidateDraftResponse res = moduleApi.validateDraft(getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json"));
 
@@ -222,7 +222,7 @@ public class Ag114ModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
-                .readValue(anyString(), eq(Ag114UtlatandeV1.class));
+            .readValue(anyString(), eq(Ag114UtlatandeV1.class));
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
@@ -244,7 +244,7 @@ public class Ag114ModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel()).when(objectMapper)
-                .readValue(anyString(), eq(Ag114UtlatandeV1.class));
+            .readValue(anyString(), eq(Ag114UtlatandeV1.class));
 
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("INFO"));
@@ -271,14 +271,14 @@ public class Ag114ModuleApiTest {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testSendCertificate() throws IOException, ModuleException {
-        moduleApi.sendCertificateToRecipient("<xml/>","logicalAddress","recipient");
+        moduleApi.sendCertificateToRecipient("<xml/>", "logicalAddress", "recipient");
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testCreateCompletionFromTemplate() throws Exception {
         CreateDraftCopyHolder draftCertificateHolder = new CreateDraftCopyHolder("1", createHosPersonal());
 
-        final String completionFromTemplate = moduleApi.createCompletionFromTemplate(draftCertificateHolder, getUtlatandeFromFile(),"No!");
+        final String completionFromTemplate = moduleApi.createCompletionFromTemplate(draftCertificateHolder, getUtlatandeFromFile(), "No!");
 
         Ag114UtlatandeV1 copy = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(completionFromTemplate);
         assertEquals(TEST_HSA_ID, copy.getGrundData().getSkapadAv().getPersonId());
@@ -313,7 +313,8 @@ public class Ag114ModuleApiTest {
     @Test
     public void testCreateNewInternal() throws Exception {
         CreateNewDraftHolder createNewDraftHolder =
-                new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(), createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
+            new CreateNewDraftHolder("1", INTYG_TYPE_VERSION_1, createHosPersonal(),
+                createPatient("fornamn", "efternamn", TEST_PATIENT_PERSONNR));
 
         final String renewalFromTemplate = moduleApi.createNewInternal(createNewDraftHolder);
 
@@ -340,7 +341,7 @@ public class Ag114ModuleApiTest {
     @Test
     public void testUpdatePatientBeforeSave() throws IOException, ModuleException {
         final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
-        final Patient updatedPatient = createPatient("Nytt","Namn", TEST_PATIENT_PERSONNR);
+        final Patient updatedPatient = createPatient("Nytt", "Namn", TEST_PATIENT_PERSONNR);
 
         Ag114UtlatandeV1 utlatandeBeforeSave = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(updatedPatient, utlatandeBeforeSave.getGrundData().getPatient());
@@ -354,7 +355,8 @@ public class Ag114ModuleApiTest {
 
     @Test
     public void testUpdateBeforeSigning() throws Exception {
-        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");;
+        final String json = getResourceAsString("v1/Ag114ModuleApiTest/valid-utkast-sample.json");
+        ;
         final LocalDateTime signDate = LocalDateTime.now();
 
         HoSPersonal hosPersonal = new HoSPersonal();
@@ -367,10 +369,11 @@ public class Ag114ModuleApiTest {
         assertEquals(hosPersonal, utlatandeAfterSigning.getGrundData().getSkapadAv());
         assertEquals(signDate, utlatandeAfterSigning.getGrundData().getSigneringsdatum());
     }
+
     @Test
     public void testUpdateBeforeViewing() throws IOException, ModuleException {
         final String json = getResourceAsString("v1/internal/scenarios/pass-minimal.json");
-        final Patient updatedPatient = createPatient("Nytt","Namn", TEST_PATIENT_PERSONNR);
+        final Patient updatedPatient = createPatient("Nytt", "Namn", TEST_PATIENT_PERSONNR);
 
         Ag114UtlatandeV1 utlatandeBeforeViewing = (Ag114UtlatandeV1) moduleApi.getUtlatandeFromJson(json);
         assertNotEquals(updatedPatient, utlatandeBeforeViewing.getGrundData().getPatient());
@@ -417,8 +420,8 @@ public class Ag114ModuleApiTest {
         gd.setSkapadAv(skapadAv);
 
         Utlatande utlatande = Ag114UtlatandeV1.builder().setId(intygId).setGrundData(gd).setTextVersion("1.0")
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
-                .build();
+            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .build();
 
         String res = moduleApi.createRevokeRequest(utlatande, skapadAv, meddelande);
         assertNotNull(res);
@@ -461,19 +464,19 @@ public class Ag114ModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetIntygFromUtlatandeConverterException() throws Exception {
         Utlatande failingUtlatande = Ag114UtlatandeV1.builder().setId("").setGrundData(new GrundData()).setTextVersion("1.0")
-                .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
-                .build();
+            .setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.NUVARANDE_ARBETE)))
+            .build();
 
         moduleApi.getIntygFromUtlatande(failingUtlatande);
     }
 
-   @Test(expected = UnsupportedOperationException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void testGetModuleSpecificArendeParameters() throws Exception {
-        moduleApi.getModuleSpecificArendeParameters(getUtlatandeFromFile(), Arrays.asList("1","2"));
+        moduleApi.getModuleSpecificArendeParameters(getUtlatandeFromFile(), Arrays.asList("1", "2"));
     }
 
     private GetCertificateResponseType createGetCertificateResponseType(final StatusKod statusKod, final String part)
-            throws IOException, ModuleException {
+        throws IOException, ModuleException {
         GetCertificateResponseType response = new GetCertificateResponseType();
 
         String xmlContents = getResourceAsString("v1/ag114-simple-valid.xml");
@@ -545,12 +548,12 @@ public class Ag114ModuleApiTest {
 
     private Ag114UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper()
-                .readValue(Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json"), Ag114UtlatandeV1.class);
+            .readValue(Resources.getResource("v1/Ag114ModuleApiTest/valid-utkast-sample.json"), Ag114UtlatandeV1.class);
     }
 
     private String getResourceAsString(String resourceName) throws IOException {
         return (resourceName == null) ?
-                null :
-                Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
+            null :
+            Resources.toString(Resources.getResource(resourceName), Charsets.UTF_8);
     }
 }

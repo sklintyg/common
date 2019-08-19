@@ -151,7 +151,7 @@ public class TsParentModuleApiTest {
     @Test
     public void testValidateDraft() throws Exception {
         when(internalDraftValidator.validateDraft(any(Utlatande.class)))
-                .thenReturn(new ValidateDraftResponse(ValidationStatus.VALID, new ArrayList<>()));
+            .thenReturn(new ValidateDraftResponse(ValidationStatus.VALID, new ArrayList<>()));
 
         ValidateDraftResponse res = moduleApi.validateDraft(json);
 
@@ -162,7 +162,8 @@ public class TsParentModuleApiTest {
 
     @Test
     public void testCreateNewInternal() throws Exception {
-        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(), new Patient());
+        CreateNewDraftHolder draftCertificateHolder = new CreateNewDraftHolder(INTYG_ID, INTYG_TYPE_VERSION_1, new HoSPersonal(),
+            new Patient());
         String res = moduleApi.createNewInternal(draftCertificateHolder);
 
         assertNotNull(res);
@@ -299,12 +300,13 @@ public class TsParentModuleApiTest {
         String res = moduleApi.transformToStatisticsService(inputString);
         assertEquals(inputString, res);
     }
-/*
-    @Test(expected = UnsupportedOperationException.class)
-    public void testvalidateXml() throws Exception {
-        moduleApi.validateXml("xmlBody");
-    }
-*/
+
+    /*
+        @Test(expected = UnsupportedOperationException.class)
+        public void testvalidateXml() throws Exception {
+            moduleApi.validateXml("xmlBody");
+        }
+    */
     @Test(expected = UnsupportedOperationException.class)
     public void testGetModuleSpecificArendeParameters() throws Exception {
         moduleApi.getModuleSpecificArendeParameters(new TestUtlatande(), new ArrayList<>());
@@ -337,7 +339,7 @@ public class TsParentModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.okResult());
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
-                .thenReturn(response);
+            .thenReturn(response);
 
         moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
     }
@@ -353,7 +355,7 @@ public class TsParentModuleApiTest {
     public void testGetCertificate() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
-                .thenReturn(getCertificateResponse);
+            .thenReturn(getCertificateResponse);
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -378,7 +380,7 @@ public class TsParentModuleApiTest {
         revokedStatus.getStatus().setCode(StatusKod.CANCEL.name());
         getCertificateResponse.getIntyg().getStatus().add(revokedStatus);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
-                .thenReturn(getCertificateResponse);
+            .thenReturn(getCertificateResponse);
         doReturn("additionalInfo").when(moduleApi).getAdditionalInfo(any(Intyg.class));
         doReturn(utlatande).when(moduleApi).transportToInternal(any(Intyg.class));
 
@@ -394,7 +396,7 @@ public class TsParentModuleApiTest {
     public void testGetCertificateConvertException() throws Exception {
         GetCertificateResponseType getCertificateResponse = JAXB.unmarshal(getCertificateFile.getFile(), GetCertificateResponseType.class);
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
-                .thenReturn(getCertificateResponse);
+            .thenReturn(getCertificateResponse);
         doThrow(new ConverterException()).when(moduleApi).transportToInternal(any(Intyg.class));
 
         moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
@@ -403,7 +405,7 @@ public class TsParentModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testGetCertificateSoapFault() throws Exception {
         when(getCertificateResponderInterface.getCertificate(eq(LOGICAL_ADDRESS), any(GetCertificateType.class)))
-                .thenThrow(mock(SOAPFaultException.class));
+            .thenThrow(mock(SOAPFaultException.class));
 
         moduleApi.getCertificate(INTYG_ID, LOGICAL_ADDRESS, "INVANA");
     }
@@ -415,7 +417,7 @@ public class TsParentModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.APPLICATION_ERROR, "error"));
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
-                .thenReturn(response);
+            .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -432,7 +434,7 @@ public class TsParentModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
-                .thenReturn(response);
+            .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);
@@ -449,7 +451,7 @@ public class TsParentModuleApiTest {
         RegisterCertificateResponseType response = new RegisterCertificateResponseType();
         response.setResult(ResultTypeUtil.infoResult("Other info"));
         when(registerCertificateResponderInterface.registerCertificate(eq(LOGICAL_ADDRESS), any(RegisterCertificateType.class)))
-                .thenReturn(response);
+            .thenReturn(response);
 
         try {
             moduleApi.registerCertificate(json, LOGICAL_ADDRESS);

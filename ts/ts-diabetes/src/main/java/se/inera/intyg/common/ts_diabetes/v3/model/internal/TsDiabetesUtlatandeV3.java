@@ -109,7 +109,7 @@ public abstract class TsDiabetesUtlatandeV3 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_TsDiabetesUtlatandeV3.Builder()
-                .setSignature(null);
+            .setSignature(null);
     }
 
     @AutoValue.Builder

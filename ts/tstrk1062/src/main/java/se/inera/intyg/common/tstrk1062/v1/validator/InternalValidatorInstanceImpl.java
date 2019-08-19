@@ -57,8 +57,8 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
         // Kategori 3 - Allmänt
         validateDiagnosRegistrering(utlatande.getDiagnosRegistrering(),
-                utlatande.getDiagnosKodad(),
-                utlatande.getDiagnosFritext(), validationMessages);
+            utlatande.getDiagnosKodad(),
+            utlatande.getDiagnosFritext(), validationMessages);
 
         // Kategori 4 - Lakemedelsbehandling
         validateLakemedelsbehandling(utlatande.getLakemedelsbehandling(), validationMessages);
@@ -81,47 +81,47 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     private void validateIntygAvser(final IntygAvser intygAvser, List<ValidationMessage> validationMessages) {
         if (isNull(intygAvser)) {
             addValidationError(validationMessages,
-                    INTYG_AVSER_CATEGORY, INTYG_AVSER_SVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                INTYG_AVSER_CATEGORY, INTYG_AVSER_SVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
             return;
         }
 
         if (intygAvser.getBehorigheter() != null && intygAvser.getBehorigheter().isEmpty()) {
             addValidationError(validationMessages,
-                    INTYG_AVSER_CATEGORY,
-                    INTYG_AVSER_SVAR_JSON_ID + PUNKT + INTYG_AVSER_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                INTYG_AVSER_CATEGORY,
+                INTYG_AVSER_SVAR_JSON_ID + PUNKT + INTYG_AVSER_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
     }
 
     private void validateIdKontroll(IdKontroll idKontroll, List<ValidationMessage> validationMessages) {
         if (isNull(idKontroll)) {
             addValidationError(validationMessages,
-                    ID_KONTROLL_CATEGORY,
-                    ID_KONTROLL_SVAR_JSON_ID + PUNKT + ID_KONTROLL_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ID_KONTROLL_CATEGORY,
+                ID_KONTROLL_SVAR_JSON_ID + PUNKT + ID_KONTROLL_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
     }
 
     private void validateDiagnosRegistrering(DiagnosRegistrering diagnosRegistrering,
-            ImmutableList<DiagnosKodad> diagnosKodad,
-            DiagnosFritext diagnosFritext,
-            List<ValidationMessage> validationMessages) {
+        ImmutableList<DiagnosKodad> diagnosKodad,
+        DiagnosFritext diagnosFritext,
+        List<ValidationMessage> validationMessages) {
         if (isNull(diagnosRegistrering) || isNull(diagnosRegistrering.getTyp())) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ALLMANT_KATEGORI,
+                ALLMANT_INMATNING_SVAR_JSON_ID + PUNKT + ALLMANT_INMATNING_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
             return;
         }
 
         if (diagnosRegistrering.getTyp() == DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD) {
             if (isNull(diagnosKodad) || diagnosKodad.isEmpty()) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID,
-                        ValidationMessageType.EMPTY,
-                        "tstrk1062.validation.diagnos.missing");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID,
+                    ValidationMessageType.EMPTY,
+                    "tstrk1062.validation.diagnos.missing");
                 return;
             }
 
@@ -135,37 +135,37 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     private void validateDiagnosFritext(DiagnosFritext diagnosFritext, List<ValidationMessage> validationMessages) {
         if (isNull(diagnosFritext)) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
             return;
         }
 
         if (isNull(diagnosFritext.getDiagnosFritext()) || diagnosFritext.getDiagnosFritext().isEmpty()) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_FRITEXT_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
 
         if (isNull(diagnosFritext.getDiagnosArtal()) || diagnosFritext.getDiagnosArtal().isEmpty()) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY,
-                    "common.validation.b-03a");
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY,
+                "common.validation.b-03a");
         } else if (isNotYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.INVALID_FORMAT,
-                    "common.validation.ue-year-picker.invalid_format");
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
+                ValidationMessageType.INVALID_FORMAT,
+                "common.validation.ue-year-picker.invalid_format");
         } else if (isFutureYear(diagnosFritext.getDiagnosArtal())) {
             addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
-                    ValidationMessageType.OTHER,
-                    "tstrk1062.validation.diagnos.artal");
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_FRITEXT_SVAR_JSON_ID + PUNKT + ALLMANT_DIAGNOSKOD_FRITEXT_ARTAL_DELSVAR_JSON_ID,
+                ValidationMessageType.OTHER,
+                "tstrk1062.validation.diagnos.artal");
         }
     }
 
@@ -175,10 +175,10 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
         if (!diagnosKodad.isEmpty() && !validateFirstDiagnoseIsPresent(diagnosKodad) && diagnosKodad.size() > 1) {
             ValidatorUtil.addValidationError(validationMessages,
-                    ALLMANT_KATEGORI,
-                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                            + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
-                    ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-05");
+                ALLMANT_KATEGORI,
+                ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                    + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
+                ValidationMessageType.INCORRECT_COMBINATION, "common.validation.c-05");
             // No additional validation messages should be added to diagnose one.
             ignoreDiagnoseOne = true;
         }
@@ -191,41 +191,41 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
 
             if (isNull(diagnos.getDiagnosKod()) || diagnos.getDiagnosKod().isEmpty()) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
-                        ValidationMessageType.EMPTY,
-                        "common.validation.b-03a");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                        + ALLMANT_DIAGNOSKOD_KODAD_KOD_DELSVAR_JSON_ID,
+                    ValidationMessageType.EMPTY,
+                    "common.validation.b-03a");
             }
             if (isNull(diagnos.getDiagnosKodSystem()) || diagnos.getDiagnosKodSystem().isEmpty()) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
-                        ValidationMessageType.EMPTY,
-                        "common.validation.diagnos.kodsystem");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                        + ALLMANT_DIAGNOSKOD_KODAD_KOD_KODSYSTEM_JSON_ID,
+                    ValidationMessageType.EMPTY,
+                    "common.validation.diagnos.kodsystem");
             }
             if (isNull(diagnos.getDiagnosArtal()) || diagnos.getDiagnosArtal().isEmpty()) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
-                        ValidationMessageType.EMPTY,
-                        "common.validation.b-03a");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                        + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                    ValidationMessageType.EMPTY,
+                    "common.validation.b-03a");
             } else if (isNotYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
-                        ValidationMessageType.INVALID_FORMAT,
-                        "common.validation.ue-year-picker.invalid_format");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                        + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                    ValidationMessageType.INVALID_FORMAT,
+                    "common.validation.ue-year-picker.invalid_format");
             } else if (isFutureYear(diagnos.getDiagnosArtal())) {
                 addValidationError(validationMessages,
-                        ALLMANT_KATEGORI,
-                        ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
-                                + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
-                        ValidationMessageType.OTHER,
-                        "tstrk1062.validation.diagnos.artal");
+                    ALLMANT_KATEGORI,
+                    ALLMANT_DIAGNOSKOD_KODAD_SVAR_JSON_ID + SB + diagnosNr + EB + PUNKT
+                        + ALLMANT_DIAGNOSKOD_KODAD_KOD_ARTAL_DELSVAR_JSON_ID,
+                    ValidationMessageType.OTHER,
+                    "tstrk1062.validation.diagnos.artal");
             }
 
             diagnosNr++;
@@ -235,68 +235,68 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     private Boolean validateFirstDiagnoseIsPresent(List<DiagnosKodad> diagnosKodad) {
         DiagnosKodad diagnos = diagnosKodad.get(0);
         return !Strings.nullToEmpty(diagnos.getDiagnosKod()).trim().isEmpty()
-                || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()
-                || !Strings.nullToEmpty(diagnos.getDiagnosArtal()).trim().isEmpty();
+            || !Strings.nullToEmpty(diagnos.getDiagnosBeskrivning()).trim().isEmpty()
+            || !Strings.nullToEmpty(diagnos.getDiagnosArtal()).trim().isEmpty();
     }
 
     private void validateLakemedelsbehandling(Lakemedelsbehandling lakemedelsbehandling, List<ValidationMessage> validationMessages) {
         if (isNull(lakemedelsbehandling) || isNull(lakemedelsbehandling.getHarHaft())) {
             addValidationError(validationMessages,
-                    LAKEMEDELSBEHANDLING_KATEGORI,
-                    LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                LAKEMEDELSBEHANDLING_KATEGORI,
+                LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOREKOMMIT_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
             return;
         }
 
         if (lakemedelsbehandling.getHarHaft()) {
             if (isNull(lakemedelsbehandling.getPagar())) {
                 addValidationError(validationMessages,
-                        LAKEMEDELSBEHANDLING_KATEGORI,
-                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID,
-                        ValidationMessageType.EMPTY);
+                    LAKEMEDELSBEHANDLING_KATEGORI,
+                    LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_PAGAR_DELSVAR_JSON_ID,
+                    ValidationMessageType.EMPTY);
                 return;
             }
 
             if (lakemedelsbehandling.getPagar()) {
                 if (isNull(lakemedelsbehandling.getAktuell()) || lakemedelsbehandling.getAktuell().isEmpty()) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AKTUELL_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getPagatt())) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_MER_3_AR_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getEffekt())) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_EFFEKT_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
 
                 if (isNull(lakemedelsbehandling.getFoljsamhet())) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_FOLJSAMHET_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
             } else {
                 if (isNull(lakemedelsbehandling.getAvslutadTidpunkt()) || lakemedelsbehandling.getAvslutadTidpunkt().isEmpty()) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
                 if (isNull(lakemedelsbehandling.getAvslutadOrsak()) || lakemedelsbehandling.getAvslutadOrsak().isEmpty()) {
                     addValidationError(validationMessages,
-                            LAKEMEDELSBEHANDLING_KATEGORI,
-                            LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID,
-                            ValidationMessageType.EMPTY);
+                        LAKEMEDELSBEHANDLING_KATEGORI,
+                        LAKEMEDELSBEHANDLING_JSON_ID + PUNKT + LAKEMEDELSBEHANDLING_AVSLUTAD_ORSAK_DELSVAR_JSON_ID,
+                        ValidationMessageType.EMPTY);
                 }
             }
         }
@@ -305,36 +305,36 @@ public class InternalValidatorInstanceImpl implements InternalDraftValidator<TsT
     private void validateSymptom(String bedomningAvSymptom, List<ValidationMessage> validationMessages) {
         if (isNull(bedomningAvSymptom) || bedomningAvSymptom.isEmpty()) {
             addValidationError(validationMessages,
-                    SYMPTOM_KATEGORI,
-                    SYMPTOM_BEDOMNING_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                SYMPTOM_KATEGORI,
+                SYMPTOM_BEDOMNING_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
     }
 
     private void validatePrognos(PrognosTillstand prognosTillstand, List<ValidationMessage> validationMessages) {
         if (isNull(prognosTillstand) || isNull(prognosTillstand.getTyp())) {
             addValidationError(validationMessages,
-                    SYMPTOM_KATEGORI,
-                    SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                SYMPTOM_KATEGORI,
+                SYMPTOM_PROGNOS_SVAR_JSON_ID + PUNKT + SYMPTOM_PROGNOS_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         }
     }
 
     private void validateBedomning(Bedomning bedomning, List<ValidationMessage> validationMessages) {
         if (isNull(bedomning) || isNull(bedomning.getUppfyllerBehorighetskrav()) || bedomning.getUppfyllerBehorighetskrav().isEmpty()) {
             addValidationError(validationMessages,
-                    BEDOMNING_KATEGORI,
-                    BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID,
-                    ValidationMessageType.EMPTY);
+                BEDOMNING_KATEGORI,
+                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID,
+                ValidationMessageType.EMPTY);
         } else {
             final Set<Bedomning.BehorighetsTyp> behorighetsTypSet = bedomning.getUppfyllerBehorighetskrav();
             for (Bedomning.BehorighetsTyp behorighetsTyp : behorighetsTypSet) {
                 if (behorighetsTyp == Bedomning.BehorighetsTyp.VAR11) {
                     if (behorighetsTypSet.size() > 1) {
                         addValidationError(validationMessages,
-                                BEDOMNING_KATEGORI,
-                                BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID,
-                                ValidationMessageType.INCORRECT_COMBINATION);
+                            BEDOMNING_KATEGORI,
+                            BEDOMNING_UPPFYLLER_SVAR_JSON_ID + PUNKT + BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID,
+                            ValidationMessageType.INCORRECT_COMBINATION);
                     }
                 }
             }

@@ -32,22 +32,23 @@ import com.helger.commons.xml.transform.StringStreamResult;
  * Setup marshalling for applicable XML-beans (scan by package names).
  */
 final class XmlMarshaller {
+
     Jaxb2Marshaller jaxb2Marshaller;
 
-    XmlMarshaller()  {
+    XmlMarshaller() {
         jaxb2Marshaller = new Jaxb2Marshaller();
         jaxb2Marshaller.setPackagesToScan(
-                "se.riv.clinicalprocess",
-                "se.riv.ehr",
-                "se.riv.infrastructure",
-                "se.riv.strategicresourcemanagement",
-                "se.riv.intygsbestallning",
-                "se.riv.population",
-                "se.riv.informationsecurity",
-                "se.riv.insuranceprocess",
-                "se.inera.ifv",
-                "se.inera.intygstjanster.ts",
-                "org.w3");
+            "se.riv.clinicalprocess",
+            "se.riv.ehr",
+            "se.riv.infrastructure",
+            "se.riv.strategicresourcemanagement",
+            "se.riv.intygsbestallning",
+            "se.riv.population",
+            "se.riv.informationsecurity",
+            "se.riv.insuranceprocess",
+            "se.inera.ifv",
+            "se.inera.intygstjanster.ts",
+            "org.w3");
         try {
             jaxb2Marshaller.afterPropertiesSet();
         } catch (Exception e) {
@@ -55,7 +56,7 @@ final class XmlMarshaller {
         }
     }
 
-     <T> String marshal(final JAXBElement<T> element) {
+    <T> String marshal(final JAXBElement<T> element) {
         final StringStreamResult result = new StringStreamResult();
         jaxb2Marshaller.marshal(element, result);
         return result.getAsString();

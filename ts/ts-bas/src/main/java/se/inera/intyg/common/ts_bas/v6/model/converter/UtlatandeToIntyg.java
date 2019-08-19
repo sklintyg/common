@@ -94,58 +94,57 @@ public final class UtlatandeToIntyg {
             for (IntygAvserKategori korkortstyp : source.getIntygAvser().getKorkortstyp()) {
                 IntygAvserKod intygAvser = IntygAvserKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(INTYG_AVSER_SVAR_ID_1, intygAvserInstans++)
-                        .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
-                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
-                        .build());
+                    .withDelsvar(INTYG_AVSER_DELSVAR_ID_1,
+                        aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvser.getCode(), intygAvser.getDescription()))
+                    .build());
             }
         }
 
         if (source.getVardkontakt() != null && source.getVardkontakt().getIdkontroll() != null) {
             IdKontrollKod idKontroll = IdKontrollKod.valueOf(source.getVardkontakt().getIdkontroll());
             svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID_2)
-                    .withDelsvar(IDENTITET_STYRKT_GENOM_ID_2,
-                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontroll.getCode(), idKontroll.getDescription()))
-                    .build());
+                .withDelsvar(IDENTITET_STYRKT_GENOM_ID_2,
+                    aCV(KV_ID_KONTROLL_CODE_SYSTEM, idKontroll.getCode(), idKontroll.getDescription()))
+                .build());
         }
 
         buildSynSvar(source.getSyn(), svars);
 
         if (source.getHorselBalans() != null) {
             addIfNotNull(svars, BALANSRUBBNINGAR_YRSEL_SVAR_ID_10, BALANSRUBBNINGAR_YRSEL_DELSVAR_ID_10,
-                    source.getHorselBalans().getBalansrubbningar());
+                source.getHorselBalans().getBalansrubbningar());
 
             addIfNotNull(svars, UPPFATTA_SAMTALSTAMMA_SVAR_ID_11, UPPFATTA_SAMTALSTAMMA_DELSVAR_ID_11,
-                    source.getHorselBalans().getSvartUppfattaSamtal4Meter());
+                source.getHorselBalans().getSvartUppfattaSamtal4Meter());
         }
-
 
         buildFunktionsnedsattningSvar(source.getFunktionsnedsattning(), svars);
         buildHjartKarlSvar(source.getHjartKarl(), svars);
         buildDiabetesSvar(source.getDiabetes(), svars);
 
         addIfNotNull(svars, TECKEN_NEUROLOGISK_SJUKDOM_SVAR_ID_20, TECKEN_NEUROLOGISK_SJUKDOM_DELSVAR_ID_20,
-                source.getNeurologi().getNeurologiskSjukdom());
+            source.getNeurologi().getNeurologiskSjukdom());
 
         buildMedvetandestorningSvar(source.getMedvetandestorning(), svars);
 
         addIfNotNull(svars, NEDSATT_NJURFUNKTION_SVAR_ID_22, NEDSATT_NJURFUNKTION_DELSVAR_ID_22,
-                source.getNjurar().getNedsattNjurfunktion());
+            source.getNjurar().getNedsattNjurfunktion());
 
         addIfNotNull(svars, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_SVAR_ID_23, TECKEN_SVIKTANDE_KOGNITIV_FUNKTION_DELSVAR_ID_23,
-                source.getKognitivt().getSviktandeKognitivFunktion());
+            source.getKognitivt().getSviktandeKognitivFunktion());
 
         addIfNotNull(svars, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_SVAR_ID_24, TECKEN_SOMN_ELLER_VAKENHETSSTORNING_DELSVAR_ID_24,
-                source.getSomnVakenhet().getTeckenSomnstorningar());
+            source.getSomnVakenhet().getTeckenSomnstorningar());
 
         buildNarkotikaLakemedelSvar(source.getNarkotikaLakemedel(), svars);
 
         addIfNotNull(svars, PSYKISK_SJUKDOM_STORNING_SVAR_ID_27, PSYKISK_SJUKDOM_STORNING_DELSVAR_ID_27,
-                source.getPsykiskt().getPsykiskSjukdom());
+            source.getPsykiskt().getPsykiskSjukdom());
 
         addIfNotNull(svars, PSYKISK_UTVECKLINGSSTORNING_SVAR_ID_28, PSYKISK_UTVECKLINGSSTORNING_DELSVAR_ID_28,
-                source.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
+            source.getUtvecklingsstorning().getPsykiskUtvecklingsstorning());
         addIfNotNull(svars, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_SVAR_ID_29, ADHD_ADD_DAMP_ASPERGERS_TOURETTES_DELSVAR_ID_29,
-                source.getUtvecklingsstorning().getHarSyndrom());
+            source.getUtvecklingsstorning().getHarSyndrom());
 
         buildSjukhusvardSvar(source.getSjukhusvard(), svars);
         buildMedicineringSvar(source.getMedicinering(), svars);
@@ -201,7 +200,7 @@ public final class UtlatandeToIntyg {
         }
 
         addIfNotNull(svars, UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_SVAR_ID_9, UNDERSOKNING_8_DIOPTRIERS_KORREKTIONSGRAD_DELSVAR_ID_9,
-                source.getKorrektionsglasensStyrka());
+            source.getKorrektionsglasensStyrka());
     }
 
     private static void buildFunktionsnedsattningSvar(Funktionsnedsattning source, List<Svar> svars) {
@@ -211,7 +210,7 @@ public final class UtlatandeToIntyg {
         SvarBuilder funktionsnedsattning = aSvar(SJUKDOM_FUNKTIONSNEDSATTNING_SVAR_ID_12);
         if (source.getFunktionsnedsattning() != null) {
             funktionsnedsattning.withDelsvar(FOREKOMST_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12,
-                    source.getFunktionsnedsattning().toString());
+                source.getFunktionsnedsattning().toString());
         }
         if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             funktionsnedsattning.withDelsvar(TYP_SJUKDOM_FUNKTIONSNEDSATTNING_DELSVAR_ID_12, source.getBeskrivning());
@@ -220,7 +219,7 @@ public final class UtlatandeToIntyg {
             svars.add(funktionsnedsattning.build());
         }
         addIfNotNull(svars, OTILLRACKLIG_RORELSEFORMAGA_SVAR_ID_13, OTILLRACKLIG_RORELSEFORMAGA_DELSVAR_ID_13,
-                source.getOtillrackligRorelseformaga());
+            source.getOtillrackligRorelseformaga());
     }
 
     private static void buildHjartKarlSvar(HjartKarl source, List<Svar> svars) {
@@ -228,19 +227,19 @@ public final class UtlatandeToIntyg {
             return;
         }
         addIfNotNull(svars, HJART_ELLER_KARLSJUKDOM_SVAR_ID_14, HJART_ELLER_KARLSJUKDOM_DELSVAR_ID_14,
-                source.getHjartKarlSjukdom());
+            source.getHjartKarlSjukdom());
         addIfNotNull(svars, TECKEN_PA_HJARNSKADA_SVAR_ID_15, TECKEN_PA_HJARNSKADA_DELSVAR_ID_15,
-                source.getHjarnskadaEfterTrauma());
+            source.getHjarnskadaEfterTrauma());
 
         if (source.getRiskfaktorerStroke() != null) {
             SvarBuilder riskfaktorerStroke = aSvar(RISKFAKTORER_STROKE_SVAR_ID_16);
             if (source.getRiskfaktorerStroke() != null) {
                 riskfaktorerStroke.withDelsvar(FOREKOMST_RISKFAKTORER_STROKE_DELSVAR_ID_16,
-                        source.getRiskfaktorerStroke().toString());
+                    source.getRiskfaktorerStroke().toString());
             }
             if (!Strings.nullToEmpty(source.getBeskrivningRiskfaktorer()).trim().isEmpty()) {
                 riskfaktorerStroke.withDelsvar(TYP_AV_SJUKDOM_RISKFAKTORER_STROKE_DELSVAR_ID_16,
-                        source.getBeskrivningRiskfaktorer());
+                    source.getBeskrivningRiskfaktorer());
             }
             if (!riskfaktorerStroke.delSvars.isEmpty()) {
                 svars.add(riskfaktorerStroke.build());
@@ -256,9 +255,9 @@ public final class UtlatandeToIntyg {
         if (source.getDiabetesTyp() != null) {
             DiabetesKod diabetesKod = DiabetesKod.valueOf(source.getDiabetesTyp());
             svars.add(aSvar(TYP_AV_DIABETES_SVAR_ID_18)
-                    .withDelsvar(TYP_AV_DIABETES_DELSVAR_ID_18,
-                            aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), diabetesKod.getCode(), diabetesKod.getDescription()))
-                    .build());
+                .withDelsvar(TYP_AV_DIABETES_DELSVAR_ID_18,
+                    aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), diabetesKod.getCode(), diabetesKod.getDescription()))
+                .build());
         }
         SvarBuilder diabetesBehandling = aSvar(BEHANDLING_DIABETES_SVAR_ID_19);
         if (source.getKost() != null) {
@@ -282,11 +281,11 @@ public final class UtlatandeToIntyg {
         SvarBuilder medvetandestorning = aSvar(MEDVETANDESTORNING_SVAR_ID_21);
         if (source.getMedvetandestorning() != null) {
             medvetandestorning.withDelsvar(FOREKOMST_MEDVETANDESTORNING_DELSVAR_ID_21,
-                    source.getMedvetandestorning().toString());
+                source.getMedvetandestorning().toString());
         }
         if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             medvetandestorning.withDelsvar(TIDPUNKT_ORSAK_ANNAN_MEDVETANDESTORNING_DELSVAR_ID_21,
-                    source.getBeskrivning());
+                source.getBeskrivning());
         }
         if (!medvetandestorning.delSvars.isEmpty()) {
             svars.add(medvetandestorning.build());
@@ -306,7 +305,7 @@ public final class UtlatandeToIntyg {
         }
         if (source.getProvtagningBehovs() != null) {
             missbrukBeroende.withDelsvar(PROVTAGNING_AVSEENDE_AKTUELLT_BRUK_DELSVAR_ID_25,
-                    source.getProvtagningBehovs().toString());
+                source.getProvtagningBehovs().toString());
         }
         if (!missbrukBeroende.delSvars.isEmpty()) {
             svars.add(missbrukBeroende.build());
@@ -315,7 +314,7 @@ public final class UtlatandeToIntyg {
         SvarBuilder lakemedel = aSvar(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_SVAR_ID_26);
         if (source.getLakarordineratLakemedelsbruk() != null) {
             lakemedel.withDelsvar(REGELBUNDET_LAKARORDINERAT_BRUK_LAKEMEDEL_DELSVAR_ID_26,
-                    source.getLakarordineratLakemedelsbruk().toString());
+                source.getLakarordineratLakemedelsbruk().toString());
         }
         if (!Strings.nullToEmpty(source.getLakemedelOchDos()).trim().isEmpty()) {
             lakemedel.withDelsvar(LAKEMEDEL_ORDINERAD_DOS_DELSVAR_ID_26, source.getLakemedelOchDos());
@@ -332,7 +331,7 @@ public final class UtlatandeToIntyg {
         SvarBuilder sjukhusvard = aSvar(VARD_SJUKHUS_KONTAKT_LAKARE_SVAR_ID_30);
         if (source.getSjukhusEllerLakarkontakt() != null) {
             sjukhusvard.withDelsvar(FOREKOMST_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30,
-                    source.getSjukhusEllerLakarkontakt().toString());
+                source.getSjukhusEllerLakarkontakt().toString());
         }
         if (!Strings.nullToEmpty(source.getTidpunkt()).trim().isEmpty()) {
             sjukhusvard.withDelsvar(TIDPUNKT_VARD_SJUKHUS_KONTAKT_LAKARE_DELSVAR_ID_30, source.getTidpunkt());
@@ -355,7 +354,7 @@ public final class UtlatandeToIntyg {
         SvarBuilder medicinering = aSvar(STADIGVARANDE_MEDICINERING_SVAR_ID_31);
         if (source.getStadigvarandeMedicinering() != null) {
             medicinering.withDelsvar(FOREKOMST_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31,
-                    source.getStadigvarandeMedicinering().toString());
+                source.getStadigvarandeMedicinering().toString());
         }
         if (!Strings.nullToEmpty(source.getBeskrivning()).trim().isEmpty()) {
             medicinering.withDelsvar(MEDICINER_STADIGVARANDE_MEDICINERING_DELSVARSVAR_ID_31, source.getBeskrivning());
@@ -374,12 +373,12 @@ public final class UtlatandeToIntyg {
             for (BedomningKorkortstyp korkortstyp : source.getKorkortstyp()) {
                 TsBasKorkortsbehorighetKod korkortsbehorighet = TsBasKorkortsbehorighetKod.valueOf(korkortstyp.name());
                 svars.add(aSvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_SVAR_ID_33, behorighetInstans++)
-                        .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
-                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
-                        .build());
+                    .withDelsvar(UPPFYLLER_KRAV_FOR_BEHORIGHET_DELSVAR_ID_33,
+                        aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighet.getCode(), korkortsbehorighet.getDescription()))
+                    .build());
             }
         }
         addIfNotBlank(svars, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_SVAR_ID_34, BOR_UNDERSOKAS_AV_SPECIALISTLAKARE_DELSVAR_ID_34,
-                source.getLakareSpecialKompetens());
+            source.getLakareSpecialKompetens());
     }
 }

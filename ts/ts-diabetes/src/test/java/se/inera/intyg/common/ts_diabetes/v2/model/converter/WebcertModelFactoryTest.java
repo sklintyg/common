@@ -60,6 +60,7 @@ import se.inera.intyg.schemas.contract.Personnummer;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class WebcertModelFactoryTest {
+
     private static final String INTYG_TYPE_VERSION_1 = "1.0";
     private static final String INTYG_TYPE_VERSION_1_1 = "1.1";
 
@@ -72,7 +73,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTexts.getLatestVersionForSameMajorVersion(eq(TsDiabetesEntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_1);
+            .thenReturn(INTYG_TYPE_VERSION_1_1);
     }
 
 

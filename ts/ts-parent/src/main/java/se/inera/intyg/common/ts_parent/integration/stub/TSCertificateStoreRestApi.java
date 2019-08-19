@@ -29,6 +29,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TSCertificateStoreRestApi {
+
     @Autowired
     private TSCertificateStore certificateStore;
 

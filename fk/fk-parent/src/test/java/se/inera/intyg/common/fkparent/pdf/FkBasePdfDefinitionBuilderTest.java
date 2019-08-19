@@ -60,6 +60,7 @@ public class FkBasePdfDefinitionBuilderTest {
     private IntygTexts intygTexts = getIntygTexts();
 
     private class FkBasePdfDefinitionBuilderForTest extends FkBasePdfDefinitionBuilder {
+
         public FkBasePdfDefinitionBuilderForTest(IntygTexts intygTexts) {
             this.intygTexts = intygTexts;
         }

@@ -53,36 +53,36 @@ public class LuaefsEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "";
-        case WEBCERT:
-            return "";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "";
+            case WEBCERT:
+                return "";
+            default:
+                return null;
         }
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/luae_fs/minaintyg/js/module";
-        case WEBCERT:
-            return "/web/webjars/luae_fs/webcert/module";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/luae_fs/minaintyg/js/module";
+            case WEBCERT:
+                return "/web/webjars/luae_fs/webcert/module";
+            default:
+                return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/luae_fs/minaintyg/js/module-deps.json";
-        case WEBCERT:
-            return "/web/webjars/luae_fs/webcert/module-deps.json";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/luae_fs/minaintyg/js/module-deps.json";
+            case WEBCERT:
+                return "/web/webjars/luae_fs/webcert/module-deps.json";
+            default:
+                return null;
         }
     }
 }

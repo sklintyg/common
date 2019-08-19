@@ -39,7 +39,7 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     private static final String DEFAULT_RECIPIENT_ID = "TRANSP";
     private static final String DETAILED_DESCRIPTION_TEXT_KEY = "FRM_1.RBK";
     private static final String MODULE_DESCRIPTION = "Läkarintyg - avseende högre körkortsbehörigheter eller taxiförarlegitimation - på begäran av Transportstyrelsen";
-     // CHECKSTYLE:ON LineLength
+    // CHECKSTYLE:ON LineLength
 
     // Depending on context, an IntygTextRepository may not be available (e.g Intygstjansten)
     @Autowired(required = false)
@@ -75,36 +75,36 @@ public class TsBasEntryPoint implements ModuleEntryPoint {
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "";
-        case WEBCERT:
-            return "/web/webjars/ts-bas/webcert/css/ts-bas.css";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "";
+            case WEBCERT:
+                return "/web/webjars/ts-bas/webcert/css/ts-bas.css";
+            default:
+                return null;
         }
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/ts-bas/minaintyg/js/module";
-        case WEBCERT:
-            return "/web/webjars/ts-bas/webcert/module";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/ts-bas/minaintyg/js/module";
+            case WEBCERT:
+                return "/web/webjars/ts-bas/webcert/module";
+            default:
+                return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-        case MINA_INTYG:
-            return "/web/webjars/ts-bas/minaintyg/js/module-deps.json";
-        case WEBCERT:
-            return "/web/webjars/ts-bas/webcert/module-deps.json";
-        default:
-            return null;
+            case MINA_INTYG:
+                return "/web/webjars/ts-bas/minaintyg/js/module-deps.json";
+            case WEBCERT:
+                return "/web/webjars/ts-bas/webcert/module-deps.json";
+            default:
+                return null;
         }
     }
 

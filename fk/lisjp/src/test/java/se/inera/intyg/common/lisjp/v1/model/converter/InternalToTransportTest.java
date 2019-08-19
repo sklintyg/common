@@ -118,12 +118,12 @@ public class InternalToTransportTest {
         utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
 
         utlatande.setSjukskrivningar(asList(
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_3_4,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-07"), new InternalDate("2015-12-10"))),
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-12"), new InternalDate("2015-12-14"))),
-                Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_1_4,
-                        new InternalLocalDateInterval(new InternalDate("2015-12-15"), new InternalDate("2015-12-15")))));
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_3_4,
+                new InternalLocalDateInterval(new InternalDate("2015-12-07"), new InternalDate("2015-12-10"))),
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_HALFTEN,
+                new InternalLocalDateInterval(new InternalDate("2015-12-12"), new InternalDate("2015-12-14"))),
+            Sjukskrivning.create(SjukskrivningsGrad.NEDSATT_1_4,
+                new InternalLocalDateInterval(new InternalDate("2015-12-15"), new InternalDate("2015-12-15")))));
 
         utlatande.setForsakringsmedicinsktBeslutsstod("Överskrider inte FMB");
 
@@ -135,8 +135,8 @@ public class InternalToTransportTest {
         utlatande.setPrognos(Prognos.create(PrognosTyp.PROGNOS_OKLAR, null));
 
         utlatande.setArbetslivsinriktadeAtgarder(asList(
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
-                ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING)));
+            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.OVRIGT),
+            ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarderVal.KONFLIKTHANTERING)));
 
         utlatande.setArbetslivsinriktadeAtgarderBeskrivning("Jobbar bra om man inte stör honom");
 
@@ -152,7 +152,7 @@ public class InternalToTransportTest {
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(LisjpModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }

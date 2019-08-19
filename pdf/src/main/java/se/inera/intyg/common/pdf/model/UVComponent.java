@@ -122,12 +122,12 @@ public abstract class UVComponent {
             String replacementValue = this.renderer.getPrintConfig().getModelPropReplacements().get(modelProp);
             if (replacementValue != null) {
                 parent.add(new Paragraph(replacementValue)
-                        .setItalic()
-                        .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                        .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                        .setFont(renderer.svarFont)
-                        .setFontSize(SVAR_FONT_SIZE)
-                        .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+                    .setItalic()
+                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE)
+                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
                 return true;
             }
         }
@@ -151,12 +151,12 @@ public abstract class UVComponent {
 
     void renderEjAngivet(Div parent) {
         parent.add(new Paragraph(EJ_ANGIVET_STR)
-                .setItalic()
-                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE)
-                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+            .setItalic()
+            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+            .setFont(renderer.svarFont)
+            .setFontSize(SVAR_FONT_SIZE)
+            .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
     }
 
     private boolean isNotEligibleForCheck(ScriptObjectMirror obj) {

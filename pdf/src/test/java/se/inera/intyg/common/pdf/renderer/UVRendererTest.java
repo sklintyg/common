@@ -55,11 +55,14 @@ public class UVRendererTest {
 
     private static final String PNR = "19121212-1212";
 
-    private static final String INFO_TEXT_TS = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
+    private static final String INFO_TEXT_TS =
+        "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
             + "redan har skickats till Transportstyrelsen.";
-    private static final String INFO_TEXT_AG = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
+    private static final String INFO_TEXT_AG =
+        "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
             + "redan har skickats till Transportstyrelsen.";
-    private static final String INFO_TEXT_FK = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
+    private static final String INFO_TEXT_FK =
+        "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats elektroniskt av intygsutfärdaren. Notera att intyget "
             + "redan har skickats till Försäkringskassan.";
     private static final String INFO_TEXT_AF = "Detta är en utskrift av ett elektroniskt intyg.";
 
@@ -75,20 +78,20 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet")
-                .withIntygsKod("AG7804")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG7804 vänstermaginaltext")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet")
+            .withIntygsKod("AG7804")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG7804 vänstermaginaltext")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-minimal-v1.pdf")) {
@@ -110,20 +113,20 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet")
-                .withIntygsKod("AG7804")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG7804 vänstermaginaltext")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet")
+            .withIntygsKod("AG7804")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG7804 vänstermaginaltext")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-maximal-v1.pdf")) {
@@ -148,21 +151,21 @@ public class UVRendererTest {
         replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
         replacementConfig.put("funktionsnedsattning", "Denna text är istället för funktionsnedsattning!");
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet")
-                .withIntygsKod("AG7804")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG7804 vänstermaginaltext")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .withModelPropReplacements(replacementConfig)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet")
+            .withIntygsKod("AG7804")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG7804 vänstermaginaltext")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .withModelPropReplacements(replacementConfig)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag7804-maximal-optionalfields-v1.pdf")) {
@@ -171,7 +174,6 @@ public class UVRendererTest {
             e.printStackTrace();
         }
     }
-
 
 
     @Test
@@ -186,20 +188,20 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet (AG1-14)")
-                .withIntygsKod("AG114")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG1-14")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet (AG1-14)")
+            .withIntygsKod("AG114")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG1-14")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic-tomt-utkast.pdf")) {
@@ -221,20 +223,20 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("skl_logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet (AG1-14)")
-                .withIntygsKod("AG114")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG1-14")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet (AG1-14)")
+            .withIntygsKod("AG114")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG1-14")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-generic.pdf")) {
@@ -259,21 +261,21 @@ public class UVRendererTest {
         replacementConfig.put("diagnoser", "Denna text är istället för diagnoserna!");
         replacementConfig.put("onskarFormedlaDiagnos", "Denna text är istället för diagnoserna!");
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Intygsnamnet (AG1-14)")
-                .withIntygsKod("AG114")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AG)
-                .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("AG1-14")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
-                .withSignBox(true)
-                .withSignatureLine(true)
-                .withModelPropReplacements(replacementConfig)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Intygsnamnet (AG1-14)")
+            .withIntygsKod("AG114")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AG)
+            .withSummary(new Summary().add("Lite om intyget", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("AG1-14")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
+            .withSignBox(true)
+            .withSignatureLine(true)
+            .withModelPropReplacements(replacementConfig)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/ag1-14v1-employer-no-diagnose.pdf")) {
@@ -295,18 +297,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Transportstyrelsens läkarintyg")
-                .withIntygsKod("TSTRK1031")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_TS)
-                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText("TSTRK1031 (U03) 181024")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Transportstyrelsens läkarintyg")
+            .withIntygsKod("TSTRK1031")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_TS)
+            .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum").add(UTSK001_HEADER, UTSK001_BODY))
+            .withLeftMarginTypText("TSTRK1031 (U03) 181024")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.MINA_INTYG)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-generic.pdf")) {
@@ -328,18 +330,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Transportstyrelsens läkarintyg")
-                .withIntygsKod("TSTRK1031")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_TS)
-                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum"))
-                .withLeftMarginTypText("TSTRK1031 (U03) 181024")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Transportstyrelsens läkarintyg")
+            .withIntygsKod("TSTRK1031")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_TS)
+            .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg diabetes", "Lorem ipsum"))
+            .withLeftMarginTypText("TSTRK1031 (U03) 181024")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsdiabetesv3-empty-generic.pdf")) {
@@ -361,18 +363,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Transportstyrelsens läkarintyg")
-                .withIntygsKod("TSTRK1007")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_TS)
-                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
-                .withLeftMarginTypText("TSTRK1007 (U08) 160114")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Transportstyrelsens läkarintyg")
+            .withIntygsKod("TSTRK1007")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_TS)
+            .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
+            .withLeftMarginTypText("TSTRK1007 (U08) 160114")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-generic.pdf")) {
@@ -394,18 +396,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Transportstyrelsens läkarintyg")
-                .withIntygsKod("TSTRK1007")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_TS)
-                .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
-                .withLeftMarginTypText("TSTRK1007 (U08) 160114")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Transportstyrelsens läkarintyg")
+            .withIntygsKod("TSTRK1007")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_TS)
+            .withSummary(new Summary().add("Om Transportstyrelsens läkarintyg", "Lorem ipsum"))
+            .withLeftMarginTypText("TSTRK1007 (U08) 160114")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tsbas-empty.pdf")) {
@@ -427,18 +429,19 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("forsakringskassan-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Läkarintyg för sjukpenning")
-                .withIntygsKod("FK7804")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_FK)
-                .withSummary(new Summary().add("Om försäkringskassans läkarintyg", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
-                .withLeftMarginTypText("FK7804 (001 F 001) Fastst\u00E4lld av F\u00F6rs\u00E4kringskassan")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Läkarintyg för sjukpenning")
+            .withIntygsKod("FK7804")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_FK)
+            .withSummary(new Summary().add("Om försäkringskassans läkarintyg",
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n\nLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."))
+            .withLeftMarginTypText("FK7804 (001 F 001) Fastst\u00E4lld av F\u00F6rs\u00E4kringskassan")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/lisjp-generic.pdf")) {
@@ -460,18 +463,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-generic.pdf")) {
@@ -493,17 +496,17 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-no-summary.pdf")) {
@@ -525,18 +528,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-noovrigt.pdf")) {
@@ -558,18 +561,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande","Lorem ipsum"))
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-tecken.pdf")) {
@@ -591,18 +594,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withSummary(new Summary().add("Arbetsförmedlingens medicinska utlåtande", "Lorem ipsum"))
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-langasvar.pdf")) {
@@ -624,18 +627,18 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("af-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
-                .withIntygsKod("AF00213")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withLeftMarginTypText("AF00213")
-                .withUtfardarLogotyp(logoData)
-                .withIsMakulerad(true)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("Arbetsförmedlingens medicinska utlåtande")
+            .withIntygsKod("AF00213")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withLeftMarginTypText("AF00213")
+            .withUtfardarLogotyp(logoData)
+            .withIsMakulerad(true)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/af00213-makulerad.pdf")) {
@@ -657,17 +660,17 @@ public class UVRendererTest {
         byte[] logoData = IOUtils.toByteArray(new ClassPathResource("transportstyrelsen-logo.png").getInputStream());
 
         PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(UUID.randomUUID().toString())
-                .withIntygsNamn("TSTRRK1009 namn")
-                .withIntygsKod("TSTRK1009")
-                .withPersonnummer(PNR)
-                .withInfoText(INFO_TEXT_AF)
-                .withLeftMarginTypText("TSTRK1009 Left side text")
-                .withUtfardarLogotyp(logoData)
-                .withApplicationOrigin(ApplicationOrigin.WEBCERT)
-                .build();
+            .withIntygJsonModel(cleanedJson)
+            .withUpJsModel(upJsModel)
+            .withIntygsId(UUID.randomUUID().toString())
+            .withIntygsNamn("TSTRRK1009 namn")
+            .withIntygsKod("TSTRK1009")
+            .withPersonnummer(PNR)
+            .withInfoText(INFO_TEXT_AF)
+            .withLeftMarginTypText("TSTRK1009 Left side text")
+            .withUtfardarLogotyp(logoData)
+            .withApplicationOrigin(ApplicationOrigin.WEBCERT)
+            .build();
 
         byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
         try (FileOutputStream fos = new FileOutputStream("build/tmp/tstrk1009.pdf")) {
@@ -687,7 +690,7 @@ public class UVRendererTest {
 
         try {
             Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                    .parse(new ClassPathResource(fileName).getInputStream());
+                .parse(new ClassPathResource(fileName).getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -696,7 +699,7 @@ public class UVRendererTest {
 
             Properties prop = new Properties();
             prop.putAll(ImmutableMap.of("formId", "FK 7802 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7802",
-                    "blankettVersion", "01"));
+                "blankettVersion", "01"));
 
             return new IntygTexts(version, intygsTyp, null, null, texts, null, prop);
         } catch (Exception e1) {

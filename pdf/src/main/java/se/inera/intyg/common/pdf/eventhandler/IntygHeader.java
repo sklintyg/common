@@ -96,7 +96,7 @@ public class IntygHeader implements IEventHandler {
 
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-                page.newContentStreamBefore(), page.getResources(), pdf);
+            page.newContentStreamBefore(), page.getResources(), pdf);
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
 
         // Logotyp
@@ -140,12 +140,12 @@ public class IntygHeader implements IEventHandler {
             if (widthHeightRatio < WIDTH_SCALE_THRESHOLD) {
                 // Height constraint, add bottom padding
                 pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                        pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
-                        LOGOTYPE_MAX_HEIGHT, false, false);
+                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - LOGOTYPE_MAX_HEIGHT + DEFAULT_PADDING,
+                    LOGOTYPE_MAX_HEIGHT, false, false);
             } else {
                 // Width constraint
                 pdfCanvas.addImage(logotypeData, millimetersToPoints(PAGE_MARGIN_LEFT),
-                        pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
+                    pageSize.getTop() - LOGOTYPE_Y_TOP_OFFSET - (logotypeData.getHeight() * ratio), LOGOTYPE_MAX_WIDTH, false);
             }
         }
     }
@@ -153,52 +153,52 @@ public class IntygHeader implements IEventHandler {
     private void renderUtskriftsDatum(Rectangle pageSize, Canvas canvas) {
         canvas.setFont(fragaDelFragaFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Utskriftsdatum",
-                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
+            pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
+            pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(LocalDate.now().format(DateTimeFormatter.ISO_DATE),
-                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET, TextAlignment.RIGHT);
+            pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
+            pageSize.getTop() - UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET, TextAlignment.RIGHT);
     }
 
     private void renderPersonnummer(Rectangle pageSize, Canvas canvas) {
         float measuredUtskiftsDatum = measureTextWidth("Utskriftsdatum", SVAR_FONT_SIZE, fragaDelFragaFont);
         canvas.setFont(fragaDelFragaFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned("Person- /samordningsnr",
-                pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
-                pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
+            pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
+            pageSize.getTop() - UTSKRIFTSDATUM_HEADER_Y_TOP_OFFSET, TextAlignment.RIGHT);
         canvas.setFont(svarFont).setFontSize(SVAR_FONT_SIZE);
         canvas.showTextAligned(printConfig.getPersonnummer(),
-                pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
-                pageSize.getTop() - UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET, TextAlignment.RIGHT);
+            pageSize.getWidth() - (measuredUtskiftsDatum + DEFAULT_PADDING + millimetersToPoints(PAGE_MARGIN_LEFT)),
+            pageSize.getTop() - UTSKRIFTSDATUM_VALUE_Y_TOP_OFFSET, TextAlignment.RIGHT);
     }
 
     private void renderIntygNameAndCode(Rectangle pageSize, Canvas canvas) {
         Paragraph intygsnamn = new Paragraph(printConfig.getIntygsNamn());
         intygsnamn.setFont(kategoriFont).setFontSize(INTYG_FONT_SIZE);
         canvas.showTextAligned(intygsnamn,
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
         float calculatedWidth = measureTextWidth(printConfig.getIntygsNamn(), INTYG_FONT_SIZE, kategoriFont);
 
         // Intygskod
         Paragraph intygskod = new Paragraph("(" + getIntygsKod(printConfig) + ")");
         intygskod.setFont(svarFont).setFontSize(KATEGORI_FONT_SIZE);
         canvas.showTextAligned(intygskod,
-                millimetersToPoints(PAGE_MARGIN_LEFT) + calculatedWidth + SPACING_POINTS,
-                pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
+            millimetersToPoints(PAGE_MARGIN_LEFT) + calculatedWidth + SPACING_POINTS,
+            pageSize.getTop() - INTYG_NAME_Y_TOP_OFFSET, TextAlignment.LEFT);
     }
 
     private String getIntygsKod(PrintConfig printConfig) {
         return printConfig.getIntygsKod()
-                + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
+            + (Strings.isNullOrEmpty(printConfig.getIntygsVersion()) ? "" : " " + printConfig.getIntygsVersion());
 
     }
 
     private void renderHorizontalLine(Rectangle pageSize, PdfCanvas pdfCanvas) {
         pdfCanvas.moveTo(millimetersToPoints(PAGE_MARGIN_LEFT), pageSize.getTop() - HR_Y_TOP_OFFSET);
         pdfCanvas.lineTo(pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - HR_Y_TOP_OFFSET);
+            pageSize.getTop() - HR_Y_TOP_OFFSET);
         pdfCanvas.setLineWidth(LINE_WIDTH);
         pdfCanvas.stroke();
     }
@@ -212,11 +212,11 @@ public class IntygHeader implements IEventHandler {
         paragraph.setPaddingRight(RED_SQUARE_PADDING);
         // set a max width that is margin x 2 plus padding x 2 minus line width.
         paragraph.setMaxWidth(
-                page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT * 2) - (DEFAULT_PADDING * 2)
-                        - 2f);
+            page.getPageSize().getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT * 2) - (DEFAULT_PADDING * 2)
+                - 2f);
         canvas.showTextAligned(paragraph,
-                millimetersToPoints(PAGE_MARGIN_LEFT),
-                pageSize.getTop() - RED_SQUARE_Y_TOP_OFFSET, TextAlignment.LEFT, VerticalAlignment.MIDDLE);
+            millimetersToPoints(PAGE_MARGIN_LEFT),
+            pageSize.getTop() - RED_SQUARE_Y_TOP_OFFSET, TextAlignment.LEFT, VerticalAlignment.MIDDLE);
     }
 
     private float measureTextWidth(String text, float fontSize, PdfFont font) {

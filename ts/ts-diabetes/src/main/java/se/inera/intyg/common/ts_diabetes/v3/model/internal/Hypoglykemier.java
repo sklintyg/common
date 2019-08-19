@@ -92,6 +92,7 @@ public abstract class Hypoglykemier {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Hypoglykemier build();
 
         @JsonProperty(HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID)

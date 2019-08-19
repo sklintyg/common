@@ -101,7 +101,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateCompleteValidUtkast() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("pass-complete").asInternalModel());
+            ScenarioFinder.getInternalScenario("pass-complete").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -172,7 +172,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void failureDueToRule5() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("fail-R5").asInternalModel());
+            ScenarioFinder.getInternalScenario("fail-R5").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -182,7 +182,7 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
-                error.getField());
+            error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -196,43 +196,43 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(10, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
-                        HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
-                        ValidationMessageType.EMPTY));
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORSTAR_RISKER_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_JSON_ID,
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_HYPOGLYKEMIER,
+                HYPOGLYKEMIER_JSON_ID + "." + HYPOGLYKEMIER_FOREKOMST_TRAFIK_JSON_ID,
+                ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
     @Test
     public void failureDueToRule7() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("fail-R7").asInternalModel());
+            ScenarioFinder.getInternalScenario("fail-R7").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -242,14 +242,14 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_JSON_ID,
-                error.getField());
+            error.getField());
         assertEquals(ValidationMessageType.OTHER, error.getType());
     }
 
     @Test
     public void failureDueToRule8() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("fail-R8").asInternalModel());
+            ScenarioFinder.getInternalScenario("fail-R8").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -280,7 +280,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void failureDueToRule10() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("fail-R10").asInternalModel());
+            ScenarioFinder.getInternalScenario("fail-R10").asInternalModel());
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -303,18 +303,18 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY));
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
@@ -328,18 +328,18 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY));
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
@@ -353,18 +353,18 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY));
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
@@ -378,18 +378,18 @@ public class InternalDraftValidatorTest {
         assertFalse(res.hasWarningMessages());
         assertEquals(3, res.getValidationErrors().size());
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                                + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.EMPTY));
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (SYNFUNKTION_JSON_ID + "." + SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                    + SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.EMPTY));
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
@@ -405,8 +405,8 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(
-                ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID,
-                error.getField());
+            ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID,
+            error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
@@ -433,47 +433,47 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals(CATEGORY_ALLMANT, error.getCategory());
         Assert.assertEquals(
-                ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
-                error.getField());
+            ALLMANT_JSON_ID + "." + ALLMANT_BEHANDLING_JSON_ID + "." + ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_JSON_ID,
+            error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 
     @Test
     public void failureDueToRule19() throws Exception {
         TsDiabetesUtlatandeV3 utlatande = setupPassingHypoglykemierDates(
-                ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
+            ScenarioFinder.getInternalScenario("fail-R19").asInternalModel());
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         assertEquals(6, res.getValidationErrors().size());
 
         ImmutableSet<ValidationMessage> expectedErrors = ImmutableSet.of(
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
-                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
-                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
-                new ValidationMessage(CATEGORY_SYNFUNKTION,
-                        (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
-                                + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
-                        ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"));
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_JSON_ID + '.'
+                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_UTAN_KORREKTION_JSON_ID),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_HOGER_JSON_ID + '.'
+                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"),
+            new ValidationMessage(CATEGORY_SYNFUNKTION,
+                (RespConstants.SYNFUNKTION_JSON_ID + '.' + RespConstants.SYNFUNKTION_SYNSKARPA_BINOKULART_JSON_ID + '.'
+                    + RespConstants.SYNFUNKTION_SYNSKARPA_VARDEN_MED_KORREKTION_JSON_ID),
+                ValidationMessageType.INVALID_FORMAT, "common.validation.ue-synskarpa.invalid_format"));
 
         assertTrue(res.getValidationErrors().containsAll(expectedErrors));
     }
 
     @Test
     public void failureDueToRule20() throws Exception {
-        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario( "fail-R20").asInternalModel();
+        TsDiabetesUtlatandeV3 utlatande = ScenarioFinder.getInternalScenario("fail-R20").asInternalModel();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -530,7 +530,7 @@ public class InternalDraftValidatorTest {
         ValidationMessage error = res.getValidationErrors().get(0);
         assertEquals("vardenhet", error.getCategory());
         Assert.assertEquals("grunddata.skapadAv.vardenhet.postnummer",
-                error.getField());
+            error.getField());
         assertEquals(ValidationMessageType.EMPTY, error.getType());
     }
 }

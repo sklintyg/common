@@ -71,37 +71,37 @@ public final class PdfConstants {
     static {
         try {
             FONT_FRAGERUBRIK = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_FRAGERUBRIK_SMALL = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_PAGETITLE = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f,
-                    Font.NORMAL);
+                Font.NORMAL);
 
             FONT_VALUE_TEXT = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10.5f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_VALUE_TEXT_ARIAL_COMPATIBLE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H,
-                    BaseFont.EMBEDDED), 10f, Font.NORMAL);
+                BaseFont.EMBEDDED), 10f, Font.NORMAL);
             FONT_VALUE_TEXT_OVERFLOWINFO_ARIAL_COMPATIBLE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H,
-                    BaseFont.EMBEDDED), 10f, Font.BOLD);
+                BaseFont.EMBEDDED), 10f, Font.BOLD);
 
             FONT_PAGESCAN_ID = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_FORM_ID_LABEL = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 7f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_DIAGNOSE_CODE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 11f,
-                    Font.NORMAL);
+                Font.NORMAL);
 
             FONT_STAMPER_LABEL = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 8f,
-                    Font.NORMAL);
+                Font.NORMAL);
             FONT_PAGE_NUMBERING = new Font(createFont(TREBUCHET_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
-                    10.5f, Font.NORMAL);
+                10.5f, Font.NORMAL);
 
             FONT_INLINE_FIELD_LABEL = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
-                    8.5f, Font.NORMAL);
+                8.5f, Font.NORMAL);
             FONT_INLINE_FIELD_LABEL_SMALL = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
-                    8f, Font.NORMAL);
+                8f, Font.NORMAL);
             FONT_INLINE_FIELD_LABEL_LARGE = new Font(createFont(ARIAL_REGULAR_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED),
-                    10f, Font.NORMAL);
+                10f, Font.NORMAL);
 
             FONT_BOLD_10 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 10f, Font.NORMAL);
             FONT_BOLD_9 = new Font(createFont(ARIAL_BOLD_COMPATIBLE_FONT_PATH, BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 9f, Font.NORMAL);

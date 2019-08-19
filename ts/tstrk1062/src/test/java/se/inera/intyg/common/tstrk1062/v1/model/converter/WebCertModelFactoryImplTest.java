@@ -60,7 +60,7 @@ public class WebCertModelFactoryImplTest {
         intygTextsService = mock(IntygTextsService.class);
         modelFactory = new WebcertModelFactoryImpl(intygTextsService);
         when(intygTextsService.getLatestVersionForSameMajorVersion(eq(TsTrk1062EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-                .thenReturn(INTYG_TYPE_VERSION_1_2);
+            .thenReturn(INTYG_TYPE_VERSION_1_2);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class WebCertModelFactoryImplTest {
         final HoSPersonal skapadAv = utlatande.getGrundData().getSkapadAv();
         assertNotNull("SkapadAv is null", skapadAv);
         assertEquals("Vårdgivare not equal", vardenhet.getVardgivare().getVardgivarid(),
-                skapadAv.getVardenhet().getVardgivare().getVardgivarid());
+            skapadAv.getVardenhet().getVardgivare().getVardgivarid());
         assertEquals("Vårdenhet not equal", vardenhet.getEnhetsid(), skapadAv.getVardenhet().getEnhetsid());
         assertEquals("PersonalId not equal", hosPersonal.getPersonId(), skapadAv.getPersonId());
         final Patient actualPatient = utlatande.getGrundData().getPatient();
@@ -88,8 +88,8 @@ public class WebCertModelFactoryImplTest {
     @Test
     public void testCreateCopy() throws Exception {
         TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final Vardenhet vardenhet = getVardenhet();
         final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);
@@ -121,8 +121,8 @@ public class WebCertModelFactoryImplTest {
     @Test(expected = ConverterException.class)
     public void testCreateCopyWithoutId() throws Exception {
         TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-                .setGrundData(buildGrundData(LocalDateTime.now()))
-                .build();
+            .setGrundData(buildGrundData(LocalDateTime.now()))
+            .build();
 
         final Vardenhet vardenhet = getVardenhet();
         final HoSPersonal hosPersonal = getHoSPersonal(vardenhet);

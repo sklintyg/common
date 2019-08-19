@@ -59,21 +59,24 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsWhenFunktionsnedsattningDebutMissing() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-debut-saknas.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-debut-saknas.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
 
     @Test
     public void failsWhenFunktionsnedsattningPaverkanMissing() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-paverkan-saknas.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-paverkan-saknas.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
 
     @Test
     public void failsWhenKannedomOmPatientMissing() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-baseratpa-kannedom-om-patient-saknas.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-baseratpa-kannedom-om-patient-saknas.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
@@ -88,14 +91,15 @@ public class SchematronValidatorTest {
     @Test
     public void failsWhenJournaluppgiftHasInvalidDate() throws Exception {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-baseratpa-journaluppgift-felaktigt-datumformat.xml"),
-                Charsets.UTF_8);
+            Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
 
     @Test
     public void failsWhenBaseratPaUndersokningSenareAnKannedom() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-baseratpa-undersokning-datum-tidigare-an-kannedom.xml"),
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-baseratpa-undersokning-datum-tidigare-an-kannedom.xml"),
                 Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
@@ -103,7 +107,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsWhenBaseratPaAnhorigBeskrivningDatumSenareAnKannedom() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-baseratpa-anhorigbeskrivning-datum-tidigare-an-kannedom.xml"),
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-baseratpa-anhorigbeskrivning-datum-tidigare-an-kannedom.xml"),
                 Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
@@ -119,7 +124,7 @@ public class SchematronValidatorTest {
     @Test
     public void failsWhenAnnatDatumMissingButBeskrivningExists() throws Exception {
         String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-baseratpa-annat-datum-finns-beskrivning-saknas.xml"),
-                Charsets.UTF_8);
+            Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
@@ -140,21 +145,24 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsDiagnosCodeLessThan3Chars() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-diagnos-kod-med-mindre-an-tre-positioner.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-diagnos-kod-med-mindre-an-tre-positioner.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
 
     @Test
     public void failsPshychatricDiagnosCodeLessThan4Chars() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-diagnos-psykisk-diagnoskod-fel-antal-tecken.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-diagnos-psykisk-diagnoskod-fel-antal-tecken.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
 
     @Test
     public void failsWhenKontaktWithFkIsFalseButReasonStated() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-motiveringkontaktangivet-men-onskas-ej.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-motiveringkontaktangivet-men-onskas-ej.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(1, response.getValidationErrors().size());
     }
@@ -168,7 +176,8 @@ public class SchematronValidatorTest {
 
     @Test
     public void failsWhenFunktionsnedsattningHasOnlyWhitespaces() throws Exception {
-        String inputXml = Resources.toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-whitespace.xml"), Charsets.UTF_8);
+        String inputXml = Resources
+            .toString(getResource("v1/transport/scenarios/fail-funktionsnedsattning-whitespace.xml"), Charsets.UTF_8);
         ValidateXmlResponse response = XmlValidator.validate(VALIDATOR, inputXml);
         assertEquals(2, response.getValidationErrors().size());
     }

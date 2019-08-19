@@ -41,10 +41,14 @@ public enum IntygAvserKod {
     BE("IAV16", "BE"),
     TRAKTOR("IAV17", "Traktor");
 
-    /** Körkortsbehörigheter som innefattar persontransport. */
+    /**
+     * Körkortsbehörigheter som innefattar persontransport.
+     */
     private static final EnumSet<IntygAvserKod> PERSONTRANSPORT = EnumSet.of(D1, D1E, D, DE, TAXI);
 
-    /** Körkortsbehörigheter av högre typ. */
+    /**
+     * Körkortsbehörigheter av högre typ.
+     */
     private static final EnumSet<IntygAvserKod> HOGRE_KORKORTSBEHORIGHET = EnumSet.of(C1, C1E, C, CE, D1, D1E, D, DE, TAXI);
 
     final String code;
@@ -65,7 +69,7 @@ public enum IntygAvserKod {
 
     public static IntygAvserKod fromCode(String code) {
         return Stream.of(IntygAvserKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(code));
+            .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     public static boolean isPersontransport(IntygAvserKod kod) {

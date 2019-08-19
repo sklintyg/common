@@ -35,8 +35,8 @@ public abstract class Dodsorsak {
 
     @JsonCreator
     public static Dodsorsak create(@JsonProperty(DODSORSAK_OM_JSON_ID) String beskrivning,
-            @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
-            @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
+        @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
+        @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
         return new AutoValue_Dodsorsak(beskrivning, datum, specifikation);
     }
 

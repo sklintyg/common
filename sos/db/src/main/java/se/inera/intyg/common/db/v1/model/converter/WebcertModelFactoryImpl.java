@@ -58,7 +58,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<DbUtlatandeV
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-                intygTexts.getLatestVersionForSameMajorVersion(DbModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+            intygTexts.getLatestVersionForSameMajorVersion(DbModuleEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.build();
     }

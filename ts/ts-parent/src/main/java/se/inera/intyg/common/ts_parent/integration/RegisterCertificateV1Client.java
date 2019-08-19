@@ -31,10 +31,10 @@ public class RegisterCertificateV1Client extends SendTSClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterCertificateV1Client.class);
 
     private static final String REGISTER_V1_NAMESPACE =
-            "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
+        "urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1:RegisterCertificate";
 
     private static final QName REGISTER_V1_PORT_NAME =
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21",
+        new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificate:1:rivtabp21",
             "RegisterCertificateResponderPort");
 
 

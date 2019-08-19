@@ -457,17 +457,17 @@ public class Fk7263Utlatande implements Utlatande {
 
     public String getForskrivarkodOchArbetsplatskod() {
         return Strings.emptyToNull(Joiner.on(" - ").skipNulls()
-                .join(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
-                .trim());
+            .join(getGrundData().getSkapadAv().getForskrivarKod(), getGrundData().getSkapadAv().getVardenhet().getArbetsplatsKod())
+            .trim());
     }
 
     public String getNamnfortydligandeOchAdress() {
         return join("\n", getGrundData().getSkapadAv().getFullstandigtNamn(),
-                getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn(),
-                getGrundData().getSkapadAv().getVardenhet().getPostadress(),
-                join(" ", getGrundData().getSkapadAv().getVardenhet().getPostnummer(),
-                        getGrundData().getSkapadAv().getVardenhet().getPostort()),
-                getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
+            getGrundData().getSkapadAv().getVardenhet().getEnhetsnamn(),
+            getGrundData().getSkapadAv().getVardenhet().getPostadress(),
+            join(" ", getGrundData().getSkapadAv().getVardenhet().getPostnummer(),
+                getGrundData().getSkapadAv().getVardenhet().getPostort()),
+            getGrundData().getSkapadAv().getVardenhet().getTelefonnummer());
     }
 
     public LocalDateInterval getGiltighet() {
@@ -483,7 +483,7 @@ public class Fk7263Utlatande implements Utlatande {
     }
 
     public void setArbetsformagaPrognosGarInteAttBedomaBeskrivning(
-            String arbetsformagaPrognosGarInteAttBedomaBeskrivning) {
+        String arbetsformagaPrognosGarInteAttBedomaBeskrivning) {
         this.arbetsformagaPrognosGarInteAttBedomaBeskrivning = arbetsformagaPrognosGarInteAttBedomaBeskrivning;
     }
 

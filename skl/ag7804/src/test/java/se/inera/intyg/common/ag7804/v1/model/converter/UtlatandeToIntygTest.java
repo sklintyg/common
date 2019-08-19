@@ -78,11 +78,11 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         Ag7804UtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-                telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
-                patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer,
+            patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -139,20 +139,20 @@ public class UtlatandeToIntygTest {
 
     private Ag7804UtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
-                "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-                "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer",
+            "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private Ag7804UtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-            String arbetsplatsKod,
-            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
-            String vardgivarNamn,
-            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid,
+        String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         Ag7804UtlatandeV1.Builder template = Ag7804UtlatandeV1.builder();
         template.setId(intygsId);

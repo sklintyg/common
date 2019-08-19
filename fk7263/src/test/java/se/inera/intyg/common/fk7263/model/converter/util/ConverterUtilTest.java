@@ -52,6 +52,6 @@ public class ConverterUtilTest {
         } catch (IOException e) {
             return null;
         }
-   }
+    }
 
 }

@@ -45,7 +45,6 @@ import java.time.format.DateTimeFormatter;
  * </li>
  *
  * @author Magnus Ekstrand
- *
  */
 public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
 
@@ -73,40 +72,36 @@ public class CustomLocalDateDeserializer extends StdDeserializer<LocalDate> {
      * Note that this method is never called for JSON null literal, and thus deserializers need (and should) not check
      * for it.
      *
-     * @param jp
-     *            - Parser used for reading Json content
-     * @param ctxt
-     *            - Context that can be used to access information about this deserialization activity.
+     * @param jp - Parser used for reading Json content
+     * @param ctxt - Context that can be used to access information about this deserialization activity.
      * @return Deserializer value as LocalDate
-     * @throws IOException
-     * @throws com.fasterxml.jackson.core.JsonProcessingException
      */
     @Override
     public LocalDate deserialize(JsonParser jp, DeserializationContext ctxt)
-            throws IOException {
+        throws IOException {
 
         switch (jp.getCurrentToken()) {
-        case START_ARRAY:
-            // [yyyy,MM,dd,hh,mm,ss,ms]
-            jp.nextToken(); // VALUE_NUMBER_INT
-            int year = jp.getIntValue();
-            jp.nextToken(); // VALUE_NUMBER_INT
-            int month = jp.getIntValue();
-            jp.nextToken(); // VALUE_NUMBER_INT
-            int day = jp.getIntValue();
+            case START_ARRAY:
+                // [yyyy,MM,dd,hh,mm,ss,ms]
+                jp.nextToken(); // VALUE_NUMBER_INT
+                int year = jp.getIntValue();
+                jp.nextToken(); // VALUE_NUMBER_INT
+                int month = jp.getIntValue();
+                jp.nextToken(); // VALUE_NUMBER_INT
+                int day = jp.getIntValue();
 
-            // We are only interested in year, month and day
-            // Skip the time and return at date
-            return LocalDate.of(year, month, day);
-        case VALUE_NUMBER_INT:
-            return Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate();
-        case VALUE_STRING:
-            String str = jp.getText().trim();
-            if (str.length() == 0) { // [JACKSON-360]
-                return null;
-            }
-            return LocalDate.parse(str, str.contains("T") ? DateTimeFormatter.ISO_DATE_TIME : DateTimeFormatter.ISO_DATE);
-        default:
+                // We are only interested in year, month and day
+                // Skip the time and return at date
+                return LocalDate.of(year, month, day);
+            case VALUE_NUMBER_INT:
+                return Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate();
+            case VALUE_STRING:
+                String str = jp.getText().trim();
+                if (str.length() == 0) { // [JACKSON-360]
+                    return null;
+                }
+                return LocalDate.parse(str, str.contains("T") ? DateTimeFormatter.ISO_DATE_TIME : DateTimeFormatter.ISO_DATE);
+            default:
         }
 
         throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");

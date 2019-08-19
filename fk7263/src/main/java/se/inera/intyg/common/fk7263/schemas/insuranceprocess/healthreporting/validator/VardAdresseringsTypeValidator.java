@@ -59,7 +59,7 @@ public class VardAdresseringsTypeValidator {
 
         // Check lakar id o.i.d.
         if (hosPersonal.getPersonalId().getRoot() == null
-                || !hosPersonal.getPersonalId().getRoot().equals(Constants.HSA_ID_OID)) {
+            || !hosPersonal.getPersonalId().getRoot().equals(Constants.HSA_ID_OID)) {
             validationErrors.add("Wrong o.i.d. for personalId! Should be " + Constants.HSA_ID_OID);
         }
 
@@ -85,7 +85,7 @@ public class VardAdresseringsTypeValidator {
 
         // Check enhets o.i.d
         if (enhet.getEnhetsId() == null || enhet.getEnhetsId().getRoot() == null
-                || !enhet.getEnhetsId().getRoot().equals(Constants.HSA_ID_OID)) {
+            || !enhet.getEnhetsId().getRoot().equals(Constants.HSA_ID_OID)) {
             validationErrors.add("Wrong o.i.d. for enhetsId! Should be " + Constants.HSA_ID_OID);
         }
 
@@ -109,7 +109,7 @@ public class VardAdresseringsTypeValidator {
         }
         // Check vardgivare o.i.d.
         if (vardgivare.getVardgivareId() == null || vardgivare.getVardgivareId().getRoot() == null
-                || !vardgivare.getVardgivareId().getRoot().equals(Constants.HSA_ID_OID)) {
+            || !vardgivare.getVardgivareId().getRoot().equals(Constants.HSA_ID_OID)) {
             validationErrors.add("Wrong o.i.d. for vardgivareId! Should be " + Constants.HSA_ID_OID);
         }
 

@@ -74,14 +74,16 @@ public class RoundTripTest {
     private static Marshaller marshaller;
 
     private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
-            "annanReferensBeskrivning", "diagnosBeskrivning", "diagnosBeskrivning1", "diagnosBeskrivning2", "diagnosBeskrivning3", "diagnosKod2",
-            "diagnosKod3", "samsjuklighet");
+        "annanReferensBeskrivning", "diagnosBeskrivning", "diagnosBeskrivning1", "diagnosBeskrivning2", "diagnosBeskrivning3",
+        "diagnosKod2",
+        "diagnosKod3", "samsjuklighet");
 
     static {
         try {
             marshaller = JAXBContext
-                    .newInstance(RegisterMedicalCertificateType.class, RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class)
-                    .createMarshaller();
+                .newInstance(RegisterMedicalCertificateType.class, RegisterCertificateType.class, DatePeriodType.class,
+                    PartialDateType.class)
+                .createMarshaller();
         } catch (JAXBException e) {
         }
     }
@@ -97,8 +99,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-*").stream()
-                .map(u -> new Object[] { u.getName(), u })
-                .collect(Collectors.toList());
+            .map(u -> new Object[]{u.getName(), u})
+            .collect(Collectors.toList());
     }
 
     @Test
@@ -111,13 +113,13 @@ public class RoundTripTest {
         marshaller.marshal(objectFactory.createRegisterMedicalCertificate(transport), actual);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actual.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actual.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
@@ -137,13 +139,13 @@ public class RoundTripTest {
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expected.toString()))
-                .withTest(Input.fromString(actualSw.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .build();
+            .compare(Input.fromString(expected.toString()))
+            .withTest(Input.fromString(actualSw.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+            .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
@@ -155,7 +157,7 @@ public class RoundTripTest {
 
         @Override
         public void checkJsonObjectKeysExpectedInActual(String prefix, JSONObject expected, JSONObject actual, JSONCompareResult result)
-                throws JSONException {
+            throws JSONException {
             if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(p -> expected.has(p))) {
                 super.checkJsonObjectKeysExpectedInActual(prefix, expected, actual, result);
             }

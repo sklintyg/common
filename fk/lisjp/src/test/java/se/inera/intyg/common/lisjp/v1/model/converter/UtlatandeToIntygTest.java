@@ -72,9 +72,10 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         LisjpUtlatandeV1 utlatande = buildUtlatande(intygsId, textVersion, enhetsId, enhetsnamn, patientPersonId,
-                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-                null, null);
+            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
+            telefonNummer,
+            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+            null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
 
@@ -144,18 +145,18 @@ public class UtlatandeToIntygTest {
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!",
-                intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+            intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
     }
 
     @Test
     public void testConvertWithConcatToOvrigt2() {
         LisjpUtlatandeV1 utlatande = buildUtlatande().toBuilder().setMotiveringTillInteBaseratPaUndersokning("Motivering!")
-                .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
+            .setMotiveringTillTidigtStartdatumForSjukskrivning("Motivering2!").setOvrigt("TheRealOvrigt").build();
         Intyg intyg = UtlatandeToIntyg.convert(utlatande, webcertModuleService);
         assertTrue(intyg.getSvar().size() == 1);
         assertEquals("Motivering till varför utlåtandet inte baseras på undersökning av patienten: Motivering!\n"
                 + "Orsak för att starta perioden mer än 7 dagar bakåt i tiden: Motivering2!\nTheRealOvrigt",
-                intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
+            intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0));
     }
 
     @Test
@@ -170,18 +171,21 @@ public class UtlatandeToIntygTest {
     private LisjpUtlatandeV1 buildUtlatande() {
         return buildUtlatande(null, null);
     }
+
     private LisjpUtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "textVersion", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
-                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
+            "patientPostadress",
+            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private LisjpUtlatandeV1 buildUtlatande(String intygsId, String textVersion, String enhetsId, String enhetsnamn,
-                                            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
-                                            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-                                            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-                                            String patientPostort, RelationKod relationKod, String relationIntygsId) {
+        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
+        String arbetsplatsKod,
+        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+        String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         LisjpUtlatandeV1.Builder template = LisjpUtlatandeV1.builder();
         template.setId(intygsId);

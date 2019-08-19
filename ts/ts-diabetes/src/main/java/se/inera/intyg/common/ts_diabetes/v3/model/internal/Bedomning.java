@@ -53,12 +53,14 @@ public abstract class Bedomning {
     public abstract String getBorUndersokasBeskrivning();
 
     public static class BedomningKorkortstypSetEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypSetEnumSetSerializer() {
             super(BedomningKorkortstyp.class);
         }
     }
 
     public static class BedomningKorkortstypSetDeserializer extends AbstractEnumSetDeserializer<BedomningKorkortstyp> {
+
         protected BedomningKorkortstypSetDeserializer() {
             super(BedomningKorkortstyp.class);
         }
@@ -70,6 +72,7 @@ public abstract class Bedomning {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Bedomning build();
 
         @JsonProperty(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_JSON_ID)

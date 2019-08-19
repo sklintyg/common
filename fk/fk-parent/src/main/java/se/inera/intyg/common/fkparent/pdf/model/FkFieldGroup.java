@@ -35,6 +35,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
  * Created by marced on 29/09/16.
  */
 public class FkFieldGroup extends PdfComponent<FkFieldGroup> {
+
     private static final float CATEGORY_LABEL_HEIGHT_MM = 15f;
     private static final float CATEGORY_LABEL_BORDER_MARGIN_MM = 1f;
     private String label;
@@ -69,7 +70,7 @@ public class FkFieldGroup extends PdfComponent<FkFieldGroup> {
 
         // Output the table above the actual bordered category component area, and with some margin.
         table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x),
-                Utilities.millimetersToPoints(y + CATEGORY_LABEL_HEIGHT_MM + CATEGORY_LABEL_BORDER_MARGIN_MM), writer.getDirectContent());
+            Utilities.millimetersToPoints(y + CATEGORY_LABEL_HEIGHT_MM + CATEGORY_LABEL_BORDER_MARGIN_MM), writer.getDirectContent());
 
         super.render(document, writer, x, y);
     }

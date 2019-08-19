@@ -54,7 +54,7 @@ public class PDFGeneratorTest {
         final UtkastStatus expectedUtkastStatus = UtkastStatus.DRAFT_COMPLETE;
 
         final PdfResponse actualPdfResponse = new PdfGenerator().generatePdf(expectedIntygsId, expectedJsonModel, expectedPersonId,
-                expectedIntygTexts, expectedStatuses, expectedApplicationOrigin, expectedUtkastStatus);
+            expectedIntygTexts, expectedStatuses, expectedApplicationOrigin, expectedUtkastStatus);
 
         assertNotNull("PdfResponse should not be null", actualPdfResponse);
         assertNotNull("Data should not be null", actualPdfResponse.getPdfData());

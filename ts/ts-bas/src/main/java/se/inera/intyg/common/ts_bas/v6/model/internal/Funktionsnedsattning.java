@@ -36,6 +36,7 @@ public abstract class Funktionsnedsattning {
 
     @AutoValue.Builder
     public abstract static class Builder {
+
         public abstract Funktionsnedsattning build();
 
         @JsonProperty("funktionsnedsattning")

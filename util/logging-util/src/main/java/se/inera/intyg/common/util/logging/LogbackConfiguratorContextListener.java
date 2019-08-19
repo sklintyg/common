@@ -51,12 +51,12 @@ public class LogbackConfiguratorContextListener implements ServletContextListene
 
         if (!resource.exists()) {
             LOG.error("Can't read logback configuration from "
-                    + resource.getDescription() + " - Keep default configuration");
+                + resource.getDescription() + " - Keep default configuration");
             return;
         }
 
         LOG.info("Found logback configuration " + resource.getDescription()
-                + " - Overriding default configuration");
+            + " - Overriding default configuration");
         final LoggerContext loggerContext = (LoggerContext) LoggerFactory.getILoggerFactory();
 
         try {
@@ -68,15 +68,15 @@ public class LogbackConfiguratorContextListener implements ServletContextListene
                 LOG.error("Can't fallback to default (auto) configuration", e);
             }
             LOG.error(
-                    "Can't configure logback from " + resource.getDescription()
-                            + " - Keep default configuration", ex);
+                "Can't configure logback from " + resource.getDescription()
+                    + " - Keep default configuration", ex);
         }
     }
 
     private Resource getConfigurationResource(final String uri) {
         return uri.startsWith(CLASSPATH)
-                ? new ClassPathResource(uri.substring(CLASSPATH.length()))
-                : new FileSystemResource(uri);
+            ? new ClassPathResource(uri.substring(CLASSPATH.length()))
+            : new FileSystemResource(uri);
     }
 
     //

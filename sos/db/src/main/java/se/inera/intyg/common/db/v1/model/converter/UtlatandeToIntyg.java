@@ -46,6 +46,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getInternalDateContent;
 
 public final class UtlatandeToIntyg {
+
     private UtlatandeToIntyg() {
     }
 
@@ -90,8 +91,8 @@ public final class UtlatandeToIntyg {
                 } else {
                     undersokning.withDelsvar(UNDERSOKNING_YTTRE_DELSVAR_ID, Boolean.FALSE.toString());
                     undersokning.withDelsvar(UNDERSOKNING_DETALJER_DELSVAR_ID,
-                            aCV(UNDERSOKNING_DETALJER_CODE_SYSTEM, utlatande.getUndersokningYttre().getTransport(),
-                                    utlatande.getUndersokningYttre().getBeskrivning()));
+                        aCV(UNDERSOKNING_DETALJER_CODE_SYSTEM, utlatande.getUndersokningYttre().getTransport(),
+                            utlatande.getUndersokningYttre().getBeskrivning()));
                 }
             }
             if (utlatande.getUndersokningDatum() != null && utlatande.getUndersokningDatum().isValidDate()) {

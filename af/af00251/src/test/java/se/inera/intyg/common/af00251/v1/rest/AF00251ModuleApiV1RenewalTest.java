@@ -18,7 +18,12 @@
  */
 package se.inera.intyg.common.af00251.v1.rest;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -34,10 +39,6 @@ import se.inera.intyg.common.support.model.common.internal.Vardgivare;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
-
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 /**
  * Specifically tests the renewal of AF00251 where certain fields are nulled out.
@@ -83,8 +84,10 @@ public class AF00251ModuleApiV1RenewalTest {
         assertEquals(original.getTextVersion(), renewCopy.getTextVersion());
 
         // Relation should contain last one
-        assertEquals(original.getSjukfranvaro().get(3).getPeriod().getTom().asLocalDate(), renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
-        assertEquals(original.getSjukfranvaro().get(3).getNiva().toString(), renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
+        assertEquals(original.getSjukfranvaro().get(3).getPeriod().getTom().asLocalDate(),
+            renewCopy.getGrundData().getRelation().getSistaGiltighetsDatum());
+        assertEquals(original.getSjukfranvaro().get(3).getNiva().toString(),
+            renewCopy.getGrundData().getRelation().getSistaSjukskrivningsgrad());
     }
 
     private CreateDraftCopyHolder createCopyHolder() {
@@ -100,7 +103,7 @@ public class AF00251ModuleApiV1RenewalTest {
         hosPersonal.setFullstandigtNamn("namn");
         hosPersonal.setVardenhet(new Vardenhet());
         hosPersonal.getVardenhet()
-                   .setVardgivare(new Vardgivare());
+            .setVardgivare(new Vardgivare());
         return hosPersonal;
     }
 

@@ -78,7 +78,8 @@ public class ConverterTest {
         assertTrue(generalValidator.validateGeneral(xmlContents));
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
         assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
     }
@@ -97,7 +98,8 @@ public class ConverterTest {
 
         // Do schematron validation on the xml-string from the converted transport format
         RegisterCertificateValidator validator = new RegisterCertificateValidator(TsDiabetesModuleApiV3.SCHEMATRON_FILE);
-        SchematronOutputType result = validator.validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+        SchematronOutputType result = validator
+            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
         assertEquals(getErrorString(result), 0, SVRLHelper.getAllFailedAssertions(result).size());
 
         // Why not validate internal model as well?
@@ -107,9 +109,9 @@ public class ConverterTest {
     private String getErrorString(SchematronOutputType result) {
         StringBuilder errorMsg = new StringBuilder();
         SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(AbstractSVRLMessage::getText)
-                .collect(Collectors.toList())
-                .forEach(errorMsg::append);
+            .map(AbstractSVRLMessage::getText)
+            .collect(Collectors.toList())
+            .forEach(errorMsg::append);
         return errorMsg.toString();
     }
 
@@ -128,7 +130,8 @@ public class ConverterTest {
 
     private String getJsonFromTransport(RegisterCertificateType transport) throws ConverterException {
         StringWriter jsonWriter = new StringWriter();
-        TsDiabetesUtlatandeV3 internal = se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal.convert(transport.getIntyg());
+        TsDiabetesUtlatandeV3 internal = se.inera.intyg.common.ts_diabetes.v3.model.converter.TransportToInternal
+            .convert(transport.getIntyg());
         try {
             objectMapper.writeValue(jsonWriter, internal);
         } catch (Exception e) {

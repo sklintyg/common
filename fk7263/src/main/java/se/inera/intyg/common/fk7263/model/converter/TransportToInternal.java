@@ -135,7 +135,7 @@ public final class TransportToInternal {
         LocalDate toDate = null;
         for (ArbetsformagaNedsattningType nedsattning : source) {
             LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(),
-                    nedsattning.getVaraktighetTom());
+                nedsattning.getVaraktighetTom());
             if (toDate == null || toDate.isBefore(nextObservationsperiod.getFrom())) {
                 toDate = nextObservationsperiod.getTom();
             }
@@ -147,7 +147,7 @@ public final class TransportToInternal {
         LocalDate fromDate = null;
         for (ArbetsformagaNedsattningType nedsattning : source) {
             LocalDateInterval nextObservationsperiod = new LocalDateInterval(nedsattning.getVaraktighetFrom(),
-                    nedsattning.getVaraktighetTom());
+                nedsattning.getVaraktighetTom());
             if (fromDate == null || fromDate.isAfter(nextObservationsperiod.getFrom())) {
                 fromDate = nextObservationsperiod.getFrom();
             }
@@ -157,23 +157,23 @@ public final class TransportToInternal {
 
     private static void populateWithVardkontakt(Fk7263Utlatande utlatande, VardkontaktType source) {
         switch (source.getVardkontakttyp()) {
-        case MIN_TELEFONKONTAKT_MED_PATIENTEN:
-            utlatande.setTelefonkontaktMedPatienten(new InternalDate(source.getVardkontaktstid()));
-            break;
-        case MIN_UNDERSOKNING_AV_PATIENTEN:
-            utlatande.setUndersokningAvPatienten(new InternalDate(source.getVardkontaktstid()));
-            break;
+            case MIN_TELEFONKONTAKT_MED_PATIENTEN:
+                utlatande.setTelefonkontaktMedPatienten(new InternalDate(source.getVardkontaktstid()));
+                break;
+            case MIN_UNDERSOKNING_AV_PATIENTEN:
+                utlatande.setUndersokningAvPatienten(new InternalDate(source.getVardkontaktstid()));
+                break;
         }
     }
 
     private static void populateWithReferens(Fk7263Utlatande utlatande, ReferensType source) throws ConverterException {
         switch (source.getReferenstyp()) {
-        case ANNAT:
-            utlatande.setAnnanReferens(new InternalDate(source.getDatum()));
-            break;
-        case JOURNALUPPGIFTER:
-            utlatande.setJournaluppgifter(new InternalDate(source.getDatum()));
-            break;
+            case ANNAT:
+                utlatande.setAnnanReferens(new InternalDate(source.getDatum()));
+                break;
+            case JOURNALUPPGIFTER:
+                utlatande.setJournaluppgifter(new InternalDate(source.getDatum()));
+                break;
         }
     }
 
@@ -182,60 +182,60 @@ public final class TransportToInternal {
             return;
         }
         switch (source.getAktivitetskod()) {
-        case PLANERAD_ELLER_PAGAENDE_BEHANDLING_ELLER_ATGARD_INOM_SJUKVARDEN:
-            utlatande.setAtgardInomSjukvarden(source.getBeskrivning());
-            break;
-        case PLANERAD_ELLER_PAGAENDE_ANNAN_ATGARD:
-            utlatande.setAnnanAtgard(source.getBeskrivning());
-            break;
-        case ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL:
-            utlatande.setRehabilitering(Rehabilitering.rehabiliteringAktuell);
-            break;
-        case ARBETSLIVSINRIKTAD_REHABILITERING_AR_EJ_AKTUELL:
-            utlatande.setRehabilitering(Rehabilitering.rehabiliteringEjAktuell);
-            break;
-        case GAR_EJ_ATT_BEDOMMA_OM_ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL:
-            utlatande.setRehabilitering(Rehabilitering.rehabiliteringGarInteAttBedoma);
-            break;
-        case PATIENTEN_BEHOVER_FA_KONTAKT_MED_FORETAGSHALSOVARDEN:
-            utlatande.setRekommendationKontaktForetagshalsovarden(true);
-            break;
-        case PATIENTEN_BEHOVER_FA_KONTAKT_MED_ARBETSFORMEDLINGEN:
-            utlatande.setRekommendationKontaktArbetsformedlingen(true);
-            break;
-        case FORANDRAT_RESSATT_TILL_ARBETSPLATSEN_AR_AKTUELLT:
-            utlatande.setRessattTillArbeteAktuellt(true);
-            break;
-        case FORANDRAT_RESSATT_TILL_ARBETSPLATSEN_AR_EJ_AKTUELLT:
-            utlatande.setRessattTillArbeteEjAktuellt(true);
-            break;
-        case KONTAKT_MED_FORSAKRINGSKASSAN_AR_AKTUELL:
-            utlatande.setKontaktMedFk(true);
-            break;
-        case AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA:
-            utlatande.setAvstangningSmittskydd(true);
-            break;
-        case OVRIGT:
-            utlatande.setRekommendationOvrigtCheck(true);
-            utlatande.setRekommendationOvrigt(source.getBeskrivning());
-            break;
+            case PLANERAD_ELLER_PAGAENDE_BEHANDLING_ELLER_ATGARD_INOM_SJUKVARDEN:
+                utlatande.setAtgardInomSjukvarden(source.getBeskrivning());
+                break;
+            case PLANERAD_ELLER_PAGAENDE_ANNAN_ATGARD:
+                utlatande.setAnnanAtgard(source.getBeskrivning());
+                break;
+            case ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL:
+                utlatande.setRehabilitering(Rehabilitering.rehabiliteringAktuell);
+                break;
+            case ARBETSLIVSINRIKTAD_REHABILITERING_AR_EJ_AKTUELL:
+                utlatande.setRehabilitering(Rehabilitering.rehabiliteringEjAktuell);
+                break;
+            case GAR_EJ_ATT_BEDOMMA_OM_ARBETSLIVSINRIKTAD_REHABILITERING_AR_AKTUELL:
+                utlatande.setRehabilitering(Rehabilitering.rehabiliteringGarInteAttBedoma);
+                break;
+            case PATIENTEN_BEHOVER_FA_KONTAKT_MED_FORETAGSHALSOVARDEN:
+                utlatande.setRekommendationKontaktForetagshalsovarden(true);
+                break;
+            case PATIENTEN_BEHOVER_FA_KONTAKT_MED_ARBETSFORMEDLINGEN:
+                utlatande.setRekommendationKontaktArbetsformedlingen(true);
+                break;
+            case FORANDRAT_RESSATT_TILL_ARBETSPLATSEN_AR_AKTUELLT:
+                utlatande.setRessattTillArbeteAktuellt(true);
+                break;
+            case FORANDRAT_RESSATT_TILL_ARBETSPLATSEN_AR_EJ_AKTUELLT:
+                utlatande.setRessattTillArbeteEjAktuellt(true);
+                break;
+            case KONTAKT_MED_FORSAKRINGSKASSAN_AR_AKTUELL:
+                utlatande.setKontaktMedFk(true);
+                break;
+            case AVSTANGNING_ENLIGT_SM_L_PGA_SMITTA:
+                utlatande.setAvstangningSmittskydd(true);
+                break;
+            case OVRIGT:
+                utlatande.setRekommendationOvrigtCheck(true);
+                utlatande.setRekommendationOvrigt(source.getBeskrivning());
+                break;
         }
 
     }
 
     private static void populateWithSysselsattning(Fk7263Utlatande utlatande, List<SysselsattningType> sysselsattnings)
-            throws ConverterException {
+        throws ConverterException {
         for (SysselsattningType sysselsattning : sysselsattnings) {
             switch (sysselsattning.getTypAvSysselsattning()) {
-            case NUVARANDE_ARBETE:
-                utlatande.setNuvarandeArbete(true);
-                break;
-            case ARBETSLOSHET:
-                utlatande.setArbetsloshet(true);
-                break;
-            case FORALDRALEDIGHET:
-                utlatande.setForaldrarledighet(true);
-                break;
+                case NUVARANDE_ARBETE:
+                    utlatande.setNuvarandeArbete(true);
+                    break;
+                case ARBETSLOSHET:
+                    utlatande.setArbetsloshet(true);
+                    break;
+                case FORALDRALEDIGHET:
+                    utlatande.setForaldrarledighet(true);
+                    break;
             }
         }
     }
@@ -257,8 +257,7 @@ public final class TransportToInternal {
     /**
      * Create IntyMetadata object with information regarding Patient, SkapadAv and Skickat- and SkapatDatum.
      *
-     * @param source
-     *            {@link LakarutlatandeType}
+     * @param source {@link LakarutlatandeType}
      * @return {@link GrundData}
      */
     private static GrundData populateWithMetaData(LakarutlatandeType source) {
@@ -272,8 +271,7 @@ public final class TransportToInternal {
     /**
      * Create Internal HoSPersonal from transport format.
      *
-     * @param source
-     *            HosPersonalType
+     * @param source HosPersonalType
      * @return HoSPersonal
      */
     private static HoSPersonal convertSkapadAv(HosPersonalType source) {
@@ -288,8 +286,7 @@ public final class TransportToInternal {
     /**
      * Create Vardenhet from transportformat.
      *
-     * @param source
-     *            EnhetType
+     * @param source EnhetType
      * @return Vardenhet
      */
     private static Vardenhet convertVardenhet(EnhetType source) {
@@ -309,8 +306,7 @@ public final class TransportToInternal {
     /**
      * Create Internal Vardgivare from transportformat.
      *
-     * @param source
-     *            VardgivareType
+     * @param source VardgivareType
      * @return Vardgivare
      */
     private static Vardgivare convertVardgivare(VardgivareType source) {
@@ -323,8 +319,7 @@ public final class TransportToInternal {
     /**
      * Create Internal Patient from transport format.
      *
-     * @param source
-     *            PatientType
+     * @param source PatientType
      * @return Patient
      */
     private static Patient convertPatient(PatientType source) {
@@ -336,16 +331,16 @@ public final class TransportToInternal {
     private static void populateWithFunktionstillstand(Fk7263Utlatande utlatande, FunktionstillstandType source) throws ConverterException {
 
         switch (source.getTypAvFunktionstillstand()) {
-        case AKTIVITET:
-            if (source.getBeskrivning() != null && !source.getBeskrivning().isEmpty()) {
-                utlatande.setAktivitetsbegransning(source.getBeskrivning());
-            }
-            break;
-        case KROPPSFUNKTION:
-            if (source.getBeskrivning() != null && !source.getBeskrivning().isEmpty()) {
-                utlatande.setFunktionsnedsattning(source.getBeskrivning());
-            }
-            break;
+            case AKTIVITET:
+                if (source.getBeskrivning() != null && !source.getBeskrivning().isEmpty()) {
+                    utlatande.setAktivitetsbegransning(source.getBeskrivning());
+                }
+                break;
+            case KROPPSFUNKTION:
+                if (source.getBeskrivning() != null && !source.getBeskrivning().isEmpty()) {
+                    utlatande.setFunktionsnedsattning(source.getBeskrivning());
+                }
+                break;
         }
     }
 
@@ -354,18 +349,18 @@ public final class TransportToInternal {
         if (source.getPrognosangivelse() != null || source.getMotivering() != null) {
             if (source.getPrognosangivelse() != null) {
                 switch (source.getPrognosangivelse()) {
-                case ATERSTALLAS_DELVIS:
-                    utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosJaDelvis);
-                    break;
-                case ATERSTALLAS_HELT:
-                    utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosJa);
-                    break;
-                case DET_GAR_INTE_ATT_BEDOMMA:
-                    utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosGarInteAttBedoma);
-                    break;
-                case INTE_ATERSTALLAS:
-                    utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosNej);
-                    break;
+                    case ATERSTALLAS_DELVIS:
+                        utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosJaDelvis);
+                        break;
+                    case ATERSTALLAS_HELT:
+                        utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosJa);
+                        break;
+                    case DET_GAR_INTE_ATT_BEDOMMA:
+                        utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosGarInteAttBedoma);
+                        break;
+                    case INTE_ATERSTALLAS:
+                        utlatande.setPrognosBedomning(PrognosBedomning.arbetsformagaPrognosNej);
+                        break;
                 }
             }
             utlatande.setArbetsformagaPrognos(source.getMotivering());
@@ -376,26 +371,25 @@ public final class TransportToInternal {
      * Convert nedsattning to formaga. Note: kind of backwards, but meaning is opposite in transport model vs domain
      * model..
      *
-     * @param source
-     *            source
+     * @param source source
      */
     private static void populateWithArbetsformaga(Fk7263Utlatande utlatande, FunktionstillstandType source) {
         for (ArbetsformagaNedsattningType nedsattning : source.getArbetsformaga().getArbetsformagaNedsattning()) {
             if (nedsattning.getNedsattningsgrad() != null && nedsattning.getVaraktighetFrom() != null
-                    && nedsattning.getVaraktighetTom() != null) {
+                && nedsattning.getVaraktighetTom() != null) {
                 switch (nedsattning.getNedsattningsgrad()) {
-                case HELT_NEDSATT:
-                    utlatande.setNedsattMed100(makeInterval(nedsattning));
-                    break;
-                case NEDSATT_MED_3_4:
-                    utlatande.setNedsattMed75(makeInterval(nedsattning));
-                    break;
-                case NEDSATT_MED_1_2:
-                    utlatande.setNedsattMed50(makeInterval(nedsattning));
-                    break;
-                case NEDSATT_MED_1_4:
-                    utlatande.setNedsattMed25(makeInterval(nedsattning));
-                    break;
+                    case HELT_NEDSATT:
+                        utlatande.setNedsattMed100(makeInterval(nedsattning));
+                        break;
+                    case NEDSATT_MED_3_4:
+                        utlatande.setNedsattMed75(makeInterval(nedsattning));
+                        break;
+                    case NEDSATT_MED_1_2:
+                        utlatande.setNedsattMed50(makeInterval(nedsattning));
+                        break;
+                    case NEDSATT_MED_1_4:
+                        utlatande.setNedsattMed25(makeInterval(nedsattning));
+                        break;
                 }
             }
         }

@@ -33,7 +33,6 @@ import se.inera.intyg.common.support.modules.service.WebcertModuleService;
  * Util for checking a models consistency in different states.
  *
  * @author erik
- *
  */
 public class Fk7263ModelCompareUtil {
 
@@ -42,12 +41,13 @@ public class Fk7263ModelCompareUtil {
 
     /**
      * Check if two models differ.
+     *
      * @return true if they do, false otherwise
      */
     public boolean modelDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         return diagnoseDiffers(oldUtlatande, newUtlatande)
-                || sjukskrivningsperiodDiffers(oldUtlatande, newUtlatande)
-                || sjukskrivningsgradDiffers(oldUtlatande, newUtlatande);
+            || sjukskrivningsperiodDiffers(oldUtlatande, newUtlatande)
+            || sjukskrivningsgradDiffers(oldUtlatande, newUtlatande);
     }
 
     private boolean sjukskrivningsgradDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
@@ -73,9 +73,9 @@ public class Fk7263ModelCompareUtil {
 
     private boolean sjukskrivningsperiodDiffers(Fk7263Utlatande oldUtlatande, Fk7263Utlatande newUtlatande) {
         return checkPerioderDiffers(oldUtlatande.getNedsattMed100(), newUtlatande.getNedsattMed100())
-                || checkPerioderDiffers(oldUtlatande.getNedsattMed75(), newUtlatande.getNedsattMed75())
-                || checkPerioderDiffers(oldUtlatande.getNedsattMed50(), newUtlatande.getNedsattMed50())
-                || checkPerioderDiffers(oldUtlatande.getNedsattMed25(), newUtlatande.getNedsattMed25());
+            || checkPerioderDiffers(oldUtlatande.getNedsattMed75(), newUtlatande.getNedsattMed75())
+            || checkPerioderDiffers(oldUtlatande.getNedsattMed50(), newUtlatande.getNedsattMed50())
+            || checkPerioderDiffers(oldUtlatande.getNedsattMed25(), newUtlatande.getNedsattMed25());
 
     }
 
@@ -113,7 +113,7 @@ public class Fk7263ModelCompareUtil {
 
     private boolean diagnoseBeskrivningDiffer(String oldBeskrivning, String newBeskrivning) {
         if ((!Strings.isNullOrEmpty(oldBeskrivning) && Strings.isNullOrEmpty(newBeskrivning))
-                || (Strings.isNullOrEmpty(oldBeskrivning) && !Strings.isNullOrEmpty(newBeskrivning))) {
+            || (Strings.isNullOrEmpty(oldBeskrivning) && !Strings.isNullOrEmpty(newBeskrivning))) {
             return true;
         } else if (oldBeskrivning != null && newBeskrivning != null && !oldBeskrivning.equals(newBeskrivning)) {
             return true;
@@ -122,6 +122,7 @@ public class Fk7263ModelCompareUtil {
     }
 
     private static final class DiagnosKod {
+
         private final String diagnosKod;
         private final String diagnosKodSystem;
 
@@ -142,7 +143,7 @@ public class Fk7263ModelCompareUtil {
             DiagnosKod that = (DiagnosKod) o;
 
             return Objects.equals(getDiagnosKod(), that.getDiagnosKod())
-                    && Objects.equals(getDiagnosKodSystem(), that.getDiagnosKodSystem());
+                && Objects.equals(getDiagnosKodSystem(), that.getDiagnosKodSystem());
         }
 
         @Override

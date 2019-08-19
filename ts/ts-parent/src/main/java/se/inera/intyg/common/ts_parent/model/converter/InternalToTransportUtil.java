@@ -59,10 +59,10 @@ public final class InternalToTransportUtil {
 
     public static DiabetesTypVarden convertDiabetesTyp(DiabetesKod kod) {
         switch (kod) {
-        case DIABETES_TYP_1:
-            return DiabetesTypVarden.TYP_1;
-        case DIABETES_TYP_2:
-            return DiabetesTypVarden.TYP_2;
+            case DIABETES_TYP_1:
+                return DiabetesTypVarden.TYP_1;
+            case DIABETES_TYP_2:
+                return DiabetesTypVarden.TYP_2;
         }
         throw new IllegalArgumentException(kod.name());
     }
@@ -80,10 +80,10 @@ public final class InternalToTransportUtil {
         patient.setFornamn(source.getFornamn());
         patient.setFullstandigtNamn(Joiner.on(' ').skipNulls().join(source.getFornamn(), source.getMellannamn(), source.getEfternamn()));
         patient.setPersonId(buildII(SamordningsnummerValidator.isSamordningsNummer(
-                Optional.of(source.getPersonId()))
+            Optional.of(source.getPersonId()))
                 ? Constants.SAMORDNING_ID_OID
                 : Constants.PERSON_ID_OID,
-                source.getPersonId().getPersonnummerWithDash()));
+            source.getPersonId().getPersonnummerWithDash()));
         patient.setPostadress(source.getPostadress());
         patient.setPostnummer(source.getPostnummer());
         patient.setPostort(source.getPostort());
@@ -100,8 +100,8 @@ public final class InternalToTransportUtil {
         // try to convert befattning to klartext
         if (!CollectionUtils.isEmpty(source.getBefattningar())) {
             skapadAv.getBefattningar().addAll(source.getBefattningar().stream()
-                    .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
-                    .collect(Collectors.toList()));
+                .map(code -> BefattningService.getDescriptionFromCode(code).orElse(code))
+                .collect(Collectors.toList()));
         }
         if (!CollectionUtils.isEmpty(source.getSpecialiteter())) {
             skapadAv.getSpecialiteter().addAll(source.getSpecialiteter());

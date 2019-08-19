@@ -32,8 +32,8 @@ public abstract class Underlag {
 
     @JsonCreator
     public static Underlag create(@JsonProperty("typ") UnderlagsTyp typ,
-            @JsonProperty("datum") InternalDate datum,
-            @JsonProperty("hamtasFran") String hamtasFran) {
+        @JsonProperty("datum") InternalDate datum,
+        @JsonProperty("hamtasFran") String hamtasFran) {
         return new AutoValue_Underlag(typ, datum, hamtasFran);
     }
 

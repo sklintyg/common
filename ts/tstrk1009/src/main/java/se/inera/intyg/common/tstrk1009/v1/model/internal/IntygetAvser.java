@@ -36,8 +36,8 @@ public abstract class IntygetAvser {
     public static IntygetAvser create(@JsonProperty("typer") Set<KorkortBehorighetGrupp> korkortBehorigheter) {
 
         final Set<KorkortBehorighetGrupp> behorigheter = (korkortBehorigheter == null)
-                ? EnumSet.noneOf(KorkortBehorighetGrupp.class)
-                : korkortBehorigheter;
+            ? EnumSet.noneOf(KorkortBehorighetGrupp.class)
+            : korkortBehorigheter;
 
         return new AutoValue_IntygetAvser(behorigheter);
     }
@@ -48,12 +48,14 @@ public abstract class IntygetAvser {
     public abstract Set<KorkortBehorighetGrupp> getTyper();
 
     public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<KorkortBehorighetGrupp> {
+
         protected IntygAvserEnumSetSerializer() {
             super(KorkortBehorighetGrupp.class);
         }
     }
 
     public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<KorkortBehorighetGrupp> {
+
         protected IntygAvserEnumSetDeserializer() {
             super(KorkortBehorighetGrupp.class);
         }

@@ -101,7 +101,7 @@ public class Fk7263ModuleApiRenewalTest {
         assertEquals(original.getAktivitetsbegransning(), renewCopy.getAktivitetsbegransning());
         assertEquals(original.getArbetsformagaPrognos(), renewCopy.getArbetsformagaPrognos());
         assertEquals(original.getArbetsformagaPrognosGarInteAttBedomaBeskrivning(),
-                renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
+            renewCopy.getArbetsformagaPrognosGarInteAttBedomaBeskrivning());
         assertEquals(original.getAnnanAtgard(), renewCopy.getAnnanAtgard());
         assertEquals(original.getAtgardInomSjukvarden(), renewCopy.getAtgardInomSjukvarden());
         assertEquals(original.getNuvarandeArbetsuppgifter(), renewCopy.getNuvarandeArbetsuppgifter());
@@ -131,7 +131,7 @@ public class Fk7263ModuleApiRenewalTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         CreateDraftCopyHolder draftCopyHolder = new CreateDraftCopyHolder("certificateId",
-                createHosPersonal());
+            createHosPersonal());
         draftCopyHolder.setRelation(new Relation());
         return draftCopyHolder;
     }
@@ -147,7 +147,7 @@ public class Fk7263ModuleApiRenewalTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         String internalModelHolder = IOUtils.toString(new ClassPathResource(
-                TESTFILE_UTLATANDE).getInputStream());
+            TESTFILE_UTLATANDE).getInputStream());
         return new CustomObjectMapper().readValue(internalModelHolder, Fk7263Utlatande.class);
     }
 

@@ -126,7 +126,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     // Type TEXT
     private static final String FIELD_KOMMUN_OM_OKAND_DODSPLATS_KOMMUNEN_DAR_KROPPEN_PATRAFFADES = "Kommun om okänd "
-            + "dödsplats kommunen där kroppen påträffades";
+        + "dödsplats kommunen där kroppen påträffades";
 
     // Type CHECKBOX - values [Ja]
     private static final String FIELD_YTTRE_UNDERSOKNING_EFTER_DODEN = "Yttre undersökning efter döden";
@@ -157,7 +157,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     // Type TEXT
     private static final String FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM = "Kort beskrivning av hur skadanförgiftningen"
-            + " uppkom utan att röja eventuellt andra inblandades identiteter";
+        + " uppkom utan att röja eventuellt andra inblandades identiteter";
 
     // Dynamic fieldnames (A, B C etc)
     private static final String FIELD_DODSORSAK_FIRSTROW_BESKRIVNING = "Den terminala dödsorsaken %s";
@@ -172,12 +172,12 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private DoiUtlatandeV1 doiUtlatandeV1;
 
     public DoiPdfGenerator(DoiUtlatandeV1 intyg, IntygTexts intygTexts, List<Status> statuses, UtkastStatus utkastStatus)
-            throws SoSPdfGeneratorException {
+        throws SoSPdfGeneratorException {
         this(intyg, intygTexts, statuses, utkastStatus, true);
     }
 
     protected DoiPdfGenerator(DoiUtlatandeV1 utlatande, IntygTexts intygTexts, List<Status> statuses,
-                              UtkastStatus utkastStatus, boolean flatten) throws SoSPdfGeneratorException {
+        UtkastStatus utkastStatus, boolean flatten) throws SoSPdfGeneratorException {
         try {
             this.doiUtlatandeV1 = utlatande;
             outputStream = new ByteArrayOutputStream();
@@ -247,7 +247,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         checkRadioField(FIELD_SKADA_FORGIFTNING, modelToPdf(doiUtlatandeV1.getForgiftningOrsak()));
         fillText(FIELD_DATUM_FOR_SKADAFORGIFTNING_AR_MAN_DAG, doiUtlatandeV1.getForgiftningDatum());
         fillText(FIELD_KORT_BESKRIVNING_AV_HUR_SKADANFORGIFTNINGEN_UPPKOM,
-                doiUtlatandeV1.getForgiftningUppkommelse());
+            doiUtlatandeV1.getForgiftningUppkommelse());
     }
 
     private void fillOperation() {
@@ -320,7 +320,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     }
 
     private void setOrsakFields(Dodsorsak orsak, String fieldBeskrivning, String fieldDebut, String fieldAkut, String fieldKronisk,
-            String fieldUppgiftSaknas) {
+        String fieldUppgiftSaknas) {
         if (orsak != null) {
             fillText(fieldBeskrivning, orsak.getBeskrivning());
             fillText(fieldDebut, orsak.getDatum());
@@ -336,7 +336,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
     protected void fillPatientDetails() {
         fillText(FIELD_PERSONNUMMERSAMORDNINGSNUMMER_12_SIFFROR,
-                doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
+            doiUtlatandeV1.getGrundData().getPatient().getPersonId().getPersonnummerWithDash());
         fillText(FIELD_EFTERNAMN, doiUtlatandeV1.getGrundData().getPatient().getEfternamn());
         fillText(FIELD_FORNAMN, doiUtlatandeV1.getGrundData().getPatient().getFornamn());
         fillText(FIELD_BOSTADSADRESS, doiUtlatandeV1.getGrundData().getPatient().getPostadress());
@@ -359,7 +359,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         fillText(FIELD_LAKARENS_EFTERNAMN_OCH_FORNAMN, skapadAv.getFullstandigtNamn());
         fillText(FIELD_BEFATTNING, String.join(", ", skapadAv.getBefattningar()));
         fillText(FIELD_TJANSTESTALLE, String.join(", ", skapadAv.getVardenhet().getEnhetsnamn()
-                + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
+            + ", " + skapadAv.getVardenhet().getVardgivare().getVardgivarnamn()));
         fillText(FIELD_UTDELNINGSADRESS, skapadAv.getVardenhet().getPostadress());
         fillText(FIELD_POSTNUMMER_2, skapadAv.getVardenhet().getPostnummer());
         fillText(FIELD_POSTORT_2, skapadAv.getVardenhet().getPostort());
@@ -376,7 +376,7 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     private void fillDodsDatum() {
         // Type RADIOBUTTON - values [säkert,ej säkert]
         checkRadioField(FIELD_DODSDATUM_SAKERT_EJ_SAKERT, getRadioValueFromBoolean(doiUtlatandeV1.getDodsdatumSakert(), "", "säkert",
-                "ej säkert"));
+            "ej säkert"));
         // Type TEXT
         fillText(FIELD_DODSDATUM, doiUtlatandeV1.getDodsdatum());
 
@@ -397,7 +397,6 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     /**
      * Converts a {@link DodsplatsBoende} to the corresponding pdf template field value.
      *
-     * @param dodsplatsBoende
      * @return pdf value
      */
     private String modelToPdf(DodsplatsBoende dodsplatsBoende) {
@@ -405,14 +404,14 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
             // Pdf equivalent values are
             // Type RADIOBUTTON - values [annan okänd,särskilt boende,sjukhus,ordinärt boende]
             switch (dodsplatsBoende) {
-            case ANNAN:
-                return "annan okänd";
-            case SJUKHUS:
-                return "sjukhus";
-            case ORDINART_BOENDE:
-                return "ordinärt boende";
-            case SARSKILT_BOENDE:
-                return "särskilt boende";
+                case ANNAN:
+                    return "annan okänd";
+                case SJUKHUS:
+                    return "sjukhus";
+                case ORDINART_BOENDE:
+                    return "ordinärt boende";
+                case SARSKILT_BOENDE:
+                    return "särskilt boende";
             }
         }
         return "";
@@ -421,7 +420,6 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     /**
      * Converts a {@link ForgiftningOrsak} to the corresponding pdf template field value.
      *
-     * @param forgiftningOrsak
      * @return pdf value
      */
     private String modelToPdf(ForgiftningOrsak forgiftningOrsak) {
@@ -429,14 +427,14 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
 
             // Pdf equivalent values are [olycksfall,oklart,avsiktligt vållad av annan,självmord]
             switch (forgiftningOrsak) {
-            case OLYCKSFALL:
-                return "olycksfall";
-            case SJALVMORD:
-                return "självmord";
-            case AVSIKTLIGT_VALLAD:
-                return "avsiktligt vållad av annan";
-            case OKLART:
-                return "oklart";
+                case OLYCKSFALL:
+                    return "olycksfall";
+                case SJALVMORD:
+                    return "självmord";
+                case AVSIKTLIGT_VALLAD:
+                    return "avsiktligt vållad av annan";
+                case OKLART:
+                    return "oklart";
             }
         }
         return "";
@@ -445,7 +443,6 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
     /**
      * Converts a {@link OmOperation} to the corresponding pdf template field value.
      *
-     * @param operation
      * @return pdf value
      */
     private String modelToPdf(OmOperation operation) {
@@ -453,12 +450,12 @@ public class DoiPdfGenerator extends AbstractSoSPdfGenerator {
         if (operation != null) {
             // Pdf equivalent values are [Nej,Uppgift saknas,Ja]
             switch (operation) {
-            case JA:
-                return "Ja";
-            case NEJ:
-                return "Nej";
-            case UPPGIFT_SAKNAS:
-                return "Uppgift saknas";
+                case JA:
+                    return "Ja";
+                case NEJ:
+                    return "Nej";
+                case UPPGIFT_SAKNAS:
+                    return "Uppgift saknas";
             }
         }
         return "";

@@ -33,19 +33,20 @@ import java.io.StringWriter;
 import java.util.stream.Collectors;
 
 public final class ValidatorTestUtil {
+
     private ValidatorTestUtil() {
     }
 
     public static String getTransportValidationErrorString(SchematronOutputType result) {
         return SVRLHelper.getAllFailedAssertions(result).stream()
-                .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
-                .collect(Collectors.joining(";"));
+            .map(e -> String.format("Test: %s, Text: %s", e.getTest(), e.getText()))
+            .collect(Collectors.joining(";"));
     }
 
     public static String getInternalValidationErrorString(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors().stream()
-                .map(e -> e.getField())
-                .collect(Collectors.joining(", "));
+            .map(e -> e.getField())
+            .collect(Collectors.joining(", "));
     }
 
     public static String getXmlFromModel(RegisterCertificateType transport) throws IOException, JAXBException {

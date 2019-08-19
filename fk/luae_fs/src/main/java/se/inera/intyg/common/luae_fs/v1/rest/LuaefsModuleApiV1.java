@@ -52,6 +52,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 
 @Component(value = "moduleapi.luae_fs.v1")
 public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
+
     public static final String SCHEMATRON_FILE = "luae_fs.v1.sch";
     private static final Logger LOG = LoggerFactory.getLogger(LuaefsModuleApiV1.class);
 
@@ -66,17 +67,17 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-            throws ModuleException {
+        throws ModuleException {
         try {
             LuaefsUtlatandeV1 luaefsIntyg = getInternal(internalModel);
             LuaefsPdfDefinitionBuilder builder = new LuaefsPdfDefinitionBuilder();
             IntygTexts texts = getTexts(LuaefsEntryPoint.MODULE_ID, luaefsIntyg.getTextVersion());
 
             final FkPdfDefinition fkPdfDefinition = builder.buildPdfDefinition(luaefsIntyg, statuses, applicationOrigin,
-                    texts, utkastStatus);
+                texts, utkastStatus);
 
             return new PdfResponse(PdfGenerator.generatePdf(fkPdfDefinition),
-                    PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
+                PdfGenerator.generatePdfFilename(LocalDateTime.now(), CERTIFICATE_FILE_PREFIX));
         } catch (PdfGeneratorException e) {
             LOG.error("Failed to generate PDF for certificate!", e);
             throw new ModuleSystemException("Failed to generate (standard copy) PDF for certificate!", e);
@@ -85,8 +86,8 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-            List<String> optionalFields, UtkastStatus utkastStatus)
-            throws ModuleException {
+        List<String> optionalFields, UtkastStatus utkastStatus)
+        throws ModuleException {
         throw new RuntimeException("Not implemented");
     }
 
@@ -113,17 +114,17 @@ public class LuaefsModuleApiV1 extends FkParentModuleApi<LuaefsUtlatandeV1> {
     @Override
     protected LuaefsUtlatandeV1 decorateDiagnoserWithDescriptions(LuaefsUtlatandeV1 utlatande) {
         List<Diagnos> decoratedDiagnoser = utlatande.getDiagnoser().stream()
-                .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
-                        moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
-                .collect(Collectors.toList());
+            .map(diagnos -> Diagnos.create(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem(), diagnos.getDiagnosBeskrivning(),
+                moduleService.getDescriptionFromDiagnosKod(diagnos.getDiagnosKod(), diagnos.getDiagnosKodSystem())))
+            .collect(Collectors.toList());
         return utlatande.toBuilder().setDiagnoser(decoratedDiagnoser).build();
     }
 
     @Override
     protected LuaefsUtlatandeV1 decorateUtkastWithComment(LuaefsUtlatandeV1 utlatande, String comment) {
         return utlatande.toBuilder()
-                .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
-                .build();
+            .setOvrigt(concatOvrigtFalt(utlatande.getOvrigt(), comment))
+            .build();
     }
 
     @Override

@@ -77,7 +77,7 @@ public class InternalToTransportConverterTest {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.json").getInputStream(), Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -88,25 +88,26 @@ public class InternalToTransportConverterTest {
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/fk7263-utan-falt5.xml")
-                .getURL(), Charsets.UTF_8);
+            .getURL(), Charsets.UTF_8);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expectation.toString()))
-                .withTest(Input.fromString(stringWriter.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-                .build();
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
-   @Test
+    @Test
     public void testConversionMaximal() throws JAXBException, IOException, SAXException, ConverterException {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-internal.json").getInputStream(),
+            Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -117,17 +118,17 @@ public class InternalToTransportConverterTest {
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-transport.xml")
-                .getURL(), Charsets.UTF_8);
+            .getURL(), Charsets.UTF_8);
 
-       Diff diff = DiffBuilder
-               .compare(Input.fromString(expectation.toString()))
-               .withTest(Input.fromString(stringWriter.toString()))
-               .ignoreComments()
-               .ignoreWhitespace()
-               .checkForSimilar()
-               .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-               .build();
-       assertFalse(diff.toString(), diff.hasDifferences());
+        Diff diff = DiffBuilder
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
+        assertFalse(diff.toString(), diff.hasDifferences());
     }
 
     @Test
@@ -135,7 +136,8 @@ public class InternalToTransportConverterTest {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande internalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.json").getInputStream(),
+            Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificate = InternalToTransport.getJaxbObject(internalFormat);
 
@@ -146,16 +148,16 @@ public class InternalToTransportConverterTest {
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/maximalt-fk7263-with-ksh97.xml")
-                .getURL(), Charsets.UTF_8);
+            .getURL(), Charsets.UTF_8);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expectation.toString()))
-                .withTest(Input.fromString(stringWriter.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-                .build();
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
@@ -164,7 +166,8 @@ public class InternalToTransportConverterTest {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal.json").getInputStream(),
+            Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -175,16 +178,16 @@ public class InternalToTransportConverterTest {
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport.xml")
-                .getURL(), Charsets.UTF_8);
+            .getURL(), Charsets.UTF_8);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expectation.toString()))
-                .withTest(Input.fromString(stringWriter.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-                .build();
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
@@ -193,7 +196,8 @@ public class InternalToTransportConverterTest {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/friviligttext-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/friviligttext-fk7263-internal.json").getInputStream(),
+            Fk7263Utlatande.class);
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
         String expected = "8b: " + "nedsattMed25Beskrivning. " + "nedsattMed50Beskrivning. " + "nedsattMed75Beskrivning. kommentar";
         String result = registerMedicalCertificateType.getLakarutlatande().getKommentar();
@@ -203,10 +207,10 @@ public class InternalToTransportConverterTest {
     @Test
     public void testConversionOrimligtDatum() throws JAXBException, IOException, SAXException, ConverterException {
 
-
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-internal-orimligt-datum.json").getInputStream(),
+            Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -216,17 +220,18 @@ public class InternalToTransportConverterTest {
         marshaller.marshal(wrapJaxb(registerMedicalCertificateType), stringWriter);
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
-        String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
+        String expectation = Resources
+            .toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-fk7263-transport-orimligt-datum.xml")
                 .getURL(), Charsets.UTF_8);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expectation.toString()))
-                .withTest(Input.fromString(stringWriter.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-                .build();
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
@@ -235,7 +240,8 @@ public class InternalToTransportConverterTest {
 
         ObjectMapper objectMapper = new CustomObjectMapper();
         Fk7263Utlatande externalFormat = objectMapper.readValue(
-                new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json").getInputStream(), Fk7263Utlatande.class);
+            new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-internal.json").getInputStream(),
+            Fk7263Utlatande.class);
 
         RegisterMedicalCertificateType registerMedicalCertificateType = InternalToTransport.getJaxbObject(externalFormat);
 
@@ -246,16 +252,16 @@ public class InternalToTransportConverterTest {
 
         // read expected XML and compare with resulting RegisterMedicalCertificateType
         String expectation = Resources.toString(new ClassPathResource("InternalToTransportConverterTest/minimalt-SmiL-fk7263-transport.xml")
-                .getURL(), Charsets.UTF_8);
+            .getURL(), Charsets.UTF_8);
 
         Diff diff = DiffBuilder
-                .compare(Input.fromString(expectation.toString()))
-                .withTest(Input.fromString(stringWriter.toString()))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
-                .build();
+            .compare(Input.fromString(expectation.toString()))
+            .withTest(Input.fromString(stringWriter.toString()))
+            .ignoreComments()
+            .ignoreWhitespace()
+            .checkForSimilar()
+            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndText))
+            .build();
         assertFalse(diff.toString(), diff.hasDifferences());
     }
 
@@ -303,8 +309,8 @@ public class InternalToTransportConverterTest {
 
     private JAXBElement<?> wrapJaxb(RegisterMedicalCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-                new QName("urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3", "RegisterMedicalCertificate"),
-                RegisterMedicalCertificateType.class, ws);
+            new QName("urn:riv:insuranceprocess:healthreporting:RegisterMedicalCertificateResponder:3", "RegisterMedicalCertificate"),
+            RegisterMedicalCertificateType.class, ws);
         return jaxbElement;
     }
 

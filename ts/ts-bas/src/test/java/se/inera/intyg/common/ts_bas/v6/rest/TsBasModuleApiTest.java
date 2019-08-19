@@ -101,7 +101,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
  * response headers and response statuses etc are correct.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { BefattningService.class })
+@ContextConfiguration(classes = {BefattningService.class})
 public class TsBasModuleApiTest {
 
     private static final String INTYG_TYPE_VERSION_6_8 = "6.8";
@@ -377,13 +377,13 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
 
         final String logicalAddress = "Logical address";
         moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
         verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
     }
 
     @Test
@@ -401,13 +401,13 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
 
         final String logicalAddress = "Logical address";
         moduleApi.revokeCertificate(xmlBody, logicalAddress);
 
         verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
     }
 
     @Test
@@ -427,7 +427,7 @@ public class TsBasModuleApiTest {
         doReturn(result).when(response).getResult();
 
         doReturn(response).when(revokeCertificateClient).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
 
         final String logicalAddress = "Logical address";
 
@@ -440,12 +440,13 @@ public class TsBasModuleApiTest {
         }
 
         verify(revokeCertificateClient, times(1)).revokeMedicalCertificate(any(AttributedURIType.class),
-                any(RevokeMedicalCertificateRequestType.class));
+            any(RevokeMedicalCertificateRequestType.class));
     }
 
     @Test
     public void testReadAndWriteOfOldJsonFormatOfBedomningKanInteTaStallning() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(new ClassPathResource("v6/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-old-format.json"));
+        String originalJson = getResourceAsString(
+            new ClassPathResource("v6/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-old-format.json"));
         TsBasUtlatandeV6 originalUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(originalJson);
         assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));
@@ -471,7 +472,8 @@ public class TsBasModuleApiTest {
 
     @Test
     public void testReadAndWriteOfChangedJsonFormatOfBedomningKanInteTaStallning() throws IOException, ModuleException {
-        String originalJson = getResourceAsString(new ClassPathResource("v6/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-changed-format.json"));
+        String originalJson = getResourceAsString(
+            new ClassPathResource("v6/scenarios/internal/ts-bas-bedomning-kan-inte-ta-stallning-changed-format.json"));
         TsBasUtlatandeV6 originalUtlatande = (TsBasUtlatandeV6) moduleApi.getUtlatandeFromJson(originalJson);
         assertEquals(originalUtlatande.getBedomning().getKorkortstyp().size(), 1);
         assertTrue(originalUtlatande.getBedomning().getKorkortstyp().contains(BedomningKorkortstyp.KAN_INTE_TA_STALLNING));

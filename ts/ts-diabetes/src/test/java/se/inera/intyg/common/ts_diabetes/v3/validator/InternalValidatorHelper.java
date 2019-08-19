@@ -27,7 +27,7 @@ import java.time.format.DateTimeFormatter;
 public class InternalValidatorHelper {
 
     public void setNowMinusDays(InternalDate date, int days) {
-        if(date != null) {
+        if (date != null) {
             date.setDate(LocalDate.now().minusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE));
         }
     }
