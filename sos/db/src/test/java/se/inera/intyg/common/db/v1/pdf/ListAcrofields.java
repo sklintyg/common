@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.db.v1.pdf;
 
-import com.itextpdf.text.pdf.AcroFields;
-import com.itextpdf.text.pdf.PdfReader;
 import java.io.File;
 import java.util.Set;
+
 import org.springframework.core.io.ClassPathResource;
+
+import com.itextpdf.text.pdf.AcroFields;
+import com.itextpdf.text.pdf.PdfReader;
 
 /**
  * Created by marced on 2017-10-11.

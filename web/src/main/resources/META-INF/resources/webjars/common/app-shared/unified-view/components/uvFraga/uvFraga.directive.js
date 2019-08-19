@@ -18,14 +18,14 @@
  */
 angular.module('common').directive('uvFraga',
     function() {
-      'use strict';
+        'use strict';
 
-      return {
-        restrict: 'E',
-        scope: {
-          config: '=',
-          viewData: '='
-        },
-        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvFraga/uvFraga.directive.html'
-      };
+        return {
+            restrict: 'E',
+            scope: {
+                config: '=',
+                viewData: '='
+            },
+            templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvFraga/uvFraga.directive.html'
+        };
     });

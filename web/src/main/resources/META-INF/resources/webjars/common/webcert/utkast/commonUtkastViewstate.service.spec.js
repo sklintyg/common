@@ -18,106 +18,96 @@
  */
 
 describe('commonUtkastViewstateService', function() {
-  'use strict';
+    'use strict';
 
-  var CommonUtkastViewState;
+    var CommonUtkastViewState;
 
-  beforeEach(angular.mock.inject(['common.UtkastViewStateService', 'common.User',
-    function(_CommonUtkastViewState_, CommonUser) {
-      CommonUtkastViewState = _CommonUtkastViewState_;
-      CommonUser.getUser = function() {
-        return {
-          valdVardenhet: {
-            id: 'enhetId'
-          }
-        };
-      };
-    }
-  ]));
+    beforeEach(angular.mock.inject(['common.UtkastViewStateService', 'common.User',
+        function(_CommonUtkastViewState_, CommonUser) {
+            CommonUtkastViewState = _CommonUtkastViewState_;
+            CommonUser.getUser = function() {
+                return {
+                    valdVardenhet: {
+                        id: 'enhetId'
+                    }
+                };
+            };
+        }
+    ]));
 
-  describe('isCopied', function() {
-    it('should be false by default', function() {
-      expect(CommonUtkastViewState.isCopied()).toBeFalsy();
+    describe('isCopied', function() {
+        it('should be false by default', function() {
+            expect(CommonUtkastViewState.isCopied()).toBeFalsy();
+        });
+
+        it('should be true when utkastCopy exists', function() {
+            var draftModel = {
+                update: function() {},
+                isLocked: function() {},
+                isSigned: function() {},
+                isRevoked: function() {},
+                isDraftComplete: function() {}
+            };
+
+            var data = {
+                relations: {
+                    latestChildRelations: {
+                        utkastCopy: {}
+                    }
+                },
+                content: {
+                    grundData: {
+                        skapadAv: {
+                            vardenhet: {
+                                enhetsid: '123'
+                            }
+                        }
+                    }
+                }
+            };
+
+            CommonUtkastViewState.update(draftModel, data);
+
+            expect(CommonUtkastViewState.isCopied()).toBeTruthy();
+        });
     });
 
-    it('should be true when utkastCopy exists', function() {
-      var draftModel = {
-        update: function() {
-        },
-        isLocked: function() {
-        },
-        isSigned: function() {
-        },
-        isRevoked: function() {
-        },
-        isDraftComplete: function() {
-        }
-      };
+    describe('getCopyUtkastId', function() {
+        it('should be null by default', function() {
+            expect(CommonUtkastViewState.getCopyUtkastId()).toBeNull();
+        });
 
-      var data = {
-        relations: {
-          latestChildRelations: {
-            utkastCopy: {}
-          }
-        },
-        content: {
-          grundData: {
-            skapadAv: {
-              vardenhet: {
-                enhetsid: '123'
-              }
-            }
-          }
-        }
-      };
+        it('should be true when utkastCopy exists', function() {
+            var draftModel = {
+                update: function() {},
+                isLocked: function() {},
+                isSigned: function() {},
+                isRevoked: function() {},
+                isDraftComplete: function() {}
+            };
 
-      CommonUtkastViewState.update(draftModel, data);
+            var data = {
+                relations: {
+                    latestChildRelations: {
+                        utkastCopy: {
+                            intygsId: 'copy-id'
+                        }
+                    }
+                },
+                content: {
+                    grundData: {
+                        skapadAv: {
+                            vardenhet: {
+                                enhetsid: '123'
+                            }
+                        }
+                    }
+                }
+            };
 
-      expect(CommonUtkastViewState.isCopied()).toBeTruthy();
+            CommonUtkastViewState.update(draftModel, data);
+
+            expect(CommonUtkastViewState.getCopyUtkastId()).toEqual('copy-id');
+        });
     });
-  });
-
-  describe('getCopyUtkastId', function() {
-    it('should be null by default', function() {
-      expect(CommonUtkastViewState.getCopyUtkastId()).toBeNull();
-    });
-
-    it('should be true when utkastCopy exists', function() {
-      var draftModel = {
-        update: function() {
-        },
-        isLocked: function() {
-        },
-        isSigned: function() {
-        },
-        isRevoked: function() {
-        },
-        isDraftComplete: function() {
-        }
-      };
-
-      var data = {
-        relations: {
-          latestChildRelations: {
-            utkastCopy: {
-              intygsId: 'copy-id'
-            }
-          }
-        },
-        content: {
-          grundData: {
-            skapadAv: {
-              vardenhet: {
-                enhetsid: '123'
-              }
-            }
-          }
-        }
-      };
-
-      CommonUtkastViewState.update(draftModel, data);
-
-      expect(CommonUtkastViewState.getCopyUtkastId()).toEqual('copy-id');
-    });
-  });
 });

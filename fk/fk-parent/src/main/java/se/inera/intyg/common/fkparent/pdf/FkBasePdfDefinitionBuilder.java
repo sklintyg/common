@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+
+import com.google.common.collect.ImmutableList;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkTillaggsFraga;

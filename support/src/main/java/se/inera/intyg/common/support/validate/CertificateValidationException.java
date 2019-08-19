@@ -18,8 +18,9 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import com.google.common.base.Joiner;
 import java.util.List;
+
+import com.google.common.base.Joiner;
 
 public class CertificateValidationException extends Exception {
 

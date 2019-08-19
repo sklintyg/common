@@ -19,14 +19,15 @@
 
 angular.module('common').directive('wcArendeNoAdministrativaFragorMessage',
     [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoAdministrativaFragorMessage/wcArendeNoAdministrativaFragorMessage.directive.html',
-          scope: {},
-          link: function($scope, $element, $attrs) {
-          }
-        };
-      }]);
+            return {
+                restrict: 'E',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoAdministrativaFragorMessage/wcArendeNoAdministrativaFragorMessage.directive.html',
+                scope: {
+                },
+                link: function($scope, $element, $attrs) {
+                }
+            };
+        }]);

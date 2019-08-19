@@ -22,57 +22,58 @@
 
 angular.module('common').factory('common.ArendeSvarModel',
     ['$log', 'common.UserModel', 'common.ObjectHelper',
-      function($log, UserModel, ObjectHelper) {
-        'use strict';
+        function($log, UserModel, ObjectHelper) {
+            'use strict';
 
-        /**
-         * Constructor
-         */
-        function ArendeSvarModel(parentViewState, arendeListItem) {
-          this.answerKompletteringWithText = false;
-          this.draftState = undefined;
-          this.update(parentViewState, arendeListItem);
+            /**
+             * Constructor
+             */
+            function ArendeSvarModel(parentViewState, arendeListItem) {
+                this.answerKompletteringWithText = false;
+                this.draftState = undefined;
+                this.update(parentViewState, arendeListItem);
+            }
+
+            ArendeSvarModel.prototype.update = function(parentViewState, arendeListItem) {
+
+                this.intygProperties = parentViewState.intygProperties;
+
+                // From intyg
+                if (parentViewState.intyg) {
+                    this.enhetsId = parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
+                }
+                else {
+                    this.enhetsid = null;
+                }
+
+                // From fraga
+                this.amne = arendeListItem.arende.fraga.amne;
+                this.status = arendeListItem.arende.fraga.status;
+                this.frageStallare = arendeListItem.arende.fraga.frageStallare;
+                this.fragaInternReferens = arendeListItem.arende.fraga.internReferens;
+                this.fragaMeddelande = arendeListItem.arende.fraga.meddelande;
+
+                // From svar
+                this.meddelande = arendeListItem.arende.svar.meddelande || arendeListItem.arende.draftText;
+                this.internReferens = arendeListItem.arende.svar.internReferens;
+                this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
+                this.vardaktorNamn = arendeListItem.arende.svar.vardaktorNamn;
+
+                this.answeredWithIntyg = arendeListItem.arende.answeredWithIntyg;
+                if(this.answeredWithIntyg){
+                    // besvaradmedintyg overrides these fields when available
+                    this.vardaktorNamn = this.answeredWithIntyg.namnetPaSkapareAvIntyg;
+                    this.svarSkickadDatum = this.answeredWithIntyg.skickatDatum;
+                }
+
+                // From ArendeListItem
+                this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
+            };
+
+            ArendeSvarModel.build = function(parentViewState, arendeListItem) {
+                return new ArendeSvarModel(parentViewState, arendeListItem);
+            };
+
+            return ArendeSvarModel;
         }
-
-        ArendeSvarModel.prototype.update = function(parentViewState, arendeListItem) {
-
-          this.intygProperties = parentViewState.intygProperties;
-
-          // From intyg
-          if (parentViewState.intyg) {
-            this.enhetsId = parentViewState.intyg.grundData.skapadAv.vardenhet.enhetsid;
-          } else {
-            this.enhetsid = null;
-          }
-
-          // From fraga
-          this.amne = arendeListItem.arende.fraga.amne;
-          this.status = arendeListItem.arende.fraga.status;
-          this.frageStallare = arendeListItem.arende.fraga.frageStallare;
-          this.fragaInternReferens = arendeListItem.arende.fraga.internReferens;
-          this.fragaMeddelande = arendeListItem.arende.fraga.meddelande;
-
-          // From svar
-          this.meddelande = arendeListItem.arende.svar.meddelande || arendeListItem.arende.draftText;
-          this.internReferens = arendeListItem.arende.svar.internReferens;
-          this.svarSkickadDatum = arendeListItem.arende.svar.svarSkickadDatum;
-          this.vardaktorNamn = arendeListItem.arende.svar.vardaktorNamn;
-
-          this.answeredWithIntyg = arendeListItem.arende.answeredWithIntyg;
-          if (this.answeredWithIntyg) {
-            // besvaradmedintyg overrides these fields when available
-            this.vardaktorNamn = this.answeredWithIntyg.namnetPaSkapareAvIntyg;
-            this.svarSkickadDatum = this.answeredWithIntyg.skickatDatum;
-          }
-
-          // From ArendeListItem
-          this.kompletteringar = angular.copy(arendeListItem.kompletteringar);
-        };
-
-        ArendeSvarModel.build = function(parentViewState, arendeListItem) {
-          return new ArendeSvarModel(parentViewState, arendeListItem);
-        };
-
-        return ArendeSvarModel;
-      }
     ]);

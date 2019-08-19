@@ -6,11 +6,10 @@ ue-validation-wrapper {
     input:not(.no-fielderror), textarea {
       border: 1px solid $wc-color-11;
     }
-
     wc-checkbox-wrapper .wc-checkbox label:before,
     wc-radio-wrapper .wc-radio label:before,
     wc-dropdown .dropdown-label, wc-dropdown .dropdown-label.open {
-      border-color: $wc-color-11;
+      border-color:  $wc-color-11;
     }
 
     .wc-datepicker-wrapper button {

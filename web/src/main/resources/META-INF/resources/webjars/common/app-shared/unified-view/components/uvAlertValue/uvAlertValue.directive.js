@@ -16,27 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('uvAlertValue', ['uvUtil', function(uvUtil) {
-  'use strict';
+angular.module('common').directive('uvAlertValue', [ 'uvUtil', function(uvUtil) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      viewData: '='
-    },
-    templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.html',
+        link: function($scope) {
 
-      $scope.showMessage = function() {
-        //Default to show by default
-        if (!angular.isFunction($scope.config.showExpression)) {
-          return true;
+            $scope.showMessage = function() {
+                //Default to show by default
+                if (!angular.isFunction($scope.config.showExpression)) {
+                    return true;
+                }
+                //let configuration expression decide.
+                return $scope.config.showExpression($scope.viewData);
+            };
+
         }
-        //let configuration expression decide.
-        return $scope.config.showExpression($scope.viewData);
-      };
-
-    }
-  };
-}]);
+    };
+} ]);

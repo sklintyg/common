@@ -18,12 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf;
 
-import static com.itextpdf.text.pdf.BaseFont.createFont;
+import java.io.IOException;
 
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
-import java.io.IOException;
+
+import static com.itextpdf.text.pdf.BaseFont.createFont;
 
 /**
  * Common constants and fonts that is used in FK SIT-type PDFs.

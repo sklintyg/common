@@ -1,43 +1,48 @@
 <div>
   <table class="dodsorsak-multi">
     <tr>
-      <th class="description-width"><span class="label-padding" dynamic-label
-                                          key="{{config.beskrivningLabel}}.RBK"></span> <span wc-help-chevron
-                                                                                              help-text-key="{{config.beskrivningLabel}}.HLP"></span>
+      <th class="description-width"><span class="label-padding" dynamic-label key="{{config.beskrivningLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.beskrivningLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{config.beskrivningLabel}}.HLP"></span>
       </th>
-      <th><span class="label-padding" dynamic-label key="{{config.datumLabel}}.RBK"></span> <span wc-help-chevron
-                                                                                                  help-text-key="{{config.datumLabel}}.HLP"></span>
+      <th><span class="label-padding" dynamic-label key="{{config.datumLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.datumLabel}}.HLP"></span>
         <span wc-help-chevron-text help-text-key="{{config.datumLabel}}.HLP"></span></th>
-      <th><span class="label-padding" dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron
-                                                                                                  help-text-key="{{config.orsakLabel}}.HLP"></span>
+      <th><span class="label-padding" dynamic-label key="{{config.orsakLabel}}.RBK"></span> <span wc-help-chevron help-text-key="{{config.orsakLabel}}.HLP"></span>
         <span class="label-padding" wc-help-chevron-text help-text-key="{{config.orsakLabel}}.HLP"></span>
       </th>
     </tr>
     <tr ng-repeat-start="orsak in model[config.modelProp]">
       <td>
         <div class="input-wrapper">
-          <input id="orsak-multi-{{$index}}-beskrivning" type="text" class="form-control input-full"
+          <input id="orsak-multi-{{$index}}-beskrivning"
+                 type="text"
+                 class="form-control input-full"
                  ng-class="{'validation-error' : hasValidationError('beskrivning', $index)}"
-                 ng-model="orsak.beskrivning" ue-filter-latin1 ng-blur="validate()"
+                 ng-model="orsak.beskrivning"
+                 ue-filter-latin1
+                 ng-blur="validate()"
                  maxlength="{{config.htmlMaxlength || 3500}}">
         </div>
       </td>
       <td>
         <span wc-date-picker-field target-model="orsak.datum" dom-id="orsak-multi-{{$index}}-datum"
-              ng-class="{'validation-error' : hasValidationError('datum', $index)}" ng-model="orsak.datum"
-              on-blur="validate()" max-date="{{config.maxDate}}" add-date-parser="loose"></span>
+              ng-class="{'validation-error' : hasValidationError('datum', $index)}"
+              ng-model="orsak.datum"
+              on-blur="validate()"
+              max-date="{{config.maxDate}}"
+              add-date-parser="loose"></span>
       </td>
       <td class="dropdown-row">
-        <wc-dropdown data-items="orsakOptions" ng-model="orsak.specifikation" data-on-select="validate()"
-                     id="orsak-multi-{{$index}}-specifikation" name="andraDodsorsak-{{$index}}"
+        <wc-dropdown data-items="orsakOptions"
+                     ng-model="orsak.specifikation"
+                     data-on-select="validate()"
+                     id="orsak-multi-{{$index}}-specifikation"
+                     name="andraDodsorsak-{{$index}}"
                      use-dynamic-label="false"
-                     ng-class="{'validation-error' : hasValidationError('specifikation',  $index)}"></wc-dropdown>
+                     ng-class="{'validation-error' : hasValidationError('specifikation',  $index)}">
+        </wc-dropdown>
       </td>
       <td>
-        <button type="button" ng-if="$index > 0" class="btn btn-type-8" ng-click="deleteRow($index);validate()"><i
-            class="material-icons">remove_circle</i> Ta bort
-        </button>
+        <button type="button" ng-if="$index > 0" class="btn btn-type-8" ng-click="deleteRow($index);validate()"><i class="material-icons">remove_circle</i> Ta bort</button>
       </td>
     </tr>
     <tr ng-repeat-end>
@@ -49,8 +54,6 @@
       </td>
     </tr>
   </table>
-  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-type-8"
-          ng-click="addRow();validate()"><i class="material-icons">add_circle</i> Lägg till sjukdom/skada
-  </button>
-
+  <button type="button" ng-disabled="model[config.modelProp].length >= config.maxRows" class="btn btn-type-8" ng-click="addRow();validate()"><i class="material-icons">add_circle</i> Lägg till sjukdom/skada</button>
+  
 </div>

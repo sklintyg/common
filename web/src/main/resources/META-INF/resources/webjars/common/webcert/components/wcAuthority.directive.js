@@ -17,35 +17,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcAuthority',
-    ['$log', '$timeout', 'common.authorityService',
-      function($log, $timeout, authorityService) {
-        'use strict';
-        return {
-          restrict: 'A',
-          link: function($scope, $element, $attr) {
+    [ '$log', '$timeout', 'common.authorityService',
+        function($log, $timeout, authorityService) {
+            'use strict';
+            return {
+                restrict: 'A',
+                link: function($scope, $element, $attr) {
 
-            if ($attr.intygstyp === undefined && ($attr.wcAuthority || $attr.feature)) {
-              $log.error('wcAuthority: Missing required attribute intygstyp at', $element);
-            }
+                    if ($attr.intygstyp === undefined && ($attr.wcAuthority || $attr.feature)) {
+                        $log.error('wcAuthority: Missing required attribute intygstyp at', $element);
+                    }
 
-            function _checkAuthority() {
-              var options = {
-                authority: $attr.wcAuthority,
-                feature: $attr.feature,
-                role: $attr.role,
-                intygstyp: $attr.intygstyp,
-                requestOrigin: $attr.requestOrigin
-              };
-              if (!authorityService.isAuthorityActive(options)) {
-                $element.remove();
-              }
-            }
+                    function _checkAuthority() {
+                        var options = {
+                            authority: $attr.wcAuthority,
+                            feature: $attr.feature,
+                            role: $attr.role,
+                            intygstyp: $attr.intygstyp,
+                            requestOrigin: $attr.requestOrigin
+                        };
+                        if (!authorityService.isAuthorityActive(options)) {
+                            $element.remove();
+                        }
+                    }
 
-            if ($attr.timeout) {
-              _checkAuthority();
-            } else {
-              $timeout(_checkAuthority);
-            }
-          }
-        };
-      }]);
+                    if ($attr.timeout) {
+                        _checkAuthority();
+                    }
+                    else {
+                        $timeout(_checkAuthority);
+                    }
+                }
+            };
+        }]);

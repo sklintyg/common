@@ -20,6 +20,7 @@ package se.inera.intyg.common.ts_diabetes.v2.validator.transport;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import se.inera.intyg.common.support.Constants;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
 

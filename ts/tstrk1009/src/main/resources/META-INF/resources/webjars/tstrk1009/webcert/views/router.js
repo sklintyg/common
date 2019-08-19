@@ -17,85 +17,88 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('tstrk1009').config(function($stateProvider) {
-  'use strict';
+    'use strict';
 
-  var commonPath = '/web/webjars/common/webcert/';
+    var commonPath = '/web/webjars/common/webcert/';
 
-  var editViewState = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('tstrk1009.UtkastController.ViewStateService', $stateParams);
-  };
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1009.UtkastController.ViewStateService', $stateParams);
+    };
 
-  var utkastConfig = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('tstrk1009.UtkastConfigFactory', $stateParams);
-  };
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1009.UtkastConfigFactory', $stateParams);
+    };
 
-  var viewConfig = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('tstrk1009.viewConfigFactory', $stateParams);
-  };
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1009.viewConfigFactory', $stateParams);
+    };
 
-  var supportPanelConfig = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('tstrk1009.supportPanelConfigFactory', $stateParams);
-  };
+    var supportPanelConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('tstrk1009.supportPanelConfigFactory', $stateParams);
+    };
 
-  $stateProvider.state('tstrk1009', {
-    url: '/tstrk1009'
-  }).state('tstrk1009.utkast', {
-    data: {defaultActive: 'index', intygType: 'tstrk1009'},
-    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
-    params: {
-      focusOn: ''
-    },
-    resolve: {
-      ViewState: editViewState,
-      UtkastConfigFactory: utkastConfig,
-      supportPanelConfigFactory: supportPanelConfig
-    },
-    views: {
-      'content@': {
-        templateUrl: commonPath + 'utkast/smiUtkast.html',
-        controller: 'smi.EditCertCtrl'
-      },
+    $stateProvider.
+        state('tstrk1009', {
+            url: '/tstrk1009'
+        }).
+        state('tstrk1009.utkast', {
+            data: { defaultActive : 'index', intygType: 'tstrk1009' },
+            url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: supportPanelConfig
+            },
+            views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl'
+                },
 
-      'header@': {
-        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-      },
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
 
-      'header@tstrk1009.utkast': {
-        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-        controller: 'common.UtkastHeader'
-      },
+                'header@tstrk1009.utkast' : {
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader'
+                },
 
-      'footer@tstrk1009.utkast': {
-        templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-        controller: 'common.UtkastFooter'
-      },
+                'footer@tstrk1009.utkast' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                    controller: 'common.UtkastFooter'
+                },
 
-      'utkast@tstrk1009.utkast': {
-        templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-        controller: 'smi.EditCert.UECtrl'
-      }
-    }
-  }).state('webcert.intyg.tstrk1009', {
-    data: {defaultActive: 'index', intygType: 'tstrk1009'},
-    url: '/intyg/tstrk1009/:intygTypeVersion/:certificateId/:focusOn?:signed',
-    params: {
-      focusOn: ''
-    },
-    resolve: {
-      ViewState: 'tstrk1009.IntygController.ViewStateService',
-      ViewConfigFactory: viewConfig,
-      supportPanelConfigFactory: supportPanelConfig,
-      IntygViewState: 'tstrk1009.IntygController.ViewStateService'
-    },
-    views: {
-      'intyg@webcert.intyg': {
-        templateUrl: commonPath + 'intyg/smiIntygUv.html',
-        controller: 'smi.ViewCertCtrlUv'
-      },
-      'header@webcert.intyg.tstrk1009': {
-        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-        controller: 'common.IntygHeader'
-      }
-    }
-  });
+                'utkast@tstrk1009.utkast' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl'
+                }
+            }
+        }).
+        state('webcert.intyg.tstrk1009', {
+            data: { defaultActive: 'index', intygType: 'tstrk1009' },
+            url: '/intyg/tstrk1009/:intygTypeVersion/:certificateId/:focusOn?:signed',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: 'tstrk1009.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: supportPanelConfig,
+                IntygViewState: 'tstrk1009.IntygController.ViewStateService'
+            },
+            views: {
+                'intyg@webcert.intyg': {
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv'
+                },
+                'header@webcert.intyg.tstrk1009': {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        });
 });

@@ -16,34 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('luae_na', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
+angular.module('luae_na', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('luae_na').config(function($stateProvider) {
-  'use strict';
+    'use strict';
 
-  $stateProvider.state('luae_na-view', {
-    url: '/luae_na/:intygTypeVersion/view/:certificateId',
-    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-    controller: 'common.ViewCertCtrl',
-    resolve: {
-      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('luae_na.viewConfigFactory', $stateParams);
-      },
-      viewFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('luae_na.viewFactory', $stateParams);
-      }
-    },
-    data: {
-      title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
-      breadcrumb: ['inkorg', 'intyg']
-    }
-  });
+    $stateProvider.
+        state('luae_na-view', {
+            url :'/luae_na/:intygTypeVersion/view/:certificateId',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_na.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_na.viewFactory', $stateParams);
+                }
+            },
+            data : { title: 'Läkarintyg aktivitetsersättning nedsatt arbetsförmåga', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg'] }
+        });
 });
 
 // Inject language resources
 angular.module('luae_na').run(['common.messageService', 'luae_na.messages',
-  function(messageService, luaeNaMessages) {
-    'use strict';
+    function(messageService, luaeNaMessages) {
+        'use strict';
 
-    messageService.addResources(luaeNaMessages);
-  }]);
+        messageService.addResources(luaeNaMessages);
+    }]);

@@ -19,8 +19,10 @@
 package se.inera.intyg.common.util.integration.schema.adapter;
 
 import java.text.DecimalFormat;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import se.inera.intyg.common.support.model.InternalDate;
 
 public final class InternalDateAdapter {

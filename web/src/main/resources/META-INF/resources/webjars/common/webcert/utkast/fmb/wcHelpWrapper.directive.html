@@ -1,7 +1,6 @@
 <div>
   <div class="wc-help-wrapper">
-    <wc-fmb-help-display ng-if="fmbAvailable" related-form-id="{{fmbId}}"
-                         field-name="{{fmbFieldName}}"></wc-fmb-help-display>
+    <wc-fmb-help-display ng-if="fmbAvailable" related-form-id="{{fmbId}}" field-name="{{fmbFieldName}}"></wc-fmb-help-display>
     <wc-srs-help-display ng-if="srsId" id='{{srsId}}'></wc-srs-help-display>
   </div>
   <div ng-class="{'help-column': shouldPushContent() }">

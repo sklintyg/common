@@ -20,14 +20,15 @@ package se.inera.intyg.common.ts_diabetes.v3.model.converter;
 
 import static org.junit.Assert.assertFalse;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,6 +41,9 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
 import se.inera.intyg.common.ts_diabetes.v3.utils.Scenario;

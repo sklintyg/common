@@ -24,6 +24,7 @@ import static se.inera.intyg.common.support.Constants.KV_STATUS_CODE_SYSTEM;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;

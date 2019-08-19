@@ -18,12 +18,10 @@
                 key="{{certMetaModel.type | lowercase}}.compact-header.complementaryinfo-prefix">
           </span>
           <br class="visible-xs">
-          <span ng-if="certMetaModel.complementaryInfo"
-                ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+          <span ng-if="certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
             {{certMetaModel.complementaryInfo}}
           </span>
-          <span ng-if="!certMetaModel.complementaryInfo"
-                ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
+          <span ng-if="!certMetaModel.complementaryInfo" ng-attr-id="certificate-complementary-info-{{certMetaModel.id}}">
             <p dynamic-label key="certificates.label.dash"></p>
           </span>
         </span>

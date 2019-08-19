@@ -18,12 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
+
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class NotificationMessage {
 

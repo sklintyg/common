@@ -6,8 +6,7 @@
       </th>
     </tr>
     <tr ng-repeat="row in viewModel.rows track by $index">
-      <td ng-repeat="value in row.values track by $index"
-          ng-attr-id="{{row.key + '-row' + '-col' + $index| uvDomIdFilter}}">
+      <td ng-repeat="value in row.values track by $index" ng-attr-id="{{row.key + '-row' + '-col' + $index| uvDomIdFilter}}">
         {{value}}
       </td>
     </tr>

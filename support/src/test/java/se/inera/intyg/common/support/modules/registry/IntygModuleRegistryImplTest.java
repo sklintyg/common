@@ -28,6 +28,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.util.ReflectionTestUtils;
+
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.api.ModuleApi;
@@ -156,7 +158,6 @@ public class IntygModuleRegistryImplTest {
     public void testGetModuleApiNotFoundMissingIntygTypeVersionParameter() throws Exception {
         registry.getModuleApi(MODULE_ID_1, null);
     }
-
     @Test(expected = ModuleNotFoundException.class)
     public void testGetModuleApiNotFoundBeanNotFoundInAppContext() throws Exception {
         when(applicationContext.getBean(anyString())).thenThrow(new NoSuchBeanDefinitionException("error"));

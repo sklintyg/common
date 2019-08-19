@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('latestEventsText', ['$compile',
-  function($compile) {
-    'use strict';
+    function($compile) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        text: '=',
-        viewCert: '&'
-      },
-      link: function($scope, $element) {
-        $element.append($scope.text);
-        $compile($element.contents())($scope);
-      }
-    };
-  }
+        return {
+            restrict: 'E',
+            scope: {
+                text: '=',
+                viewCert: '&'
+            },
+            link: function($scope, $element) {
+                $element.append($scope.text);
+                $compile($element.contents())($scope);
+            }
+        };
+    }
 ]);

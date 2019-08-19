@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcIntygHasKompletteringMessage',
-    ['common.ArendeListViewStateService', function(ArendeListViewStateService) {
-      'use strict';
+angular.module('common').directive('wcIntygHasKompletteringMessage', [ 'common.ArendeListViewStateService', function(ArendeListViewStateService) {
+    'use strict';
 
-      return {
+    return {
         restrict: 'E',
         templateUrl: '/web/webjars/common/webcert/components/wcIntygHasKompletteringMessage/wcIntygHasKompletteringMessage.directive.html',
         link: function($scope) {
 
-          $scope.hasKompletteringar = function() {
-            return ArendeListViewStateService.getUnhandledKompletteringCount() > 0;
-          };
+            $scope.hasKompletteringar = function() {
+                return ArendeListViewStateService.getUnhandledKompletteringCount() > 0;
+            };
         }
-      };
-    }]);
+    };
+} ]);

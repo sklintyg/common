@@ -18,10 +18,6 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
-import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
-
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -34,6 +30,10 @@ import com.itextpdf.kernel.pdf.xobject.PdfFormXObject;
 import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
+
+import static se.inera.intyg.common.pdf.model.UVComponent.SVAR_FONT_SIZE;
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders the page number. Note that quirky placeholder stuff going on since we don't know the total number of pages

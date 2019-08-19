@@ -18,8 +18,9 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import com.google.common.base.Objects;
 import org.springframework.util.Assert;
+
+import com.google.common.base.Objects;
 
 public final class ValidationMessage {
 

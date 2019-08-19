@@ -18,14 +18,17 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.EnumSet;
 import java.util.Set;
-import javax.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import javax.annotation.Nullable;
 
 @JsonDeserialize(builder = Bedomning.Builder.class)
 public final class Bedomning {

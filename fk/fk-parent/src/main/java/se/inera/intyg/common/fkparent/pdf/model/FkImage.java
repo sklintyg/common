@@ -18,12 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
+import java.io.IOException;
+
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfWriter;
-import java.io.IOException;
 
 /**
  * A component that adds an image at the specified position.

@@ -35,8 +35,8 @@ task jsTests(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappTestOutputDir)
 
     script = file(gruntBinary)
-    args = ['test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
-            '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '')]
+    args = [ 'test', "--outputDir=${webappTestOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}",
+             '--run-coverage=' + (project.findProperty('codeCoverage') != null ? 'true' : '') ]
 }
 
 test.dependsOn(jsTests)
@@ -49,7 +49,7 @@ task jsInclude(type: NodeTask, dependsOn: [npmInstall]) {
     outputs.dir(webappOutputDir)
 
     script = file(gruntBinary)
-    args = ['default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
+    args = [ 'default', "--outputDir=${webappOutputDir}", "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
 }
 
 jar.dependsOn(jsInclude)
@@ -57,9 +57,7 @@ jar.dependsOn(jsInclude)
 task unzipBuildTools(type: Copy) {
     into "$buildDir/build-tools/"
     from {
-        def intygJar = project.rootProject.buildscript.configurations.classpath.find {
-            it.name.contains("se.inera.intyg.plugin.common")
-        }
+        def intygJar = project.rootProject.buildscript.configurations.classpath.find { it.name.contains("se.inera.intyg.plugin.common") }
         zipTree(intygJar)
     }
 }
@@ -68,7 +66,7 @@ task jsCodeQuality(type: NodeTask, dependsOn: [npmInstall, unzipBuildTools]) {
     outputs.upToDateWhen { false }
 
     script = file(gruntBinary)
-    args = ['lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}"]
+    args = [ 'lint', "--base=${projectDir}", "--npmDir=${rootProject.projectDir}" ]
 }
 
 checkstyleMain.dependsOn jsCodeQuality

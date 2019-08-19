@@ -19,6 +19,7 @@
 package se.inera.intyg.common.fkparent.model.converter;
 
 import java.util.List;
+
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public interface SvarIdHelper<T extends Utlatande> {

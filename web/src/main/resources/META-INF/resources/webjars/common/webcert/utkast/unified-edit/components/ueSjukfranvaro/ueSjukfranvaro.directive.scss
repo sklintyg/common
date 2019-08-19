@@ -1,12 +1,13 @@
 ue-sjukfranvaro {
 
   .ue-sjukfranvaro {
-    padding-top: 14px;
+      padding-top: 14px;
   }
 
   .niva.validation-error {
     border-color: $wc-color-11;
   }
+
 
 
   .full-time-label-span {
@@ -20,10 +21,10 @@ ue-sjukfranvaro {
   }
 
   input[type=text] {
-    &.form-control.niva {
-      display: inline-block;
-      width: 40px;
-    }
+      &.form-control.niva{
+        display: inline-block;
+        width: 40px;
+      }
   }
 
   label {
@@ -35,14 +36,13 @@ ue-sjukfranvaro {
   }
 
   .row {
-    padding-bottom: 10px;
+      padding-bottom: 10px;
   }
 
   .ifyllnadsstod {
     i {
       margin-left: -4px;
     }
-
     color: $wc-color-21;
   }
 }

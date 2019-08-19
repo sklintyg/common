@@ -18,39 +18,41 @@
  */
 
 describe('wcIntygHasKomplettering Directive', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var element;
-  var kompletteringCount;
+    var $scope;
+    var element;
+    var kompletteringCount;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
 
-  beforeEach(angular.mock.module('common', function($provide) {
-    $provide.value('common.ArendeListViewStateService', {
-      getUnhandledKompletteringCount: function() {
-        return kompletteringCount;
-      }
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
+
+    beforeEach(angular.mock.module('common', function($provide) {
+        $provide.value('common.ArendeListViewStateService', {
+            getUnhandledKompletteringCount: function() {
+                return kompletteringCount;
+            }
+        });
+    }));
+
+    beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
+        $scope = $rootScope.$new();
+        element = $compile('<wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>')($scope);
+
+    } ]));
+
+    it('should display message when komplettering exists', function() {
+        kompletteringCount = 1;
+        $scope.$digest();
+        expect($(element).find('#intyg-has-komplettering-message').length).toBe(1);
     });
-  }));
 
-  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-    $scope = $rootScope.$new();
-    element = $compile('<wc-intyg-has-komplettering-message></wc-intyg-has-komplettering-message>')($scope);
+    it('should not display message when no komplettering exists', function() {
+        kompletteringCount = 0;
+        $scope.$digest();
+        expect($(element).find('#intyg-has-komplettering-message').length).toBe(0);
+    });
 
-  }]));
-
-  it('should display message when komplettering exists', function() {
-    kompletteringCount = 1;
-    $scope.$digest();
-    expect($(element).find('#intyg-has-komplettering-message').length).toBe(1);
-  });
-
-  it('should not display message when no komplettering exists', function() {
-    kompletteringCount = 0;
-    $scope.$digest();
-    expect($(element).find('#intyg-has-komplettering-message').length).toBe(0);
-  });
 
 });

@@ -1,16 +1,17 @@
-<div class="ue-del-fraga">
+<div class="ue-del-fraga">  
   <ue-label config="::config.label" model="::model"></ue-label>
 
   <button type="button" id="icf-{{config.modelProp}}-dropdown"
-          ng-click="openKategoriDropdown();$event.stopPropagation();" class="btn btn-default icf-button"
-          ng-class="{'disabled': !hasICFDiagnos(), 'open': kategoriDropdown}" uib-popover="{{getPopoverText()}}"
-          popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
-          popover-placement="auto top">
+      ng-click="openKategoriDropdown();$event.stopPropagation();" class="btn btn-default icf-button"
+      ng-class="{'disabled': !hasICFDiagnos(), 'open': kategoriDropdown}" uib-popover="{{getPopoverText()}}"
+      popover-trigger="mouseenter" popover-popup-delay="300" popover-append-to-body="true"
+      popover-placement="auto top">
     <i class="material-icons bluetext">lightbulb_outline</i> Ta hjälp av ICF
     <i class="material-icons">{{kategoriDropdown ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
   </button>
 
-  <div ng-if="kategoriDropdown" id="icf-{{config.modelProp}}-plate" class="funktions-dropdown-plate">
+  <div ng-if="kategoriDropdown" id="icf-{{config.modelProp}}-plate"
+      class="funktions-dropdown-plate">
     <div class="kategori-header">
       <span>{{ config.modelProp == 'funktionsnedsattning' ?
           'Välj enbart de problem som påverkar patientens möjlighet att utföra sin sysselsättning.' :
@@ -18,21 +19,18 @@
     </div>
     <div class="kategori-content">
       <div class="kategori-content-padding">
-        <div ng-if="kategorier.gemensamma[getKodTyp()] && kategorier.gemensamma[getKodTyp()].icfKoder.length > 0">
-          <span class="kategori-label">ICF-kategorier gemensamma för:</span><br />
-          <strong class="medborder"
-                  bind-html-compile="diagnosBeskrivningen(kategorier.gemensamma[getKodTyp()].icd10Koder)"></strong>
-          <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].icfKoder"
-                           class="kategori"></ue-icf-kategori>
-        </div>
+      <div ng-if="kategorier.gemensamma[getKodTyp()] && kategorier.gemensamma[getKodTyp()].icfKoder.length > 0">
+        <span class="kategori-label">ICF-kategorier gemensamma för:</span><br />
+        <strong class="medborder" bind-html-compile="diagnosBeskrivningen(kategorier.gemensamma[getKodTyp()].icd10Koder)"></strong>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in kategorier.gemensamma[getKodTyp()].icfKoder" class="kategori"></ue-icf-kategori>
+      </div>
 
-        <div class="unika-wrapper" ng-repeat="unika in kategorier.unika"
-             ng-if="unika[getKodTyp()] && unika[getKodTyp()].icfKoder.length > 0">
-          <span class="kategori-label">ICF-kategorier för:</span><br />
-          <strong class="medborder" bind-html-compile="diagnosBeskrivningen(unika.icd10Kod)"></strong>
-          <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].icfKoder"
-                           class="kategori"></ue-icf-kategori>
-        </div>
+      <div class="unika-wrapper" ng-repeat="unika in kategorier.unika"
+            ng-if="unika[getKodTyp()] && unika[getKodTyp()].icfKoder.length > 0">
+        <span class="kategori-label">ICF-kategorier för:</span><br />
+        <strong class="medborder" bind-html-compile="diagnosBeskrivningen(unika.icd10Kod)"></strong>
+        <ue-icf-kategori kod="urval" ng-repeat="urval in unika[getKodTyp()].icfKoder" class="kategori"></ue-icf-kategori>
+      </div>
       </div>
     </div>
 
@@ -40,10 +38,9 @@
 
     <div class="kategori-footer">
       <input type="button" class="btn btn-success kategori-add" ng-disabled="isInteractionDisabled()"
-             value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
-             ng-click="add(kategorier);updateValidation()" />
-      <input type="button" class="btn btn-secondary kategori-rensa" value="Avbryt" ng-click="rensa()"
-             ng-disabled="isInteractionDisabled()" />
+              value="{{model[config.kategoriProp].length > 0 ? 'Uppdatera' : 'Lägg till'}}"
+              ng-click="add(kategorier);updateValidation()" />
+      <input type="button" class="btn btn-secondary kategori-rensa" value="Avbryt" ng-click="rensa()" ng-disabled="isInteractionDisabled()"/>
       <span><a href="https://www.socialstyrelsen.se/klassificeringochkoder/koderfunktionstillstandicf" target="_blank">Läs mer
         om ICF hos Socialstyrelsen<i class="external-link-icon material-icons">launch</i></a></span>
     </div>
@@ -55,16 +52,13 @@
           'Svårigheter som påverkar patientens sysselsättning:'}}</span>
     <span class="problem" ng-repeat="val in model[config.kategoriProp] track by $index">{{val}}</span>
   </div>
-
+  
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-    <div ng-if="(focus || modelGetterSetter()) && model[config.kategoriProp].length > 0" class="placeholder">
-      {{getPlaceHolder()}}
-    </div>
+    <div ng-if="(focus || modelGetterSetter()) && model[config.kategoriProp].length > 0" class="placeholder">{{getPlaceHolder()}}</div>
     <textarea ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" name="{{::config.modelProp}}" class="form-control"
               rows="{{::config.rows || 6}}" auto-expand ng-model="modelGetterSetter"
               ng-model-options="{ debounce: 500, getterSetter: true }" maxlength="{{::config.htmlMaxlength || 3500}}"
-              ng-blur="updateValidation();focus=false"
-              placeholder="{{(!focus && !modelGetterSetter()) && model[config.kategoriProp].length > 0 ? getPlaceHolder() : ''}}"
+              ng-blur="updateValidation();focus=false" placeholder="{{(!focus && !modelGetterSetter()) && model[config.kategoriProp].length > 0 ? getPlaceHolder() : ''}}"
               ng-class="{'placeholderPadding': (focus || modelGetterSetter()) && model[config.kategoriProp].length > 0 }"
               ng-focus="focus=true" ue-filter-latin1>
     </textarea>

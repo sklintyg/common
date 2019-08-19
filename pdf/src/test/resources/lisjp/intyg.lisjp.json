@@ -35,88 +35,88 @@
         "arbetsplatsKod": "1234567890"
       }
     },
-    "signeringsdatum": "2017-06-29T14:54:07.491",
+    "signeringsdatum":"2017-06-29T14:54:07.491",
     "relation": {}
   },
-  "textVersion": "1.0",
-  "avstangningSmittskydd": false,
-  "undersokningAvPatienten": "2016-05-10",
-  "telefonkontaktMedPatienten": "2016-05-10",
-  "journaluppgifter": "2016-05-10",
-  "annatGrundForMU": "2016-05-10",
-  "annatGrundForMUBeskrivning": "Utlåtande från leg. psykolog",
-  "sysselsattning": [
+  "textVersion":"1.0",
+  "avstangningSmittskydd":false,
+  "undersokningAvPatienten":"2016-05-10",
+  "telefonkontaktMedPatienten":"2016-05-10",
+  "journaluppgifter":"2016-05-10",
+  "annatGrundForMU":"2016-05-10",
+  "annatGrundForMUBeskrivning":"Utlåtande från leg. psykolog",
+  "sysselsattning":[
     {
-      "typ": "NUVARANDE_ARBETE"
+      "typ":"NUVARANDE_ARBETE"
     }
   ],
-  "nuvarandeArbete": "Jobbar som åkare, kör framförallt lastbil men hoppar även in på kontoret ibland",
-  "diagnoser": [
+  "nuvarandeArbete":"Jobbar som åkare, kör framförallt lastbil men hoppar även in på kontoret ibland",
+  "diagnoser":[
     {
-      "diagnosKod": "Z60",
-      "diagnosKodSystem": "ICD_10_SE",
-      "diagnosBeskrivning": "Problem som har samband med social miljö",
-      "diagnosDisplayName": "Problem som har samband med social miljö"
+      "diagnosKod":"Z60",
+      "diagnosKodSystem":"ICD_10_SE",
+      "diagnosBeskrivning":"Problem som har samband med social miljö",
+      "diagnosDisplayName":"Problem som har samband med social miljö"
     }
   ],
-  "funktionsnedsattning": "Påverkas kraftigt av stress och sociala situationer, därav yrkesvalet. Detta ger svårigheter att klara av lassning/lossning och kundmöten under stressigare perioder",
-  "aktivitetsbegransning": "Eftersträvar att undvika sociala kontakter när problemen manifesterar sig.",
-  "pagaendeBehandling": "KBT-terapi samt kuratorsamtal.",
-  "planeradBehandling": "Fortsatta samtal samt viss träning i KBT-grupp.",
-  "sjukskrivningar": [
+  "funktionsnedsattning":"Påverkas kraftigt av stress och sociala situationer, därav yrkesvalet. Detta ger svårigheter att klara av lassning/lossning och kundmöten under stressigare perioder",
+  "aktivitetsbegransning":"Eftersträvar att undvika sociala kontakter när problemen manifesterar sig.",
+  "pagaendeBehandling":"KBT-terapi samt kuratorsamtal.",
+  "planeradBehandling":"Fortsatta samtal samt viss träning i KBT-grupp.",
+  "sjukskrivningar":[
     {
-      "sjukskrivningsgrad": "HELT_NEDSATT",
-      "period": {
-        "from": "2016-05-23",
-        "tom": "2016-05-29"
+      "sjukskrivningsgrad":"HELT_NEDSATT",
+      "period":{
+        "from":"2016-05-23",
+        "tom":"2016-05-29"
       }
     },
     {
-      "sjukskrivningsgrad": "TRE_FJARDEDEL",
-      "period": {
-        "from": "2016-05-16",
-        "tom": "2016-05-22"
+      "sjukskrivningsgrad":"TRE_FJARDEDEL",
+      "period":{
+        "from":"2016-05-16",
+        "tom":"2016-05-22"
       }
     },
     {
-      "sjukskrivningsgrad": "HALFTEN",
-      "period": {
-        "from": "2016-05-09",
-        "tom": "2016-05-15"
+      "sjukskrivningsgrad":"HALFTEN",
+      "period":{
+        "from":"2016-05-09",
+        "tom":"2016-05-15"
       }
     },
     {
-      "sjukskrivningsgrad": "EN_FJARDEDEL",
-      "period": {
-        "from": "2016-05-01",
-        "tom": "2016-05-08"
+      "sjukskrivningsgrad":"EN_FJARDEDEL",
+      "period":{
+        "from":"2016-05-01",
+        "tom":"2016-05-08"
       }
     }
   ],
-  "arbetstidsforlaggning": true,
-  "arbetstidsforlaggningMotivering": "Nattetid är bäst, lägst chans till sociala interaktioner då",
-  "arbetsresor": true,
-  "prognos": {
-    "typ": "ATER_X_ANTAL_DGR",
-    "dagarTillArbete": "TRETTIO_DGR"
+  "arbetstidsforlaggning":true,
+  "arbetstidsforlaggningMotivering":"Nattetid är bäst, lägst chans till sociala interaktioner då",
+  "arbetsresor":true,
+  "prognos":{
+    "typ":"ATER_X_ANTAL_DGR",
+    "dagarTillArbete":"TRETTIO_DGR"
   },
-  "arbetslivsinriktadeAtgarder": [
+  "arbetslivsinriktadeAtgarder":[
     {
-      "typ": "BESOK_ARBETSPLATS"
+      "typ":"BESOK_ARBETSPLATS"
     }
   ],
-  "arbetslivsinriktadeAtgarderBeskrivning": "Försök att planera arbetet utifrån minimering av sociala kontakter. Hellre långa körningar än korta.",
-  "ovrigt": "Vill verkligen komma tillbaka i fullt arbete och tycker KBT-terapin ger bra verktyg att hantera stress.",
-  "kontaktMedFk": true,
-  "anledningTillKontakt": "Ser gärna uppföljning med upptrappning av arbetstid",
-  "tillaggsfragor": [
+  "arbetslivsinriktadeAtgarderBeskrivning":"Försök att planera arbetet utifrån minimering av sociala kontakter. Hellre långa körningar än korta.",
+  "ovrigt":"Vill verkligen komma tillbaka i fullt arbete och tycker KBT-terapin ger bra verktyg att hantera stress.",
+  "kontaktMedFk":true,
+  "anledningTillKontakt":"Ser gärna uppföljning med upptrappning av arbetstid",
+  "tillaggsfragor":[
     {
-      "id": "9001",
-      "svar": "42"
+      "id":"9001",
+      "svar":"42"
     },
     {
-      "id": "9002",
-      "svar": "50"
+      "id":"9002",
+      "svar":"50"
     }
   ]
 }

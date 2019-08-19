@@ -1,17 +1,29 @@
 <span class="inline-block">
   <span class="wc-datepicker-wrapper input-group">
-    <input id="{{::domId}}" name="{{::domId}}" type="text" class="form-control"
-           ng-class="{'text-invalid': invalid, focus:isFocused}" placeholder="åååå-mm-dd" ng-model="targetModel"
-           ng-model-options="targetModelOptions" is-open="pickerState.isOpen" maxlength="10"
-           uib-datepicker-popup="{{::format}}" popup-placement="auto right" max-date="{{::maxDate}}"
-           min-date="{{::minDate}}" datepicker-options="dateOptions" ng-blur="onDatepickerInputFieldBlur()"
+    <input id="{{::domId}}"
+           name="{{::domId}}"
+           type="text"
+           class="form-control"
+           ng-class="{'text-invalid': invalid, focus:isFocused}"
+           placeholder="åååå-mm-dd"
+           ng-model="targetModel"
+           ng-model-options="targetModelOptions"
+           is-open="pickerState.isOpen"
+           maxlength="10"
+           uib-datepicker-popup="{{::format}}"
+           popup-placement="auto right"
+           max-date="{{::maxDate}}"
+           min-date="{{::minDate}}"
+           datepicker-options="dateOptions"
+           ng-blur="onDatepickerInputFieldBlur()"
            datepicker-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepicker.template.html"
            datepicker-popup-template-url="/web/webjars/common/webcert/components/date/wcDatePickerField/datepickerPopup.template.html"
-           wc-blur-on-enter wc-date-picker-field-input ng-focus="focused()" autocomplete="off" />
+           wc-blur-on-enter
+           wc-date-picker-field-input
+           ng-focus="focused()"
+           autocomplete="off"/>
     <span class="input-group-btn">
-      <button type="button" id="{{::domId}}-toggle" class="btn btn-default" ng-class="{border:isFocused}"
-              ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen"><i
-          class="material-icons">date_range</i></button>
+      <button type="button" id="{{::domId}}-toggle" class="btn btn-default"  ng-class="{border:isFocused}" ng-click="toggleOpen($event)" ng-disabled="pickerState.isOpen"><i class="material-icons">date_range</i></button>
     </span>
   </span>
 </span>

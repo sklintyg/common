@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ag114.support;
 
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 

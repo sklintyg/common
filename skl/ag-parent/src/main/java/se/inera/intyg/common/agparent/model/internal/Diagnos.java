@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.agparent.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 
 /**
  * Created by BESA on 2016-02-23.

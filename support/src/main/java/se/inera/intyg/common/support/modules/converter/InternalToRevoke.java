@@ -19,6 +19,7 @@
 package se.inera.intyg.common.support.modules.converter;
 
 import java.time.LocalDateTime;
+
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;

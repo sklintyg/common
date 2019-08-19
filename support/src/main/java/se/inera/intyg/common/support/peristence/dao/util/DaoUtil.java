@@ -18,19 +18,20 @@
  */
 package se.inera.intyg.common.support.peristence.dao.util;
 
-import java.util.Optional;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.util.Optional;
 
 public final class DaoUtil {
 
-    private DaoUtil() {
-    }
+    private DaoUtil() { }
 
     /**
      * Get personnummer in the persisted format (yyyyMMdd-xxxx) regardless of the entered format.
      * Please observe that this method is only to be used in the DAO and other interactions with the config layer!
      *
      * @param personnummer Personnummer
+     *
      * @return pnr as a String with format yyyyMMdd-xxxx, or the original pnr if formatting was unsuccessful.
      */
     public static String formatPnrForPersistence(Personnummer personnummer) {

@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ag7804.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 
 @AutoValue
 public abstract class Prognos {

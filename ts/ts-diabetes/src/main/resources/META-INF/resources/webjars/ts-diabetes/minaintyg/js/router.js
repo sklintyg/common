@@ -20,22 +20,21 @@
  * Created by stephenwhite on 05/03/15.
  */
 angular.module('ts-diabetes').config(function($stateProvider) {
-  'use strict';
-  $stateProvider.state('ts-diabetes-view', {
-    url: '/ts-diabetes/:intygTypeVersion/view/:certificateId',
-    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-    controller: 'common.ViewCertCtrl',
-    resolve: {
-      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
-      },
-      viewFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-diabetes.viewFactory', $stateParams);
-      }
-    },
-    data: {
-      title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
-      breadcrumb: ['inkorg', 'intyg']
-    }
-  });
+    'use strict';
+    $stateProvider.
+        state('ts-diabetes-view', {
+            url :'/ts-diabetes/:intygTypeVersion/view/:certificateId',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-diabetes.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-diabetes.viewFactory', $stateParams);
+                }
+            },
+            data:{title: 'Läkarintyg Transportstyrelsen diabetes', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg']}
+        });
 });

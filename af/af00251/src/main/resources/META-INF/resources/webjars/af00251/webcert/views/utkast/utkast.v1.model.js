@@ -18,71 +18,71 @@
  */
 angular.module('af00251').factory('af00251.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-      'common.domain.BaseAtticModel', 'common.ObjectHelper',
-      function(GrundData, DraftModel, ModelAttr, BaseAtticModel, ObjectHelper) {
-        'use strict';
+        'common.domain.BaseAtticModel', 'common.ObjectHelper',
+        function (GrundData, DraftModel, ModelAttr, BaseAtticModel, ObjectHelper) {
+            'use strict';
 
-        var Af00251Modelv1 = BaseAtticModel._extend({
-          init: function init() {
-            var grundData = GrundData.build();
-            init._super.call(this, 'af00251Modelv1', {
+            var Af00251Modelv1 = BaseAtticModel._extend({
+                init: function init() {
+                    var grundData = GrundData.build();
+                    init._super.call(this, 'af00251Modelv1', {
 
-              'id': undefined,
-              'typ': undefined,
-              'textVersion': undefined,
-              'grundData': grundData,
+                        'id': undefined,
+                        'typ': undefined,
+                        'textVersion': undefined,
+                        'grundData': grundData,
 
-              // Kategori 1 Grund för medicinskt underlag
-              'undersokningsDatum': undefined,
-              'annatDatum': undefined,
-              'annatBeskrivning': undefined,
+                        // Kategori 1 Grund för medicinskt underlag
+                        'undersokningsDatum': undefined,
+                        'annatDatum': undefined,
+                        'annatBeskrivning': undefined,
 
-              // Kategori 2
-              'arbetsmarknadspolitisktProgram': {
-                'medicinskBedomning': undefined,
-                'omfattning': undefined,
-                'omfattningDeltid': undefined
-              },
+                        // Kategori 2
+                        'arbetsmarknadspolitisktProgram': {
+                            'medicinskBedomning': undefined,
+                            'omfattning': undefined,
+                            'omfattningDeltid': undefined
+                        },
 
-              // Kategori 3
-              'funktionsnedsattning': undefined,
-              'aktivitetsbegransning': undefined,
+                        // Kategori 3
+                        'funktionsnedsattning': undefined,
+                        'aktivitetsbegransning': undefined,
 
-              // Kategori 4
-              'harForhinder': undefined,
+                        // Kategori 4
+                        'harForhinder': undefined,
 
-              'sjukfranvaro': new ModelAttr('sjukfranvaro', {
-                defaultValue: []
-              }),
+                        'sjukfranvaro': new ModelAttr('sjukfranvaro', {
+                            defaultValue: []
+                        }),
 
-              'begransningSjukfranvaro': {
-                'kanBegransas': undefined,
-                'beskrivning': undefined
-              },
+                        'begransningSjukfranvaro': {
+                            'kanBegransas': undefined,
+                            'beskrivning': undefined
+                        },
 
-              'prognosAtergang': {
-                'prognos': undefined,
-                'anpassningar': undefined
-              }
+                        'prognosAtergang': {
+                            'prognos': undefined,
+                            'anpassningar': undefined
+                        }
 
+                    });
+                },
+                update: function update(content, parent) {
+                    if (parent) {
+                        parent.content = this;
+                    }
+                    update._super.call(this, content);
+                }
+
+            }, {
+                build: function () {
+                    return new DraftModel(new Af00251Modelv1());
+                }
             });
-          },
-          update: function update(content, parent) {
-            if (parent) {
-              parent.content = this;
-            }
-            update._super.call(this, content);
-          }
 
-        }, {
-          build: function() {
-            return new DraftModel(new Af00251Modelv1());
-          }
-        });
+            /**
+             * Return the constructor function IntygModel
+             */
+            return Af00251Modelv1;
 
-        /**
-         * Return the constructor function IntygModel
-         */
-        return Af00251Modelv1;
-
-      }]);
+        }]);

@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.pdf.renderer;
 
-import java.util.Map;
 import se.inera.intyg.common.pdf.model.Summary;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.util.Map;
 
 /**
  * A PrintConfig is a parameter object that is passed to the generic UVRenderer.

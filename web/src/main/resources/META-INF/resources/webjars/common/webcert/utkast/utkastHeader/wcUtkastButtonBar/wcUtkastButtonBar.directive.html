@@ -1,30 +1,59 @@
 <div class="white-space-no-wrap">
 
-  <button data-ng-if="showCopyBtn()" data-ng-disabled="disabledCopyBtn()" type="button" id="copy-utkast"
-          class="btn btn-primary" ng-click="copyUtkastPopOverOpen=false;copy()" uib-popover="{{copyBtnTooltipText}}"
-          popover-is-open="copyUtkastPopOverOpen" popover-popup-delay="300" popover-append-to-body="true"
-          popover-placement="auto top">
+  <button
+      data-ng-if="showCopyBtn()"
+      data-ng-disabled="disabledCopyBtn()"
+      type="button"
+      id="copy-utkast"
+      class="btn btn-primary"
+      ng-click="copyUtkastPopOverOpen=false;copy()"
+      uib-popover="{{copyBtnTooltipText}}"
+      popover-is-open="copyUtkastPopOverOpen"
+      popover-popup-delay="300"
+      popover-append-to-body="true"
+      popover-placement="auto top">
     <i class="icon-wc-ikon-komplettera icon-wc-24 align-middle"></i> <span dynamic-label key="common.copy"></span>
   </button>
 
-  <button data-ng-if="skrivUtUtkastPopOverOpen=false;showPrintBtn()" type="button" id="skriv-ut-utkast"
-          class="btn btn-primary" ng-click="print()" uib-popover="{{printBtnTooltipText}}"
-          popover-is-open="skrivUtUtkastPopOverOpen" popover-popup-delay="300" popover-append-to-body="true"
+  <button
+          data-ng-if="skrivUtUtkastPopOverOpen=false;showPrintBtn()"
+          type="button"
+          id="skriv-ut-utkast"
+          class="btn btn-primary"
+          ng-click="print()"
+          uib-popover="{{printBtnTooltipText}}"
+          popover-is-open="skrivUtUtkastPopOverOpen"
+          popover-popup-delay="300"
+          popover-append-to-body="true"
           popover-placement="auto top">
     <i class="material-icons">print</i> <span dynamic-label key="common.button.save.as.pdf"></span>
   </button>
 
-  <button data-ng-if="showDeleteBtn()" type="button" id="ta-bort-utkast" class="btn btn-secondary"
-          ng-click="deleteUtkastBtnPopOverOpen=false;discard()" uib-popover="{{deleteBtnTooltipText}}"
-          popover-is-open="deleteUtkastBtnPopOverOpen" popover-popup-delay="300" popover-append-to-body="true"
+  <button
+          data-ng-if="showDeleteBtn()"
+          type="button"
+          id="ta-bort-utkast"
+          class="btn btn-secondary"
+          ng-click="deleteUtkastBtnPopOverOpen=false;discard()"
+          uib-popover="{{deleteBtnTooltipText}}"
+          popover-is-open="deleteUtkastBtnPopOverOpen"
+          popover-popup-delay="300"
+          popover-append-to-body="true"
           popover-placement="auto top">
     <i class="material-icons">delete</i> <span dynamic-label key="common.delete"></span>
   </button>
 
-  <button data-ng-if="makuleraUtkastBtnPopOverOpen=false;showMakuleraBtn()" type="button" id="makulera-utkast"
-          class="btn btn-secondary" ng-click="makulera()" uib-popover="{{makuleraBtnTooltipText}}"
-          popover-is-open="makuleraUtkastBtnPopOverOpen" popover-popup-delay="300" popover-append-to-body="true"
-          popover-placement="auto top">
+  <button
+      data-ng-if="makuleraUtkastBtnPopOverOpen=false;showMakuleraBtn()"
+      type="button"
+      id="makulera-utkast"
+      class="btn btn-secondary"
+      ng-click="makulera()"
+      uib-popover="{{makuleraBtnTooltipText}}"
+      popover-is-open="makuleraUtkastBtnPopOverOpen"
+      popover-popup-delay="300"
+      popover-append-to-body="true"
+      popover-placement="auto top">
     <i class="material-icons">delete</i> <span dynamic-label key="common.makulera"></span>
   </button>
 </div>

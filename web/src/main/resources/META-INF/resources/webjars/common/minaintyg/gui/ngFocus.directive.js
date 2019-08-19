@@ -18,76 +18,76 @@
  */
 angular.module('common').directive('ngFocus',
     function($parse, $timeout) {
-      'use strict';
-      return function(scope, element, attrs) {
-        var ngFocusGet = $parse(attrs.ngFocus);
-        var ngFocusSet = ngFocusGet.assign;
-        if (!ngFocusSet) {
-          throw Error('Non assignable expression');
-        }
-
-        var abortFocusing = false;
-        var unwatch = scope.$watch(attrs.ngFocus, function(newVal) {
-          if (newVal) {
-            $timeout(function() {
-              element[0].focus();
-            }, 0);
-          } else {
-            $timeout(function() {
-              element[0].blur();
-            }, 0);
-          }
-        });
-
-        function onBlur() {
-          if (abortFocusing) {
-            return;
-          }
-
-          $timeout(function() {
-            ngFocusSet(scope, false);
-          }, 0);
-        }
-
-        element.bind('blur', onBlur);
-
-        var timerStarted = false;
-        var focusCount = 0;
-
-        function startTimer() {
-          $timeout(function() {
-            timerStarted = false;
-            if (focusCount > 3) {
-              unwatch();
-              abortFocusing = true;
-              throw new Error(
-                  'Aborting : ngFocus cannot be assigned to the same variable with multiple elements');
+        'use strict';
+        return function(scope, element, attrs) {
+            var ngFocusGet = $parse(attrs.ngFocus);
+            var ngFocusSet = ngFocusGet.assign;
+            if (!ngFocusSet) {
+                throw Error('Non assignable expression');
             }
-          }, 200);
-        }
 
-        function onFocus() {
-          if (abortFocusing) {
-            return;
-          }
+            var abortFocusing = false;
+            var unwatch = scope.$watch(attrs.ngFocus, function(newVal) {
+                if (newVal) {
+                    $timeout(function() {
+                        element[0].focus();
+                    }, 0);
+                } else {
+                    $timeout(function() {
+                        element[0].blur();
+                    }, 0);
+                }
+            });
 
-          if (!timerStarted) {
-            timerStarted = true;
-            focusCount = 0;
-            startTimer();
-          }
-          focusCount++;
+            function onBlur() {
+                if (abortFocusing) {
+                    return;
+                }
 
-          $timeout(function() {
-            ngFocusSet(scope, true);
-          }, 0);
-        }
+                $timeout(function() {
+                    ngFocusSet(scope, false);
+                }, 0);
+            }
 
-        element.bind('focus', onFocus);
+            element.bind('blur', onBlur);
 
-        scope.$on('$destroy', function() {
-          element.unbind('blur', onBlur);
-          element.unbind('focus', onFocus);
-        });
-      };
+            var timerStarted = false;
+            var focusCount = 0;
+
+            function startTimer() {
+                $timeout(function() {
+                    timerStarted = false;
+                    if (focusCount > 3) {
+                        unwatch();
+                        abortFocusing = true;
+                        throw new Error(
+                            'Aborting : ngFocus cannot be assigned to the same variable with multiple elements');
+                    }
+                }, 200);
+            }
+
+            function onFocus() {
+                if (abortFocusing) {
+                    return;
+                }
+
+                if (!timerStarted) {
+                    timerStarted = true;
+                    focusCount = 0;
+                    startTimer();
+                }
+                focusCount++;
+
+                $timeout(function() {
+                    ngFocusSet(scope, true);
+                }, 0);
+            }
+
+            element.bind('focus', onFocus);
+
+            scope.$on('$destroy', function() {
+                element.unbind('blur', onBlur);
+                element.unbind('focus', onFocus);
+           });
+        };
     });

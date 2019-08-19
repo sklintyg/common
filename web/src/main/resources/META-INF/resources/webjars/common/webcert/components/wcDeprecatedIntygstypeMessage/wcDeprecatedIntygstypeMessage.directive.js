@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcDeprecatedIntygstypeMessage', ['common.moduleService', function(moduleService) {
-  'use strict';
+angular.module('common').directive('wcDeprecatedIntygstypeMessage', [ 'common.moduleService', function(moduleService) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      intygsType: '@',
-      messageSuffix: '@'
-    },
-    templateUrl: '/web/webjars/common/webcert/components/wcDeprecatedIntygstypeMessage/wcDeprecatedIntygstypeMessage.directive.html',
-    link: function($scope) {
-      $scope.messageKey = $scope.intygsType + '.deprecated-message.' + $scope.messageSuffix;
-      $scope.shouldShowMessage = function() {
-        var module = moduleService.getModule($scope.intygsType);
-        return module && module.deprecated && module.displayDeprecated;
-      };
-    }
-  };
-}]);
+    return {
+        restrict: 'E',
+        scope: {
+            intygsType: '@',
+            messageSuffix: '@'
+        },
+        templateUrl: '/web/webjars/common/webcert/components/wcDeprecatedIntygstypeMessage/wcDeprecatedIntygstypeMessage.directive.html',
+        link: function($scope) {
+            $scope.messageKey = $scope.intygsType + '.deprecated-message.' + $scope.messageSuffix;
+            $scope.shouldShowMessage = function() {
+                var module = moduleService.getModule($scope.intygsType);
+                return module && module.deprecated && module.displayDeprecated;
+            };
+        }
+    };
+} ]);

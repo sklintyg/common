@@ -17,39 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcIntegrationEnhetSelector', function() {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      'user': '=',
-      'onUnitSelection': '&'
-    },
-    templateUrl: '/web/webjars/common/webcert/components/wcIntegrationEnhetSelector/wcIntegrationEnhetSelector.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            'user': '=',
+            'onUnitSelection': '&'
+        },
+        templateUrl: '/web/webjars/common/webcert/components/wcIntegrationEnhetSelector/wcIntegrationEnhetSelector.directive.html',
+        link: function($scope) {
 
-      //Create lo local copy with only required info
-      var model = {};
-      model.vardgivare = angular.copy($scope.user.vardgivare);
-      model.valdVardenhet = angular.copy($scope.user.valdVardenhet);
-      //just expand all vg by default
-      if (angular.isArray(model.vardgivare)) {
-        angular.forEach(model.vardgivare, function(vg) {
-          vg.expanded = true;
-        });
-      }
+            //Create lo local copy with only required info
+            var model = {};
+            model.vardgivare = angular.copy($scope.user.vardgivare);
+            model.valdVardenhet = angular.copy($scope.user.valdVardenhet);
+            //just expand all vg by default
+            if (angular.isArray(model.vardgivare)) {
+                angular.forEach(model.vardgivare, function(vg) {
+                    vg.expanded = true;
+                });
+            }
 
-      //Expose our model copy to view
-      $scope.model = model;
+            //Expose our model copy to view
+            $scope.model = model;
 
-      //Report user selection back to user of directive
-      $scope.itemSelected = function(e, unit) {
-        e.preventDefault();
-        $scope.onUnitSelection({
-          enhet: unit
-        });
-      };
-    }
+            //Report user selection back to user of directive
+            $scope.itemSelected = function(e, unit) {
+                e.preventDefault();
+                $scope.onUnitSelection({
+                    enhet: unit
+                });
+            };
+        }
 
-  };
+    };
 });

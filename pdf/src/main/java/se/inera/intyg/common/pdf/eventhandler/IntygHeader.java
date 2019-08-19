@@ -24,6 +24,9 @@ import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
 import static se.inera.intyg.common.pdf.renderer.UVRenderer.WC_COLOR_11;
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import com.google.common.base.Strings;
 import com.itextpdf.io.font.otf.Glyph;
 import com.itextpdf.io.font.otf.GlyphLine;
@@ -42,8 +45,7 @@ import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
 
 /**

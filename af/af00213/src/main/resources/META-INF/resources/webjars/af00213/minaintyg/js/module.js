@@ -19,31 +19,31 @@
 angular.module('af00213', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('af00213').config(function($stateProvider) {
-  'use strict';
+    'use strict';
 
-  $stateProvider.state('af00213-view', {
-    url: '/af00213/:intygTypeVersion/view/:certificateId',
-    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-    controller: 'common.ViewCertCtrl',
-    resolve: {
-      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
-      },
-      viewFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('af00213.viewFactory', $stateParams);
-      }
-    },
-    data: {
-      title: 'Läkarintyg för sjukpenning',
-      keepInboxTabActive: true,
-      breadcrumb: ['inkorg', 'intyg']
-    }
-  });
+    $stateProvider.state('af00213-view', {
+        url: '/af00213/:intygTypeVersion/view/:certificateId',
+        templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+        controller: 'common.ViewCertCtrl',
+        resolve: {
+            viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+              return factoryResolverHelper.resolve('af00213.viewConfigFactory', $stateParams);
+            },
+            viewFactory: function(factoryResolverHelper, $stateParams) {
+                return factoryResolverHelper.resolve('af00213.viewFactory', $stateParams);
+            }
+        },
+        data: {
+            title: 'Läkarintyg för sjukpenning',
+            keepInboxTabActive: true,
+            breadcrumb: ['inkorg', 'intyg']
+        }
+    });
 });
 
 // Inject language resources
 angular.module('af00213').run(['common.messageService', 'af00213.messages', function(messageService, af00213Messages) {
-  'use strict';
+    'use strict';
 
-  messageService.addResources(af00213Messages);
+    messageService.addResources(af00213Messages);
 }]);

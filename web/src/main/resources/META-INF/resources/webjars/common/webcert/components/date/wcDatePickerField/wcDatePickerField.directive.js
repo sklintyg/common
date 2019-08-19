@@ -16,161 +16,162 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('wcDatePickerField',
-    ['$rootScope', '$timeout', 'common.DatePickerOpenService', 'common.DateUtilsService',
-      function($rootScope, $timeout, datePickerOpen, dateUtils) {
+angular.module('common').directive('wcDatePickerField',['$rootScope', '$timeout', 'common.DatePickerOpenService', 'common.DateUtilsService',
+    function($rootScope, $timeout, datePickerOpen, dateUtils) {
         'use strict';
 
         return {
-          restrict: 'A',
-          replace: true,
-          scope: {
-            targetModel: '=',
-            targetModelOptions: '=?',
-            format: '@',
-            domId: '@',
-            invalid: '=',
-            onChange: '&',
-            maxDate: '@',
-            minDate: '@',
-            addDateParser: '@',
-            dateOptions: '@',
-            onBlur: '&'
-          },
-          templateUrl: '/web/webjars/common/webcert/components/date/wcDatePickerField/wcDatePickerField.directive.html',
-          require: 'wcDatePickerField',
-          controller: function($scope) {
-            var activeDate = new Date();
+            restrict: 'A',
+            replace: true,
+            scope: {
+                targetModel: '=',
+                targetModelOptions: '=?',
+                format: '@',
+                domId: '@',
+                invalid: '=',
+                onChange: '&',
+                maxDate: '@',
+                minDate: '@',
+                addDateParser: '@',
+                dateOptions: '@',
+                onBlur: '&'
+            },
+            templateUrl: '/web/webjars/common/webcert/components/date/wcDatePickerField/wcDatePickerField.directive.html',
+            require:'wcDatePickerField',
+            controller: function($scope) {
+                var activeDate = new Date();
 
-            function setActiveDate(date) {
-              activeDate = date;
-            }
-
-            function getActiveDate() {
-              return activeDate;
-            }
-
-            $scope.dateOptions = {
-              minDate: undefined,
-              maxDate: undefined,
-              maxMode: 'day',
-              setActiveDate: setActiveDate,
-              getActiveDate: getActiveDate
-            };
-
-            if (!$scope.targetModelOptions) {
-              $scope.targetModelOptions = {};
-            }
-            $scope.targetModelOptions.allowInvalid = true;
-
-            if ($scope.minDate !== undefined) {
-              $scope.dateOptions.minDate = new Date($scope.minDate);
-            }
-
-            if ($scope.maxDate !== undefined) {
-              $scope.dateOptions.maxDate = new Date($scope.maxDate);
-            }
-
-            if ($scope.format === undefined) {
-              $scope.format = 'yyyy-MM-dd';
-            }
-
-            function updateOptions() {
-              if ($scope.minDate !== undefined) {
-                $scope.dateOptions.minDate = new Date($scope.minDate);
-              }
-
-              if ($scope.maxDate !== undefined) {
-                $scope.dateOptions.maxDate = new Date($scope.maxDate);
-              }
-            }
-
-            var PickerState = {
-              isOpen: false
-            };
-            $scope.pickerState = PickerState;
-
-            $scope.toggleOpen = function($event) {
-              $event.preventDefault();
-              $event.stopPropagation();
-              updateOptions();
-              $timeout(function() {
-                $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
-                datePickerOpen.update($scope.pickerState);
-              });
-            };
-
-            $scope.isFocused = false;
-            $scope.toggleFocus = function() {
-              if ($scope.isFocused) {
-                $scope.isFocused = false;
-              } else {
-                $scope.isFocused = true;
-              }
-            };
-
-            $scope.onDatepickerInputFieldBlur = function() {
-              $scope.toggleFocus();
-              $scope.onBlur();
-            };
-
-            $scope.focused = function() {
-              $scope.toggleFocus();
-            };
-          },
-          link: function(scope, element, attrs, ctrl) {
-            scope.$watch('targetModel', function(newVal, oldVal) {
-              if (newVal || newVal !== oldVal) {
-                if (dateUtils.isDate(newVal)) {
-                  scope.dateOptions.initDate = new Date(newVal);
-                } else {
-                  scope.dateOptions.initDate = new Date();
+                function setActiveDate(date) {
+                    activeDate = date;
                 }
-                scope.dateOptions.setActiveDate(scope.dateOptions.initDate);
-              }
-            });
-          }
+
+                function getActiveDate() {
+                    return activeDate;
+                }
+
+                $scope.dateOptions = {
+                        minDate: undefined,
+                        maxDate: undefined,
+                        maxMode: 'day',
+                        setActiveDate: setActiveDate,
+                        getActiveDate: getActiveDate
+                };
+
+                if (!$scope.targetModelOptions) {
+                    $scope.targetModelOptions = {};
+                }
+                $scope.targetModelOptions.allowInvalid = true;
+
+                if ($scope.minDate !== undefined) {
+                    $scope.dateOptions.minDate = new Date($scope.minDate);
+                }
+
+                if ($scope.maxDate !== undefined) {
+                    $scope.dateOptions.maxDate = new Date($scope.maxDate);
+                }
+
+                if ($scope.format === undefined) {
+                    $scope.format = 'yyyy-MM-dd';
+                }
+
+                function updateOptions() {
+                    if ($scope.minDate !== undefined) {
+                        $scope.dateOptions.minDate = new Date($scope.minDate);
+                    }
+    
+                    if ($scope.maxDate !== undefined) {
+                        $scope.dateOptions.maxDate = new Date($scope.maxDate);
+                    }
+                }
+
+                var PickerState = {
+                    isOpen: false
+                };
+                $scope.pickerState = PickerState;
+
+                $scope.toggleOpen = function($event) {
+                    $event.preventDefault();
+                    $event.stopPropagation();
+                    updateOptions();
+                    $timeout(function() {
+                        $scope.pickerState.isOpen = !$scope.pickerState.isOpen;
+                        datePickerOpen.update($scope.pickerState);
+                    });
+                };
+
+                $scope.isFocused = false;
+                $scope.toggleFocus = function() {
+                    if ($scope.isFocused) {
+                        $scope.isFocused = false;
+                    } else {
+                        $scope.isFocused = true;
+                    }
+                };
+
+                $scope.onDatepickerInputFieldBlur = function() {
+                    $scope.toggleFocus();
+                    $scope.onBlur();
+                };
+
+                $scope.focused = function() {
+                    $scope.toggleFocus();
+                };
+            },
+            link: function(scope, element, attrs, ctrl) {
+                scope.$watch('targetModel', function(newVal, oldVal) {
+                    if (newVal || newVal !== oldVal) {
+                        if(dateUtils.isDate(newVal)) {
+                            scope.dateOptions.initDate = new Date(newVal);
+                        } else {
+                            scope.dateOptions.initDate = new Date();
+                        }
+                        scope.dateOptions.setActiveDate(scope.dateOptions.initDate);
+                    }
+                });
+            }
         };
-      }])
-.directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
-  function($log, dateUtils) {
-    'use strict';
-    return {
-      priority: 1,
-      restrict: 'A',
-      require: ['ngModel'],
-      link: function(scope, element, attrs, ctrls) {
-        var ngModel = ctrls[0];
+    }])
+    .directive('wcDatePickerFieldInput', ['$log', 'common.DateUtilsService',
+    function($log, dateUtils ) {
+        'use strict';
+        return {
+            priority: 1,
+            restrict: 'A',
+            require:['ngModel'],
+            link: function(scope, element, attrs, ctrls) {
+                var ngModel = ctrls[0];
 
-        if (scope.addDateParser) {
-          if (scope.addDateParser === 'loose') {
-            dateUtils.addLooseDateParser(ngModel);
-          } else if (scope.addDateParser === 'strict') {
-            dateUtils.addStrictDateParser(ngModel);
-          } else {
-            $log.error('unknown dateparser method ' + scope.addDateParser);
-          }
-        }
+                if (scope.addDateParser) {
+                    if (scope.addDateParser === 'loose') {
+                        dateUtils.addLooseDateParser(ngModel);
+                    }
+                    else if (scope.addDateParser === 'strict') {
+                        dateUtils.addStrictDateParser(ngModel);
+                    }
+                    else {
+                        $log.error('unknown dateparser method ' + scope.addDateParser);
+                    }
+                }
 
-        var maximumDate = '2099-12-12';
-        var minimumDate = '1900-01-01';
+                var maximumDate = '2099-12-12';
+                var minimumDate = '1900-01-01';
 
-        if (scope.minDate !== undefined) {
-          minimumDate = scope.minDate;
-        }
+                if (scope.minDate !== undefined) {
+                    minimumDate = scope.minDate;
+                }
 
-        if (scope.maxDate !== undefined) {
-          maximumDate = scope.maxDate;
-        }
+                if (scope.maxDate !== undefined) {
+                    maximumDate = scope.maxDate;
+                }
 
-        ngModel.$validators.maxDate = function() {
-          return dateUtils.isDateEmptyOrValidAndBefore(maximumDate, ngModel.$viewValue);
+                ngModel.$validators.maxDate = function() {
+                    return dateUtils.isDateEmptyOrValidAndBefore(maximumDate, ngModel.$viewValue);
+                };
+
+                ngModel.$validators.minDate = function() {
+                    return dateUtils.isDateEmptyOrValidAndBefore(ngModel.$viewValue, minimumDate);
+                };
+
+            }
         };
-
-        ngModel.$validators.minDate = function() {
-          return dateUtils.isDateEmptyOrValidAndBefore(ngModel.$viewValue, minimumDate);
-        };
-
-      }
-    };
-  }]);
+    }]);

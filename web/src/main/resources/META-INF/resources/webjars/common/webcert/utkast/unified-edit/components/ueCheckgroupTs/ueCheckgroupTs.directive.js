@@ -17,35 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueCheckgroupTs', ['$parse', 'ueUtil',
-  function($parse, ueUtil) {
+angular.module('common').directive('ueCheckgroupTs', [ '$parse',  'ueUtil',
+    function($parse, ueUtil) {
     'use strict';
     return {
-      restrict: 'E',
-      scope: {
-        form: '=',
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.html',
-      link: function($scope) {
-        ueUtil.standardSetup($scope);
+        restrict: 'E',
+        scope: {
+            form: '=',
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.html',
+        link: function($scope) {
+            ueUtil.standardSetup($scope);
 
-        var md = 'col-md-2';
-        var sm = 'col-sm-4';
+            var md = 'col-md-2';
+            var sm = 'col-sm-4';
 
-        if ($scope.config.colSize) {
-          if ($scope.config.colSize.md) {
-            md = 'col-md-' + $scope.config.colSize.md;
-          }
+            if($scope.config.colSize){
+                if($scope.config.colSize.md){
+                    md = 'col-md-' + $scope.config.colSize.md;
+                }
 
-          if ($scope.config.colSize.sm) {
-            sm += ' col-sm-' + $scope.config.colSize.sm;
-          }
+                if($scope.config.colSize.sm){
+                    sm += ' col-sm-' + $scope.config.colSize.sm;
+                }
+            }
+
+            $scope.colStyle = md + ' ' + sm;
         }
-
-        $scope.colStyle = md + ' ' + sm;
-      }
     };
 
-  }]);
+}]);

@@ -18,18 +18,19 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
-
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Base class for all UV / Unified Print components. Contains constants and helper functions.

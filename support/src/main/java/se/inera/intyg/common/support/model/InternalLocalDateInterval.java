@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
-import java.time.LocalDate;
 
 /**
  * A way of handling date intervals in our internal model that allows faulty

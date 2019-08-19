@@ -18,14 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import iso.v21090.dt.v1.CD;
-import iso.v21090.dt.v1.II;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import iso.v21090.dt.v1.CD;
+import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.AktivitetType;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.Aktivitetskod;
 import se.inera.ifv.insuranceprocess.healthreporting.mu7263.v3.ArbetsformagaNedsattningType;

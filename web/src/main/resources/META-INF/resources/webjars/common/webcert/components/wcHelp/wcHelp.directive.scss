@@ -5,11 +5,9 @@ wc-help {
       transition: all 0.35s;
       transition-timing-function: ease;
     }
-
     .wc-help-chevron__arrow_box.in {
       margin-top: 10px;
     }
-
     .scrollable-body {
       @extend %wc-typo-07;
       color: $wc-color-07;

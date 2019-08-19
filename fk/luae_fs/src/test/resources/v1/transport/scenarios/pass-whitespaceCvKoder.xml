@@ -71,7 +71,7 @@
       <instans>1</instans>
       <delsvar id="1.1">
         <ns3:cv>
-          <ns3:code>UNDERSOKNING</ns3:code>
+          <ns3:code> UNDERSOKNING </ns3:code>
           <ns3:codeSystem>KV_FKMU_0001</ns3:codeSystem>
           <ns3:displayName>Min undersökning av patienten</ns3:displayName>
         </ns3:cv>
@@ -88,7 +88,7 @@
       <instans>1</instans>
       <delsvar id="4.1">
         <ns3:cv>
-          <ns3:code>PSYKOLOG</ns3:code>
+          <ns3:code> PSYKOLOG </ns3:code>
           <ns3:codeSystem>KV_FKMU_0005</ns3:codeSystem>
           <ns3:displayName>Underlag från psykolog</ns3:displayName>
         </ns3:cv>
@@ -100,7 +100,7 @@
       <instans>2</instans>
       <delsvar id="4.1">
         <ns3:cv>
-          <ns3:code>HABILITERING</ns3:code>
+          <ns3:code> HABILITERING </ns3:code>
           <ns3:codeSystem>KV_FKMU_0005</ns3:codeSystem>
           <ns3:displayName>Underlag från habiliteringen</ns3:displayName>
         </ns3:cv>
@@ -112,7 +112,7 @@
       <instans>3</instans>
       <delsvar id="4.1">
         <ns3:cv>
-          <ns3:code>SPECIALISTKLINIK</ns3:code>
+          <ns3:code> SPECIALISTKLINIK </ns3:code>
           <ns3:codeSystem>KV_FKMU_0005</ns3:codeSystem>
           <ns3:displayName>Utredning av annan specialistklinik</ns3:displayName>
         </ns3:cv>

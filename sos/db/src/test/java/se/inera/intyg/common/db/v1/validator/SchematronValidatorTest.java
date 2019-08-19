@@ -18,17 +18,18 @@
  */
 package se.inera.intyg.common.db.v1.validator;
 
-import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertTrue;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import java.util.stream.Collectors;
 import org.junit.Test;
 import se.inera.intyg.common.db.v1.rest.DbModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+
+import java.util.stream.Collectors;
+
+import static com.google.common.io.Resources.getResource;
+import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
 

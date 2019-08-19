@@ -18,36 +18,37 @@
  */
 angular.module('common').factory('common.ReceiversProxy',
     ['$http', '$log', function($http, $log) {
-      'use strict';
+        'use strict';
 
-      function _getPossibleReceivers(intygtyp, onSuccess, onError) {
-        $log.debug('_getPossibleReceivers intygtyp:' + intygtyp);
-        var restPath = '/api/receiver/possiblereceivers/' + intygtyp;
-        $http.get(restPath).then(function(response) {
-          $log.debug('_getPossibleReceivers data:' + response.data);
-          onSuccess(response.data);
-        }, function(response) {
-          $log.error('error ' + response.status);
-          onError(response.data);
-        });
-      }
+        function _getPossibleReceivers(intygtyp, onSuccess, onError) {
+            $log.debug('_getPossibleReceivers intygtyp:' + intygtyp);
+            var restPath = '/api/receiver/possiblereceivers/' + intygtyp;
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getPossibleReceivers data:' + response.data);
+                onSuccess(response.data);
+            },function(response) {
+                $log.error('error ' + response.status);
+                onError(response.data);
+            });
+        }
 
-      function _getApprovedReceivers(intygtyp, intygid) {
-        $log.debug('_getApprovedReceivers intygtyp:' + intygtyp + ', intygid:' + intygid);
-        var restPath = '/api/receiver/approvedreceivers/' + intygtyp + '/' + intygid;
-        return $http.get(restPath);
-      }
+        function _getApprovedReceivers(intygtyp, intygid) {
+            $log.debug('_getApprovedReceivers intygtyp:' + intygtyp + ', intygid:' + intygid);
+            var restPath = '/api/receiver/approvedreceivers/' + intygtyp + '/' + intygid;
+            return $http.get(restPath);
+        }
 
-      function _setApprovedReceivers(intygtyp, intygid, approvedlist) {
-        $log.debug('_setApprovedReceivers intygtyp:' + intygtyp + ', intygid:' + intygid);
-        var restPath = '/api/receiver/registerapproved/' + intygtyp + '/' + intygid;
-        return $http.post(restPath, approvedlist);
-      }
+        function _setApprovedReceivers(intygtyp, intygid, approvedlist) {
+            $log.debug('_setApprovedReceivers intygtyp:' + intygtyp + ', intygid:' + intygid);
+            var restPath = '/api/receiver/registerapproved/' + intygtyp + '/' + intygid;
+            return $http.post(restPath, approvedlist);
+        }
 
-      // Return public API for the service
-      return {
-        getPossibleReceivers: _getPossibleReceivers,
-        getApprovedReceivers: _getApprovedReceivers,
-        setApprovedReceivers: _setApprovedReceivers
-      };
+
+        // Return public API for the service
+        return {
+            getPossibleReceivers: _getPossibleReceivers,
+            getApprovedReceivers: _getApprovedReceivers,
+            setApprovedReceivers: _setApprovedReceivers
+        };
     }]);

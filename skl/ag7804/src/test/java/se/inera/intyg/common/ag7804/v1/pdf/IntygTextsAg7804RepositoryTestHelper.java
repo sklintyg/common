@@ -18,16 +18,20 @@
  */
 package se.inera.intyg.common.ag7804.v1.pdf;
 
-import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
+
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.google.common.collect.ImmutableMap;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 

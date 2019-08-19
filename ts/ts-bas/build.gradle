@@ -1,8 +1,8 @@
 dependencies {
-    compile project(':ts-parent')
-    compile project(":common-pdf")
+  compile project(':ts-parent')
+  compile project(":common-pdf")
 
-    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+  compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+  compile "com.google.auto.value:auto-value:${autovalueVersion}"
+annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 }

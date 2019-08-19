@@ -1,13 +1,11 @@
 ue-fraga {
   display: block;
-
   &.yellow-banner {
     background-color: $wc-color-02;
   }
 
   .ue-fraga {
     padding: 14px 28px 14px 28px;
-
     &.no-label-padding {
       padding-top: 0px;
     }

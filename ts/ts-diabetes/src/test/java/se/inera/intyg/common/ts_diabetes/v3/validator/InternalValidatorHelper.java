@@ -19,9 +19,10 @@
 
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
+import se.inera.intyg.common.support.model.InternalDate;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 

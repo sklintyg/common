@@ -18,6 +18,23 @@
  */
 package se.inera.intyg.common.doi.v1.validator;
 
+import com.google.common.base.Strings;
+import org.springframework.stereotype.Component;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.InternalDraftValidator;
+import se.inera.intyg.common.support.validate.PatientValidator;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.doi.support.DoiModuleEntryPoint.MODULE_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.BIDRAGANDE_SJUKDOM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_DATUM_JSON_ID;
@@ -36,22 +53,6 @@ import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidat
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsdatum;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateDodsplats;
 import static se.inera.intyg.common.sos_parent.validator.SosInternalDraftValidator.validateIdentitetStyrkt;
-
-import com.google.common.base.Strings;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import org.springframework.stereotype.Component;
-import se.inera.intyg.common.doi.model.internal.Dodsorsak;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.InternalDraftValidator;
-import se.inera.intyg.common.support.validate.PatientValidator;
-import se.inera.intyg.common.support.validate.ValidatorUtil;
 
 @Component("doi.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<DoiUtlatandeV1> {

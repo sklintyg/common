@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.UtkastHeaderViewState', [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        /*
-        // Current intyg view state
-        */
-        this.intygViewState = {};
-        this.intygType = null;
+            /*
+            // Current intyg view state
+            */
+            this.intygViewState = {};
+            this.intygType = null;
 
-        this.setIntygViewState = function(intygViewState, intygType) {
-          this.intygViewState = intygViewState;
-          this.intygType = intygType;
-        };
-      }
+            this.setIntygViewState = function(intygViewState, intygType) {
+                this.intygViewState = intygViewState;
+                this.intygType = intygType;
+            };
+        }
     ]
 );

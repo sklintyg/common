@@ -29,7 +29,9 @@ import static se.inera.intyg.common.support.modules.converter.TransportConverter
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;

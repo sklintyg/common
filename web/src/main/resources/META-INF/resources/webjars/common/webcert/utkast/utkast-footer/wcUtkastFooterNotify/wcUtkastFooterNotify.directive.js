@@ -18,48 +18,48 @@
  */
 
 angular
-.module('common')
-.directive('wcUtkastFooterNotify',
-    ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService',
-      function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService) {
-        'use strict';
+    .module('common')
+    .directive('wcUtkastFooterNotify',
+        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService',
+            function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService) {
+                'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterNotify/wcUtkastFooterNotify.directive.html',
-          scope: {
-            viewState: '=',
-            certForm: '<'
-          },
-          controller: function($scope) {
-            var viewState = $scope.viewState;
+                return {
+                    restrict: 'E',
+                    templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterNotify/wcUtkastFooterNotify.directive.html',
+                    scope: {
+                        viewState: '=',
+                        certForm: '<'
+                    },
+                    controller: function($scope) {
+                        var viewState = $scope.viewState;
 
-            $scope.loading = false;
-            $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
-            $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
-            $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
-            /**
-             * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
-             */
-            $scope.notifieraUtkast = function() {
-              $scope.loading = true;
+                        $scope.loading = false;
+                        $scope.readyForSignBtnText = dynamicLabelService.getProperty('draft.notifyready.button');
+                        $scope.readyForSignBtnTooltip = dynamicLabelService.getProperty('draft.notifyready.button.tooltip');
+                        $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
+                        /**
+                         * Handle notifieraUtkast, dvs. notifering till journalsystem via statusuppdatering
+                         */
+                        $scope.notifieraUtkast = function() {
+                            $scope.loading = true;
 
-              var successCallback = function() {
-                viewState.klartForSigneringDatum = true;
-                $scope.loading = false;
-              };
+                            var successCallback = function() {
+                                viewState.klartForSigneringDatum = true;
+                                $scope.loading = false;
+                            };
 
-              var errorCallback = function() {
-                $scope.loading = false;
-              };
+                            var errorCallback = function() {
+                                $scope.loading = false;
+                            };
 
-              UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
-                  viewState.draftModel, viewState.common, successCallback, errorCallback);
-            };
+                            UtkastNotifyService.notifyJournalsystem(viewState.intygModel.id, viewState.common.intyg.type,
+                                viewState.draftModel, viewState.common, successCallback, errorCallback);
+                        };
 
-            $scope.showMissing = function(value) {
-              UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
-            };
-          }
-        };
-      }]);
+                        $scope.showMissing = function(value) {
+                            UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
+                        };
+                    }
+                };
+            } ]);

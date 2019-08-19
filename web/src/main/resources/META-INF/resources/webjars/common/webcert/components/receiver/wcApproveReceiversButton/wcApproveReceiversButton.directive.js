@@ -17,49 +17,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcApproveReceiversButton', [
-  'common.authorityService', 'common.UserModel', 'common.receiverService',
-  function(authorityService, UserModel, receiverService) {
-    'use strict';
+    'common.authorityService', 'common.UserModel', 'common.receiverService',
+    function(authorityService, UserModel, receiverService) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        intygtyp: '=',
-        intygid: '=',
-        vardenhet: '@'
-      },
-      templateUrl: '/web/webjars/common/webcert/components/receiver/wcApproveReceiversButton/wcApproveReceiversButton.directive.html',
-      link: function($scope) {
+        return {
+            restrict: 'E',
+            scope: {
+                intygtyp: '=',
+                intygid: '=',
+                vardenhet: '@'
+            },
+            templateUrl: '/web/webjars/common/webcert/components/receiver/wcApproveReceiversButton/wcApproveReceiversButton.directive.html',
+            link: function($scope) {
 
-        $scope.vm = {
-          hasBasicAuth: authorityService.isAuthorityActive({
-            authority: UserModel.privileges.GODKANNA_MOTTAGARE,
-            intygstyp: $scope.intygtyp
-          }),
-          hasMultipleReceivers: undefined
+                $scope.vm = {
+                  hasBasicAuth: authorityService.isAuthorityActive({
+                      authority: UserModel.privileges.GODKANNA_MOTTAGARE,
+                      intygstyp: $scope.intygtyp }),
+                   hasMultipleReceivers : undefined
+                };
+
+
+                if ($scope.vm.hasBasicAuth) {
+                    //If not even basic auth, no need to check further
+                    receiverService.getApprovedReceivers($scope.intygtyp, $scope.intygid, true).then(
+                        function done(approvedList) {
+                            $scope.vm.hasMultipleReceivers = angular.isDefined(approvedList) && approvedList.length > 1;
+                        },
+                        function fail(data) {
+
+                            //button will not be shown.
+                        });
+                }
+
+
+
+                $scope.isEnabled = function() {
+                    return $scope.vm.hasBasicAuth && $scope.vm.hasMultipleReceivers === true;
+                };
+
+                $scope.openDialog = function() {
+                    receiverService.openConfigDialogForIntyg($scope.intygtyp, $scope.intygid, true);
+                };
+
+            }
+
         };
-
-        if ($scope.vm.hasBasicAuth) {
-          //If not even basic auth, no need to check further
-          receiverService.getApprovedReceivers($scope.intygtyp, $scope.intygid, true).then(
-              function done(approvedList) {
-                $scope.vm.hasMultipleReceivers = angular.isDefined(approvedList) && approvedList.length > 1;
-              },
-              function fail(data) {
-
-                //button will not be shown.
-              });
-        }
-
-        $scope.isEnabled = function() {
-          return $scope.vm.hasBasicAuth && $scope.vm.hasMultipleReceivers === true;
-        };
-
-        $scope.openDialog = function() {
-          receiverService.openConfigDialogForIntyg($scope.intygtyp, $scope.intygid, true);
-        };
-
-      }
-
-    };
-  }]);
+    } ]);

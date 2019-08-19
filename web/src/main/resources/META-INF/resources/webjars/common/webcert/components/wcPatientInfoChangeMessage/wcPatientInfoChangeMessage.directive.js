@@ -20,42 +20,41 @@
  * Show info if patient info changed from djupintegration compared to the shown info.
  */
 angular.module('common').directive('wcPatientInfoChangeMessage', [
-  '$log', '$stateParams', '$rootScope', '$uibModal', 'common.PatientService', 'common.messageService',
-  function($log, $stateParams, $rootScope, $uibModal, PatientService, messageService) {
-    'use strict';
+    '$log', '$stateParams', '$rootScope', '$uibModal', 'common.PatientService', 'common.messageService',
+    function($log, $stateParams, $rootScope, $uibModal, PatientService, messageService) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        intyg: '=',
-        intygProperties: '=',
-        isIntyg: '='
-      },
-      controller: function($scope) {
-
-        function update(intyg, intygProperties) {
-          $scope.patient = PatientService.getPatientDataChanges($scope.isIntyg, intyg, intygProperties);
-        }
-
-        update($scope.intyg, $scope.intygProperties);
-        $scope.$on('intyg.loaded', function(event, intyg) {
-          update(intyg, $scope.intygProperties);
-        });
-
-        $scope.openModal = function(key) {
-          var modalInstance = $uibModal.open({
-            templateUrl: '/web/webjars/common/webcert/components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessageModal.template.html',
-            size: 'md',
+        return {
+            restrict: 'E',
+            scope: {
+                intyg: '=',
+                intygProperties: '=',
+                isIntyg: '='
+            },
             controller: function($scope) {
-              $scope.header = messageService.getProperty(key + '.modalheader');
-              $scope.body = messageService.getProperty(key + '.modalbody');
-            }
-          });
-          //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-          modalInstance.result.catch(function() { //jshint ignore:line
-          });
+
+                function update(intyg, intygProperties){
+                    $scope.patient = PatientService.getPatientDataChanges($scope.isIntyg, intyg, intygProperties);
+                }
+
+                update($scope.intyg, $scope.intygProperties);
+                $scope.$on('intyg.loaded', function(event, intyg){
+                    update(intyg, $scope.intygProperties);
+                });
+
+                $scope.openModal = function(key) {
+                    var modalInstance = $uibModal.open({
+                        templateUrl: '/web/webjars/common/webcert/components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessageModal.template.html',
+                        size: 'md',
+                        controller: function($scope) {
+                            $scope.header = messageService.getProperty(key + '.modalheader');
+                            $scope.body = messageService.getProperty(key + '.modalbody');
+                        }
+                    });
+                    //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                    modalInstance.result.catch(function () {}); //jshint ignore:line
+                };
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.directive.html'
         };
-      },
-      templateUrl: '/web/webjars/common/webcert/components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.directive.html'
-    };
-  }]);
+    }]);

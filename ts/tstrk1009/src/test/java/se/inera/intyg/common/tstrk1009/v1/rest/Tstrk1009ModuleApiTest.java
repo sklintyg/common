@@ -20,10 +20,11 @@ package se.inera.intyg.common.tstrk1009.v1.rest;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import org.springframework.core.io.ClassPathResource;
+import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import javax.xml.bind.JAXB;
 import java.io.IOException;
 import java.io.StringWriter;
-import javax.xml.bind.JAXB;
-import org.springframework.core.io.ClassPathResource;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Vardenhet;
@@ -35,7 +36,6 @@ import se.inera.intyg.common.tstrk1009.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 import se.inera.intygstjanster.ts.services.v1.IntygMeta;
-import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
 /**
  * Sets up an actual HTTP server and client to test the {@link ModuleApi} service. This is the place to verify that

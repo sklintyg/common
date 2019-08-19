@@ -19,17 +19,18 @@
 package se.inera.intyg.common.luae_na.v1.pdf;
 
 import com.google.common.collect.ImmutableMap;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.SortedMap;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.SortedMap;
 
 /**
  * Created by eriklupander on 2016-10-03.

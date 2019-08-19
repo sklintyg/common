@@ -18,105 +18,105 @@
  */
 
 describe('uvTable', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var element;
-  var $state;
-  var $window;
+    var $scope;
+    var element;
+    var $state;
+    var $window;
 
-  // Load the webcert module and mock away everything that is not necessary.
-  beforeEach(angular.mock.module('common', function($provide) {
-  }));
+    // Load the webcert module and mock away everything that is not necessary.
+    beforeEach(angular.mock.module('common', function($provide) {
+    }));
 
-  beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('htmlTemplates'));
 
-  beforeEach(angular.mock.inject(['$window', '$state',
-    function(_$window_, _$state_) {
-      $window = _$window_;
-      $state = _$state_;
-    }]));
-
-  describe('config', function() {
-
-    describe('simple', function() {
-
-      beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
-        function($controller, $compile, $rootScope) {
-          $scope = $rootScope.$new();
-
-          $scope.config = {
-            type: 'uv-table',
-            headers: ['DFR_6.2.RBK', ''], // labels for th cells
-            valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
-            modelProp: 'diagnoser'
-          };
-
-          $scope.viewData = {};
-          $scope.viewData.diagnoser = [
-            {
-              diagnosBeskrivning: 'Brännskada av första graden på höft och nedre extremitet utom fotled och fot',
-              diagnosKod: 'T241',
-              diagnosKodSystem: 'ICD_10_SE'
-            }
-          ];
-
-          element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
-
-          $rootScope.$digest();
-          $scope = element.isolateScope();
+    beforeEach(angular.mock.inject(['$window', '$state',
+        function(_$window_, _$state_) {
+            $window = _$window_;
+            $state = _$state_;
         }]));
 
-      it('should generate viewModel to template', function() {
-        $scope.$apply();
-        expect($scope.viewModel.modelProp).toBeDefined();
-        expect($scope.viewModel.headers.length).toBe(2);
-        expect($scope.viewModel.rows.length).toBe(1);
-      });
+    describe('config', function() {
+
+        describe('simple', function() {
+
+            beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
+            function($controller, $compile, $rootScope) {
+                $scope = $rootScope.$new();
+
+                $scope.config = {
+                    type: 'uv-table',
+                        headers: ['DFR_6.2.RBK', ''], // labels for th cells
+                    valueProps: ['diagnosKod', 'diagnosBeskrivning'], // properties on diagnoser entries to use in each rows cells
+                    modelProp: 'diagnoser'
+                };
+
+                $scope.viewData = {};
+                $scope.viewData.diagnoser = [
+                    {
+                        diagnosBeskrivning: 'Brännskada av första graden på höft och nedre extremitet utom fotled och fot',
+                        diagnosKod: 'T241',
+                        diagnosKodSystem: 'ICD_10_SE'
+                    }
+                ];
+
+                element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
+
+                $rootScope.$digest();
+                $scope = element.isolateScope();
+            }]));
+
+            it('should generate viewModel to template', function() {
+                $scope.$apply();
+                expect($scope.viewModel.modelProp).toBeDefined();
+                expect($scope.viewModel.headers.length).toBe(2);
+                expect($scope.viewModel.rows.length).toBe(1);
+            });
+        });
+
+        describe('complex', function() {
+
+            beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
+                function($controller, $compile, $rootScope) {
+                    $scope = $rootScope.$new();
+
+                    $scope.config = {
+                        type: 'uv-table',
+                        headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
+                        valueProps: [
+                            'KV_FKMU_0003.{sjukskrivningsgrad}.RBK',
+                            'period.from',
+                            'period.tom'
+                        ],
+                        modelProp: 'sjukskrivningar'
+                    };
+
+                    $scope.viewData = {};
+                    $scope.viewData.sjukskrivningar = [
+                        {
+                            sjukskrivningsgrad: 'HELT_NEDSATT',
+                            period: {
+                                from: '2017-01-01',
+                                tom: '2017-02-02'
+                            }
+                        }
+                    ];
+
+                    element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
+
+                    $rootScope.$digest();
+                    $scope = element.isolateScope();
+                }]));
+
+            it('should generate viewModel', function() {
+                $scope.$apply();
+                expect($scope.viewModel.modelProp).toBeDefined();
+                expect($scope.viewModel.headers.length).toBe(3);
+                expect($scope.viewModel.rows.length).toBe(1);
+            });
+        });
+
     });
-
-    describe('complex', function() {
-
-      beforeEach(angular.mock.inject(['$controller', '$compile', '$rootScope',
-        function($controller, $compile, $rootScope) {
-          $scope = $rootScope.$new();
-
-          $scope.config = {
-            type: 'uv-table',
-            headers: ['Nedsättningsgrad', 'Från och med', 'Till och med'],
-            valueProps: [
-              'KV_FKMU_0003.{sjukskrivningsgrad}.RBK',
-              'period.from',
-              'period.tom'
-            ],
-            modelProp: 'sjukskrivningar'
-          };
-
-          $scope.viewData = {};
-          $scope.viewData.sjukskrivningar = [
-            {
-              sjukskrivningsgrad: 'HELT_NEDSATT',
-              period: {
-                from: '2017-01-01',
-                tom: '2017-02-02'
-              }
-            }
-          ];
-
-          element = $compile('<uv-table config="config" view-data="viewData"></uv-table>')($scope);
-
-          $rootScope.$digest();
-          $scope = element.isolateScope();
-        }]));
-
-      it('should generate viewModel', function() {
-        $scope.$apply();
-        expect($scope.viewModel.modelProp).toBeDefined();
-        expect($scope.viewModel.headers.length).toBe(3);
-        expect($scope.viewModel.rows.length).toBe(1);
-      });
-    });
-
-  });
 
 });

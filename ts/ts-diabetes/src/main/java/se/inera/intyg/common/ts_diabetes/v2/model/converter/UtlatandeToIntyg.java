@@ -18,16 +18,36 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
+import com.google.common.base.Strings;
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+import se.inera.intyg.common.support.model.ModelException;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.Diabetes;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.Syn;
+import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
+import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
+import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
+import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
+import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.support.Constants.KV_ID_KONTROLL_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_INTYGET_AVSER_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_KORKORTSBEHORIGHET_CODE_SYSTEM;
 import static se.inera.intyg.common.support.Constants.KV_UTLATANDETYP_INTYG_CODE_SYSTEM;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aCV;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aPartialDate;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotNull;
-import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.getYearContent;
+import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.*;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_I_TRAFIKEN_SVAR_ID_40;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_SVAR_ID_39;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.ALLVARLIG_HYPOGLYKEMI_UNDER_VAKEN_TID_SVAR_ID_42;
@@ -82,30 +102,6 @@ import static se.inera.intyg.common.ts_parent.codes.RespConstants.UPPFYLLER_KRAV
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_MED_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.codes.RespConstants.VANSTER_OGA_UTAN_KORREKTION_DELSVAR_ID_8;
 import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.getVersion;
-
-import com.google.common.base.Strings;
-import java.time.Year;
-import java.util.ArrayList;
-import java.util.List;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
-import se.inera.intyg.common.support.model.ModelException;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.Diabetes;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.Hypoglykemier;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.Syn;
-import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
-import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
-import se.inera.intyg.common.ts_parent.codes.IdKontrollKod;
-import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
-import se.inera.intyg.common.ts_parent.codes.KorkortsbehorighetKod;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateTypeFormatEnum;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
 
 public final class UtlatandeToIntyg {
 

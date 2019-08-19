@@ -18,15 +18,15 @@
  */
 angular.module('common').directive('ueRenderComponents',
     function() {
-      'use strict';
+        'use strict';
 
-      return {
-        restrict: 'E',
-        scope: {
-          form: '=',
-          config: '=',
-          model: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/ueRenderComponents.directive.html'
-      };
+        return {
+            restrict: 'E',
+            scope: {
+                form: '=',
+                config: '=',
+                model: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/ueRenderComponents.directive.html'
+        };
     });

@@ -3,7 +3,7 @@ All styles specific to a certificate should must be wrapped in a namespace rule 
 This is to avoid leaking module specific style rules outside of it's intended context i.e globally.
 */
 .ag7804-ns {
-  #prognos span {
+  #prognos span{
     display: inline;
   }
 }

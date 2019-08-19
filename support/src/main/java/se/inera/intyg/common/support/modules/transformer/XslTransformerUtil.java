@@ -31,13 +31,13 @@ public final class XslTransformerUtil {
     }
 
     private static final Pattern REGISTER_TSBAS_REGEX = Pattern.compile(
-        "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']");
+            "=[\"|']urn:local:se:intygstjanster:services:RegisterTSBasResponder:1[\"|']");
 
     private static final Pattern REGISTER_CERTIFICATE_V1_REGEX = Pattern.compile(
-        "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']");
+            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1[\"|']");
 
     private static final Pattern REGISTER_CERTIFICATE_V3_REGEX = Pattern.compile(
-        "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']");
+            "=[\"|']urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3[\"|']");
 
     public static boolean isRegisterTsBas(String xml) {
         return find(xml, REGISTER_TSBAS_REGEX);

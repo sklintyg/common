@@ -18,43 +18,44 @@
  */
 
 angular.module('common').directive('wcArendeKompletteraUtkastWarning',
-    ['$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.ObjectHelper',
-      function($rootScope, ArendeListViewState, ArendeHelper, ObjectHelper) {
-        'use strict';
+    [ '$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper', 'common.ObjectHelper',
+        function($rootScope, ArendeListViewState, ArendeHelper, ObjectHelper) {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraUtkastWarning/wcArendeKompletteraUtkastWarning.directive.html',
-          scope: {},
-          controller: function($scope, $element, $attrs) {
+            return {
+                restrict: 'E',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraUtkastWarning/wcArendeKompletteraUtkastWarning.directive.html',
+                scope: {
+                },
+                controller: function($scope, $element, $attrs) {
 
-            // Continue draft warning message on intyg
-            $scope.kompletteringConfig = {
-              //Existence of complementedByUtkast means an utkast with complemented relation exist.
-              redirectToExistingUtkast: false
-            };
+                    // Continue draft warning message on intyg
+                    $scope.kompletteringConfig = {
+                        //Existence of complementedByUtkast means an utkast with complemented relation exist.
+                        redirectToExistingUtkast: false
+                    };
 
-            function onIntygLoaded(event, intyg, intygProperties) {
-              if (ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations)) {
-                if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
-                  $scope.intygType = ArendeListViewState.intygProperties.type;
-                  //WE only allow propagation to same version, so use this version.
-                  $scope.intygTypeVersion = intyg.textVersion;
-                  $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
-                  $scope.kompletteringConfig.redirectToExistingUtkast = true;
+                    function onIntygLoaded(event, intyg, intygProperties) {
+                        if(ObjectHelper.isDefined(ArendeListViewState.intygProperties.latestChildRelations)) {
+                            if (ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast) {
+                                $scope.intygType = ArendeListViewState.intygProperties.type;
+                                //WE only allow propagation to same version, so use this version.
+                                $scope.intygTypeVersion = intyg.textVersion;
+                                $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByUtkast.intygsId;
+                                $scope.kompletteringConfig.redirectToExistingUtkast = true;
+                            }
+                        }
+
+                    }
+
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
+                    $scope.$on('$destroy', unbindFastEvent);
+
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
+
+                    $scope.showFortsattUtkastWarning = function() {
+                        return $scope.kompletteringConfig.redirectToExistingUtkast;
+                    };
                 }
-              }
-
-            }
-
-            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
-            $scope.$on('$destroy', unbindFastEvent);
-
-            onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
-
-            $scope.showFortsattUtkastWarning = function() {
-              return $scope.kompletteringConfig.redirectToExistingUtkast;
             };
-          }
-        };
-      }]);
+        }]);

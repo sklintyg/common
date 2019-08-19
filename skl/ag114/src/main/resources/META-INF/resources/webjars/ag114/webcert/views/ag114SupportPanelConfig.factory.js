@@ -22,37 +22,39 @@
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('ag114').factory('ag114.supportPanelConfigFactory', ['common.featureService', function(featureService) {
-  'use strict';
+angular.module('ag114').factory('ag114.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+    'use strict';
 
-  function _getConfig(id, intygTypeVersion, isSigned) {
+    function _getConfig(id, intygTypeVersion, isSigned) {
 
-    var config = {
-      tabs: [],
-      intygContext: {
-        type: 'ag114',
-        intygTypeVersion: intygTypeVersion,
-        aboutMsgKey: 'FRM_2.RBK',
-        id: id,
-        isSigned: isSigned
-      }
+        var config = {
+            tabs: [],
+            intygContext: {
+                type: 'ag114',
+                intygTypeVersion: intygTypeVersion,
+                aboutMsgKey: 'FRM_2.RBK',
+                id: id,
+                isSigned: isSigned
+            }
+        };
+
+
+        config.tabs.push({
+            id: 'wc-help-tips-panel-tab',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
+            config: {
+                intygContext: config.intygContext
+            },
+            active: true
+        });
+
+
+        return angular.copy(config);
+    }
+
+    return {
+        getConfig: _getConfig
     };
 
-    config.tabs.push({
-      id: 'wc-help-tips-panel-tab',
-      title: 'common.supportpanel.help.title',
-      tooltip: 'common.supportpanel.help.tooltip',
-      config: {
-        intygContext: config.intygContext
-      },
-      active: true
-    });
-
-    return angular.copy(config);
-  }
-
-  return {
-    getConfig: _getConfig
-  };
-
-}]);
+} ]);

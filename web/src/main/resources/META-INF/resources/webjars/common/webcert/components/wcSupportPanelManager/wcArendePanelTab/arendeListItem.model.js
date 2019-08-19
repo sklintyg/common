@@ -22,118 +22,116 @@
 
 angular.module('common').factory('common.ArendeListItemModel',
     ['$log', 'common.UserModel', 'common.ObjectHelper', 'common.messageService',
-      function($log, UserModel, ObjectHelper, messageService) {
+        function($log, UserModel, ObjectHelper, messageService) {
         'use strict';
 
         /**
          * Constructor
          */
         function ArendeListItemModel(arendeModel) {
-          this.atgardMessageId = '';
-          this.arende = arendeModel; // ArendeModel from backend
-          this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
+            this.atgardMessageId = '';
+            this.arende = arendeModel; // ArendeModel from backend
+            this.kompletteringar = []; // this is created in updateArendeListItem since dynamic text ids needs to be created from arende.fraga.kompletteringar
 
-          this.updateArendeListItem();
+            this.updateArendeListItem();
         }
 
         function _isPaminnelse(amne) {
-          return amne === 'PAMINNELSE' || amne === 'PAMINN';
+            return amne === 'PAMINNELSE' || amne === 'PAMINN';
         }
 
         function _isKomplettering(amne) {
-          return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
+            return amne === 'KOMPLETTERING_AV_LAKARINTYG' || amne === 'KOMPLT';
         }
 
         ArendeListItemModel.build = function(arendeModel) {
-          return new ArendeListItemModel(arendeModel);
+            return new ArendeListItemModel(arendeModel);
         };
 
-        ArendeListItemModel.prototype.updateArendeListItem = function() {
+        ArendeListItemModel.prototype.updateArendeListItem = function () {
 
-          if (!ObjectHelper.isDefined(this.arende.svar)) {
-            this.arende.svar = {
-              meddelande: ''
-            };
-          }
+            if (!ObjectHelper.isDefined(this.arende.svar)) {
+                this.arende.svar = {
+                    meddelande: ''
+                };
+            }
 
-          this._updateAtgardMessage();
-          this._updateKompletteringar();
+            this._updateAtgardMessage();
+            this._updateKompletteringar();
         };
 
         ArendeListItemModel.prototype._updateAtgardMessage = function() {
-          if (this.arende.fraga.status === 'CLOSED') {
-            this.atgardMessageId = 'handled';
-          } else if (this._isUnhandledForDecoration()) {
-            this.atgardMessageId = 'markhandled';
-          } else if (_isKomplettering(this.arende.fraga.amne)) {
-            this.atgardMessageId = 'komplettering';
-          } else {
-            if (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
-              this.atgardMessageId = 'svarfranvarden';
-            } else if (this.arende.fraga.status === 'PENDING_EXTERNAL_ACTION') {
-              this.atgardMessageId = 'svarfranfk';
+            if (this.arende.fraga.status === 'CLOSED') {
+                this.atgardMessageId = 'handled';
+            } else if (this._isUnhandledForDecoration()) {
+                this.atgardMessageId = 'markhandled';
+            } else if (_isKomplettering(this.arende.fraga.amne)) {
+                this.atgardMessageId = 'komplettering';
             } else {
-              this.atgardMessageId = '';
-              $log.debug('warning: undefined status');
+                if (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION') {
+                    this.atgardMessageId = 'svarfranvarden';
+                } else if (this.arende.fraga.status === 'PENDING_EXTERNAL_ACTION') {
+                    this.atgardMessageId = 'svarfranfk';
+                } else {
+                    this.atgardMessageId = '';
+                    $log.debug('warning: undefined status');
+                }
             }
-          }
         };
 
         ArendeListItemModel.prototype._updateKompletteringar = function() {
-          if (ObjectHelper.isDefined(this.arende.fraga.kompletteringar)) {
-            this.kompletteringar = [];
-            angular.forEach(this.arende.fraga.kompletteringar, function(komplettering) {
+            if (ObjectHelper.isDefined(this.arende.fraga.kompletteringar)) {
+                this.kompletteringar = [];
+                angular.forEach(this.arende.fraga.kompletteringar, function(komplettering){
 
-              // Support fraga/svar legacy komplettering (fk7263)
-              var newKompletteringListItem = komplettering;
+                    // Support fraga/svar legacy komplettering (fk7263)
+                    var newKompletteringListItem = komplettering;
 
-              if (komplettering.frageId) {
-                newKompletteringListItem = {
-                  frgId: 'FRG_' + komplettering.frageId + '.RBK',
-                  text: komplettering.text,
-                  modelName: komplettering.jsonPropertyHandle,
-                  id: komplettering.frageId
-                };
-              }
+                    if (komplettering.frageId) {
+                        newKompletteringListItem = {
+                            frgId: 'FRG_' + komplettering.frageId + '.RBK',
+                            text: komplettering.text,
+                            modelName: komplettering.jsonPropertyHandle,
+                            id: komplettering.frageId
+                        };
+                    }
 
-              if (komplettering.jsonPropertyHandle === 'tillaggsfragor') {
-                newKompletteringListItem.frgId = 'DFR_' + komplettering.frageId + '.1.RBK';
-              }
+                    if (komplettering.jsonPropertyHandle === 'tillaggsfragor') {
+                        newKompletteringListItem.frgId = 'DFR_' + komplettering.frageId + '.1.RBK';
+                    }
 
-              this.push(newKompletteringListItem);
-            }, this.kompletteringar);
-          }
+                    this.push(newKompletteringListItem);
+                }, this.kompletteringar);
+            }
         };
 
-        ArendeListItemModel.prototype._isUnhandledForDecoration = function() {
-          return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || _isPaminnelse(
-              this.arende.fraga.amne);
+        ArendeListItemModel.prototype._isUnhandledForDecoration = function(){
+            return this.arende.fraga.status === 'ANSWERED' || this.arende.fraga.amne === 'MAKULERING' || _isPaminnelse(this.arende.fraga.amne);
         };
 
         ArendeListItemModel.prototype.isOpen = function() {
-          return this.arende.fraga.status !== 'CLOSED';
+            return this.arende.fraga.status !== 'CLOSED';
         };
 
-        ArendeListItemModel.prototype.isUnhandled = function() {
-          return (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION' && _isPaminnelse(this.arende.fraga.amne)) ||
-              this.arende.fraga.status === 'ANSWERED';
+        ArendeListItemModel.prototype.isUnhandled = function(){
+            return (this.arende.fraga.status === 'PENDING_INTERNAL_ACTION' && _isPaminnelse(this.arende.fraga.amne)) || this.arende.fraga.status === 'ANSWERED';
         };
 
         ArendeListItemModel.prototype.isKomplettering = function() {
-          return _isKomplettering(this.arende.fraga.amne);
+            return _isKomplettering(this.arende.fraga.amne);
         };
 
         ArendeListItemModel.prototype.isPaminnelse = function() {
-          return _isPaminnelse(this.arende.fraga.amne);
+            return _isPaminnelse(this.arende.fraga.amne);
         };
 
         ArendeListItemModel.prototype.fromFk = function() {
-          if (this.arende.fraga.frageStallare === 'FK') {
-            return true;
-          }
-          return false;
+            if (this.arende.fraga.frageStallare === 'FK'){
+                return true;
+            }
+            return false;
         };
 
         return ArendeListItemModel;
-      }
-    ]);
+    }
+]);

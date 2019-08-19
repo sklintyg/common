@@ -20,11 +20,12 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import java.util.List;
-import java.util.function.Predicate;
 
 public class PatientDetailResolveOrder {
 

@@ -18,119 +18,119 @@
  */
 
 describe('uvList Directive', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var element;
+    var $scope;
+    var element;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(module('common', function($compileProvider) {
-    // Create a mocked version of the dynamic label directive for easier and more
-    // focused unittesting of THIS directive.
-    // (That the dynamic-label directive works should be tested by that directive)
-    $compileProvider.directive('dynamicLabel', function() {
-      return {
-        priority: 100,
-        terminal: true,
-        replace: true,
-        restrict: 'A',
-        scope: {
-          key: '@'
-        },
-        template: '<span></span>',
-        link: function($scope, $element) {
-          $element.append('dynamicLabel-' + $scope.key);
-        }
-      };
-    });
-  }));
+    beforeEach(module('common', function($compileProvider) {
+        // Create a mocked version of the dynamic label directive for easier and more
+        // focused unittesting of THIS directive.
+        // (That the dynamic-label directive works should be tested by that directive)
+        $compileProvider.directive('dynamicLabel', function() {
+            return {
+                priority: 100,
+                terminal: true,
+                replace: true,
+                restrict: 'A',
+                scope: {
+                    key: '@'
+                },
+                template: '<span></span>',
+                link: function($scope, $element) {
+                    $element.append('dynamicLabel-' + $scope.key);
+                }
+            };
+        });
+    }));
 
-  describe('listKey-less version', function() {
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-      $scope = $rootScope.$new();
+    describe('listKey-less version', function() {
+        beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
+            $scope = $rootScope.$new();
 
-      $scope.configMock = {
-        labelKey: 'KV_FKMU_0004.{var}.RBK',
-        modelProp: 'listProp'
-      };
+            $scope.configMock = {
+                labelKey: 'KV_FKMU_0004.{var}.RBK',
+                modelProp: 'listProp'
+            };
 
-      element = $compile('<uv-list config="configMock" view-data="viewDataMock"></uv-list>')($scope);
+            element = $compile('<uv-list config="configMock" view-data="viewDataMock"></uv-list>')($scope);
 
-    }]));
+        } ]));
 
-    it('should render modelProp values as list of dynamic key values', function() {
-      $scope.viewDataMock = {
-        listProp: ['KEY0', 'KEY1', 'KEY2']
-      };
+        it('should render modelProp values as list of dynamic key values', function() {
+            $scope.viewDataMock = {
+                listProp: [ 'KEY0', 'KEY1', 'KEY2']
+            };
 
-      $scope.$digest();
+            $scope.$digest();
 
-      expect($(element).find('li').length).toBe(3);
-      expect($(element).find('li').eq(0).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY0.RBK');
-      expect($(element).find('li').eq(1).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY1.RBK');
-      expect($(element).find('li').eq(2).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY2.RBK');
-      expect($(element).find('uv-no-value').length).toBe(0);
-    });
+            expect($(element).find('li').length).toBe(3);
+            expect($(element).find('li').eq(0).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY0.RBK');
+            expect($(element).find('li').eq(1).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY1.RBK');
+            expect($(element).find('li').eq(2).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY2.RBK');
+            expect($(element).find('uv-no-value').length).toBe(0);
+        });
 
-    it('should show empty message if no values', function() {
-      $scope.viewDataMock = {
-        nothing: 'here'
-      };
+        it('should show empty message if no values', function() {
+            $scope.viewDataMock = {
+                nothing: 'here'
+            };
 
-      $scope.$digest();
+            $scope.$digest();
 
-      expect($(element).find('li').length).toBe(0);
-      expect($(element).find('uv-no-value').length).toBe(1);
-    });
-  });
-
-  describe('listKey version', function() {
-
-    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-      $scope = $rootScope.$new();
-
-      $scope.configMock = {
-        labelKey: 'KV_FKMU_0004.{var}.RBK',
-        listKey: 'typ',
-        modelProp: 'listProp'
-      };
-
-      element = $compile('<uv-list config="configMock" view-data="viewDataMock"></uv-list>')($scope);
-
-    }]));
-
-    it('should render modelProp values as list of dynamic key values', function() {
-      $scope.viewDataMock = {
-        listProp: [{
-          typ: 'KEY0'
-        }, {
-          typ: 'KEY1'
-        }, {
-          typ: 'KEY2'
-        }]
-      };
-
-      $scope.$digest();
-
-      expect($(element).find('li').length).toBe(3);
-      expect($(element).find('li').eq(0).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY0.RBK');
-      expect($(element).find('li').eq(1).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY1.RBK');
-      expect($(element).find('li').eq(2).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY2.RBK');
-      expect($(element).find('uv-no-value').length).toBe(0);
+            expect($(element).find('li').length).toBe(0);
+            expect($(element).find('uv-no-value').length).toBe(1);
+        });
     });
 
-    it('should show empty message if no values', function() {
-      $scope.viewDataMock = {
-        nothing: 'here'
-      };
+    describe('listKey version', function() {
 
-      $scope.$digest();
+        beforeEach(angular.mock.inject([ '$compile', '$rootScope', function($compile, $rootScope) {
+            $scope = $rootScope.$new();
 
-      expect($(element).find('li').length).toBe(0);
-      expect($(element).find('uv-no-value').length).toBe(1);
+            $scope.configMock = {
+                labelKey: 'KV_FKMU_0004.{var}.RBK',
+                listKey: 'typ',
+                modelProp: 'listProp'
+            };
+
+            element = $compile('<uv-list config="configMock" view-data="viewDataMock"></uv-list>')($scope);
+
+        } ]));
+
+        it('should render modelProp values as list of dynamic key values', function() {
+            $scope.viewDataMock = {
+                listProp: [ {
+                    typ: 'KEY0'
+                }, {
+                    typ: 'KEY1'
+                }, {
+                    typ: 'KEY2'
+                } ]
+            };
+
+            $scope.$digest();
+
+            expect($(element).find('li').length).toBe(3);
+            expect($(element).find('li').eq(0).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY0.RBK');
+            expect($(element).find('li').eq(1).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY1.RBK');
+            expect($(element).find('li').eq(2).text().trim()).toBe('dynamicLabel-KV_FKMU_0004.KEY2.RBK');
+            expect($(element).find('uv-no-value').length).toBe(0);
+        });
+
+        it('should show empty message if no values', function() {
+            $scope.viewDataMock = {
+                nothing: 'here'
+            };
+
+            $scope.$digest();
+
+            expect($(element).find('li').length).toBe(0);
+            expect($(element).find('uv-no-value').length).toBe(1);
+        });
+
     });
-
-  });
 });

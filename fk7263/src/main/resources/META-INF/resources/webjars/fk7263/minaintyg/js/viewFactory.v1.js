@@ -17,31 +17,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').factory('fk7263.viewFactory', [
-  '$stateParams', 'fk7263.customizeViewstate', '$location',
-  function($stateParams, customizeViewstate, $location) {
-    'use strict';
+    '$stateParams', 'fk7263.customizeViewstate', '$location',
+    function($stateParams, customizeViewstate, $location) {
+        'use strict';
 
-    var intygsTyp = 'fk7263';
-    var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send';
+        var intygsTyp = 'fk7263';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send';
+        
+        var _sendUrl = function() {
+            return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
+        };
 
-    var _sendUrl = function() {
-      return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/FKASSA';
-    };
+        var _customizeCertificate = function() {
+            customizeViewstate.resetModel();
+            $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customizepdf/' + $stateParams.certificateId + '/step1');
+        };
 
-    var _customizeCertificate = function() {
-      customizeViewstate.resetModel();
-      $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customizepdf/' + $stateParams.certificateId + '/step1');
-    };
+        var _enableCustomizeCertificate = function(cert) {
+            return !cert.avstangningSmittskydd;
+        };
 
-    var _enableCustomizeCertificate = function(cert) {
-      return !cert.avstangningSmittskydd;
-    };
-
-    return {
-      intygsTyp: intygsTyp,
-      selectRecipientKey: selectRecipientKey,
-      getSendUrl: _sendUrl,
-      customizeCertificate: _customizeCertificate,
-      enableCustomizeCertificate: _enableCustomizeCertificate
-    };
-  }]);
+        return {
+            intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
+            getSendUrl: _sendUrl,
+            customizeCertificate: _customizeCertificate,
+            enableCustomizeCertificate: _enableCustomizeCertificate
+        };
+    }]);

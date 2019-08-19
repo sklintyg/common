@@ -18,13 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+
+import java.time.LocalDate;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by erik on 15-04-08.

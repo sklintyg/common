@@ -24,23 +24,23 @@
  *
  * Created by stephenwhite on 12/12/14.
  */
-angular.module('common').factory('common.UserPreferencesService', ['$cookies', function($cookies) {
-  'use strict';
+angular.module('common').factory('common.UserPreferencesService',['$cookies', function($cookies) {
+    'use strict';
 
-  var skipShowUnhandledDialog = 'skipShowUnhandledDialog';
-  _setSkipShowUnhandledDialog(false);
+    var skipShowUnhandledDialog = 'skipShowUnhandledDialog';
+    _setSkipShowUnhandledDialog(false);
 
-  function _setSkipShowUnhandledDialog(value) {
-    $cookies.putObject(skipShowUnhandledDialog, value);
-  }
+    function _setSkipShowUnhandledDialog(value){
+        $cookies.putObject(skipShowUnhandledDialog, value);
+    }
 
-  function _isSkipShowUnhandledDialogSet() {
-    return $cookies.getObject(skipShowUnhandledDialog);
-  }
+    function _isSkipShowUnhandledDialogSet(){
+        return $cookies.getObject(skipShowUnhandledDialog);
+    }
 
-  return {
-    setSkipShowUnhandledDialog: _setSkipShowUnhandledDialog,
-    isSkipShowUnhandledDialogSet: _isSkipShowUnhandledDialogSet
-  };
+    return {
+        setSkipShowUnhandledDialog: _setSkipShowUnhandledDialog,
+        isSkipShowUnhandledDialogSet: _isSkipShowUnhandledDialogSet
+    };
 
 }]);

@@ -24,21 +24,24 @@ import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSON
 
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.xml.ws.WebServiceProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.w3.wsaddressing10.AttributedURIType;
+
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificate.rivtabp20.v3.RegisterMedicalCertificateResponderInterface;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
-import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.schemas.insuranceprocess.healthreporting.utils.ResultOfCallUtil;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 import se.inera.intyg.common.support.validate.CertificateValidationException;
+import se.inera.intyg.common.fk7263.model.converter.TransportToInternal;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.skl.skltpservices.adapter.fk.regmedcert.Vard2FkValidator;
 
 /**

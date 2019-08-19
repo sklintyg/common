@@ -18,10 +18,13 @@
  */
 package se.inera.intyg.common.fk7263.model.util;
 
-import com.google.common.base.Strings;
 import java.util.Arrays;
 import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;

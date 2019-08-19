@@ -19,8 +19,8 @@
   -->
 
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-    xmlns:hr="urn:riv:insuranceprocess:healthreporting:2">
+                xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                xmlns:hr="urn:riv:insuranceprocess:healthreporting:2">
 
   <!-- Copy all XML nodes, if no more specific template matches. -->
   <xsl:template match="@*|node()">
@@ -61,5 +61,6 @@
       <xsl:value-of select="faultstring/text()"/>
     </hr:errorText>
   </xsl:template>
+
 
 </xsl:stylesheet>

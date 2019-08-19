@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.kodverk;
 
+import java.util.stream.Stream;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.stream.Stream;
 
 public enum KvIdKontroll {
 

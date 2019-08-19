@@ -1,30 +1,31 @@
 <div class="wc-srs-risk-diagram-widget">
-  <div id="riskDiagram" class="risk-widget-header-container">
-    <div class="risk-widget">
-      <div class="risk-widget-header">
+        <div id="riskDiagram" class="risk-widget-header-container">
+            <div class="risk-widget">
+                <div class="risk-widget-header">
                     <span class="risk-widget-title">
                         <h3 class="risk-header-line">Risk för sjukskrivning längre än 90 dagar</h3>
                         <span>{{srs.prediction.predictionDiagnosisCode}} {{srs.prediction.predictionDiagnosisDescription}}</span>
 
-                        <i class="material-icons md-18 diagnosinfo" ng-if="srs.prediction.predictionDiagnosisCode"
+                        <i class="material-icons md-18 diagnosinfo"
+                           ng-if="srs.prediction.predictionDiagnosisCode"
                            uib-popover="Den risk som visas är för koden {{srs.prediction.predictionDiagnosisCode}} - {{srs.prediction.predictionDiagnosisDescription}}."
                            popover-popup-delay="300" popover-append-to-body="true"
                            popover-placement="top">info_outline</i>
 
                     </span>
-      </div>
-      <div class="risk-widget-content">
-        <div class="chart-container" id="riskChart"></div>
-      </div>
-      <div class="risk-widget-textual">
-        <ul>
-          <li>Genomsnittlig risk: {{srs.prediction.prevalence*100|number: '0'}}%</li>
-          <li data-ng-if="srs.prediction.probabilityOverLimit">
-            <b>Patientens risk: {{srs.prediction.probabilityOverLimit*100|number: '0'}}%
-              ({{srs.prediction.riskLevel}}<span ng-if="srs.prediction.predictionDate"> - beräknad {{srs.prediction.predictionDate}}</span>)</b>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+                </div>
+                <div class="risk-widget-content">
+                    <div class="chart-container" id="riskChart"></div>
+                </div>
+                <div class="risk-widget-textual">
+                    <ul>
+                        <li>Genomsnittlig risk: {{srs.prediction.prevalence*100|number: '0'}}%</li>
+                        <li data-ng-if="srs.prediction.probabilityOverLimit">
+                            <b>Patientens risk: {{srs.prediction.probabilityOverLimit*100|number: '0'}}%
+                            ({{srs.prediction.riskLevel}}<span ng-if="srs.prediction.predictionDate"> - beräknad {{srs.prediction.predictionDate}}</span>)</b>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 </div>

@@ -42,12 +42,15 @@ import static se.inera.intyg.common.agparent.model.converter.RespConstants.ID_JS
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.SIGNATURE;
 import static se.inera.intyg.common.agparent.model.converter.RespConstants.TEXTVERSION_JSON_ID;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import java.util.List;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
 import se.inera.intyg.common.support.model.InternalDate;

@@ -4,8 +4,11 @@
     <div>
       <wc-radio-wrapper>
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningNo"
-               name="{{::config.modelProp}}.kanInteTaStallning" type="radio" ng-value="false"
-               ng-model="model[config.modelProp].kanInteTaStallning" ng-change="updateValidation()" />
+               name="{{::config.modelProp}}.kanInteTaStallning"
+               type="radio"
+               ng-value="false"
+               ng-model="model[config.modelProp].kanInteTaStallning"
+               ng-change="updateValidation()" />
         <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningNo">
           <span dynamic-label key="DFR_33.1.RBK"></span>
         </label>
@@ -15,13 +18,15 @@
     <div class="row korkortstyper">
       <div ng-if="!model[config.modelProp].kanInteTaStallning">
         <div class="col-md-2 col-sm-4" data-ng-repeat="choice in modelGetterSetter().korkortstyp">
-          <wc-checkbox-wrapper>
-            <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}" type="checkbox"
-                   ng-model="choice.selected" ng-change="updateValidation()">
+         <wc-checkbox-wrapper>
+            <input ng-attr-id="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}"
+                     type="checkbox"
+                     ng-model="choice.selected"
+                     ng-change="updateValidation()">
             <label ng-attr-for="{{::config.modelProp}}-{{::choice.type|ueDomIdFilter}}">
               <span dynamic-label key="{{::config.labelTemplate | ueLabelFilter: choice.type}}"></span>
             </label>
-          </wc-checkbox-wrapper>
+         </wc-checkbox-wrapper>
         </div>
       </div>
     </div>
@@ -29,8 +34,11 @@
     <div>
       <wc-radio-wrapper>
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningYes"
-               name="{{::config.modelProp}}.kanInteTaStallning" type="radio" ng-value="true"
-               ng-model="model[config.modelProp].kanInteTaStallning" ng-change="updateValidation()" />
+               name="{{::config.modelProp}}.kanInteTaStallning"
+               type="radio"
+               ng-value="true"
+               ng-model="model[config.modelProp].kanInteTaStallning"
+               ng-change="updateValidation()" />
         <label ng-attr-for="{{::config.modelProp|ueDomIdFilter}}.kanInteTaStallningYes">
           <span dynamic-label key="DFR_33.2.RBK"></span>
         </label>

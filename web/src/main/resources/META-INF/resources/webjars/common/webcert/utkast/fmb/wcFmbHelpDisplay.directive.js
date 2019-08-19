@@ -20,50 +20,50 @@
  * Display FMB help texts
  */
 angular.module('common').directive('wcFmbHelpDisplay', ['common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', '$rootScope',
-  function(ObjectHelper, fmbService, fmbViewState, $rootScope) {
-    'use strict';
+    function(ObjectHelper, fmbService, fmbViewState, $rootScope) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      transclude: true,
-      scope: {
-        fieldName: '@',
-        relatedFormId: '@'
-      },
-      link: function(scope, element, attrs) {
-        scope.status = {
-          open: false
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                fieldName: '@',
+                relatedFormId: '@'
+            },
+            link: function(scope, element, attrs) {
+                scope.status = {
+                    open: false
+                };
+
+                scope.toggleFMB = function(){
+                    scope.status.open = !scope.status.open;
+
+                    // Close srs by sending event
+                    if(scope.status.open) {
+                        $rootScope.$broadcast('closeSrs');
+                    }
+                };
+
+                scope.$on('closeFmb', function(){
+                    scope.status.open = false;
+                });
+
+                scope.fmbViewState = fmbViewState;
+
+                function updateFMBAvailable() {
+                    if(ObjectHelper.isDefined(scope.fieldName) && ObjectHelper.isDefined(scope.relatedFormId)){
+                        scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(fmbViewState);
+                    } else {
+                        scope.fmbAvailable = false;
+                    }
+                }
+
+                scope.$watch('fmbViewState', function(newVal, oldVal) {
+                    updateFMBAvailable();
+                }, true);
+
+                updateFMBAvailable();
+            },
+            templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcFmbHelpDisplay.directive.html'
         };
-
-        scope.toggleFMB = function() {
-          scope.status.open = !scope.status.open;
-
-          // Close srs by sending event
-          if (scope.status.open) {
-            $rootScope.$broadcast('closeSrs');
-          }
-        };
-
-        scope.$on('closeFmb', function() {
-          scope.status.open = false;
-        });
-
-        scope.fmbViewState = fmbViewState;
-
-        function updateFMBAvailable() {
-          if (ObjectHelper.isDefined(scope.fieldName) && ObjectHelper.isDefined(scope.relatedFormId)) {
-            scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(fmbViewState);
-          } else {
-            scope.fmbAvailable = false;
-          }
-        }
-
-        scope.$watch('fmbViewState', function(newVal, oldVal) {
-          updateFMBAvailable();
-        }, true);
-
-        updateFMBAvailable();
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcFmbHelpDisplay.directive.html'
-    };
-  }]);
+    }]);

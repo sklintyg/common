@@ -18,26 +18,27 @@
  */
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.fail;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.collection.pair.Pair;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.Validator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.Validator;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.fail;
 
 public class TSBasV3toV1TransformerTest {
 

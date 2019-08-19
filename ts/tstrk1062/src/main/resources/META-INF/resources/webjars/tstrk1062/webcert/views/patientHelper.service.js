@@ -18,32 +18,29 @@
  */
 angular.module('tstrk1062').service('tstrk1062.PatientHelperService.v1',
     function() {
-      'use strict';
+        'use strict';
 
-      // PS-03
-      function _showPatientNameChangedIntegration(isIntyg) {
-        return true;
-      }
+        // PS-03
+        function _showPatientNameChangedIntegration(isIntyg) {
+            return true;
+        }
+        // PS-04
+        function _showPatientNameChangedPU(isIntyg) {
+            return false;
+        }
+        // PS-05
+        function _showPatientAddressChangedPU(isIntyg) {
+            return false;
+        }
+        // PS-08
+        function _showMissingAddressParameter(isIntyg) {
+            return false;
+        }
 
-      // PS-04
-      function _showPatientNameChangedPU(isIntyg) {
-        return false;
-      }
-
-      // PS-05
-      function _showPatientAddressChangedPU(isIntyg) {
-        return false;
-      }
-
-      // PS-08
-      function _showMissingAddressParameter(isIntyg) {
-        return false;
-      }
-
-      return {
-        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-        showPatientNameChangedPU: _showPatientNameChangedPU,
-        showPatientAddressChangedPU: _showPatientAddressChangedPU,
-        showMissingAddressParameter: _showMissingAddressParameter
-      };
+        return {
+            showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+            showPatientNameChangedPU: _showPatientNameChangedPU,
+            showPatientAddressChangedPU: _showPatientAddressChangedPU,
+            showMissingAddressParameter: _showMissingAddressParameter
+        };
     });

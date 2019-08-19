@@ -18,90 +18,89 @@
  */
 
 describe('wcVardPersonSekretessDialog Controller', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var $controller;
-  var $uibModalInstanceSpy;
-  var UserModel;
-  var UserService;
-  var preferenceKey;
-  var $windowMock;
+    var $scope;
+    var $controller;
+    var $uibModalInstanceSpy;
+    var UserModel;
+    var UserService;
+    var preferenceKey;
+    var $windowMock;
 
-  var initialMockedUser = {
-    sekretessMarkerad: true,
-    origin: 'DJUPINTEGRERAD',
-    anvandarPreference: {}
+    var initialMockedUser = {
+        sekretessMarkerad: true,
+        origin: 'DJUPINTEGRERAD',
+        anvandarPreference: {}
 
-  };
+    };
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(angular.mock.inject(['$rootScope', '$controller', '$window', 'common.User', 'common.UserModel',
-    function($rootScope, _$controller_, _$window_, _UserService_, _UserModel_) {
-      $scope = $rootScope.$new();
-      $controller = _$controller_;
-      $uibModalInstanceSpy = jasmine.createSpyObj('$uibModalInstance', ['close', 'dismiss']);
+    beforeEach(angular.mock.inject([ '$rootScope', '$controller', '$window', 'common.User', 'common.UserModel',
+            function($rootScope, _$controller_, _$window_, _UserService_, _UserModel_) {
+                $scope = $rootScope.$new();
+                $controller = _$controller_;
+                $uibModalInstanceSpy = jasmine.createSpyObj('$uibModalInstance', [ 'close', 'dismiss' ]);
 
-      UserModel = _UserModel_;
-      UserService = _UserService_;
-      preferenceKey = 'test-key';
-      UserModel.setUser(initialMockedUser);
+                UserModel = _UserModel_;
+                UserService = _UserService_;
+                preferenceKey = 'test-key';
+                UserModel.setUser(initialMockedUser);
 
-      $windowMock = {
-        location: {
-          href: ''
-        }
-      };
+                $windowMock = {
+                    location: {
+                        href: ''
+                    }
+                };
 
-      $controller('wcVardPersonSekretessDialogCtrl', {
-        $scope: $scope,
-        $window: $windowMock,
-        $uibModalInstance: $uibModalInstanceSpy,
-        preferenceKey: preferenceKey
-      });
+                $controller('wcVardPersonSekretessDialogCtrl', {
+                    $scope: $scope,
+                    $window: $windowMock,
+                    $uibModalInstance: $uibModalInstanceSpy,
+                    preferenceKey: preferenceKey
+                });
 
-    }]));
+            } ]));
 
-  it('Should save consent preferenceKey and close dialog when approved', function() {
-    spyOn(UserService, 'storeAnvandarPreference');
+    it('Should save consent preferenceKey and close dialog when approved', function() {
+        spyOn(UserService, 'storeAnvandarPreference');
 
-    $scope.check();
-    $scope.giveConsent();
-    $scope.$digest();
+        $scope.check();
+        $scope.giveConsent();
+        $scope.$digest();
 
-    expect(UserService.storeAnvandarPreference).toHaveBeenCalledWith(preferenceKey, true);
-    expect($uibModalInstanceSpy.close).toHaveBeenCalled();
+        expect(UserService.storeAnvandarPreference).toHaveBeenCalledWith(preferenceKey, true);
+        expect($uibModalInstanceSpy.close).toHaveBeenCalled();
 
-  });
+    });
 
-  function doCancel() {
-    spyOn(UserService, 'storeAnvandarPreference');
+    function doCancel() {
+        spyOn(UserService, 'storeAnvandarPreference');
 
-    $scope.onCancel();
-    $scope.$digest();
+        $scope.onCancel();
+        $scope.$digest();
 
-    expect(UserService.storeAnvandarPreference).toHaveBeenCalledTimes(0);
-    expect($uibModalInstanceSpy.close).toHaveBeenCalled();
-    expect($windowMock.location.href).toContain('reason=sekretessapproval.needed');
-  }
+        expect(UserService.storeAnvandarPreference).toHaveBeenCalledTimes(0);
+        expect($uibModalInstanceSpy.close).toHaveBeenCalled();
+        expect($windowMock.location.href).toContain('reason=sekretessapproval.needed');
+    }
+    it('Should close dialog and redirect to error page when clicking cancel', function() {
 
-  it('Should close dialog and redirect to error page when clicking cancel', function() {
+        doCancel();
+        //Expect specific behaviour when not NORMAL origin
+        expect($windowMock.location.href).not.toContain('showlogin=true');
 
-    doCancel();
-    //Expect specific behaviour when not NORMAL origin
-    expect($windowMock.location.href).not.toContain('showlogin=true');
+    });
 
-  });
+    it('Should close dialog and redirect to error page with login option when clicking cancel in NORMAL origin', function() {
+        UserModel.user.origin = 'NORMAL';
 
-  it('Should close dialog and redirect to error page with login option when clicking cancel in NORMAL origin', function() {
-    UserModel.user.origin = 'NORMAL';
+        doCancel();
+        //Expect specific behaviour when not NORMAL origin
+        expect($windowMock.location.href).toContain('showlogin=true');
 
-    doCancel();
-    //Expect specific behaviour when not NORMAL origin
-    expect($windowMock.location.href).toContain('showlogin=true');
-
-  });
+    });
 
 });

@@ -21,11 +21,14 @@ package se.inera.intyg.common.ts_diabetes.v2.model.validator;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Joiner;
 import java.time.LocalDate;
 import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.base.Joiner;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;

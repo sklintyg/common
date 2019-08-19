@@ -44,8 +44,8 @@ public class IntygModule implements Comparable<IntygModule> {
 
     // CHECKSTYLE:OFF ParameterNumber
     public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
-        String scriptPath, String dependencyDefinitionPath, String defaultRecipient,
-        boolean deprecated, boolean displayDeprecated) {
+                       String scriptPath, String dependencyDefinitionPath, String defaultRecipient,
+                       boolean deprecated, boolean displayDeprecated) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -60,9 +60,9 @@ public class IntygModule implements Comparable<IntygModule> {
     }
 
     public IntygModule(String id, String label, String description, String detailedDescription, String issuerTypeId, String cssPath,
-        String scriptPath, String dependencyDefinitionPath, String defaultRecipient, boolean deprecated) {
+                       String scriptPath, String dependencyDefinitionPath, String defaultRecipient, boolean deprecated) {
         this(id, label, description, detailedDescription, issuerTypeId, cssPath,
-            scriptPath, dependencyDefinitionPath, defaultRecipient, deprecated, false);
+                scriptPath, dependencyDefinitionPath, defaultRecipient, deprecated, false);
     }
     // CHECKSTYLE:ON ParameterNumber
 

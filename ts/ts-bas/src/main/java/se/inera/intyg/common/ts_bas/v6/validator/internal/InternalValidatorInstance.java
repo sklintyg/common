@@ -20,32 +20,14 @@ package se.inera.intyg.common.ts_bas.v6.validator.internal;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.PatientValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Kognitivt;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Neurologi;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Njurar;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Psykiskt;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
-import se.inera.intyg.common.ts_bas.v6.model.internal.SomnVakenhet;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Utvecklingsstorning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
+import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.DiabetesKod;
 
 /**

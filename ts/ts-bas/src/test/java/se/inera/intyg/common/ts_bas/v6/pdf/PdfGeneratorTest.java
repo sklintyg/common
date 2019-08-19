@@ -26,10 +26,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.services.texts.model.IntygTexts;

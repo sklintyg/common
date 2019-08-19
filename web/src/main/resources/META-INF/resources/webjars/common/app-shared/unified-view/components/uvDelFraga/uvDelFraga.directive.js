@@ -18,27 +18,26 @@
  */
 angular.module('common').directive('uvDelFraga',
     function(uvUtil) {
-      'use strict';
+        'use strict';
 
-      return {
-        restrict: 'E',
-        scope: {
-          config: '=',
-          viewData: '='
-        },
-        template: '<div ng-include="contentUrl"></div>',
-        link: function($scope) {
-          if ($scope.config.contentUrl) {
-            $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga-' +
-                $scope.config.contentUrl + '.directive.html';
-          } else {
-            $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html';
-          }
+        return {
+            restrict: 'E',
+            scope: {
+                config: '=',
+                viewData: '='
+            },
+            template: '<div ng-include="contentUrl"></div>',
+            link: function($scope) {
+                if ($scope.config.contentUrl) {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga-' + $scope.config.contentUrl + '.directive.html';
+                } else {
+                    $scope.contentUrl = '/web/webjars/common/app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.html';
+                }
 
-          $scope.evalHideExpression = function() {
-            var result = uvUtil.getValue($scope.viewData, $scope.config.hideExpression);
-            return result;
-          };
-        }
-      };
+                $scope.evalHideExpression = function() {
+                    var result = uvUtil.getValue($scope.viewData, $scope.config.hideExpression);
+                    return result;
+                };
+            }
+        };
     });

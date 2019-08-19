@@ -18,56 +18,56 @@
  */
 angular.module('af00213').factory('af00213.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-      'common.domain.BaseAtticModel',
-      function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
-        'use strict';
+        'common.domain.BaseAtticModel',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel) {
+            'use strict';
 
-        var Af00213Modelv1 = BaseAtticModel._extend({
-          init: function init() {
-            var grundData = GrundData.build();
-            init._super.call(this, 'af00213Modelv1', {
+            var Af00213Modelv1 = BaseAtticModel._extend({
+                init: function init() {
+                    var grundData = GrundData.build();
+                    init._super.call(this, 'af00213Modelv1', {
 
-              'id': undefined,
-              'typ': undefined,
-              'textVersion': undefined,
-              'grundData': grundData,
+                        'id': undefined,
+                        'typ': undefined,
+                        'textVersion': undefined,
+                        'grundData': grundData,
 
-              // Kategori 1
-              'harFunktionsnedsattning': undefined,
-              'funktionsnedsattning': undefined,
+                        // Kategori 1
+                        'harFunktionsnedsattning': undefined,
+                        'funktionsnedsattning': undefined,
 
-              // Kategori 2
-              'harAktivitetsbegransning': undefined,
-              'aktivitetsbegransning': undefined,
+                        // Kategori 2
+                        'harAktivitetsbegransning': undefined,
+                        'aktivitetsbegransning': undefined,
 
-              // Kategori 3
-              'harUtredningBehandling': undefined,
-              'utredningBehandling': undefined,
+                        // Kategori 3
+                        'harUtredningBehandling': undefined,
+                        'utredningBehandling': undefined,
 
-              // Kategori 4
-              'harArbetetsPaverkan': undefined,
-              'arbetetsPaverkan': undefined,
+                        // Kategori 4
+                        'harArbetetsPaverkan': undefined,
+                        'arbetetsPaverkan': undefined,
 
-              // Kategori 5
-              'ovrigt': undefined
+                        // Kategori 5
+                        'ovrigt': undefined
+                    });
+                },
+                update: function update(content, parent) {
+                    if (parent) {
+                        parent.content = this;
+                    }
+                    update._super.call(this, content);
+                }
+
+            }, {
+                build : function(){
+                    return new DraftModel(new Af00213Modelv1());
+                }
             });
-          },
-          update: function update(content, parent) {
-            if (parent) {
-              parent.content = this;
-            }
-            update._super.call(this, content);
-          }
 
-        }, {
-          build: function() {
-            return new DraftModel(new Af00213Modelv1());
-          }
-        });
+            /**
+             * Return the constructor function IntygModel
+             */
+            return Af00213Modelv1;
 
-        /**
-         * Return the constructor function IntygModel
-         */
-        return Af00213Modelv1;
-
-      }]);
+        }]);

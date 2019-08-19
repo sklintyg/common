@@ -21,50 +21,49 @@
  *
  * Created by marced on 2018-01-26.
  */
-angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', ['common.featureService', function(featureService) {
-  'use strict';
+angular.module('fk7263').factory('fk7263.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+    'use strict';
 
-  function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
 
-    var config = {
-      tabs: [],
-      intygContext: {
-        type: 'fk7263',
-        id: id,
-        intygTypeVersion: intygTypeVersion,
-        isSigned: isSigned
-      }
-    };
+        var config = {
+            tabs: [],
+            intygContext: {
+                type: 'fk7263',
+                id: id,
+                intygTypeVersion: intygTypeVersion,
+                isSigned: isSigned
+            }
+        };
 
-    if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned ||
-        isKompletteringsUtkast)) {
-      config.tabs.push({
-        id: 'wc-arende-panel-tab',
-        title: 'common.supportpanel.arende.title',
-        tooltip: 'common.supportpanel.arende.tooltip',
-        config: {
-          intygContext: config.intygContext
+        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
+            config.tabs.push({
+                id: 'wc-arende-panel-tab',
+                title: 'common.supportpanel.arende.title',
+                tooltip: 'common.supportpanel.arende.tooltip',
+                config: {
+                    intygContext: config.intygContext
+                }
+            });
         }
-      });
+
+        //Always has this
+        config.tabs.push({
+            id: 'wc-help-tips-panel-tab',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
+            config: {
+                intygContext: config.intygContext
+            }
+        });
+
+        // First tab of those added should be active by default
+        config.tabs[0].active = true;
+        return angular.copy(config);
     }
 
-    //Always has this
-    config.tabs.push({
-      id: 'wc-help-tips-panel-tab',
-      title: 'common.supportpanel.help.title',
-      tooltip: 'common.supportpanel.help.tooltip',
-      config: {
-        intygContext: config.intygContext
-      }
-    });
+    return {
+        getConfig: _getConfig
+    };
 
-    // First tab of those added should be active by default
-    config.tabs[0].active = true;
-    return angular.copy(config);
-  }
-
-  return {
-    getConfig: _getConfig
-  };
-
-}]);
+} ]);

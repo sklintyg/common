@@ -6,7 +6,7 @@ ue-diagnos-old {
     position: relative;
     width: 100%;
   }
-
+  
   .checkbox-wrapper {
     margin-top: 23px;
     margin-bottom: 20px;
@@ -15,11 +15,9 @@ ue-diagnos-old {
       margin-right: 30px;
       margin-left: 10px;
     }
-
     .choose-code {
       color: $wc-color-09;
     }
-
     .padding-left {
       padding-left: 2px;
     }
@@ -30,7 +28,6 @@ ue-diagnos-old {
     span.diagnos-text {
       color: $wc-color-09;
     }
-
     input.validation-error {
       border-color: $wc-color-11;
     }
@@ -46,7 +43,7 @@ ue-diagnos-old {
       padding-bottom: 15px;
       flex-wrap: wrap;
 
-      &:last-of-type {
+      &:last-of-type{
         padding-bottom: 0;
       }
 
@@ -67,12 +64,12 @@ ue-diagnos-old {
         }
       }
 
-      ue-validation-list {
+      ue-validation-list{
         width: 100%;
         flex-grow: 1;
         margin-top: 6.5px;
 
-        .validation-error {
+        .validation-error{
           margin-top: 6.5px;
         }
       }

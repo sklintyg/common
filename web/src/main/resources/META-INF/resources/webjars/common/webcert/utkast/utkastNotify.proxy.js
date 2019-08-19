@@ -22,42 +22,42 @@
  */
 angular.module('common').factory('common.UtkastNotifyProxy',
     ['$http', '$log',
-      function($http, $log) {
-        'use strict';
+        function($http, $log) {
+            'use strict';
 
-        /*
-         * Toggle Notify state of a fragasvar entity with given id
-         */
-        function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback, errorCallback) {
-          $log.debug('_setNotifyState');
-          var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
-          $http.put(restPath, {'notified': isNotified}).then(function(response) {
-            $log.debug('_setNotifyState data:' + response.data);
-            callback(response.data);
-          }, function(response) {
-            $log.error('error ' + response.status);
-            errorCallback(response.data);
-          });
-        }
+            /*
+             * Toggle Notify state of a fragasvar entity with given id
+             */
+            function _setNotifyState(intygId, intygType, intygVersion, isNotified, callback,  errorCallback) {
+                $log.debug('_setNotifyState');
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + intygVersion + '/vidarebefordra';
+                $http.put(restPath, {'notified': isNotified}).then(function(response) {
+                    $log.debug('_setNotifyState data:' + response.data);
+                    callback(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    errorCallback(response.data);
+                });
+            }
 
-        /**
-         * Ask the backend to send a status update to the journalsystem that the draft is ready to be signed
-         */
-        function _sendNotificationStatusUpdate(intygId, intygType, utkast, callback, errorCallback) {
-          var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + utkast.version + '/redoattsignera';
-          $http.put(restPath, {}).then(function(response) {
-            $log.debug('sendNotificationStatusUpdate data:' + response.data);
-            utkast.version++;
-            callback(response.data);
-          }, function(response) {
-            $log.error('error ' + response.status);
-            errorCallback(response.data);
-          });
-        }
+            /**
+             * Ask the backend to send a status update to the journalsystem that the draft is ready to be signed
+             */
+            function _sendNotificationStatusUpdate(intygId, intygType, utkast, callback, errorCallback) {
+                var restPath = '/api/intyg/' + intygType + '/' + intygId + '/' + utkast.version + '/redoattsignera';
+                $http.put(restPath, {}).then(function(response) {
+                    $log.debug('sendNotificationStatusUpdate data:' + response.data);
+                    utkast.version++;
+                    callback(response.data);
+                }, function(response) {
+                    $log.error('error ' + response.status);
+                    errorCallback(response.data);
+                });
+            }
 
-        // Return public API for the service
-        return {
-          setNotifyState: _setNotifyState,
-          sendNotificationStatusUpdate: _sendNotificationStatusUpdate
-        };
-      }]);
+            // Return public API for the service
+            return {
+                setNotifyState: _setNotifyState,
+                sendNotificationStatusUpdate : _sendNotificationStatusUpdate
+            };
+        }]);

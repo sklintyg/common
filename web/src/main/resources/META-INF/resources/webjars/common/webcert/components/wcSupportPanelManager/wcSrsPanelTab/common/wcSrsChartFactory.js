@@ -19,212 +19,211 @@
 
 /* globals Highcharts */
 angular.module('common').factory('common.wcSrsChartFactory',
-    ['$filter', '$log',
-      function($filter, $log) {
+    [ '$filter', '$log',
+    function($filter, $log) {
         'use strict';
 
         /* Color definitions to be used with highcharts */
         var colors = {
-          total: '#5D5D5D',
-          // overview: '#57843B',
-          overview: '#3D4260',
-          high: '#E10934',
-          medium: '#FFBA3E',
-          low: '#799745',
-          risk: '#CDCED6',
-          other: [
-            '#E11964',
-            '#032C53',
-            '#FFBA3E',
-            '#799745',
-            '#3CA3FF',
-            '#C37EB2',
-            '#2A5152',
-            '#FB7F4D',
-            '#5CC2BC',
-            '#704F38',
-            '#600030',
-            '#006697']
+            total: '#5D5D5D',
+            // overview: '#57843B',
+            overview: '#3D4260',
+            high: '#E10934',
+            medium: '#FFBA3E',
+            low: '#799745',
+            risk: '#CDCED6',
+            other: [
+                '#E11964',
+                '#032C53',
+                '#FFBA3E',
+                '#799745',
+                '#3CA3FF',
+                '#C37EB2',
+                '#2A5152',
+                '#FB7F4D',
+                '#5CC2BC',
+                '#704F38',
+                '#600030',
+                '#006697']
         };
         var COLORS = colors;
         var CATEGORY_TO_HIDE = 'Totalt';
 
         var getColors = function() {
-          return COLORS;
+            return COLORS;
         };
 
         var ControllerCommons = {
-          htmlsafe: function(string) {
-            return string.replace(/&/g, '&amp;').replace(/</g, '&lt;');
-          },
+            htmlsafe: function(string) {
+                return string.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+            },
 
-          isNumber: function(n) {
-            return !isNaN(parseFloat(n)) && isFinite(n);
-          },
+            isNumber: function(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            },
 
-          makeThousandSeparated: function(input) {
-            if (this.isNumber(input)) {
-              var splittedOnDot = input.toString().split('\.');
-              var integerPartThousandSeparated = splittedOnDot[0].split('').reverse().join('')
-              .match(/.{1,3}/g).join('\u00A0').split('').reverse().join('');
-              if (splittedOnDot.length === 1) {
-                return integerPartThousandSeparated;
-              }
-              return integerPartThousandSeparated + ',' + splittedOnDot[1];
+            makeThousandSeparated: function(input) {
+                if (this.isNumber(input)) {
+                    var splittedOnDot = input.toString().split('\.');
+                    var integerPartThousandSeparated = splittedOnDot[0].split('').reverse().join('')
+                        .match(/.{1,3}/g).join('\u00A0').split('').reverse().join('');
+                    if (splittedOnDot.length === 1) {
+                        return integerPartThousandSeparated;
+                    }
+                    return integerPartThousandSeparated + ',' + splittedOnDot[1];
+                }
+                return input;
             }
-            return input;
-          }
         };
 
         var labelFormatter = function(maxWidth, sameLengthOnAll) {
 
-          return function() {
-            //If the label is more than 30 characters then cut the text and add ellipsis
-            var numberOfChars = maxWidth;
+            return function() {
+                //If the label is more than 30 characters then cut the text and add ellipsis
+                var numberOfChars = maxWidth;
 
-            if (!sameLengthOnAll && this.isFirst) {
-              numberOfChars = maxWidth - 10;
-            }
+                if (!sameLengthOnAll && this.isFirst) {
+                    numberOfChars = maxWidth - 10;
+                }
 
-            return _formatter(this.value, numberOfChars);
-          };
+                return _formatter(this.value, numberOfChars);
+            };
         };
 
         function _formatter(value, numberOfChars) {
-          var textToFormat;
-          var tooltip;
+            var textToFormat;
+            var tooltip;
 
-          var isObject = angular.isObject(value);
+            var isObject = angular.isObject(value);
 
-          if (isObject) {
-            textToFormat = value.name;
-            tooltip = value.tooltip;
-          } else {
-            textToFormat = value;
-            tooltip = value;
-          }
+            if (isObject) {
+                textToFormat = value.name;
+                tooltip = value.tooltip;
+            } else {
+                textToFormat = value;
+                tooltip = value;
+            }
 
-          var text = textToFormat.length > numberOfChars ? textToFormat.substring(0, numberOfChars) + '...' : textToFormat;
-          return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + text + '</span>';
+            var text = textToFormat.length > numberOfChars ? textToFormat.substring(0, numberOfChars) + '...' : textToFormat;
+            return '<span data-original-title="' + tooltip + '" data-placement="auto right" data-toggle="tooltip">' + text + '</span>';
         }
 
         function _getMaxLength(maxLength) {
-          return maxLength ? maxLength : 30;
+            return maxLength ? maxLength : 30;
         }
 
         function getTextWidth(container, text) {
-          //Temporary add, measure and remove the chip's html equivalent.
-          var elem = $('<span class="temp-highcharts-label">' + text + '</span>');
-          container.append(elem);
-          var width = elem.outerWidth(true);
-          elem.remove();
-          return width;
+            //Temporary add, measure and remove the chip's html equivalent.
+            var elem = $('<span class="temp-highcharts-label">' + text + '</span>');
+            container.append(elem);
+            var width = elem.outerWidth(true);
+            elem.remove();
+            return width;
         }
 
         function _getCategoryLength(chartCategories, maxLength) {
-          var categoryLength = 0;
-          var container = $('.collapsible-panel-body');
-          var labelLength = _getMaxLength(maxLength);
+            var categoryLength = 0;
+            var container = $('.collapsible-panel-body');
+            var labelLength = _getMaxLength(maxLength);
 
-          angular.forEach(chartCategories, function(category) {
-            var length = getTextWidth(container, _formatter(category.name, labelLength));
+            angular.forEach(chartCategories, function(category) {
+                var length = getTextWidth(container, _formatter(category.name, labelLength));
 
-            if (categoryLength < length) {
-              categoryLength = length;
-            }
-          });
+                if (categoryLength < length) {
+                    categoryLength = length;
+                }
+            });
 
-          return categoryLength;
+            return categoryLength;
         }
 
         function _getLabelHeight(chartCategories, verticalLabel, maxLength) {
-          if (verticalLabel) {
-            return _getCategoryLength(chartCategories, maxLength);
-          }
+            if (verticalLabel) {
+                return _getCategoryLength(chartCategories, maxLength);
+            }
 
-          return 40;
+            return 40;
         }
 
         function _getTooltip(percentChart, unit, chartType, usingAndel, maxWidth) {
 
-          var formatter;
+            var formatter;
 
-          if (chartType === 'bubble') {
-            formatter = function() {
-              var value = percentChart ?
-                  Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
-                  ControllerCommons.makeThousandSeparated(this.point.z);
-              return '<b>' + value + '</b> ' + unit + ' för ' + this.series.name;
+            if (chartType === 'bubble') {
+                formatter = function() {
+                    var value = percentChart ?
+                        Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
+                        ControllerCommons.makeThousandSeparated(this.point.z);
+                    return '<b>' + value + '</b> ' + unit + ' för ' + this.series.name;
+                };
+            } else {
+                formatter = function() {
+                    var value = percentChart ?
+                        Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
+                        ControllerCommons.makeThousandSeparated(this.y) + (usingAndel ? '%' : '');
+
+                    var title = this.x ? this.x : this.point.name;
+
+                    if (angular.isObject(title)) {
+                        title = title.oldName ? title.oldName : title.name;
+                    }
+
+                    return title + ' <b>' + value + unit + '</b>' ;
+                };
+            }
+
+            return {
+                hideDelay: 500,
+                backgroundColor : '#fff',
+                borderWidth : 2,
+                padding: 9,
+                style: {
+                    whiteSpace: 'nowrap',
+                    width: '600px'
+                },
+                responsiveWidthPercentage: maxWidth || null,
+                useHTML: false,
+                outside: typeof(maxWidth) === 'undefined',
+                formatter: formatter
             };
-          } else {
-            formatter = function() {
-              var value = percentChart ?
-                  Highcharts.numberFormat(this.percentage, 0, ',') + '%' :
-                  ControllerCommons.makeThousandSeparated(this.y) + (usingAndel ? '%' : '');
-
-              var title = this.x ? this.x : this.point.name;
-
-              if (angular.isObject(title)) {
-                title = title.oldName ? title.oldName : title.name;
-              }
-
-              return title + ' <b>' + value + unit + '</b>';
-            };
-          }
-
-          return {
-            hideDelay: 500,
-            backgroundColor: '#fff',
-            borderWidth: 2,
-            padding: 9,
-            style: {
-              whiteSpace: 'nowrap',
-              width: '600px'
-            },
-            responsiveWidthPercentage: maxWidth || null,
-            useHTML: false,
-            outside: typeof (maxWidth) === 'undefined',
-            formatter: formatter
-          };
         }
 
         function onChartRender() {
-          /* jshint ignore:start */
-          this.tooltip.update({
-            style: {
-              width: Math.floor(0.01 * this.tooltip.options.responsiveWidthPercentage * this.chartWidth) + 'px'
-            }
-          });
-          /* jshint ignore:end */
+            /* jshint ignore:start */
+            this.tooltip.update({
+                style: {
+                    width: Math.floor(0.01 * this.tooltip.options.responsiveWidthPercentage * this.chartWidth) + 'px'
+                }});
+            /* jshint ignore:end */
         }
 
         function processCategories(categories) {
 
-          // Ta bort kategorienamnet om det bara finns Totalt
-          if (categories && categories.length === 1 && categories[0].name === CATEGORY_TO_HIDE) {
-            return [{
-              name: '',
-              marked: false,
-              oldName: categories[0].name
-            }];
-          }
+            // Ta bort kategorienamnet om det bara finns Totalt
+            if (categories && categories.length === 1 && categories[0].name === CATEGORY_TO_HIDE) {
+                return [{
+                    name: '',
+                    marked: false,
+                    oldName: categories[0].name
+                }];
+            }
 
-          return categories && Array.isArray(categories) && categories.map(function(category) {
-            var tooltip = category.tooltip ? category.tooltip : category.name;
+            return categories && Array.isArray(categories) && categories.map(function(category) {
+                var tooltip = category.tooltip ? category.tooltip : category.name;
 
-            return {
-              name: ControllerCommons.htmlsafe(category.name),
-              tooltip: ControllerCommons.htmlsafe(tooltip),
-              marked: category.marked
-            };
-          });
+                return {
+                    name: ControllerCommons.htmlsafe(category.name),
+                    tooltip: ControllerCommons.htmlsafe(tooltip),
+                    marked: category.marked
+                };
+            });
         }
 
         function _addChartEvent(config, eventName, callback) {
-          if (typeof (config.chart.events) !== 'object') {
-            config.chart.events = {};
-          }
-          config.chart.events[eventName] = callback;
+            if(typeof(config.chart.events) !== 'object') {
+                config.chart.events = {};
+            }
+            config.chart.events[eventName] = callback;
         }
 
         /**
@@ -249,184 +248,183 @@ angular.module('common').factory('common.wcSrsChartFactory',
          * @returns {}  // chart object
          */
         var getHighChartConfigBase = function(options) {
-          /*jshint maxcomplexity:12 */
-          var labelHeight = _getLabelHeight(options.categories, options.verticalLabel, options.labelMaxLength);
+            /*jshint maxcomplexity:12 */
+            var labelHeight = _getLabelHeight(options.categories, options.verticalLabel, options.labelMaxLength);
 
-          var config = {
-            chart: {
-              animation: false,
-              renderTo: options.renderTo ? options.renderTo : 'chart1',
-              type: options.type,
-              backgroundColor: null, //transparent
-              plotBorderWidth: options.borderWidth ? options.borderWidth : 1,
-              // marginLeft: options.marginLeft ? options.marginLeft : 42,
-              marginRight: options.marginRight ? options.marginRight : undefined,
-              width: options.width ? options.width : 360,
-              // height: 360 + labelHeight,
-              marginBottom: options.verticalLabel ? labelHeight + 25 : null
-            },
-            title: {
-              text: null,
-              style: {
-                fontSize: '16px'
-              }
-            },
-            subtitle: {},
-            legend: {},
-            xAxis: {
-              labels: {
-                rotation: 0, //options.verticalLabel ? -90 : 320,
-                align: 'center',
-                style: {
-                  textAlign: 'center'
+            var config = {
+                chart : {
+                    animation: false,
+                    renderTo : options.renderTo ? options.renderTo : 'chart1',
+                    type: options.type,
+                    backgroundColor : null, //transparent
+                    plotBorderWidth: options.borderWidth ? options.borderWidth : 1,
+                    // marginLeft: options.marginLeft ? options.marginLeft : 42,
+                    marginRight: options.marginRight ? options.marginRight : undefined,
+                    width: options.width ? options.width : 360,
+                    // height: 360 + labelHeight,
+                    marginBottom: options.verticalLabel ? labelHeight + 25 : null
                 },
-                useHTML: true,
-                formatter: labelFormatter(_getMaxLength(options.labelMaxLength), options.verticalLabel),
-                step: 1
-              },
-              categories: processCategories(options.categories)
-            },
-            yAxis: [{
-              id: 'yAxis1',
-              allowDecimals: false,
-              min: 0,
-              minRange: 0.1,
-              title: {
-                text: null
-              },
-              labels: {
-                formatter: function() {
-                  return ControllerCommons.makeThousandSeparated(this.value) +
-                      (options.unit ? options.unit : (options.percentChart || options.usingAndel ? '%' : ''));
-                }
-              }
-            }],
-            plotOptions: {
-              line: {
-                animation: false,
-                softThreshold: false,
-                allowPointSelect: false,
-                marker: {
-                  enabled: true,
-                  symbol: 'circle'
+                title: {
+                    text: null,
+                    style: {
+                        fontSize: '16px'
+                    }
                 },
-                dataLabels: {
-                  enabled: false
+                subtitle : {},
+                legend: {},
+                xAxis : {
+                    labels : {
+                        rotation : 0, //options.verticalLabel ? -90 : 320,
+                        align : 'center',
+                        style: {
+                            textAlign: 'center'
+                        },
+                        useHTML: true,
+                        formatter: labelFormatter(_getMaxLength(options.labelMaxLength), options.verticalLabel),
+                        step: 1
+                    },
+                    categories : processCategories(options.categories)
                 },
-                events: {
-                  legendItemClick: function() { // This function removes interaction for plot and legend-items
-                    return false;
-                  }
+                yAxis : [{
+                    id: 'yAxis1',
+                    allowDecimals : false,
+                    min : 0,
+                    minRange : 0.1,
+                    title : {
+                        text : null
+                    },
+                    labels : {
+                        formatter : function() {
+                            return ControllerCommons.makeThousandSeparated(this.value) + (options.unit ? options.unit : (options.percentChart || options.usingAndel ? '%' : ''));
+                        }
+                    }
+                }],
+                plotOptions : {
+                    line : {
+                        animation: false,
+                        softThreshold: false,
+                        allowPointSelect : false,
+                        marker : {
+                            enabled : true,
+                            symbol : 'circle'
+                        },
+                        dataLabels : {
+                            enabled : false
+                        },
+                        events : {
+                            legendItemClick : function() { // This function removes interaction for plot and legend-items
+                                return false;
+                            }
+                        },
+                        showInLegend : true,
+                        stacking: null
+                    },
+                    column : {
+                        animation: false,
+                        softThreshold: false,
+                        showInLegend : true,
+                        stacking: options.percentChart ? 'percent' : (options.stacked ? 'normal' : null),
+                        dataLabels: {
+                            enabled: true,
+                            crop: false,
+                            overflow: 'none',
+                            formatter: function() {
+                                return this.y + (options.unit ? options.unit : '');
+                            }
+                        }
+                    },
+                    series: {
+                        borderColor: '#b7b7b7',
+                        borderWidth: 1
+                    },
+                    area : {
+                        animation: false,
+                        lineColor : '#666666',
+                        lineWidth : 1,
+                        marker : {
+                            enabled : false,
+                            symbol : 'circle'
+                        },
+                        showInLegend : true,
+                        stacking: options.percentChart ? 'percent' : 'normal'
+                    },
+                    pie : {
+                        animation: false,
+                        dataLabels : {
+                            enabled : false
+                        },
+                        showInLegend : false
+                    }
                 },
-                showInLegend: true,
-                stacking: null
-              },
-              column: {
-                animation: false,
-                softThreshold: false,
-                showInLegend: true,
-                stacking: options.percentChart ? 'percent' : (options.stacked ? 'normal' : null),
-                dataLabels: {
-                  enabled: true,
-                  crop: false,
-                  overflow: 'none',
-                  formatter: function() {
-                    return this.y + (options.unit ? options.unit : '');
-                  }
-                }
-              },
-              series: {
-                borderColor: '#b7b7b7',
-                borderWidth: 1
-              },
-              area: {
-                animation: false,
-                lineColor: '#666666',
-                lineWidth: 1,
-                marker: {
-                  enabled: false,
-                  symbol: 'circle'
+                tooltip : _getTooltip(options.percentChart, options.unit, options.type, options.usingAndel, options.maxWidthPercentage),
+                credits : {
+                    enabled : false
                 },
-                showInLegend: true,
-                stacking: options.percentChart ? 'percent' : 'normal'
-              },
-              pie: {
-                animation: false,
-                dataLabels: {
-                  enabled: false
-                },
-                showInLegend: false
-              }
-            },
-            tooltip: _getTooltip(options.percentChart, options.unit, options.type, options.usingAndel, options.maxWidthPercentage),
-            credits: {
-              enabled: false
-            },
-            series: options.series && Array.isArray(options.series) ? options.series.map(function(series) {
-              //This enables the marker for series with single data points
-              if (series.data.length === 1) {
-                if (series.marker) {
-                  series.marker.enabled = true;
-                } else {
-                  series.marker = {enabled: true};
-                }
-              }
-              return series;
-            }) : null
-          };
+                series : options.series && Array.isArray(options.series) ? options.series.map(function (series) {
+                    //This enables the marker for series with single data points
+                    if (series.data.length === 1) {
+                        if (series.marker) {
+                            series.marker.enabled = true;
+                        } else {
+                            series.marker = {enabled: true};
+                        }
+                    }
+                    return series;
+                }): null
+            };
 
-          if (options.doneLoadingCallback) {
-            _addChartEvent(config, 'load', options.doneLoadingCallback);
-          }
+            if (options.doneLoadingCallback) {
+                _addChartEvent(config, 'load', options.doneLoadingCallback);
+            }
 
-          if (typeof (options.maxWidthPercentage) === 'number') {
-            _addChartEvent(config, 'render', onChartRender);
-          }
+            if (typeof(options.maxWidthPercentage) === 'number') {
+                _addChartEvent(config, 'render', onChartRender);
+            }
 
-          return config;
+            return config;
         };
 
         var showInLegend = function(series, index) {
-          if (series && series.length > index) {
-            return series[index].options.showInLegend;
-          }
+            if (series && series.length > index) {
+                return series[index].options.showInLegend;
+            }
 
-          return false;
+            return false;
         };
 
-        var addColor = function(rawData) {
-          var colorSelector = 0;
+        var addColor = function (rawData) {
+            var colorSelector = 0;
 
-          var colors = COLORS.other,
-              riskColor = COLORS.risk;
+            var colors = COLORS.other,
+            riskColor = COLORS.risk;
 
-          angular.forEach(rawData, function(data) {
-            // continue if color is set
-            if (data.color) {
-              return;
-            }
+            angular.forEach(rawData, function (data) {
+                // continue if color is set
+                if (data.color) {
+                    return;
+                }
 
-            if (data.type === 'RISK') {
-              data.color = riskColor;
-            } else if (data.type === 'ÅTERGÅNG') {
-              data.color = colors.overview;
-            } else {
-              if (colorSelector === colors.length) {
-                //Begin a new with colors array
-                colorSelector = 0;
-              }
-              data.color = colors[colorSelector++];
-            }
+                if (data.type === 'RISK') {
+                    data.color = riskColor;
+                } else if (data.type === 'ÅTERGÅNG') {
+                    data.color = colors.overview;
+                } else {
+                    if(colorSelector === colors.length) {
+                        //Begin a new with colors array
+                        colorSelector = 0;
+                    }
+                    data.color = colors[colorSelector++];
+                }
 
-          });
-          return rawData;
+            });
+            return rawData;
         };
 
         //This is the public api accessible to customers of this factory
         return {
-          addColor: addColor,
-          getHighChartConfigBase: getHighChartConfigBase,
-          showInLegend: showInLegend,
-          getColors: getColors
+            addColor: addColor,
+            getHighChartConfigBase: getHighChartConfigBase,
+            showInLegend: showInLegend,
+            getColors: getColors
         };
-      }]);
+    }]);

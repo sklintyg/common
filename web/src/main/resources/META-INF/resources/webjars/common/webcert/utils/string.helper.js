@@ -18,17 +18,17 @@
  */
 angular.module('common').factory('common.StringHelper',
     ['common.ObjectHelper',
-      function(ObjectHelper) {
+    function(ObjectHelper) {
         'use strict';
 
         return {
-          toLowerCase: function(value) {
-            if (ObjectHelper.isDefined(value)) {
-              return value.toLowerCase();
-            }
+            toLowerCase: function(value) {
+                if (ObjectHelper.isDefined(value)) {
+                    return value.toLowerCase();
+                }
 
-            return '';
-          }
+                return '';
+            }
         };
-      }]
+    }]
 );

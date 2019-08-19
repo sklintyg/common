@@ -19,15 +19,15 @@
 package se.inera.intyg.common.tstrk1009.v1.model.converter;
 
 import com.google.common.base.Charsets;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.SAXException;
 import javax.annotation.Nonnull;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.SAXException;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 
 public class RegisterCertificateTestValidator {

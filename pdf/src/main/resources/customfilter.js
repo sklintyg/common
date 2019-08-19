@@ -17,27 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 $filter = function(type) {
-  if (type === 'number') {
-    return function(number, fractionSize) {
+    if (type === 'number') {
+        return function(number, fractionSize) {
 
-      if (number === null || number === undefined || fractionSize === undefined) {
-        return number;
-      } else {
-        return parseFloat(number).toFixed(fractionSize).replace('.', ',');
-      }
+           if (number === null || number === undefined || fractionSize === undefined) {
+               return number;
+           } else {
+               return parseFloat(number).toFixed(fractionSize).replace('.',',');
+           }
 
-    };
-  }
+        };
+    }
 
-  if (type === 'uvBoolFilter') {
+    if (type === 'uvBoolFilter') {
+        return function(value) {
+            return value == null || typeof value === 'undefined' ||value === '' || value === 'false' || value === false
+                ? 'Nej' : 'Ja'
+        };
+    }
+
+    // default.
     return function(value) {
-      return value == null || typeof value === 'undefined' || value === '' || value === 'false' || value === false
-          ? 'Nej' : 'Ja'
-    };
-  }
-
-  // default.
-  return function(value) {
-    return value;
-  }
+        return value;
+    }
 }

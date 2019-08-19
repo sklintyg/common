@@ -18,8 +18,10 @@
  */
 package se.inera.intyg.common.support.model.common.internal;
 
-import java.time.LocalDate;
 import java.util.Objects;
+
+import java.time.LocalDate;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 
 public class Relation {

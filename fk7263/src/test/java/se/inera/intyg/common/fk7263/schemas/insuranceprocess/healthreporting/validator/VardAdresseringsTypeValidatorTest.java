@@ -21,14 +21,14 @@ package se.inera.intyg.common.fk7263.schemas.insuranceprocess.healthreporting.va
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import iso.v21090.dt.v1.II;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
+
+import iso.v21090.dt.v1.II;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.EnhetType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.HosPersonalType;
-import se.inera.ifv.insuranceprocess.healthreporting.v2.VardgivareType;
+import se.inera.ifv.insuranceprocess.healthreporting.v2.*;
 import se.inera.intyg.common.support.Constants;
 
 public class VardAdresseringsTypeValidatorTest {

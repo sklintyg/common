@@ -18,29 +18,30 @@
  */
 angular.module('af00213').service('af00213.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService', 'common.messageService',
-      function($log, CommonViewState, messageService) {
-        'use strict';
+        function($log, CommonViewState, messageService) {
+            'use strict';
 
-        this.common = CommonViewState;
-        this.intygModel = {};
+            this.common = CommonViewState;
+            this.intygModel = {};
 
-        this.reset = function() {
-          this.common.reset();
-          this.common.intygProperties.type = 'af00213';
-        };
+            this.reset = function() {
+                this.common.reset();
+                this.common.intygProperties.type = 'af00213';
+            };
 
-        /**
-         Lägg på text om observandum ska visas och returnera hela modellen
-         */
-        this.getSendContent = function(intygType) {
+            /**
+                Lägg på text om observandum ska visas och returnera hela modellen
+             */
+            this.getSendContent = function(intygType) {
 
-          var sendContentModel = {
-            observandumId: undefined,
-            bodyText: messageService.getProperty(intygType + '.label.send.body')
-          };
 
-          return sendContentModel;
-        };
+                var sendContentModel = {
+                    observandumId: undefined,
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
 
-        this.reset();
-      }]);
+                return sendContentModel;
+            };
+
+            this.reset();
+        }]);

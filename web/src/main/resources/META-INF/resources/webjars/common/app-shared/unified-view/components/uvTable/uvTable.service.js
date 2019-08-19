@@ -26,50 +26,50 @@
  * Usage: <dynamicLabel key="some.resource.key" [fallback="defaulttextifnokeyfound"]/>
  */
 angular.module('common').factory('uvTableService',
-    ['$log', 'uvUtil',
-      function($log, uvUtil) {
-        'use strict';
+    [ '$log', 'uvUtil',
+        function($log, uvUtil) {
+            'use strict';
 
-        function _createRow(config, modelRow, colProp, rowIndex) {
-          var row = {values: []};
-          angular.forEach(config.valueProps, function(prop, colIndex) {
-            var value = uvUtil.resolveValue(prop, modelRow, colProp, rowIndex, colIndex);
-            value = uvUtil.getTextFromConfig(value);
-            row.values.push(value);
-          }, row);
-          return row;
-        }
-
-        return {
-          createRow: _createRow,
-
-          createRowsFromArrayModel: function(config, model) {
-            var rows = [];
-            angular.forEach(model, function(modelRow, rowIndex) {
-              this.push(_createRow(config, modelRow, rowIndex));
-            }, rows);
-            return rows;
-          },
-
-          createRowsFromObjectModel: function(config, model) {
-            var rows = [];
-            var colProps = config.colProps;
-
-            if (!colProps) {
-              // Handle single object without colProps defined
-              rows.push(_createRow(config, model, null, 0));
-            } else {
-              angular.forEach(colProps, function(colProp, rowIndex) {
-                var cellModel = model[colProp];
-                if (angular.isDefined(cellModel)) {
-                  this.push(_createRow(config, model[colProp], colProp, rowIndex));
-                }
-              }, rows);
+            function _createRow(config, modelRow, colProp, rowIndex){
+                var row = { values: [] };
+                angular.forEach(config.valueProps, function(prop, colIndex) {
+                    var value = uvUtil.resolveValue(prop, modelRow, colProp, rowIndex, colIndex);
+                    value = uvUtil.getTextFromConfig(value);
+                    row.values.push(value);
+                }, row);
+                return row;
             }
 
-            return rows;
-          }
+            return {
+                createRow: _createRow,
 
-        };
-      }
+                createRowsFromArrayModel: function(config, model) {
+                    var rows = [];
+                    angular.forEach(model, function(modelRow, rowIndex){
+                        this.push(_createRow(config, modelRow, rowIndex));
+                    }, rows);
+                    return rows;
+                },
+
+                createRowsFromObjectModel: function(config, model){
+                    var rows = [];
+                    var colProps = config.colProps;
+
+                    if(!colProps){
+                        // Handle single object without colProps defined
+                        rows.push(_createRow(config, model, null, 0));
+                    } else {
+                        angular.forEach(colProps, function(colProp, rowIndex){
+                            var cellModel = model[colProp];
+                            if(angular.isDefined(cellModel)){
+                                this.push(_createRow(config, model[colProp], colProp, rowIndex));
+                            }
+                        }, rows);
+                    }
+
+                    return rows;
+                }
+
+            };
+        }
     ]);

@@ -19,8 +19,9 @@
 package se.inera.intyg.common.support.model.common.internal;
 
 import com.google.common.base.MoreObjects;
-import java.time.LocalDateTime;
 import java.util.Objects;
+
+import java.time.LocalDateTime;
 
 public class GrundData {
 

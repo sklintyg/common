@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':common-support')
+  compile project(':common-support')
 
-    compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
+  compile "se.riv.insuranceprocess.healthreporting:insuranceprocess-healthreporting-schemas:${rivtaInsuranceprocessSchemasVersion}"
 }

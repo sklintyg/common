@@ -19,8 +19,9 @@
 
 package se.inera.intyg.common.doi.validator;
 
-import java.time.LocalDate;
 import se.inera.intyg.common.support.model.InternalDate;
+
+import java.time.LocalDate;
 
 public class InternalValidatorHelper {
 

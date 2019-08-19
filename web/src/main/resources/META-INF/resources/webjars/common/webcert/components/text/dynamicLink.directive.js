@@ -35,36 +35,35 @@
 
 angular.module('common').directive('dynamiclink',
     ['$log', '$rootScope', '$sce', '$compile', 'common.dynamicLinkService',
-      function($log, $rootScope, $sce, $compile, dynamicLinkService) {
+    function($log, $rootScope, $sce, $compile, dynamicLinkService) {
         'use strict';
 
         return {
-          restrict: 'EA',
-          scope: {
-            'key': '@',
-            'linkclass': '@'
-          },
-          template: '<span class="unbreakable"><a href="{{ url }}" class="external-link {{linkclass}}" ' +
-              ' ng-attr-target="{{ target || undefined}}" ng-attr-title="{{ tooltip || undefined }}" rel="noopener noreferrer" ' +
-              ' ng-bind-html="text"></a> <i ng-if="target" class="external-link-icon material-icons">launch</i></span>',
-          link: function(scope) { //  element, attr
-            scope.$watch(function() {
-              return dynamicLinkService.getLink(scope.key);
-            }, function(value) {
+            restrict: 'EA',
+            scope: {
+                'key': '@',
+                'linkclass': '@'
+            },
+            template: '<span class="unbreakable"><a href="{{ url }}" class="external-link {{linkclass}}" ng-attr-target="{{ target || undefined}}" ' +
+            'ng-attr-title="{{ tooltip || undefined }}" rel="noopener noreferrer" ng-bind-html="text"></a> <i ng-if="target" class="external-link-icon material-icons">launch</i></span>',
+            link: function(scope) { //  element, attr
+                scope.$watch(function() {
+                    return dynamicLinkService.getLink(scope.key);
+                }, function(value) {
 
-              if (angular.isDefined(value)) {
-                scope.url = value.url;
-                scope.text = $sce.trustAsHtml(value.text);
-                scope.tooltip = value.tooltip;
-                scope.target = value.target;
-              } else {
-                scope.url = '#';
-                scope.text = $sce.trustAsHtml('WARNING: could not resolve dynamic link: ' + scope.key);
-                scope.tooltip = null;
-                scope.target = null;
-              }
-            });
-          }
+                    if (angular.isDefined(value)) {
+                        scope.url = value.url;
+                        scope.text = $sce.trustAsHtml(value.text);
+                        scope.tooltip = value.tooltip;
+                        scope.target = value.target;
+                    } else {
+                        scope.url = '#';
+                        scope.text = $sce.trustAsHtml('WARNING: could not resolve dynamic link: ' + scope.key);
+                        scope.tooltip = null;
+                        scope.target = null;
+                    }
+                });
+            }
         };
-      }]);
+    }]);
 

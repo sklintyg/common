@@ -20,9 +20,12 @@ package se.inera.intyg.common.ts_diabetes.v2.model.validator;
 
 import static org.junit.Assert.assertTrue;
 
-import com.google.common.base.Joiner;
 import java.util.List;
+
 import org.junit.Test;
+
+import com.google.common.base.Joiner;
+
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioFinder;
 import se.inera.intyg.common.ts_diabetes.v2.utils.ScenarioNotFoundException;

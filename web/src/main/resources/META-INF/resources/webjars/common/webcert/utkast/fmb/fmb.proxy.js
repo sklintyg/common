@@ -16,55 +16,55 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').factory('common.fmbProxy', ['$http', '$q', '$log',
-  function($http, $q, $log) {
-    'use strict';
+angular.module('common').factory('common.fmbProxy', ['$http' , '$q', '$log',
+    function($http, $q, $log) {
+        'use strict';
 
-    /*
-     * get diagnosis by code
-     */
-    function _getFMBHelpTextsByCode(diagnosisCode) {
-      var deferred = $q.defer(),
-          restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
+        /*
+         * get diagnosis by code
+         */
+        function _getFMBHelpTextsByCode(diagnosisCode) {
+            var deferred = $q.defer(),
+                restPath = '/api/fmb/' + diagnosisCode.toUpperCase();
 
-      $http.get(restPath).then(function(response) {
-        deferred.resolve(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        deferred.reject(response.status);
-      });
+            $http.get(restPath).then(function(response) {
+                deferred.resolve(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                deferred.reject(response.status);
+            });
 
-      return deferred.promise;
-    }
+            return deferred.promise;
+        }
 
-    /*
-     * validate sjukskrivningstid
-     * sjukskrivningsTid {
-     *  icd10kod1,
-     *  icd10kod2,
-     *  icd10kod3,
-     *  foreslagenSjukskrivningstid,
-     *  personnummer
-     * }
-     */
-    function _getValidateSjukskrivningstid(sjukskrivningsTid) {
-      var deferred = $q.defer(),
-          restPath = '/api/fmb/valideraSjukskrivningstid';
+        /*
+         * validate sjukskrivningstid
+         * sjukskrivningsTid {
+         *  icd10kod1,
+         *  icd10kod2,
+         *  icd10kod3,
+         *  foreslagenSjukskrivningstid,
+         *  personnummer
+         * }
+         */
+        function _getValidateSjukskrivningstid(sjukskrivningsTid) {
+            var deferred = $q.defer(),
+                restPath = '/api/fmb/valideraSjukskrivningstid';
 
-      $http.get(restPath, {params: sjukskrivningsTid}).then(function(response) {
-        deferred.resolve(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        deferred.reject(response.status);
-      });
+            $http.get(restPath, {params: sjukskrivningsTid}).then(function(response) {
+                deferred.resolve(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                deferred.reject(response.status);
+            });
 
-      return deferred.promise;
-    }
+            return deferred.promise;
+        }
 
-    // Return public API for the service
-    return {
-      getFMBHelpTextsByCode: _getFMBHelpTextsByCode,
-      getValidateSjukskrivningstid: _getValidateSjukskrivningstid
-    };
-  }]);
+        // Return public API for the service
+        return {
+            getFMBHelpTextsByCode: _getFMBHelpTextsByCode,
+            getValidateSjukskrivningstid: _getValidateSjukskrivningstid
+        };
+    }]);
 

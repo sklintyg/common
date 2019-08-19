@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.modules.support.api.exception;
 
-import com.google.common.base.Joiner;
 import java.util.Collections;
 import java.util.List;
+
+import com.google.common.base.Joiner;
 
 public class ModuleValidationException extends ModuleException {
 

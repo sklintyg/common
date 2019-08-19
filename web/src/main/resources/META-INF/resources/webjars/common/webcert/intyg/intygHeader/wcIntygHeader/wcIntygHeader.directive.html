@@ -1,48 +1,49 @@
 <div>
-  <div class="wc-page-header" ng-if="!intygViewState.common.activeErrorMessageKey">
-    <wc-spinner label="common.load.certificate"
-                show-spinner="!intygHeaderViewState.intygLoaded || !intygHeaderViewState.arendenLoaded">
-      <div class="centered-constrained-content">
+<div class="wc-page-header" ng-if="!intygViewState.common.activeErrorMessageKey">
+  <wc-spinner label="common.load.certificate" show-spinner="!intygHeaderViewState.intygLoaded || !intygHeaderViewState.arendenLoaded">
+    <div class="centered-constrained-content">
 
-        <!-- header content -->
-        <div id="intyg-vy-laddad">
+      <!-- header content -->
+      <div id="intyg-vy-laddad">
 
-          <!-- Status -->
-          <div class="page-header-divider">
-            <div class="inline-block" wc-authority="NAVIGERING" intygstyp="{{::intygHeaderViewState.intygType}}"
-                 ng-if="::backState" uib-popover="Tillbaka till föregående vy." popover-popup-delay="300"
-                 popover-append-to-body="true" popover-placement="auto top" popover-class="z-low">
+        <!-- Status -->
+        <div class="page-header-divider">
+          <div class="inline-block" wc-authority="NAVIGERING" intygstyp="{{::intygHeaderViewState.intygType}}" ng-if="::backState"
+               uib-popover="Tillbaka till föregående vy."
+               popover-popup-delay="300"
+               popover-append-to-body="true"
+               popover-placement="auto top"
+               popover-class="z-low">
               <a id="tillbakaButton" back-link default-route="::backState">
                 <i class="material-icons">arrow_back</i> Tillbaka
               </a>
-            </div>
+          </div>
 
-            <wc-intyg-status intyg-view-state="intygViewState"></wc-intyg-status>
-          </div>
-          <div class="flex-row padding-top-small">
-            <div class="flex-col-max">
-              <!-- Header text -->
-              <h2 class="page-heading1">
-                <span>{{certificateName}}</span>
-              </h2>
-              <h3 class="page-heading2" wc-intyg-patient-namn-personnummer
-                  patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn" person-id="personId"
-                  old-person-id="oldPersonId"></h3>
-              <!-- Patient status -->
-              <wc-patient-status is-intyg="true" patient="intygViewState.intygModel.grundData.patient"
-                                 intyg-model="intygViewState.intygModel"
-                                 intyg-properties="intygViewState.common.intygProperties"></wc-patient-status>
-            </div>
-            <div class="flex-col-min">
-              <!-- Buttonbar -->
-              <wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar>
-            </div>
-          </div>
-          <wc-deprecated-intygstype-message timeout="true" message-suffix="intygheader" wc-authority
-                                            request-origin="!UTHOPP"
-                                            intygs-type="{{::intygViewState.common.intygProperties.type}}"></wc-deprecated-intygstype-message>
+          <wc-intyg-status intyg-view-state="intygViewState"></wc-intyg-status>
         </div>
+        <div class="flex-row padding-top-small">
+          <div class="flex-col-max">
+            <!-- Header text -->
+            <h2 class="page-heading1">
+              <span>{{certificateName}}</span>
+            </h2>
+            <h3 class="page-heading2"
+                wc-intyg-patient-namn-personnummer
+                patient-name="intygViewState.intygModel.grundData.patient.fullstandigtNamn"
+                person-id="personId"
+                old-person-id="oldPersonId">
+            </h3>
+            <!-- Patient status -->
+            <wc-patient-status is-intyg="true" patient="intygViewState.intygModel.grundData.patient" intyg-model="intygViewState.intygModel" intyg-properties="intygViewState.common.intygProperties"></wc-patient-status>
+          </div>
+          <div class="flex-col-min">
+            <!-- Buttonbar -->
+            <wc-intyg-button-bar view-state="intygViewState"></wc-intyg-button-bar>
+          </div>
+        </div>
+        <wc-deprecated-intygstype-message timeout="true" message-suffix="intygheader" wc-authority request-origin="!UTHOPP" intygs-type="{{::intygViewState.common.intygProperties.type}}"></wc-deprecated-intygstype-message>
       </div>
-    </wc-spinner>
-  </div>
+    </div>
+  </wc-spinner>
+</div>
 </div>

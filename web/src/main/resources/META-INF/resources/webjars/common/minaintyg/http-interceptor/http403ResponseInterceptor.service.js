@@ -31,40 +31,40 @@
  */
 angular.module('common').provider('common.http403ResponseInterceptor',
     function() {
-      'use strict';
+        'use strict';
 
-      /**
-       * Object that holds config and default values.
-       */
-      this.config = {
-        redirectUrl: '/'
-      };
-
-      /**
-       * Setter for configuring the redirectUrl
-       */
-      this.setRedirectUrl = function(url) {
-        this.config.redirectUrl = url;
-      };
-
-      /**
-       * Mandatory provider $get function. here we can inject the dependencies the
-       * actual implementation needs, in this case $q (and $window for redirection)
-       */
-      this.$get = ['$q', '$window', function($q, $window) {
-        //Ref our config object
-        var config = this.config;
-        // Add our interceptor implementation (accessing the config set during app config phase)
-        return {
-          responseError: function(response) {
-            // for 403 responses - redirect browser to configured redirect url
-            if (response.status === 403) {
-              $window.location.href = config.redirectUrl;
-            }
-            // signal rejection (arguably not meaningful here since we just
-            // issued a redirect)
-            return $q.reject(response);
-          }
+        /**
+         * Object that holds config and default values.
+         */
+        this.config = {
+            redirectUrl: '/'
         };
-      }];
+
+        /**
+         * Setter for configuring the redirectUrl
+         */
+        this.setRedirectUrl = function(url) {
+            this.config.redirectUrl = url;
+        };
+
+        /**
+         * Mandatory provider $get function. here we can inject the dependencies the
+         * actual implementation needs, in this case $q (and $window for redirection)
+         */
+        this.$get = ['$q', '$window', function($q, $window) {
+            //Ref our config object
+            var config = this.config;
+            // Add our interceptor implementation (accessing the config set during app config phase)
+            return {
+                responseError: function(response) {
+                    // for 403 responses - redirect browser to configured redirect url
+                    if (response.status === 403) {
+                        $window.location.href = config.redirectUrl;
+                    }
+                    // signal rejection (arguably not meaningful here since we just
+                    // issued a redirect)
+                    return $q.reject(response);
+                }
+            };
+        }];
     });

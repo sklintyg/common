@@ -20,6 +20,7 @@ package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certific
 
 import java.util.ArrayList;
 import java.util.List;
+
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;

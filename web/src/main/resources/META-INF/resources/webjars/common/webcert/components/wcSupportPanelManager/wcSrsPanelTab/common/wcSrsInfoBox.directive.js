@@ -40,17 +40,17 @@
  * Display SRS questionnaire
  */
 angular.module('common').directive('wcSrsInfoBox', [
-  function(srsProxy) {
-    'use strict';
+    function (srsProxy) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        messageString: '='
-      },
-      link: function(scope, element, attrs) {
-
-      },
-      templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/common/wcSrsInfoBox.directive.html'
-    };
-  }]);
+        return {
+            restrict: 'E',
+            scope: {
+                messageString: '='
+            },
+            link: function (scope, element, attrs) {
+               
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/common/wcSrsInfoBox.directive.html'
+        };
+    }]);

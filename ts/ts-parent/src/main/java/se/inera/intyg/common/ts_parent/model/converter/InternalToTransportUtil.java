@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.ts_parent.model.converter;
 
-import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD_LAKARE_EJ_LEG_AT;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.util.CollectionUtils;
 import se.inera.intyg.common.support.Constants;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -39,6 +34,12 @@ import se.inera.intygstjanster.ts.services.v1.Patient;
 import se.inera.intygstjanster.ts.services.v1.SkapadAv;
 import se.inera.intygstjanster.ts.services.v1.Vardenhet;
 import se.inera.intygstjanster.ts.services.v1.Vardgivare;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static se.inera.intyg.common.ts_parent.codes.RespConstants.BEFATTNINGSKOD_LAKARE_EJ_LEG_AT;
 
 public final class InternalToTransportUtil {
 

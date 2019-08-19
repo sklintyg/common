@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('miCertificateReplaced', [function() {
-  'use strict';
+angular.module('common').directive('miCertificateReplaced', [ function() {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      certMetaModel: '='
-    },
-    templateUrl: '/web/webjars/common/minaintyg/components/miCertificateReplaced/miCertificateReplaced.directive.html'
-  };
-}]);
+    return {
+        restrict: 'E',
+        scope: {
+            certMetaModel: '='
+        },
+        templateUrl: '/web/webjars/common/minaintyg/components/miCertificateReplaced/miCertificateReplaced.directive.html'
+    };
+} ]);

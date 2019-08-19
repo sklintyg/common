@@ -18,6 +18,35 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
+import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+import se.inera.intyg.common.support.validate.ValidatorUtil;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.BedomningKorkortstyp;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Behandling;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvserKategori;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synskarpevarden;
+import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
+import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvTypAvDiabetes;
+import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
+
 import static org.apache.commons.lang3.BooleanUtils.isFalse;
 import static org.apache.commons.lang3.BooleanUtils.isNotTrue;
 import static org.apache.commons.lang3.BooleanUtils.isTrue;
@@ -64,33 +93,6 @@ import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValida
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.SynfunktionTyp.HOGER_UTAN_KORREKTION;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.SynfunktionTyp.VANSTER_MED_KORREKTION;
 import static se.inera.intyg.common.ts_diabetes.v3.validator.InternalDraftValidatorImpl.SynfunktionTyp.VANSTER_UTAN_KORREKTION;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
-import java.time.LocalDate;
-import java.time.Year;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import org.springframework.stereotype.Component;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
-import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
-import se.inera.intyg.common.support.validate.ValidatorUtil;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.Allmant;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.BedomningKorkortstyp;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.Behandling;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.Hypoglykemier;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synfunktion;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.Synskarpevarden;
-import se.inera.intyg.common.ts_diabetes.v3.model.internal.TsDiabetesUtlatandeV3;
-import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvTypAvDiabetes;
-import se.inera.intyg.common.ts_parent.validator.InternalDraftValidator;
 
 @Component("ts-diabetes.v3.InternalDraftValidator")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<TsDiabetesUtlatandeV3> {

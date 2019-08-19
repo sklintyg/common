@@ -23,87 +23,87 @@
  * Created by stephenwhite on 25/01/15.
  */
 angular.module('common').factory('common.UtilsService', function() {
-  'use strict';
+    'use strict';
 
-  function _extractNumericalFrageId(input) {
-    if (angular.isNumber(input)) {
-      return input;
+    function _extractNumericalFrageId(input) {
+        if(angular.isNumber(input)) {
+            return input;
+        }
+
+        if(!angular.isString(input)) {
+            return undefined;
+        }
+        var match = /_?(\d+)\.?/g.exec(input);
+        return match !== null ? match[1] : undefined;
     }
 
-    if (!angular.isString(input)) {
-      return undefined;
+    /**
+     * Check if variable is undefined, null, NaN or an empty string = invalid
+     * @param data
+     * @returns {boolean}
+     */
+    function _isValidString(data) {
+        // from underscore.js: 'NaN' is the only value for which '===' is not reflexive. (referring to data !== data)
+        return (data !== undefined && data !== null && data === data && data !== '');
     }
-    var match = /_?(\d+)\.?/g.exec(input);
-    return match !== null ? match[1] : undefined;
-  }
 
-  /**
-   * Check if variable is undefined, null, NaN or an empty string = invalid
-   * @param data
-   * @returns {boolean}
-   */
-  function _isValidString(data) {
-    // from underscore.js: 'NaN' is the only value for which '===' is not reflexive. (referring to data !== data)
-    return (data !== undefined && data !== null && data === data && data !== '');
-  }
-
-  function _isDefined(data) {
-    return (typeof (data) !== 'undefined' && data !== null);
-  }
-
-  /**
-   * Replaces accented character in swedish to the (closest?) matching ascii variant.
-   *
-   * @param str
-   * @returns {String}
-   * @private
-   */
-  function _replaceAccentedCharacters(str) {
-    if (_isValidString(str)) {
-      str = str.replace(/å/g, 'a');
-      str = str.replace(/Å/g, 'A');
-      str = str.replace(/ä/g, 'a');
-      str = str.replace(/Ä/g, 'A');
-      str = str.replace(/ö/g, 'o');
-      str = str.replace(/Ö/g, 'O');
+    function _isDefined(data) {
+        return (typeof(data) !== 'undefined' && data !== null );
     }
-    return str;
-  }
 
-  function escapeRegExp(str) {
-    return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
-  }
-
-  function _replaceAll(str, find, replace) {
-    return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
-  }
-
-  function _insertAt(str, text, position) {
-    return str.substr(0, position) + text + str.substr(position);
-  }
-
-  function _endsWith(str, suffix) {
-    return _isValidString(str) && _isValidString(suffix) && str.indexOf(suffix, str.length - suffix.length) !== -1;
-  }
-
-  function _findIndexWithPropertyValue(array, attr, value) {
-    for (var i = array.length - 1; i >= 0; i--) {
-      if (array[i][attr] === value) {
-        return i;
-      }
+    /**
+     * Replaces accented character in swedish to the (closest?) matching ascii variant.
+     *
+     * @param str
+     * @returns {String}
+     * @private
+     */
+    function _replaceAccentedCharacters(str) {
+        if (_isValidString(str)) {
+            str = str.replace(/å/g, 'a');
+            str = str.replace(/Å/g, 'A');
+            str = str.replace(/ä/g, 'a');
+            str = str.replace(/Ä/g, 'A');
+            str = str.replace(/ö/g, 'o');
+            str = str.replace(/Ö/g, 'O');
+        }
+        return str;
     }
-    return -1;
-  }
 
-  return {
-    extractNumericalFrageId: _extractNumericalFrageId,
-    isValidString: _isValidString,
-    isDefined: _isDefined,
-    replaceAccentedCharacters: _replaceAccentedCharacters,
-    replaceAll: _replaceAll,
-    insertAt: _insertAt,
-    endsWith: _endsWith,
-    findIndexWithPropertyValue: _findIndexWithPropertyValue
-  };
+    function escapeRegExp(str) {
+        return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, '\\$1');
+    }
+
+    function _replaceAll(str, find, replace) {
+        return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+    }
+
+    function _insertAt(str, text, position) {
+        return str.substr(0, position) + text + str.substr(position);
+    }
+
+    function _endsWith(str, suffix) {
+        return _isValidString(str) && _isValidString(suffix) && str.indexOf(suffix, str.length - suffix.length) !== -1;
+    }
+
+    function _findIndexWithPropertyValue(array, attr, value) {
+        for(var i = array.length - 1; i >= 0; i--) {
+            if(array[i][attr] === value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    return {
+        extractNumericalFrageId: _extractNumericalFrageId,
+        isValidString: _isValidString,
+        isDefined: _isDefined,
+        replaceAccentedCharacters: _replaceAccentedCharacters,
+        replaceAll: _replaceAll,
+        insertAt: _insertAt,
+        endsWith: _endsWith,
+        findIndexWithPropertyValue: _findIndexWithPropertyValue
+    };
 
 });

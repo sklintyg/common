@@ -17,19 +17,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').filter('PersonIdFormatter', ['common.PersonIdValidatorService',
-  function(PersonIdValidatorService) {
-    'use strict';
+    function(PersonIdValidatorService) {
+        'use strict';
 
-    /**
-     * The PersonIdValidatorService returns a yyyyMMdd-NNNN pnr from the validate method if and only if
-     * the supplied input is a valid personnummer or samordningsnummer.
-     * Otherwise, null or undefined are returned. In those cases, this filter will just return the input unprocessed.
-     */
-    return function(input) {
-      var validated = PersonIdValidatorService.validate(input);
-      if (PersonIdValidatorService.validResult(validated)) {
-        return validated;
-      }
-      return input;
-    };
-  }]);
+        /**
+         * The PersonIdValidatorService returns a yyyyMMdd-NNNN pnr from the validate method if and only if
+         * the supplied input is a valid personnummer or samordningsnummer.
+         * Otherwise, null or undefined are returned. In those cases, this filter will just return the input unprocessed.
+         */
+        return function(input) {
+            var validated = PersonIdValidatorService.validate(input);
+            if (PersonIdValidatorService.validResult(validated)) {
+                return validated;
+            }
+            return input;
+        };
+    }]);

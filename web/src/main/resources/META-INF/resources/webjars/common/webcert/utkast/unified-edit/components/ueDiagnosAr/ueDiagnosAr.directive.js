@@ -18,116 +18,116 @@
  */
 
 angular.module('common').directive('ueDiagnosAr', ['$log', '$timeout', 'common.DiagnosProxy', 'common.ObjectHelper',
-  'common.MonitoringLogService', 'common.UtkastValidationService', 'common.UtkastViewStateService',
-  'common.AtticHelper',
-  function($log, $timeout, diagnosProxy, ObjectHelper, monitoringService, UtkastValidationService, UtkastViewState,
-      AtticHelper) {
-    'use strict';
+    'common.MonitoringLogService', 'common.UtkastValidationService', 'common.UtkastViewStateService',
+    'common.AtticHelper',
+    function($log, $timeout, diagnosProxy, ObjectHelper, monitoringService, UtkastValidationService, UtkastViewState,
+        AtticHelper) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.directive.html',
-      link: function($scope) {
+        return {
+            restrict: 'E',
+            scope: {
+                config: '=',
+                model: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.directive.html',
+            link: function($scope) {
 
-        AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
+                AtticHelper.restoreFromAttic($scope.model, $scope.config.modelProp);
 
-        // Clear attic model and destroy watch on scope destroy
-        AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
+                // Clear attic model and destroy watch on scope destroy
+                AtticHelper.updateToAttic($scope, $scope.model, $scope.config.modelProp);
 
-        // If data have been put in attic and user reloads browser, then the data is lost
-        // and an empty array need to be recreated.
-        if (typeof $scope.model[$scope.config.modelProp] === 'undefined') {
-          $scope.model[$scope.config.modelProp] = [];
-          addEmptyDiagnoses($scope.model[$scope.config.modelProp]);
-        }
-
-        $scope.validation = UtkastViewState.validation;
-
-        // Add listeners to diagnosKod changes
-        $scope.$watch('model.' + $scope.config.modelProp + '[0].diagnosKod', function(newVal) {
-          clearDiagnosArtal(0, newVal);
-        });
-
-        $scope.$watch('model.' + $scope.config.modelProp + '[1].diagnosKod', function(newVal) {
-          clearDiagnosArtal(1, newVal);
-        });
-
-        $scope.$watch('model.' + $scope.config.modelProp + '[2].diagnosKod', function(newVal) {
-          clearDiagnosArtal(2, newVal);
-        });
-
-        $scope.$watch('model.' + $scope.config.modelProp + '[3].diagnosKod', function(newVal) {
-          clearDiagnosArtal(3, newVal);
-        });
-
-        function clearDiagnosArtal(index, newVal) {
-          if (ObjectHelper.isEmpty(newVal) && ObjectHelper.isDefined($scope.model[$scope.config.modelProp])) {
-            $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
-          }
-        }
-
-        function addEmptyDiagnoses(diagnosArray) {
-          for (var i = 0; diagnosArray.length < 4; i++) {
-            diagnosArray.push({
-              diagnosKodSystem: 'ICD_10_SE',
-              diagnosKod: undefined,
-              diagnosBeskrivning: undefined,
-              diagnosArtal: undefined
-            });
-          }
-
-          return diagnosArray;
-        }
-
-        // Split validations on different rows
-        $scope.$watch('validation.messagesByField', function() {
-          $scope.diagnosValidations = [];
-          var addValidationForYear = false;
-          angular.forEach($scope.validation.messagesByField,
-              function(validations, key) {
-                if (key.substr(0, $scope.config.modelProp.length + 1) ===
-                    $scope.config.modelProp.toLowerCase() + '[') {
-                  var index = parseInt(key.substr($scope.config.modelProp.length + 1, 1), 10);
-                  if (typeof $scope.diagnosValidations[index] === 'undefined') {
-                    $scope.diagnosValidations[index] = [];
-                  }
-                  $scope.diagnosValidations[index].push(validations[0]);
-
-                  // If first row is missing data when other rows has, then add validation for year.
-                  if (key === $scope.config.modelProp.toLowerCase() + '[0].diagnoskod' &&
-                      validations[0].type === 'INCORRECT_COMBINATION') {
-                    addValidationForYear = true;
-                  }
-                  // If diagnose component is completely missing data, then add validation for year.
-                } else if (key === $scope.config.modelProp.toLowerCase()) {
-                  addValidationForYear = true;
+                // If data have been put in attic and user reloads browser, then the data is lost
+                // and an empty array need to be recreated.
+                if (typeof $scope.model[$scope.config.modelProp] === 'undefined') {
+                    $scope.model[$scope.config.modelProp] = [];
+                    addEmptyDiagnoses($scope.model[$scope.config.modelProp]);
                 }
-              });
 
-          // Add validation.messageByField for diagnosArtal on first index to make the ueYearPicker present a red border.
-          // Only do this if first row is missing a diagnose.
-          if (addValidationForYear &&
-              ObjectHelper.isEmpty($scope.model[$scope.config.modelProp][0].diagnosArtal)) {
-            addYearToValidation();
-          }
-        });
+                $scope.validation = UtkastViewState.validation;
 
-        function addYearToValidation() {
-          var validation = [{
-            field: $scope.config.yearConfig[0].modelProp.toLowerCase()
-          }];
-          $scope.validation.messagesByField[$scope.config.yearConfig[0].modelProp.toLowerCase()] = validation;
-        }
+                // Add listeners to diagnosKod changes
+                $scope.$watch('model.' + $scope.config.modelProp + '[0].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(0, newVal);
+                });
 
-        // Return validation errors for the specific row (previously splitted)
-        $scope.getValidationErrors = function(index) {
-          return $scope.diagnosValidations[index] || undefined;
+                $scope.$watch('model.' + $scope.config.modelProp + '[1].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(1, newVal);
+                });
+
+                $scope.$watch('model.' + $scope.config.modelProp + '[2].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(2, newVal);
+                });
+
+                $scope.$watch('model.' + $scope.config.modelProp + '[3].diagnosKod', function(newVal) {
+                    clearDiagnosArtal(3, newVal);
+                });
+
+                function clearDiagnosArtal(index, newVal) {
+                    if (ObjectHelper.isEmpty(newVal) && ObjectHelper.isDefined($scope.model[$scope.config.modelProp])) {
+                        $scope.model[$scope.config.modelProp][index].diagnosArtal = undefined;
+                    }
+                }
+
+                function addEmptyDiagnoses(diagnosArray) {
+                    for (var i = 0; diagnosArray.length < 4; i++) {
+                        diagnosArray.push({
+                            diagnosKodSystem: 'ICD_10_SE',
+                            diagnosKod: undefined,
+                            diagnosBeskrivning: undefined,
+                            diagnosArtal: undefined
+                        });
+                    }
+
+                    return diagnosArray;
+                }
+
+                // Split validations on different rows
+                $scope.$watch('validation.messagesByField', function() {
+                    $scope.diagnosValidations = [];
+                    var addValidationForYear = false;
+                    angular.forEach($scope.validation.messagesByField,
+                        function(validations, key) {
+                            if (key.substr(0, $scope.config.modelProp.length + 1) ===
+                                $scope.config.modelProp.toLowerCase() + '[') {
+                                var index = parseInt(key.substr($scope.config.modelProp.length + 1, 1), 10);
+                                if (typeof $scope.diagnosValidations[index] === 'undefined') {
+                                    $scope.diagnosValidations[index] = [];
+                                }
+                                $scope.diagnosValidations[index].push(validations[0]);
+
+                                // If first row is missing data when other rows has, then add validation for year.
+                                if (key === $scope.config.modelProp.toLowerCase() + '[0].diagnoskod' &&
+                                    validations[0].type === 'INCORRECT_COMBINATION') {
+                                    addValidationForYear = true;
+                                }
+                                // If diagnose component is completely missing data, then add validation for year.
+                            } else if (key === $scope.config.modelProp.toLowerCase()) {
+                                addValidationForYear = true;
+                            }
+                        });
+
+                    // Add validation.messageByField for diagnosArtal on first index to make the ueYearPicker present a red border.
+                    // Only do this if first row is missing a diagnose.
+                    if (addValidationForYear &&
+                        ObjectHelper.isEmpty($scope.model[$scope.config.modelProp][0].diagnosArtal)) {
+                        addYearToValidation();
+                    }
+                });
+
+                function addYearToValidation() {
+                    var validation = [{
+                        field: $scope.config.yearConfig[0].modelProp.toLowerCase()
+                    }];
+                    $scope.validation.messagesByField[$scope.config.yearConfig[0].modelProp.toLowerCase()] = validation;
+                }
+
+                // Return validation errors for the specific row (previously splitted)
+                $scope.getValidationErrors = function(index) {
+                    return $scope.diagnosValidations[index] || undefined;
+                };
+            }
         };
-      }
-    };
-  }]);
+    }]);
 

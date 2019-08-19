@@ -17,46 +17,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').controller('wcVardPersonSekretessDialogCtrl',
-    ['$scope', '$uibModalInstance', '$window', 'common.User', 'common.UserModel', 'preferenceKey',
-      function($scope, $uibModalInstance, $window, UserService, UserModel, preferenceKey) {
-        'use strict';
+    [ '$scope', '$uibModalInstance', '$window', 'common.User', 'common.UserModel', 'preferenceKey',
+            function($scope, $uibModalInstance, $window, UserService, UserModel, preferenceKey) {
+                'use strict';
 
-        var closeAllowed = false;
+                var closeAllowed = false;
 
-        $scope.vm = {
-          approveChecked: false
-        };
+                $scope.vm = {
+                    approveChecked:  false
+                };
 
-        $scope.giveConsent = function() {
+                $scope.giveConsent = function() {
 
-          if (!$scope.vm.approveChecked) {
-            return;
-          }
-          //storeAnvandarPreference will update UserModel AnvandarPreference
-          UserService.storeAnvandarPreference(preferenceKey, true);
+                    if (!$scope.vm.approveChecked) {
+                        return;
+                    }
+                    //storeAnvandarPreference will update UserModel AnvandarPreference
+                    UserService.storeAnvandarPreference(preferenceKey, true);
 
-          //close dialog
-          closeAllowed = true;
-          $uibModalInstance.close();
+                    //close dialog
+                    closeAllowed = true;
+                    $uibModalInstance.close();
 
-        };
+                };
 
-        $scope.check = function() {
-          $scope.vm.approveChecked = !$scope.vm.approveChecked;
-        };
+                $scope.check = function() {
+                    $scope.vm.approveChecked = !$scope.vm.approveChecked;
+                };
 
-        $scope.onCancel = function() {
-          $uibModalInstance.close();
-          $window.location.href = '/error.jsp?reason=sekretessapproval.needed' + (UserModel.isNormalOrigin() ? '&showlogin=true' : '');
-        };
+                $scope.onCancel = function() {
+                    $uibModalInstance.close();
+                    $window.location.href = '/error.jsp?reason=sekretessapproval.needed' + (UserModel.isNormalOrigin() ? '&showlogin=true' : '');
+                };
 
-        $scope.isVardAdministrator = function() {
-          return UserModel.isVardAdministrator();
-        };
+                $scope.isVardAdministrator = function() {
+                    return UserModel.isVardAdministrator();
+                };
 
-        $scope.$on('modal.closing', function(event) {
-          if (!closeAllowed) {
-            event.preventDefault();
-          }
-        });
-      }]);
+                $scope.$on('modal.closing', function(event) {
+                    if (!closeAllowed) {
+                        event.preventDefault();
+                    }
+                });
+            } ]);

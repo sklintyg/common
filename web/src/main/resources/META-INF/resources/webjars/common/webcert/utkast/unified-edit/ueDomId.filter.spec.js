@@ -18,23 +18,23 @@
  */
 
 describe('Filter: ueDomIdFilter', function() {
-  'use strict';
+    'use strict';
 
-  var _filter;
+    var _filter;
 
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(inject(function(_ueDomIdFilterFilter_) {
-    _filter = _ueDomIdFilterFilter_;
-  }));
+    beforeEach(inject(function(_ueDomIdFilterFilter_) {
+        _filter = _ueDomIdFilterFilter_;
+    }));
 
-  it('should replace non-valid characters', function() {
-    expect(_filter('ABC-D:E-[0].svar')).toEqual('ABC-D-E--0--svar');
-    expect(_filter('my.prop')).toEqual('my-prop');
-  });
+    it('should replace non-valid characters', function() {
+        expect(_filter('ABC-D:E-[0].svar')).toEqual('ABC-D-E--0--svar');
+        expect(_filter('my.prop')).toEqual('my-prop');
+    });
 
-  it('should not replace valid charachers', function() {
-    expect(_filter('synVinkel1')).toEqual('synVinkel1');
-  });
+    it('should not replace valid charachers', function() {
+        expect(_filter('synVinkel1')).toEqual('synVinkel1');
+    });
 
 });

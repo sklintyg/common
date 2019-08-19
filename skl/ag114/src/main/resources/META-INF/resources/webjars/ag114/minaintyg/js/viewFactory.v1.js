@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ag114').factory('ag114.viewFactory.v1', [
-  '$stateParams', 'ag114.customizeViewstate', '$location',
-  function($stateParams, customizeViewstate, $location) {
-    'use strict';
+    '$stateParams', 'ag114.customizeViewstate', '$location',
+    function($stateParams, customizeViewstate, $location) {
+        'use strict';
 
-    var intygsTyp = 'ag114';
+        var intygsTyp = 'ag114';
+        
+        var _sendUrl = function() {
+            return '';
+        };
 
-    var _sendUrl = function() {
-      return '';
-    };
+        var _enableCustomizeCertificate = function(cert) {
+          return cert.onskarFormedlaDiagnos;
+        };
 
-    var _enableCustomizeCertificate = function(cert) {
-      return cert.onskarFormedlaDiagnos;
-    };
+        var _customizeCertificate = function() {
+            customizeViewstate.resetModel();
+            $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customize-ag114/' + $stateParams.certificateId + '/step1');
+        };
 
-    var _customizeCertificate = function() {
-      customizeViewstate.resetModel();
-      $location.path('/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/customize-ag114/' + $stateParams.certificateId + '/step1');
-    };
-
-    return {
-      intygsTyp: intygsTyp,
-      getSendUrl: _sendUrl,
-      customizeCertificate: _customizeCertificate,
-      enableCustomizeCertificate: _enableCustomizeCertificate
-    };
-  }]);
+        return {
+            intygsTyp: intygsTyp,
+            getSendUrl: _sendUrl,
+            customizeCertificate: _customizeCertificate,
+            enableCustomizeCertificate: _enableCustomizeCertificate
+        };
+    }]);

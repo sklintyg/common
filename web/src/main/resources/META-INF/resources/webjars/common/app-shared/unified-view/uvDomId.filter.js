@@ -17,14 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').filter('uvDomIdFilter', function() {
-  'use strict';
+    'use strict';
 
-  return function(input) {
-    if (angular.isString(input)) {
-      //Replace ay other character than these with '-'
-      return input.replace(/[^a-zA-Z0-9\-]/g, '-');
-    }
-    return input;
-  };
+      return function(input) {
+        if (angular.isString(input)) {
+            //Replace ay other character than these with '-'
+            return input.replace(/[^a-zA-Z0-9\-]/g,'-');
+        }
+        return input;
+    };
 
 });

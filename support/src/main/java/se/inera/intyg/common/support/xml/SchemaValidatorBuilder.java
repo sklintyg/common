@@ -18,7 +18,6 @@
  */
 package se.inera.intyg.common.support.xml;
 
-import com.google.common.base.Splitter;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,10 +29,13 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
+
+import com.google.common.base.Splitter;
 
 /**
  * Utility that aids in creating an XML validator from complex XSD files (which include and/or import other XSD files).

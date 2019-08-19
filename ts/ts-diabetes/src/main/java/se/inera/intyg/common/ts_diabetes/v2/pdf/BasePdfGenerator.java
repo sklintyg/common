@@ -18,6 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
@@ -29,9 +33,6 @@ import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfGState;
 import com.itextpdf.text.pdf.PdfStamper;
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;

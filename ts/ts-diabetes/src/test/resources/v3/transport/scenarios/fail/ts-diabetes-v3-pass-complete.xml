@@ -1,4 +1,4 @@
-<ns4:RegisterCertificate xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dsf="http://www.w3.org/2002/06/xmldsig-filter2" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:3" xmlns:ns4="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3" xmlns:ns5="urn:riv:clinicalprocess:healthcond:certificate:types:3" xmlns:ns6="urn:riv:clinicalprocess:healthcond:certificate:3.2">
+<ns4:RegisterCertificate xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:dsf="http://www.w3.org/2002/06/xmldsig-filter2" xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:3" xmlns:ns4="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3" xmlns:ns5="urn:riv:clinicalprocess:healthcond:certificate:types:3" xmlns:ns6="urn:riv:clinicalprocess:healthcond:certificate:3.2" xmlns:ns7="urn:riv:itintegration:registry:1">
   <ns4:intyg>
     <ns3:intygs-id>
       <ns5:root>TSTNMT2321000156-1077</ns5:root>
@@ -193,13 +193,10 @@
                 </xsl:stylesheet>
               </ds:Transform>
               <ds:Transform Algorithm="http://www.w3.org/2002/06/xmldsig-filter2">
-                <dsf:XPath Filter="intersect">//extension[text()='39d1489f-66d8-4100-8715-51f577893ac8']/../..
-                </dsf:XPath>
+                <dsf:XPath Filter="intersect">//extension[text()='39d1489f-66d8-4100-8715-51f577893ac8']/../..</dsf:XPath>
               </ds:Transform>
               <ds:Transform Algorithm="http://www.w3.org/2002/06/xmldsig-filter2">
-                <dsf:XPath Filter="subtract">//*[local-name() = 'skickatTidpunkt']|//*[local-name() =
-                  'relation']|//*[local-name() = 'status']|//*[local-name() = 'underskrift']
-                </dsf:XPath>
+                <dsf:XPath Filter="subtract">//*[local-name() = 'skickatTidpunkt']|//*[local-name() = 'relation']|//*[local-name() = 'status']|//*[local-name() = 'underskrift']</dsf:XPath>
               </ds:Transform>
               <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
             </ds:Transforms>
@@ -207,14 +204,10 @@
             <ds:DigestValue>5Bpcql7sfSr7i7q5pzbhy4wttl3uDm2ysiJCl+zKXhQ=</ds:DigestValue>
           </ds:Reference>
         </ds:SignedInfo>
-        <ds:SignatureValue>
-          UB3E5i0+/a0l/FDOgTHXhmPlzrpCq/Osiq84XnDwus0eBuJeqm++GEb0G4thoERUyda1m1UdWaqAa0Fiyab65CeTez81lTJ7Yd4M/R3kUkvvRcj04HVkegD1cFDOt6t6f1x0hobkmhnP/RdCG+xtEJCn8lylR8V4Sc9Vo8dyQnM=
-        </ds:SignatureValue>
+        <ds:SignatureValue>UB3E5i0+/a0l/FDOgTHXhmPlzrpCq/Osiq84XnDwus0eBuJeqm++GEb0G4thoERUyda1m1UdWaqAa0Fiyab65CeTez81lTJ7Yd4M/R3kUkvvRcj04HVkegD1cFDOt6t6f1x0hobkmhnP/RdCG+xtEJCn8lylR8V4Sc9Vo8dyQnM=</ds:SignatureValue>
         <ds:KeyInfo>
           <ds:X509Data>
-            <ds:X509Certificate>
-              MIICSjCCAbOgAwIBAgIECXEBjDANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJTRTENMAsGA1UECBMEVGVzdDENMAsGA1UEBxMEVGVzdDENMAsGA1UEChMEVGVzdDENMAsGA1UECxMEVGVzdDENMAsGA1UEAxMEVGVzdDAeFw0xODEwMTUxMzA0NDRaFw0yODEwMTIxMzA0NDRaMFgxCzAJBgNVBAYTAlNFMQ0wCwYDVQQIEwRUZXN0MQ0wCwYDVQQHEwRUZXN0MQ0wCwYDVQQKEwRUZXN0MQ0wCwYDVQQLEwRUZXN0MQ0wCwYDVQQDEwRUZXN0MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIxf1C12hBqkeG0K+sc2HtyfgZ81FODkkWrtavbfFbSIPEu/mjbxAVEIlwFk+kFM9s/RE9SBPGdvkJsRaR3Ls+JVpsVGxYnjN7F/K+qqk7LSRY6Wy7QzP9cY5uCODe3+ZeCFLda7WLOjLDRDq+vHhPTjgP0UQRozICjeRuowx69QIDAQABoyEwHzAdBgNVHQ4EFgQU92RmXIvRBJ68H/VKQSxAEbEe5eQwDQYJKoZIhvcNAQELBQADgYEAS76np3wn7qUfB+nQLnf+BMNblNagog5lOw5QCnLK6/kgpNnth3HcBijqP/GgYt73GOOL1KJXrR7vJu+j7sK10OYmUzZPU1ZAbFjieqx/XaNsT15CxCKS0njwWjAc2+N8asN/NH3dpEZ4t/Svg3iNqe2XRNRmpOUebc17VxqhhJA=
-            </ds:X509Certificate>
+            <ds:X509Certificate>MIICSjCCAbOgAwIBAgIECXEBjDANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJTRTENMAsGA1UECBMEVGVzdDENMAsGA1UEBxMEVGVzdDENMAsGA1UEChMEVGVzdDENMAsGA1UECxMEVGVzdDENMAsGA1UEAxMEVGVzdDAeFw0xODEwMTUxMzA0NDRaFw0yODEwMTIxMzA0NDRaMFgxCzAJBgNVBAYTAlNFMQ0wCwYDVQQIEwRUZXN0MQ0wCwYDVQQHEwRUZXN0MQ0wCwYDVQQKEwRUZXN0MQ0wCwYDVQQLEwRUZXN0MQ0wCwYDVQQDEwRUZXN0MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIxf1C12hBqkeG0K+sc2HtyfgZ81FODkkWrtavbfFbSIPEu/mjbxAVEIlwFk+kFM9s/RE9SBPGdvkJsRaR3Ls+JVpsVGxYnjN7F/K+qqk7LSRY6Wy7QzP9cY5uCODe3+ZeCFLda7WLOjLDRDq+vHhPTjgP0UQRozICjeRuowx69QIDAQABoyEwHzAdBgNVHQ4EFgQU92RmXIvRBJ68H/VKQSxAEbEe5eQwDQYJKoZIhvcNAQELBQADgYEAS76np3wn7qUfB+nQLnf+BMNblNagog5lOw5QCnLK6/kgpNnth3HcBijqP/GgYt73GOOL1KJXrR7vJu+j7sK10OYmUzZPU1ZAbFjieqx/XaNsT15CxCKS0njwWjAc2+N8asN/NH3dpEZ4t/Svg3iNqe2XRNRmpOUebc17VxqhhJA=</ds:X509Certificate>
           </ds:X509Data>
         </ds:KeyInfo>
       </ds:Signature>

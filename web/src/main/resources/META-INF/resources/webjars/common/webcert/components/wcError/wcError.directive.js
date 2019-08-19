@@ -19,17 +19,17 @@
 
 angular.module('common').directive('wcError',
     ['$stateParams', function($stateParams) {
-      'use strict';
+            'use strict';
 
-      return {
-        restrict: 'E',
-        transclude: false,
-        scope: {
-          error: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
-        link: function(scope, element, attrs, ctrl) {
-          scope.certificateId = $stateParams.certificateId;
-        }
-      };
-    }]);
+            return {
+                restrict: 'E',
+                transclude: false,
+                scope: {
+                    error: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcError/wcError.directive.html',
+                link: function(scope, element, attrs, ctrl) {
+                    scope.certificateId = $stateParams.certificateId;
+                }
+            };
+        }]);

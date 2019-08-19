@@ -8,11 +8,10 @@ mi-compact-certificate-header {
   }
 
   .mi-compact-certificate-header-replaced {
-    background: $mi-intyg-header-disabled-color;
-    color: $mi-intyg-header-color;
-    padding: 15px;
+      background: $mi-intyg-header-disabled-color;
+      color: $mi-intyg-header-color;
+      padding: 15px;
   }
-
   .row-wrapper {
     display: flex;
     flex-direction: row;
@@ -45,7 +44,6 @@ mi-compact-certificate-header {
       color: $mi-intyg-header-color;
       cursor: pointer;
     }
-
     h1 {
       margin: 0;
       padding-top: 3px;
@@ -54,7 +52,6 @@ mi-compact-certificate-header {
 
   .complementary-info {
     float: left;
-
     p.small-header {
       margin: 5px 0 0 0;
     }

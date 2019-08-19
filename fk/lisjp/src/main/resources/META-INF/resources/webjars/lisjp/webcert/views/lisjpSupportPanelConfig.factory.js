@@ -23,88 +23,88 @@
  */
 angular.module('lisjp').factory('lisjp.supportPanelConfigFactory',
     ['common.featureService', 'common.ResourceLinkService', function(featureService, ResourceLinkService) {
-      'use strict';
+        'use strict';
 
-      function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links) {
+        function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast, isLocked, links) {
 
-        var config = {
-          tabs: [],
-          intygContext: {
-            type: 'lisjp',
-            aboutMsgKey: 'FRM_2.RBK',
-            id: id,
-            intygTypeVersion: intygTypeVersion,
-            isSigned: isSigned,
-            isLocked: isLocked
-          }
-        };
+            var config = {
+                tabs: [],
+                intygContext: {
+                    type: 'lisjp',
+                    aboutMsgKey: 'FRM_2.RBK',
+                    id: id,
+                    intygTypeVersion: intygTypeVersion,
+                    isSigned: isSigned,
+                    isLocked: isLocked
+                }
+            };
 
-        if (ResourceLinkService.isLinkTypeExists(links, 'LASA_FRAGA') && (isSigned || isKompletteringsUtkast)) {
-          config.tabs.push({
-            id: 'wc-arende-panel-tab',
-            title: 'common.supportpanel.arende.title',
-            tooltip: 'common.supportpanel.arende.tooltip',
-            config: {
-              intygContext: config.intygContext
-            },
-            active: isSigned || isKompletteringsUtkast
-          });
-        }
-
-        //Bara visas i utkastläge men inte låst, default aktiv bara om det inte är ett kompletteringsutkast
-        if (!config.intygContext.isSigned && !config.intygContext.isLocked) {
-          config.tabs.push({
-            id: 'wc-fmb-panel-tab',
-            title: 'common.supportpanel.fmb.title',
-            icon: 'lightbulb_outline',
-            tooltip: 'common.supportpanel.fmb.tooltip',
-            config: {
-              intygContext: config.intygContext
-            },
-            active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
-          });
-        }
-
-        if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
-            !(isSigned || isKompletteringsUtkast || isLocked)) {
-          config.tabs.push({
-            id: 'wc-srs-panel-tab',
-            title: 'common.supportpanel.srs.title',
-            icon: 'lightbulb_outline',
-            tooltip: 'common.supportpanel.srs.tooltip',
-            config: {
-              intygContext: config.intygContext
-            },
-            active: !_anyTabActive()
-          });
-        }
-
-        //Default aktiv om signerat och inte ännu skickat
-        config.tabs.push({
-          id: 'wc-help-tips-panel-tab',
-          title: 'common.supportpanel.help.title',
-          tooltip: 'common.supportpanel.help.tooltip',
-          config: {
-            intygContext: config.intygContext
-          },
-          active: !_anyTabActive()
-        });
-
-        function _anyTabActive() {
-          var foundActive = false;
-          angular.forEach(config.tabs, function(tab) {
-            if (tab.active) {
-              foundActive = true;
+            if (ResourceLinkService.isLinkTypeExists(links, 'LASA_FRAGA') && (isSigned || isKompletteringsUtkast)) {
+                config.tabs.push({
+                    id: 'wc-arende-panel-tab',
+                    title: 'common.supportpanel.arende.title',
+                    tooltip: 'common.supportpanel.arende.tooltip',
+                    config: {
+                        intygContext: config.intygContext
+                    },
+                    active: isSigned || isKompletteringsUtkast
+                });
             }
-          });
-          return foundActive;
+
+            //Bara visas i utkastläge men inte låst, default aktiv bara om det inte är ett kompletteringsutkast
+            if (!config.intygContext.isSigned && !config.intygContext.isLocked) {
+                config.tabs.push({
+                    id: 'wc-fmb-panel-tab',
+                    title: 'common.supportpanel.fmb.title',
+                    icon: 'lightbulb_outline',
+                    tooltip: 'common.supportpanel.fmb.tooltip',
+                    config: {
+                        intygContext: config.intygContext
+                    },
+                    active: !(isSigned || isKompletteringsUtkast) && !_anyTabActive()
+                });
+            }
+
+            if (featureService.isFeatureActive(featureService.features.SRS, config.intygContext.type) &&
+                    !(isSigned || isKompletteringsUtkast || isLocked)) {
+                config.tabs.push({
+                    id: 'wc-srs-panel-tab',
+                    title: 'common.supportpanel.srs.title',
+                    icon: 'lightbulb_outline',
+                    tooltip: 'common.supportpanel.srs.tooltip',
+                    config: {
+                        intygContext: config.intygContext
+                    },
+                    active: !_anyTabActive()
+                });
+            }
+
+            //Default aktiv om signerat och inte ännu skickat
+            config.tabs.push({
+                id: 'wc-help-tips-panel-tab',
+                title: 'common.supportpanel.help.title',
+                tooltip: 'common.supportpanel.help.tooltip',
+                config: {
+                    intygContext: config.intygContext
+                },
+                active: !_anyTabActive()
+            });
+
+            function _anyTabActive() {
+                var foundActive = false;
+                angular.forEach(config.tabs, function(tab) {
+                    if (tab.active) {
+                        foundActive = true;
+                    }
+                });
+                return foundActive;
+            }
+
+            return angular.copy(config);
         }
 
-        return angular.copy(config);
-      }
-
-      return {
-        getConfig: _getConfig
-      };
+        return {
+            getConfig: _getConfig
+        };
 
     }]);

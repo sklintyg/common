@@ -18,6 +18,22 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
+import org.junit.Test;
+import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
+import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
+import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
+import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
+import se.inera.intyg.common.support.model.CertificateState;
+import se.inera.intyg.common.support.model.Status;
+import se.inera.intyg.common.support.model.UtkastStatus;
+import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_AKTIVITETSBEGRANSNING;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_ANLEDNING_TILL_FKKONTAKT;
@@ -32,21 +48,6 @@ import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuild
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_PLANERAD_BEHANDLING;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_SMITTSKYDD;
 import static se.inera.intyg.common.lisjp.v1.pdf.AbstractLisjpPdfDefinitionBuilder.OPT_SYSSELSATTNING_EJ_NUVARANDEARBETE;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.junit.Test;
-import se.inera.intyg.common.fkparent.pdf.PdfGenerator;
-import se.inera.intyg.common.fkparent.pdf.PdfGeneratorException;
-import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
-import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
-import se.inera.intyg.common.support.model.CertificateState;
-import se.inera.intyg.common.support.model.Status;
-import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
 /**
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual

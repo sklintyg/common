@@ -2,32 +2,47 @@
   <div class="tab-footer">
     <div class="footer__komplettera">
       <div ng-if="showKompletteringButtons()">
-        <wc-button ng-show="showKompletteraButton()" btn-id="komplettera-intyg" btn-class="btn-success margin-right"
-                   btn-click="kompletteraIntyg()" loading="updateInProgress" disabled="updateInProgress"
-                   uib-popover="Öppnar ett nytt intygsutkast."
+        <wc-button
+            ng-show="showKompletteraButton()"
+            btn-id="komplettera-intyg"
+            btn-class="btn-success margin-right"
+            btn-click="kompletteraIntyg()"
+            loading="updateInProgress"
+            disabled="updateInProgress"
+            uib-popover="Öppnar ett nytt intygsutkast."
 
-                   popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
           <i class="icon-wc-ikon-komplettera"></i> Komplettera intyg</button>
         </wc-button>
 
-        <button class="btn btn-primary" ng-show="showKanInteKompletteraButton()" id="kan-inte-komplettera"
-                ng-click="openKompletteringDialog()" wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}"
+        <button class="btn btn-primary"
+                ng-show="showKanInteKompletteraButton()"
+                id="kan-inte-komplettera"
+                ng-click="openKompletteringDialog()"
+                wc-check-vardenhet vardenhet="{{kompletteringConfig.enhetsid}}"
                 uib-popover="Öppnar en dialogruta med mer information."
 
-                popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
-          <i class="icon-wc-ikon-comment"></i> Kan ej komplettera
-        </button>
+                popover-popup-delay="300"
+                popover-append-to-body="true"
+                popover-placement="auto top">
+          <i class="icon-wc-ikon-comment"></i> Kan ej komplettera</button>
 
         <a wc-authority request-origin="UTHOPP" ng-click="openUthoppInfoModal()" id="arende-komplettering-uthopp-link">
           <span dynamic-label key="common.arende.komplettering.uthopp.link"></span>
         </a>
       </div>
     </div>
-    <button type="button" id="vidarebefordraEjHanterad" ng-show="showVidarebefodraButton()"
-            class="btn btn-primary stick-right" ng-click="openMailDialog()"
+    <button type="button" id="vidarebefordraEjHanterad"
+            ng-show="showVidarebefodraButton()"
+            class="btn btn-primary stick-right"
+            ng-click="openMailDialog()"
             uib-popover="Skapar ett e-postmeddelande med länk till intyget."
 
-            popover-popup-delay="300" popover-append-to-body="true" popover-placement="auto top">
+            popover-popup-delay="300"
+            popover-append-to-body="true"
+            popover-placement="auto top">
       <i class="icon-wc-ikon-reply"></i> Vidarebefordra</span>
     </button>
   </div>

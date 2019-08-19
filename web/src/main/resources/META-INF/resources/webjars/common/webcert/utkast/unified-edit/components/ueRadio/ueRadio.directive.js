@@ -17,27 +17,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueRadio', ['ueUtil', function(ueUtil) {
-  'use strict';
+angular.module('common').directive('ueRadio', [ 'ueUtil', function(ueUtil) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      model: '=',
-      form: '='
-    },
-    templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadio/ueRadio.directive.html',
-    link: function($scope) {
-      ueUtil.standardSetup($scope);
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            model: '=',
+            form: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadio/ueRadio.directive.html',
+        link: function($scope) {
+            ueUtil.standardSetup($scope);
 
-      if (!$scope.config.yesLabel) {
-        $scope.config.yesLabel = null;
-      }
-      if (!$scope.config.noLabel) {
-        $scope.config.noLabel = null;
-      }
-    }
-  };
+            if (!$scope.config.yesLabel) {
+                $scope.config.yesLabel = null;
+            }
+            if (!$scope.config.noLabel) {
+                $scope.config.noLabel = null;
+            }
+        }
+    };
 
 }]);

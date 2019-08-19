@@ -18,58 +18,59 @@
  */
 angular.module('tstrk1009').factory('tstrk1009.Domain.IntygModel.v1',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-      'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
-      function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
-        'use strict';
+        'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
+            'use strict';
 
-        var intygetAvserBehorigheterFromTransform = function(backendBedomning) {
-          return {
-            typer: tsBaseHelper.setupKorkortstypChoices(backendBedomning.typer, ['ALLA', 'KANINTETASTALLNING'])
-          };
-        };
+            var intygetAvserBehorigheterFromTransform = function(backendBedomning) {
+                return {
+                    typer: tsBaseHelper.setupKorkortstypChoices(backendBedomning.typer, ['ALLA', 'KANINTETASTALLNING'])
+                };
+            };
+    
+            var intygetAvserBehorigheterToTransform = function(frontendObject) {
+                return frontendObject;
+            };
+    
 
-        var intygetAvserBehorigheterToTransform = function(frontendObject) {
-          return frontendObject;
-        };
+            var V1Model = BaseAtticModel._extend({
+                init: function init() {
+                    var grundData = GrundData.build();
+                    init._super.call(this, 'IntygModel', {
 
-        var V1Model = BaseAtticModel._extend({
-          init: function init() {
-            var grundData = GrundData.build();
-            init._super.call(this, 'IntygModel', {
+                        id: undefined,
+                        typ: undefined,
+                        textVersion: undefined,
+                        grundData: grundData,
 
-              id: undefined,
-              typ: undefined,
-              textVersion: undefined,
-              grundData: grundData,
+                        signature: undefined,
+                        identitetStyrktGenom: undefined,
+                        anmalanAvser: undefined,
+                        medicinskaForhallanden: undefined,
+                        senasteUndersokningsdatum: undefined,
+                        intygetAvserBehorigheter: new ModelAttr('intygetAvserBehorigheter', {
+                            toTransform: intygetAvserBehorigheterToTransform,
+                            fromTransform: intygetAvserBehorigheterFromTransform
+                        }),
+                        informationOmTsBeslutOnskas: undefined
+                    });
+                },
+                update: function update(content, parent) {
+                    if (parent) {
+                        parent.content = this;
+                    }
+                    update._super.call(this, content);
+                }
 
-              signature: undefined,
-              identitetStyrktGenom: undefined,
-              anmalanAvser: undefined,
-              medicinskaForhallanden: undefined,
-              senasteUndersokningsdatum: undefined,
-              intygetAvserBehorigheter: new ModelAttr('intygetAvserBehorigheter', {
-                toTransform: intygetAvserBehorigheterToTransform,
-                fromTransform: intygetAvserBehorigheterFromTransform
-              }),
-              informationOmTsBeslutOnskas: undefined
+            }, {
+                build : function(){
+                    return new DraftModel(new V1Model());
+                }
             });
-          },
-          update: function update(content, parent) {
-            if (parent) {
-              parent.content = this;
-            }
-            update._super.call(this, content);
-          }
 
-        }, {
-          build: function() {
-            return new DraftModel(new V1Model());
-          }
-        });
+            /**
+             * Return the constructor function IntygModel
+             */
+            return V1Model;
 
-        /**
-         * Return the constructor function IntygModel
-         */
-        return V1Model;
-
-      }]);
+        }]);

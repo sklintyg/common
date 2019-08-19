@@ -18,116 +18,115 @@
  */
 angular.module('lisjp').service('lisjp.IntygController.ViewStateService',
     ['$log', 'common.IntygViewStateService', 'common.messageService',
-      function($log, CommonViewState, messageService) {
-        'use strict';
+        function($log, CommonViewState, messageService) {
+            'use strict';
 
-        this.common = CommonViewState;
-        this.intygModel = {};
+            this.common = CommonViewState;
+            this.intygModel = {};
 
-        this.reset = function() {
-          this.common.reset();
-          this.common.intygProperties.type = 'lisjp';
-        };
+            this.reset = function() {
+                this.common.reset();
+                this.common.intygProperties.type = 'lisjp';
+            };
 
-        this.shouldSysselsattningSpawnObservandum = function() {
+            this.shouldSysselsattningSpawnObservandum = function () {
 
-          var occupationList = this.intygModel.sysselsattning;
+                var occupationList = this.intygModel.sysselsattning;
 
-          if (!occupationList) {
-            return false;
-          }
-
-          var areCriteraForObservandumMet = true;
-          occupationList.forEach(function(occupation) {
-            if (occupation.typ === 'ARBETSSOKANDE') {
-              areCriteraForObservandumMet = false;
-            } else if (occupation.typ === 'STUDIER') {
-              occupationList.forEach(function(occupation) {
-                if (occupation.typ === 'NUVARANDE_ARBETE') {
-                  areCriteraForObservandumMet = false;
+                if(!occupationList){
+                    return false;
                 }
-              });
 
-            }
-          });
-          return areCriteraForObservandumMet;
-        };
+                var areCriteraForObservandumMet = true;
+                occupationList.forEach(function (occupation) {
+                    if (occupation.typ === 'ARBETSSOKANDE') {
+                        areCriteraForObservandumMet = false;
+                    } else if (occupation.typ === 'STUDIER') {
+                        occupationList.forEach(function (occupation) {
+                            if (occupation.typ  === 'NUVARANDE_ARBETE') {
+                                areCriteraForObservandumMet = false;
+                            }
+                        });
 
-        this.showEmployerPrintBtn = function() {
-          if (this.intygModel.avstangningSmittskydd) {
-            return false;
-          }
+                    }
+                });
+                return areCriteraForObservandumMet;
+            };
 
-          return true;
-        };
+            this.showEmployerPrintBtn = function() {
+                if (this.intygModel.avstangningSmittskydd) {
+                    return false;
+                }
 
-        this.calculateSjukskrivningDuration = function() {
+                return true;
+            };
 
-          if (!this.intygModel.sjukskrivningar) {
-            return 0;
-          }
+            this.calculateSjukskrivningDuration = function () {
 
-          var duration;
+                if(!this.intygModel.sjukskrivningar){
+                    return 0;
+                }
 
-          var startDate = null;
-          var endDate = null;
+                var duration;
 
-          this.intygModel.sjukskrivningar.forEach(function(sjukskrivning) {
-            var from = new moment(sjukskrivning.period.from);
-            if (startDate === null || from.isBefore(startDate)) {
-              startDate = from;
-            }
-            var tom = new moment(sjukskrivning.period.tom);
-            if (endDate === null || tom.isAfter(endDate)) {
-              endDate = tom;
-            }
-          });
+                var startDate = null;
+                var endDate = null;
 
-          if (startDate === null || endDate === null) {
-            return 0;
-          }
+                this.intygModel.sjukskrivningar.forEach(function(sjukskrivning) {
+                    var from = new moment (sjukskrivning.period.from);
+                    if(startDate === null || from.isBefore(startDate)) {
+                        startDate = from;
+                    }
+                    var tom = new moment (sjukskrivning.period.tom);
+                    if(endDate === null || tom.isAfter(endDate)) {
+                        endDate = tom;
+                    }
+                });
 
-          duration = moment.duration(endDate.diff(startDate));
-          duration = duration.days() + 1;
+                if(startDate === null || endDate === null) {
+                    return 0;
+                }
 
-          return duration;
-        };
+                duration = moment.duration(endDate.diff(startDate));
+                duration = duration.days() + 1;
 
-        /**
-         * Visa observandum om:
-         * Perioden intyget avser är kortare eller lika med 7 dagar
-         * Alternativet Arbetssökande är EJ valt.
-         * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt
-         */
-        this.getObservandumId = function() {
+                return duration;
+            };
 
-          var duration = this.calculateSjukskrivningDuration();
-          var shouldSysselsattningSpawnObservandum = this.shouldSysselsattningSpawnObservandum();
+            /**
+             * Visa observandum om:
+             * Perioden intyget avser är kortare eller lika med 7 dagar
+             * Alternativet Arbetssökande är EJ valt.
+             * Alternativen Studerande och Nuvarande arbete är EJ valda samtidigt
+             */
+            this.getObservandumId = function() {
 
-          if (duration <= 7 && shouldSysselsattningSpawnObservandum) {
-            return 'sjukpenning.label.send.obs.short.duration';
-          }
+                var duration = this.calculateSjukskrivningDuration();
+                var shouldSysselsattningSpawnObservandum = this.shouldSysselsattningSpawnObservandum();
 
-          return null;
-        };
+                if (duration <= 7 && shouldSysselsattningSpawnObservandum) {
+                    return 'sjukpenning.label.send.obs.short.duration';
+                }
 
-        /**
-         Lägg på text om observandum ska visas och returnera hela modellen
-         */
-        this.getSendContent = function(intygType) {
+                return null;
+            };
 
-          var sendContentModel = {
-            observandumId: this.getObservandumId(),
-            bodyText: messageService.getProperty(intygType + '.label.send.body')
-          };
+            /**
+                Lägg på text om observandum ska visas och returnera hela modellen
+             */
+            this.getSendContent = function(intygType) {
 
-          if (sendContentModel.observandumId) {
-            sendContentModel.bodyText =
-                messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
-          }
+                var sendContentModel = {
+                    observandumId: this.getObservandumId(),
+                    bodyText: messageService.getProperty(intygType + '.label.send.body')
+                };
 
-          return sendContentModel;
-        };
+                if(sendContentModel.observandumId) {
+                    sendContentModel.bodyText = messageService.getProperty('common.label.send.body') + messageService.getProperty(intygType + '.label.send.body');
+                }
 
-        this.reset();
-      }]);
+                return sendContentModel;
+            };
+
+            this.reset();
+        }]);

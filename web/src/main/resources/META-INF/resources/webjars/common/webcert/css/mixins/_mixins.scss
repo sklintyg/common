@@ -15,15 +15,12 @@
     height: 100%;
     pointer-events: none;
   }
-
   &.wc-color-02 div {
     background-image: linear-gradient(to top, rgba($wc-color-02, 1) 0%, rgba($wc-color-02, 0) 100%);
   }
-
   &.wc-color-28 div {
     background-image: linear-gradient(to top, rgba($wc-color-28, 1) 0%, rgba($wc-color-28, 0) 100%);
   }
-
   &.wc-color-27 div {
     background-image: linear-gradient(to top, rgba($wc-color-27, 1) 0%, rgba($wc-color-27, 0) 100%);
   }

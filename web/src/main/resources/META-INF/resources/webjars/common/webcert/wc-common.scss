@@ -1,810 +1,799 @@
 @CHARSET "UTF-8";
 
-// Import partials
-@import "css/mixins/variables";
-@import 'css/mixins/fonts';
-@import 'css/mixins/mixins';
-// injector
-@import '../app-shared/servicebanner/serviceBanner.directive.scss';
-@import '../app-shared/unified-view/components/_variables.scss';
-@import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
-@import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
-@import '../app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.scss';
-@import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
-@import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
-@import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
-@import '../app-shared/unified-view/components/uvFraga/uvFraga.directive.scss';
-@import '../app-shared/unified-view/components/uvIcf/uvIcf.directive.scss';
-@import '../app-shared/unified-view/components/uvKategori/uvKategori.directive.scss';
-@import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
-@import '../app-shared/unified-view/components/uvList/uvList.directive.scss';
-@import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive.scss';
-@import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
-@import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
-@import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
-@import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
-@import 'components/animations/fold.scss';
-@import 'components/animations/keyframe-animations.scss';
-@import 'components/cookiebanner/wcCookieBanner.directive.scss';
-@import 'components/date/wcDatePickerField/wcDatePickerField.directive.scss';
-@import 'components/headers/wcAppHeader/wcAppHeader.directive.scss';
-@import 'components/headers/wcAppHeader/wcAppHeader.variables.scss';
-@import 'components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.scss';
-@import 'components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqQuestion.directive.scss';
-@import 'components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqToggler.directive.scss';
-@import 'components/headers/wcAppHeader/wcHeaderHelp/wcHeaderHelp.directive.scss';
-@import 'components/headers/wcAppHeader/wcHeaderUnit/wcChangeActiveUnitDialog.scss';
-@import 'components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.scss';
-@import 'components/headers/wcAppHeader/wcHeaderUser/wcHeaderUser.directive.scss';
-@import 'components/headers/wcAppHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
-@import 'components/headers/wcHeader.partial.scss';
-@import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
-@import 'components/receiver/approveReceiversDialog.scss';
-@import 'components/receiver/wcApproveReceiverRow/wcApproveReceiverRow.directive.scss';
-@import 'components/receiver/wcApproveReceiversButton/wcApproveReceiversButton.directive.scss';
-@import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
-@import 'components/wcBottomFadeout/wcBottomFadeout.directive.scss';
-@import 'components/wcButton/wcButton.directive.scss';
-@import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
-@import 'components/wcDeprecatedIntygstypeMessage/wcDeprecatedIntygstypeMessage.directive.scss';
-@import 'components/wcDropdown/wcDropdown.directive.scss';
-@import 'components/wcError/wcError.directive.scss';
-@import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
-@import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
-@import 'components/wcHelp/wcHelp.directive.scss';
-@import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
-@import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
-@import 'components/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
-@import 'components/wcIntygHasKompletteringMessage/wcIntygHasKompletteringMessage.directive.scss';
-@import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
-@import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
-@import 'components/wcPatientAddressMissingFromIntegrationMessage/wcPatientAddressMissingFromIntegrationMessage.scss';
-@import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
-@import 'components/wcPatientStatus/wcPatientStatus.directive.scss';
-@import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
-@import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
-@import 'components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.scss';
-@import 'components/wcSpinner/wcSpinner.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/_arende.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/new/arendeNew.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/panel/svar/arendePanelSvar.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/vidarebefordra/arendeVidarebefordra.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeFooter/wcArendeFooter.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeFooter/wcArendeFooter.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeIntygNotSentMessage/wcArendeIntygNotSentMessage.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraIntygConfirmation/wcArendeKompletteraIntygConfirmation.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraUtkastWarning/wcArendeKompletteraUtkastWarning.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoAdministrativaFragorMessage/wcArendeNoAdministrativaFragorMessage.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/wcArendeNoKompletteringarMessage.directive.scss';
-@import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
-@import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
-@import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
-@import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.scss';
-@import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRiskDiagram.directive.scss';
-@import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
-@import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
-@import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
-@import 'components/wcTableHead/wcTableHead.directive.scss';
-@import 'components/wcToggle/wcToggle.directive.scss';
-@import 'css/_legacy-to-be-removed.scss';
-@import 'css/_wc-uv-override.scss';
-@import 'css/card.scss';
-@import 'css/flex-app-layout.scss';
-@import 'css/generic-input.scss';
-@import 'css/layout-util.scss';
-@import 'css/wc-page-header.scss';
-@import 'intyg/intygFooter.directive.scss';
-@import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
-@import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
-@import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
-@import 'intyg/intygHeader/wcIntygStatus/wcIntygStatusSlot/wcIntygStatusSlot.directive.scss';
-@import 'intyg/intygMakulera.dialog.scss';
-@import 'intyg/intygSend.dialog.scss';
-@import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
-@import 'intyg/read-only-view/wcKompletteringReadOnlyPanel/wcKompletteringReadOnlyPanelTab.directive.scss';
-@import 'intyg/unified-view/unified-view.scss';
-@import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
-@import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
-@import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
-@import 'intyg/unified-view/wcInlineKomplettering/wcInlineKomplettering.directive.scss';
-@import 'utkast/fmb/_fmb.scss';
-@import 'utkast/fmb/wcHelpWrapper.scss';
-@import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
-@import 'utkast/unified-edit/components/ueCheckboxDate/ueCheckboxDate.directive.scss';
-@import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
-@import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
-@import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
-@import 'utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.scss';
-@import 'utkast/unified-edit/components/ueDiagnosOld/ueDiagnosOld.scss';
-@import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.scss';
-@import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.scss';
-@import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakRow.scss';
-@import 'utkast/unified-edit/components/ueDropdown/ueDropdown.directive.scss';
-@import 'utkast/unified-edit/components/ueFormLabel/ueFormLabel.scss';
-@import 'utkast/unified-edit/components/ueIcf/ueIcf.directive.scss';
-@import 'utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.scss';
-@import 'utkast/unified-edit/components/uePercentField/uePercentField.directive.scss';
-@import 'utkast/unified-edit/components/uePrognos/uePrognos.directive.scss';
-@import 'utkast/unified-edit/components/ueRadio/ueRadio.directive.scss';
-@import 'utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.scss';
-@import 'utkast/unified-edit/components/ueSjukfranvaro/ueSjukfranvaro.directive.scss';
-@import 'utkast/unified-edit/components/ueSjukskrivningar/ueSjukskrivningar.directive.scss';
-@import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
-@import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
-@import 'utkast/unified-edit/components/ueTextarea/ueTextArea.directive.scss';
-@import 'utkast/unified-edit/components/ueTextfield/ueTextfield.directive.scss';
-@import 'utkast/unified-edit/components/ueTypeahead/ueTypeAhead.directive.scss';
-@import 'utkast/unified-edit/components/ueVagueDate/ueVagueDate.scss';
-@import 'utkast/unified-edit/components/ueYear/ueYear.directive.scss';
-@import 'utkast/unified-edit/components/ueYearPicker/ueYearPicker.directive.scss';
-@import 'utkast/unified-edit/containers/ueComponentToggler/ueComponentToggler.directive.scss';
-@import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
-@import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
-@import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
-@import 'utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.scss';
-@import 'utkast/unified-edit/subcomponents/ueDiagnosKodSystem/ueDiagnosKodSystem.scss';
-@import 'utkast/unified-edit/subcomponents/ueLabel/ueLabel.scss';
-@import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
-@import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
-@import 'utkast/unified-edit/ueComponent.scss';
-@import 'utkast/unified-edit/ueDynamicComponent.directive.scss';
-@import 'utkast/unified-edit/ueRenderComponents.directive.scss';
-@import 'utkast/utkast-footer/utkastFooter.scss';
-@import 'utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.scss';
-@import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
-@import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
-@import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
-@import 'utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.scss';
-@import 'utkast/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.scss';
-@import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
-@import 'utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.scss';
-// endinjector
+  // Import partials
+  @import "css/mixins/variables";
+  @import 'css/mixins/fonts';
+  @import 'css/mixins/mixins';
 
-%font-common {
-  font-size: 14px;
-  font-family: $font-0, $font-1, $font-2, $font-3;
-  text-align: left;
-}
+  // injector
+  @import '../app-shared/servicebanner/serviceBanner.directive.scss';
+  @import '../app-shared/unified-view/components/_variables.scss';
+  @import '../app-shared/unified-view/components/uvAlertMessage/uvAlertMessage.directive.scss';
+  @import '../app-shared/unified-view/components/uvAlertValue/uvAlertValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.scss';
+  @import '../app-shared/unified-view/components/uvBooleanValue/uvBooleanValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvDelFraga/uvDelFraga.directive.scss';
+  @import '../app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvFraga/uvFraga.directive.scss';
+  @import '../app-shared/unified-view/components/uvIcf/uvIcf.directive.scss';
+  @import '../app-shared/unified-view/components/uvKategori/uvKategori.directive.scss';
+  @import '../app-shared/unified-view/components/uvKodverkValue/uvKodverkValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvList/uvList.directive.scss';
+  @import '../app-shared/unified-view/components/uvNoValue/uvNoValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvSimpleValue/uvSimpleValue.directive.scss';
+  @import '../app-shared/unified-view/components/uvSkapadAv/uvSkapadAv.directive.scss';
+  @import '../app-shared/unified-view/components/uvTable/uvTable.directive.scss';
+  @import '../app-shared/unified-view/components/uvTillaggsfragor/uvTillaggsfragor.directive.scss';
+  @import 'components/animations/fold.scss';
+  @import 'components/animations/keyframe-animations.scss';
+  @import 'components/cookiebanner/wcCookieBanner.directive.scss';
+  @import 'components/date/wcDatePickerField/wcDatePickerField.directive.scss';
+  @import 'components/headers/wcAppHeader/wcAppHeader.directive.scss';
+  @import 'components/headers/wcAppHeader/wcAppHeader.variables.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderHelp/about/aboutDialog.template.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqQuestion.directive.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderHelp/about/vanliga-fragor/wcFaqToggler.directive.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderHelp/wcHeaderHelp.directive.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderUnit/wcChangeActiveUnitDialog.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderUser/wcHeaderUser.directive.scss';
+  @import 'components/headers/wcAppHeader/wcHeaderUser/wcVardPersonSekretess/wcVardPersonSekretess.directive.scss';
+  @import 'components/headers/wcHeader.partial.scss';
+  @import 'components/headers/wcMainMenu/wcMainMenu.directive.scss';
+  @import 'components/receiver/approveReceiversDialog.scss';
+  @import 'components/receiver/wcApproveReceiverRow/wcApproveReceiverRow.directive.scss';
+  @import 'components/receiver/wcApproveReceiversButton/wcApproveReceiversButton.directive.scss';
+  @import 'components/wcAlertMessage/wcAlertMessage.directive.scss';
+  @import 'components/wcBottomFadeout/wcBottomFadeout.directive.scss';
+  @import 'components/wcButton/wcButton.directive.scss';
+  @import 'components/wcCheckboxWrapper/wcCheckboxWrapper.directive.scss';
+  @import 'components/wcDeprecatedIntygstypeMessage/wcDeprecatedIntygstypeMessage.directive.scss';
+  @import 'components/wcDropdown/wcDropdown.directive.scss';
+  @import 'components/wcError/wcError.directive.scss';
+  @import 'components/wcExpandableContent/wcExpandableContent.directive.scss';
+  @import 'components/wcFragaKomplettering/wcFragaKomplettering.directive.scss';
+  @import 'components/wcHelp/wcHelp.directive.scss';
+  @import 'components/wcHelpChevron/wcHelpChevron.directive.scss';
+  @import 'components/wcHelpChevronText/wcHelpChevronText.directive.scss';
+  @import 'components/wcIntegrationEnhetSelector/_wcIntegrationEnhetSelector.directive.scss';
+  @import 'components/wcIntygHasKompletteringMessage/wcIntygHasKompletteringMessage.directive.scss';
+  @import 'components/wcIntygPatientNamnPersonnummer/wcIntygPatientNamnPersonnummer.directive.scss';
+  @import 'components/wcNewPersonIdMessage/wcNewPersonIdMessage.scss';
+  @import 'components/wcPatientAddressMissingFromIntegrationMessage/wcPatientAddressMissingFromIntegrationMessage.scss';
+  @import 'components/wcPatientInfoChangeMessage/wcPatientInfoChangeMessage.scss';
+  @import 'components/wcPatientStatus/wcPatientStatus.directive.scss';
+  @import 'components/wcRadioWrapper/wcRadioWrapper.directive.scss';
+  @import 'components/wcSekretessAvliden/wcSekretessAvliden.directive.scss';
+  @import 'components/wcSekretessAvlidenIkon/wcSekretessAvlidenIkon.directive.scss';
+  @import 'components/wcSpinner/wcSpinner.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/_arende.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/hantera/arendeHantera.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/komplettera/komplettering-modal-dialog.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/new/arendeNew.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/paminnelse/arendePaminnelse.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/arendePanel.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/fraga/arendePanelFraga.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeader.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/header/arendePanelHeaderAmne.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/panel/svar/arendePanelSvar.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/vidarebefordra/arendeVidarebefordra.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeFooter/wcArendeFooter.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeFooter/wcArendeFooter.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeIntygNotSentMessage/wcArendeIntygNotSentMessage.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraIntygConfirmation/wcArendeKompletteraIntygConfirmation.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraMeddelandeConfirmation/wcArendeKompletteraMeddelandeConfirmation.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraUtkastWarning/wcArendeKompletteraUtkastWarning.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoAdministrativaFragorMessage/wcArendeNoAdministrativaFragorMessage.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/wcArendeNoKompletteringarMessage.directive.scss';
+  @import 'components/wcSupportPanelManager/wcArendePanelTab/wcArendePanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcFmbPanelTab/wcFmbPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcHelpTipsPanelTab/wcHelpTipsPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsPanelTab.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRiskDiagram.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelComponentRenderer.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelManager.directive.scss';
+  @import 'components/wcSupportPanelManager/wcSupportPanelScrollableBody/wcSupportPanelScrollableBody.directive.scss';
+  @import 'components/wcTableHead/wcTableHead.directive.scss';
+  @import 'components/wcToggle/wcToggle.directive.scss';
+  @import 'css/_legacy-to-be-removed.scss';
+  @import 'css/_wc-uv-override.scss';
+  @import 'css/card.scss';
+  @import 'css/flex-app-layout.scss';
+  @import 'css/generic-input.scss';
+  @import 'css/layout-util.scss';
+  @import 'css/wc-page-header.scss';
+  @import 'intyg/intygFooter.directive.scss';
+  @import 'intyg/intygHeader/wcIntygButtonBar/wcIntygButtonBar.directive.scss';
+  @import 'intyg/intygHeader/wcIntygHeader/wcIntygHeader.directive.scss';
+  @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatus.directive.scss';
+  @import 'intyg/intygHeader/wcIntygStatus/wcIntygStatusSlot/wcIntygStatusSlot.directive.scss';
+  @import 'intyg/intygMakulera.dialog.scss';
+  @import 'intyg/intygSend.dialog.scss';
+  @import 'intyg/read-only-view/wcIntygReadOnlyView.scss';
+  @import 'intyg/read-only-view/wcKompletteringReadOnlyPanel/wcKompletteringReadOnlyPanelTab.directive.scss';
+  @import 'intyg/unified-view/unified-view.scss';
+  @import 'intyg/unified-view/uvPatientGrund/uvPatientGrund.scss';
+  @import 'intyg/unified-view/uvSignedBy/uvSignedBy.scss';
+  @import 'intyg/unified-view/uvWcFraga/uvWcFraga.directive.scss';
+  @import 'intyg/unified-view/wcInlineKomplettering/wcInlineKomplettering.directive.scss';
+  @import 'utkast/fmb/_fmb.scss';
+  @import 'utkast/fmb/wcHelpWrapper.scss';
+  @import 'utkast/unified-edit/components/ueAlert/ueAlert.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckboxDate/ueCheckboxDate.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.scss';
+  @import 'utkast/unified-edit/components/ueCheckgroupTs/ueCheckgroupTs.directive.scss';
+  @import 'utkast/unified-edit/components/ueDiagnos/ueDiagnos.scss';
+  @import 'utkast/unified-edit/components/ueDiagnosAr/ueDiagnosAr.scss';
+  @import 'utkast/unified-edit/components/ueDiagnosOld/ueDiagnosOld.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakMulti.scss';
+  @import 'utkast/unified-edit/components/ueDodsorsak/ueDodsorsakRow.scss';
+  @import 'utkast/unified-edit/components/ueDropdown/ueDropdown.directive.scss';
+  @import 'utkast/unified-edit/components/ueFormLabel/ueFormLabel.scss';
+  @import 'utkast/unified-edit/components/ueIcf/ueIcf.directive.scss';
+  @import 'utkast/unified-edit/components/ueKorkortBedomning/ueKorkortBedomning.directive.scss';
+  @import 'utkast/unified-edit/components/uePercentField/uePercentField.directive.scss';
+  @import 'utkast/unified-edit/components/uePrognos/uePrognos.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadio/ueRadio.directive.scss';
+  @import 'utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.scss';
+  @import 'utkast/unified-edit/components/ueSjukfranvaro/ueSjukfranvaro.directive.scss';
+  @import 'utkast/unified-edit/components/ueSjukskrivningar/ueSjukskrivningar.directive.scss';
+  @import 'utkast/unified-edit/components/ueSynskarpa/ueSynskarpa.directive.scss';
+  @import 'utkast/unified-edit/components/ueText/ueText.directive.scss';
+  @import 'utkast/unified-edit/components/ueTextarea/ueTextArea.directive.scss';
+  @import 'utkast/unified-edit/components/ueTextfield/ueTextfield.directive.scss';
+  @import 'utkast/unified-edit/components/ueTypeahead/ueTypeAhead.directive.scss';
+  @import 'utkast/unified-edit/components/ueVagueDate/ueVagueDate.scss';
+  @import 'utkast/unified-edit/components/ueYear/ueYear.directive.scss';
+  @import 'utkast/unified-edit/components/ueYearPicker/ueYearPicker.directive.scss';
+  @import 'utkast/unified-edit/containers/ueComponentToggler/ueComponentToggler.directive.scss';
+  @import 'utkast/unified-edit/containers/ueFraga/ueFraga.directive.scss';
+  @import 'utkast/unified-edit/containers/ueGrid/ueGrid.scss';
+  @import 'utkast/unified-edit/containers/ueKategori/ueKategori.directive.scss';
+  @import 'utkast/unified-edit/subcomponents/ueDiagnosKod/ueDiagnosKod.scss';
+  @import 'utkast/unified-edit/subcomponents/ueDiagnosKodSystem/ueDiagnosKodSystem.scss';
+  @import 'utkast/unified-edit/subcomponents/ueLabel/ueLabel.scss';
+  @import 'utkast/unified-edit/subcomponents/ueValidationList/ueValidationList.directive.scss';
+  @import 'utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.scss';
+  @import 'utkast/unified-edit/ueComponent.scss';
+  @import 'utkast/unified-edit/ueDynamicComponent.directive.scss';
+  @import 'utkast/unified-edit/ueRenderComponents.directive.scss';
+  @import 'utkast/utkast-footer/utkastFooter.scss';
+  @import 'utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.scss';
+  @import 'utkast/utkastHeader/wcUtkastButtonBar/wcUtkastButtonBar.directive.scss';
+  @import 'utkast/utkastHeader/wcUtkastHeader/wcUtkastHeader.directive.scss';
+  @import 'utkast/utkastHeader/wcUtkastStatus/wcUtkastStatus.directive.scss';
+  @import 'utkast/wcFieldSigningDoctor/wcFieldSigningDoctor.directive.scss';
+  @import 'utkast/wcIntegrationUtkastDeleted/wcIntegrationUtkastDeleted.directive.scss';
+  @import 'utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.scss';
+  @import 'utkast/wcUtkastPatientAddressUpdater/wcUtkastPatientAddressUpdater.directive.scss';
+  // endinjector
 
-%content-footer-common {
-  color: $wc-color-00;
-  margin: 0 auto;
-  width: 70%;
-  max-width: 700px;
-}
-
-html {
-  @extend %font-common;
-  position: fixed;
-  width: 100%;
-}
-
-body {
-  color: $wc-color-07;
-  @extend %font-common;
-
-  &.start {
-    background-color: $wc-color-10;
+  %font-common {
+    font-size: 14px;
+    font-family: $font-0, $font-1, $font-2, $font-3;
+    text-align: left;
   }
-}
 
-.page-title, .h1 {
-  font-weight: bold;
-  margin: 0;
-  padding-bottom: 10px;
-  font-size: 24px;
-  color: $wc-color-16;
-
-  &.backlink-heading {
-    display: inline-block;
-    margin-right: 20px;
-    line-height: 29px;
+  %content-footer-common {
+    color: $wc-color-00;
+    margin: 0 auto;
+    width: 70%;
+    max-width: 700px;
   }
-}
 
-h2 {
-  font-weight: bold;
-}
+  html {
+    @extend %font-common;
+    position: fixed;
+    width: 100%;
+  }
 
-h3 {
-  font-weight: bold;
-}
+  body {
+    color: $wc-color-07;
+    @extend %font-common;
+    &.start {
+      background-color: $wc-color-10;
+    }
+  }
 
-h4 {
-  font-weight: bold;
-}
+  .page-title, .h1 {
+    font-weight: bold;
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 24px;
+    color: $wc-color-16;
 
-h6 {
-  font-weight: bold;
-}
-
-.h2 {
-  font-weight: bold;
-}
-
-.h3 {
-  font-weight: bold;
-}
-
-.h4 {
-  font-weight: bold;
-}
-
-.h5 {
-  font-weight: bold;
-}
-
-.h6 {
-  font-weight: bold;
-}
-
-body.start {
-  h1 {
-    color: $wc-color-10;
+    &.backlink-heading {
+      display: inline-block;
+      margin-right: 20px;
+      line-height: 29px;
+    }
   }
 
   h2 {
-    color: $wc-color-10;
+    font-weight: bold;
   }
 
   h3 {
-    color: $wc-color-10;
-  }
-}
-
-h2 {
-  margin: 0;
-  padding-bottom: 10px;
-  font-size: 16px;
-  line-height: 20px;
-  padding-top: 30px;
-}
-
-h3 {
-  margin: 0;
-  padding-bottom: 10px;
-}
-
-h4 {
-  margin: 0;
-  padding: 0;
-}
-
-h5 {
-  margin: 0;
-}
-
-h6 {
-  margin: 0;
-  padding-bottom: 10px;
-}
-
-.col-head {
-  font-size: 20px;
-  color: $wc-color-16;
-  padding-bottom: 10px;
-}
-
-.col-head-about {
-  padding-top: 0;
-}
-
-.about-content {
-  max-width: 600px;
-
-  h3 {
-    padding-top: 30px;
+    font-weight: bold;
   }
 
   h4 {
-    font-size: 14px;
-    padding: 10px 0 5px;
+    font-weight: bold;
   }
 
-  ul {
-    list-style-type: disc !important;
+  h6 {
+    font-weight: bold;
   }
 
-  li {
-    padding-bottom: 6px;
-  }
-}
-
-h3 {
-  @extend %wc-typo-03;
-}
-
-p {
-  margin: 0;
-  padding: 0 0 10px;
-}
-
-a {
-  color: inherit;
-  cursor: pointer;
-  text-decoration: underline;
-
-  &.backlink {
-    display: inline-block;
-    line-height: 18px;
-    padding-left: 15px;
-    background: transparent $url-back-link-icon center left no-repeat;
+  .h2 {
+    font-weight: bold;
   }
 
-  &.external-link {
-    color: $wc-color-17;
+  .h3 {
+    font-weight: bold;
+  }
 
-    &:hover + i {
+  .h4 {
+    font-weight: bold;
+  }
+
+  .h5 {
+    font-weight: bold;
+  }
+
+  .h6 {
+    font-weight: bold;
+  }
+
+  body.start {
+    h1 {
+      color: $wc-color-10;
+    }
+    h2 {
+      color: $wc-color-10;
+    }
+    h3 {
+      color: $wc-color-10;
+    }
+  }
+
+  h2 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 16px;
+    line-height: 20px;
+    padding-top: 30px;
+  }
+
+  h3 {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  h4 {
+    margin: 0;
+    padding: 0;
+  }
+
+  h5 {
+    margin: 0;
+  }
+
+  h6 {
+    margin: 0;
+    padding-bottom: 10px;
+  }
+
+  .col-head {
+    font-size: 20px;
+    color: $wc-color-16;
+    padding-bottom: 10px;
+  }
+
+  .col-head-about {
+    padding-top: 0;
+  }
+
+  .about-content {
+    max-width: 600px;
+    h3 {
+      padding-top: 30px;
+    }
+    h4 {
+      font-size: 14px;
+      padding: 10px 0 5px;
+    }
+    ul {
+      list-style-type: disc !important;
+    }
+    li {
+      padding-bottom: 6px;
+    }
+  }
+
+  h3 {
+    @extend %wc-typo-03;
+  }
+
+  p {
+    margin: 0;
+    padding: 0 0 10px;
+  }
+
+  a {
+    color: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &.backlink {
+      display: inline-block;
+      line-height: 18px;
+      padding-left: 15px;
+      background: transparent $url-back-link-icon center left no-repeat;
+    }
+
+    &.external-link {
+      color: $wc-color-17;
+      &:hover + i {
+        color: $wc-color-21;
+      }
+    }
+
+    &:hover {
       color: $wc-color-21;
     }
   }
 
-  &:hover {
-    color: $wc-color-21;
+  .external-link-icon {
+    font-size: inherit;
   }
-}
 
-.external-link-icon {
-  font-size: inherit;
-}
+  .dark {
+    a {
+      color: $wc-color-00;
 
-.dark {
-  a {
-    color: $wc-color-00;
-
-    &:hover {
-      color: $wc-color-03;
+      &:hover {
+        color: $wc-color-03;
+      }
     }
   }
-}
 
-input {
-  max-width: 206px;
-}
-
-textarea {
-  width: 100%;
-}
-
-select {
-  max-width: 220px;
-
-  &#intygType {
-    max-width: none;
-    width: auto;
-    display: inline-block;
-    height: 32px;
-    vertical-align: middle;
+  input {
+    max-width: 206px;
   }
-}
 
-.content-container {
-  background-color: $wc-color-00;
-  box-shadow: 0 -5px 25px $wc-color-08;
-  margin-left: -15px;
-  margin-right: -15px;
-  padding: 50px 100px;
-}
+  textarea {
+    width: 100%;
+  }
 
-.content-footer {
-  padding-top: 20px;
-  @extend %content-footer-common;
+  select {
+    max-width: 220px;
+    &#intygType {
+      max-width: none;
+      width: auto;
+      display: inline-block;
+      height: 32px;
+      vertical-align: middle;
+    }
+  }
 
-  a {
+  .content-container {
+    background-color: $wc-color-00;
+    box-shadow: 0 -5px 25px $wc-color-08;
+    margin-left: -15px;
+    margin-right: -15px;
+    padding: 50px 100px;
+  }
+
+  .content-footer {
+    padding-top: 20px;
     @extend %content-footer-common;
-    text-decoration: underline;
+    a {
+      @extend %content-footer-common;
+      text-decoration: underline;
+    }
   }
-}
 
-.fixed-bottom {
-  position: fixed;
-  bottom: 0;
-  background: $wc-color-00;
-  width: 45%;
-  padding-bottom: 20px;
-}
+  .fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    background: $wc-color-00;
+    width: 45%;
+    padding-bottom: 20px;
+  }
 
 /*  .control-label {
     font-weight: bold;
   }*/
 
-.btn-link-link {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-button.btn-link-minimal {
-  padding: 0;
-}
-
-form {
-  margin: 0;
-}
-
-/* wcDatePickerField.directive.html */
-.wc-datepicker-wrapper {
-  width: 130px;
-}
-
-.input-full {
-  max-width: 100%;
-}
-
-.input-3 {
-  max-width: 3em;
-}
-
-.input-5 {
-  max-width: 5em;
-}
-
-.input-15 {
-  max-width: 15em;
-}
-
-.input-20 {
-  max-width: 20em;
-}
-
-.input-30 {
-  max-width: 30em;
-}
-
-.input-50 {
-  max-width: 50em;
-}
-
-/* Used for datepicker */
-[datepicker] thead tr th {
-  padding-bottom: 10px;
-}
-
-th {
-  cursor: default;
-
-  &.center {
-    text-align: center;
-  }
-}
-
-/* Not used? */
-.scrollable {
-  overflow-x: auto;
-}
-
-/* Commonly used by all intygstyper */
-.no-padding {
-  padding: 0;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-label {
-  cursor: default;
-}
-
-.required {
-  color: $wc-color-11;
-  font-size: 9px;
-  font-weight: normal;
-  font-style: normal;
-  position: absolute;
-  left: -14px;
-}
-
-/*
-* Hide required asterisks on disabled forms
-*/
-.cert-form > fieldset[disabled="disabled"] .required {
-  display: none;
-}
-
-/* Not used? */
-.pointer-labels label {
-  cursor: pointer;
-}
-
-/**UI-bootstrap**/
-
-/* modal */
-/* Not used? */
-.modal-terms-size {
-  width: 80%;
-  height: 80%;
-}
-
-/* Not used? */
-.modal .modal-container-terms {
-  height: 100%;
-  width: 80%;
-}
-
-/* Commonly used */
-
-/* Not used? */
-.dialog-extra-panel {
-  padding-top: 20px;
-}
-
-/* Commonly used in dialogs */
-.alert-dialog-error {
-  margin: 0;
-}
-
-/* alert-dismissable is not used anywhere, but close is. This selector will not be applied */
-.alert-dismissable .close {
-  right: -10px;
-}
-
-/* Not used?? */
-.error-icon {
-  padding-right: 10px;
-}
-
-span.error {
-  color: $wc-color-04;
-}
-
-span.success {
-  color: $wc-color-10;
-}
-
-/** Webcert elements **/
-/* Used in fk7263 intygstyper. Maybe move it there */
-.multiline {
-  white-space: pre-line;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  display: block;
-}
-
-.white-space-normal {
-  white-space: normal;
-}
-
-/* Used in some jsps */
-.bluebox {
-  background-color: $wc-color-16;
-  border-radius: 8px 8px 8px 8px;
-  color: $wc-color-00;
-  padding: 20px;
-  margin-bottom: 10px;
-}
-
-/* Used in index.jsp */
-.graybox {
-  border-radius: 5px 5px 5px 5px;
-  background-color: $wc-color-20;
-  max-width: 800px;
-  padding: 15px 17px;
-}
-
-/* Not used? */
-.certlist {
-  padding-bottom: 20px;
-
-  a:hover {
-    text-decoration: none !important;
-  }
-}
-
-.webcertLogo img {
-  max-height: 29px;
-}
-
-
-.webcert-bottom-padding-section {
-  padding-bottom: 10px;
-}
-
-.webcert-top-padding-section {
-  padding-top: 10px;
-  clear: both;
-}
-
-
-/* Not used? */
-.table-care-unit {
-  display: table;
-}
-
-/* util used everywhere */
-.unbreakable {
-  white-space: nowrap;
-}
-
-/* Used in two places. Check if they clash */
-#query-count {
-  padding: 10px 0 20px;
-}
-
-/* Used in two places. Check if they clash */
-#showing-nr-hits {
-  padding-bottom: 10px;
-}
-
-/* Commonly used */
-.weak-hidden {
-  display: none;
-}
-
-/* Commonly used */
-[wc-enable-tooltip] {
-  position: relative;
-}
-
-/* Only used in fk7263, so move it there */
-.absolute {
-  position: absolute;
-}
-
-/* Not used? */
-body span:hover.qa-unit-selected {
-  color: $wc-color-00;
-}
-
-/* Not used? */
-.jsp .text-expander {
-  line-height: 2.5em;
-}
-
-.deleteDiagnos {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-}
-
-#diagnoseCode {
-  border-radius: 4px !important;
-}
-
-.valjkodverk {
-  margin-right: 15px;
-}
-
-/*
-Modular modifiers
-*/
-
-.relative-anchor {
-  position: relative;
-}
-
-.anchor-right {
-  position: absolute;
-  right: 0;
-}
-
-.empty {
-  color: $wc-color-23;
-}
-
-.padding-top-small {
-  padding-top: 5px;
-}
-
-.padding-top-medium {
-  padding-top: 15px;
-}
-
-.padding-top-large {
-  padding-top: 30px;
-}
-
-.bottom-padding-big {
-  padding-bottom: 30px;
-}
-
-.bottom-padding-medium {
-  padding-bottom: 20px;
-}
-
-.bottom-padding-small {
-  padding-bottom: 5px;
-}
-
-.bottom-padding-tiny {
-  padding-bottom: 2px;
-}
-
-.mark-webcert-red {
-  color: $wc-color-11;
-}
-
-.italic {
-  font-style: italic;
-}
-
-.no-margin {
-  margin: 0;
-}
-
-.continue-btn:disabled {
-  background-color: $wc-color-20;
-  border: 1px solid;
-  border-color: $wc-color-20;
-  border-radius: 4px;
-  color: $wc-color-22;
-}
-
-.continue-btn:disabled:disabled {
-  background-color: $wc-color-20;
-  border: 1px solid;
-  border-color: $wc-color-20;
-  border-radius: 4px;
-  color: $wc-color-22;
-}
-
-.z-low {
-  z-index: 100;
-}
-
-.bankid-signera-modal {
-  .modal {
-    text-align: center;
-  }
-
-  .modal-dialog {
-    width: 98%;
-    height: 92%;
+  .btn-link-link {
+    border: 0;
+    margin: 0;
     padding: 0;
   }
 
-  .modal-content {
-    height: 99%;
-  }
-
-  .modal-body {
-    top: 40%;
-    text-align: center;
-  }
-}
-
-.nias-signera-modal {
-  .modal {
-    text-align: center;
-  }
-
-  .modal-dialog {
-    width: 98%;
-    height: 92%;
+  button.btn-link-minimal {
     padding: 0;
   }
 
-  .modal-content {
-    height: 99%;
+  form {
+    margin: 0;
   }
 
-  .modal-body {
-    top: 40%;
-    text-align: center;
+  /* wcDatePickerField.directive.html */
+  .wc-datepicker-wrapper {
+    width: 130px;
   }
-}
 
-.text-8-lines {
-  max-height: 13em;
-  overflow-y: auto;
-}
+  .input-full {
+    max-width: 100%;
+  }
 
-.date-width {
-  width: 130px;
-}
+  .input-3 {
+    max-width: 3em;
+  }
 
-.align-middle {
-  vertical-align: middle;
-}
+  .input-5 {
+    max-width: 5em;
+  }
 
-.radio-indent {
-  margin-left: 28px;
-}
+  .input-15 {
+    max-width: 15em;
+  }
+
+  .input-20 {
+    max-width: 20em;
+  }
+
+  .input-30 {
+    max-width: 30em;
+  }
+
+  .input-50 {
+    max-width: 50em;
+  }
+
+  /* Used for datepicker */
+  [datepicker] thead tr th {
+    padding-bottom: 10px;
+  }
+
+  th {
+    cursor: default;
+    &.center {
+      text-align: center;
+    }
+  }
+
+  /* Not used? */
+  .scrollable {
+    overflow-x: auto;
+  }
+
+  /* Commonly used by all intygstyper */
+  .no-padding {
+    padding: 0;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  label {
+    cursor: default;
+  }
+
+  .required {
+    color: $wc-color-11;
+    font-size: 9px;
+    font-weight: normal;
+    font-style: normal;
+    position: absolute;
+    left: -14px;
+  }
+
+  /*
+  * Hide required asterisks on disabled forms
+  */
+  .cert-form > fieldset[disabled="disabled"] .required{
+    display: none;
+  }
+
+  /* Not used? */
+  .pointer-labels label {
+    cursor: pointer;
+  }
+
+  /**UI-bootstrap**/
+
+  /* modal */
+  /* Not used? */
+  .modal-terms-size {
+    width: 80%;
+    height: 80%;
+  }
+
+  /* Not used? */
+  .modal .modal-container-terms {
+    height: 100%;
+    width: 80%;
+  }
+
+  /* Commonly used */
+
+  /* Not used? */
+  .dialog-extra-panel {
+    padding-top: 20px;
+  }
+
+  /* Commonly used in dialogs */
+  .alert-dialog-error {
+    margin: 0;
+  }
+
+  /* alert-dismissable is not used anywhere, but close is. This selector will not be applied */
+  .alert-dismissable .close {
+    right: -10px;
+  }
+
+  /* Not used?? */
+  .error-icon {
+    padding-right: 10px;
+  }
+
+  span.error {
+    color: $wc-color-04;
+  }
+
+  span.success {
+    color: $wc-color-10;
+  }
+
+  /** Webcert elements **/
+  /* Used in fk7263 intygstyper. Maybe move it there */
+  .multiline {
+    white-space: pre-line;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: block;
+  }
+
+  .white-space-normal {
+    white-space: normal;
+  }
+
+  /* Used in some jsps */
+  .bluebox {
+    background-color: $wc-color-16;
+    border-radius: 8px 8px 8px 8px;
+    color: $wc-color-00;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Used in index.jsp */
+  .graybox {
+    border-radius: 5px 5px 5px 5px;
+    background-color: $wc-color-20;
+    max-width: 800px;
+    padding: 15px 17px;
+  }
+
+  /* Not used? */
+  .certlist {
+    padding-bottom: 20px;
+    a:hover {
+      text-decoration: none !important;
+    }
+  }
+
+  .webcertLogo img {
+    max-height: 29px;
+  }
+
+
+
+  .webcert-bottom-padding-section {
+    padding-bottom: 10px;
+  }
+
+  .webcert-top-padding-section {
+    padding-top: 10px;
+    clear: both;
+  }
+
+
+  /* Not used? */
+  .table-care-unit {
+    display: table;
+  }
+
+  /* util used everywhere */
+  .unbreakable {
+    white-space: nowrap;
+  }
+
+  /* Used in two places. Check if they clash */
+  #query-count {
+    padding: 10px 0 20px;
+  }
+
+  /* Used in two places. Check if they clash */
+  #showing-nr-hits {
+    padding-bottom: 10px;
+  }
+
+  /* Commonly used */
+  .weak-hidden {
+    display: none;
+  }
+
+  /* Commonly used */
+  [wc-enable-tooltip] {
+    position: relative;
+  }
+
+  /* Only used in fk7263, so move it there */
+  .absolute {
+    position: absolute;
+  }
+
+  /* Not used? */
+  body span:hover.qa-unit-selected {
+    color: $wc-color-00;
+  }
+
+  /* Not used? */
+  .jsp .text-expander {
+    line-height: 2.5em;
+  }
+
+  .deleteDiagnos {
+    cursor:pointer;
+    background-color: transparent;
+    border: none;
+  }
+  #diagnoseCode {
+    border-radius: 4px!important;
+  }
+
+  .valjkodverk {
+    margin-right: 15px;
+  }
+
+  /*
+  Modular modifiers
+  */
+
+  .relative-anchor {
+    position:relative;
+  }
+
+  .anchor-right {
+    position: absolute;
+    right: 0;
+  }
+
+  .empty {
+    color: $wc-color-23;
+  }
+
+  .padding-top-small {
+    padding-top: 5px;
+  }
+
+  .padding-top-medium {
+    padding-top: 15px;
+  }
+
+  .padding-top-large {
+    padding-top: 30px;
+  }
+
+  .bottom-padding-big {
+    padding-bottom: 30px;
+  }
+
+  .bottom-padding-medium {
+    padding-bottom: 20px;
+  }
+
+  .bottom-padding-small {
+    padding-bottom: 5px;
+  }
+
+  .bottom-padding-tiny {
+    padding-bottom: 2px;
+  }
+
+  .mark-webcert-red {
+    color: $wc-color-11;
+  }
+
+  .italic {
+    font-style: italic;
+  }
+
+  .no-margin {
+    margin: 0;
+  }
+
+  .continue-btn:disabled{
+    background-color:$wc-color-20;
+    border: 1px solid;
+    border-color: $wc-color-20;
+    border-radius: 4px;
+    color: $wc-color-22;
+  }
+
+  .continue-btn:disabled:disabled{
+    background-color:$wc-color-20;
+    border: 1px solid;
+    border-color: $wc-color-20;
+    border-radius: 4px;
+    color: $wc-color-22;
+  }
+
+  .z-low {
+    z-index: 100;
+  }
+
+  .bankid-signera-modal {
+        .modal {
+          text-align: center;
+        }
+
+        .modal-dialog {
+          width: 98%;
+          height: 92%;
+          padding: 0;
+        }
+
+        .modal-content {
+          height: 99%;
+        }
+
+        .modal-body {
+          top:40%;
+          text-align:center;
+        }
+  }
+
+  .nias-signera-modal {
+    .modal {
+      text-align: center;
+    }
+
+    .modal-dialog {
+      width: 98%;
+      height: 92%;
+      padding: 0;
+    }
+
+    .modal-content {
+      height: 99%;
+    }
+
+    .modal-body {
+      top:40%;
+      text-align:center;
+    }
+  }
+
+  .text-8-lines {
+    max-height: 13em;
+    overflow-y: auto;
+  }
+
+  .date-width {
+    width: 130px;
+  }
+
+  .align-middle {
+    vertical-align: middle;
+  }
+
+  .radio-indent{
+    margin-left: 28px;
+  }

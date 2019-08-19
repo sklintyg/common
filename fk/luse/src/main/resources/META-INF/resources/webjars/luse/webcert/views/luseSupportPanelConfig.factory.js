@@ -22,51 +22,52 @@
  *
  * Created by marced on 2018-01-16.
  */
-angular.module('luse').factory('luse.supportPanelConfigFactory', ['common.featureService', function(featureService) {
-  'use strict';
+angular.module('luse').factory('luse.supportPanelConfigFactory', [ 'common.featureService', function(featureService) {
+    'use strict';
 
-  function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
+    function _getConfig(id, intygTypeVersion, isSigned, isKompletteringsUtkast) {
 
-    var config = {
-      tabs: [],
-      intygContext: {
-        type: 'luse',
-        aboutMsgKey: 'FRM_2.RBK',
-        id: id,
-        intygTypeVersion: intygTypeVersion,
-        isSigned: isSigned
-      }
-    };
+        var config = {
+            tabs: [],
+            intygContext: {
+                type: 'luse',
+                aboutMsgKey: 'FRM_2.RBK',
+                id: id,
+                intygTypeVersion: intygTypeVersion,
+                isSigned: isSigned
+            }
+        };
 
-    if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) &&
-        (isSigned || isKompletteringsUtkast)) {
-      config.tabs.push({
-        id: 'wc-arende-panel-tab',
-        title: 'common.supportpanel.arende.title',
-        tooltip: 'common.supportpanel.arende.tooltip',
-        config: {
-          intygContext: config.intygContext
-        },
-        active: isSigned || isKompletteringsUtkast
-      });
+
+        if (featureService.isFeatureActive(featureService.features.HANTERA_FRAGOR, config.intygContext.type) && (isSigned || isKompletteringsUtkast)) {
+            config.tabs.push({
+                id: 'wc-arende-panel-tab',
+                title: 'common.supportpanel.arende.title',
+                tooltip: 'common.supportpanel.arende.tooltip',
+                config: {
+                    intygContext: config.intygContext
+                },
+                active: isSigned || isKompletteringsUtkast
+            });
+        }
+
+        //Always has this, but only active by default utkast and not kompletteringsutkast
+        config.tabs.push({
+            id: 'wc-help-tips-panel-tab',
+            title: 'common.supportpanel.help.title',
+            tooltip: 'common.supportpanel.help.tooltip',
+            config: {
+                intygContext: config.intygContext
+            },
+            active: !(isSigned || isKompletteringsUtkast)
+        });
+
+
+        return angular.copy(config);
     }
 
-    //Always has this, but only active by default utkast and not kompletteringsutkast
-    config.tabs.push({
-      id: 'wc-help-tips-panel-tab',
-      title: 'common.supportpanel.help.title',
-      tooltip: 'common.supportpanel.help.tooltip',
-      config: {
-        intygContext: config.intygContext
-      },
-      active: !(isSigned || isKompletteringsUtkast)
-    });
+    return {
+        getConfig: _getConfig
+    };
 
-    return angular.copy(config);
-  }
-
-  return {
-    getConfig: _getConfig
-  };
-
-}]);
+} ]);

@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import se.inera.intyg.common.support.model.Status;
 
 public class CertificateMetaData {

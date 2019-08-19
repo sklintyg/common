@@ -41,32 +41,25 @@
   "medicinskaForhallanden": "mycket besvärliga saker",
   "senasteUndersokningsdatum": "2019-01-08",
   "intygetAvserBehorigheter": {
-    "typer": [
-      {
-        "type": "ALLA",
-        "selected": false
-      },
-      {
-        "type": "A_B_TRAKTOR",
-        "selected": true
-      },
-      {
-        "type": "C_E",
-        "selected": true
-      },
-      {
-        "type": "D",
-        "selected": false
-      },
-      {
-        "type": "TAXI",
-        "selected": false
-      },
-      {
-        "type": "KANINTETASTALLNING",
-        "selected": false
-      }
-    ]
+    "typer": [{
+      "type": "ALLA",
+      "selected": false
+    }, {
+      "type": "A_B_TRAKTOR",
+      "selected": true
+    }, {
+      "type": "C_E",
+      "selected": true
+    }, {
+      "type": "D",
+      "selected": false
+    }, {
+      "type": "TAXI",
+      "selected": false
+    }, {
+      "type": "KANINTETASTALLNING",
+      "selected": false
+    }]
   },
   "informationOmTsBeslutOnskas": true
 }

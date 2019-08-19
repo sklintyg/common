@@ -1,14 +1,18 @@
 <div class="ue-del-fraga">
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
-    <div class="input-full form-{{config.formType}}"
-         ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
+    <div class="input-full form-{{config.formType}}" ng-class="::{'indent' : config.indent, 'bold' : config.bold, 'row': config.labelColSize}">
       <div ng-class="::{'col-md-{{config.labelColSize}}': config.labelColSize}">
         <ue-label config="::config.label" model="::model"></ue-label>
       </div>
       <div class="input-wrapper" ng-class="::{'col-md-{{12 - config.labelColSize}}': config.labelColSize}">
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
-               ng-model="modelGetterSetter" ng-model-options="{ getterSetter: true }" ng-disabled="::config.disabled"
-               maxlength="4" ng-blur="updateValidation()" wc-number="true" placeholder="åååå">
+               ng-model="modelGetterSetter"
+               ng-model-options="{ getterSetter: true }"
+               ng-disabled="::config.disabled"
+               maxlength="4"
+               ng-blur="updateValidation()"
+               wc-number="true"
+               placeholder="åååå">
       </div>
     </div>
   </ue-validation-wrapper>

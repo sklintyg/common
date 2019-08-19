@@ -13,9 +13,9 @@
             <div class="col-xs-8"><h4>Huvudmottagare</h4></div>
             <div class="col-xs-4 left-pad"><h4>Godkänd</h4></div>
           </div>
-          <div ng-repeat="item in vm.model | filter: { receiverType: 'HUVUDMOTTAGARE' }:true">
-            <wc-approve-receiver-row item="item" ng-class-odd="'odd'"></wc-approve-receiver-row>
-          </div>
+           <div ng-repeat="item in vm.model | filter: { receiverType: 'HUVUDMOTTAGARE' }:true">
+             <wc-approve-receiver-row item="item" ng-class-odd="'odd'"></wc-approve-receiver-row>
+           </div>
 
           <div class="row ovriga">
             <div class="col-xs-8"><h4>Övriga mottagare</h4></div>
@@ -27,19 +27,27 @@
         </wc-spinner>
         <br>
         <wc-alert-message ng-if="vm.errorCode" alert-severity="danger" class="alert-dialog-error"
-                          alert-message-id="{{vm.errorCode}}"></wc-alert-message>
+                          alert-message-id="{{vm.errorCode}}">
+        </wc-alert-message>
       </div>
     </fieldset>
 
     <div class="modal-footer">
       <div class="button-wrapper">
-        <wc-button btn-id="save-approval-settings-btn" btn-class="btn-primary" btn-disabled="!allAnswered()"
-                   loading="vm.loading || vm.saving" btn-click="saveChanges()">
+        <wc-button
+            btn-id="save-approval-settings-btn"
+            btn-class="btn-primary"
+            btn-disabled="!allAnswered()"
+            loading="vm.loading || vm.saving"
+            btn-click="saveChanges()">
           <span dynamic-label key="common.receivers.save.btn"></span>
         </wc-button>
 
-        <wc-button ng-if="vm.dlgConfig.canCancel" btn-id="cancel-approval-settings-btn" btn-class="btn-default"
-                   loading="vm.loading || vm.saving" btn-click="$dismiss()">
+        <wc-button ng-if="vm.dlgConfig.canCancel"
+                   btn-id="cancel-approval-settings-btn"
+                   btn-class="btn-default"
+                   loading="vm.loading || vm.saving"
+                   btn-click="$dismiss()">
           <span dynamic-label key="common.cancel"></span>
         </wc-button>
       </div>

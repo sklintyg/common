@@ -17,39 +17,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('miViewIntygErrorMessage',
-    ['$state', 'common.IntygListService', 'common.dialogService', function($state, IntygListService, dialogService) {
-      'use strict';
+        [ '$state', 'common.IntygListService', 'common.dialogService', function($state, IntygListService, dialogService) {
+            'use strict';
 
-      return {
-        restrict: 'E',
-        scope: {
-          msgKey: '@',
-          certId: '='
-        },
-        templateUrl: '/web/webjars/common/minaintyg/components/miViewIntygErrorMessage/miViewIntygErrorMessage.directive.html',
-        controller: function($scope) {
+            return {
+                restrict: 'E',
+                scope: {
+                    msgKey: '@',
+                    certId: '='
+                },
+                templateUrl: '/web/webjars/common/minaintyg/components/miViewIntygErrorMessage/miViewIntygErrorMessage.directive.html',
+                controller: function($scope) {
 
-          if ($scope.msgKey === 'error.certarchived') {
-            $scope.showRestoreLink = true;
-          }
+                    if ($scope.msgKey === 'error.certarchived') {
+                        $scope.showRestoreLink = true;
+                    }
 
-          $scope.restoreAndReload = function() {
-            IntygListService.restoreCertificate({id: $scope.certId}, function(fromServer) {
-              if (fromServer !== null) {
-                $state.reload();
-              } else {
-                // show error view
-                dialogService.showDialog($scope, {
-                  dialogId: 'restore-error-dialog',
-                  titleId: 'error.generictechproblem.title',
-                  bodyTextId: 'error.modal.couldnotrestorecert',
-                  button1text: 'common.close',
-                  templateUrl: '/web/webjars/common/minaintyg/components/miViewIntygErrorMessage/error-dialog.html',
-                  autoClose: true
-                });
-              }
-            });
-          };
-        }
-      };
-    }]);
+                    $scope.restoreAndReload = function() {
+                        IntygListService.restoreCertificate({id: $scope.certId}, function(fromServer) {
+                            if (fromServer !== null) {
+                                $state.reload();
+                            } else {
+                                // show error view
+                                dialogService.showDialog($scope, {
+                                    dialogId: 'restore-error-dialog',
+                                    titleId: 'error.generictechproblem.title',
+                                    bodyTextId: 'error.modal.couldnotrestorecert',
+                                    button1text: 'common.close',
+                                    templateUrl: '/web/webjars/common/minaintyg/components/miViewIntygErrorMessage/error-dialog.html',
+                                    autoClose: true
+                                });
+                            }
+                        });
+                    };
+                }
+            };
+        } ]);

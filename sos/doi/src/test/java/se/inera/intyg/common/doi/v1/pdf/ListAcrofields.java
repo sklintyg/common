@@ -18,13 +18,15 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
-import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
+import java.io.File;
+import java.util.Set;
+
+import org.springframework.core.io.ClassPathResource;
 
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
-import java.io.File;
-import java.util.Set;
-import org.springframework.core.io.ClassPathResource;
+
+import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
 
 /**
  * Created by marced on 2017-10-11.

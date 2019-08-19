@@ -18,8 +18,6 @@
  */
 package se.inera.intyg.common.support.modules.converter;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.time.Year;
@@ -68,6 +66,9 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Svar.Delsvar;
 
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
  * Provides utility methods for converting domain objects from transport format to internal Java format.
  */
@@ -82,7 +83,8 @@ public final class TransportConverterUtil {
     /**
      * Checks if delsvar can be parsed as string content.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return if delsvar can be parsed as string content
      */
     public static boolean isStringContent(Delsvar delsvar) {
@@ -92,14 +94,15 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a non-empty String from a Delsvar.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return the non-empty String content of the Delsvar
      */
     public static String getStringContent(Delsvar delsvar) {
         return delsvar.getContent().stream()
-            .map(content -> ((String) content).trim())
-            .filter(content -> !content.isEmpty())
-            .reduce("", String::concat);
+                .map(content -> ((String) content).trim())
+                .filter(content -> !content.isEmpty())
+                .reduce("", String::concat);
     }
 
     public static Boolean getBooleanContent(Delsvar delsvar) {
@@ -109,9 +112,11 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a CVType from a Delsvar.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return the CVType converted from the delsvar
-     * @throws ConverterException if the conversion was not successful
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static CVType getCVSvarContent(Delsvar delsvar) throws ConverterException {
         return parseDelsvarType(delsvar, cvNode -> {
@@ -151,9 +156,11 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a PQType from a Delsvar.
      *
-     * @param delsvar the Delsvar to parse
+     * @param delsvar
+     *            the Delsvar to parse
      * @return the PQType converted from the delsvar
-     * @throws ConverterException if the conversion was not successful
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static PQType getPQSvarContent(Delsvar delsvar) throws ConverterException {
         return parseDelsvarType(delsvar, pqNode -> {
@@ -174,15 +181,17 @@ public final class TransportConverterUtil {
             if (Objects.isNull(pqType.getUnit()) || Objects.isNull(pqType.getValue())) {
                 return null;
             }
-            return pqType;
+            return  pqType;
         });
     }
 
     /**
      * Attempt to parse a {@link DatePeriodType} from a {@link Delsvar}.
      *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
+     * @param delsvar
+     *            the delsvar to be converted
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static DatePeriodType getDatePeriodTypeContent(Delsvar delsvar) throws ConverterException {
         return parseDelsvarType(delsvar, dpNode -> {
@@ -210,8 +219,10 @@ public final class TransportConverterUtil {
     /**
      * Attempt to parse a {@link PartialDateType} from a {@link Delsvar}.
      *
-     * @param delsvar the delsvar to be converted
-     * @throws ConverterException if the conversion was not successful
+     * @param delsvar
+     *            the delsvar to be converted
+     * @throws ConverterException
+     *             if the conversion was not successful
      */
     public static PartialDateType getPartialDateContent(Delsvar delsvar) throws ConverterException {
         return parseDelsvarType(delsvar, pdNode -> {
@@ -251,9 +262,11 @@ public final class TransportConverterUtil {
     /**
      * Parses the {@link GrundData} from the source Intyg.
      *
-     * @param source the certificate to be converted
-     * @param extendedPatientInfo boolean flag to determine if all patient info should be included (should never be used for certificates
-     * on patients with sekretessmarkering)
+     * @param source
+     *            the certificate to be converted
+     * @param extendedPatientInfo
+     *            boolean flag to determine if all patient info should be included (should never be used for certificates
+     *            on patients with sekretessmarkering)
      * @return the converted GrundData
      */
     public static GrundData getGrundData(Intyg source, boolean extendedPatientInfo) {
@@ -270,8 +283,10 @@ public final class TransportConverterUtil {
     /**
      * Creates the metadata for the certificate.
      *
-     * @param source the source certificate
-     * @param additionalInfo the info to be displayed in Mina intyg
+     * @param source
+     *            the source certificate
+     * @param additionalInfo
+     *            the info to be displayed in Mina intyg
      * @return the meta data
      */
     public static CertificateMetaData getMetaData(Intyg source, String additionalInfo) {
@@ -302,7 +317,7 @@ public final class TransportConverterUtil {
             }
         }
         throw new ConverterException("Unexpected error while converting data type, mandatory data is missing");
-    }
+   }
 
     /**
      * Visit all child elements of parent node.
@@ -320,8 +335,8 @@ public final class TransportConverterUtil {
 
     private static boolean isAvailable(List<Status> statuses) {
         final Optional<Status> latestStatus = statuses.stream()
-            .filter(s -> CertificateState.RESTORED.equals(s.getType()) || CertificateState.DELETED.equals(s.getType()))
-            .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed())).findFirst();
+                .filter(s -> CertificateState.RESTORED.equals(s.getType()) || CertificateState.DELETED.equals(s.getType()))
+                .sorted(Comparator.nullsFirst(Comparator.comparing(Status::getTimestamp).reversed())).findFirst();
 
         // If neither DELETED or RESTORED at all, it's considered available
         if (!latestStatus.isPresent()) {
@@ -335,7 +350,8 @@ public final class TransportConverterUtil {
     /**
      * Converts a list of statuses of transport format to internal representation.
      *
-     * @param certificateStatuses the statuses to be converted
+     * @param certificateStatuses
+     *            the statuses to be converted
      * @return the converted statuses
      */
     public static List<Status> getStatusList(List<IntygsStatus> certificateStatuses) {
@@ -349,20 +365,22 @@ public final class TransportConverterUtil {
     /**
      * Converts a single status on transport format.
      *
-     * @param certificateStatus the status to be converted
+     * @param certificateStatus
+     *            the status to be converted
      * @return the converted status
      */
     public static Status getStatus(IntygsStatus certificateStatus) {
         return new Status(
-            StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
-            certificateStatus.getPart().getCode(),
-            certificateStatus.getTidpunkt());
+                StatusKod.valueOf(certificateStatus.getStatus().getCode()).toCertificateState(),
+                certificateStatus.getPart().getCode(),
+                certificateStatus.getTidpunkt());
     }
 
     /**
      * Returns an internal representation of the creator of the certificate.
      *
-     * @param source the creator in transport format
+     * @param source
+     *            the creator in transport format
      * @return the converted creator
      */
     public static HoSPersonal getSkapadAv(HosPersonal source) {
@@ -385,7 +403,8 @@ public final class TransportConverterUtil {
     /**
      * Converts an Enhet to internal representation.
      *
-     * @param source the transport representation
+     * @param source
+     *            the transport representation
      * @return the converted Vardenhet
      */
     public static Vardenhet getVardenhet(Enhet source) {
@@ -405,7 +424,8 @@ public final class TransportConverterUtil {
     /**
      * Converts a Vardgivare to internal representation.
      *
-     * @param source the transport representation
+     * @param source
+     *            the transport representation
      * @return the converted Vardgivare
      */
     public static Vardgivare getVardgivare(se.riv.clinicalprocess.healthcond.certificate.v3.Vardgivare source) {
@@ -418,9 +438,11 @@ public final class TransportConverterUtil {
     /**
      * Converts the transport representation of the patient to internal.
      *
-     * @param source the transport representation
-     * @param extendedPatientInfo if sensitive patient data should be included
-     * (should never be used for certificates which can be used for patients with sekretessmarkering)
+     * @param source
+     *            the transport representation
+     * @param extendedPatientInfo
+     *            if sensitive patient data should be included
+     *            (should never be used for certificates which can be used for patients with sekretessmarkering)
      * @return the converted patient
      */
     public static Patient getPatient(se.riv.clinicalprocess.healthcond.certificate.v3.Patient source, boolean extendedPatientInfo) {

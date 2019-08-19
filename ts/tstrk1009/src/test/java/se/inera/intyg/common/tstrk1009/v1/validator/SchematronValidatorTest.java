@@ -18,19 +18,21 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.validator;
 
-import static com.google.common.io.Resources.getResource;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.stream.Collectors;
+
+import org.junit.Test;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import java.util.stream.Collectors;
-import org.junit.Test;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
+
+import static com.google.common.io.Resources.getResource;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
 

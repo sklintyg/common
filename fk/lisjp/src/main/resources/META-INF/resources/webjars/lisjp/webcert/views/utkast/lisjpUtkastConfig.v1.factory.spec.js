@@ -17,153 +17,95 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 describe('lisjpFormFactory', function() {
-  'use strict';
+    'use strict';
 
-  var element;
-  var $scope;
-  var $httpBackend;
+    var element;
+    var $scope;
+    var $httpBackend;
 
-  beforeEach(angular.mock.module('common', function($provide) {
-    $provide.value('common.anchorScrollService', {
-      scrollTo: function() {
-      }
-    });
-    $provide.value('common.IcfProxy', {
-      getIcf: function() {
-      }
-    });
-  }));
-  beforeEach(angular.mock.module('lisjp'));
-  beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'lisjp.UtkastConfigFactory.v1', 'lisjp.Domain.IntygModel.v1',
-    function($compile, $rootScope, _$httpBackend_, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {
+    beforeEach(angular.mock.module('common', function($provide) {
+        $provide.value('common.anchorScrollService', {scrollTo: function() {}});
+        $provide.value('common.IcfProxy', {getIcf: function() {}});
+    }));
+    beforeEach(angular.mock.module('lisjp'));
+    beforeEach(inject(['$compile', '$rootScope', '$httpBackend', 'lisjp.UtkastConfigFactory.v1', 'lisjp.Domain.IntygModel.v1',
+        function($compile, $rootScope, _$httpBackend_, _lisjpUtkastConfigFactory_, _lisjpIntygModel_) {
 
-      $httpBackend = _$httpBackend_;
+        $httpBackend = _$httpBackend_;
 
-      $scope = $rootScope.$new();
-      $scope.model = _lisjpIntygModel_._members.build().content;
-      var viewStateMock = {common: {intyg: {isLocked: false}}};
-      $scope.ueConfig = _lisjpUtkastConfigFactory_.getConfig(viewStateMock);
-      element = angular.element(
-          '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
-      $compile(element)($scope);
-      $scope.$digest();
+        $scope = $rootScope.$new();
+        $scope.model = _lisjpIntygModel_._members.build().content;
+        var viewStateMock = {common: {intyg: {isLocked: false}}};
+        $scope.ueConfig = _lisjpUtkastConfigFactory_.getConfig(viewStateMock);
+        element = angular.element(
+            '<form name="certForm"><ue-render-components form="::certForm" config="::ueConfig" model="::model"></ue-render-components></form>');
+        $compile(element)($scope);
+        $scope.$digest();
     }]));
 
-  var grundData = {
-    'skapadAv': {
-      'personId': 'TSTNMT2321000156-1079', 'fullstandigtNamn': 'Arnold Johansson', 'vardenhet': {
-        'enhetsid': 'TSTNMT2321000156-1077',
-        'enhetsnamn': 'NMT vg3 ve1',
-        'postadress': 'NMT gata 3',
-        'postnummer': '12345',
-        'postort': 'Testhult',
-        'telefonnummer': '0101112131416',
-        'epost': 'enhet3@webcert.invalid.se',
-        'vardgivare': {'vardgivarid': 'TSTNMT2321000156-102Q', 'vardgivarnamn': 'NMT vg3'},
-        'arbetsplatsKod': '1234567890'
-      }
-    },
-    'patient': {
-      'personId': '19121212-1212', 'fullstandigtNamn': 'Tolvan Tolvansson', 'fornamn': 'Tolvan', 'efternamn': 'Tolvansson',
-      'postadress': 'Svensson, Storgatan 1, PL 1234', 'postnummer': '12345', 'postort': 'Småmåla', 'samordningsNummer': false
-    }, 'relation': {}
-  };
+    var grundData = {
+        'skapadAv':{'personId':'TSTNMT2321000156-1079','fullstandigtNamn':'Arnold Johansson','vardenhet':{'enhetsid':'TSTNMT2321000156-1077',
+            'enhetsnamn':'NMT vg3 ve1','postadress':'NMT gata 3','postnummer':'12345','postort':'Testhult','telefonnummer':'0101112131416',
+            'epost':'enhet3@webcert.invalid.se','vardgivare':{'vardgivarid':'TSTNMT2321000156-102Q','vardgivarnamn':'NMT vg3'},'arbetsplatsKod':'1234567890'}},
+        'patient':{'personId':'19121212-1212','fullstandigtNamn':'Tolvan Tolvansson','fornamn':'Tolvan','efternamn':'Tolvansson',
+            'postadress':'Svensson, Storgatan 1, PL 1234','postnummer':'12345','postort':'Småmåla','samordningsNummer':false},'relation':{}};
 
-  var utkastData = {
-    'grundData': grundData,
-    'avstangningSmittskydd': false,
-    'undersokningAvPatienten': '2016-08-01',
-    'telefonkontaktMedPatienten': '2016-08-02',
-    'journaluppgifter': '2016-08-03',
-    'annatGrundForMU': '2016-08-04',
-    'annatGrundForMUBeskrivning': 'Telepatisk kommunikation',
-    'sysselsattning': [{'typ': 'NUVARANDE_ARBETE'}],
-    'nuvarandeArbete': 'Siare',
-    'diagnoser': [{
-      'diagnosKod': 'D50', 'diagnosKodSystem': 'ICD_10_SE',
-      'diagnosBeskrivning': 'Järnbristanemi'
-    }, {'diagnosKod': 'G10', 'diagnosKodSystem': 'ICD_10_SE', 'diagnosBeskrivning': 'Huntingtons sjukdom'},
-      {
-        'diagnosKod': 'T241',
-        'diagnosKodSystem': 'ICD_10_SE',
-        'diagnosBeskrivning': 'Brännskada av första graden på höft och nedre extremitet utom fotled och fot'
-      }],
-    'funktionsnedsattning': 'Inga fynd gjordes',
-    'aktivitetsbegransning': 'Har svårt att sitta och ligga.. Och stå. Får huka sig.',
-    'pagaendeBehandling': 'Meditering, självmedicinering',
-    'planeradBehandling': 'Inga planerade åtgärder. Patienten har ingen almanacka.',
-    'sjukskrivningar': [{'sjukskrivningsgrad': 'HELT_NEDSATT', 'period': {'from': '2016-08-08', 'tom': '2016-08-22'}}, {
-      'sjukskrivningsgrad': 'TRE_FJARDEDEL',
-      'period': {'from': '2016-08-23', 'tom': '2016-08-24'}
-    }, {'sjukskrivningsgrad': 'HALFTEN', 'period': {'from': '2016-08-25', 'tom': '2016-08-27'}},
-      {'sjukskrivningsgrad': 'EN_FJARDEDEL', 'period': {'from': '2016-08-29', 'tom': '2016-11-26'}}],
-    'forsakringsmedicinsktBeslutsstod': 'Har följt beslutstödet till punkt och pricka.',
-    'arbetstidsforlaggning': true,
-    'arbetstidsforlaggningMotivering': 'Har bra och dåliga dagar. Bättre att jobba 22h-24h de bra dagarna så patienten kan vila sedan.',
-    'arbetsresor': true,
-    'prognos': {'typ': 'ATER_X_ANTAL_DGR', 'dagarTillArbete': 'SEXTIO_DGR'},
-    'arbetslivsinriktadeAtgarder': [{'typ': 'ARBETSTRANING'},
-      {'typ': 'ARBETSANPASSNING'}, {'typ': 'SOKA_NYTT_ARBETE'}, {'typ': 'BESOK_ARBETSPLATS'}, {'typ': 'ERGONOMISK'}, {'typ': 'HJALPMEDEL'},
-      {'typ': 'KONFLIKTHANTERING'},
-      {'typ': 'KONTAKT_FHV'}, {'typ': 'OMFORDELNING'}, {'typ': 'OVRIGA_ATGARDER'}],
-    'arbetslivsinriktadeAtgarderBeskrivning': 'Därför.',
-    'ovrigt': 'Inga övriga upplysningar.',
-    'kontaktMedFk': true,
-    'anledningTillKontakt': 'Alltid roligt att prata med FK.',
-    'tillaggsfragor': []
-  };
+    var utkastData = {
+        'grundData':grundData,'avstangningSmittskydd':false,'undersokningAvPatienten':'2016-08-01','telefonkontaktMedPatienten':'2016-08-02',
+        'journaluppgifter':'2016-08-03','annatGrundForMU':'2016-08-04','annatGrundForMUBeskrivning':'Telepatisk kommunikation',
+        'sysselsattning':[{'typ':'NUVARANDE_ARBETE'}],'nuvarandeArbete':'Siare','diagnoser':[{'diagnosKod':'D50','diagnosKodSystem':'ICD_10_SE',
+            'diagnosBeskrivning':'Järnbristanemi'},{'diagnosKod':'G10','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Huntingtons sjukdom'},
+            {'diagnosKod':'T241','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Brännskada av första graden på höft och nedre extremitet utom fotled och fot'}],
+        'funktionsnedsattning':'Inga fynd gjordes','aktivitetsbegransning':'Har svårt att sitta och ligga.. Och stå. Får huka sig.',
+        'pagaendeBehandling':'Meditering, självmedicinering','planeradBehandling':'Inga planerade åtgärder. Patienten har ingen almanacka.',
+        'sjukskrivningar':[{'sjukskrivningsgrad':'HELT_NEDSATT','period':{'from':'2016-08-08','tom':'2016-08-22'}},{'sjukskrivningsgrad':'TRE_FJARDEDEL',
+            'period':{'from':'2016-08-23','tom':'2016-08-24'}},{'sjukskrivningsgrad':'HALFTEN','period':{'from':'2016-08-25','tom':'2016-08-27'}},
+            {'sjukskrivningsgrad':'EN_FJARDEDEL','period':{'from':'2016-08-29','tom':'2016-11-26'}}],
+        'forsakringsmedicinsktBeslutsstod':'Har följt beslutstödet till punkt och pricka.','arbetstidsforlaggning':true,
+        'arbetstidsforlaggningMotivering':'Har bra och dåliga dagar. Bättre att jobba 22h-24h de bra dagarna så patienten kan vila sedan.',
+        'arbetsresor':true,'prognos':{'typ':'ATER_X_ANTAL_DGR','dagarTillArbete':'SEXTIO_DGR'},'arbetslivsinriktadeAtgarder':[{'typ':'ARBETSTRANING'},
+            {'typ':'ARBETSANPASSNING'},{'typ':'SOKA_NYTT_ARBETE'},{'typ':'BESOK_ARBETSPLATS'},{'typ':'ERGONOMISK'},{'typ':'HJALPMEDEL'},{'typ':'KONFLIKTHANTERING'},
+            {'typ':'KONTAKT_FHV'},{'typ':'OMFORDELNING'},{'typ':'OVRIGA_ATGARDER'}],'arbetslivsinriktadeAtgarderBeskrivning':'Därför.',
+        'ovrigt':'Inga övriga upplysningar.','kontaktMedFk':true,'anledningTillKontakt':'Alltid roligt att prata med FK.','tillaggsfragor':[]};
 
-  var utkastDataSmittskydd = {
-    'grundData': grundData, 'avstangningSmittskydd': true, 'sysselsattning': [], 'diagnoser': [{
-      'diagnosKod': 'D50',
-      'diagnosKodSystem': 'ICD_10_SE', 'diagnosBeskrivning': 'Järnbristanemi'
-    }, {'diagnosKod': 'G10', 'diagnosKodSystem': 'ICD_10_SE', 'diagnosBeskrivning': 'Huntingtons sjukdom'},
-      {
-        'diagnosKod': 'T241',
-        'diagnosKodSystem': 'ICD_10_SE',
-        'diagnosBeskrivning': 'Brännskada av första graden på höft och nedre extremitet utom fotled och fot'
-      }],
-    'sjukskrivningar': [{'sjukskrivningsgrad': 'HELT_NEDSATT', 'period': {'from': '2016-08-08', 'tom': '2016-08-22'}}, {
-      'sjukskrivningsgrad': 'TRE_FJARDEDEL', 'period':
-          {'from': '2016-08-23', 'tom': '2016-08-24'}
-    }, {'sjukskrivningsgrad': 'HALFTEN', 'period': {'from': '2016-08-25', 'tom': '2016-08-27'}}, {
-      'sjukskrivningsgrad':
-          'EN_FJARDEDEL', 'period': {'from': '2016-08-29', 'tom': '2016-11-26'}
-    }], 'prognos': {}, 'arbetslivsinriktadeAtgarder': [], 'ovrigt': 'Inga övriga upplysningar.',
-    'kontaktMedFk': false, 'tillaggsfragor': []
-  };
+    var utkastDataSmittskydd = {'grundData':grundData,'avstangningSmittskydd':true,'sysselsattning':[],'diagnoser':[{'diagnosKod':'D50',
+        'diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Järnbristanemi'},{'diagnosKod':'G10','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Huntingtons sjukdom'},
+        {'diagnosKod':'T241','diagnosKodSystem':'ICD_10_SE','diagnosBeskrivning':'Brännskada av första graden på höft och nedre extremitet utom fotled och fot'}],
+        'sjukskrivningar':[{'sjukskrivningsgrad':'HELT_NEDSATT','period':{'from':'2016-08-08','tom':'2016-08-22'}},{'sjukskrivningsgrad':'TRE_FJARDEDEL','period':
+            {'from':'2016-08-23','tom':'2016-08-24'}},{'sjukskrivningsgrad':'HALFTEN','period':{'from':'2016-08-25','tom':'2016-08-27'}},{'sjukskrivningsgrad':
+            'EN_FJARDEDEL','period':{'from':'2016-08-29','tom':'2016-11-26'}}],'prognos':{},'arbetslivsinriktadeAtgarder':[],'ovrigt':'Inga övriga upplysningar.',
+        'kontaktMedFk':false,'tillaggsfragor':[]};
 
-  it('Should clear model values if avstangningSmittskydd is selected', function() {
+    it('Should clear model values if avstangningSmittskydd is selected', function() {
 
-    $httpBackend.expectGET('/api/fmb/D50').respond(200);
-    $httpBackend.expectGET('/api/fmb/G10').respond(200);
-    $httpBackend.expectGET('/api/fmb/T241').respond(200);
-    $httpBackend.expectGET(
-        '/api/fmb/valideraSjukskrivningstid?icd10Kod1=D50&icd10Kod2=G10&icd10Kod3=T241&personnummer=19121212-1212').respond(200);
+        $httpBackend.expectGET('/api/fmb/D50').respond(200);
+        $httpBackend.expectGET('/api/fmb/G10').respond(200);
+        $httpBackend.expectGET('/api/fmb/T241').respond(200);
+        $httpBackend.expectGET('/api/fmb/valideraSjukskrivningstid?icd10Kod1=D50&icd10Kod2=G10&icd10Kod3=T241&personnummer=19121212-1212').respond(200);
 
-    // Load utkast with all fields populated
-    $scope.model.update(utkastData);
-    $scope.$digest();
+        // Load utkast with all fields populated
+        $scope.model.update(utkastData);
+        $scope.$digest();
 
-    // Verify sendmodel includes all fields
-    expect(angular.equals($scope.model.toSendModel(), utkastData)).toBeTruthy();
+        // Verify sendmodel includes all fields
+        expect(angular.equals($scope.model.toSendModel(), utkastData)).toBeTruthy();
 
-    /*
-        avstangningSmittskydd should clear all fields except
+        /*
+            avstangningSmittskydd should clear all fields except
 
-        diagnos
-        sjukskrivningar
-        ovrigt
-     */
-    $scope.model.avstangningSmittskydd = true;
-    $scope.$digest();
+            diagnos
+            sjukskrivningar
+            ovrigt
+         */
+        $scope.model.avstangningSmittskydd = true;
+        $scope.$digest();
 
-    expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
+        expect(angular.equals($scope.model.toSendModel(), utkastDataSmittskydd)).toBeTruthy();
 
-    // when avstangningSmittskydd is set to false again the original values should be restored from the attic
-    $scope.model.avstangningSmittskydd = false;
-    $scope.$digest();
+        // when avstangningSmittskydd is set to false again the original values should be restored from the attic
+        $scope.model.avstangningSmittskydd = false;
+        $scope.$digest();
 
-    expect(angular.equals($scope.model.toSendModel(), utkastData)).toBeTruthy();
-  });
+        expect(angular.equals($scope.model.toSendModel(), utkastData)).toBeTruthy();
+    });
 });

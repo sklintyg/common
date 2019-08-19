@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
-import java.util.List;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.util.List;
 
 public interface PdfGenerator<T extends Utlatande> {
 

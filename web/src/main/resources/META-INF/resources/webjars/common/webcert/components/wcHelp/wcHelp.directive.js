@@ -21,15 +21,15 @@
  */
 angular.module('common').directive('wcHelp',
     [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          scope: {
-            helpKey: '@',
-            variableLabelKey: '@'
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcHelp/wcHelp.directive.html'
-        };
-      }]);
+            return {
+                restrict: 'E',
+                scope: {
+                    helpKey: '@',
+                    variableLabelKey: '@'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcHelp/wcHelp.directive.html'
+            };
+        }]);

@@ -18,90 +18,91 @@
  */
 
 describe('wcHelpMark', function() {
-  'use strict';
+    'use strict';
 
-  var $q;
-  var $scope;
-  var dynamicLabelProxy;
-  var dynamicLabelService;
-  var element;
+    var $q;
+    var $scope;
+    var dynamicLabelProxy;
+    var dynamicLabelService;
+    var element;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('htmlTemplates'));
 
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(angular.mock.inject(['$q', 'common.DynamicLabelProxy', 'common.dynamicLabelService',
-    function(_$q_, _dynamicLabelProxy_, _dynamicLabelService_) {
-      $q = _$q_;
-      dynamicLabelProxy = _dynamicLabelProxy_;
-      dynamicLabelService = _dynamicLabelService_;
-    }
-  ]));
+    beforeEach(angular.mock.inject(['$q', 'common.DynamicLabelProxy', 'common.dynamicLabelService',
+        function(_$q_, _dynamicLabelProxy_, _dynamicLabelService_) {
+            $q = _$q_;
+            dynamicLabelProxy = _dynamicLabelProxy_;
+            dynamicLabelService = _dynamicLabelService_;
+        }
+    ]));
 
-  describe('directive call to wcHelpMark', function() {
 
-    beforeEach(inject(function($compile, $rootScope, $httpBackend) {
-      $scope = $rootScope.$new();
-      element =
-          angular.element('<div wc-help-mark field-dynamic-help-text="{{fieldDynamicHelpText}}" field-help-text="{{fieldHelpText}}"</div>');
-      $compile(element)($scope);
+    describe('directive call to wcHelpMark', function() {
 
-    }));
+        beforeEach(inject(function($compile, $rootScope, $httpBackend) {
+            $scope = $rootScope.$new();
+            element =
+                angular.element('<div wc-help-mark field-dynamic-help-text="{{fieldDynamicHelpText}}" field-help-text="{{fieldHelpText}}"</div>');
+            $compile(element)($scope);
 
-    beforeEach(inject(function() {
-      /* jshint maxlen: false, unused: false */
+        }));
 
-      var dynamicLabelTestJson = {
-        'texter': {
-          'KAT_4.RBK': 'Diagnos/diagnoser som orsakar nedsatt arbetsförmåga',
-          'KAT_4.HLP': 'Ange samtliga diagnoser'
-        }, 'tillaggsfragor': [
-          {
-            'id': 'TFG_1',
-            'text': 'TFG_1.RBK',
-            'help': 'TFG_1.HLP'
-          }
-        ]
-      };
-      var model = {
-        textVersion: '1.0',
-        tillaggsfragor: []
-      };
+        beforeEach(inject(function() {
+            /* jshint maxlen: false, unused: false */
 
-      spyOn(dynamicLabelProxy, 'getDynamicLabels').and.callFake(function() {
-        var promise = $q.defer();
-        promise.resolve(dynamicLabelTestJson);
-        return promise.promise;
-      });
-      dynamicLabelService.updateDynamicLabels('testtyp', model);
-      $scope.$apply();
-    }));
+            var dynamicLabelTestJson = {
+                'texter': {
+                    'KAT_4.RBK': 'Diagnos/diagnoser som orsakar nedsatt arbetsförmåga',
+                    'KAT_4.HLP': 'Ange samtliga diagnoser'
+                }, 'tillaggsfragor': [
+                    {
+                        'id': 'TFG_1',
+                        'text': 'TFG_1.RBK',
+                        'help': 'TFG_1.HLP'
+                    }
+                ]
+            };
+            var model = {
+                textVersion: '1.0',
+                tillaggsfragor: []
+            };
 
-    it('should have applied HTML template', function() {
-      expect(element.html()).not.toEqual('');
+            spyOn(dynamicLabelProxy, 'getDynamicLabels').and.callFake(function() {
+                var promise = $q.defer();
+                promise.resolve(dynamicLabelTestJson);
+                return promise.promise;
+            });
+            dynamicLabelService.updateDynamicLabels('testtyp', model);
+            $scope.$apply();
+        }));
+
+        it('should have applied HTML template', function() {
+            expect(element.html()).not.toEqual('');
+        });
+
+        it('should have text of given ID from file on disk', function() {
+            $scope.fieldDynamicHelpText = 'KAT_4.HLP';
+            $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
+            expect(element.isolateScope().text).toContain('Ange samtliga diagnoser');
+            expect(element.isolateScope().showHelp).toBe(true);
+        });
+
+        it('should handle missing label and hide help', function() {
+            $scope.fieldDynamicHelpText = '.HLP';
+            $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
+            expect(element.isolateScope().showHelp).toBe(false);
+        });
+
+        it('should handle missing label and hide help', function() {
+            $scope.fieldDynamicHelpText = undefined;
+            $scope.$digest();
+            $scope.$broadcast('dynamicLabels.updated');
+            expect(element.isolateScope().showHelp).toBe(false);
+        });
+
     });
-
-    it('should have text of given ID from file on disk', function() {
-      $scope.fieldDynamicHelpText = 'KAT_4.HLP';
-      $scope.$digest();
-      $scope.$broadcast('dynamicLabels.updated');
-      expect(element.isolateScope().text).toContain('Ange samtliga diagnoser');
-      expect(element.isolateScope().showHelp).toBe(true);
-    });
-
-    it('should handle missing label and hide help', function() {
-      $scope.fieldDynamicHelpText = '.HLP';
-      $scope.$digest();
-      $scope.$broadcast('dynamicLabels.updated');
-      expect(element.isolateScope().showHelp).toBe(false);
-    });
-
-    it('should handle missing label and hide help', function() {
-      $scope.fieldDynamicHelpText = undefined;
-      $scope.$digest();
-      $scope.$broadcast('dynamicLabels.updated');
-      expect(element.isolateScope().showHelp).toBe(false);
-    });
-
-  });
 });

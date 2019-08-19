@@ -23,6 +23,7 @@ import static se.inera.intyg.common.fk7263.support.Fk7263EntryPoint.DEFAULT_LOCK
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+
 import se.inera.intyg.common.fk7263.support.Fk7263EntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;

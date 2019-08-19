@@ -18,15 +18,17 @@
  */
 package se.inera.intyg.common.pdf.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.util.StringUtils;
+
 import com.google.common.base.Strings;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.ListItem;
 import com.itextpdf.layout.element.Paragraph;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
-import org.springframework.util.StringUtils;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
 /**

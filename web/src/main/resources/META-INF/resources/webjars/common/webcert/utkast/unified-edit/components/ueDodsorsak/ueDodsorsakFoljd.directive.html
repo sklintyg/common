@@ -1,8 +1,6 @@
 <div>
-  <ue-dodsorsak-row model="model" require-description="true" model-prop="config.modelProp" config="config"
-                    validation="validation"></ue-dodsorsak-row>
+  <ue-dodsorsak-row model="model" require-description="true" model-prop="config.modelProp" config="config" validation="validation"></ue-dodsorsak-row>
   <div ng-repeat="orsak in model.foljd track by $index">
-    <ue-dodsorsak-row model="model" model-prop="config.foljd.modelProp" row-index="$index" config="config.foljd"
-                      validation="validation"></ue-dodsorsak-row>
+    <ue-dodsorsak-row model="model" model-prop="config.foljd.modelProp" row-index="$index" config="config.foljd" validation="validation"></ue-dodsorsak-row>
   </div>
 </div>

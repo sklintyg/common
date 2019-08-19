@@ -86,12 +86,10 @@ td .last-validation .validation, .last-validation td .validation {
   opacity: 1;
   left: 0;
   @extend %transition-with-ease-out;
-
   &.ng-hide-add {
     display: block !important;
     @extend %transition-with-ease-out;
   }
-
   &.ng-hide {
     opacity: 0;
     left: -10px;

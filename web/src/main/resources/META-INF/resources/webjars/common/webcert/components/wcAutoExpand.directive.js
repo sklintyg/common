@@ -23,70 +23,70 @@
  */
 
 angular.module('common').directive('autoExpand', ['$window', '$interval', function($window, $interval) {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'A',
-    require: '?ngModel',
-    link: function(scope, element, attrs, ctrl) {
-      // Ensure the element is a textarea, browser is capable and autoexpand something else than false
-      if (element[0].nodeName !== 'TEXTAREA' || attrs.autoExpand === 'false') {
-        return;
-      }
-
-      var windowNode = angular.element($window);
-      var node = element[0];
-      var defaultHeight = 0;
-      var changedHeight = false;
-
-      function resizeTextarea() {
-        node.style.height = 'auto';
-        var height = node.scrollHeight;
-
-        if (height > defaultHeight) {
-          if (!changedHeight) {
-            defaultHeight = node.clientHeight;
-            changedHeight = true;
-          }
-          node.style.height = height + 'px';
-        }
-      }
-
-      function addWatches() {
-        if (ctrl) {
-          scope.$watch(function() {
-            return ctrl.$viewValue;
-          }, function(newValue, oldValue) {
-            if (newValue !== oldValue) {
-              resizeTextarea();
+    return  {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function (scope, element, attrs, ctrl) {
+            // Ensure the element is a textarea, browser is capable and autoexpand something else than false
+            if (element[0].nodeName !== 'TEXTAREA' || attrs.autoExpand === 'false') {
+                return;
             }
-          });
+
+            var windowNode = angular.element($window);
+            var node = element[0];
+            var defaultHeight = 0;
+            var changedHeight = false;
+
+            function resizeTextarea() {
+                node.style.height = 'auto';
+                var height = node.scrollHeight;
+
+                if (height > defaultHeight) {
+                    if (!changedHeight) {
+                        defaultHeight = node.clientHeight;
+                        changedHeight = true;
+                    }
+                    node.style.height = height + 'px';
+                }
+            }
+
+            function addWatches() {
+                if (ctrl) {
+                    scope.$watch(function() {
+                        return ctrl.$viewValue;
+                    }, function(newValue, oldValue) {
+                        if (newValue !== oldValue) {
+                            resizeTextarea();
+                        }
+                    });
+                }
+                // browser resize occurrence
+                windowNode.on('resize', resizeTextarea);
+            }
+
+            // Run until the textarea is visible to be able to calculate the size of the textarea
+            var stop = $interval(function() {
+                if (node.offsetHeight || node.offsetWidth) {
+                    resizeTextarea();
+
+                    $interval.cancel(stop);
+
+                    // add watches
+                    addWatches();
+                }
+            }, 500);
+
+            function cleanUp() {
+                windowNode.off('resize', resizeTextarea);
+
+                if (stop) {
+                    $interval.cancel(stop);
+                }
+            }
+
+            scope.$on('$destroy', cleanUp);
         }
-        // browser resize occurrence
-        windowNode.on('resize', resizeTextarea);
-      }
-
-      // Run until the textarea is visible to be able to calculate the size of the textarea
-      var stop = $interval(function() {
-        if (node.offsetHeight || node.offsetWidth) {
-          resizeTextarea();
-
-          $interval.cancel(stop);
-
-          // add watches
-          addWatches();
-        }
-      }, 500);
-
-      function cleanUp() {
-        windowNode.off('resize', resizeTextarea);
-
-        if (stop) {
-          $interval.cancel(stop);
-        }
-      }
-
-      scope.$on('$destroy', cleanUp);
-    }
-  };
+    };
 }]);

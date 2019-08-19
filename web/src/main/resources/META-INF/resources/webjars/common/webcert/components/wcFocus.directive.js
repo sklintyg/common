@@ -21,16 +21,16 @@
  */
 
 angular.module('common').directive('eventFocus', function(focus) {
-  'use strict';
-  return function(scope, elem, attr) {
-    elem.on(attr.eventFocus, function() {
-      focus(attr.eventFocusId);
-    });
+    'use strict';
+    return function(scope, elem, attr) {
+        elem.on(attr.eventFocus, function() {
+            focus(attr.eventFocusId);
+        });
 
-    // Removes bound events in the element itself
-    // when the scope is destroyed
-    scope.$on('$destroy', function() {
-      elem.off(attr.eventFocus);
-    });
-  };
+        // Removes bound events in the element itself
+        // when the scope is destroyed
+        scope.$on('$destroy', function() {
+            elem.off(attr.eventFocus);
+        });
+    };
 });

@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('ag7804', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
+angular.module('ag7804', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common' ]);
 
 // Inject language resources
 angular.module('ag7804').run(['common.messageService', 'ag7804.messages',
-  function(messageService, ag7804Messages) {
-    'use strict';
+    function(messageService, ag7804Messages) {
+        'use strict';
 
-    messageService.addResources(ag7804Messages);
-  }]);
+        messageService.addResources(ag7804Messages);
+    }]);

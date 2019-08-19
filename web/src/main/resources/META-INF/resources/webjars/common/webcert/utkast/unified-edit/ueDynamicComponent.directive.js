@@ -18,43 +18,41 @@
  */
 angular.module('common').directive('ueDynamicComponent',
     ['$compile', 'common.UtkastViewStateService', function($compile, UtkastViewState) {
-      'use strict';
+        'use strict';
 
-      return {
-        restrict: 'E',
-        scope: {
-          form: '=',
-          config: '=',
-          model: '='
-        },
-        link: function($scope, $element) {
+        return {
+            restrict: 'E',
+            scope: {
+                form: '=',
+                config: '=',
+                model: '='
+            },
+            link: function($scope, $element) {
 
-          if (!$scope.config.type) {
-            return;
-          }
+                if (!$scope.config.type) {
+                    return;
+                }
 
-          $scope.validation = UtkastViewState.validation;
+                $scope.validation = UtkastViewState.validation;
 
-          if (!$scope.config.id) {
-            $scope.config.id = $scope.config.modelProp;
-          }
+                if (!$scope.config.id) {
+                    $scope.config.id = $scope.config.modelProp;
+                }
 
-          var componentTemplate = '<' + $scope.config.type;
-          if ($scope.config.id) {
-            componentTemplate += ' ng-attr-id="form_{{::config.id|ueDomIdFilter}}"';
-          }
-          componentTemplate += ' form="::form" config="::config" model="::model"></' + $scope.config.type + '>';
+                var componentTemplate = '<' + $scope.config.type;
+                if ($scope.config.id) {
+                    componentTemplate += ' ng-attr-id="form_{{::config.id|ueDomIdFilter}}"';
+                }
+                componentTemplate += ' form="::form" config="::config" model="::model"></' + $scope.config.type +'>';
 
-          if ($scope.config.hideExpression) {
-            componentTemplate =
-                '<div ng-if="!config.hideExpression || !$eval(config.hideExpression)" class="fold-animation">' + componentTemplate +
-                '</div>';
-          }
-          if ($scope.config.disabledFunc) {
-            componentTemplate = '<fieldset ng-disabled="config.disabledFunc(model)">' + componentTemplate + '</fieldset>';
-          }
+                if ($scope.config.hideExpression)  {
+                    componentTemplate = '<div ng-if="!config.hideExpression || !$eval(config.hideExpression)" class="fold-animation">'+componentTemplate+'</div>';
+                }
+                if ($scope.config.disabledFunc)  {
+                    componentTemplate = '<fieldset ng-disabled="config.disabledFunc(model)">'+componentTemplate+'</fieldset>';
+                }
 
-          $element.append($compile(componentTemplate)($scope));
-        }
-      };
+                $element.append($compile(componentTemplate)($scope));
+            }
+        };
     }]);

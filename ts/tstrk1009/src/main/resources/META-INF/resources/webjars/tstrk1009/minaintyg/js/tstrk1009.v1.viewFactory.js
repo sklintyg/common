@@ -18,16 +18,16 @@
  */
 angular.module('tstrk1009').factory('tstrk1009.viewFactory.v1',
     function() {
-      'use strict';
+        'use strict';
 
-      var intygsTyp = 'tstrk1009';
+        var intygsTyp = 'tstrk1009';
+        
+        var _sendUrl = function() {
+            return null;
+        };
 
-      var _sendUrl = function() {
-        return null;
-      };
-
-      return {
-        intygsTyp: intygsTyp,
-        getSendUrl: _sendUrl
-      };
+        return {
+            intygsTyp: intygsTyp,
+            getSendUrl: _sendUrl
+        };
     });

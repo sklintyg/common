@@ -20,9 +20,11 @@ package se.inera.intyg.common.ag114.v1.rest;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.ag114.pdf.PdfGenerator;
 import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.converter.InternalToTransport;

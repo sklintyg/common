@@ -1,26 +1,31 @@
 <div class="vagueDate ue-del-fraga">
   <table>
     <tr>
-      <td><h5 class="wcFormLabel"><span class="year"><span dynamic-label key="common.label.year"></span> <span
-          class="required icon-wc-ikon-38" ng-if="!vagueDateModel.year"></span></span></h5></td>
-      <td><h5 class="wcFormLabel"><span class="month"><span dynamic-label key="common.label.month"></span> <span
-          class="required icon-wc-ikon-38" ng-if="!vagueDateModel.month && vagueDateModel.monthEnabled"></span></span>
-      </h5></td>
+      <td><h5 class="wcFormLabel"><span class="year"><span dynamic-label key="common.label.year"></span> <span class="required icon-wc-ikon-38" ng-if="!vagueDateModel.year"></span></span></h5></td>
+      <td><h5 class="wcFormLabel"><span class="month"><span dynamic-label key="common.label.month"></span> <span class="required icon-wc-ikon-38" ng-if="!vagueDateModel.month && vagueDateModel.monthEnabled"></span></span></h5></td>
       <td><h5 class="wcFormLabel"><span class="day"><span dynamic-label key="common.label.day"></span></span></h5></td>
     </tr>
     <tr>
       <td class="year">
-        <wc-dropdown data-items="years" use-dynamic-label="false" ng-model="vagueDateModel.year"
-                     data-on-select="validate()" ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-year"
+        <wc-dropdown data-items="years"
+                     use-dynamic-label="false"
+                     ng-model="vagueDateModel.year"
+                     data-on-select="validate()"
+                     ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-year"
                      name="{{::config.modelProp|ueDomIdFilter}}-year"
-                     ng-class="{'fielderror' : hasValidationError('year')}"></wc-dropdown>
+                     ng-class="{'fielderror' : hasValidationError('year')}">
+        </wc-dropdown>
       </td>
       <td class="month">
-        <wc-dropdown data-items="months" use-dynamic-label="false" ng-model="vagueDateModel.month"
-                     ng-disabled="!vagueDateModel.monthEnabled" data-on-select="validate()"
+        <wc-dropdown data-items="months"
+                     use-dynamic-label="false"
+                     ng-model="vagueDateModel.month"
+                     ng-disabled="!vagueDateModel.monthEnabled"
+                     data-on-select="validate()"
                      ng-attr-id="{{::config.modelProp|ueDomIdFilter}}-month"
                      name="{{::config.modelProp|ueDomIdFilter}}-month"
-                     ng-class="{'fielderror' : hasValidationError('month')}"></wc-dropdown>
+                     ng-class="{'fielderror' : hasValidationError('month')}">
+        </wc-dropdown>
       </td>
       <td class="day">
         <input id="{{config.modelProp}}-day" type="text" class="form-control no-fielderror" ng-disabled="true"
@@ -30,8 +35,11 @@
   </table>
 
   <div>
-    <ue-validation-list class="ng-animate-disabled" field-type="ue-dropdown"
-                        warnings="validation.warningMessagesByField[monthValidationKey]"
-                        validations="validation.messagesByField[monthValidationKey]"></ue-validation-list>
+    <ue-validation-list
+          class="ng-animate-disabled"
+          field-type="ue-dropdown"
+          warnings="validation.warningMessagesByField[monthValidationKey]"
+          validations="validation.messagesByField[monthValidationKey]">
+      </ue-validation-list>
   </div>
 </div>

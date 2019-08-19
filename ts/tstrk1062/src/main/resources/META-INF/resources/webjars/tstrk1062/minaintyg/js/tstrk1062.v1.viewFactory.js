@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('tstrk1062').factory('tstrk1062.viewFactory.v1', [
-  '$stateParams',
-  function($stateParams) {
-    'use strict';
+    '$stateParams',
+    function($stateParams) {
+        'use strict';
 
-    var intygsTyp = 'tstrk1062';
-    var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
+        var intygsTyp = 'tstrk1062';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.ts';
 
-    var _sendUrl = function() {
-      return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
-    };
+        var _sendUrl = function() {
+            return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/TRANSP';
+        };
 
-    return {
-      intygsTyp: intygsTyp,
-      selectRecipientKey: selectRecipientKey,
-      getSendUrl: _sendUrl
-    };
-  }]);
+        return {
+            intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
+            getSendUrl: _sendUrl
+        };
+    }]);

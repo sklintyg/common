@@ -18,33 +18,33 @@
  */
 
 describe('PatientModel', function() {
-  'use strict';
+    'use strict';
 
-  var PatientModel;
+    var PatientModel;
 
-  beforeEach(angular.mock.module('common', function($provide) {
-  }));
+    beforeEach(angular.mock.module('common', function($provide) {
+    }));
 
-  beforeEach(angular.mock.inject([
-    'common.PatientModel',
-    function(_PatientModel_) {
-      PatientModel = _PatientModel_;
-    }]));
+    beforeEach(angular.mock.inject([
+        'common.PatientModel',
+        function(_PatientModel_) {
+            PatientModel = _PatientModel_;
+        }]));
 
-  describe('#build', function() {
+    describe('#build', function() {
 
-    it('should create an empty object', function() {
-      PatientModel.build();
+        it('should create an empty object', function() {
+            PatientModel.build();
 
-      expect(PatientModel.personnummer).toBeNull();
-      expect(PatientModel.intygType).toEqual('default');
-      expect(PatientModel.fornamn).toBeNull();
-      expect(PatientModel.mellannamn).toBeNull();
-      expect(PatientModel.efternamn).toBeNull();
-      expect(PatientModel.postadress).toBeNull();
-      expect(PatientModel.postnummer).toBeNull();
-      expect(PatientModel.postort).toBeNull();
-      expect(PatientModel.avliden).toBeNull();
+            expect(PatientModel.personnummer).toBeNull();
+            expect(PatientModel.intygType).toEqual('default');
+            expect(PatientModel.fornamn).toBeNull();
+            expect(PatientModel.mellannamn).toBeNull();
+            expect(PatientModel.efternamn).toBeNull();
+            expect(PatientModel.postadress).toBeNull();
+            expect(PatientModel.postnummer).toBeNull();
+            expect(PatientModel.postort).toBeNull();
+            expect(PatientModel.avliden).toBeNull();
+        });
     });
-  });
 });
