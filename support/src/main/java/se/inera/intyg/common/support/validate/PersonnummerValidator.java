@@ -109,9 +109,12 @@ public class PersonnummerValidator implements RootValidator {
     /**
      * Check that the date is valid.
      *
-     * @param pnr The personnummer. Used in validation messages.
-     * @param dateString The date as a string at the form <code>yyyyMMdd</code>.
-     * @param result List that validation messages are added to.
+     * @param pnr
+     *            The personnummer. Used in validation messages.
+     * @param dateString
+     *            The date as a string at the form <code>yyyyMMdd</code>.
+     * @param result
+     *            List that validation messages are added to.
      * @return The birthday of the citizen, or <code>null</code> if the date could not be parsed.
      */
     private LocalDate checkDate(String pnr, String dateString, List<String> result) {
@@ -131,9 +134,12 @@ public class PersonnummerValidator implements RootValidator {
      * Check that the date is in a valid range. It must not be older that {@link #FIRST_PERSONNUMMER_DATE} or later than
      * {@link #referenceDate}.
      *
-     * @param pnr The personnummer. Used in validation messages.
-     * @param birthday The date of the personnummer to check.
-     * @param result List that validation messages are added to.
+     * @param pnr
+     *            The personnummer. Used in validation messages.
+     * @param birthday
+     *            The date of the personnummer to check.
+     * @param result
+     *            List that validation messages are added to.
      */
     private void checkDateRange(String pnr, LocalDate birthday, List<String> result) {
         if (birthday.isAfter(referenceDate())) {
@@ -148,10 +154,14 @@ public class PersonnummerValidator implements RootValidator {
     /**
      * Check that the separator of the personnummer is correct.
      *
-     * @param pnr The personnummer. Used in validation messages.
-     * @param birthday The date of the personnummer to check.
-     * @param separator The separator of the personnummer to check.
-     * @param result List that validation messages are added to.
+     * @param pnr
+     *            The personnummer. Used in validation messages.
+     * @param birthday
+     *            The date of the personnummer to check.
+     * @param separator
+     *            The separator of the personnummer to check.
+     * @param result
+     *            List that validation messages are added to.
      */
     private void checkSeparator(String pnr, LocalDate birthday, String separator, List<String> result) {
         if (strictSeparatorCheck) {
@@ -160,11 +170,11 @@ public class PersonnummerValidator implements RootValidator {
             boolean dashSeparator = "-".equals(separator);
             if (ageMoreThan100 && dashSeparator) {
                 result.add(String.format(
-                    "The SSN '%s' is invalid - citizen is over 100 years old but the separator '-' is used", pnr));
+                        "The SSN '%s' is invalid - citizen is over 100 years old but the separator '-' is used", pnr));
             }
             if (!ageMoreThan100 && !dashSeparator) {
                 result.add(String.format(
-                    "The SSN '%s' is invalid - citizen is under 100 years old but the separator '+' is used", pnr));
+                        "The SSN '%s' is invalid - citizen is under 100 years old but the separator '+' is used", pnr));
             }
         }
     }
@@ -172,11 +182,16 @@ public class PersonnummerValidator implements RootValidator {
     /**
      * Check that the checksum of the personnummer is correct.
      *
-     * @param pnr The personnummer. Used in validation messages.
-     * @param dateString The date as a string at the form <code>yyyyMMdd</code>.
-     * @param nnn The 3 first digits of the last 4.
-     * @param mod10 The last digit of the personnummer.
-     * @param result List that validation messages are added to.
+     * @param pnr
+     *            The personnummer. Used in validation messages.
+     * @param dateString
+     *            The date as a string at the form <code>yyyyMMdd</code>.
+     * @param nnn
+     *            The 3 first digits of the last 4.
+     * @param mod10
+     *            The last digit of the personnummer.
+     * @param result
+     *            List that validation messages are added to.
      */
     private void checkChecksum(String pnr, String dateString, String nnn, int mod10, List<String> result) {
         if (ValidatorUtil.calculateMod10(dateString.substring(2) + nnn) != mod10) {
@@ -200,9 +215,11 @@ public class PersonnummerValidator implements RootValidator {
      * This is the only calculation that differs between 'personnummer' and 'samordningsnummer'. Doing the calculation
      * in a separate method makes it overridable.
      *
-     * @param dateString The date string to convert into a birth day.
+     * @param dateString
+     *            The date string to convert into a birth day.
      * @return The date of birth of the citizen.
-     * @throws IllegalArgumentException if the date wasn't valid.
+     * @throws IllegalArgumentException
+     *             if the date wasn't valid.
      */
     protected LocalDate getBirthDay(String dateString) {
         return LocalDate.parse(dateString, DateTimeFormatter.BASIC_ISO_DATE);

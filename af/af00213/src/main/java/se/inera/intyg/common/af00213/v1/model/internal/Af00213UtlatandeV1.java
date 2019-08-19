@@ -34,10 +34,12 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.TEX
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af_parent.model.internal.AfUtlatande;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -50,7 +52,7 @@ public abstract class Af00213UtlatandeV1 implements AfUtlatande {
 
     public static Builder builder() {
         return new AutoValue_Af00213UtlatandeV1.Builder()
-            .setSignature(null);
+                .setSignature(null);
     }
 
     @Override

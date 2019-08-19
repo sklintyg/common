@@ -16,33 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('uePercentField', ['ueUtil',
-  function(ueUtil) {
+angular.module('common').directive('uePercentField', [ 'ueUtil',
+    function(ueUtil) {
     'use strict';
 
     return {
-      restrict: 'E',
-      scope: {
-        form: '=',
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePercentField/uePercentField.directive.html',
-      link: function($scope) {
+        restrict: 'E',
+        scope: {
+            form: '=',
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePercentField/uePercentField.directive.html',
+        link: function($scope) {
 
-        if (!$scope.config.indent) {
-          $scope.config.indent = false;
+            if(!$scope.config.indent) {
+                $scope.config.indent = false;
+            }
+
+            if(!$scope.config.formType) {
+                $scope.config.formType = 'inline';
+            }
+
+            if (!$scope.config.size) {
+                $scope.config.size = null;
+            }
+
+            ueUtil.standardSetup($scope);
         }
-
-        if (!$scope.config.formType) {
-          $scope.config.formType = 'inline';
-        }
-
-        if (!$scope.config.size) {
-          $scope.config.size = null;
-        }
-
-        ueUtil.standardSetup($scope);
-      }
     };
-  }]);
+}]);

@@ -18,13 +18,7 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import static org.junit.Assert.assertNotNull;
-
 import com.google.common.collect.Lists;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -38,6 +32,13 @@ import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Generate variants of a LISJP pdf, partly to see that make sure no exceptions occur but mainly for manual visual
@@ -71,34 +72,29 @@ public class DefaultLisjpPdfDefinitionBuilderTest extends BaseLisjpPdfDefinition
 
     @Test
     public void testGenerateLockedUtkastPdf() throws Exception {
-        LisjpUtlatandeV1 utkast = objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
+        LisjpUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-            .generatePdf(lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+                .generatePdf(lisjpPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
     }
 
     @Test
     public void testGenerateUtkastPdf() throws Exception {
-        LisjpUtlatandeV1 utkast = objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
+        LisjpUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LisjpUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-            .generatePdf(lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+                .generatePdf(lisjpPdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
     }
 
     private void generate(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LisjpUtlatandeV1 intyg : intygList) {
-            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder
-                .buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
+            FkPdfDefinition pdfDefinition = lisjpPdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED);
             byte[] generatorResult = PdfGenerator
-                .generatePdf(pdfDefinition);
+                    .generatePdf(pdfDefinition);
 
             assertNotNull(generatorResult);
 

@@ -34,8 +34,8 @@ public enum Korkortsolamplighet {
 
     public static Korkortsolamplighet fromCode(final String code) {
         return Stream.of(Korkortsolamplighet.values()).filter(s -> code.equals(s.getCode()))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     public String getId() {

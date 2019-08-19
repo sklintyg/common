@@ -26,10 +26,11 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_JSON_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_JSON_ID;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 
 /**
  * Created by marced on 2018-09-03.
@@ -65,7 +66,6 @@ public abstract class Behandling {
 
     @AutoValue.Builder
     public abstract static class Builder {
-
         public abstract Behandling build();
 
         @JsonProperty(ALLMANT_BEHANDLING_ENDAST_KOST_JSON_ID)

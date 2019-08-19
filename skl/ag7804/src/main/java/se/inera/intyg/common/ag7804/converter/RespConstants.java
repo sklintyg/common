@@ -55,6 +55,7 @@ public final class RespConstants {
     public static final String DIAGNOS_SVAR_JSON_ID_6 = "diagnoser";
 
 
+
     public static final String AKTIVITETSBEGRANSNING_SVAR_ID_17 = "17";
     public static final String AKTIVITETSBEGRANSNING_DELSVAR_ID_17 = "17.1";
     public static final String AKTIVITETSBEGRANSNING_SVAR_JSON_ID_17 = "aktivitetsbegransning";

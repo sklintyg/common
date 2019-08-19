@@ -17,21 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('uvBooleanStatement', ['uvUtil', function(uvUtil) {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      viewData: '='
-    },
-    templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvBooleanStatement/uvBooleanStatement.directive.html',
+        link: function($scope) {
 
-      $scope.getValue = function() {
-        var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
-        return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Ej angivet' : 'Ja';
-      };
-    }
-  };
-}]);
+            $scope.getValue = function() {
+                var value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+                return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Ej angivet' : 'Ja';
+            };
+        }
+    };
+} ]);

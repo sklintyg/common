@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.lisjp.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 
 @AutoValue
@@ -30,7 +32,7 @@ public abstract class Sjukskrivning {
 
     @JsonCreator
     public static Sjukskrivning create(@JsonProperty("sjukskrivningsgrad") SjukskrivningsGrad sjukskrivningsgrad,
-        @JsonProperty("period") InternalLocalDateInterval period) {
+            @JsonProperty("period") InternalLocalDateInterval period) {
         return new AutoValue_Sjukskrivning(sjukskrivningsgrad, period);
     }
 

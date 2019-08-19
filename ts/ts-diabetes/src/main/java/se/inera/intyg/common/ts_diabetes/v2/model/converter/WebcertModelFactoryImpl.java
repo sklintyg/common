@@ -18,10 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
@@ -31,15 +33,14 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
-import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
+import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 
 /**
  * Factory for creating a editable model.
  */
 @Component("ts-diabetes.v2.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUtlatandeV2> {
-
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -48,8 +49,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
     /**
      * Create a new TS-diabetes draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
      * @return {@link TsDiabetesUtlatandeV2} or throws a ConverterException if something unforeseen happens
+     * @throws ConverterException
      */
     @Override
     public TsDiabetesUtlatandeV2 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -60,7 +63,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsDiabetesUt
         template.setTyp(TsDiabetesEntryPoint.MODULE_ID);
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+                intygTexts.getLatestVersionForSameMajorVersion(TsDiabetesEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(template.getGrundData(), newDraftData);
 
         return template;

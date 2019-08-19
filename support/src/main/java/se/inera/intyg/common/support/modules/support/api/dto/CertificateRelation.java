@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
+import se.inera.intyg.common.support.common.enumerations.RelationKod;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
-import se.inera.intyg.common.support.common.enumerations.RelationKod;
 
 /**
  * Reusable generic representation of a Relation between two intyg. While an instance of this class usually exists

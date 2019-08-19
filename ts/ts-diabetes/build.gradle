@@ -1,11 +1,11 @@
 dependencies {
-    compile project(':ts-parent')
-    compile project(":common-pdf")
+  compile project(':ts-parent')
+  compile project(":common-pdf")
 
-    compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
-    compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
-    compile "com.google.auto.value:auto-value:${autovalueVersion}"
-    annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
+  compile "org.apache.commons:commons-lang3:${commonsLang3Version}"
+  compileOnly "com.google.auto.value:auto-value:${autovalueVersion}"
+  compile "com.google.auto.value:auto-value:${autovalueVersion}"
+annotationProcessor "com.google.auto.value:auto-value:${autovalueVersion}"
 
-    testCompile "org.assertj:assertj-core:${assertjVersion}"
+  testCompile "org.assertj:assertj-core:${assertjVersion}"
 }

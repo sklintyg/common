@@ -16,33 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('fk7263').directive('fkUvBooleanValue', ['$filter', 'uvUtil', function($filter, uvUtil) {
-  'use strict';
+angular.module('fk7263').directive('fkUvBooleanValue', [ '$filter', 'uvUtil', function($filter, uvUtil) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      viewData: '='
-    },
-    templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvBooleanValue/fkUvBooleanValue.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/fk7263/app-shared/directives/fkUvBooleanValue/fkUvBooleanValue.directive.html',
+        link: function($scope) {
 
-      var value;
+            var value;
 
-      $scope.getValue = function() {
-        if (angular.isFunction($scope.config.value)) {
-          value = $scope.config.value($scope.viewData);
-        } else {
-          value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+            $scope.getValue = function() {
+                if (angular.isFunction($scope.config.value)) {
+                    value = $scope.config.value($scope.viewData);
+                } else {
+                    value = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+                }
+
+                return $filter('uvBoolFilter')(value);
+            };
+
+            $scope.hasValue = function() {
+                return value !== null;
+            };
         }
-
-        return $filter('uvBoolFilter')(value);
-      };
-
-      $scope.hasValue = function() {
-        return value !== null;
-      };
-    }
-  };
-}]);
+    };
+} ]);

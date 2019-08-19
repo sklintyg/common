@@ -59,6 +59,6 @@ public enum HandelsekodEnum {
 
     public static HandelsekodEnum fromValue(String value) {
         return Stream.of(HandelsekodEnum.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
+                .orElseThrow(() -> new IllegalArgumentException(value));
     }
 }

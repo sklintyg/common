@@ -22,16 +22,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
 
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import se.inera.intyg.common.support.integration.module.exception.InvalidCertificateException;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
@@ -109,8 +113,7 @@ public class GetTSDiabetesResponderImplTest {
 
         CertificateHolder certificate = new CertificateHolder();
         certificate.setCivicRegistrationNumber(pnr);
-        certificate
-            .setCertificateStates(Arrays.asList(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
+        certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
         certificate.setDeleted(true);
         when(moduleContainer.getCertificate(intygId, pnr, false)).thenReturn(certificate);
@@ -135,8 +138,7 @@ public class GetTSDiabetesResponderImplTest {
         RegisterTSDiabetesType originalCertificate = ScenarioFinder.getTransportScenario("valid-minimal").asTransportModel();
 
         CertificateHolder certificate = new CertificateHolder();
-        certificate
-            .setCertificateStates(Arrays.asList(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
+        certificate.setCertificateStates(Arrays.asList(new CertificateStateHolder("target", CertificateState.RECEIVED, LocalDateTime.now())));
         certificate.setOriginalCertificate(xmlToString(originalCertificate));
         when(moduleContainer.getCertificate(intygId, null, false)).thenReturn(certificate);
 

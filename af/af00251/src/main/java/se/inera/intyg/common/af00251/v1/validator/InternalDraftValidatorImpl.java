@@ -18,39 +18,8 @@
  */
 package se.inera.intyg.common.af00251.v1.validator;
 
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.AKTIVITETSBEGRANSNING_SVAR_JSON_ID_41;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FORHINDER_SVAR_JSON_ID_51;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.FUNKTIONSNEDSATTNING_SVAR_JSON_ID_31;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_BESKRIVNING;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_8;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_81;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_82;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_62;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_62_FROM;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_62_TOM;
-import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.Omfattning;
-import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
-import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.springframework.stereotype.Component;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram;
@@ -62,6 +31,17 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 import se.inera.intyg.common.support.validate.ValidatorUtil;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.*;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.Omfattning;
+import static se.inera.intyg.common.support.validate.ValidatorUtil.addValidationError;
+import static se.inera.intyg.common.support.validate.ValidatorUtil.validateDate;
 
 @Component("af00251.v1.InternalDraftValidatorImpl")
 public class InternalDraftValidatorImpl implements InternalDraftValidator<AF00251UtlatandeV1> {
@@ -124,8 +104,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM, null);
             if (isValid) {
                 if (utlatande.getUndersokningsDatum()
-                    .asLocalDate()
-                    .isAfter(LocalDate.now())) {
+                             .asLocalDate()
+                             .isAfter(LocalDate.now())) {
                     addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNINGS_DATUM,
                         ValidationMessageType.INVALID_FORMAT, createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
                 }
@@ -137,8 +117,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM, null);
             if (isValid) {
                 if (utlatande.getAnnatDatum()
-                    .asLocalDate()
-                    .isAfter(LocalDate.now())) {
+                             .asLocalDate()
+                             .isAfter(LocalDate.now())) {
                     addValidationError(validationMessages, CATEGORY_MEDICINSKT_UNDERLAG, MEDICINSKUNDERLAG_SVAR_JSON_ANNAT_DATUM,
                         ValidationMessageType.INVALID_FORMAT, createMessageKey(MEDICINSKUNDERLAG_SVAR_JSON_UNDERSOKNING, "future-date"));
                 }
@@ -161,8 +141,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
         }
 
         if (Strings.nullToEmpty(arbetsmarknadspolitisktProgram.getMedicinskBedomning())
-            .trim()
-            .isEmpty()) {
+                   .trim()
+                   .isEmpty()) {
             addValidationError(validationMessages, CATEGORY_ARBETSMARKNADS_PROGRAM,
                 createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                     ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_21), ValidationMessageType.EMPTY);
@@ -173,6 +153,7 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 createCompositeFieldKey(ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2,
                     ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_22), ValidationMessageType.EMPTY);
         }
+
 
         if (arbetsmarknadspolitisktProgram.getOmfattning() == Omfattning.DELTID) {
             if (arbetsmarknadspolitisktProgram.getOmfattningDeltid() == null) {
@@ -193,8 +174,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     public static void validateFunktionsnedsattning(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         // Yes or no must be specified.
         if (Strings.nullToEmpty(utlatande.getFunktionsnedsattning())
-            .trim()
-            .isEmpty()) {
+                   .trim()
+                   .isEmpty()) {
             addValidationError(validationMessages, CATEGORY_KONSEKVENSER, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_31,
                 ValidationMessageType.EMPTY);
         }
@@ -202,8 +183,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
 
     public static void validateAktivitetsbegransning(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (Strings.nullToEmpty(utlatande.getAktivitetsbegransning())
-            .trim()
-            .isEmpty()) {
+                   .trim()
+                   .isEmpty()) {
             addValidationError(validationMessages, CATEGORY_KONSEKVENSER, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_41,
                 ValidationMessageType.EMPTY);
         }
@@ -236,8 +217,8 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     private void validateSjukfranvaro(AF00251UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         final List<Sjukfranvaro> sjukfranvaroList = nullToEmpty(utlatande.getSjukfranvaro());
         if (sjukfranvaroList.stream()
-            .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
-            .count() > MAX_ROWS) {
+                            .filter(sjukfranvaro -> nullToFalse(sjukfranvaro.getChecked()))
+                            .count() > MAX_ROWS) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING, SJUKFRANVARO_SVAR_JSON_ID_6,
                 ValidationMessageType.OTHER, createMessageKey(SJUKFRANVARO_SVAR_JSON_ID_6, "too-many"));
         }
@@ -252,18 +233,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     }
 
     private boolean checkSjukskrivningPeriodOverlapAgainstList(List<ValidationMessage> validationMessages, int index,
-        Sjukfranvaro sjukfranvaro,
-        ImmutableList<Sjukfranvaro> sjukfranvaros) {
+                                                               Sjukfranvaro sjukfranvaro,
+                                                               ImmutableList<Sjukfranvaro> sjukfranvaros) {
 
         Optional<Sjukfranvaro> optionalSjukfranvaro = getPeriodIntervalsOverlapping(sjukfranvaro, sjukfranvaros);
         if (optionalSjukfranvaro.isPresent()) {
             final InternalLocalDateInterval overlappingPeriod = optionalSjukfranvaro.get()
-                .getPeriod();
+                                                                                    .getPeriod();
 
             final String keyWithIndex = String.format("%s[%d]", SJUKFRANVARO_SVAR_JSON_ID_6, index);
             final InternalLocalDateInterval currentPeriod = sjukfranvaro.getPeriod();
             if (currentPeriod.getFrom()
-                .equals(overlappingPeriod.getFrom())) {
+                             .equals(overlappingPeriod.getFrom())) {
                 addValidationError(validationMessages,
                     CATEGORY_BEDOMNING,
                     createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "from"),
@@ -273,10 +254,10 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                     createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
                     ValidationMessageType.PERIOD_OVERLAP);
             } else if (currentPeriod.getFrom()
-                .asLocalDate()
-                .isBefore(overlappingPeriod
-                    .getFrom()
-                    .asLocalDate())) {
+                                    .asLocalDate()
+                                    .isBefore(overlappingPeriod
+                                        .getFrom()
+                                        .asLocalDate())) {
                 addValidationError(validationMessages,
                     CATEGORY_BEDOMNING,
                     createCompositeFieldKey(keyWithIndex, SJUKFRANVARO_SVAR_JSON_ID_62, "tom"),
@@ -293,15 +274,15 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
     }
 
     private Optional<Sjukfranvaro> getPeriodIntervalsOverlapping(Sjukfranvaro sjukfranvaro,
-        ImmutableList<Sjukfranvaro> sjukfranvaros) {
+                                                                 ImmutableList<Sjukfranvaro> sjukfranvaros) {
         return sjukfranvaros
             .stream()
             .filter(Objects::nonNull)
             .filter(e -> e != sjukfranvaro)
             .filter(e -> e.getChecked() != null && e.getChecked()
-                .booleanValue())
+                                                    .booleanValue())
             .filter(e -> e.getPeriod() != null && e.getPeriod()
-                .overlaps(sjukfranvaro.getPeriod()))
+                                                   .overlaps(sjukfranvaro.getPeriod()))
             .findFirst();
     }
 
@@ -315,14 +296,14 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
                 ValidationMessageType.EMPTY);
         } else {
             final boolean fromValid = validateDate(sjukfranvaro.getPeriod()
-                    .getFrom(), validationMessages, CATEGORY_BEDOMNING,
+                                                               .getFrom(), validationMessages, CATEGORY_BEDOMNING,
                 createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_FROM), null);
             final boolean tomValid = validateDate(sjukfranvaro.getPeriod()
-                    .getTom(), validationMessages, CATEGORY_BEDOMNING,
+                                                              .getTom(), validationMessages, CATEGORY_BEDOMNING,
                 createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62, SJUKFRANVARO_SVAR_JSON_ID_62_TOM), null);
 
             if (fromValid && tomValid && !sjukfranvaro.getPeriod()
-                .isValid()) {
+                                                      .isValid()) {
                 final String fieldKey = createCompositeFieldKey(indexedKey, SJUKFRANVARO_SVAR_JSON_ID_62);
                 addValidationError(validationMessages, CATEGORY_BEDOMNING, fieldKey, ValidationMessageType.INCORRECT_COMBINATION);
             }
@@ -354,19 +335,19 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
         }
 
         if (utlatande.getBegransningSjukfranvaro()
-            .getKanBegransas() == null) {
+                     .getKanBegransas() == null) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING,
                 createCompositeFieldKey(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_71),
                 ValidationMessageType.EMPTY);
         } else {
             if (utlatande.getBegransningSjukfranvaro()
-                .getKanBegransas()
-                .booleanValue()) {
+                         .getKanBegransas()
+                         .booleanValue()) {
                 if (utlatande.getBegransningSjukfranvaro()
-                    .getBeskrivning() == null
+                             .getBeskrivning() == null
                     || utlatande.getBegransningSjukfranvaro()
-                    .getBeskrivning()
-                    .isEmpty()) {
+                                .getBeskrivning()
+                                .isEmpty()) {
 
                     addValidationError(validationMessages, CATEGORY_BEDOMNING,
                         createCompositeFieldKey(BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_7, BEGRANSNING_SJUKFRANVARO_SVAR_JSON_ID_72),
@@ -386,18 +367,18 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<AF0025
         }
 
         if (utlatande.getPrognosAtergang()
-            .getPrognos() == null) {
+                     .getPrognos() == null) {
             addValidationError(validationMessages, CATEGORY_BEDOMNING,
                 createCompositeFieldKey(PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_81),
                 ValidationMessageType.EMPTY);
         } else {
             if (utlatande.getPrognosAtergang()
-                .getPrognos() == PrognosAtergang.Prognos.MED_ANPASSNING) {
+                         .getPrognos() == PrognosAtergang.Prognos.MED_ANPASSNING) {
                 if (utlatande.getPrognosAtergang()
-                    .getAnpassningar() == null
+                             .getAnpassningar() == null
                     || utlatande.getPrognosAtergang()
-                    .getAnpassningar()
-                    .isEmpty()) {
+                                .getAnpassningar()
+                                .isEmpty()) {
 
                     addValidationError(validationMessages, CATEGORY_BEDOMNING,
                         createCompositeFieldKey(PROGNOS_ATERGANG_SVAR_JSON_ID_8, PROGNOS_ATERGANG_SVAR_JSON_ID_82),

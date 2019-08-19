@@ -18,111 +18,112 @@
  */
 angular.module('ts-diabetes').factory('ts-diabetes.Domain.IntygModel.v3',
     ['common.Domain.GrundDataModel', 'common.Domain.DraftModel', 'common.domain.ModelAttr',
-      'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
-      function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
-        'use strict';
+        'common.domain.BaseAtticModel', 'common.UtilsService', 'common.tsBaseHelper',
+        function(GrundData, DraftModel, ModelAttr, BaseAtticModel, UtilsService, tsBaseHelper) {
+            'use strict';
 
-        var uppfyllerBehorighetskravFromTransform = function(backendValue) {
-          return tsBaseHelper.setupKorkortstypChoices(backendValue, ['KANINTETASTALLNING']);
-        };
+            var uppfyllerBehorighetskravFromTransform = function(backendValue) {
+                return tsBaseHelper.setupKorkortstypChoices(backendValue, ['KANINTETASTALLNING']);
+            };
 
-        var TsDiabetesV3Model = BaseAtticModel._extend({
-          init: function init() {
-            var grundData = GrundData.build();
-            init._super.call(this, 'IntygModel', {
 
-              id: undefined,
-              typ: undefined,
-              textVersion: undefined,
-              grundData: grundData,
+            var TsDiabetesV3Model = BaseAtticModel._extend({
+                init: function init() {
+                    var grundData = GrundData.build();
+                    init._super.call(this, 'IntygModel', {
 
-              // Kategori 1
-              intygAvser: {
-                kategorier: undefined
-              },
+                        id: undefined,
+                        typ: undefined,
+                        textVersion: undefined,
+                        grundData: grundData,
 
-              // Kategori 2
-              identitetStyrktGenom: undefined,
+                        // Kategori 1
+                        intygAvser: {
+                            kategorier: undefined
+                        },
 
-              // Kategori 3
-              allmant: {
-                diabetesDiagnosAr: undefined,
-                typAvDiabetes: undefined,
-                beskrivningAnnanTypAvDiabetes: undefined,
-                behandling: {
-                  endastKost: undefined,
-                  tabletter: undefined,
-                  tablettRiskHypoglykemi: undefined,
-                  insulin: undefined,
-                  insulinSedanAr: undefined,
-                  annanBehandling: undefined,
-                  annanBehandlingBeskrivning: undefined
-                }
-              },
+                        // Kategori 2
+                        identitetStyrktGenom: undefined,
 
-              // Kategori 4
-              hypoglykemier: {
-                sjukdomenUnderKontroll: undefined,
-                nedsattHjarnfunktion: undefined,
-                forstarRisker: undefined,
-                fortrogenMedSymptom: undefined,
-                saknarFormagaVarningstecken: undefined,
-                kunskapLampligaAtgarder: undefined,
-                egenkontrollBlodsocker: undefined,
-                aterkommandeSenasteAret: undefined,
-                aterkommandeSenasteTidpunkt: undefined,
-                aterkommandeSenasteKvartalet: undefined,
-                senasteTidpunktVaken: undefined,
-                forekomstTrafik: undefined,
-                forekomstTrafikTidpunkt: undefined
-              },
+                        // Kategori 3
+                        allmant: {
+                            diabetesDiagnosAr: undefined,
+                            typAvDiabetes: undefined,
+                            beskrivningAnnanTypAvDiabetes: undefined,
+                            behandling: {
+                                endastKost: undefined,
+                                tabletter: undefined,
+                                tablettRiskHypoglykemi: undefined,
+                                insulin: undefined,
+                                insulinSedanAr: undefined,
+                                annanBehandling: undefined,
+                                annanBehandlingBeskrivning: undefined
+                            }
+                        },
 
-              // Kategori 5
-              synfunktion: {
-                misstankeOgonsjukdom: undefined,
-                ogonbottenFotoSaknas: undefined,
-                hoger: {
-                  utanKorrektion: undefined,
-                  medKorrektion: undefined
+                        // Kategori 4
+                        hypoglykemier: {
+                            sjukdomenUnderKontroll: undefined,
+                            nedsattHjarnfunktion: undefined,
+                            forstarRisker: undefined,
+                            fortrogenMedSymptom: undefined,
+                            saknarFormagaVarningstecken: undefined,
+                            kunskapLampligaAtgarder: undefined,
+                            egenkontrollBlodsocker: undefined,
+                            aterkommandeSenasteAret: undefined,
+                            aterkommandeSenasteTidpunkt: undefined,
+                            aterkommandeSenasteKvartalet: undefined,
+                            senasteTidpunktVaken: undefined,
+                            forekomstTrafik: undefined,
+                            forekomstTrafikTidpunkt: undefined
+                        },
+
+                        // Kategori 5
+                        synfunktion: {
+                            misstankeOgonsjukdom: undefined,
+                            ogonbottenFotoSaknas: undefined,
+                            hoger: {
+                                utanKorrektion: undefined,
+                                medKorrektion: undefined
+                            },
+                            vanster: {
+                                 utanKorrektion: undefined,
+                                medKorrektion: undefined
+                                },
+                            binokulart: {
+                                utanKorrektion: undefined,
+                                medKorrektion: undefined
+                                }
+                        },
+                        // Kategori 6
+                        ovrigt: undefined,
+
+                        // Kategori 7
+                        bedomning: {
+                            uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
+                                fromTransform: uppfyllerBehorighetskravFromTransform
+                            }),
+                            lampligtInnehav: undefined,
+                            borUndersokasBeskrivning: undefined
+                        }
+                    });
                 },
-                vanster: {
-                  utanKorrektion: undefined,
-                  medKorrektion: undefined
-                },
-                binokulart: {
-                  utanKorrektion: undefined,
-                  medKorrektion: undefined
+                update: function update(content, parent) {
+                    if (parent) {
+                        parent.content = this;
+                    }
+                    update._super.call(this, content);
                 }
-              },
-              // Kategori 6
-              ovrigt: undefined,
 
-              // Kategori 7
-              bedomning: {
-                uppfyllerBehorighetskrav: new ModelAttr('uppfyllerBehorighetskrav', {
-                  fromTransform: uppfyllerBehorighetskravFromTransform
-                }),
-                lampligtInnehav: undefined,
-                borUndersokasBeskrivning: undefined
-              }
+            }, {
+                build : function(){
+                    return new DraftModel(new TsDiabetesV3Model());
+                }
             });
-          },
-          update: function update(content, parent) {
-            if (parent) {
-              parent.content = this;
-            }
-            update._super.call(this, content);
-          }
 
-        }, {
-          build: function() {
-            return new DraftModel(new TsDiabetesV3Model());
-          }
-        });
+            /**
+             * Return the constructor function IntygModel
+             */
+            return TsDiabetesV3Model;
 
-        /**
-         * Return the constructor function IntygModel
-         */
-        return TsDiabetesV3Model;
-
-      }]);
+        }]);

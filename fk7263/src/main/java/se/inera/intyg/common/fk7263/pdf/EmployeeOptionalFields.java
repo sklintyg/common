@@ -63,15 +63,18 @@ public enum EmployeeOptionalFields {
 
     public static EmployeeOptionalFields fromValue(String value) {
         return Stream.of(EmployeeOptionalFields.values()).filter(s -> value.equals(s.value())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(value));
+                .orElseThrow(() -> new IllegalArgumentException(value));
     }
 
     /**
      * Util method that checks if the list contains all values in the enum.
+     *
+     * @param values
+     * @return
      */
     public static boolean containsAllValues(List<String> values) {
         return values != null && !values.isEmpty()
-            && Stream.of(EmployeeOptionalFields.values()).map(EmployeeOptionalFields::value).allMatch(s -> values.contains(s));
+                && Stream.of(EmployeeOptionalFields.values()).map(EmployeeOptionalFields::value).allMatch(s -> values.contains(s));
 
     }
 

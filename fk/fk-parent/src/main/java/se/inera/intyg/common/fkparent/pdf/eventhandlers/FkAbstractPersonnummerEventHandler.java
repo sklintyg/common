@@ -18,15 +18,11 @@
  */
 package se.inera.intyg.common.fkparent.pdf.eventhandlers;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Utilities;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfPageEventHelper;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
@@ -56,7 +52,7 @@ public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHel
      * Adds the personnummer to every page in from-tom interval.
      *
      * @see com.itextpdf.text.pdf.PdfPageEventHelper#onEndPage(com.itextpdf.text.pdf.PdfWriter,
-     * com.itextpdf.text.Document)
+     *      com.itextpdf.text.Document)
      */
     @Override
     public void onEndPage(PdfWriter writer, Document document) {
@@ -73,8 +69,8 @@ public abstract class FkAbstractPersonnummerEventHandler extends PdfPageEventHel
             table.addCell(new Phrase(String.valueOf(personnummer), PdfConstants.FONT_VALUE_TEXT));
 
             table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(getXOffset()),
-                document.getPageSize().getTop() - Utilities.millimetersToPoints(getYOffset()),
-                writer.getDirectContent());
+                    document.getPageSize().getTop() - Utilities.millimetersToPoints(getYOffset()),
+                    writer.getDirectContent());
         }
     }
 }

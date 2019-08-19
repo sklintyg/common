@@ -18,77 +18,77 @@
  */
 
 describe('IntygHelper', function() {
-  'use strict';
+    'use strict';
 
-  var IntygHelper, $stateSpy, $logSpy;
+    var IntygHelper, $stateSpy, $logSpy;
 
-  beforeEach(angular.mock.module('common', function($provide) {
-    $stateSpy = jasmine.createSpyObj('$state', ['go']);
-    $provide.value('$state', $stateSpy);
-    $logSpy = jasmine.createSpyObj('$log', ['error']);
-    $provide.value('$log', $logSpy);
-  }));
+    beforeEach(angular.mock.module('common', function($provide) {
+        $stateSpy = jasmine.createSpyObj('$state', [ 'go' ]);
+        $provide.value('$state', $stateSpy);
+        $logSpy = jasmine.createSpyObj('$log', [ 'error' ]);
+        $provide.value('$log', $logSpy);
+    }));
 
-  beforeEach(angular.mock.inject(['common.IntygHelper', function(_IntygHelper_) {
-    IntygHelper = _IntygHelper_;
-  }]));
-  //Draft
-  it('should go to draft if all mandatory parameters are present', function() {
+    beforeEach(angular.mock.inject([ 'common.IntygHelper', function(_IntygHelper_) {
+        IntygHelper = _IntygHelper_;
+    } ]));
+    //Draft
+    it('should go to draft if all mandatory parameters are present', function() {
 
-    IntygHelper.goToDraft('type', '1.2', 'abc123');
-    expect($stateSpy.go).toHaveBeenCalledWith('type.utkast', {
-      certificateId: 'abc123',
-      intygTypeVersion: '1.2'
+        IntygHelper.goToDraft('type', '1.2', 'abc123');
+        expect($stateSpy.go).toHaveBeenCalledWith('type.utkast', {
+            certificateId: 'abc123',
+            intygTypeVersion: '1.2'
+        });
+
     });
 
-  });
-
-  it('should log error if type missing', function() {
-    IntygHelper.goToDraft('', '1.2', 'abc123');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
-
-  it('should log error if intygTypeVersion missing', function() {
-    IntygHelper.goToDraft('type', '', 'abc123');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
-
-  it('should log error if certificateId missing', function() {
-    IntygHelper.goToDraft('type', '1.2');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
-
-  //Intyg
-
-  it('should go to intyg if all mandatory parameters are present', function() {
-
-    IntygHelper.goToIntyg('type', '1.2', 'abc123');
-    expect($stateSpy.go).toHaveBeenCalledWith('webcert.intyg.type', {
-      certificateId: 'abc123',
-      intygTypeVersion: '1.2'
+    it('should log error if type missing', function() {
+        IntygHelper.goToDraft('', '1.2', 'abc123');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
     });
 
-  });
+    it('should log error if intygTypeVersion missing', function() {
+        IntygHelper.goToDraft('type', '', 'abc123');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
+    });
 
-  it('should log error if type missing', function() {
-    IntygHelper.goToIntyg('', '1.2', 'abc123');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
+    it('should log error if certificateId missing', function() {
+        IntygHelper.goToDraft('type', '1.2');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
+    });
 
-  it('should log error if intygTypeVersion missing', function() {
-    IntygHelper.goToIntyg('type', '', 'abc123');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
+    //Intyg
 
-  it('should log error if certificateId missing', function() {
-    IntygHelper.goToIntyg('type', '1.2');
-    expect($logSpy.error).toHaveBeenCalled();
-    expect($stateSpy.go).not.toHaveBeenCalled();
-  });
+    it('should go to intyg if all mandatory parameters are present', function() {
+
+        IntygHelper.goToIntyg('type', '1.2', 'abc123');
+        expect($stateSpy.go).toHaveBeenCalledWith('webcert.intyg.type', {
+            certificateId: 'abc123',
+            intygTypeVersion: '1.2'
+        });
+
+    });
+
+    it('should log error if type missing', function() {
+        IntygHelper.goToIntyg('', '1.2', 'abc123');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
+    });
+
+    it('should log error if intygTypeVersion missing', function() {
+        IntygHelper.goToIntyg('type', '', 'abc123');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
+    });
+
+    it('should log error if certificateId missing', function() {
+        IntygHelper.goToIntyg('type', '1.2');
+        expect($logSpy.error).toHaveBeenCalled();
+        expect($stateSpy.go).not.toHaveBeenCalled();
+    });
 
 });

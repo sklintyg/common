@@ -18,40 +18,40 @@
  */
 angular.module('common').factory('common.Domain.RelationModel',
     function() {
-      'use strict';
+        'use strict';
 
-      /**
-       * Constructor, with class name
-       */
-      function Relation() {
-        this.relationIntygsId = undefined;
-        this.relationKod = undefined;
-        this.meddelandeId = undefined;
-        this.sistaGiltighetsDatum = undefined;
-        this.sistaSjukskrivningsgrad = undefined;
-        this.referensId = undefined;
-      }
-
-      Relation.prototype.update = function(relation) {
-        // refresh the model data
-        if (relation === undefined) {
-          return;
+        /**
+         * Constructor, with class name
+         */
+        function Relation() {
+            this.relationIntygsId = undefined;
+            this.relationKod = undefined;
+            this.meddelandeId = undefined;
+            this.sistaGiltighetsDatum = undefined;
+            this.sistaSjukskrivningsgrad = undefined;
+            this.referensId = undefined;
         }
-        this.relationIntygsId = relation.relationIntygsId;
-        this.relationKod = relation.relationKod;
-        this.meddelandeId = relation.meddelandeId;
-        this.sistaGiltighetsDatum = relation.sistaGiltighetsDatum;
-        this.sistaSjukskrivningsgrad = relation.sistaSjukskrivningsgrad;
-        this.referensId = relation.referensId;
-      };
 
-      Relation.build = function() {
-        return new Relation();
-      };
+        Relation.prototype.update = function(relation) {
+            // refresh the model data
+            if(relation === undefined){
+                return;
+            }
+            this.relationIntygsId = relation.relationIntygsId;
+            this.relationKod = relation.relationKod;
+            this.meddelandeId = relation.meddelandeId;
+            this.sistaGiltighetsDatum = relation.sistaGiltighetsDatum;
+            this.sistaSjukskrivningsgrad = relation.sistaSjukskrivningsgrad;
+            this.referensId = relation.referensId;
+        };
 
-      /**
-       * Return the constructor function Relation
-       */
-      return Relation;
+        Relation.build = function() {
+            return new Relation();
+        };
+
+        /**
+         * Return the constructor function Relation
+         */
+        return Relation;
 
     });

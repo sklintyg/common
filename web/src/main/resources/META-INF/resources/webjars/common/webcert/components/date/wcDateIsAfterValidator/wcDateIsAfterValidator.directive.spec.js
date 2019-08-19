@@ -18,86 +18,86 @@
  */
 
 describe('DateIsAfterValidatorDirective', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
+    var $scope;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'), function() {
-  });
-  beforeEach(angular.mock.inject(['$rootScope', '$compile',
-    function($rootScope, $compile) {
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'), function(){
+    });
+    beforeEach(angular.mock.inject(['$rootScope', '$compile',
+        function($rootScope, $compile) {
 
-      var tpl = angular.element(
-          '<div ng-form="testForm">' +
-          '<input type="text" name="testDate1" ng-model="model.testDate1" dom-id="testDate1">' +
-          '<input type="text" name="testDate2" ng-model="model.testDate2" dom-id="testDate2" wc-date-is-after-validator="testDate1">' +
-          '</div>'
-      );
-      $scope = $rootScope.$new();
-      $scope.model = {
-        testDate1: '',
-        testDate2: ''
-      };
-      $compile(tpl)($scope);
-      $scope.$digest();
-    }
-  ]));
+            var tpl = angular.element(
+                '<div ng-form="testForm">' +
+                '<input type="text" name="testDate1" ng-model="model.testDate1" dom-id="testDate1">' +
+                '<input type="text" name="testDate2" ng-model="model.testDate2" dom-id="testDate2" wc-date-is-after-validator="testDate1">' +
+                '</div>'
+            );
+            $scope = $rootScope.$new();
+            $scope.model = {
+                testDate1: '',
+                testDate2: ''
+            };
+            $compile(tpl)($scope);
+            $scope.$digest();
+        }
+    ]));
 
-  it('should pass validation if date1 is before date2 ', function() {
-    $scope.model.testDate1 = '2016-01-01';
-    $scope.model.testDate2 = '2016-01-02';
-    $scope.$apply();
+    it('should pass validation if date1 is before date2 ', function(){
+        $scope.model.testDate1 = '2016-01-01';
+        $scope.model.testDate2 = '2016-01-02';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should pass validation if date1 is equals to date2 ', function() {
-    $scope.model.testDate1 = '2016-01-01';
-    $scope.model.testDate2 = '2016-01-01';
-    $scope.$apply();
+    it('should pass validation if date1 is equals to date2 ', function(){
+        $scope.model.testDate1 = '2016-01-01';
+        $scope.model.testDate2 = '2016-01-01';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should pass validation if date1 is empty', function() {
-    $scope.model.testDate1 = '';
-    $scope.model.testDate2 = '2016-01-01';
-    $scope.$apply();
+    it('should pass validation if date1 is empty', function(){
+        $scope.model.testDate1 = '';
+        $scope.model.testDate2 = '2016-01-01';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should pass validation if date2 is empty', function() {
-    $scope.model.testDate1 = '2016-01-01';
-    $scope.model.testDate2 = '';
-    $scope.$apply();
+    it('should pass validation if date2 is empty', function(){
+        $scope.model.testDate1 = '2016-01-01';
+        $scope.model.testDate2 = '';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should pass validation if date1 is not a date', function() {
-    $scope.model.testDate1 = '2016-01-';
-    $scope.model.testDate2 = '2015-01-01';
-    $scope.$apply();
+    it('should pass validation if date1 is not a date', function(){
+        $scope.model.testDate1 = '2016-01-';
+        $scope.model.testDate2 = '2015-01-01';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should pass validation if date2 is not a date', function() {
-    $scope.model.testDate1 = '2016-01-01';
-    $scope.model.testDate2 = '2015-01-';
-    $scope.$apply();
+    it('should pass validation if date2 is not a date', function(){
+        $scope.model.testDate1 = '2016-01-01';
+        $scope.model.testDate2 = '2015-01-';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(false);
-  });
+        expect($scope.testForm.$invalid).toBe(false);
+    });
 
-  it('should fail validation if date1 is after date2', function() {
-    $scope.model.testDate1 = '2016-10-01';
-    $scope.model.testDate2 = '2016-01-02';
-    $scope.$apply();
+    it('should fail validation if date1 is after date2', function(){
+        $scope.model.testDate1 = '2016-10-01';
+        $scope.model.testDate2 = '2016-01-02';
+        $scope.$apply();
 
-    expect($scope.testForm.$invalid).toBe(true);
-  });
+        expect($scope.testForm.$invalid).toBe(true);
+    });
 
 });

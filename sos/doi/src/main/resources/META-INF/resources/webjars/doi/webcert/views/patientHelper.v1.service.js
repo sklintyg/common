@@ -17,33 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('doi').service('doi.PatientHelperService.v1',
-    function() {
-      'use strict';
+        function () {
+            'use strict';
 
-      // PS-004: Never show for DB/DOI
-      function _showPatientNameChangedIntegration() {
-        return false;
-      }
+            // PS-004: Never show for DB/DOI
+            function _showPatientNameChangedIntegration() {
+                return false;
+            }
 
-      // PS-005: Never show for DB/DOI
-      function _showPatientNameChangedPU() {
-        return false;
-      }
+            // PS-005: Never show for DB/DOI
+            function _showPatientNameChangedPU() {
+                return false;
+            }
 
-      // PS-006: Never show for DB/DOI
-      function _showPatientAddressChangedPU() {
-        return false;
-      }
+            // PS-006: Never show for DB/DOI
+            function _showPatientAddressChangedPU() {
+                return false;
+            }
 
-      // INTYG-5146: Never show for DB/DOI
-      function _showMissingAddressParameter() {
-        return false;
-      }
+            // INTYG-5146: Never show for DB/DOI
+            function _showMissingAddressParameter() {
+                return false;
+            }
 
-      return {
-        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-        showPatientNameChangedPU: _showPatientNameChangedPU,
-        showPatientAddressChangedPU: _showPatientAddressChangedPU,
-        showMissingAddressParameter: _showMissingAddressParameter
-      };
-    });
+            return {
+                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+                showPatientNameChangedPU: _showPatientNameChangedPU,
+                showPatientAddressChangedPU: _showPatientAddressChangedPU,
+                showMissingAddressParameter: _showMissingAddressParameter
+            };
+        });

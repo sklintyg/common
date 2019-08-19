@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
+import se.inera.intyg.schemas.contract.Personnummer;
 
 import java.time.LocalDate;
 import java.util.Optional;
-import se.inera.intyg.schemas.contract.Personnummer;
+
+import static se.inera.intyg.common.support.Constants.SAMORDNING_ID_OID;
 
 /**
  * Performs validation of a 'Samordningsnummer'.
@@ -37,7 +38,6 @@ public class SamordningsnummerValidator extends PersonnummerValidator {
 
     /**
      * Controls if a civic registration number is a 'samordningsnummer' or not.
-     *
      * @param personnummer the civic registration number
      * @return true if the civic registration number is a 'samordningsnummer', otherwise false
      */

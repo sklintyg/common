@@ -22,10 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
+
 import se.inera.ifv.insuranceprocess.healthreporting.registermedicalcertificateresponder.v3.RegisterMedicalCertificateType;
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
@@ -50,9 +53,11 @@ public class ScenarioFinder {
     /**
      * Finds the specified transport scenarios that matches the wildcard string.
      *
-     * @param scenarioWithWildcards A wildcard string matching scenarios. '*' and '?' can be used.
+     * @param scenarioWithWildcards
+     *            A wildcard string matching scenarios. '*' and '?' can be used.
      * @return A list of matching transport scenarios.
-     * @throws ScenarioNotFoundException If no scenarios could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenarios could be found.
      */
     public static List<Scenario> getTransportScenarios(String scenarioWithWildcards) throws ScenarioNotFoundException {
         return getScenarios(scenarioWithWildcards + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "transport");
@@ -61,16 +66,18 @@ public class ScenarioFinder {
     /**
      * Finds the specified internal Mina Intyg scenarios that matches the wildcard string.
      *
-     * @param scenarioWithWildcards A wildcard string matching scenarios. '*' and '?' can be used.
+     * @param scenarioWithWildcards
+     *            A wildcard string matching scenarios. '*' and '?' can be used.
      * @return A list of matching internal Mina Intyg scenarios.
-     * @throws ScenarioNotFoundException If no scenarios could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenarios could be found.
      */
     public static List<Scenario> getInternalScenarios(String scenarioWithWildcards) throws ScenarioNotFoundException {
         return getScenarios(scenarioWithWildcards + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "internal");
     }
 
     public static List<Scenario> getScenarios(String scenarioWithWildcards, String scenarioPath, String model)
-        throws ScenarioNotFoundException {
+            throws ScenarioNotFoundException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
         try {
             Resource[] resources = context.getResources(scenarioPath + scenarioWithWildcards);
@@ -92,9 +99,11 @@ public class ScenarioFinder {
     /**
      * Finds the specified transport scenario matching the name.
      *
-     * @param filename A name matching a scenario.
+     * @param filename
+     *            A name matching a scenario.
      * @return A matching transport scenario.
-     * @throws ScenarioNotFoundException If no scenario could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenario could be found.
      */
     public static Scenario getTransportScenario(String filename) throws ScenarioNotFoundException {
         return getScenario(filename + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "transport");
@@ -103,16 +112,18 @@ public class ScenarioFinder {
     /**
      * Finds the specified internal Mina Intyg scenario matching the name.
      *
-     * @param filename A name matching a scenario.
+     * @param filename
+     *            A name matching a scenario.
      * @return A matching internal Mina Intyg scenario.
-     * @throws ScenarioNotFoundException If no scenario could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenario could be found.
      */
     public static Scenario getInternalScenario(String filename) throws ScenarioNotFoundException {
         return getScenario(filename + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "internal ");
     }
 
     private static Scenario getScenario(String filename, String scenarioPath, String model)
-        throws ScenarioNotFoundException {
+            throws ScenarioNotFoundException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
         try {
             return new FileBasedScenario(context.getResource(scenarioPath + filename).getFile());
@@ -128,9 +139,7 @@ public class ScenarioFinder {
      */
     private static class FileBasedScenario implements Scenario {
 
-        /**
-         * The file that represents the current scenario.
-         */
+        /** The file that represents the current scenario. */
         private final File scenarioFile;
 
         private FileBasedScenario(File scenarioFile) {
@@ -152,8 +161,8 @@ public class ScenarioFinder {
         public RegisterMedicalCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
                 JAXBElement<RegisterMedicalCertificateType> rct =
-                    XmlMarshallerHelper.unmarshal(
-                        getTransportModelFor(getName(), TRANSPORT_MODEL_PATH));
+                        XmlMarshallerHelper.unmarshal(
+                                getTransportModelFor(getName(), TRANSPORT_MODEL_PATH));
                 return rct.getValue();
             } catch (Exception e) {
                 throw new ScenarioNotFoundException(getName(), "transport", e);
@@ -167,8 +176,8 @@ public class ScenarioFinder {
         public RegisterCertificateType asRivtaV3TransportModel() throws ScenarioNotFoundException {
             try {
                 JAXBElement<RegisterCertificateType> rct =
-                    XmlMarshallerHelper.unmarshal(
-                        getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH));
+                        XmlMarshallerHelper.unmarshal(
+                                getTransportModelFor(getName(), RIVTA_V3_TRANSPORT_MODEL_PATH));
                 return rct.getValue();
             } catch (Exception e) {
                 throw new ScenarioNotFoundException(getName(), "rivta v3 transport", e);
@@ -180,7 +189,7 @@ public class ScenarioFinder {
          */
         @Override
         public Fk7263Utlatande asInternalModel()
-            throws ScenarioNotFoundException {
+                throws ScenarioNotFoundException {
             try {
                 return new CustomObjectMapper().readValue(getInternalModelFor(getName()), Fk7263Utlatande.class);
             } catch (IOException e) {

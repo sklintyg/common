@@ -18,24 +18,24 @@
  */
 
 describe('common.domain.ModelTransformService', function() {
-  'use strict';
+    'use strict';
 
-  var modelTransform;
+    var modelTransform;
 
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common'));
 
-  // Get references to the object we want to test from the context.
-  beforeEach(angular.mock.inject([
-    'common.domain.ModelTransformService',
-    function(_modelTransform_) {
-      modelTransform = _modelTransform_;
-    }]));
+    // Get references to the object we want to test from the context.
+    beforeEach(angular.mock.inject([
+        'common.domain.ModelTransformService',
+        function( _modelTransform_) {
+            modelTransform = _modelTransform_;
+        }]));
 
-  describe('#model transform service', function() {
-    it('toStringFilter should trim and set undefined for empty strings', function() {
-      expect(modelTransform.toStringFilter(' asfasf ')).toBe('asfasf');
-      expect(modelTransform.toStringFilter(' ')).toBeUndefined();
-      expect(modelTransform.toStringFilter('')).toBeUndefined();
+    describe('#model transform service', function() {
+        it('toStringFilter should trim and set undefined for empty strings', function(){
+            expect(modelTransform.toStringFilter(' asfasf ')).toBe('asfasf');
+            expect(modelTransform.toStringFilter(' ')).toBeUndefined();
+            expect(modelTransform.toStringFilter('')).toBeUndefined();
+        });
     });
-  });
 });

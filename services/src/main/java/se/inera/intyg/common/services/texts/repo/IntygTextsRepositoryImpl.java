@@ -21,8 +21,7 @@ package se.inera.intyg.common.services.texts.repo;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.isNull;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -38,8 +37,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import javax.annotation.PostConstruct;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,10 @@ import org.springframework.util.ResourceUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.model.Tillaggsfraga;
 
@@ -97,11 +102,11 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     // returns all matching text resources
     private Set<IntygTexts> update0() throws IOException {
         return Stream.of(ResourcePatternUtils.getResourcePatternResolver(resourceLoader).getResources(location))
-            .filter(this::isTextsResource)
-            .map(this::parse)
-            .filter(Objects::nonNull)
-            .map(this::of)
-            .collect(Collectors.toSet());
+                .filter(this::isTextsResource)
+                .map(this::parse)
+                .filter(Objects::nonNull)
+                .map(this::of)
+                .collect(Collectors.toSet());
     }
 
 
@@ -110,8 +115,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         try {
             LOG.debug("Parse: " + resource);
             final Document doc = DocumentBuilderFactory.newInstance()
-                .newDocumentBuilder()
-                .parse(resource.getInputStream());
+                    .newDocumentBuilder()
+                    .parse(resource.getInputStream());
             final Element el = doc.getDocumentElement();
             el.setAttribute(LOCATION_NAME, resource.getURL().toExternalForm());
             return el;
@@ -131,7 +136,7 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         List<Tillaggsfraga> tillaggsFragor = getTillaggsfragor0(element);
 
         IntygTexts newIntygTexts = new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor,
-            getTextVersionProperties(element.getAttribute(LOCATION_NAME)));
+                getTextVersionProperties(element.getAttribute(LOCATION_NAME)));
 
         return newIntygTexts;
 
@@ -174,7 +179,6 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         }
         return tillaggsFragor;
     }
-
     /**
      * Retrieve the corresponding property file for a intyg texts xml file.
      */
@@ -228,9 +232,9 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
     @Override
     public String getLatestVersion(String intygsTyp) {
         IntygTexts res = intygTexts.stream()
-            .filter(s -> s.getIntygsTyp().equals(intygsTyp))
-            .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
-            .max(IntygTexts::compareVersions).orElse(null);
+                .filter(s -> s.getIntygsTyp().equals(intygsTyp))
+                .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
+                .max(IntygTexts::compareVersions).orElse(null);
         return res == null ? null : res.getVersion();
     }
 
@@ -241,10 +245,10 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         String majorVersion = getMajorVersion(version);
 
         IntygTexts res = intygTexts.stream()
-            .filter(s -> s.getIntygsTyp().equals(intygsTyp))
-            .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
-            .filter(s -> majorVersion.equals(getMajorVersion(s.getVersion())))
-            .max(IntygTexts::compareVersions).orElse(null);
+                .filter(s -> s.getIntygsTyp().equals(intygsTyp))
+                .filter(s -> s.getValidFrom() == null || !s.getValidFrom().isAfter(LocalDate.now()))
+                .filter(s -> majorVersion.equals(getMajorVersion(s.getVersion())))
+                .max(IntygTexts::compareVersions).orElse(null);
         return res == null ? null : res.getVersion();
     }
 
@@ -273,8 +277,8 @@ public class IntygTextsRepositoryImpl implements IntygTextsRepository {
         final ChronoLocalDate now = ChronoLocalDate.from(LocalDateTime.now());
 
         return texter -> Objects.equals(typ, texter.getIntygsTyp())
-            && Objects.equals(version, texter.getVersion())
-            && !texter.getValidFrom().isAfter(now)
-            && (isNull(texter.getValidTo()) || !texter.getValidTo().isBefore(now));
+                && Objects.equals(version, texter.getVersion())
+                && !texter.getValidFrom().isAfter(now)
+                && (isNull(texter.getValidTo()) || !texter.getValidTo().isBefore(now));
     }
 }

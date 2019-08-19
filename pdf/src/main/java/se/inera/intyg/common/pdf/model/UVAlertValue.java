@@ -20,6 +20,8 @@ package se.inera.intyg.common.pdf.model;
 
 import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
+import java.util.stream.Stream;
+
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.pdf.xobject.PdfImageXObject;
 import com.itextpdf.layout.borders.Border;
@@ -28,7 +30,7 @@ import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
 import com.itextpdf.layout.element.Table;
-import java.util.stream.Stream;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
@@ -74,14 +76,14 @@ public class UVAlertValue extends UVComponent {
 
             AlertLevel alertLevel = AlertLevel.from((String) currentUvNode.get(ALERT_LEVEL_JSON_PROPERTY));
             PdfImageXObject observandumIcon = alertLevel.equals(AlertLevel.WARNING) ? renderer.getObservandumIcon()
-                : renderer.getObservandumInfoIcon();
+                    : renderer.getObservandumInfoIcon();
 
             AlertColors colors = AlertColors.from(renderer.getPrintConfig().getApplicationOrigin(), alertLevel);
 
             Table table = new Table(2)
-                .setPadding(millimetersToPoints(ALERT_TABLE_PADDING))
-                .setMargin(millimetersToPoints(ALERT_TABLE_MARGIN))
-                .setKeepTogether(true);
+                    .setPadding(millimetersToPoints(ALERT_TABLE_PADDING))
+                    .setMargin(millimetersToPoints(ALERT_TABLE_MARGIN))
+                    .setKeepTogether(true);
             table.setBackgroundColor(colors.getBgColor());
 
             Cell iconCell = new Cell();
@@ -91,10 +93,10 @@ public class UVAlertValue extends UVComponent {
 
             Paragraph paragraph = new Paragraph();
             paragraph = paragraph
-                .add(delFraga)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontColor(colors.getTextColor())
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
+                    .add(delFraga)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontColor(colors.getTextColor())
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE);
             Cell textCell = new Cell();
             textCell.setBorder(Border.NO_BORDER);
             textCell.add(paragraph);
@@ -120,9 +122,9 @@ public class UVAlertValue extends UVComponent {
 
         static AlertLevel from(String configValue) {
             return Stream.of(AlertLevel.values())
-                .filter(ac -> ac.configValue.equals(configValue))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Undefined AlertLevel for  " + configValue));
+                    .filter(ac -> ac.configValue.equals(configValue))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Undefined AlertLevel for  " + configValue));
         }
 
     }
@@ -148,9 +150,9 @@ public class UVAlertValue extends UVComponent {
 
         static AlertColors from(ApplicationOrigin origin, AlertLevel alertLevel) {
             return Stream.of(AlertColors.values())
-                .filter(ac -> ac.getOrigin().equals(origin) && ac.getAlertLevel().equals(alertLevel))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Undefined AlertColors for origin " + origin + " / alertLevel " + alertLevel));
+                    .filter(ac -> ac.getOrigin().equals(origin) && ac.getAlertLevel().equals(alertLevel))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Undefined AlertColors for origin " + origin + " / alertLevel " + alertLevel));
         }
 
         public ApplicationOrigin getOrigin() {

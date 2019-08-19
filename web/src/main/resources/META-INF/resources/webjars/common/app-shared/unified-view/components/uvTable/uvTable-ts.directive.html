@@ -1,13 +1,11 @@
-<table ng-if="viewModel.rows.length > 0" id="{{viewModel.modelProp | uvDomIdFilter}}"
-       class="table table-striped hidden-xs">
+<table ng-if="viewModel.rows.length > 0" id="{{viewModel.modelProp | uvDomIdFilter}}" class="table table-striped hidden-xs">
   <tr>
     <th ng-repeat="header in viewModel.headers track by $index">
       {{header}}
     </th>
   </tr>
   <tr ng-repeat="row in viewModel.rows track by $index">
-    <td ng-repeat="value in row.values track by $index"
-        ng-attr-id="{{viewModel.modelProp + '-row' + $parent.$index + '-col' + $index| uvDomIdFilter}}">
+    <td ng-repeat="value in row.values track by $index" ng-attr-id="{{viewModel.modelProp + '-row' + $parent.$index + '-col' + $index| uvDomIdFilter}}">
       <span ng-show="value">{{value}}</span>
       <span ng-show="!value">-</span>
     </td>
@@ -24,8 +22,7 @@
       <div data-ng-if="!$first" class="col-xs-6">
         {{ viewModel.headers[columnIndex] }}
       </div>
-      <div data-ng-if="!$first" class="col-xs-6"
-           ng-attr-id="{{'mobile-' + viewModel.modelProp + '-row' + rowIndex + '-col' + columnIndex| uvDomIdFilter}}">
+      <div data-ng-if="!$first" class="col-xs-6" ng-attr-id="{{'mobile-' + viewModel.modelProp + '-row' + rowIndex + '-col' + columnIndex| uvDomIdFilter}}">
         <span ng-show="value">{{value}}</span>
         <span ng-show="!value">-</span>
       </div>

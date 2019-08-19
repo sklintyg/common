@@ -21,56 +21,56 @@
  */
 angular.module('common').factory('common.MonitoringLogService',
     ['$http', function($http) {
-      'use strict';
+        'use strict';
 
-      function post(request) {
-        $http.post('/api/jslog/monitoring', request);
-      }
-
-      function isDefined(input) {
-        return input !== undefined && input !== '';
-      }
-
-      function _diagnoskodverkChanged(id, type) {
-        if (isDefined(id) && isDefined(type)) {
-          post({
-            'event': 'DIAGNOSKODVERK_CHANGED',
-            'info': {
-              'intygId': id,
-              'intygType': type
-            }
-          });
+        function post(request) {
+            $http.post('/api/jslog/monitoring', request);
         }
-      }
 
-      function _screenResolution(width, height) {
-        if (isDefined(width) && isDefined(height)) {
-          post({
-            'event': 'SCREEN_RESOLUTION',
-            'info': {
-              'width': width,
-              'height': height
-            }
-          });
+        function isDefined(input) {
+            return input !== undefined && input !== '';
         }
-      }
 
-      function _signingFailed(errorMessage, intygsId) {
-        if (isDefined(errorMessage) && isDefined(intygsId)) {
-          post({
-            'event': 'SIGNING_FAILED',
-            'info': {
-              'errorMessage': errorMessage,
-              'intygId': intygsId
+        function _diagnoskodverkChanged(id, type) {
+            if (isDefined(id) && isDefined(type)) {
+                post({
+                    'event': 'DIAGNOSKODVERK_CHANGED',
+                    'info': {
+                        'intygId': id,
+                        'intygType': type
+                    }
+                });
             }
-          });
         }
-      }
 
-      return {
-        diagnoskodverkChanged: _diagnoskodverkChanged,
-        screenResolution: _screenResolution,
-        signingFailed: _signingFailed
-      };
+        function _screenResolution(width, height) {
+            if (isDefined(width) && isDefined(height)) {
+                post({
+                    'event': 'SCREEN_RESOLUTION',
+                    'info': {
+                        'width': width,
+                        'height': height
+                    }
+                });
+            }
+        }
+
+        function _signingFailed(errorMessage, intygsId) {
+            if (isDefined(errorMessage) && isDefined(intygsId)) {
+                post({
+                    'event': 'SIGNING_FAILED',
+                    'info': {
+                        'errorMessage': errorMessage,
+                        'intygId': intygsId
+                    }
+                });
+            }
+        }
+
+        return {
+            diagnoskodverkChanged: _diagnoskodverkChanged,
+            screenResolution: _screenResolution,
+            signingFailed: _signingFailed
+        };
 
     }]);

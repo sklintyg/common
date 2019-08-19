@@ -18,31 +18,31 @@
  */
 
 describe('StringHelper', function() {
-  'use strict';
+    'use strict';
 
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common'));
 
-  var stringHelper;
+    var stringHelper;
 
-  beforeEach(angular.mock.inject(['common.StringHelper', function(_stringHelper_) {
-    stringHelper = _stringHelper_;
-  }]));
+    beforeEach(angular.mock.inject(['common.StringHelper', function(_stringHelper_) {
+        stringHelper = _stringHelper_;
+    }]));
 
-  describe('toLowerCase', function() {
-    it('undefined', function() {
-      var result = stringHelper.toLowerCase(undefined);
-      expect(result).toEqual('');
+    describe('toLowerCase', function() {
+        it('undefined', function() {
+            var result = stringHelper.toLowerCase(undefined);
+            expect(result).toEqual('');
+        });
+
+        it('null', function() {
+            var result = stringHelper.toLowerCase(null);
+            expect(result).toEqual('');
+        });
+
+        it('normal', function() {
+            var result = stringHelper.toLowerCase('NoRmal');
+            expect(result).toEqual('normal');
+        });
     });
-
-    it('null', function() {
-      var result = stringHelper.toLowerCase(null);
-      expect(result).toEqual('');
-    });
-
-    it('normal', function() {
-      var result = stringHelper.toLowerCase('NoRmal');
-      expect(result).toEqual('normal');
-    });
-  });
 
 });

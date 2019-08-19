@@ -22,11 +22,12 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
+
 import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.util.integration.schema.adapter.InternalDateAdapter;
 
 public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
@@ -38,34 +39,34 @@ public class InternalDateDeserializer extends StdDeserializer<InternalDate> {
 
     @Override
     public InternalDate deserialize(JsonParser jp, DeserializationContext ctxt)
-        throws IOException {
+            throws IOException {
         switch (jp.getCurrentToken()) {
-            case START_ARRAY:
-                // [yyyy,MM,dd,hh,mm,ss,ms]
+        case START_ARRAY:
+            // [yyyy,MM,dd,hh,mm,ss,ms]
 
-                jp.nextToken(); // VALUE_NUMBER_INT
-                int year = jp.getIntValue();
+            jp.nextToken(); // VALUE_NUMBER_INT
+            int year = jp.getIntValue();
 
-                jp.nextToken(); // VALUE_NUMBER_INT
-                int month = jp.getIntValue();
+            jp.nextToken(); // VALUE_NUMBER_INT
+            int month = jp.getIntValue();
 
-                jp.nextToken(); // VALUE_NUMBER_INT
-                int day = jp.getIntValue();
+            jp.nextToken(); // VALUE_NUMBER_INT
+            int day = jp.getIntValue();
 
-                // We are only interested in year, month and day
-                // Skip the time and return at date
-                return InternalDateAdapter.parseInternalDate(year, month, day);
-            case VALUE_NUMBER_INT:
-                return new InternalDate(Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate());
-            case VALUE_STRING:
-                String str = jp.getText().trim();
-                if (str.length() == 0) { // [JACKSON-360]
-                    return null;
-                }
+            // We are only interested in year, month and day
+            // Skip the time and return at date
+            return InternalDateAdapter.parseInternalDate(year, month, day);
+        case VALUE_NUMBER_INT:
+            return new InternalDate(Instant.ofEpochMilli(jp.getLongValue()).atZone(ZoneId.systemDefault()).toLocalDate());
+        case VALUE_STRING:
+            String str = jp.getText().trim();
+            if (str.length() == 0) { // [JACKSON-360]
+                return null;
+            }
 
-                return InternalDateAdapter.parseInternalDate(str);
-            default:
-                throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
+            return InternalDateAdapter.parseInternalDate(str);
+        default:
+            throw ctxt.wrongTokenException(jp, JsonToken.START_ARRAY, "expected JSON Array, Number or String");
         }
     }
 }

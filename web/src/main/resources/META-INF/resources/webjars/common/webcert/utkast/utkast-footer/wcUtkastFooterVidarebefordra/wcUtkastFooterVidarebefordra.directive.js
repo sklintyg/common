@@ -18,48 +18,47 @@
  */
 
 angular
-.module('common')
-.directive('wcUtkastFooterVidarebefordra',
-    ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService',
-      '$rootScope', '$timeout',
-      function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService, $rootScope, $timeout) {
-        'use strict';
+    .module('common')
+    .directive('wcUtkastFooterVidarebefordra',
+        ['common.dynamicLabelService', 'common.UtkastNotifyService', 'common.UtkastViewStateService', 'common.UtkastFooterService', '$rootScope', '$timeout',
+            function(dynamicLabelService, UtkastNotifyService, CommonViewState, UtkastFooterService, $rootScope, $timeout) {
+                'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.html',
-          scope: {
-            viewState: '=',
-            certForm: '<'
-          },
-          controller: function($scope) {
-            var viewState = $scope.viewState;
+                return {
+                    restrict: 'E',
+                    templateUrl: '/web/webjars/common/webcert/utkast/utkast-footer/wcUtkastFooterVidarebefordra/wcUtkastFooterVidarebefordra.directive.html',
+                    scope: {
+                        viewState: '=',
+                        certForm: '<'
+                    },
+                    controller: function($scope) {
+                        var viewState = $scope.viewState;
 
-            $scope.forwardBtnText = dynamicLabelService.getProperty('draft.notify.button');
-            $scope.forwardBtnTooltip = dynamicLabelService.getProperty('draft.notify.button.tooltip');
-            $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
+                        $scope.forwardBtnText = dynamicLabelService.getProperty('draft.notify.button');
+                        $scope.forwardBtnTooltip = dynamicLabelService.getProperty('draft.notify.button.tooltip');
+                        $scope.checkMissingLabel = dynamicLabelService.getProperty('draft.notify.check-missing');
 
-            /**
-             * Handle vidarebefordra dialog
-             */
-            $scope.vidarebefordraUtkast = function() {
-              UtkastNotifyService.notifyUtkast(viewState.intygModel.id, viewState.common.intyg.type,
-                  viewState.draftModel, viewState.common);
-            };
+                        /**
+                         * Handle vidarebefordra dialog
+                         */
+                        $scope.vidarebefordraUtkast = function() {
+                            UtkastNotifyService.notifyUtkast(viewState.intygModel.id, viewState.common.intyg.type,
+                                viewState.draftModel, viewState.common);
+                        };
 
-            $scope.onVidarebefordradChange = function() {
-              UtkastNotifyService.onNotifyChange(viewState.intygModel.id, viewState.common.intyg.type,
-                  viewState.draftModel, viewState.common);
-            };
+                        $scope.onVidarebefordradChange = function() {
+                            UtkastNotifyService.onNotifyChange(viewState.intygModel.id, viewState.common.intyg.type,
+                                viewState.draftModel, viewState.common);
+                        };
 
-            $scope.showMissing = function(value) {
-              UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
+                        $scope.showMissing = function(value) {
+                            UtkastFooterService.toggleMissing(value, viewState, $scope.certForm);
 
-              $timeout(function() {
-                $rootScope.$emit('validation.content-updated');
-              }, 200);
+                            $timeout(function() {
+                                $rootScope.$emit('validation.content-updated');
+                            }, 200);
 
-            };
-          }
-        };
-      }]);
+                        };
+                    }
+                };
+            } ]);

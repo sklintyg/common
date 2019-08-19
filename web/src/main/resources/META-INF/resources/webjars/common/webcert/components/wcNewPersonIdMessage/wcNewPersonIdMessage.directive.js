@@ -21,85 +21,84 @@
  * Watches viewState.intygModel.grundData.patient.personId event on rootscope when the intyg is loaded to update the message.
  */
 angular.module('common').directive('wcNewPersonIdMessage', [
-  '$stateParams', 'common.dialogService', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel',
-  'common.ObjectHelper',
-  function($stateParams, dialogService, personIdValidator, messageService, UserModel, ObjectHelper) {
-    'use strict';
+    '$stateParams', 'common.dialogService', 'common.PersonIdValidatorService', 'common.messageService', 'common.UserModel', 'common.ObjectHelper',
+    function($stateParams, dialogService, personIdValidator, messageService, UserModel, ObjectHelper) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        patient: '=',
-        isIntyg: '='
-      },
-      controller: function($scope) {
+        return {
+            restrict: 'E',
+            scope: {
+                patient: '=',
+                isIntyg: '='
+            },
+            controller: function($scope) {
 
-        $scope.show = false; // Flag to control visibility
-        $scope.message = ''; // Text to be shown
+                $scope.show = false; // Flag to control visibility
+                $scope.message = ''; // Text to be shown
 
-        function showPersonnummerMessage(number) {
-          // PS-003
-          $scope.show = true;
-          $scope.showAlert = false;
-          var messageId = 'common.alert.newpersonid';
-          $scope.message = messageService.getProperty(messageId, {person: number}, messageId);
-        }
+                function showPersonnummerMessage(number) {
+                    // PS-003
+                    $scope.show = true;
+                    $scope.showAlert = false;
+                    var messageId = 'common.alert.newpersonid';
+                    $scope.message = messageService.getProperty(messageId, {person: number}, messageId);
+                }
 
-        function showReservnummerMessage(number) {
-          // PS-007 with modal MO-020
-          $scope.show = true;
-          $scope.showAlert = true;
-          var messageId = 'common.alert.newreserveid';
-          $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
-        }
+                function showReservnummerMessage(number) {
+                    // PS-007 with modal MO-020
+                    $scope.show = true;
+                    $scope.showAlert = true;
+                    var messageId = 'common.alert.newreserveid';
+                    $scope.message = messageService.getProperty(messageId, {reserve: number}, messageId);
+                }
 
-        function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
+                function decideMessageToShow(intygPersonnummer, alternatePatientSSn) {
 
-          var validatedAlternateSSn = personIdValidator.validate(alternatePatientSSn);
-          var validatedIntygPersonnummer = personIdValidator.validate(intygPersonnummer);
+                    var validatedAlternateSSn = personIdValidator.validate(alternatePatientSSn);
+                    var validatedIntygPersonnummer = personIdValidator.validate(intygPersonnummer);
 
-          //If an alternatePatientSSn is given that differs from current..
-          if (validatedIntygPersonnummer !== validatedAlternateSSn) {
+                    //If an alternatePatientSSn is given that differs from current..
+                    if (validatedIntygPersonnummer !== validatedAlternateSSn) {
 
-            showPersonnummerMessage(alternatePatientSSn);
+                        showPersonnummerMessage(alternatePatientSSn);
 
-            //.. and it's passes as a personnummer/samordningsnummer valid for future use (e.g in copy/renew)
-            if (personIdValidator.validResult(validatedAlternateSSn)) {
-              showPersonnummerMessage(alternatePatientSSn);
-            } else {
-              showReservnummerMessage(alternatePatientSSn);
-            }
-          }
-        }
+                        //.. and it's passes as a personnummer/samordningsnummer valid for future use (e.g in copy/renew)
+                        if (personIdValidator.validResult(validatedAlternateSSn)) {
+                            showPersonnummerMessage(alternatePatientSSn);
+                        } else {
+                            showReservnummerMessage(alternatePatientSSn);
+                        }
+                    }
+                }
 
-        if ($scope.isIntyg) {
-          var updateShowFlag = function(currentPatient) {
-            $scope.show = false;
-            var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-            if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(currentPatient) &&
-                !ObjectHelper.isEmpty(currentPatient.personId)) {
-              var intygPersonnummer = currentPatient.personId;
-              decideMessageToShow(intygPersonnummer, alternatePatientSSn);
-            }
-          };
-          // Patient comes from intyg which is loaded async
-          $scope.$watch('patient', updateShowFlag, true);
-          updateShowFlag();
-        } else {
-          $scope.show = false;
-          var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
-          var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
-          if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(intygPersonnummer)) {
-            decideMessageToShow(intygPersonnummer, alternatePatientSSn);
-          }
-        }
+                if ($scope.isIntyg) {
+                    var updateShowFlag = function(currentPatient) {
+                        $scope.show = false;
+                        var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
+                        if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(currentPatient) &&
+                            !ObjectHelper.isEmpty(currentPatient.personId)) {
+                            var intygPersonnummer = currentPatient.personId;
+                            decideMessageToShow(intygPersonnummer, alternatePatientSSn);
+                        }
+                    };
+                    // Patient comes from intyg which is loaded async
+                    $scope.$watch('patient', updateShowFlag, true);
+                    updateShowFlag();
+                }
+                else {
+                    $scope.show = false;
+                    var alternatePatientSSn = UserModel.getIntegrationParam('alternateSsn');
+                    var intygPersonnummer = UserModel.getIntegrationParam('beforeAlternateSsn');
+                    if (!ObjectHelper.isEmpty(alternatePatientSSn) && !ObjectHelper.isEmpty(intygPersonnummer)) {
+                        decideMessageToShow(intygPersonnummer, alternatePatientSSn);
+                    }
+                }
 
-        $scope.openModal = function() {
-          dialogService.showMessageDialog('intyg.status.patient.ps-007.modalheader',
-              messageService.getProperty('intyg.status.patient.ps-007.modalbody'));
+                $scope.openModal = function() {
+                    dialogService.showMessageDialog('intyg.status.patient.ps-007.modalheader', messageService.getProperty('intyg.status.patient.ps-007.modalbody'));
+                };
+
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcNewPersonIdMessage/wcNewPersonIdMessage.directive.html'
         };
-
-      },
-      templateUrl: '/web/webjars/common/webcert/components/wcNewPersonIdMessage/wcNewPersonIdMessage.directive.html'
-    };
-  }]);
+    }]);

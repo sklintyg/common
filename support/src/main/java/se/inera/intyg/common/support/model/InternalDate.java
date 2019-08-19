@@ -37,7 +37,6 @@ import java.util.regex.Pattern;
  * @author erik
  */
 public class InternalDate {
-
     private static final InternalDate MIN_DATE = new InternalDate("1900-01-01");
     private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
     private static final String DATE_FORMAT = "[1-2][0-9]{3,3}(-((0[1-9])|(1[0-2]))(-((0[1-9])|([1-2][0-9])|(3[0-1]))))";
@@ -68,8 +67,10 @@ public class InternalDate {
      * Constuct an {@link se.inera.intyg.common.support.model.InternalDate} from a {@link LocalDate},
      * primarily used when converting from external to internal model.
      *
-     * @param date a {@link LocalDate}
-     * @throws {@link ModelException} if null is passed
+     * @param date
+     *            a {@link LocalDate}
+     * @throws {@link
+     *             ModelException} if null is passed
      */
     public InternalDate(LocalDate date) {
         if (date == null) {
@@ -93,7 +94,8 @@ public class InternalDate {
      * Attempts to parse the String held to a LocalDate.
      *
      * @return {@link LocalDate} if parsing was successful
-     * @throws ModelException if parsing failed
+     * @throws ModelException
+     *             if parsing failed
      */
     public LocalDate asLocalDate() {
         if (date == null) {
@@ -156,7 +158,7 @@ public class InternalDate {
             Matcher monthMatcher = monthPattern.matcher(date);
             if (monthMatcher.matches()) {
                 if (yearMatcher.group(1).equals(Integer.toString(dateLimit.getYear()))
-                    && (Integer.parseInt(monthMatcher.group(1)) - dateLimit.getMonth().getValue()) > 0) {
+                        && (Integer.parseInt(monthMatcher.group(1)) - dateLimit.getMonth().getValue()) > 0) {
                     return true;
                 }
             }
@@ -168,6 +170,7 @@ public class InternalDate {
     /**
      * Determine whether an InternalDate is outside the allowed interval minDate < theDate < future.
      *
+     * @param minDate
      * @return True if it is outside the allowed interval or is null or invalid, false otherwise.
      */
     public boolean beforeMinDateOrInFuture(LocalDate minDate) {
@@ -199,7 +202,7 @@ public class InternalDate {
 
     public boolean isBeforeBeginningOfLastYear() {
         return date != null
-            && this.asLocalDate().isBefore(LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1));
+                && this.asLocalDate().isBefore(LocalDate.ofYearDay(LocalDate.now().getYear() - 1, 1));
     }
 
     @Override
@@ -207,7 +210,7 @@ public class InternalDate {
         if (object == null) {
             return false;
         }
-        if (!(object instanceof InternalDate)) {
+        if (!(object instanceof  InternalDate)) {
             return false;
         }
         final InternalDate that = (InternalDate) object;

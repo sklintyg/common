@@ -21,12 +21,14 @@ package se.inera.intyg.common.ts_bas.v6.model.internal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+
 import javax.annotation.Nullable;
 
 /**
  * Class encapsulating the values for synskarpa for a single eye.
  *
  * @author erik
+ *
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Synskarpevarden.Builder.class)
@@ -40,7 +42,6 @@ public abstract class Synskarpevarden {
 
     @AutoValue.Builder
     public abstract static class Builder {
-
         public abstract Synskarpevarden build();
 
         @JsonProperty("utanKorrektion")

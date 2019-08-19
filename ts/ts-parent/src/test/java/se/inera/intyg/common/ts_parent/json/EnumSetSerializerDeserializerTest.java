@@ -23,11 +23,13 @@ import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializer
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.THREE;
 import static se.inera.intyg.common.ts_parent.json.EnumSetSerializerDeserializerTest.TestEnum.TWO;
 
+import java.util.EnumSet;
+
+import org.junit.Test;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import java.util.EnumSet;
-import org.junit.Test;
 
 public class EnumSetSerializerDeserializerTest {
 
@@ -36,9 +38,7 @@ public class EnumSetSerializerDeserializerTest {
      */
     public static enum TestEnum {
         ONE, TWO, THREE
-    }
-
-    ;
+    };
 
     /**
      * A simple test class with an <code>EnumSet</code> of the <code>TestEnum</code>.
@@ -100,6 +100,8 @@ public class EnumSetSerializerDeserializerTest {
 
     /**
      * Test that EnumSets are serialized as expected.
+     *
+     * @throws Exception
      */
     @Test
     public void testEnumSetSerializer() throws Exception {
@@ -140,6 +142,8 @@ public class EnumSetSerializerDeserializerTest {
 
     /**
      * Test that EnumSets are deserialized as expected.
+     *
+     * @throws Exception
      */
     @Test
     public void testEnumSetDeserializer() throws Exception {
@@ -179,14 +183,12 @@ public class EnumSetSerializerDeserializerTest {
     }
 
     public static class EnumSetSerializer extends AbstractEnumSetSerializer<TestEnum> {
-
         protected EnumSetSerializer() {
             super(TestEnum.class);
         }
     }
 
     public static class EnumSetDeserializer extends AbstractEnumSetDeserializer<TestEnum> {
-
         protected EnumSetDeserializer() {
             super(TestEnum.class);
         }

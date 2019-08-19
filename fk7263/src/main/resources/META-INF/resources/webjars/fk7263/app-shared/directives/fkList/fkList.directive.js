@@ -16,37 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('fk7263').directive('fk7263List', ['uvUtil',
-  function(uvUtil) {
+angular.module('fk7263').directive('fk7263List', [ 'uvUtil',
+    function(uvUtil) {
     'use strict';
 
     return {
-      restrict: 'E',
-      scope: {
-        config: '=',
-        viewData: '='
-      },
-      templateUrl: '/web/webjars/fk7263/app-shared/directives/fkList/fkList.directive.html',
-      link: function($scope) {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/fk7263/app-shared/directives/fkList/fkList.directive.html',
+        link: function($scope) {
 
-        $scope.values = [];
+            $scope.values = [];
 
-        angular.forEach($scope.config.modelProps, function(data) {
-          var value = uvUtil.getValue($scope.viewData, data.modelProp);
+            angular.forEach($scope.config.modelProps, function(data) {
+                var value = uvUtil.getValue($scope.viewData, data.modelProp);
 
-          if (value) {
-            $scope.values.push({
-              modelProp: data.modelProp,
-              key: data.label,
-              text: data.showValue ? value : null
+                if (value) {
+                    $scope.values.push({
+                        modelProp: data.modelProp,
+                        key: data.label,
+                        text: data.showValue ? value : null
+                    });
+                }
             });
-          }
-        });
 
-        $scope.hasValue = function() {
-          return $scope.values.length > 0;
-        };
+            $scope.hasValue = function() {
+                return $scope.values.length > 0;
+            };
 
-      }
+        }
     };
-  }]);
+} ]);

@@ -1,7 +1,8 @@
 {
   "typ": "luse",
-  "tillaggsfragor": [],
+  "tillaggsfragor": [  ],
   "diagnoser": [
+
   ],
   "underlag": [],
   "textVersion": "1.0",
@@ -17,6 +18,7 @@
           "vardgivarnamn": "Vårdgivaren",
           "vardgivarid": "SE2321000016-39KJ"
         },
+
         "enhetsid": "SE2321000016-H489"
       },
       "forskrivarKod": "09874321",

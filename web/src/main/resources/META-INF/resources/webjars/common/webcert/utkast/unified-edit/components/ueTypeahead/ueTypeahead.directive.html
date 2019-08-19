@@ -2,10 +2,15 @@
   <ue-validation-wrapper validations="validation.messagesByField[config.modelProp.toLowerCase()]">
     <ue-label config="::config.label" model="::model"></ue-label>
     <div class="input-wrapper">
-      <input type="text" class="form-control" ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
-             ng-model="model[config.modelProp]" ue-filter-latin1 ng-blur="updateValidation()"
+      <input type="text"
+             class="form-control"
+             ng-attr-id="{{::config.modelProp|ueDomIdFilter}}"
+             ng-model="model[config.modelProp]"
+             ue-filter-latin1
+             ng-blur="updateValidation()"
              maxlength="{{config.htmlMaxlength || 3500}}"
-             uib-typeahead="value for value in values | filter:$viewValue | limitTo:8" typeahead-editable="true">
+             uib-typeahead="value for value in values | filter:$viewValue | limitTo:8"
+             typeahead-editable="true">
     </div>
   </ue-validation-wrapper>
 </div>

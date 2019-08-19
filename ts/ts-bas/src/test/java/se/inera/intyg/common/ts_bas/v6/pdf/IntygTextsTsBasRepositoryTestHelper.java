@@ -18,16 +18,20 @@
  */
 package se.inera.intyg.common.ts_bas.v6.pdf;
 
-import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.SortedMap;
+
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import com.google.common.collect.ImmutableMap;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
@@ -38,11 +42,10 @@ public class IntygTextsTsBasRepositoryTestHelper extends IntygTextsRepositoryImp
     }
 
     @Override
-    public void update() {
+    public void update()  {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v6/text/texterTS_TSTRK_1007_v6.8.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

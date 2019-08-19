@@ -7,10 +7,14 @@
       <div class="input-wrapper" ng-class="::{'col-md-{{::12 - config.labelColSize}}': config.labelColSize}">
         <input ng-attr-id="{{::config.modelProp|ueDomIdFilter}}" type="text" class="form-control"
                ng-model="modelGetterSetter"
-               ng-model-options="{ debounce: config.numbersOnly ? 0 : 500, getterSetter: true }" ue-filter-latin1
-               ng-blur="updateValidation()" ng-disabled="config.disabled(model)"
-               ng-class="::{ 'input-{{::config.size}}': config.size }" maxlength="{{::config.htmlMaxlength || 3500}}"
-               wc-number="{{::config.numbersOnly === true}}" placeholder="{{::config.placeholder}}">
+               ng-model-options="{ debounce: config.numbersOnly ? 0 : 500, getterSetter: true }"
+               ue-filter-latin1
+               ng-blur="updateValidation()"
+               ng-disabled="config.disabled(model)"
+               ng-class="::{ 'input-{{::config.size}}': config.size }"
+               maxlength="{{::config.htmlMaxlength || 3500}}"
+               wc-number="{{::config.numbersOnly === true}}"
+               placeholder="{{::config.placeholder}}">
       </div>
     </div>
   </ue-validation-wrapper>

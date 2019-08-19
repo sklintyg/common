@@ -18,18 +18,19 @@
  */
 package se.inera.intyg.common.tstrk1062.v1.model.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static se.inera.intyg.common.tstrk1062.v1.rest.TsTrk1062ModuleApiV1.SCHEMATRON_FILE;
+
+import java.net.URL;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.junit.Test;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-import java.net.URL;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.junit.Test;
+
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;

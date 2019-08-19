@@ -20,14 +20,15 @@ package se.inera.intyg.common.af00251.v1.model.converter;
 
 import static org.junit.Assert.assertFalse;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.StringWriter;
 import java.util.Collection;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.namespace.QName;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -40,6 +41,9 @@ import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.af00251.v1.utils.Scenario;
 import se.inera.intyg.common.af00251.v1.utils.ScenarioFinder;
@@ -68,8 +72,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("pass-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+                .map(u -> new Object[] { u.getName(), u })
+                .collect(Collectors.toList());
     }
 
     /**
@@ -81,7 +85,7 @@ public class RoundTripTest {
         CustomObjectMapper objectMapper = new CustomObjectMapper();
         RegisterCertificateType transport = InternalToTransport.convert(scenario.asInternalModel());
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class, PQType.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(RegisterCertificateType.class, DatePeriodType.class , PQType.class);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         StringWriter expected = new StringWriter();
@@ -90,13 +94,13 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(transport), actual);
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actual.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
         if (diff.hasDifferences()) {
             System.out.println("Expected: " + expected.toString());
             System.out.println("Actual: " + actual.toString());
@@ -132,13 +136,13 @@ public class RoundTripTest {
         marshaller.marshal(wrapJaxb(InternalToTransport.convert(internal)), actual);
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actual.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
 
         if (diff.hasDifferences()) {
             System.out.println("Expected: " + expected.toString());
@@ -150,8 +154,8 @@ public class RoundTripTest {
 
     private JAXBElement<?> wrapJaxb(RegisterCertificateType ws) {
         JAXBElement<?> jaxbElement = new JAXBElement<>(
-            new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
-            RegisterCertificateType.class, ws);
+                new QName("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3", "RegisterCertificate"),
+                RegisterCertificateType.class, ws);
         return jaxbElement;
     }
 }

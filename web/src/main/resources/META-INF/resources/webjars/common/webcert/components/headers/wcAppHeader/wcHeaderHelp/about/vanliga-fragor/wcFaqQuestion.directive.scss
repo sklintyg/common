@@ -17,7 +17,6 @@ wc-faq-question {
         justify-content: space-between;
         @extend %wc-typo-14;
         color: $wc-color-07;
-
         a {
           text-decoration: none;
         }
@@ -25,7 +24,6 @@ wc-faq-question {
 
       > .panel-body {
         padding: 0;
-
         > .panel-content {
           @extend %wc-typo-07;
           color: $wc-color-07;

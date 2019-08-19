@@ -52,21 +52,24 @@ import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TEXTV
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TILLAGGSFRAGOR_SVAR_JSON_ID;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.TYP_AV_SYSSELSATTNING_SVAR_JSON_ID_28;
 
+import java.util.List;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import java.util.List;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
 import se.inera.intyg.common.lisjp.model.internal.ArbetslivsinriktadeAtgarder;
 import se.inera.intyg.common.lisjp.model.internal.Prognos;
 import se.inera.intyg.common.lisjp.model.internal.Sjukskrivning;
 import se.inera.intyg.common.lisjp.model.internal.Sysselsattning;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.lisjp.support.LisjpEntryPoint;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 // CHECKSTYLE:ON LineLength
@@ -227,14 +230,14 @@ public abstract class LisjpUtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_LisjpUtlatandeV1.Builder()
-            .setDiagnoser(ImmutableList.<Diagnos>of())
-            .setSjukskrivningar(ImmutableList.<Sjukskrivning>of())
-            .setSysselsattning(ImmutableList.<Sysselsattning>of())
-            .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder>of())
-            .setTillaggsfragor(ImmutableList.<Tillaggsfraga>of())
-            .setFunktionsKategorier(ImmutableList.<String>of())
-            .setAktivitetsKategorier(ImmutableList.<String>of())
-            .setSignature(null);
+                .setDiagnoser(ImmutableList.<Diagnos> of())
+                .setSjukskrivningar(ImmutableList.<Sjukskrivning> of())
+                .setSysselsattning(ImmutableList.<Sysselsattning> of())
+                .setArbetslivsinriktadeAtgarder(ImmutableList.<ArbetslivsinriktadeAtgarder> of())
+                .setTillaggsfragor(ImmutableList.<Tillaggsfraga> of())
+                .setFunktionsKategorier(ImmutableList.<String> of())
+                .setAktivitetsKategorier(ImmutableList.<String> of())
+                .setSignature(null);
     }
 
     @AutoValue.Builder

@@ -17,7 +17,6 @@ textarea.form-control {
   overflow-y: auto;
   resize: none;
 }
-
 textarea.form-control:focus {
   outline: none !important;
   border: 1px solid $wc-color-21;
@@ -31,12 +30,10 @@ textarea.form-control:focus {
       pointer-events: none;
     }
   }
-
   fieldset[disabled] & .input-wrapper {
-    cursor: not-allowed;
+    cursor:not-allowed;
   }
 }
-
 fieldset[disabled] button {
   pointer-events: none;
 }

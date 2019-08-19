@@ -21,13 +21,16 @@ package se.inera.intyg.common.services.texts.repo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+
 import java.time.LocalDate;
 import java.util.HashSet;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -86,15 +89,15 @@ public class IntygTextsRepositoryImplTest {
                 //latest valid in of 1.x versions
                 add(new IntygTexts("1.2", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
                 //Not valid due to invalid validfrom
-                add(new IntygTexts("1.3", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(5), null, null, null, null));
+                add(new IntygTexts("1.3", DEFAULT_INTYGSTYP,  LocalDate.now().plusDays(5), null, null, null, null));
                 //Next major, only 2.0 is valid
                 add(new IntygTexts("2.0", DEFAULT_INTYGSTYP, LocalDate.now().minusDays(1), null, null, null, null));
                 add(new IntygTexts("2.1", DEFAULT_INTYGSTYP, LocalDate.now().plusDays(1), null, null, null, null));
             }
         };
-        assertEquals("1.2", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "1.1"));
-        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2"));
-        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP, "2.0"));
+        assertEquals("1.2", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"1.1"));
+        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"2"));
+        assertEquals("2.0", repo.getLatestVersionForSameMajorVersion(DEFAULT_INTYGSTYP,"2.0"));
     }
 
     @Test

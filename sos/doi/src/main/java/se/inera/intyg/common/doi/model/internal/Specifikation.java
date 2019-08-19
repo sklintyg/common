@@ -18,12 +18,13 @@
  */
 package se.inera.intyg.common.doi.model.internal;
 
+import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
+
+import java.util.stream.Stream;
+
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_CODE;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAKNAS_DISPLAY_NAME;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.V3_CODE_SYSTEM_NULL_FLAVOR;
-
-import java.util.stream.Stream;
-import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 
 public enum Specifikation {
 
@@ -43,9 +44,9 @@ public enum Specifikation {
 
     public static Specifikation fromId(String id) {
         return Stream.of(Specifikation.values())
-            .filter(undersokning -> undersokning.getId().equals(id))
-            .findAny()
-            .orElseThrow(() -> new IllegalArgumentException());
+                .filter(undersokning -> undersokning.getId().equals(id))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException());
     }
 
     public String getId() {

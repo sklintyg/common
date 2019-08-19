@@ -19,46 +19,44 @@
 /**
  * Position help buttons with FMB, SRS, etc
  */
-angular.module('common').directive('wcHelpWrapper',
-    ['$rootScope', 'common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', 'common.srsViewState',
-      function($rootScope, ObjectHelper, fmbService, fmbViewState, srsViewState) {
+angular.module('common').directive('wcHelpWrapper', ['$rootScope', 'common.ObjectHelper', 'common.fmbService', 'common.fmbViewState', 'common.srsViewState',
+    function($rootScope, ObjectHelper, fmbService, fmbViewState, srsViewState) {
         'use strict';
 
         return {
-          restrict: 'E',
-          transclude: true,
-          scope: {
-            fmbId: '@',
-            fmbFieldName: '@',
-            srsId: '@',
-            pushContent: '@'
-          },
-          link: function(scope, element, attrs) {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                fmbId: '@',
+                fmbFieldName: '@',
+                srsId: '@',
+                pushContent: '@'
+            },
+            link: function(scope, element, attrs) {
 
-            scope.pushContent = ObjectHelper.stringBoolToBoolUndefinedTrue(scope.pushContent);
+                scope.pushContent = ObjectHelper.stringBoolToBoolUndefinedTrue(scope.pushContent);
 
-            scope.fmbAvailable = true;
+                scope.fmbAvailable = true;
+                function updateFMBAvailable() {
+                    if(ObjectHelper.isDefined(scope.fmbFieldName) && ObjectHelper.isDefined(scope.fmbId)){
+                        scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(fmbViewState);
+                    } else {
+                        scope.fmbAvailable = false;
+                    }
+                }
 
-            function updateFMBAvailable() {
-              if (ObjectHelper.isDefined(scope.fmbFieldName) && ObjectHelper.isDefined(scope.fmbId)) {
-                scope.fmbAvailable = fmbService.isAnyFMBDataAvailable(fmbViewState);
-              } else {
-                scope.fmbAvailable = false;
-              }
-            }
+                scope.fmbViewState = fmbViewState;
+                scope.srsViewState = srsViewState;
+                scope.$watch('fmbViewState', function(newVal, oldVal) {
+                    updateFMBAvailable();
+                }, true);
 
-            scope.fmbViewState = fmbViewState;
-            scope.srsViewState = srsViewState;
-            scope.$watch('fmbViewState', function(newVal, oldVal) {
-              updateFMBAvailable();
-            }, true);
+                updateFMBAvailable();
 
-            updateFMBAvailable();
-
-            scope.shouldPushContent = function() {
-              return scope.pushContent === true && (scope.fmbAvailable || scope.srsViewState.srsApplicable);
-            };
-          },
-          templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcHelpWrapper.directive.html'
+                scope.shouldPushContent = function(){
+                    return scope.pushContent === true && (scope.fmbAvailable || scope.srsViewState.srsApplicable);
+                };
+            },
+            templateUrl: '/web/webjars/common/webcert/utkast/fmb/wcHelpWrapper.directive.html'
         };
-      }]);
+    }]);

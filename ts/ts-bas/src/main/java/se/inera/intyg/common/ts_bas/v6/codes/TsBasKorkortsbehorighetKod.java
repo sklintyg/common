@@ -59,6 +59,6 @@ public enum TsBasKorkortsbehorighetKod {
 
     public static TsBasKorkortsbehorighetKod fromCode(String code) {
         return Stream.of(TsBasKorkortsbehorighetKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 }

@@ -26,12 +26,12 @@
     </encoder>
   </appender>
 
-  <logger name="org.springframework" level="error"/>
+  <logger name="org.springframework" level="error" />
 
-  <logger name="se.inera.intyg.common.ts_bas" level="debug"/>
+  <logger name="se.inera.intyg.common.ts_bas" level="debug" />
 
   <root>
-    <level value="error"/>
-    <appender-ref ref="STDOUT"/>
+    <level value="error" />
+    <appender-ref ref="STDOUT" />
   </root>
 </configuration>

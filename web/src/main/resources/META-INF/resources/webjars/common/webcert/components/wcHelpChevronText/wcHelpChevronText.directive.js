@@ -20,84 +20,82 @@
  * Enable help marks with tooltip for other components than wcFields
  */
 angular.module('common').directive('wcHelpChevronText',
-    ['$rootScope', '$compile', '$timeout', 'common.ObjectHelper',
-      function($rootScope, $compile, $timeout, ObjectHelper) {
-        'use strict';
+    [ '$rootScope', '$compile', '$timeout', 'common.ObjectHelper',
+        function($rootScope, $compile, $timeout, ObjectHelper) {
+            'use strict';
 
-        var animationCount = 0;
+            var animationCount = 0;
 
-        return {
-          restrict: 'AE',
-          scope: {
-            helpTextKey: '@'
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcHelpChevronText/wcHelpChevronText.directive.html',
-          link: function(scope, element) {
+            return {
+                restrict: 'AE',
+                scope: {
+                    helpTextKey: '@'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcHelpChevronText/wcHelpChevronText.directive.html',
+                link: function(scope, element){
 
-            scope.text = '';
+                    scope.text = '';
 
-            function setText(text) {
-              if (!ObjectHelper.isEmpty(text)) {
-                scope.text = text;
-              } else {
-                scope.text = '';
-              }
-            }
+                    function setText(text) {
+                        if(!ObjectHelper.isEmpty(text)){
+                            scope.text = text;
+                        } else {
+                            scope.text = '';
+                        }
+                    }
 
-            scope.$on('help-chevron-' + scope.helpTextKey, function(event, data) {
+                    scope.$on('help-chevron-' + scope.helpTextKey, function(event, data){
 
-              if (!ObjectHelper.isDefined(data.id) || !ObjectHelper.isDefined(scope.helpTextKey) ||
-                  data.id !== scope.helpTextKey) {
-                return;
-              }
+                        if(!ObjectHelper.isDefined(data.id) || !ObjectHelper.isDefined(scope.helpTextKey) ||
+                            data.id !== scope.helpTextKey){
+                            return;
+                        }
 
-              switch (data.action) {
-              case 'setText':
-                setText(data.text);
-                break;
-              }
+                        switch(data.action){
+                            case 'setText': setText(data.text); break;
+                        }
 
-            });
-          },
-          controller: function($scope) {
+                    });
+                },
+                controller: function($scope) {
 
-            $scope.isCollapsed = true;
+                    $scope.isCollapsed = true;
 
-            // Apparently animation end is called but not animation start when we start with isCollapsed=true
-            animationCount++;
+                    // Apparently animation end is called but not animation start when we start with isCollapsed=true
+                    animationCount++;
 
-            $scope.$on('help-chevron-' + $scope.helpTextKey, function(event, data) {
+                    $scope.$on('help-chevron-' + $scope.helpTextKey, function(event, data){
 
-              if (!ObjectHelper.isDefined(data.id) || !ObjectHelper.isDefined($scope.helpTextKey) ||
-                  data.id !== $scope.helpTextKey) {
-                return;
-              }
+                        if(!ObjectHelper.isDefined(data.id) || !ObjectHelper.isDefined($scope.helpTextKey) ||
+                            data.id !== $scope.helpTextKey){
+                            return;
+                        }
 
-              switch (data.action) {
-              case 'toggle':
-                $scope.isCollapsed = !$scope.isCollapsed;
-              }
+                        switch(data.action){
+                        case 'toggle':
+                            $scope.isCollapsed = !$scope.isCollapsed;
+                        }
 
-            });
+                    });
 
-            // These events will prevent wcHeaderHeightSync to match the header size while uib-collapse is animating
-            $scope.start = function() {
-              if (animationCount === 0) {
-                $rootScope.$broadcast('wcAnimationStart');
-              }
-              animationCount++;
+                    // These events will prevent wcHeaderHeightSync to match the header size while uib-collapse is animating
+                    $scope.start = function() {
+                        if (animationCount === 0) {
+                            $rootScope.$broadcast('wcAnimationStart');
+                        }
+                        animationCount++;
+                    };
+                    $scope.stop = function() {
+                        animationCount--;
+                        if (animationCount === 0) {
+                            $rootScope.$broadcast('wcAllAnimationsEnd');
+                        }
+                    };
+
+                    $scope.stopEvents = function($event) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                    };
+                }
             };
-            $scope.stop = function() {
-              animationCount--;
-              if (animationCount === 0) {
-                $rootScope.$broadcast('wcAllAnimationsEnd');
-              }
-            };
-
-            $scope.stopEvents = function($event) {
-              $event.preventDefault();
-              $event.stopPropagation();
-            };
-          }
-        };
-      }]);
+        }]);

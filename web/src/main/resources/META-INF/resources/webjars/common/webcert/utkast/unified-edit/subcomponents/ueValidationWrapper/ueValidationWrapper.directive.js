@@ -18,15 +18,15 @@
  */
 angular.module('common').directive('ueValidationWrapper',
     [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          transclude: true,
-          templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.html',
-          scope: {
-            validations: '='
-          }
-        };
-      }]);
+            return {
+                restrict: 'E',
+                transclude: true,
+                templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/subcomponents/ueValidationWrapper/ueValidationWrapper.directive.html',
+                scope: {
+                    validations: '='
+                }
+            };
+        }]);

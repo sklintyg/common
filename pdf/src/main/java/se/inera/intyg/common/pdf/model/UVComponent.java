@@ -18,18 +18,19 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
-
 import com.itextpdf.kernel.colors.Color;
 import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import jdk.nashorn.internal.runtime.Undefined;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Base class for all UV / Unified Print components. Contains constants and helper functions.
@@ -121,12 +122,12 @@ public abstract class UVComponent {
             String replacementValue = this.renderer.getPrintConfig().getModelPropReplacements().get(modelProp);
             if (replacementValue != null) {
                 parent.add(new Paragraph(replacementValue)
-                    .setItalic()
-                    .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-                    .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-                    .setFont(renderer.svarFont)
-                    .setFontSize(SVAR_FONT_SIZE)
-                    .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+                        .setItalic()
+                        .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                        .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                        .setFont(renderer.svarFont)
+                        .setFontSize(SVAR_FONT_SIZE)
+                        .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
                 return true;
             }
         }
@@ -150,12 +151,12 @@ public abstract class UVComponent {
 
     void renderEjAngivet(Div parent) {
         parent.add(new Paragraph(EJ_ANGIVET_STR)
-            .setItalic()
-            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-            .setFont(renderer.svarFont)
-            .setFontSize(SVAR_FONT_SIZE)
-            .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
+                .setItalic()
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE)
+                .setPadding(0f).setMarginTop(0f).setMarginBottom(0f));
     }
 
     private boolean isNotEligibleForCheck(ScriptObjectMirror obj) {

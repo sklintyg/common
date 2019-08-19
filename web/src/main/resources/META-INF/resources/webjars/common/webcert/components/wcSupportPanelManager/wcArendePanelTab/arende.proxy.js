@@ -17,187 +17,188 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.ArendeProxy', ['$http', '$log', 'common.ArendeLegacyProxy',
-  function($http, $log, ArendeLegacyProxy) {
-    'use strict';
+    function($http, $log, ArendeLegacyProxy) {
+        'use strict';
 
-    /*
-     * Load questions and answers data for a certificate
-     */
-    function _getArenden(intygsId, intygsTyp, timeout, onSuccess, onError) {
-      $log.debug('_getArenden: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.getArenden.apply(null, arguments);
-      }
+        /*
+         * Load questions and answers data for a certificate
+         */
+        function _getArenden(intygsId, intygsTyp, timeout, onSuccess, onError) {
+            $log.debug('_getArenden: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.getArenden.apply(null, arguments);
+            }
 
-      var restPath = '/moduleapi/arende/' + intygsId;
-      $http.get(restPath, {timeout: timeout}).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+            var restPath = '/moduleapi/arende/' + intygsId;
+            $http.get(restPath, { timeout:timeout }).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-    /*
-     * save new question
-     */
-    function _sendNewArende(intygsId, intygsTyp, arende, onSuccess, onError) {
-      $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.sendNewArende.apply(null, arguments);
-      }
+        /*
+         * save new question
+         */
+        function _sendNewArende(intygsId, intygsTyp, arende, onSuccess, onError) {
+            $log.debug('_saveNewQuestion: intygsId:' + intygsId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.sendNewArende.apply(null, arguments);
+            }
 
-      var payload = {
-        amne: arende.chosenTopic,
-        meddelande: arende.frageText
-      };
+            var payload = {
+                amne: arende.chosenTopic,
+                meddelande: arende.frageText
+            };
 
-      var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
-      $http.post(restPath, payload).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + intygsId;
+            $http.post(restPath, payload).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-    /*
-     * save new answer to a question
-     */
-    function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
-      $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsTyp: ' + intygsTyp);
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
-      }
+        /*
+         * save new answer to a question
+         */
+        function _saveAnswer(ArendeSvar, intygsTyp, onSuccess, onError) {
+            $log.debug('_saveAnswer: arendeId:' + ArendeSvar.fragaInternReferens + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.saveAnswer.apply(null, arguments);
+            }
 
-      var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
-      $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + ArendeSvar.fragaInternReferens + '/besvara';
+            $http.put(restPath, ArendeSvar.meddelande).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-    /*
-     * save new administrativ fråga answer to a komplettering question
-     */
-    function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
-      $log.debug('_saveAnswer: intygsId: ' + intygsId);
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.saveKompletteringAnswer.apply(null, arguments);
-      }
+        /*
+         * save new administrativ fråga answer to a komplettering question
+         */
+        function _saveKompletteringAnswer(meddelande, intygsTyp, intygsId, onSuccess, onError) {
+            $log.debug('_saveAnswer: intygsId: ' + intygsId);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.saveKompletteringAnswer.apply(null, arguments);
+            }
 
-      var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
-      $http.put(restPath, meddelande).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+            var restPath = '/moduleapi/arende/' + intygsId + '/besvara';
+            $http.put(restPath, meddelande).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-    /*
-     * update the handled status to handled ('Closed') of a QuestionAnswer
-     */
-    function _closeAsHandled(arendeId, intygsTyp, onSuccess, onError) {
-      var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/stang';
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.closeAsHandled.apply(null, arguments);
-      }
 
-      $http.put(restPath).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+        /*
+         * update the handled status to handled ('Closed') of a QuestionAnswer
+         */
+        function _closeAsHandled(arendeId, intygsTyp, onSuccess, onError) {
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/stang';
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.closeAsHandled.apply(null, arguments);
+            }
 
-    /*
-     * update the handled status to unhandled ('ANSWERED or PENDING_EXTERNAL_ACTION depending if the question has an
-     * answer set or not') of a QuestionAnswer
-     */
-    function _openAsUnhandled(arendeId, intygsTyp, onSuccess, onError) {
-      $log.debug('_openAsUnhandled: arendeId:' + arendeId + ' intygsTyp: ' + intygsTyp);
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.openAsUnhandled.apply(null, arguments);
-      }
+            $http.put(restPath).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-      var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/oppna';
-      $http.put(restPath).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+        /*
+         * update the handled status to unhandled ('ANSWERED or PENDING_EXTERNAL_ACTION depending if the question has an
+         * answer set or not') of a QuestionAnswer
+         */
+        function _openAsUnhandled(arendeId, intygsTyp, onSuccess, onError) {
+            $log.debug('_openAsUnhandled: arendeId:' + arendeId + ' intygsTyp: ' + intygsTyp);
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.openAsUnhandled.apply(null, arguments);
+            }
 
-    /*
-     * update the handled status to handled ('Closed') of a QuestionAnswer
-     */
-    function _closeAllAsHandled(arenden, intygsTyp, onSuccess, onError) {
-      var restPath = '/moduleapi/arende/stang';
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.closeAllAsHandled.apply(null, arguments);
-      }
+            var restPath = '/moduleapi/arende/' + intygsTyp + '/' + arendeId + '/oppna';
+            $http.put(restPath).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-      var fs = [];
-      angular.forEach(arenden, function(arendeListItem, key) {
-        this.push({intygsTyp: arendeListItem.arende.fraga.intygTyp, arendeId: arendeListItem.arende.internReferens});
-      }, fs);
+        /*
+         * update the handled status to handled ('Closed') of a QuestionAnswer
+         */
+        function _closeAllAsHandled(arenden, intygsTyp, onSuccess, onError) {
+            var restPath = '/moduleapi/arende/stang';
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.closeAllAsHandled.apply(null, arguments);
+            }
 
-      $http.put(restPath, fs).then(function(response) {
-        $log.debug(restPath + ' response:' + response.data);
-        onSuccess(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        onError(response.data);
-      });
-    }
+            var fs = [];
+            angular.forEach(arenden, function(arendeListItem, key) {
+                this.push({ intygsTyp: arendeListItem.arende.fraga.intygTyp, arendeId: arendeListItem.arende.internReferens });
+            }, fs);
 
-    /*
-     * Toggle vidarebefordrad state of a arende entity with given id
-     */
-    function _setVidarebefordradState(intygId, intygsTyp, callback) {
-      $log.debug('_setVidareBefordradState');
-      if (intygsTyp === 'fk7263') {
-        return ArendeLegacyProxy.setVidarebefordradState(intygId, callback);
-      }
+            $http.put(restPath, fs).then(function(response) {
+                $log.debug(restPath + ' response:' + response.data);
+                onSuccess(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                onError(response.data);
+            });
+        }
 
-      var restPath = '/moduleapi/arende/' + intygId + '/vidarebefordrad';
-      $http.post(restPath).then(function(response) {
-        $log.debug('_setVidareBefordradState data:' + response.data);
-        callback(response.data);
-      }, function(response) {
-        $log.error('error ' + response.status);
-        // Let calling code handle the error of no data response
-        callback(null);
-      });
-    }
+        /*
+         * Toggle vidarebefordrad state of a arende entity with given id
+         */
+        function _setVidarebefordradState(intygId, intygsTyp, callback) {
+            $log.debug('_setVidareBefordradState');
+            if (intygsTyp === 'fk7263') {
+                return ArendeLegacyProxy.setVidarebefordradState(intygId, callback);
+            }
 
-    // Return public API for the service
-    return {
-      getArenden: _getArenden,
-      sendNewArende: _sendNewArende,
-      saveAnswer: _saveAnswer,
-      saveKompletteringAnswer: _saveKompletteringAnswer,
-      closeAsHandled: _closeAsHandled,
-      openAsUnhandled: _openAsUnhandled,
-      closeAllAsHandled: _closeAllAsHandled,
-      setVidarebefordradState: _setVidarebefordradState
-    };
-  }]);
+            var restPath = '/moduleapi/arende/' + intygId + '/vidarebefordrad';
+            $http.post(restPath).then(function(response) {
+                $log.debug('_setVidareBefordradState data:' + response.data);
+                callback(response.data);
+            }, function(response) {
+                $log.error('error ' + response.status);
+                // Let calling code handle the error of no data response
+                callback(null);
+            });
+        }
+
+        // Return public API for the service
+        return {
+            getArenden: _getArenden,
+            sendNewArende: _sendNewArende,
+            saveAnswer: _saveAnswer,
+            saveKompletteringAnswer: _saveKompletteringAnswer,
+            closeAsHandled: _closeAsHandled,
+            openAsUnhandled: _openAsUnhandled,
+            closeAllAsHandled: _closeAllAsHandled,
+            setVidarebefordradState: _setVidarebefordradState
+        };
+    }]);

@@ -38,16 +38,16 @@ public enum StatusKod {
 
     public CertificateState toCertificateState() {
         switch (this) {
-            case RECEIV:
-                return CertificateState.RECEIVED;
-            case SENTTO:
-                return CertificateState.SENT;
-            case CANCEL:
-                return CertificateState.CANCELLED;
-            case DELETE:
-                return CertificateState.DELETED;
-            case RESTOR:
-                return CertificateState.RESTORED;
+        case RECEIV:
+            return CertificateState.RECEIVED;
+        case SENTTO:
+            return CertificateState.SENT;
+        case CANCEL:
+            return CertificateState.CANCELLED;
+        case DELETE:
+            return CertificateState.DELETED;
+        case RESTOR:
+            return CertificateState.RESTORED;
         }
         return null;
     }

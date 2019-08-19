@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.af00251.v1.model.validator;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
-import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -38,6 +30,14 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftRespon
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.common.support.validate.InternalDraftValidator;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
+import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
+import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
+import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
+
 @RunWith(MockitoJUnitRunner.class)
 public class InternalValidatorTest {
 
@@ -47,36 +47,36 @@ public class InternalValidatorTest {
 
     private static int getNumberOfInternalValidationErrors(ValidateDraftResponse internalValidationResponse) {
         return internalValidationResponse.getValidationErrors()
-            .size();
+                                         .size();
     }
 
     @Test
     public void testFunktionsnedsattningSaknas() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas")
-            .asInternalModel();
+                                                             .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
+                                                          .get(0),
             is(CATEGORY_KONSEKVENSER), is("funktionsnedsattning"), is(ValidationMessageType.EMPTY));
     }
 
     @Test
     public void testArbetsMarknadsPolitisktProgramSaknas() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetsMarknadsPolititisktProgramSaknas")
-            .asInternalModel();
+                                                             .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
+                                                          .get(0),
             is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2),
-            is(ValidationMessageType.EMPTY));
+                is(ValidationMessageType.EMPTY));
     }
 
     @Test
     public void testAktivitetsbegransningSaknas() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas")
-            .asInternalModel();
+                                                             .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
     }
@@ -84,7 +84,7 @@ public class InternalValidatorTest {
     @Test
     public void testArbetetsPaverkanSaknas() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-begransningSjukfranvaroSaknas")
-            .asInternalModel();
+                                                             .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
     }
@@ -93,7 +93,7 @@ public class InternalValidatorTest {
     public void testMedicinsktUnderlagSaknas() throws ScenarioNotFoundException {
         final int numErrors = 1;
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-medicinsktUnderlagSaknas")
-            .asInternalModel();
+                                                             .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
             getNumberOfInternalValidationErrors(internalValidationResponse));
@@ -102,65 +102,65 @@ public class InternalValidatorTest {
     @Test
     public void testOmfattningDeltidSaknas() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-omfattningDeltidSaknas")
-            .asInternalModel();
+                .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
-                AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
-            is(ValidationMessageType.EMPTY));
+                        .get(0),
+                is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
+                        AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
+                is(ValidationMessageType.EMPTY));
     }
 
     @Test
     public void testOmfattningDeltid0() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-omfattningDeltid0")
-            .asInternalModel();
+                .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
-                AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
-            is(ValidationMessageType.INVALID_FORMAT));
+                        .get(0),
+                is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
+                        AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
+                is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
     public void testOmfattningDeltid40() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-omfattningDeltid40")
-            .asInternalModel();
+                .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
-            is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
-                AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
-            is(ValidationMessageType.INVALID_FORMAT));
+                        .get(0),
+                is(CATEGORY_ARBETSMARKNADS_PROGRAM), is(AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_2 + DOT +
+                        AF00251RespConstants.ARBETSMARKNADSPOLITISKT_PROGRAM_SVAR_JSON_ID_23),
+                is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
     public void testSjukfranvaroniva0() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-sjukfranvaroniva0")
-            .asInternalModel();
+                .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
-            is(CATEGORY_BEDOMNING), is(AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6 + FIRST_ELEMENT_IN_ARRAY + DOT +
-                AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61),
-            is(ValidationMessageType.INVALID_FORMAT));
+                        .get(0),
+                is(CATEGORY_BEDOMNING), is(AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6 + FIRST_ELEMENT_IN_ARRAY + DOT +
+                        AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61),
+                is(ValidationMessageType.INVALID_FORMAT));
     }
 
     @Test
     public void testSjukfranvaroniva101() throws ScenarioNotFoundException {
         AF00251UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-sjukfranvaroniva101")
-            .asInternalModel();
+                .asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertValidationMessages(internalValidationResponse.getValidationErrors(), 1);
         assertValidationMessage(internalValidationResponse.getValidationErrors()
-                .get(0),
-            is(CATEGORY_BEDOMNING), is(AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6 + FIRST_ELEMENT_IN_ARRAY + DOT +
-                AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61),
-            is(ValidationMessageType.INVALID_FORMAT));
+                        .get(0),
+                is(CATEGORY_BEDOMNING), is(AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_6 + FIRST_ELEMENT_IN_ARRAY + DOT +
+                        AF00251RespConstants.SJUKFRANVARO_SVAR_JSON_ID_61),
+                is(ValidationMessageType.INVALID_FORMAT));
     }
 }

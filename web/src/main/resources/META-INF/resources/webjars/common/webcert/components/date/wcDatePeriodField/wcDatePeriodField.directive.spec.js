@@ -18,62 +18,61 @@
  */
 
 describe('DatePeriodFieldDirective', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
+    var $scope;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'), function() {
-  });
-  beforeEach(angular.mock.inject(['$rootScope', '$compile',
-    function($rootScope, $compile) {
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'), function(){
+    });
+    beforeEach(angular.mock.inject(['$rootScope', '$compile',
+        function($rootScope, $compile) {
 
-      var validatorCtrl = {
-        registerDatePeriod: function() {
+            var validatorCtrl = {
+                registerDatePeriod: function() { }
+            };
+
+            var tpl = angular.element(
+                '<div ng-form="testForm">' +
+                    '<span wc-date-period-field model="model" field="test" index="0" type="from" dom-id="test"></span>' +
+                '</div>'
+            );
+            tpl.data('$wcDatePeriodManagerController', validatorCtrl);
+            $scope = $rootScope.$new();
+            $scope.model = {
+                test: [{
+                    period: {
+                        from:null
+                    }
+                }]
+            };
+            $compile(tpl)($scope);
+            $scope.$digest();
         }
-      };
+    ]));
 
-      var tpl = angular.element(
-          '<div ng-form="testForm">' +
-          '<span wc-date-period-field model="model" field="test" index="0" type="from" dom-id="test"></span>' +
-          '</div>'
-      );
-      tpl.data('$wcDatePeriodManagerController', validatorCtrl);
-      $scope = $rootScope.$new();
-      $scope.model = {
-        test: [{
-          period: {
-            from: null
-          }
-        }]
-      };
-      $compile(tpl)($scope);
-      $scope.$digest();
-    }
-  ]));
+    it('should allow partial dates', function(){
+        $scope.model.test[0].period.from = '2016-0';
+        $scope.$apply();
 
-  it('should allow partial dates', function() {
-    $scope.model.test[0].period.from = '2016-0';
-    $scope.$apply();
+        expect($scope.testForm.test.$viewValue).toBe('2016-0');
+        expect($scope.testForm.test.$modelValue).toBe('2016-0');
+    });
 
-    expect($scope.testForm.test.$viewValue).toBe('2016-0');
-    expect($scope.testForm.test.$modelValue).toBe('2016-0');
-  });
+    it('should allow partial dates without converting to a javscript date object', function(){
+        $scope.model.test[0].period.from = '2';
+        $scope.$apply();
 
-  it('should allow partial dates without converting to a javscript date object', function() {
-    $scope.model.test[0].period.from = '2';
-    $scope.$apply();
+        expect($scope.testForm.test.$viewValue).toBe('2');
+        expect($scope.testForm.test.$modelValue).toBe('2');
+    });
 
-    expect($scope.testForm.test.$viewValue).toBe('2');
-    expect($scope.testForm.test.$modelValue).toBe('2');
-  });
+    it('should allow non date input', function(){
+        $scope.model.test[0].period.from = 'tras';
+        $scope.$apply();
 
-  it('should allow non date input', function() {
-    $scope.model.test[0].period.from = 'tras';
-    $scope.$apply();
-
-    expect($scope.testForm.test.$viewValue).toBe('tras');
-    expect($scope.testForm.test.$modelValue).toBe('tras');
-  });
+        expect($scope.testForm.test.$viewValue).toBe('tras');
+        expect($scope.testForm.test.$modelValue).toBe('tras');
+    });
 
 });

@@ -19,9 +19,11 @@
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.unitils.reflectionassert.ReflectionAssert;
+
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2;
 import se.inera.intyg.common.ts_diabetes.v2.utils.Scenario;
@@ -66,6 +68,6 @@ public class ScenarioTest {
 
     private Scenario getScenarioByName(String name, List<Scenario> scenarios) {
         return scenarios.stream().filter(s -> name.equalsIgnoreCase(s.getName())).findAny()
-            .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
+                .orElseThrow(() -> new IllegalArgumentException("No such scenario found"));
     }
 }

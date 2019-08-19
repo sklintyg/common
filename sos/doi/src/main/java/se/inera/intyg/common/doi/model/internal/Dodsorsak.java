@@ -22,10 +22,12 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_D
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_OM_JSON_ID;
 import static se.inera.intyg.common.sos_parent.support.RespConstants.DODSORSAK_SPECIFIKATION_JSON_ID;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.support.model.InternalDate;
 
 @AutoValue
@@ -33,8 +35,8 @@ public abstract class Dodsorsak {
 
     @JsonCreator
     public static Dodsorsak create(@JsonProperty(DODSORSAK_OM_JSON_ID) String beskrivning,
-        @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
-        @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
+            @JsonProperty(DODSORSAK_DATUM_JSON_ID) InternalDate datum,
+            @JsonProperty(DODSORSAK_SPECIFIKATION_JSON_ID) Specifikation specifikation) {
         return new AutoValue_Dodsorsak(beskrivning, datum, specifikation);
     }
 

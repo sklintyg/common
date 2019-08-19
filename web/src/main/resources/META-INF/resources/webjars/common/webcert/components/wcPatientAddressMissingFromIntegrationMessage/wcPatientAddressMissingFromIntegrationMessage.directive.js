@@ -19,30 +19,28 @@
 /**
  * Give user a warning message if patient's address is missing (for the
  */
-angular.module('common').directive('wcPatientAddressMissingFromIntegrationMessage',
-    ['common.messageService', 'common.UserModel', 'common.ObjectHelper',
-      'common.PatientService', 'common.dialogService',
-      function(messageService, UserModel, ObjectHelper, PatientService, dialogService) {
+angular.module('common').directive('wcPatientAddressMissingFromIntegrationMessage', ['common.messageService', 'common.UserModel', 'common.ObjectHelper',
+    'common.PatientService', 'common.dialogService',
+    function(messageService, UserModel, ObjectHelper, PatientService, dialogService) {
         'use strict';
 
         return {
-          restrict: 'E',
-          scope: {
-            intyg: '=',
-            isIntyg: '='
-          },
-          controller: function($scope) {
+            restrict: 'E',
+            scope: {
+                intyg: '=',
+                isIntyg: '='
+            },
+            controller: function($scope) {
 
-            $scope.$on('intyg.loaded', function() {
-              // Intyg is loaded asynchronously
-              $scope.show = PatientService.isMissingRequiredAddressIntegrationParameter($scope.isIntyg, $scope.intyg);
-            });
+                $scope.$on('intyg.loaded', function() {
+                    // Intyg is loaded asynchronously
+                    $scope.show = PatientService.isMissingRequiredAddressIntegrationParameter($scope.isIntyg, $scope.intyg);
+                });
 
-            $scope.openModal = function() {
-              dialogService.showMessageDialog('intyg.status.patient.ps-008.modalheader',
-                  messageService.getProperty('intyg.status.patient.ps-008.modalbody'));
-            };
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcPatientAddressMissingFromIntegrationMessage/wcPatientAddressMissingFromIntegrationMessage.directive.html'
+                $scope.openModal = function() {
+                    dialogService.showMessageDialog('intyg.status.patient.ps-008.modalheader', messageService.getProperty('intyg.status.patient.ps-008.modalbody'));
+                };
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcPatientAddressMissingFromIntegrationMessage/wcPatientAddressMissingFromIntegrationMessage.directive.html'
         };
-      }]);
+    }]);

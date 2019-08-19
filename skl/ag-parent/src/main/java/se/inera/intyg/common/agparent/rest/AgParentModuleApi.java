@@ -20,22 +20,27 @@ package se.inera.intyg.common.agparent.rest;
 
 import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+
 import javax.xml.bind.JAXBElement;
 import javax.xml.ws.soap.SOAPFaultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.oxm.MarshallingFailureException;
 import org.springframework.oxm.UnmarshallingFailureException;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.StatusKod;
@@ -139,7 +144,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createNewInternalFromTemplate(CreateDraftCopyHolder draftCertificateHolder, Utlatande template)
-        throws ModuleException {
+            throws ModuleException {
         try {
             return toInternalModelResponse(webcertModelFactory.createCopy(draftCertificateHolder, template));
         } catch (ConverterException e) {
@@ -150,7 +155,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String createCompletionFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template, String comment) {
-        throw new UnsupportedOperationException("An AG-intyg is not supposed to be supplemented.");
+            throw new UnsupportedOperationException("An AG-intyg is not supposed to be supplemented.");
     }
 
     @Override
@@ -173,7 +178,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
             return convert(getCertificateResponderInterface.getCertificate(logicalAddress, request));
         } catch (SOAPFaultException e) {
             String error = String.format("Could not get certificate with id %s from Intygstjansten. SOAPFault: %s",
-                certificateId, e.getMessage());
+                    certificateId, e.getMessage());
             LOG.error(error);
             throw new ModuleException(error);
         }
@@ -194,9 +199,9 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
         // check whether call was successful or not
         if (response.getResult().getResultCode() == ResultCodeType.INFO) {
             throw new ExternalServiceCallException(response.getResult().getResultText(),
-                "Certificate already exists".equals(response.getResult().getResultText())
-                    ? ErrorIdEnum.VALIDATION_ERROR
-                    : ErrorIdEnum.APPLICATION_ERROR);
+                    "Certificate already exists".equals(response.getResult().getResultText())
+                            ? ErrorIdEnum.VALIDATION_ERROR
+                            : ErrorIdEnum.APPLICATION_ERROR);
         } else if (response.getResult().getResultCode() == ResultCodeType.ERROR) {
             throw new ExternalServiceCallException(response.getResult().getErrorId() + " : " + response.getResult().getResultText());
         }
@@ -214,7 +219,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
 
     @Override
     public String updateBeforeSigning(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
+            throws ModuleException {
         return updateInternal(internalModel, hosPerson, signingDate);
     }
 
@@ -289,7 +294,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     public String createRevokeRequest(Utlatande utlatande, HoSPersonal skapatAv, String meddelande) throws ModuleException {
         try {
             JAXBElement<RevokeCertificateType> el = new ObjectFactory().createRevokeCertificate(
-                InternalToRevoke.convert(utlatande, skapatAv, meddelande));
+                    InternalToRevoke.convert(utlatande, skapatAv, meddelande));
             return XmlMarshallerHelper.marshal(el);
         } catch (ConverterException | MarshallingFailureException e) {
             throw new ModuleException(e.getMessage());
@@ -351,7 +356,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
             String internalModel = toInternalModelResponse(utlatande);
             CertificateMetaData metaData = TransportConverterUtil.getMetaData(response.getIntyg(), getAdditionalInfo(response.getIntyg()));
             boolean revoked = response.getIntyg().getStatus().stream()
-                .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
+                    .anyMatch(status -> StatusKod.CANCEL.name().equals(status.getStatus().getCode()));
             return new CertificateResponse(internalModel, utlatande, metaData, revoked);
         } catch (Exception e) {
             throw new ModuleException(e);
@@ -359,7 +364,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternal(String internalModel, HoSPersonal hosPerson, LocalDateTime signingDate)
-        throws ModuleException {
+            throws ModuleException {
         try {
             T utlatande = decorateDiagnoserWithDescriptions(getInternal(internalModel));
             WebcertModelFactoryUtil.updateSkapadAv(utlatande, hosPerson, signingDate);
@@ -370,7 +375,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternal(String internalModel, Patient patient)
-        throws ModuleException {
+            throws ModuleException {
         try {
             T utlatande = getInternal(internalModel);
             WebcertModelFactoryUtil.populateWithPatientInfo(utlatande.getGrundData(), patient);
@@ -381,7 +386,7 @@ public abstract class AgParentModuleApi<T extends Utlatande> implements ModuleAp
     }
 
     private String updateInternalAfterSigning(String internalModel, String base64EncodedSignatureXml)
-        throws ModuleException {
+            throws ModuleException {
         try {
             T utlatande = decorateWithSignature(getInternal(internalModel), base64EncodedSignatureXml);
             return toInternalModelResponse(utlatande);

@@ -18,15 +18,16 @@
  */
 package se.inera.intyg.common.af00251.v1.model.internal;
 
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_81;
-import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_82;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+
 import javax.annotation.Nullable;
+
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_81;
+import static se.inera.intyg.common.af00251.v1.model.converter.AF00251RespConstants.PROGNOS_ATERGANG_SVAR_JSON_ID_82;
 
 /**
  *
@@ -50,7 +51,6 @@ public abstract class PrognosAtergang {
 
     @AutoValue.Builder
     public abstract static class Builder {
-
         public abstract PrognosAtergang build();
 
         @JsonProperty(PROGNOS_ATERGANG_SVAR_JSON_ID_81)

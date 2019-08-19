@@ -18,12 +18,13 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.converter;
 
-import com.google.common.base.Strings;
-import java.util.EnumSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -33,21 +34,10 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
+import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_bas.support.TsBasEntryPoint;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.BedomningKorkortstyp;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Diabetes;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Funktionsnedsattning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HjartKarl;
-import se.inera.intyg.common.ts_bas.v6.model.internal.HorselBalans;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medicinering;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Medvetandestorning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.NarkotikaLakemedel;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Sjukhusvard;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Syn;
-import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Vardkontakt;
+
+import java.util.EnumSet;
 
 /**
  * Factory for creating a editable model.
@@ -63,9 +53,13 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
     /**
      * Create a new TS-bas draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
+     *
      * @return {@link TsBasUtlatandeV6}
-     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException if something unforeseen happens
+     *
+     * @throws se.inera.intyg.common.support.model.converter.util.ConverterException
+     *             if something unforeseen happens
      */
     @Override
     public TsBasUtlatandeV6 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -76,7 +70,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<TsBasUtlatan
         template.setId(newDraftData.getCertificateId());
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+                intygTexts.getLatestVersionForSameMajorVersion(TsBasEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         WebcertModelFactoryUtil.populateGrunddataFromCreateNewDraftHolder(grundData, newDraftData);
         template.setGrundData(grundData);

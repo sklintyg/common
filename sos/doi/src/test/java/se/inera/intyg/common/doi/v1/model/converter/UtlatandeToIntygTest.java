@@ -18,6 +18,30 @@
  */
 package se.inera.intyg.common.doi.v1.model.converter;
 
+import com.google.common.collect.ImmutableList;
+import org.junit.Test;
+import se.inera.intyg.common.doi.v1.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.doi.model.internal.Dodsorsak;
+import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
+import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
+import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
+import se.inera.intyg.common.doi.model.internal.OmOperation;
+import se.inera.intyg.common.doi.model.internal.Specifikation;
+import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
+import se.inera.intyg.common.support.model.InternalDate;
+import se.inera.intyg.common.support.model.common.internal.GrundData;
+import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
+import se.inera.intyg.common.support.model.common.internal.Patient;
+import se.inera.intyg.common.support.model.common.internal.Vardenhet;
+import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.schemas.contract.Personnummer;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -62,30 +86,7 @@ import static se.inera.intyg.common.sos_parent.support.RespConstants.UPPGIFT_SAK
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getStringContent;
 
-import com.google.common.collect.ImmutableList;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import org.junit.Test;
-import se.inera.intyg.common.doi.model.internal.Dodsorsak;
-import se.inera.intyg.common.doi.model.internal.Dodsorsaksgrund;
-import se.inera.intyg.common.doi.model.internal.ForgiftningOrsak;
-import se.inera.intyg.common.doi.model.internal.OmOperation;
-import se.inera.intyg.common.doi.model.internal.Specifikation;
-import se.inera.intyg.common.doi.v1.model.internal.DoiUtlatandeV1;
-import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
-import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
-import se.inera.intyg.schemas.contract.Personnummer;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 public class UtlatandeToIntygTest {
-
     private final String intygsId = "intygsid";
     private final String textVersion = "textversion";
     private final String enhetsId = "enhetsid";
@@ -118,9 +119,9 @@ public class UtlatandeToIntygTest {
     private final Boolean barn = true;
     private final Dodsorsak dodsorsak = Dodsorsak.create("dodsorsak", new InternalDate(LocalDate.of(2017, 1, 3)), Specifikation.KRONISK);
     private final List<Dodsorsak> foljd = ImmutableList
-        .<Dodsorsak>of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
+            .<Dodsorsak>of(Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 4)), Specifikation.KRONISK));
     private final List<Dodsorsak> bidragandeSjukdomar = ImmutableList.<Dodsorsak>of(
-        Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
+            Dodsorsak.create("beskrivning", new InternalDate(LocalDate.of(2017, 1, 5)), Specifikation.PLOTSLIG));
     private final OmOperation operation = OmOperation.UPPGIFT_SAKNAS;
     private final InternalDate operationDatum = new InternalDate(LocalDate.of(2017, 1, 6));
     private final String operationAnledning = "anledning";
@@ -134,31 +135,31 @@ public class UtlatandeToIntygTest {
     @Test
     public void testConvert() throws Exception {
         DoiUtlatandeV1 utlatande = DoiUtlatandeV1.builder()
-            .setId(intygsId)
-            .setTextVersion(textVersion)
-            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
-                efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
-            .setIdentitetStyrkt(identitetStyrkt)
-            .setDodsdatumSakert(dodsdatumSakert)
-            .setDodsdatum(dodsdatum)
-            .setAntraffatDodDatum(antraffatDod)
-            .setDodsplatsKommun(kommun)
-            .setDodsplatsBoende(boende)
-            .setBarn(barn)
-            .setTerminalDodsorsak(dodsorsak)
-            .setFoljd(foljd)
-            .setBidragandeSjukdomar(bidragandeSjukdomar)
-            .setOperation(operation)
-            .setOperationDatum(operationDatum)
-            .setOperationAnledning(operationAnledning)
-            .setForgiftning(forgiftning)
-            .setForgiftningOrsak(forgiftningOrsak)
-            .setForgiftningDatum(forgiftningDatum)
-            .setForgiftningUppkommelse(forgiftningUppkommelse)
-            .setGrunder(grunder)
-            .setLand(land)
-            .build();
+                .setId(intygsId)
+                .setTextVersion(textVersion)
+                .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                        vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
+                        efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
+                .setIdentitetStyrkt(identitetStyrkt)
+                .setDodsdatumSakert(dodsdatumSakert)
+                .setDodsdatum(dodsdatum)
+                .setAntraffatDodDatum(antraffatDod)
+                .setDodsplatsKommun(kommun)
+                .setDodsplatsBoende(boende)
+                .setBarn(barn)
+                .setTerminalDodsorsak(dodsorsak)
+                .setFoljd(foljd)
+                .setBidragandeSjukdomar(bidragandeSjukdomar)
+                .setOperation(operation)
+                .setOperationDatum(operationDatum)
+                .setOperationAnledning(operationAnledning)
+                .setForgiftning(forgiftning)
+                .setForgiftningOrsak(forgiftningOrsak)
+                .setForgiftningDatum(forgiftningDatum)
+                .setForgiftningUppkommelse(forgiftningUppkommelse)
+                .setGrunder(grunder)
+                .setLand(land)
+                .build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -200,148 +201,148 @@ public class UtlatandeToIntygTest {
         assertEquals(11, intyg.getSvar().size());
         for (Svar svar : intyg.getSvar()) {
             switch (svar.getId()) {
-                case IDENTITET_STYRKT_SVAR_ID:
-                    assertEquals(1, svar.getDelsvar().size());
-                    assertEquals(IDENTITET_STYRKT_DELSVAR_ID, svar.getDelsvar().get(0).getId());
-                    assertEquals(identitetStyrkt, getStringContent(svar.getDelsvar().get(0)));
-                    break;
-                case DODSDATUM_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case DODSDATUM_SAKERT_DELSVAR_ID:
-                                assertEquals(dodsdatumSakert, Boolean.parseBoolean(getStringContent(delsvar)));
-                                break;
-                            case DODSDATUM_DELSVAR_ID:
-                                assertEquals(dodsdatum, new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case ANTRAFFAT_DOD_DATUM_DELSVAR_ID:
-                                assertEquals(antraffatDod, new InternalDate(getStringContent(delsvar)));
-                                break;
-                            default:
-                                fail();
-                        }
+            case IDENTITET_STYRKT_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
+                assertEquals(IDENTITET_STYRKT_DELSVAR_ID, svar.getDelsvar().get(0).getId());
+                assertEquals(identitetStyrkt, getStringContent(svar.getDelsvar().get(0)));
+                break;
+            case DODSDATUM_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case DODSDATUM_SAKERT_DELSVAR_ID:
+                        assertEquals(dodsdatumSakert, Boolean.parseBoolean(getStringContent(delsvar)));
+                        break;
+                    case DODSDATUM_DELSVAR_ID:
+                        assertEquals(dodsdatum, new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case ANTRAFFAT_DOD_DATUM_DELSVAR_ID:
+                        assertEquals(antraffatDod, new InternalDate(getStringContent(delsvar)));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case DODSPLATS_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case DODSPLATS_KOMMUN_DELSVAR_ID:
-                                assertEquals(kommun, getStringContent(delsvar));
-                                break;
-                            case DODSPLATS_BOENDE_DELSVAR_ID:
-                                assertEquals(boende, DodsplatsBoende.valueOf(getCVSvarContent(delsvar).getCode()));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case DODSPLATS_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case DODSPLATS_KOMMUN_DELSVAR_ID:
+                        assertEquals(kommun, getStringContent(delsvar));
+                        break;
+                    case DODSPLATS_BOENDE_DELSVAR_ID:
+                        assertEquals(boende, DodsplatsBoende.valueOf(getCVSvarContent(delsvar).getCode()));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case BARN_SVAR_ID:
-                    assertEquals(1, svar.getDelsvar().size());
-                    assertEquals(BARN_DELSVAR_ID, svar.getDelsvar().get(0).getId());
-                    assertEquals(barn, Boolean.parseBoolean(getStringContent(svar.getDelsvar().get(0))));
-                    break;
-                case DODSORSAK_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case DODSORSAK_DELSVAR_ID:
-                                assertEquals(dodsorsak.getBeskrivning(), getStringContent(delsvar));
-                                break;
-                            case DODSORSAK_DATUM_DELSVAR_ID:
-                                assertEquals(dodsorsak.getDatum(), new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
-                                assertEquals(dodsorsak.getSpecifikation(), Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case BARN_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
+                assertEquals(BARN_DELSVAR_ID, svar.getDelsvar().get(0).getId());
+                assertEquals(barn, Boolean.parseBoolean(getStringContent(svar.getDelsvar().get(0))));
+                break;
+            case DODSORSAK_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case DODSORSAK_DELSVAR_ID:
+                        assertEquals(dodsorsak.getBeskrivning(), getStringContent(delsvar));
+                        break;
+                    case DODSORSAK_DATUM_DELSVAR_ID:
+                        assertEquals(dodsorsak.getDatum(), new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case DODSORSAK_SPECIFIKATION_DELSVAR_ID:
+                        assertEquals(dodsorsak.getSpecifikation(), Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case FOLJD_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case FOLJD_OM_DELSVAR_ID:
-                                assertEquals(foljd.get(0).getBeskrivning(), getStringContent(delsvar));
-                                break;
-                            case FOLJD_DATUM_DELSVAR_ID:
-                                assertEquals(foljd.get(0).getDatum(), new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case FOLJD_SPECIFIKATION_DELSVAR_ID:
-                                assertEquals(foljd.get(0).getSpecifikation(), Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case FOLJD_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case FOLJD_OM_DELSVAR_ID:
+                        assertEquals(foljd.get(0).getBeskrivning(), getStringContent(delsvar));
+                        break;
+                    case FOLJD_DATUM_DELSVAR_ID:
+                        assertEquals(foljd.get(0).getDatum(), new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case FOLJD_SPECIFIKATION_DELSVAR_ID:
+                        assertEquals(foljd.get(0).getSpecifikation(), Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case BIDRAGANDE_SJUKDOM_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID:
-                                assertEquals(bidragandeSjukdomar.get(0).getBeskrivning(), getStringContent(delsvar));
-                                break;
-                            case BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID:
-                                assertEquals(bidragandeSjukdomar.get(0).getDatum(), new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID:
-                                assertEquals(bidragandeSjukdomar.get(0).getSpecifikation(),
-                                    Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case BIDRAGANDE_SJUKDOM_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case BIDRAGANDE_SJUKDOM_OM_DELSVAR_ID:
+                        assertEquals(bidragandeSjukdomar.get(0).getBeskrivning(), getStringContent(delsvar));
+                        break;
+                    case BIDRAGANDE_SJUKDOM_DATUM_DELSVAR_ID:
+                        assertEquals(bidragandeSjukdomar.get(0).getDatum(), new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case BIDRAGANDE_SJUKDOM_SPECIFIKATION_DELSVAR_ID:
+                        assertEquals(bidragandeSjukdomar.get(0).getSpecifikation(),
+                                Specifikation.fromId(getCVSvarContent(delsvar).getCode()));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case OPERATION_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case OPERATION_OM_DELSVAR_ID:
-                                assertEquals(UPPGIFT_SAKNAS_CODE, getCVSvarContent(delsvar).getCode());
-                                break;
-                            case OPERATION_DATUM_DELSVAR_ID:
-                                assertEquals(operationDatum, new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case OPERATION_ANLEDNING_DELSVAR_ID:
-                                assertEquals(operationAnledning, getStringContent(delsvar));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case OPERATION_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case OPERATION_OM_DELSVAR_ID:
+                        assertEquals(UPPGIFT_SAKNAS_CODE, getCVSvarContent(delsvar).getCode());
+                        break;
+                    case OPERATION_DATUM_DELSVAR_ID:
+                        assertEquals(operationDatum, new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case OPERATION_ANLEDNING_DELSVAR_ID:
+                        assertEquals(operationAnledning, getStringContent(delsvar));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case FORGIFTNING_SVAR_ID:
-                    for (Svar.Delsvar delsvar : svar.getDelsvar()) {
-                        switch (delsvar.getId()) {
-                            case FORGIFTNING_OM_DELSVAR_ID:
-                                assertEquals(forgiftning, Boolean.parseBoolean(getStringContent(delsvar)));
-                                break;
-                            case FORGIFTNING_ORSAK_DELSVAR_ID:
-                                assertEquals(forgiftningOrsak, ForgiftningOrsak.valueOf(getCVSvarContent(delsvar).getCode()));
-                                break;
-                            case FORGIFTNING_DATUM_DELSVAR_ID:
-                                assertEquals(forgiftningDatum, new InternalDate(getStringContent(delsvar)));
-                                break;
-                            case FORGIFTNING_UPPKOMMELSE_DELSVAR_ID:
-                                assertEquals(forgiftningUppkommelse, getStringContent(delsvar));
-                                break;
-                            default:
-                                fail();
-                        }
+                }
+                break;
+            case FORGIFTNING_SVAR_ID:
+                for (Svar.Delsvar delsvar : svar.getDelsvar()) {
+                    switch (delsvar.getId()) {
+                    case FORGIFTNING_OM_DELSVAR_ID:
+                        assertEquals(forgiftning, Boolean.parseBoolean(getStringContent(delsvar)));
+                        break;
+                    case FORGIFTNING_ORSAK_DELSVAR_ID:
+                        assertEquals(forgiftningOrsak, ForgiftningOrsak.valueOf(getCVSvarContent(delsvar).getCode()));
+                        break;
+                    case FORGIFTNING_DATUM_DELSVAR_ID:
+                        assertEquals(forgiftningDatum, new InternalDate(getStringContent(delsvar)));
+                        break;
+                    case FORGIFTNING_UPPKOMMELSE_DELSVAR_ID:
+                        assertEquals(forgiftningUppkommelse, getStringContent(delsvar));
+                        break;
+                    default:
+                        fail();
                     }
-                    break;
-                case GRUNDER_SVAR_ID:
-                    assertEquals(1, svar.getDelsvar().size());
-                    assertEquals(GRUNDER_DELSVAR_ID, svar.getDelsvar().get(0).getId());
-                    assertEquals(grunder.get(0), Dodsorsaksgrund.valueOf(getCVSvarContent(svar.getDelsvar().get(0)).getCode()));
-                    break;
-                case LAND_SVAR_ID:
-                    assertEquals(1, svar.getDelsvar().size());
-                    assertEquals(LAND_DELSVAR_ID, svar.getDelsvar().get(0).getId());
-                    assertEquals(land, getStringContent(svar.getDelsvar().get(0)));
-                    break;
-                default:
-                    fail();
+                }
+                break;
+            case GRUNDER_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
+                assertEquals(GRUNDER_DELSVAR_ID, svar.getDelsvar().get(0).getId());
+                assertEquals(grunder.get(0), Dodsorsaksgrund.valueOf(getCVSvarContent(svar.getDelsvar().get(0)).getCode()));
+                break;
+            case LAND_SVAR_ID:
+                assertEquals(1, svar.getDelsvar().size());
+                assertEquals(LAND_DELSVAR_ID, svar.getDelsvar().get(0).getId());
+                assertEquals(land, getStringContent(svar.getDelsvar().get(0)));
+                break;
+            default:
+                fail();
             }
         }
     }
@@ -351,31 +352,31 @@ public class UtlatandeToIntygTest {
         InternalDate zeroFilledDodsdatum = new InternalDate("2017-01-00");
 
         DoiUtlatandeV1 utlatande = DoiUtlatandeV1.builder()
-            .setId(intygsId)
-            .setTextVersion(textVersion)
-            .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
-                vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
-                efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
-            .setIdentitetStyrkt(identitetStyrkt)
-            .setDodsdatumSakert(false)
-            .setDodsdatum(new InternalDate("2017-01"))
-            .setAntraffatDodDatum(antraffatDod)
-            .setDodsplatsKommun(kommun)
-            .setDodsplatsBoende(boende)
-            .setBarn(barn)
-            .setTerminalDodsorsak(dodsorsak)
-            .setFoljd(foljd)
-            .setBidragandeSjukdomar(bidragandeSjukdomar)
-            .setOperation(operation)
-            .setOperationDatum(operationDatum)
-            .setOperationAnledning(operationAnledning)
-            .setForgiftning(forgiftning)
-            .setForgiftningOrsak(forgiftningOrsak)
-            .setForgiftningDatum(forgiftningDatum)
-            .setForgiftningUppkommelse(forgiftningUppkommelse)
-            .setGrunder(grunder)
-            .setLand(land)
-            .build();
+                .setId(intygsId)
+                .setTextVersion(textVersion)
+                .setGrundData(createGrundData(enhetsId, enhetsnamn, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                        vardgivarid, vardgivarNamn, skapadAvFullstandigtNamn, skapadAvPersonId, forskrivarKod, patientPersonId, fornamn,
+                        efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort, signeringsdatum))
+                .setIdentitetStyrkt(identitetStyrkt)
+                .setDodsdatumSakert(false)
+                .setDodsdatum(new InternalDate("2017-01"))
+                .setAntraffatDodDatum(antraffatDod)
+                .setDodsplatsKommun(kommun)
+                .setDodsplatsBoende(boende)
+                .setBarn(barn)
+                .setTerminalDodsorsak(dodsorsak)
+                .setFoljd(foljd)
+                .setBidragandeSjukdomar(bidragandeSjukdomar)
+                .setOperation(operation)
+                .setOperationDatum(operationDatum)
+                .setOperationAnledning(operationAnledning)
+                .setForgiftning(forgiftning)
+                .setForgiftningOrsak(forgiftningOrsak)
+                .setForgiftningDatum(forgiftningDatum)
+                .setForgiftningUppkommelse(forgiftningUppkommelse)
+                .setGrunder(grunder)
+                .setLand(land)
+                .build();
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -403,10 +404,10 @@ public class UtlatandeToIntygTest {
     }
 
     private GrundData createGrundData(String enhetsId, String enhetsnamn, String arbetsplatsKod, String postadress,
-        String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-        String skapadAvFullstandigtNamn, String skapadAvPersonId, String forskrivarKod, String patientPersonId,
-        String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-        String patientPostort, LocalDateTime signeringsdatum) {
+            String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+            String skapadAvFullstandigtNamn, String skapadAvPersonId, String forskrivarKod, String patientPersonId,
+            String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+            String patientPostort, LocalDateTime signeringsdatum) {
 
         GrundData grundData = new GrundData();
         HoSPersonal skapadAv = new HoSPersonal();

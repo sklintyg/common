@@ -19,82 +19,82 @@
 
 angular.module('common').service('common.IntygStatusService',
     ['common.messageService', 'common.IntygHeaderViewState',
-      function(messageService, IntygHeaderViewState) {
-        'use strict';
+        function(messageService, IntygHeaderViewState) {
+            'use strict';
 
-        var service = this;
+            var service = this;
 
-        this.getMessageKeyForIntyg = function(partialKey) {
-          var key = IntygHeaderViewState.intygType + partialKey;
-          if (!messageService.propertyExists(key)) {
-            key = 'common' + partialKey;
-          }
-          return key;
-        };
+            this.getMessageKeyForIntyg = function(partialKey) {
+                var key = IntygHeaderViewState.intygType + partialKey;
+                if (!messageService.propertyExists(key)) {
+                    key = 'common' + partialKey;
+                }
+                return key;
+            };
 
-        this.getMessageForIntygStatus = function(status, vars) {
-          if (!status) {
-            return '';
-          }
-          return messageService.getProperty(service.getMessageKeyForIntyg('.label.intygstatus.' + status), vars);
-        };
+            this.getMessageForIntygStatus = function(status, vars) {
+                if (!status) {
+                    return '';
+                }
+                return messageService.getProperty(service.getMessageKeyForIntyg('.label.intygstatus.' + status), vars);
+            };
 
-        this.intygStatusHasModal = function(intygStatus) {
-          if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus) === '') {
-            return false;
-          }
-          if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus)) {
-            return true;
-          }
-          return Boolean(messageService.propertyExists('common.modalbody.intygstatus.' + intygStatus));
-        };
+            this.intygStatusHasModal = function(intygStatus) {
+                if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus) === '') {
+                    return false;
+                }
+                if (messageService.propertyExists(IntygHeaderViewState.intygType + '.modalbody.intygstatus.' + intygStatus)) {
+                    return true;
+                }
+                return Boolean(messageService.propertyExists('common.modalbody.intygstatus.' + intygStatus));
+            };
 
-        this.sortByStatusAndTimestamp = function(array) {
-          /*jshint maxcomplexity:16*/
-          array.sort(function(a, b) {
-            // Status without code should always be first
-            if (!a.code && b.code) {
-              return 1;
-            }
-            if (!b.code && a.code) {
-              return -1;
-            }
+            this.sortByStatusAndTimestamp = function(array) {
+                /*jshint maxcomplexity:16*/
+                array.sort(function(a, b) {
+                    // Status without code should always be first
+                    if (!a.code && b.code) {
+                        return 1;
+                    }
+                    if (!b.code && a.code) {
+                        return -1;
+                    }
 
-            // Status is-001 should always be 2nd
-            if (a.code === 'is-001' && b.code !== 'is-001') {
-              return 1;
-            }
-            if (b.code === 'is-001' && a.code !== 'is-001') {
-              return -1;
-            }
+                    // Status is-001 should always be 2nd
+                    if (a.code === 'is-001' && b.code !== 'is-001') {
+                        return 1;
+                    }
+                    if (b.code === 'is-001' && a.code !== 'is-001') {
+                        return -1;
+                    }
 
-            // Status is-008 should always be 3rd
-            if (a.code === 'is-008' && b.code !== 'is-008') {
-              return 1;
-            }
-            if (b.code === 'is-008' && a.code !== 'is-008') {
-              return -1;
-            }
+                    // Status is-008 should always be 3rd
+                    if (a.code === 'is-008' && b.code !== 'is-008') {
+                        return 1;
+                    }
+                    if (b.code === 'is-008' && a.code !== 'is-008') {
+                        return -1;
+                    }
 
-            // Status is-002 should always be 4th
-            if (a.code === 'is-002' && b.code !== 'is-002') {
-              return 1;
-            }
-            if (b.code === 'is-002' && a.code !== 'is-002') {
-              return -1;
-            }
+                    // Status is-002 should always be 4th
+                    if (a.code === 'is-002' && b.code !== 'is-002') {
+                        return 1;
+                    }
+                    if (b.code === 'is-002' && a.code !== 'is-002') {
+                        return -1;
+                    }
 
-            // Time sorts out the rest
-            if (a.timestamp < b.timestamp) {
-              return 1;
-            }
-            if (a.timestamp > b.timestamp) {
-              return -1;
-            }
-            return 0;
-          });
-        };
+                    // Time sorts out the rest
+                    if (a.timestamp < b.timestamp) {
+                        return 1;
+                    }
+                    if (a.timestamp > b.timestamp) {
+                        return -1;
+                    }
+                    return 0;
+                });
+            };
 
-      }]
+        }]
 );
 

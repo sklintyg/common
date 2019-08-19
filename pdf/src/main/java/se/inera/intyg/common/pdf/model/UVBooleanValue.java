@@ -40,11 +40,11 @@ public class UVBooleanValue extends UVComponent {
         }
         String booleanValue = getBooleanValue((String) currentUvNode.get(MODEL_PROP));
         parent.add(new Paragraph(booleanValue).setItalic()
-            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-            .setMarginTop(0f)
-            .setFont(renderer.svarFont)
-            .setFontSize(SVAR_FONT_SIZE));
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setMarginTop(0f)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
 
         return true;
     }

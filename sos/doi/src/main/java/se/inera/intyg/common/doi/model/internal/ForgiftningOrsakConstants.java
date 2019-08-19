@@ -19,7 +19,6 @@
 package se.inera.intyg.common.doi.model.internal;
 
 public final class ForgiftningOrsakConstants {
-
     public static final String OLYCKSFALL = "Olycksfall";
     public static final String SJALVMORD = "Självmord";
     public static final String AVSIKTLIGT_VALLAD = "Avsiktligt vållad av annan";

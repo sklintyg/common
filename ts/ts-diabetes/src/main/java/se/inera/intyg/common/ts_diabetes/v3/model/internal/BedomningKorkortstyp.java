@@ -26,6 +26,7 @@ package se.inera.intyg.common.ts_diabetes.v3.model.internal;
  * Informationsspecifikation+TS+Diabetes+-+nytt+intygsformat+ppen+info
  *
  * Note - the order is also adjusted to match requirements above.
+ *
  */
 public enum BedomningKorkortstyp {
     AM,

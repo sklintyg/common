@@ -1,5 +1,8 @@
-<div data-ng-repeat="banner in banners" ng-attr-id="{{banner.id | uvDomIdFilter}}"
-     class="alert alert-{{::banner.severity}}">
+<div
+    data-ng-repeat="banner in banners"
+    ng-attr-id="{{banner.id | uvDomIdFilter}}"
+    class="alert alert-{{::banner.severity}}"
+  >
   <div class="text-container">
     <div class="alert-icon" ng-switch="::banner.severity">
       <i ng-switch-when="info" class="material-icons">&#xe88f;</i>
@@ -7,6 +10,6 @@
       <i ng-switch-when="danger" class="material-icons">&#xe002;</i>
     </div>
     <span data-ng-bind-html="::banner.text"></span>
-
+    
   </div>
 </div>

@@ -22,6 +22,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
@@ -29,8 +30,10 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.Validator;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
 import se.inera.intyg.common.ts_bas.v6.utils.Scenario;
 import se.inera.intyg.common.ts_bas.v6.utils.ScenarioFinder;
@@ -38,7 +41,7 @@ import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSB
 
 public class DomainTransportModelValidatorTest {
 
-    private static final String COMMON_UTLATANDE_SCHEMA = "/core_components/se_intygstjanster_services_1.0.xsd";
+	private static final String COMMON_UTLATANDE_SCHEMA = "/core_components/se_intygstjanster_services_1.0.xsd";
 
     private static final String COMMON_UTLATANDE_TYPES_SCHEMA = "/core_components/se_intygstjanster_services_types_1.0.xsd";
 
@@ -76,8 +79,7 @@ public class DomainTransportModelValidatorTest {
     private void validateUtlatande(Scenario scenario) {
         try {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
-            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"),
-                RegisterTSBasType.class, scenario.asTransportModel());
+            JAXBElement<RegisterTSBasType> jaxbElement = new JAXBElement<RegisterTSBasType>(new QName("ns3:RegisterTSBas"), RegisterTSBasType.class, scenario.asTransportModel());
             JAXBContext context = JAXBContext.newInstance(RegisterTSBasType.class);
             context.createMarshaller().marshal(jaxbElement, output);
 

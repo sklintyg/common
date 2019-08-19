@@ -21,6 +21,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0"
     xmlns:ns1="urn:local:se:intygstjanster:services:1"
     xmlns:ns2="urn:local:se:intygstjanster:services:RegisterTSDiabetesResponder:1"
+    xmlns:ns3="urn:local:se:intygstjanster:services:types:1"
     xmlns:p="urn:riv:clinicalprocess:healthcond:certificate:1"
     xmlns:p2="urn:riv:clinicalprocess:healthcond:certificate:ts-diabetes:1"
     xmlns:p3="urn:riv:clinicalprocess:healthcond:certificate:types:1"

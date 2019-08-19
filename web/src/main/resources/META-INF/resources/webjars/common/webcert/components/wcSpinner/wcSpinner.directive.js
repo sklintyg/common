@@ -17,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcSpinner',
-    [function() {
-      'use strict';
+    [ function() {
+        'use strict';
 
-      return {
-        restrict: 'E',
-        transclude: true,
-        scope: {
-          label: '@',
-          showSpinner: '='
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcSpinner/wcSpinner.directive.html'
-      };
+        return {
+            restrict: 'E',
+            transclude: true,
+            scope: {
+                label: '@',
+                showSpinner: '='
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcSpinner/wcSpinner.directive.html'
+        };
     }]);

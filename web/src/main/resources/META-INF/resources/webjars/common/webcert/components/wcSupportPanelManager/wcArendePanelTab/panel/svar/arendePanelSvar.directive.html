@@ -8,19 +8,21 @@
     </button>
 
     <!-- Svarapanel -->
-    <div ng-if="answerPanelOpen" class="fold-animation" arende-draft-auto-save intyg-id="parentViewState.intyg.id"
-         text="arendeSvar.meddelande" save-state="arendeSvar.draftState" question-id="arendeSvar.fragaInternReferens">
+    <div ng-if="answerPanelOpen" class="fold-animation" arende-draft-auto-save intyg-id="parentViewState.intyg.id" text="arendeSvar.meddelande" save-state="arendeSvar.draftState" question-id="arendeSvar.fragaInternReferens">
       <!-- KNAPPAR EJ HANTERADE FRÅGOR -->
       <!-- TA BORT arendeSvar.intygProperties.kompletteringOnly NÄR "SVAR SOM FÖLJER MED" ÄR IMPLEMENTERAT -->
 
       <div class="form-group">
-        <textarea ng-trim="false" maxlength="5000" class="form-control" ng-model="arendeSvar.meddelande"
-                  id="answerText-{{arendeSvar.fragaInternReferens}}" ue-filter-latin1></textarea>
+        <textarea ng-trim="false" maxlength="5000"
+                  class="form-control" ng-model="arendeSvar.meddelande"
+                  id="answerText-{{arendeSvar.fragaInternReferens}}"
+                  ue-filter-latin1></textarea>
         <span class="arende-draft-status pull-right" ng-switch="arendeSvar.draftState">
           <span ng-switch-when="saving" id="arende-draft-saving" dynamic-label key="common.arende.draft.saving"></span>
           <span ng-switch-when="saved" id="arende-draft-saved" dynamic-label key="common.arende.draft.saved"></span>
           <span ng-switch-when="failed">
-            <wc-alert-message id="arende-draft-error" alert-severity="danger"
+            <wc-alert-message id="arende-draft-error"
+                              alert-severity="danger"
                               alert-message-id="common.arende.draft.failed"></wc-alert-message>
           </span>
         </span>
@@ -42,8 +44,7 @@
 
   <!-- Svarsdelen -->
   <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg && panelId == 'kompletteringar'" class="kompletterad">
-    <wc-arende-komplettera-meddelande-confirmation
-        arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
+    <wc-arende-komplettera-meddelande-confirmation arende-list="arendeList"></wc-arende-komplettera-meddelande-confirmation>
   </div>
 
   <div ng-if="showAnswer() && !arendeSvar.answeredWithIntyg" class="arende-svar card">
@@ -51,11 +52,10 @@
             'arende-block-fk' : (arendeSvar.frageStallare | lowercase) == 'wc',
             'arende-block-wc' : (arendeSvar.frageStallare | lowercase) == 'fk'}">
 
-      <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem"
-                           parent-view-state="parentViewState"></arende-panel-header>
+      <arende-panel-header header-type="svar" show-hantera="true" arende-list-item="arendeListItem" parent-view-state="parentViewState">
+      </arende-panel-header>
 
-      <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}"
-                             parent-view-state="parentViewState"></arende-vidarebefordra>
+      <arende-vidarebefordra arende-list-item="arendeListItem" panel-id="{{panelId}}" parent-view-state="parentViewState"></arende-vidarebefordra>
 
       <div id="{{panelId}}-arende-svartext-{{arendeSvar.fragaInternReferens}}" class="arende-block-body">
         <div ng-if="arendeSvar.meddelande" class="multiline">{{arendeSvar.meddelande}}</div>

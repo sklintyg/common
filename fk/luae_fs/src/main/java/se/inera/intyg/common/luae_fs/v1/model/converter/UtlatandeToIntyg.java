@@ -18,6 +18,22 @@
  */
 package se.inera.intyg.common.luae_fs.v1.model.converter;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import se.inera.intyg.common.fkparent.model.converter.RespConstants;
+import se.inera.intyg.common.fkparent.model.internal.Underlag;
+import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
+import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
+import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
+import se.inera.intyg.common.support.modules.service.WebcertModuleService;
+import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static se.inera.intyg.common.fkparent.model.converter.InternalToTransportUtil.handleDiagnosSvar;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26;
 import static se.inera.intyg.common.fkparent.model.converter.RespConstants.FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15;
@@ -47,21 +63,6 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.addIfNotBlank;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import java.util.ArrayList;
-import java.util.List;
-import se.inera.intyg.common.fkparent.model.converter.RespConstants;
-import se.inera.intyg.common.fkparent.model.internal.Underlag;
-import se.inera.intyg.common.luae_fs.support.LuaefsEntryPoint;
-import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
-import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
-import se.inera.intyg.common.support.modules.service.WebcertModuleService;
-import se.riv.clinicalprocess.healthcond.certificate.types.v3.TypAvIntyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
-import se.riv.clinicalprocess.healthcond.certificate.v3.Svar;
-
 public final class UtlatandeToIntyg {
 
     private UtlatandeToIntyg() {
@@ -89,45 +90,45 @@ public final class UtlatandeToIntyg {
         int grundForMUInstans = 1;
         if (source.getUndersokningAvPatienten() != null && source.getUndersokningAvPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
-                        RespConstants.ReferensTyp.UNDERSOKNING.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-                    InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
-                .build());
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.UNDERSOKNING.transportId,
+                                    RespConstants.ReferensTyp.UNDERSOKNING.label))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            InternalConverterUtil.getInternalDateContent(source.getUndersokningAvPatienten()))
+                    .build());
         }
         if (source.getJournaluppgifter() != null && source.getJournaluppgifter().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
-                        RespConstants.ReferensTyp.JOURNAL.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-                    InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
-                .build());
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.JOURNAL.transportId,
+                                    RespConstants.ReferensTyp.JOURNAL.label))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            InternalConverterUtil.getInternalDateContent(source.getJournaluppgifter()))
+                    .build());
         }
         if (source.getAnhorigsBeskrivningAvPatienten() != null && source.getAnhorigsBeskrivningAvPatienten().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
-                        RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-                    InternalConverterUtil.getInternalDateContent(source.getAnhorigsBeskrivningAvPatienten()))
-                .build());
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.transportId,
+                                    RespConstants.ReferensTyp.ANHORIGSBESKRIVNING.label))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            InternalConverterUtil.getInternalDateContent(source.getAnhorigsBeskrivningAvPatienten()))
+                    .build());
         }
         if (source.getAnnatGrundForMU() != null && source.getAnnatGrundForMU().isValidDate()) {
             svars.add(aSvar(GRUNDFORMEDICINSKTUNDERLAG_SVAR_ID_1, grundForMUInstans++)
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
-                    aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
-                        RespConstants.ReferensTyp.ANNAT.label))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
-                    InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
-                .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, source.getAnnatGrundForMUBeskrivning()).build());
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_TYP_DELSVAR_ID_1,
+                            aCV(GRUNDFORMEDICINSKTUNDERLAG_CODE_SYSTEM, RespConstants.ReferensTyp.ANNAT.transportId,
+                                    RespConstants.ReferensTyp.ANNAT.label))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_DATUM_DELSVAR_ID_1,
+                            InternalConverterUtil.getInternalDateContent(source.getAnnatGrundForMU()))
+                    .withDelsvar(GRUNDFORMEDICINSKTUNDERLAG_ANNANBESKRIVNING_DELSVAR_ID_1, source.getAnnatGrundForMUBeskrivning()).build());
         }
 
         if (source.getKannedomOmPatient() != null && source.getKannedomOmPatient().isValidDate()) {
             svars.add(aSvar(KANNEDOM_SVAR_ID_2)
-                .withDelsvar(KANNEDOM_DELSVAR_ID_2, InternalConverterUtil.getInternalDateContent(source.getKannedomOmPatient()))
-                .build());
+                    .withDelsvar(KANNEDOM_DELSVAR_ID_2, InternalConverterUtil.getInternalDateContent(source.getKannedomOmPatient()))
+                    .build());
         }
 
         if (source.getUnderlagFinns() != null) {
@@ -138,20 +139,20 @@ public final class UtlatandeToIntyg {
         for (Underlag underlag : source.getUnderlag()) {
             if (underlag.getDatum() != null && underlag.getDatum().isValidDate()) {
                 svars.add(
-                    aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
-                        .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
-                            : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
-                        .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
-                        .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
+                        aSvar(UNDERLAG_SVAR_ID_4, underlagInstans++)
+                                .withDelsvar(UNDERLAG_TYP_DELSVAR_ID_4, underlag.getTyp() == null ? null
+                                        : aCV(UNDERLAG_CODE_SYSTEM, underlag.getTyp().getId(), underlag.getTyp().getLabel()))
+                                .withDelsvar(UNDERLAG_DATUM_DELSVAR_ID_4, InternalConverterUtil.getInternalDateContent(underlag.getDatum()))
+                                .withDelsvar(UNDERLAG_HAMTAS_FRAN_DELSVAR_ID_4, underlag.getHamtasFran()).build());
             }
         }
 
         handleDiagnosSvar(svars, source.getDiagnoser(), webcertModuleService);
 
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_DEBUT_SVAR_ID_15, FUNKTIONSNEDSATTNING_DEBUT_DELSVAR_ID_15,
-            source.getFunktionsnedsattningDebut());
+                source.getFunktionsnedsattningDebut());
         addIfNotBlank(svars, FUNKTIONSNEDSATTNING_PAVERKAN_SVAR_ID_16, FUNKTIONSNEDSATTNING_PAVERKAN_DELSVAR_ID_16,
-            source.getFunktionsnedsattningPaverkan());
+                source.getFunktionsnedsattningPaverkan());
 
         /* End complex object */
 
@@ -160,10 +161,10 @@ public final class UtlatandeToIntyg {
         if (source.getKontaktMedFk() != null) {
             if (source.getKontaktMedFk() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
-                    .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
+                        .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_26, source.getAnledningTillKontakt()).build());
             } else {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_26).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_26, source.getKontaktMedFk().toString())
-                    .build());
+                        .build());
             }
         }
 
@@ -182,7 +183,7 @@ public final class UtlatandeToIntyg {
         // Since INTYG-2949, we have to concatenate information in the Övrigt-fält again...
         if (!Strings.nullToEmpty(source.getMotiveringTillInteBaseratPaUndersokning()).trim().isEmpty()) {
             motiveringTillInteBaseratPaUndersokning = "Motivering till varför utlåtandet inte baseras på undersökning av patienten: "
-                + source.getMotiveringTillInteBaseratPaUndersokning();
+                    + source.getMotiveringTillInteBaseratPaUndersokning();
         }
 
         if (!Strings.nullToEmpty(source.getOvrigt()).trim().isEmpty()) {

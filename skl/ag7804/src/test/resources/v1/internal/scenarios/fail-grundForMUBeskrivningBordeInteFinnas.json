@@ -73,6 +73,6 @@
       "typ": "NUVARANDE_ARBETE"
     }
   ],
-  "annatGrundForMUBeskrivning": "Annan grund för MU",
+  "annatGrundForMUBeskrivning" : "Annan grund för MU",
   "undersokningAvPatienten": "2015-12-08"
 }

@@ -22,46 +22,35 @@ package se.inera.intyg.common.tstrk1062.v1.rest;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PARAMS_OR_PU;
-import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.PU;
+import static org.mockito.Mockito.*;
+import static se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder.ResolveOrder.*;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import java.io.StringReader;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPFault;
 import javax.xml.ws.soap.SOAPFaultException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.support.modules.support.api.dto.PatientDetailResolveOrder;
@@ -89,7 +78,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {BefattningService.class})
+@ContextConfiguration(classes = { BefattningService.class })
 public class TsTrk1062ModuleApiV1Test {
 
     @Mock
@@ -150,8 +139,8 @@ public class TsTrk1062ModuleApiV1Test {
 
         doReturn(mockIntygTexts).when(intygTextsService).getIntygTextsPojo(TsTrk1062EntryPoint.MODULE_ID, TEXT_VERSION);
         doReturn(expectedPdfResponse).when(pdfGenerator).generatePdf(INTYGS_ID, INTERNAL_MODEL, grundData.getPatient().getPersonId(),
-            mockIntygTexts,
-            statuses, mockApplicationOrigin, mockUtkastStatus);
+                mockIntygTexts,
+                statuses, mockApplicationOrigin, mockUtkastStatus);
 
         final PdfResponse actualPdfResponse = moduleApi.pdf(INTERNAL_MODEL, statuses, mockApplicationOrigin, mockUtkastStatus);
 
@@ -225,7 +214,7 @@ public class TsTrk1062ModuleApiV1Test {
         final SOAPFault mockFault = mock(SOAPFault.class);
 
         doThrow(new SOAPFaultException(mockFault)).when(registerCertificateResponderInterface).registerCertificate(eq(LOGICAL_ADDRESS),
-            any());
+                any());
 
         moduleApi.sendCertificateToRecipient(xml, LOGICAL_ADDRESS, RECIPIENT_ID);
     }
@@ -249,8 +238,8 @@ public class TsTrk1062ModuleApiV1Test {
     @Test
     public void testConvertUtlatandeToIntyg() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .build();
+                .setGrundData(buildGrundData(LocalDateTime.now()))
+                .build();
 
         final Intyg intyg = moduleApi.utlatandeToIntyg(utlatande);
 
@@ -267,8 +256,8 @@ public class TsTrk1062ModuleApiV1Test {
     @Test
     public void testInternalToTransport() throws Exception {
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .build();
+                .setGrundData(buildGrundData(LocalDateTime.now()))
+                .build();
 
         final RegisterCertificateType actualRegisterCertificateType = moduleApi.internalToTransport(utlatande);
 
@@ -334,19 +323,19 @@ public class TsTrk1062ModuleApiV1Test {
     public void testdecorateDiagnoserWithDescriptions() throws Exception {
         final String expectedDiagnosDisplayName = "Detta är diagnosbeskrivningen";
         final DiagnosKodad expectedDiagnosKodad = DiagnosKodad.create("A01", "ICD10",
-            "Diagnosbeskrivning", null, "Årtal");
+                "Diagnosbeskrivning", null, "Årtal");
 
         final List<DiagnosKodad> expectedDiagnosKodadList = new ArrayList<DiagnosKodad>(1);
         expectedDiagnosKodadList.add(expectedDiagnosKodad);
 
         final TsTrk1062UtlatandeV1 utlatande = TsTrk1062UtlatandeV1.builder()
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
-            .setDiagnosKodad(expectedDiagnosKodadList)
-            .build();
+                .setGrundData(buildGrundData(LocalDateTime.now()))
+                .setDiagnosRegistrering(DiagnosRegistrering.create(DiagnosRegistrering.DiagnosRegistreringsTyp.DIAGNOS_KODAD))
+                .setDiagnosKodad(expectedDiagnosKodadList)
+                .build();
 
         doReturn(expectedDiagnosDisplayName).when(moduleService).getDescriptionFromDiagnosKod(expectedDiagnosKodad.getDiagnosKod(),
-            expectedDiagnosKodad.getDiagnosKodSystem());
+                expectedDiagnosKodad.getDiagnosKodSystem());
 
         final TsTrk1062UtlatandeV1 actualUtlatande = moduleApi.decorateDiagnoserWithDescriptions(utlatande);
 
@@ -357,9 +346,9 @@ public class TsTrk1062ModuleApiV1Test {
         final DiagnosKodad actualDiagnosKodad = actualDiagnosKodadList.get(0);
         assertEquals("DiagnosKodad kod should be same", expectedDiagnosKodad.getDiagnosKod(), actualDiagnosKodad.getDiagnosKod());
         assertEquals("DiagnosKodad beskrivning should be same", expectedDiagnosKodad.getDiagnosBeskrivning(),
-            actualDiagnosKodad.getDiagnosBeskrivning());
+                actualDiagnosKodad.getDiagnosBeskrivning());
         assertEquals("DiagnosKodad kodsystem should be same", expectedDiagnosKodad.getDiagnosKodSystem(),
-            actualDiagnosKodad.getDiagnosKodSystem());
+                actualDiagnosKodad.getDiagnosKodSystem());
         assertEquals("DiagnosKodad artal should be same", expectedDiagnosKodad.getDiagnosArtal(), actualDiagnosKodad.getDiagnosArtal());
         assertEquals("DiagnosKodad displayname should be same", expectedDiagnosDisplayName, actualDiagnosKodad.getDiagnosDisplayName());
     }

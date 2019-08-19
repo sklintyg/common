@@ -35,13 +35,13 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import java.io.IOException;
 import java.util.List;
+
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -54,6 +54,10 @@ import org.mockito.Spy;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.af00251.v1.model.converter.UtlatandeToIntyg;
 import se.inera.intyg.common.af00251.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
@@ -150,7 +154,7 @@ public class AF00251ModuleApiV1Test {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-            .thenReturn(createReturnVal(ResultCodeType.ERROR));
+                .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("transport/af00251.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -177,8 +181,8 @@ public class AF00251ModuleApiV1Test {
     @Test
     public void testValidateShouldUseValidator() throws Exception {
         Mockito.doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue("internal model", AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue("internal model", AF00251UtlatandeV1.class);
         moduleApi.validateDraft("internal model");
         verify(internalDraftValidator, times(1)).validateDraft(any());
     }
@@ -236,7 +240,7 @@ public class AF00251ModuleApiV1Test {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
@@ -249,8 +253,8 @@ public class AF00251ModuleApiV1Test {
         response.setResult(ResultTypeUtil.okResult());
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -269,8 +273,8 @@ public class AF00251ModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -291,8 +295,8 @@ public class AF00251ModuleApiV1Test {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -313,8 +317,8 @@ public class AF00251ModuleApiV1Test {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -329,8 +333,8 @@ public class AF00251ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(null)
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
 
@@ -342,8 +346,8 @@ public class AF00251ModuleApiV1Test {
         final String utlatandeJson = "utlatandeJson";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(utlatandeJson, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(utlatandeJson, AF00251UtlatandeV1.class);
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -353,12 +357,12 @@ public class AF00251ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -370,12 +374,12 @@ public class AF00251ModuleApiV1Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, AF00251UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, AF00251UtlatandeV1.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -386,38 +390,37 @@ public class AF00251ModuleApiV1Test {
     public void testFilterUncheckedSjukfranvaro() throws Exception {
 
         final AF00251UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-complete")
-            .asInternalModel();
+                                                           .asInternalModel();
         final List<Sjukfranvaro> sjukfranvarosUnchecked = utlatande.getSjukfranvaro()
-            .stream()
-            .map(Sjukfranvaro::toBuilder)
-            .map(builder -> builder.setChecked(false)
-                .build())
-            .collect(toList());
+                                                    .stream()
+                                                    .map(Sjukfranvaro::toBuilder)
+                                                    .map(builder -> builder.setChecked(false)
+                                                                           .build())
+                                                    .collect(toList());
 
         final AF00251UtlatandeV1 utlatandeWithUncheckedSjukfranvaro = utlatande.toBuilder()
-            .setSjukfranvaro(sjukfranvarosUnchecked)
-            .build();
+                                                  .setSjukfranvaro(sjukfranvarosUnchecked)
+                                                  .build();
 
         final AF00251UtlatandeV1 result = moduleApi.filterUncheckedSjukfranvaro(utlatandeWithUncheckedSjukfranvaro);
 
         assertThat(result.getSjukfranvaro(), hasSize(0));
     }
-
     @Test
     public void testFilterSjukfranvaroSetToNull() throws Exception {
 
         final AF00251UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("pass-complete")
-            .asInternalModel();
+                                                           .asInternalModel();
         final List<Sjukfranvaro> sjukfranvarosUnchecked = utlatande.getSjukfranvaro()
-            .stream()
-            .map(Sjukfranvaro::toBuilder)
-            .map(builder -> builder.setChecked(null)
-                .build())
-            .collect(toList());
+                                                    .stream()
+                                                    .map(Sjukfranvaro::toBuilder)
+                                                    .map(builder -> builder.setChecked(null)
+                                                                           .build())
+                                                    .collect(toList());
 
         final AF00251UtlatandeV1 utlatandeWithUncheckedSjukfranvaro = utlatande.toBuilder()
-            .setSjukfranvaro(sjukfranvarosUnchecked)
-            .build();
+                                                  .setSjukfranvaro(sjukfranvarosUnchecked)
+                                                  .build();
 
         final AF00251UtlatandeV1 result = moduleApi.filterUncheckedSjukfranvaro(utlatandeWithUncheckedSjukfranvaro);
 
@@ -491,7 +494,7 @@ public class AF00251ModuleApiV1Test {
 
     private AF00251UtlatandeV1 getUtlatandeFromFile(String path) throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-            path).getFile(), AF00251UtlatandeV1.class);
+                path).getFile(), AF00251UtlatandeV1.class);
     }
 
     private GetCertificateResponseType createGetCertificateResponseType() throws ScenarioNotFoundException {
@@ -503,7 +506,7 @@ public class AF00251ModuleApiV1Test {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
+                createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {

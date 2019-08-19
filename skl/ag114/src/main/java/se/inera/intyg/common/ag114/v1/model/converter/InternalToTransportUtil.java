@@ -25,6 +25,7 @@ import static se.inera.intyg.common.support.modules.converter.InternalConverterU
 import static se.inera.intyg.common.support.modules.converter.InternalConverterUtil.aSvar;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se.inera.intyg.common.agparent.model.internal.Diagnos;
@@ -57,8 +58,8 @@ public final class InternalToTransportUtil {
             if (isDiagnoseCodeValid(diagnos, webcertModuleService)) {
                 Diagnoskodverk diagnoskodverk = Diagnoskodverk.valueOf(diagnos.getDiagnosKodSystem());
                 diagnosSvar.withDelsvar(TYP_AV_DIAGNOS_DELSVAR_ID_4,
-                    aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
-                    .withDelsvar(TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
+                        aCV(diagnoskodverk.getCodeSystem(), diagnos.getDiagnosKod(), diagnos.getDiagnosDisplayName()))
+                        .withDelsvar(TYP_AV_DIAGNOS_BESKRIVNING_DELSVAR_ID_4, diagnos.getDiagnosBeskrivning());
                 if (!diagnosSvar.delSvars.isEmpty()) {
                     svars.add(diagnosSvar.build());
                 }

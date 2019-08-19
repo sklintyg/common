@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcApproveReceiverRow', function() {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      item: '='
-    },
-    templateUrl: '/web/webjars/common/webcert/components/receiver/wcApproveReceiverRow/wcApproveReceiverRow.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            item: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/components/receiver/wcApproveReceiverRow/wcApproveReceiverRow.directive.html',
+        link: function($scope) {
 
-    }
+        }
 
-  };
+    };
 });

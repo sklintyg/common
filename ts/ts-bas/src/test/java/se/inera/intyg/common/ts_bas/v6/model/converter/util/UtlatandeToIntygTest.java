@@ -18,31 +18,21 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.converter.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.time.LocalDateTime;
-import java.util.EnumSet;
-import javax.xml.bind.JAXBElement;
 import org.junit.Test;
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Relation;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.ts_bas.v6.model.converter.UtlatandeToIntyg;
-import se.inera.intyg.common.ts_bas.v6.model.internal.Bedomning;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvser;
-import se.inera.intyg.common.ts_bas.v6.model.internal.IntygAvserKategori;
-import se.inera.intyg.common.ts_bas.v6.model.internal.TsBasUtlatandeV6;
+import se.inera.intyg.common.ts_bas.v6.model.internal.*;
 import se.inera.intyg.common.ts_parent.codes.IntygAvserKod;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.CVType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import javax.xml.bind.JAXBElement;
+import java.time.LocalDateTime;
+import java.util.EnumSet;
+
+import static org.junit.Assert.*;
 
 public class UtlatandeToIntygTest {
 
@@ -75,10 +65,9 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         TsBasUtlatandeV6 utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-            telefonNummer,
-            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-            null, null);
+                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+                null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -215,26 +204,23 @@ public class UtlatandeToIntygTest {
 
     private TsBasUtlatandeV6 buildUtlatande(String arbetsplatskod) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", null, null);
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
+                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
+                "patientPostnummer", "patientPostort", null, null);
     }
 
     private TsBasUtlatandeV6 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
+                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private TsBasUtlatandeV6 buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-        String arbetsplatsKod,
-        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-        String patientPostort, RelationKod relationKod, String relationIntygsId) {
+            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
+            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+            String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         TsBasUtlatandeV6.Builder utlatandeBuilder = TsBasUtlatandeV6.builder();
         utlatandeBuilder.setId(intygsId);

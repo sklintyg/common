@@ -31,14 +31,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+
 import java.io.IOException;
 import java.io.StringReader;
+
 import javax.xml.bind.JAXB;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +52,10 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.oxm.UnmarshallingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -143,7 +148,7 @@ public class TsDiabetesModuleApiV3Test {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-            .thenReturn(createReturnVal(ResultCodeType.ERROR));
+                .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v3/transport/ts-diabetes-v3.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -166,7 +171,6 @@ public class TsDiabetesModuleApiV3Test {
     public void testSendCertificateShouldFailOnEmptyLogicalAddress() throws ModuleException {
         moduleApi.sendCertificateToRecipient("blaha", "", null);
     }
-
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailOnMissingIntygTypeVersion() throws ModuleException {
         moduleApi.sendCertificateToRecipient("blaha", "", null);
@@ -175,8 +179,8 @@ public class TsDiabetesModuleApiV3Test {
     @Test
     public void testValidateShouldUseValidator() throws Exception {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue("internal model", TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue("internal model", TsDiabetesUtlatandeV3.class);
         moduleApi.validateDraft("internal model");
         verify(validator, times(1)).validateDraft(any());
     }
@@ -234,7 +238,7 @@ public class TsDiabetesModuleApiV3Test {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
@@ -247,8 +251,8 @@ public class TsDiabetesModuleApiV3Test {
         response.setResult(ResultTypeUtil.okResult());
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -267,8 +271,8 @@ public class TsDiabetesModuleApiV3Test {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -289,8 +293,8 @@ public class TsDiabetesModuleApiV3Test {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -311,8 +315,8 @@ public class TsDiabetesModuleApiV3Test {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -327,8 +331,8 @@ public class TsDiabetesModuleApiV3Test {
         final String internalModel = "internal model";
 
         doReturn(null)
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
 
@@ -340,8 +344,8 @@ public class TsDiabetesModuleApiV3Test {
         final String utlatandeJson = "utlatandeJson";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(utlatandeJson, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(utlatandeJson, TsDiabetesUtlatandeV3.class);
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -349,13 +353,13 @@ public class TsDiabetesModuleApiV3Test {
     @Test
     public void parseInvalidXmlFromProdDatabaseLegacyTest() throws Exception {
         // partial unmarshalling
-        String xml = Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
+        String xml =  Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
         JAXB.unmarshal(new StringReader(xml), RegisterTSDiabetesType.class);
     }
 
     @Test(expected = UnmarshallingFailureException.class)
     public void parseInvalidXmlFromProdDatabaseNewTest() throws Exception {
-        String xml = Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
+        String xml =  Resources.toString(Resources.getResource("v3/transport/ts-diabetes-invalid-xml-in-prod.xml"), Charsets.UTF_8);
         XmlMarshallerHelper.unmarshal(xml);
     }
 
@@ -365,12 +369,12 @@ public class TsDiabetesModuleApiV3Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertNotNull(response);
@@ -383,12 +387,12 @@ public class TsDiabetesModuleApiV3Test {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, TsDiabetesUtlatandeV3.class);
+                .when(objectMapper)
+                .readValue(internalModel, TsDiabetesUtlatandeV3.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertNotNull(response);
@@ -446,7 +450,7 @@ public class TsDiabetesModuleApiV3Test {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
+                createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -492,7 +496,7 @@ public class TsDiabetesModuleApiV3Test {
 
     private TsDiabetesUtlatandeV3 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
+                TESTFILE_UTLATANDE).getFile(), TsDiabetesUtlatandeV3.class);
     }
 
 }

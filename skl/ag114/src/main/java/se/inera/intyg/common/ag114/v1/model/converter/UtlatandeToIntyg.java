@@ -110,10 +110,10 @@ public final class UtlatandeToIntyg {
             for (Sysselsattning sysselsattning : source.getSysselsattning()) {
                 if (sysselsattning.getTyp() != null) {
                     svars.add(aSvar(TYP_AV_SYSSELSATTNING_SVAR_ID_1, sysselsattningInstans++)
-                        .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
-                            aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
-                                sysselsattning.getTyp().getLabel()))
-                        .build());
+                            .withDelsvar(TYP_AV_SYSSELSATTNING_DELSVAR_ID_1,
+                                    aCV(TYP_AV_SYSSELSATTNING_CODE_SYSTEM, sysselsattning.getTyp().getId(),
+                                            sysselsattning.getTyp().getLabel()))
+                            .build());
                 }
             }
         }
@@ -134,12 +134,12 @@ public final class UtlatandeToIntyg {
         if (source.getArbetsformagaTrotsSjukdom() != null) {
             if (!source.getArbetsformagaTrotsSjukdom()) {
                 svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                    source.getArbetsformagaTrotsSjukdom().toString()).build());
+                        source.getArbetsformagaTrotsSjukdom().toString()).build());
             } else if (source.getArbetsformagaTrotsSjukdom() && !Strings.isNullOrEmpty(source.getArbetsformagaTrotsSjukdomBeskrivning())) {
                 svars.add(aSvar(ARBETSFORMAGA_TROTS_SJUKDOM_SVAR_ID_6).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_1,
-                    source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
-                    source.getArbetsformagaTrotsSjukdomBeskrivning())
-                    .build());
+                        source.getArbetsformagaTrotsSjukdom().toString()).withDelsvar(ARBETSFORMAGA_TROTS_SJUKDOM_DELSVAR_ID_6_2,
+                                source.getArbetsformagaTrotsSjukdomBeskrivning())
+                        .build());
             }
         }
 
@@ -147,10 +147,10 @@ public final class UtlatandeToIntyg {
         InternalLocalDateInterval sjukskrivningsperiod = source.getSjukskrivningsperiod();
         if (sjukskrivningsperiod != null && sjukskrivningsperiod.isValid()) {
             svars.add(aSvar(BEDOMNING_SVAR_ID_7)
-                .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
-                .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
-                    aDatePeriod(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()))
-                .build());
+                    .withDelsvar(SJUKSKRIVNINGSGRAD_DELSVAR_ID_7_1, addSjukskrivningsGradIfNotEmpty(source.getSjukskrivningsgrad()))
+                    .withDelsvar(SJUKSKRIVNINGSPERIOD_DELSVAR_ID_7_2,
+                            aDatePeriod(sjukskrivningsperiod.fromAsLocalDate(), sjukskrivningsperiod.tomAsLocalDate()))
+                    .build());
         }
 
         // Kategori 8 övrigt
@@ -160,12 +160,12 @@ public final class UtlatandeToIntyg {
         if (source.getKontaktMedArbetsgivaren() != null) {
             if (source.getKontaktMedArbetsgivaren() && !Strings.nullToEmpty(source.getAnledningTillKontakt()).trim().isEmpty()) {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                    source.getKontaktMedArbetsgivaren().toString())
-                    .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt()).build());
+                        source.getKontaktMedArbetsgivaren().toString())
+                        .withDelsvar(ANLEDNING_TILL_KONTAKT_DELSVAR_ID_9, source.getAnledningTillKontakt()).build());
             } else {
                 svars.add(aSvar(KONTAKT_ONSKAS_SVAR_ID_9).withDelsvar(KONTAKT_ONSKAS_DELSVAR_ID_9,
-                    source.getKontaktMedArbetsgivaren().toString())
-                    .build());
+                        source.getKontaktMedArbetsgivaren().toString())
+                        .build());
             }
         }
 

@@ -20,12 +20,15 @@ package se.inera.intyg.common.tstrk1062.v1.model.internal;
 
 import static se.inera.intyg.common.tstrk1062.v1.model.converter.TSTRK1062Constants.BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID;
 
+import java.util.Set;
+
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.auto.value.AutoValue;
-import java.util.Set;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
 
@@ -39,14 +42,12 @@ public abstract class Bedomning {
     public abstract Set<BehorighetsTyp> getUppfyllerBehorighetskrav();
 
     public static class BehorighetsTypSetEnumSetSerializer extends AbstractEnumSetSerializer<BehorighetsTyp> {
-
         protected BehorighetsTypSetEnumSetSerializer() {
             super(BehorighetsTyp.class);
         }
     }
 
     public static class BehorighetsTypSetDeserializer extends AbstractEnumSetDeserializer<BehorighetsTyp> {
-
         protected BehorighetsTypSetDeserializer() {
             super(BehorighetsTyp.class);
         }
@@ -58,7 +59,6 @@ public abstract class Bedomning {
 
     @AutoValue.Builder
     public abstract static class Builder {
-
         public abstract Bedomning build();
 
         @JsonProperty(BEDOMNING_UPPFYLLER_DELSVAR_JSON_ID)

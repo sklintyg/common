@@ -76,10 +76,9 @@ public class UtlatandeToIntygTest {
         final String patientPostort = "patientPostort";
 
         Tstrk1009UtlatandeV1 utlatande = buildUtlatande(intygsId, enhetsId, enhetsnamn, patientPersonId,
-            skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost,
-            telefonNummer,
-            vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
-            null, null);
+                skapadAvFullstandigtNamn, skapadAvPersonId, signeringsdatum, arbetsplatsKod, postadress, postNummer, postOrt, epost, telefonNummer,
+                vardgivarid, vardgivarNamn, forskrivarKod, fornamn, efternamn, mellannamn, patientPostadress, patientPostnummer, patientPostort,
+                null, null);
 
         Intyg intyg = UtlatandeToIntyg.convert(utlatande);
 
@@ -149,8 +148,8 @@ public class UtlatandeToIntygTest {
         assertEquals("1.1", intyg.getSvar().get(0).getDelsvar().get(0).getId());
 
         final Set<String> codes = KorkortBehorighetGrupp.A_B_TRAKTOR.getKorkortsbehorigheter().stream()
-            .map(Korkortsbehorighet::getCode)
-            .collect(Collectors.toSet());
+                .map(Korkortsbehorighet::getCode)
+                .collect(Collectors.toSet());
 
         JAXBElement<CVType> o = (JAXBElement<CVType>) intyg.getSvar().get(0).getDelsvar().get(0).getContent().get(0);
         assertTrue(codes.contains(o.getValue().getCode()));
@@ -219,26 +218,23 @@ public class UtlatandeToIntygTest {
 
     private Tstrk1009UtlatandeV1 buildUtlatande(String arbetsplatskod) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", null, null);
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), arbetsplatskod, "postadress", "postNummer", "postOrt",
+                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
+                "patientPostnummer", "patientPostort", null, null);
     }
 
     private Tstrk1009UtlatandeV1 buildUtlatande(RelationKod relationKod, String relationIntygsId) {
         return buildUtlatande("intygsId", "enhetsId", "enhetsnamn", PNR_TOLVAN,
-            "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
-            "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn",
-            "patientPostadress",
-            "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
+                "skapadAvFullstandigtNamn", "skapadAvPersonId", LocalDateTime.now(), "arbetsplatsKod", "postadress", "postNummer", "postOrt",
+                "epost", "telefonNummer", "vardgivarid", "vardgivarNamn", "forskrivarKod", "fornamn", "efternamn", "mellannamn", "patientPostadress",
+                "patientPostnummer", "patientPostort", relationKod, relationIntygsId);
     }
 
     private Tstrk1009UtlatandeV1 buildUtlatande(String intygsId, String enhetsId, String enhetsnamn,
-        String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum,
-        String arbetsplatsKod,
-        String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
-        String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
-        String patientPostort, RelationKod relationKod, String relationIntygsId) {
+            String patientPersonId, String skapadAvFullstandigtNamn, String skapadAvPersonId, LocalDateTime signeringsdatum, String arbetsplatsKod,
+            String postadress, String postNummer, String postOrt, String epost, String telefonNummer, String vardgivarid, String vardgivarNamn,
+            String forskrivarKod, String fornamn, String efternamn, String mellannamn, String patientPostadress, String patientPostnummer,
+            String patientPostort, RelationKod relationKod, String relationIntygsId) {
 
         Tstrk1009UtlatandeV1.Builder utlatandeBuilder = Tstrk1009UtlatandeV1.builder();
         utlatandeBuilder.setId(intygsId);

@@ -18,36 +18,38 @@
  */
 
 angular.module('common').directive('wcArendeKompletteraIntygConfirmation',
-    ['$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper',
-      function($rootScope, ArendeListViewState, ArendeHelper) {
-        'use strict';
+    [ '$rootScope', 'common.ArendeListViewStateService', 'common.ArendeHelper',
+        function($rootScope, ArendeListViewState, ArendeHelper) {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraIntygConfirmation/wcArendeKompletteraIntygConfirmation.directive.html',
-          scope: {},
-          controller: function($scope, $element, $attrs) {
+            return {
+                restrict: 'E',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeKompletteraIntygConfirmation/wcArendeKompletteraIntygConfirmation.directive.html',
+                scope: {
+                },
+                controller: function($scope, $element, $attrs) {
 
-            function onIntygLoaded(event, intyg, intygProperties) {
-              if (ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) {
-                $scope.intygType = ArendeListViewState.intygProperties.type;
-                $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId;
-                $scope.intygTypeVersion = ArendeListViewState.intygProperties.intygTypeVersion;
-              } else {
-                $scope.intygType = undefined;
-                $scope.intygId = undefined;
-                $scope.intygTypeVersion = undefined;
-              }
-            }
+                    function onIntygLoaded(event, intyg, intygProperties) {
+                        if (ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg) {
+                            $scope.intygType = ArendeListViewState.intygProperties.type;
+                            $scope.intygId = ArendeListViewState.intygProperties.latestChildRelations.complementedByIntyg.intygsId;
+                            $scope.intygTypeVersion = ArendeListViewState.intygProperties.intygTypeVersion;
+                        }
+                        else {
+                            $scope.intygType = undefined;
+                            $scope.intygId = undefined;
+                            $scope.intygTypeVersion = undefined;
+                        }
+                    }
 
-            var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
-            $scope.$on('$destroy', unbindFastEvent);
+                    var unbindFastEvent = $rootScope.$on('ViewCertCtrl.load', onIntygLoaded);
+                    $scope.$on('$destroy', unbindFastEvent);
 
-            onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
+                    onIntygLoaded(null, ArendeListViewState.intyg, ArendeListViewState.intygProperties);
 
-            $scope.showKompletteringsIntyg = function() {
-              return $scope.intygType && $scope.intygId;
+                    $scope.showKompletteringsIntyg = function() {
+                        return $scope.intygType && $scope.intygId;
+                    };
+                }
             };
-          }
-        };
-      }]);
+        }]);

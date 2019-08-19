@@ -2,7 +2,8 @@
 <div class="modal-dialog {{modal.extraDlgClass}}" ng-class="{'modal-sm': size == 'sm', 'modal-lg': size == 'lg'}"
      style="width: {{modal.width}}; max-width: {{modal.maxWidth}}; min-width: {{modal.minWidth}}; height: {{modal.height}}; max-height: {{modal.maxHeight}}; min-height: {{modal.minHeight}}; ">
 
-  <div class="modal-content" style="min-height:{{modal.contentMinHeight}}">
+  <div class="modal-content"
+       style="min-height:{{modal.contentMinHeight}}">
 
     <div id="{{modal.dialogId}}" class="modal-header">
       <button type="button" class="close" ng-click="close()" ng-if="modal.showClose">×</button>

@@ -18,24 +18,6 @@
  */
 package se.inera.intyg.common.af00251.v1.validator;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.collection.IsEmptyCollection.empty;
-import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.Omfattning;
-import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.builder;
-import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
-import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_ARBETSMARKNADS_PROGRAM;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_BEDOMNING;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_KONSEKVENSER;
-import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.CATEGORY_MEDICINSKT_UNDERLAG;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -56,6 +38,22 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.collection.IsEmptyCollection.empty;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.Omfattning;
+import static se.inera.intyg.common.af00251.v1.model.internal.ArbetsmarknadspolitisktProgram.builder;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessage;
+import static se.inera.intyg.common.af00251.v1.utils.Asserts.assertValidationMessages;
+import static se.inera.intyg.common.af00251.v1.validator.InternalDraftValidatorImpl.*;
+
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
 
@@ -67,36 +65,36 @@ public class InternalDraftValidatorTest {
     @Before
     public void setUp() {
         builderTemplate = AF00251UtlatandeV1.builder()
-            .setId("intygsId")
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .setUndersokningsDatum(new InternalDate(LocalDate.now()))
-            .setAnnatDatum(new InternalDate(LocalDate.now()))
-            .setAnnatBeskrivning("Annan beskrivning")
-            .setArbetsmarknadspolitisktProgram(
-                builder()
-                    .setMedicinskBedomning("Kan jobba")
-                    .setOmfattning(Omfattning.HELTID)
-                    .build())
-            .setFunktionsnedsattning("funktionsnedsättning")
-            .setAktivitetsbegransning("aktivitetsnedsättning")
-            .setHarForhinder(true)
-            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setChecked(true)
-                .setNiva(44)
-                .setPeriod(new InternalLocalDateInterval(
-                    new InternalDate(LocalDate.now()),
-                    new InternalDate(LocalDate.now()
-                        .plusDays(5))))
-                .build()))
-            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("många pauser")
-                .build())
-            .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
-                .setAnpassningar("Behöver hjälp.")
-                .build())
-            .setTextVersion("");
+                                            .setId("intygsId")
+                                            .setGrundData(buildGrundData(LocalDateTime.now()))
+                                            .setUndersokningsDatum(new InternalDate(LocalDate.now()))
+                                            .setAnnatDatum(new InternalDate(LocalDate.now()))
+                                            .setAnnatBeskrivning("Annan beskrivning")
+                                            .setArbetsmarknadspolitisktProgram(
+                                                builder()
+                                                    .setMedicinskBedomning("Kan jobba")
+                                                    .setOmfattning(Omfattning.HELTID)
+                                                    .build())
+                                            .setFunktionsnedsattning("funktionsnedsättning")
+                                            .setAktivitetsbegransning("aktivitetsnedsättning")
+                                            .setHarForhinder(true)
+                                            .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
+                                                                                       .setChecked(true)
+                                                                                       .setNiva(44)
+                                                                                       .setPeriod(new InternalLocalDateInterval(
+                                                                                           new InternalDate(LocalDate.now()),
+                                                                                           new InternalDate(LocalDate.now()
+                                                                                                                     .plusDays(5))))
+                                                                                       .build()))
+                                            .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
+                                                                                               .setKanBegransas(true)
+                                                                                               .setBeskrivning("många pauser")
+                                                                                               .build())
+                                            .setPrognosAtergang(PrognosAtergang.builder()
+                                                                               .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
+                                                                               .setAnpassningar("Behöver hjälp.")
+                                                                               .build())
+                                            .setTextVersion("");
     }
 
     @Test
@@ -154,7 +152,6 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatBeskrivning"),
             is(ValidationMessageType.EMPTY));
     }
-
     @Test
     public void validateMedicinskUnderlagFutureAnnatDatum() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -170,7 +167,6 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_MEDICINSKT_UNDERLAG), is("annatDatum"),
             is(ValidationMessageType.INVALID_FORMAT), is("af00251.validation.undersokning.future-date"));
     }
-
     @Test
     public void validateMedicinskUnderlagFutureUndersokningsDatum() {
         AF00251UtlatandeV1 utlatande = builderTemplate
@@ -434,36 +430,37 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-08-01", "2018-08-30"))
-                    .setNiva(100)
-                    .build(),
+                                                       .setChecked(true)
+                                                       .setPeriod(new InternalLocalDateInterval("2018-08-01", "2018-08-30"))
+                                                       .setNiva(100)
+                                                       .build(),
                 Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-09-01", "2018-09-30"))
-                    .setNiva(80)
-                    .build(),
+                            .setChecked(true)
+                            .setPeriod(new InternalLocalDateInterval("2018-09-01", "2018-09-30"))
+                            .setNiva(80)
+                            .build(),
                 Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-30"))
-                    .setNiva(60)
-                    .build(),
+                            .setChecked(true)
+                            .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-30"))
+                            .setNiva(60)
+                            .build(),
                 Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-11-30"))
-                    .setNiva(40)
-                    .build(),
+                            .setChecked(true)
+                            .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-11-30"))
+                            .setNiva(40)
+                            .build(),
                 Sjukfranvaro.builder()
-                    .setChecked(true)
-                    .setPeriod(new InternalLocalDateInterval("2018-12-01", "2018-12-30"))
-                    .setNiva(20)
-                    .build()))
+                            .setChecked(true)
+                            .setPeriod(new InternalLocalDateInterval("2018-12-01", "2018-12-30"))
+                            .setNiva(20)
+                            .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro"),
@@ -475,10 +472,10 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                .setNiva(0)
-                .setChecked(true)
-                .build()))
+                                                       .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                                                       .setNiva(0)
+                                                       .setChecked(true)
+                                                       .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -496,16 +493,17 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                .setNiva(101)
-                .setChecked(true)
-                .build()))
+                                                       .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                                                       .setNiva(101)
+                                                       .setChecked(true)
+                                                       .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].niva"),
@@ -517,16 +515,17 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-10-31"))
-                .setNiva(90)
-                .setChecked(true)
-                .build()))
+                                                       .setPeriod(new InternalLocalDateInterval("2018-11-01", "2018-10-31"))
+                                                       .setNiva(90)
+                                                       .setChecked(true)
+                                                       .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period"),
@@ -538,21 +537,22 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                    .setNiva(90)
-                    .setChecked(true)
-                    .build(),
+                                                       .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                                                       .setNiva(90)
+                                                       .setChecked(true)
+                                                       .build(),
                 Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-09-15", "2018-10-15"))
-                    .setNiva(80)
-                    .setChecked(true)
-                    .build()))
+                            .setPeriod(new InternalLocalDateInterval("2018-09-15", "2018-10-15"))
+                            .setNiva(80)
+                            .setChecked(true)
+                            .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 2);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
@@ -562,22 +562,22 @@ public class InternalDraftValidatorTest {
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[1].period.tom"),
             is(ValidationMessageType.PERIOD_OVERLAP));
     }
-
     @Test
     public void validateSjukfranvaroPeriodIntervalInvalidDateFormat() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                .setPeriod(new InternalLocalDateInterval("qwerty", "asd"))
-                .setNiva(90)
-                .setChecked(true)
-                .build()))
+                                                       .setPeriod(new InternalLocalDateInterval("qwerty", "asd"))
+                                                       .setNiva(90)
+                                                       .setChecked(true)
+                                                       .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 2);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("sjukfranvaro[0].period.from"),
@@ -593,15 +593,15 @@ public class InternalDraftValidatorTest {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setHarForhinder(true)
             .setSjukfranvaro(Arrays.asList(Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
-                    .setNiva(90)
-                    .setChecked(true)
-                    .build(),
+                                                       .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-31"))
+                                                       .setNiva(90)
+                                                       .setChecked(true)
+                                                       .build(),
                 Sjukfranvaro.builder()
-                    .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-15"))
-                    .setNiva(80)
-                    .setChecked(true)
-                    .build()))
+                            .setPeriod(new InternalLocalDateInterval("2018-10-01", "2018-10-15"))
+                            .setNiva(80)
+                            .setChecked(true)
+                            .build()))
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -635,6 +635,7 @@ public class InternalDraftValidatorTest {
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
 
+
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
             is(ValidationMessageType.EMPTY));
@@ -644,13 +645,14 @@ public class InternalDraftValidatorTest {
     public void validateBegransningSjukfranvaroBooleanNull() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .build())
+                                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.kanBegransas"),
@@ -661,14 +663,15 @@ public class InternalDraftValidatorTest {
     public void validateBegransningSjukfranvaroBooleanTrueNoBeskrivning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .build())
+                                                               .setKanBegransas(true)
+                                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
         final List<ValidationMessage> validationErrors = res.getValidationErrors();
         assertValidationMessages(validationErrors, 1);
+
 
         assertValidationMessage(validationErrors.get(0),
             is(CATEGORY_BEDOMNING), is("begransningSjukfranvaro.beskrivning"),
@@ -679,9 +682,9 @@ public class InternalDraftValidatorTest {
     public void validateBegransningSjukfranvaroBooleanTrueWithBeskrivning() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("hej")
-                .build())
+                                                               .setKanBegransas(true)
+                                                               .setBeskrivning("hej")
+                                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -694,8 +697,8 @@ public class InternalDraftValidatorTest {
     public void validateBegransningSjukfranvaroBooleanFalse() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setBegransningSjukfranvaro(BegransningSjukfranvaro.builder()
-                .setKanBegransas(false)
-                .build())
+                                                               .setKanBegransas(false)
+                                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -724,7 +727,7 @@ public class InternalDraftValidatorTest {
     public void validatePrognosAtergangEmpty() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setPrognosAtergang(PrognosAtergang.builder()
-                .build())
+                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -741,8 +744,8 @@ public class InternalDraftValidatorTest {
     public void validatePrognosAtergangOk() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.UTAN_ANPASSNING)
-                .build())
+                                               .setPrognos(PrognosAtergang.Prognos.UTAN_ANPASSNING)
+                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -756,8 +759,8 @@ public class InternalDraftValidatorTest {
     public void validatePrognosAtergangMedAnpassningNoText() {
         AF00251UtlatandeV1 utlatande = builderTemplate
             .setPrognosAtergang(PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.MED_ANPASSNING)
-                .build())
+                                               .setPrognos(PrognosAtergang.Prognos.MED_ANPASSNING)
+                                               .build())
             .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
@@ -792,7 +795,7 @@ public class InternalDraftValidatorTest {
 
         Patient patient = new Patient();
         patient.setPersonId(Personnummer.createPersonnummer("19121212-1212")
-            .get());
+                                        .get());
         patient.setPostadress("postadress");
         patient.setPostnummer("11111");
         patient.setPostort("postort");

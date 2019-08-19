@@ -17,41 +17,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.tsBaseHelper', [
-  '$log', 'common.ObjectHelper', 'common.UserModel', 'common.ueFactoryTemplatesHelper', 'common.UtilsService',
-  function($log, ObjectHelper, UserModel, ueFactoryTemplates, UtilsService) {
-    'use strict';
+    '$log', 'common.ObjectHelper', 'common.UserModel', 'common.ueFactoryTemplatesHelper', 'common.UtilsService',
+    function($log, ObjectHelper, UserModel, ueFactoryTemplates, UtilsService) {
+        'use strict';
 
-    function _setupKorkortstypChoices(choices, exclusiveChoicesArray) {
+        function _setupKorkortstypChoices(choices, exclusiveChoicesArray) {
 
-      function processExclusiveChoice(choices, choiceType) {
-        var somethingElseSelected = false,
-            index = UtilsService.findIndexWithPropertyValue(choices, 'type', choiceType),
-            choiceSelected = (index > -1 && choices[index].selected);
+            function processExclusiveChoice(choices, choiceType) {
+                var somethingElseSelected = false,
+                index = UtilsService.findIndexWithPropertyValue(choices, 'type', choiceType),
+                choiceSelected = (index > -1 && choices[index].selected);
 
-        if (!choiceSelected) {
-          // check if something else is selected
-          somethingElseSelected = choices.filter(function(choice) {
-            return choice.type !== choice && choice.selected;
-          }).length > 0;
+                if(!choiceSelected) {
+                    // check if something else is selected
+                    somethingElseSelected = choices.filter(function(choice) {
+                        return choice.type !== choice && choice.selected;
+                    }).length > 0;
+                }
+
+                return choices.map(function(choice) {
+                    if ((choiceSelected && choice.type !== choiceType) || (somethingElseSelected && choice.type === choiceType)) {
+                        choice.disabled = true;
+                        choice.selected = false;
+                    }
+                    return choice;
+                });
+            }
+
+            exclusiveChoicesArray.forEach(function (choice) {
+                choices = processExclusiveChoice(choices, choice);
+            });
+
+            return choices;
         }
 
-        return choices.map(function(choice) {
-          if ((choiceSelected && choice.type !== choiceType) || (somethingElseSelected && choice.type === choiceType)) {
-            choice.disabled = true;
-            choice.selected = false;
-          }
-          return choice;
-        });
-      }
-
-      exclusiveChoicesArray.forEach(function(choice) {
-        choices = processExclusiveChoice(choices, choice);
-      });
-
-      return choices;
-    }
-
-    return {
-      setupKorkortstypChoices: _setupKorkortstypChoices
-    };
-  }]);
+        return {
+            setupKorkortstypChoices: _setupKorkortstypChoices
+        };
+    }]);

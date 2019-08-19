@@ -20,15 +20,14 @@ package se.inera.intyg.common.support.stub;
 
 import static com.google.common.collect.Maps.newHashMap;
 import static org.junit.Assert.assertEquals;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_JA;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MAKULERAD_NEJ;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.MEDDELANDE;
-import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.PERSONNUMMER;
+import static se.inera.intyg.common.support.stub.MedicalCertificatesStore.*;
 
 import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
+
+import se.inera.intyg.common.support.stub.MedicalCertificatesStore;
 
 public class MedicalCertificatesStoreTest {
 

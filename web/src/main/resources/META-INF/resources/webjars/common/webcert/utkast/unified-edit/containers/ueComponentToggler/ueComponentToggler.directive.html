@@ -7,15 +7,18 @@
     </label>
 
     <div class="component-toggler fold-animation" ng-if="!model[config.modelPropToWatch]">
-      <button ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}" type="button" class="btn btn-link"
+      <button ng-attr-id="toggle-{{::config.modelPropToWatch|ueDomIdFilter}}"
+              type="button"
+              class="btn btn-link"
               ng-click="vm.showComponents = !vm.showComponents">
         <span ng-switch="vm.showComponents">
           <span ng-switch-when="false">Visa fritextfältet</span>
           <span ng-switch-when="true">Dölj fritextfältet</span>
         </span>
-      </button>
-      <a href class="toggle-chevron__button" ng-click="vm.showComponents = !vm.showComponents"><i class="glyphicon"
-                                                                                                  ng-class="{'glyphicon-menu-up': vm.showComponents, 'glyphicon-menu-down': !vm.showComponents}"></i></a>
+      </button><a href
+                  class="toggle-chevron__button"
+                  ng-click="vm.showComponents = !vm.showComponents"><i class="glyphicon"
+                                                                                 ng-class="{'glyphicon-menu-up': vm.showComponents, 'glyphicon-menu-down': !vm.showComponents}"></i></a>
     </div>
 
   </div>

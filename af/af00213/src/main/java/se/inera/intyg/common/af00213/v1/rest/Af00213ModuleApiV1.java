@@ -19,9 +19,11 @@
 package se.inera.intyg.common.af00213.v1.rest;
 
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.af00213.pdf.PdfGenerator;
 import se.inera.intyg.common.af00213.support.Af00213EntryPoint;
 import se.inera.intyg.common.af00213.v1.model.converter.InternalToTransport;
@@ -59,14 +61,14 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
      */
     @Override
     public PdfResponse pdf(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus)
-        throws ModuleException {
+            throws ModuleException {
         Af00213UtlatandeV1 af00213Intyg = getInternal(internalModel);
         IntygTexts texts = getTexts(Af00213EntryPoint.MODULE_ID, af00213Intyg.getTextVersion());
 
         Personnummer personId = af00213Intyg.getGrundData().getPatient().getPersonId();
         return new PdfGenerator().generatePdf(af00213Intyg.getId(), internalModel, getMajorVersion(af00213Intyg.getTextVersion()), personId,
-            texts, statuses, applicationOrigin,
-            utkastStatus);
+                texts, statuses, applicationOrigin,
+                utkastStatus);
     }
 
     private String getMajorVersion(String textVersion) {
@@ -75,7 +77,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     @Override
     public PdfResponse pdfEmployer(String internalModel, List<Status> statuses, ApplicationOrigin applicationOrigin,
-        List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
+            List<String> optionalFields, UtkastStatus utkastStatus) throws ModuleException {
         return null;
     }
 
@@ -111,7 +113,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
     @Override
     public String createRenewalFromTemplate(CreateDraftCopyHolder draftCopyHolder, Utlatande template)
-        throws ModuleException {
+            throws ModuleException {
         try {
             if (!Af00213UtlatandeV1.class.isInstance(template)) {
                 LOG.error("Could not create a new internal Webcert model using template of wrong type");
@@ -122,7 +124,7 @@ public class Af00213ModuleApiV1 extends AfParentModuleApi<Af00213UtlatandeV1> {
 
             // Null out applicable fields
             Af00213UtlatandeV1 renewCopy = internal.toBuilder()
-                .build();
+                    .build();
 
             Relation relation = draftCopyHolder.getRelation();
             draftCopyHolder.setRelation(relation);

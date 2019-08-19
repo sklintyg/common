@@ -21,37 +21,36 @@
  */
 angular.module('common').directive('wcSekretessAvliden',
     [
-      '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'common.AvtalProxy', 'moduleConfig',
-      function($window, $rootScope, $uibModal, UtilsService, authorityService, avtalProxy, moduleConfig) {
-        'use strict';
+        '$window', '$rootScope', '$uibModal', 'common.UtilsService', 'common.authorityService', 'common.AvtalProxy', 'moduleConfig',
+        function($window, $rootScope, $uibModal, UtilsService, authorityService, avtalProxy, moduleConfig) {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          scope: {
-            uuid: '=',
-            sekretessmarkering: '=',
-            avliden: '='
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/wcSekretessAvliden.directive.html',
-          link: function($scope) {
-            var aboutModalInstance;
+            return {
+                restrict: 'E',
+                scope: {
+                    uuid: '=',
+                    sekretessmarkering: '=',
+                    avliden: '='
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/wcSekretessAvliden.directive.html',
+                link: function($scope) {
+                    var aboutModalInstance;
 
-            $scope.onSekretessClick = function() {
-              aboutModalInstance = $uibModal.open({
-                templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/aboutSekretessDialog.template.html',
-                size: 'lg',
-                controller: function($scope, $uibModalInstance) {
+                    $scope.onSekretessClick = function () {
+                        aboutModalInstance = $uibModal.open({
+                            templateUrl: '/web/webjars/common/webcert/components/wcSekretessAvliden/aboutSekretessDialog.template.html',
+                            size: 'lg',
+                            controller: function($scope, $uibModalInstance) {
 
-                  $scope.close = function() {
-                    $uibModalInstance.close();
-                  };
+                                $scope.close = function() {
+                                    $uibModalInstance.close();
+                                };
+                            }
+                        });
+                        //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                        aboutModalInstance.result.catch(function () {}); //jshint ignore:line
+                    };
                 }
-              });
-              //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-              aboutModalInstance.result.catch(function() { //jshint ignore:line
-              });
-            };
-          }
 
-        };
-      }]);
+            };
+        }]);

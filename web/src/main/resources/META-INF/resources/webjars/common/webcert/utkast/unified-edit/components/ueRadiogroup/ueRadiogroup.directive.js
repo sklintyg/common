@@ -17,34 +17,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueRadiogroup', ['ueUtil', function(ueUtil) {
-  'use strict';
+angular.module('common').directive('ueRadiogroup', [ 'ueUtil', function(ueUtil) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      model: '=',
-      form: '='
-    },
-    templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.html',
-    link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            model: '=',
+            form: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueRadiogroup/ueRadiogroup.directive.html',
+        link: function($scope) {
 
-      if (!$scope.config.htmlClass) {
-        $scope.config.htmlClass = 'col-lg-12';
-      } else {
-        var str = $scope.config.htmlClass;
-        $scope.classList = str.split(' ');
-        for (var i = 0; i < $scope.classList.length; i++) {
-          if ($scope.classList[i] === 'no-padding') {
-            $scope.noPaddingClass = true;
-          } else {
-            $scope.config.htmlClass = $scope.classList[i];
-          }
+            if (!$scope.config.htmlClass) {
+                $scope.config.htmlClass = 'col-lg-12';
+            } else {
+                var str = $scope.config.htmlClass;
+                $scope.classList = str.split(' ');
+                for (var i = 0; i < $scope.classList.length; i++) {
+                    if ($scope.classList[i] === 'no-padding') {
+                        $scope.noPaddingClass = true;
+                    } else {
+                        $scope.config.htmlClass = $scope.classList[i];
+                    }
+                }
+            }
+            ueUtil.standardSetup($scope);
         }
-      }
-      ueUtil.standardSetup($scope);
-    }
-  };
+    };
 
 }]);

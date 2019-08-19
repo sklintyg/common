@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').filter('miRelevantEventFilter', function() {
-  'use strict';
-  //For now only these events. If needed, _visibleEvents could be made coonfigurable
-  var _visibleEvents = ['SENT', 'ERSATT', 'ERSATTER'];
+    'use strict';
+    //For now only these events. If needed, _visibleEvents could be made coonfigurable
+    var _visibleEvents = [ 'SENT', 'ERSATT', 'ERSATTER'];
 
-  function _isRelevant(event) {
-    var result = false;
-    angular.forEach(_visibleEvents, function(relevantEvent) {
-      if (relevantEvent === event.type) {
-        result = true;
-      }
-    });
-    return result;
-  }
+    function _isRelevant(event) {
+        var result = false;
+        angular.forEach(_visibleEvents, function(relevantEvent) {
+            if (relevantEvent === event.type) {
+                result = true;
+            }
+        });
+        return result;
+    }
 
-  return function(events) {
-    var result = [];
+    return function(events) {
+        var result = [];
 
-    angular.forEach(events, function(event) {
-      if (_isRelevant(event)) {
-        result.push(event);
-      }
-    });
-    return result;
-  };
+        angular.forEach(events, function(event) {
+            if (_isRelevant(event)) {
+                result.push(event);
+            }
+        });
+        return result;
+    };
 
 });

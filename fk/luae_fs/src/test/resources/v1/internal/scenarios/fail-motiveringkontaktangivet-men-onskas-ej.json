@@ -55,6 +55,6 @@
       "diagnosKod": "S47"
     }
   ],
-  "kontaktMedFk": false,
-  "anledningTillKontakt": "Denna borde inte vara ifylld eftersom vi satte kontakt önskas false precis ovanför."
+  "kontaktMedFk" : false,
+  "anledningTillKontakt" : "Denna borde inte vara ifylld eftersom vi satte kontakt önskas false precis ovanför."
 }

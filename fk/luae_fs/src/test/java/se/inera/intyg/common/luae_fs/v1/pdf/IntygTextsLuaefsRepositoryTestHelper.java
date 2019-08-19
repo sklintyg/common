@@ -19,17 +19,18 @@
 package se.inera.intyg.common.luae_fs.v1.pdf;
 
 import com.google.common.collect.ImmutableMap;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.SortedMap;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.SortedMap;
 
 /**
  * Created by eriklupander on 2016-10-03.
@@ -41,11 +42,10 @@ public class IntygTextsLuaefsRepositoryTestHelper extends IntygTextsRepositoryIm
     }
 
     @Override
-    public void update() {
+    public void update()  {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(new ClassPathResource("v1/text/texterMU_LUAE_FS_v1.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("v1/text/texterMU_LUAE_FS_v1.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();
@@ -55,8 +55,7 @@ public class IntygTextsLuaefsRepositoryTestHelper extends IntygTextsRepositoryIm
             List tillaggsFragor = this.getTillaggsfragor(e);
 
             Properties prop = new Properties();
-            prop.putAll(ImmutableMap
-                .of("formId", "FK 7802 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7802", "blankettVersion", "01"));
+            prop.putAll(ImmutableMap.of("formId", "FK 7802 (001 F 001) Fastställd av Försäkringskassan", "blankettId", "7802", "blankettVersion", "01"));
 
             super.intygTexts.add(new IntygTexts(version, intygsTyp, giltigFrom, giltigTo, texts, tillaggsFragor, prop));
         } catch (Exception e1) {

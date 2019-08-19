@@ -30,7 +30,8 @@ public class Validator implements InternalDraftValidator<TsDiabetesUtlatandeV2> 
     /**
      * Validates an external Utlatande.
      *
-     * @param utlatande se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
+     * @param utlatande
+     *            se.inera.intyg.common.ts_diabetes.v2.model.internal.TsDiabetesUtlatandeV2
      * @return List of validation errors, or an empty string if validated correctly
      */
     @Override

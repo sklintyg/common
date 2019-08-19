@@ -30,6 +30,7 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
@@ -91,7 +92,7 @@ public class FkValueField extends PdfComponent<FkValueField> {
         }
         PdfPTable table = new PdfPTable(2);
 
-        table.setTotalWidth(new float[]{Utilities.millimetersToPoints(fieldLabelWidth), Utilities.millimetersToPoints(width)});
+        table.setTotalWidth(new float[] { Utilities.millimetersToPoints(fieldLabelWidth), Utilities.millimetersToPoints(width) });
 
         String leftSideLabelText = withTopLabel ? "" : fieldLabel;
         PdfPCell labelCell = new PdfPCell(new Phrase(leftSideLabelText, valueFont));
@@ -117,7 +118,7 @@ public class FkValueField extends PdfComponent<FkValueField> {
             float labelY = Utilities.millimetersToPoints(y) - PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL.getCalculatedSize();
 
             ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(fieldLabel, PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL),
-                labelX, labelY, 0);
+                    labelX, labelY, 0);
             canvas.moveTo(pinX, Utilities.millimetersToPoints(y));
             canvas.lineTo(pinX, Utilities.millimetersToPoints(y - PIN_HEIGHT));
         }

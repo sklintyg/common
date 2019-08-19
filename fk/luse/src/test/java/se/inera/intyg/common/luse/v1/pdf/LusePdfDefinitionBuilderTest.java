@@ -18,16 +18,8 @@
  */
 package se.inera.intyg.common.luse.v1.pdf;
 
-import static org.junit.Assert.assertNotNull;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -47,6 +39,15 @@ import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Generate variants of a LUSE pdf, partly to see that make sure no exceptions occur but mainly for manual visual inspection
@@ -79,14 +80,10 @@ public class LusePdfDefinitionBuilderTest {
         ReflectionTestUtils.setField(intygTextsService, "repo", intygsTextRepositoryHelper);
         intygTextsService.getIntygTextsPojo("luse", "1.0");
 
-        intygList.add(
-            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatandeV1.class));
-        intygList.add(
-            objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatandeV1.class));
-        intygList.add(objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatandeV1.class));
-        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/overfyllnad_cornercases_utlatande.json").getFile(),
-            LuseUtlatandeV1.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/minimalt_utlatande.json").getFile(), LuseUtlatandeV1.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/fullt_utlatande.json").getFile(), LuseUtlatandeV1.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/overfyllnad_utlatande.json").getFile(), LuseUtlatandeV1.class));
+        intygList.add(objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/overfyllnad_cornercases_utlatande.json").getFile(), LuseUtlatandeV1.class));
 
         intygTexts = intygTextsService.getIntygTextsPojo("luse", "1.0");
     }
@@ -112,33 +109,28 @@ public class LusePdfDefinitionBuilderTest {
 
     @Test
     public void testGeneratePdfForUtkast() throws Exception {
-        LuseUtlatandeV1 utkast = objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatandeV1.class);
+        LuseUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-            .generatePdf(lusePdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
+                .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_COMPLETE));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "utkast", utkast.getId());
     }
 
     @Test
     public void testGeneratePdfForLockedUtkast() throws Exception {
-        LuseUtlatandeV1 utkast = objectMapper
-            .readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatandeV1.class);
+        LuseUtlatandeV1 utkast = objectMapper.readValue(new ClassPathResource("v1/PdfGeneratorTest/utkast_utlatande.json").getFile(), LuseUtlatandeV1.class);
 
         byte[] generatorResult = PdfGenerator
-            .generatePdf(lusePdfDefinitionBuilder
-                .buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
+                .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(utkast, Lists.newArrayList(), ApplicationOrigin.WEBCERT, intygTexts, UtkastStatus.DRAFT_LOCKED));
         assertNotNull(generatorResult);
         writePdfToFile(generatorResult, ApplicationOrigin.WEBCERT, "låst-utkast", utkast.getId());
     }
 
-    private void generateIntyg(String scenarioName, List<Status> statuses, ApplicationOrigin origin)
-        throws PdfGeneratorException, IOException {
+    private void generateIntyg(String scenarioName, List<Status> statuses, ApplicationOrigin origin) throws PdfGeneratorException, IOException {
         for (LuseUtlatandeV1 intyg : intygList) {
             byte[] generatorResult = PdfGenerator
-                .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED));
+                    .generatePdf(lusePdfDefinitionBuilder.buildPdfDefinition(intyg, statuses, origin, intygTexts, UtkastStatus.SIGNED));
             assertNotNull(generatorResult);
             writePdfToFile(generatorResult, origin, scenarioName, intyg.getId());
         }

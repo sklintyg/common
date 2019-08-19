@@ -17,33 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('luae_na').service('luae_na.PatientHelperService.v1',
-    function() {
-      'use strict';
+        function() {
+            'use strict';
 
-      // PS-004: All FK intyg shows patient name change regardless of utkast / intyg.
-      function _showPatientNameChangedIntegration() {
-        return true;
-      }
+            // PS-004: All FK intyg shows patient name change regardless of utkast / intyg.
+            function _showPatientNameChangedIntegration() {
+                return true;
+            }
+            // PS-005: Never show for FK
+            function _showPatientNameChangedPU() {
+                return false;
+            }
+            // PS-006: Never show for FK
+            function _showPatientAddressChangedPU() {
+                return false;
+            }
+            // INTYG-5146: Never show for FK
+            function _showMissingAddressParameter() {
+                return false;
+            }
 
-      // PS-005: Never show for FK
-      function _showPatientNameChangedPU() {
-        return false;
-      }
-
-      // PS-006: Never show for FK
-      function _showPatientAddressChangedPU() {
-        return false;
-      }
-
-      // INTYG-5146: Never show for FK
-      function _showMissingAddressParameter() {
-        return false;
-      }
-
-      return {
-        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-        showPatientNameChangedPU: _showPatientNameChangedPU,
-        showPatientAddressChangedPU: _showPatientAddressChangedPU,
-        showMissingAddressParameter: _showMissingAddressParameter
-      };
-    });
+            return {
+                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+                showPatientNameChangedPU: _showPatientNameChangedPU,
+                showPatientAddressChangedPU: _showPatientAddressChangedPU,
+                showMissingAddressParameter: _showMissingAddressParameter
+            };
+        });

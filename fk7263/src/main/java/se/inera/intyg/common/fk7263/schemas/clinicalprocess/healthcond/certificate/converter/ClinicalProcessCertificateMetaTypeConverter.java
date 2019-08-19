@@ -20,6 +20,7 @@ package se.inera.intyg.common.fk7263.schemas.clinicalprocess.healthcond.certific
 
 import java.util.ArrayList;
 import java.util.List;
+
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
@@ -57,6 +58,6 @@ public final class ClinicalProcessCertificateMetaTypeConverter {
 
     public static Status toStatus(UtlatandeStatus certificateStatus) {
         return new Status(CertificateState.valueOf(certificateStatus.getType().value()), certificateStatus.getTarget(),
-            certificateStatus.getTimestamp());
+                certificateStatus.getTimestamp());
     }
 }

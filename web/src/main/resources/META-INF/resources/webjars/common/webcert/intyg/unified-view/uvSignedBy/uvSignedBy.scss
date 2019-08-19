@@ -38,11 +38,9 @@ uv-signed-by {
       h3 {
         @extend %wc-typo-05;
         padding: $intyg-signed-card-h3-padding;
-
         span {
           padding-top: 5px;
           display: inline-block;
-
           &:empty {
             display: none;
           }

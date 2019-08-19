@@ -18,97 +18,97 @@
  */
 angular.module('db').service('db.EditCertCtrl.ViewStateService.v1',
     ['$log', '$state', 'common.UtkastViewStateService', 'db.Domain.IntygModel.v1',
-      function($log, $state, CommonViewState, IntygModel) {
-        'use strict';
+        function($log, $state, CommonViewState, IntygModel) {
+            'use strict';
 
-        this.common = CommonViewState;
+            this.common = CommonViewState;
 
-        this.intygModel = undefined;
-        this.draftModel = undefined;
+            this.intygModel = undefined;
+            this.draftModel = undefined;
 
-        this.setDraftModel = function(draftModel) {
-          this.draftModel = draftModel;
-          this.intygModel = draftModel.content;
-        };
+            this.setDraftModel = function(draftModel){
+                this.draftModel = draftModel;
+                this.intygModel = draftModel.content;
+            };
 
-        this.reset = function() {
-          CommonViewState.reset();
-          CommonViewState.intyg.type = 'db';
-          this.setDraftModel(IntygModel._members.build());
-          return this;
-        };
+            this.reset = function() {
+                CommonViewState.reset();
+                CommonViewState.intyg.type = 'db';
+                this.setDraftModel(IntygModel._members.build());
+                return this;
+            };
 
-        this.clearModel = function() {
-          this.intygModel = undefined;
-          this.draftModel = undefined;
-        };
+            this.clearModel = function(){
+                this.intygModel = undefined;
+                this.draftModel = undefined;
+            };
 
-        this.getCopyDraftAlert = function() {
-          var intygsTyp = 'db';
+            this.getCopyDraftAlert = function() {
+                var intygsTyp = 'db';
 
-          var previousUtkast = this.common.previousUtkast[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
 
-          if (previousUtkast && !previousUtkast.sameVardgivare) {
-            return intygsTyp + '.warn.previousdraft.differentvg';
-          }
-
-          return null;
-        };
-
-        this.getLockedDraftAlert = function() {
-          var intygsTyp = 'db';
-
-          var previousIntyg = this.common.previousIntyg[intygsTyp];
-          var previousUtkast = this.common.previousUtkast[intygsTyp];
-
-          if (previousUtkast && previousUtkast.sameVardgivare) {
-            if (!previousUtkast.sameEnhet) {
-              return [{
-                severity: 'info',
-                id: 'intyg-previousutkast-warning-' + intygsTyp,
-                text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
-                params: {
-                  enhetName: previousUtkast.enhetName
+                if (previousUtkast && !previousUtkast.sameVardgivare) {
+                    return intygsTyp + '.warn.previousdraft.differentvg';
                 }
-              }];
-            }
 
-            return [{
-              severity: 'info',
-              id: 'intyg-previousutkast-warning-' + intygsTyp,
-              text: intygsTyp + '.warn.previousdraft.samevg'
-            }];
-          }
+                return null;
+            };
 
-          if (previousIntyg) {
-            if (previousIntyg.sameVardgivare) {
-              if (!previousIntyg.sameEnhet) {
-                return [{
-                  severity: 'info',
-                  id: 'intyg-previousintyg-warning-' + intygsTyp,
-                  text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
-                  params: {
-                    enhetName: previousIntyg.enhetName
-                  }
-                }];
-              }
+            this.getLockedDraftAlert = function() {
+                var intygsTyp = 'db';
 
-              return [{
-                severity: 'info',
-                id: 'intyg-previousintyg-warning-' + intygsTyp,
-                text: intygsTyp + '.warn.previouscertificate.samevg'
-              }];
-            }
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
 
-            return [{
-              severity: 'info',
-              id: 'intyg-previousintyg-warning-' + intygsTyp,
-              text: intygsTyp + '.warn.previouscertificate.differentvg'
-            }];
-          }
+                if (previousUtkast && previousUtkast.sameVardgivare) {
+                    if (!previousUtkast.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousutkast-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
+                            params: {
+                                enhetName: previousUtkast.enhetName
+                            }
+                        }];
+                    }
 
-          return [];
-        };
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousutkast-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previousdraft.samevg'
+                    }];
+                }
 
-        this.reset();
-      }]);
+                if (previousIntyg) {
+                    if (previousIntyg.sameVardgivare) {
+                        if (!previousIntyg.sameEnhet) {
+                            return [{
+                                severity: 'info',
+                                id: 'intyg-previousintyg-warning-' + intygsTyp,
+                                text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
+                                params: {
+                                    enhetName: previousIntyg.enhetName
+                                }
+                            }];
+                        }
+
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousintyg-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previouscertificate.samevg'
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousintyg-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previouscertificate.differentvg'
+                    }];
+                }
+
+                return [];
+            };
+
+            this.reset();
+        }]);

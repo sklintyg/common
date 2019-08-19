@@ -28,10 +28,13 @@ import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.OVR
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_31;
 import static se.inera.intyg.common.af00213.v1.model.converter.RespConstants.UTREDNING_BEHANDLING_SVAR_JSON_ID_32;
 
-import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
@@ -78,25 +81,25 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         // Yes or no must be specified.
         if (utlatande.getHarFunktionsnedsattning() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_11,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
         if (isSetToTrue(utlatande.getHarFunktionsnedsattning())
-            && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
+                && Strings.nullToEmpty(utlatande.getFunktionsnedsattning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_FUNKTIONSNEDSATTNING, FUNKTIONSNEDSATTNING_SVAR_JSON_ID_12,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
     }
 
     private void validateAktivitetsbegransning(Af00213UtlatandeV1 utlatande, List<ValidationMessage> validationMessages) {
         if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && isSetToTrue(utlatande.getHarAktivitetsbegransning())
-            && Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
+                && Strings.nullToEmpty(utlatande.getAktivitetsbegransning()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_22,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
 
         if (isSetToTrue(utlatande.getHarFunktionsnedsattning()) && utlatande.getHarAktivitetsbegransning() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_AKTIVITETSBEGRANSNING, AKTIVITETSBEGRANSNING_SVAR_JSON_ID_21,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
     }
 
@@ -104,13 +107,13 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         // Yes or no must be specified.
         if (utlatande.getHarUtredningBehandling() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_31,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
 
         if (isSetToTrue(utlatande.getHarUtredningBehandling())
-            && (utlatande.getUtredningBehandling() == null || utlatande.getUtredningBehandling().isEmpty())) {
+                && (utlatande.getUtredningBehandling() == null || utlatande.getUtredningBehandling().isEmpty())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
     }
 
@@ -118,12 +121,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
 
         if (ValidatorUtil.isBlankButNotNull(utlatande.getUtredningBehandling())) {
             ValidatorUtil.addValidationError(validationMessages,
-                CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
-                "af00213.validation.blanksteg.otillatet");
+                    CATEGORY_UTREDNING_BEHANDLING, UTREDNING_BEHANDLING_SVAR_JSON_ID_32, ValidationMessageType.EMPTY,
+                    "af00213.validation.blanksteg.otillatet");
         }
         if (ValidatorUtil.isBlankButNotNull(utlatande.getOvrigt())) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_OVRIGT, OVRIGT_SVAR_JSON_ID_5, ValidationMessageType.EMPTY,
-                "af00213.validation.blanksteg.otillatet");
+                    "af00213.validation.blanksteg.otillatet");
         }
     }
 
@@ -131,12 +134,12 @@ public class InternalDraftValidatorImpl implements InternalDraftValidator<Af0021
         // Yes or no must be specified.
         if (utlatande.getHarArbetetsPaverkan() == null) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETETS_PAVERKAN, ARBETETS_PAVERKAN_SVAR_JSON_ID_41,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
 
         if (isSetToTrue(utlatande.getHarArbetetsPaverkan()) && Strings.nullToEmpty(utlatande.getArbetetsPaverkan()).trim().isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_ARBETETS_PAVERKAN, ARBETETS_PAVERKAN_SVAR_JSON_ID_42,
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
     }
 

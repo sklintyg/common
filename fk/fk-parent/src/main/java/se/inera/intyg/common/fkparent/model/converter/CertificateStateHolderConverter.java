@@ -18,18 +18,19 @@
  */
 package se.inera.intyg.common.fkparent.model.converter;
 
-import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
-import static se.inera.intyg.common.support.Constants.KV_STATUS_CODE_SYSTEM;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.StatusKod;
 import se.inera.intyg.common.support.modules.support.api.CertificateStateHolder;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Part;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Statuskod;
 import se.riv.clinicalprocess.healthcond.certificate.v3.IntygsStatus;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import static se.inera.intyg.common.support.Constants.KV_PART_CODE_SYSTEM;
+import static se.inera.intyg.common.support.Constants.KV_STATUS_CODE_SYSTEM;
 
 public final class CertificateStateHolderConverter {
 
@@ -69,18 +70,18 @@ public final class CertificateStateHolderConverter {
 
     private static StatusKod toStatusKod(CertificateState state) {
         switch (state) {
-            case RECEIVED:
-                return StatusKod.RECEIV;
-            case SENT:
-                return StatusKod.SENTTO;
-            case CANCELLED:
-                return StatusKod.CANCEL;
-            case DELETED:
-                return StatusKod.DELETE;
-            case RESTORED:
-                return StatusKod.RESTOR;
-            default:
-                throw new IllegalArgumentException(state.toString());
+        case RECEIVED:
+            return StatusKod.RECEIV;
+        case SENT:
+            return StatusKod.SENTTO;
+        case CANCELLED:
+            return StatusKod.CANCEL;
+        case DELETED:
+            return StatusKod.DELETE;
+        case RESTORED:
+            return StatusKod.RESTOR;
+        default:
+            throw new IllegalArgumentException(state.toString());
         }
     }
 

@@ -19,5 +19,5 @@
 package se.inera.intyg.common.fk7263.model.internal;
 
 public enum Rehabilitering {
-    rehabiliteringAktuell, rehabiliteringEjAktuell, rehabiliteringGarInteAttBedoma;
+        rehabiliteringAktuell, rehabiliteringEjAktuell, rehabiliteringGarInteAttBedoma;
 }

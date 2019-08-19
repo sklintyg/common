@@ -20,28 +20,29 @@
  * Display SRS questionnaire
  */
 angular.module('common').directive('wcSrsQuestionnaire', ['common.srsProxy', 'common.srsViewState',
-  function(srsProxy, srsViewState) {
-    'use strict';
+    function(srsProxy, srsViewState) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      link: function(scope, element, attrs) {
-        scope.change = function() {
-          srsProxy.logSrsQuestionAnswered(scope.srs.userClientContext, scope.srs.intygId,
-              scope.srs.vardgivareHsaId, scope.srs.hsaId);
-          if (!scope.prediction) {
-            scope.prediction = {};
-          }
-          srsViewState.prediction.description = '';
-          scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
-          if (scope.allQuestionsAnswered) {
-            scope.srs.showVisaKnapp = true;
-          } else {
-            scope.srs.showVisaKnapp = false;
-          }
+        return {
+            restrict: 'E',
+            link: function(scope, element, attrs) {
+                scope.change = function() {
+                    srsProxy.logSrsQuestionAnswered(scope.srs.userClientContext, scope.srs.intygId,
+                        scope.srs.vardgivareHsaId, scope.srs.hsaId);
+                    if(!scope.prediction) {
+                        scope.prediction = {};
+                    }
+                    srsViewState.prediction.description = '';
+                    scope.allQuestionsAnswered = scope.questionsFilledForVisaButton();
+                    if (scope.allQuestionsAnswered) {
+                        scope.srs.showVisaKnapp = true;
+                    }
+                    else {
+                        scope.srs.showVisaKnapp = false;
+                    }
 
+                };
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsQuestionnaire.directive.html'
         };
-      },
-      templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsQuestionnaire.directive.html'
-    };
-  }]);
+    }]);

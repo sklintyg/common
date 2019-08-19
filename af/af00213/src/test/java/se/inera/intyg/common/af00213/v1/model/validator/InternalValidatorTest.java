@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
 import se.inera.intyg.common.af00213.v1.model.internal.Af00213UtlatandeV1;
 import se.inera.intyg.common.af00213.v1.utils.ScenarioFinder;
 import se.inera.intyg.common.af00213.v1.utils.ScenarioNotFoundException;
@@ -45,7 +46,7 @@ public class InternalValidatorTest {
         Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-funktionsnedsattningSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
+                getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     @Test
@@ -54,7 +55,7 @@ public class InternalValidatorTest {
         Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-aktivitetsbegransningSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
+                getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     @Test
@@ -63,7 +64,7 @@ public class InternalValidatorTest {
         Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-arbetetsPaverkanSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
+                getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 
     @Test
@@ -72,6 +73,6 @@ public class InternalValidatorTest {
         Af00213UtlatandeV1 utlatandeFromJson = ScenarioFinder.getInternalScenario("fail-utredningBehandlingSaknas").asInternalModel();
         ValidateDraftResponse internalValidationResponse = internalValidator.validateDraft(utlatandeFromJson);
         assertEquals(String.format("Expected %s validation errors", numErrors), numErrors,
-            getNumberOfInternalValidationErrors(internalValidationResponse));
+                getNumberOfInternalValidationErrors(internalValidationResponse));
     }
 }

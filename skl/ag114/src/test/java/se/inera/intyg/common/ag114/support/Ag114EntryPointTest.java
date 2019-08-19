@@ -18,14 +18,6 @@
  */
 package se.inera.intyg.common.ag114.support;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.util.Optional;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -34,6 +26,15 @@ import org.springframework.test.util.ReflectionTestUtils;
 import se.inera.intyg.common.agparent.support.AgAbstractModuleEntryPoint;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
+
+import java.util.Optional;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by marced on 10/05/16.

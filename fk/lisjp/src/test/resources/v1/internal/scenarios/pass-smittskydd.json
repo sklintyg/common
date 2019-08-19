@@ -35,8 +35,8 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "tillaggsfragor": [],
-  "avstangningSmittskydd": "true",
+  "tillaggsfragor" : [],
+  "avstangningSmittskydd" : "true",
   "diagnoser": [
     {
       "diagnosBeskrivning": "Klämskada skuldra",
@@ -53,6 +53,6 @@
       "sjukskrivningsgrad": "TRE_FJARDEDEL"
     }
   ],
-  "arbetslivsinriktadeAtgarder": [],
-  "ovrigt": "Övriga kommentarer"
+  "arbetslivsinriktadeAtgarder" : [],
+  "ovrigt" : "Övriga kommentarer"
 }

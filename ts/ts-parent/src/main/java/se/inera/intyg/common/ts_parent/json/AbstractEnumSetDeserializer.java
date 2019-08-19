@@ -18,14 +18,13 @@
  */
 package se.inera.intyg.common.ts_parent.json;
 
+import java.io.IOException;
+import java.util.*;
+
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import java.io.IOException;
-import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Helper class that instructs Jackson to parse JSON like below to {@link EnumSet}.

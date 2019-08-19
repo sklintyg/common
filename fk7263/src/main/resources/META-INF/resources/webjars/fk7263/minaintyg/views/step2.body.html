@@ -9,20 +9,18 @@
 
       <!-- List all included fields -->
       <fk7263-selectable-field-list id="fk7263-included-fields" cert="cert" field-config="customizeViewstate.getModel()"
-                                    summary="true" show-deselected="false"></fk7263-selectable-field-list>
+                                   summary="true" show-deselected="false"></fk7263-selectable-field-list>
 
       <!-- List any excluded fields -->
       <div ng-if="customizeViewstate.getUnselected().length > 0">
         <h1>Information din arbetsgivare INTE kan se</h1>
-        <p id="warn-for-unselected-important-field" class="alert alert-info"
-           ng-if="customizeViewstate.getUnselected(true).length > 0">
+        <p id="warn-for-unselected-important-field" class="alert alert-info" ng-if="customizeViewstate.getUnselected(true).length > 0">
           <i class="icon icon-attention-circled"></i>
           <span dynamic-label key="modules.customize.message.warning"></span>
         </p>
 
-        <fk7263-selectable-field-list id="fk7263-excluded-fields" cert="cert"
-                                      field-config="customizeViewstate.getModel()" summary="true"
-                                      show-deselected="true"></fk7263-selectable-field-list>
+        <fk7263-selectable-field-list id="fk7263-excluded-fields" cert="cert" field-config="customizeViewstate.getModel()"
+                                     summary="true" show-deselected="true"></fk7263-selectable-field-list>
       </div>
 
     </div>

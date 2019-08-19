@@ -18,110 +18,110 @@
  */
 
 describe('wcPersonNumber', function() {
-  'use strict';
+    'use strict';
 
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('common'));
 
-  var $scope;
+    var $scope;
 
-  // Create a form to test the validation directive on.
-  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-    $scope = $rootScope.$new();
-    $scope.model = {
-      test: null
-    };
+    // Create a form to test the validation directive on.
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+        $scope = $rootScope.$new();
+        $scope.model = {
+            test: null
+        };
 
-    var el = angular
-    .element('<form name="form"><input ng-model="model.test" name="test" wc-person-number></form>');
-    $compile(el)($scope);
-    $scope.$digest();
-  }]));
+        var el = angular
+            .element('<form name="form"><input ng-model="model.test" name="test" wc-person-number></form>');
+        $compile(el)($scope);
+        $scope.$digest();
+    }]));
 
-  // Pass
+    // Pass
 
-  it('should pass with a valid "personnummer" with format "yyyyMMdd-nnnn"', function() {
-    $scope.form.test.$setViewValue('19121212-1212');
+    it('should pass with a valid "personnummer" with format "yyyyMMdd-nnnn"', function() {
+        $scope.form.test.$setViewValue('19121212-1212');
 
-    expect($scope.model.test).toEqual('19121212-1212');
-    expect($scope.form.$valid).toBeTruthy();
-  });
+        expect($scope.model.test).toEqual('19121212-1212');
+        expect($scope.form.$valid).toBeTruthy();
+    });
 
-  it('should pass with a valid "personnummer" with format "yyyyMMdd-nnnn"', function() {
-    $scope.form.test.$setViewValue('19121212-1212');
+    it('should pass with a valid "personnummer" with format "yyyyMMdd-nnnn"', function() {
+        $scope.form.test.$setViewValue('19121212-1212');
 
-    expect($scope.model.test).toEqual('19121212-1212');
-    expect($scope.form.$valid).toBeTruthy();
-  });
+        expect($scope.model.test).toEqual('19121212-1212');
+        expect($scope.form.$valid).toBeTruthy();
+    });
 
-  it('should pass with a valid "samordningsnummer" with format "yyyyMMnn-nnnn"', function() {
-    $scope.form.test.$setViewValue('19121272-1219');
+    it('should pass with a valid "samordningsnummer" with format "yyyyMMnn-nnnn"', function() {
+        $scope.form.test.$setViewValue('19121272-1219');
 
-    expect($scope.model.test).toEqual('19121272-1219');
-    expect($scope.form.$valid).toBeTruthy();
-  });
+        expect($scope.model.test).toEqual('19121272-1219');
+        expect($scope.form.$valid).toBeTruthy();
+    });
 
-  it('should add dash for 8 or 9 chars typed', function() {
-    $scope.form.test.$setViewValue('19121212');
-    expect($scope.form.test.$viewValue).toEqual('19121212-');
+    it('should add dash for 8 or 9 chars typed', function() {
+        $scope.form.test.$setViewValue('19121212');
+        expect($scope.form.test.$viewValue).toEqual('19121212-');
 
-    $scope.form.test.$setViewValue('19121212'); // reset so length differs between oldValue and newValue
-    $scope.form.test.$setViewValue('191212121');
-    expect($scope.form.test.$viewValue).toEqual('19121212-1');
-  });
+        $scope.form.test.$setViewValue('19121212'); // reset so length differs between oldValue and newValue
+        $scope.form.test.$setViewValue('191212121');
+        expect($scope.form.test.$viewValue).toEqual('19121212-1');
+    });
 
-  // Fail
+    // Fail
 
-  it('should fail if "personnummer" has too few digits', function() {
-    $scope.form.test.$setViewValue(null);
+    it('should fail if "personnummer" has too few digits', function() {
+        $scope.form.test.$setViewValue(null);
 
-    expect($scope.model.test).toBeNull();
-    expect($scope.form.$valid).toBeFalsy();
+        expect($scope.model.test).toBeNull();
+        expect($scope.form.$valid).toBeFalsy();
 
-    $scope.form.test.$setViewValue(undefined);
+        $scope.form.test.$setViewValue(undefined);
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail if "personnummer" has too few digits', function() {
-    $scope.form.test.$setViewValue('121212-1212');
+    it('should fail if "personnummer" has too few digits', function() {
+        $scope.form.test.$setViewValue('121212-1212');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail if "personnummer" has invalid check digit', function() {
-    $scope.form.test.$setViewValue('19121212-1213');
+    it('should fail if "personnummer" has invalid check digit', function() {
+        $scope.form.test.$setViewValue('19121212-1213');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail with if "personnummer" has invalid characters', function() {
-    $scope.form.test.$setViewValue('19121212.1212');
+    it('should fail with if "personnummer" has invalid characters', function() {
+        $scope.form.test.$setViewValue('19121212.1212');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail if "samordningsnummer" has invalid check digit', function() {
-    $scope.form.test.$setViewValue('19121272-1213');
+    it('should fail if "samordningsnummer" has invalid check digit', function() {
+        $scope.form.test.$setViewValue('19121272-1213');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail with if "samordningsnummer" has invalid date', function() {
-    $scope.form.test.$setViewValue('19121292-1215');
+    it('should fail with if "samordningsnummer" has invalid date', function() {
+        $scope.form.test.$setViewValue('19121292-1215');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 
-  it('should fail with if "samordningsnummer" has invalid characters', function() {
-    $scope.form.test.$setViewValue('19121272.1219');
+    it('should fail with if "samordningsnummer" has invalid characters', function() {
+        $scope.form.test.$setViewValue('19121272.1219');
 
-    expect($scope.model.test).toBeUndefined();
-    expect($scope.form.$valid).toBeFalsy();
-  });
+        expect($scope.model.test).toBeUndefined();
+        expect($scope.form.$valid).toBeFalsy();
+    });
 });

@@ -19,14 +19,15 @@
 
 angular.module('common').directive('wcArendeNoKompletteringarMessage',
     [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/wcArendeNoKompletteringarMessage.directive.html',
-          scope: {},
-          link: function($scope, $element, $attrs) {
-          }
-        };
-      }]);
+            return {
+                restrict: 'E',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/wcArendeNoKompletteringarMessage/wcArendeNoKompletteringarMessage.directive.html',
+                scope: {
+                },
+                link: function($scope, $element, $attrs) {
+                }
+            };
+        }]);

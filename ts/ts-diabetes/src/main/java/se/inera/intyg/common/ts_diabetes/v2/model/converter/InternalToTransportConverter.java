@@ -18,11 +18,10 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.converter;
 
-import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
+import java.util.List;
 
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import java.util.List;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.Bedomning;
 import se.inera.intyg.common.ts_diabetes.v2.model.internal.BedomningKorkortstyp;
@@ -47,6 +46,8 @@ import se.inera.intygstjanster.ts.services.v1.SynfunktionDiabetes;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaMedKorrektion;
 import se.inera.intygstjanster.ts.services.v1.SynskarpaUtanKorrektion;
 import se.inera.intygstjanster.ts.services.v1.TSDiabetesIntyg;
+
+import static se.inera.intyg.common.ts_parent.model.converter.InternalToTransportUtil.DELIMITER_REGEXP;
 
 public final class InternalToTransportConverter {
 
@@ -99,7 +100,7 @@ public final class InternalToTransportConverter {
         result.setSynskarpaUtanKorrektion(readUtanKorrektion(syn));
         result.setFinnsSynfaltsprovning(syn.getSynfaltsprovning() != null && syn.getSynfaltsprovning());
         result.setSynfaltsprovningUtanAnmarkning(
-            syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
+                syn.getSynfaltsprovningUtanAnmarkning() != null && syn.getSynfaltsprovningUtanAnmarkning());
         result.setFinnsProvningOgatsRorlighet(syn.getProvningOgatsRorlighet() != null && syn.getProvningOgatsRorlighet());
         return result;
     }
@@ -141,7 +142,7 @@ public final class InternalToTransportConverter {
         Hypoglykemier result = new Hypoglykemier();
         result.setHarKunskapOmAtgarder(hypoglykemier.getKunskapOmAtgarder() != null && hypoglykemier.getKunskapOmAtgarder());
         result.setHarTeckenNedsattHjarnfunktion(hypoglykemier.getTeckenNedsattHjarnfunktion() != null
-            && hypoglykemier.getTeckenNedsattHjarnfunktion());
+                && hypoglykemier.getTeckenNedsattHjarnfunktion());
 
         if (hypoglykemier.getSaknarFormagaKannaVarningstecken() != null) {
             result.setSaknarFormagaKannaVarningstecken(hypoglykemier.getSaknarFormagaKannaVarningstecken());
@@ -164,7 +165,7 @@ public final class InternalToTransportConverter {
         if (hypoglykemier.getAllvarligForekomstVakenTid() != null) {
             result.setHarAllvarligForekomstVakenTid(hypoglykemier.getAllvarligForekomstVakenTid());
             result.setAllvarligForekomstVakenTidAr(hypoglykemier.getAllvarligForekomstVakenTidObservationstid() != null ? hypoglykemier
-                .getAllvarligForekomstVakenTidObservationstid().getDate() : null);
+                    .getAllvarligForekomstVakenTidObservationstid().getDate() : null);
         }
         return result;
     }

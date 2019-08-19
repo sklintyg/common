@@ -25,13 +25,13 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import java.time.LocalDateTime;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
@@ -42,6 +42,8 @@ import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
+import se.inera.intyg.common.tstrk1009.v1.model.converter.UtlatandeToIntyg;
+import se.inera.intyg.common.tstrk1009.v1.model.converter.WebcertModelFactoryImpl;
 import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -59,7 +61,7 @@ public class WebcertModelFactoryTest {
     @Before
     public void setUp() {
         when(intygTexts.getLatestVersionForSameMajorVersion(eq(Tstrk1009EntryPoint.MODULE_ID), eq(INTYG_TYPE_VERSION_1)))
-            .thenReturn(INTYG_TYPE_VERSION_1_1);
+                .thenReturn(INTYG_TYPE_VERSION_1_1);
     }
 
     @Test

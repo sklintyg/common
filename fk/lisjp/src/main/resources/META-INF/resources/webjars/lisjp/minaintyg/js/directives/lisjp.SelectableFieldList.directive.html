@@ -1,59 +1,80 @@
 <div class="selectable-field-list">
   <!-- Smittbärarpenning-->
-  <selectable-category-wrapper category-label="KAT_10.RBK" cert-model="cert"
-                               field-configs="[fieldConfig.avstangningSmittskydd]" summary="summary">
-    <div selectable-field-wrapper label-key="FRG_27.RBK" cert-model="cert"
-         field-config="fieldConfig.avstangningSmittskydd" summary="summary" show-deselected="showDeselected">
+    <selectable-category-wrapper
+        category-label="KAT_10.RBK"
+        cert-model="cert"
+        field-configs="[fieldConfig.avstangningSmittskydd]"
+        summary="summary">
+      <div selectable-field-wrapper
+           label-key="FRG_27.RBK"
+           cert-model="cert"
+           field-config="fieldConfig.avstangningSmittskydd"
+           summary="summary"
+           show-deselected="showDeselected">
                     <span ng-show="cert.avstangningSmittskydd">
                       <span id="avstangningsmittskydd-yes" dynamic-label key="lisjp.label.yes"></span>
                     </span>
-      <span ng-show="!cert.avstangningSmittskydd">
+        <span ng-show="!cert.avstangningSmittskydd">
                       <span id="avstangningsmittskydd-no" dynamic-label key="lisjp.label.no"></span>
                     </span>
-    </div>
-  </selectable-category-wrapper>
+      </div>
+    </selectable-category-wrapper>
 
   <!-- Grund för medicinskt underlag -->
-  <selectable-category-wrapper category-label="KAT_1.RBK" cert-model="cert" field-configs="[fieldConfig.grund]"
-                               summary="summary">
-    <div selectable-field-wrapper label-key="FRG_1.RBK" cert-model="cert" field-config="fieldConfig.grund"
-         summary="summary" show-deselected="showDeselected">
-      <div ng-show="cert.undersokningAvPatienten!=null">
-        <div id="undersokningAvPatienten" class="inline-single-value">
-          <h4><span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
+  <selectable-category-wrapper
+        category-label="KAT_1.RBK"
+        cert-model="cert"
+        field-configs="[fieldConfig.grund]"
+        summary="summary">
+    <div selectable-field-wrapper
+         label-key="FRG_1.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.grund"
+         summary="summary"
+         show-deselected="showDeselected">
+        <div ng-show="cert.undersokningAvPatienten!=null">
+          <div id="undersokningAvPatienten" class="inline-single-value">
+            <h4><span dynamic-label key="KV_FKMU_0001.UNDERSOKNING.RBK"></span></h4><span>  {{cert.undersokningAvPatienten | date:'shortDate' }}</span>
+          </div>
         </div>
-      </div>
-      <div ng-show="cert.telefonkontaktMedPatienten !=null">
-        <div id="telefonkontaktMedPatienten" class="inline-single-value">
-          <h4><span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span></h4><span>  {{cert.telefonkontaktMedPatienten | date:'shortDate' }}</span>
+        <div ng-show="cert.telefonkontaktMedPatienten !=null">
+          <div id="telefonkontaktMedPatienten" class="inline-single-value">
+            <h4><span dynamic-label key="KV_FKMU_0001.TELEFONKONTAKT.RBK"></span></h4><span>  {{cert.telefonkontaktMedPatienten | date:'shortDate' }}</span>
+          </div>
         </div>
-      </div>
-      <div ng-show="cert.journaluppgifter!=null">
-        <div id="journaluppgifter" class="inline-single-value">
-          <h4><span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span></h4><span>  {{cert.journaluppgifter | date:'shortDate' }}</span>
+        <div ng-show="cert.journaluppgifter!=null">
+          <div id="journaluppgifter" class="inline-single-value">
+            <h4><span dynamic-label key="KV_FKMU_0001.JOURNALUPPGIFTER.RBK"></span></h4><span>  {{cert.journaluppgifter | date:'shortDate' }}</span>
+          </div>
         </div>
-      </div>
-      <div ng-show="cert.annatGrundForMU!=null">
-        <div id="annatGrundForMU" class="inline-single-value">
-          <h4><span dynamic-label key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
+        <div ng-show="cert.annatGrundForMU!=null">
+          <div id="annatGrundForMU" class="inline-single-value">
+            <h4><span dynamic-label
+                  key="KV_FKMU_0001.ANNAT.RBK"></span></h4><span>{{cert.annatGrundForMU | date:'shortDate' }}</span>
+          </div>
         </div>
-      </div>
-      <h4><span dynamic-label key="DFR_1.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span></h4>
-      <div ng-show="cert.annatGrundForMUBeskrivning!=null" class="inline-single-value">
-        {{cert.annatGrundForMUBeskrivning}}
-      </div>
+        <h4><span dynamic-label key="DFR_1.3.RBK" ng-show="cert.annatGrundForMUBeskrivning!=null"></span></h4>
+        <div ng-show="cert.annatGrundForMUBeskrivning!=null" class="inline-single-value">
+          {{cert.annatGrundForMUBeskrivning}}
+        </div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Sysselsättning -->
-  <selectable-category-wrapper category-label="KAT_2.RBK" cert-model="cert"
-                               field-configs="[fieldConfig.sysselsattningMandatory, fieldConfig.sysselsattningOptional]"
-                               summary="summary">
+  <selectable-category-wrapper
+      category-label="KAT_2.RBK"
+      cert-model="cert"
+      field-configs="[fieldConfig.sysselsattningMandatory, fieldConfig.sysselsattningOptional]"
+      summary="summary">
 
 
-    <!-- Extra selection for non-mandatory sysselsattningtypes / description fields-->
-    <div selectable-field-wrapper label-key="FRG_28.RBK" cert-model="cert"
-         field-config="fieldConfig.sysselsattningOptional" summary="summary" show-deselected="showDeselected">
+<!-- Extra selection for non-mandatory sysselsattningtypes / description fields-->
+    <div selectable-field-wrapper
+         label-key="FRG_28.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.sysselsattningOptional"
+         summary="summary"
+         show-deselected="showDeselected">
       <ul id="sysselsattningOptional">
         <li ng-repeat="sys in cert.sysselsattning" ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) === -1">
           <span dynamic-label key="KV_FKMU_0002.{{sys.typ}}.RBK"></span>
@@ -62,19 +83,28 @@
 
     </div>
 
-    <div selectable-field-wrapper label-key="FRG_29.RBK" cert-model="cert"
-         field-config="fieldConfig.sysselsattningMandatory" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_29.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.sysselsattningMandatory"
+         summary="summary"
+         show-deselected="showDeselected">
       <div id="sysselsattningMandatory" class="multiline" ng-repeat="sys in cert.sysselsattning"
-           ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">{{cert.nuvarandeArbete}}
-      </div>
+           ng-if="['NUVARANDE_ARBETE'].indexOf(sys.typ) > -1">{{cert.nuvarandeArbete}}</div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Diagnos -->
-  <selectable-category-wrapper category-label="KAT_3.RBK" cert-model="cert" field-configs="[fieldConfig.diagnoser]"
+  <selectable-category-wrapper category-label="KAT_3.RBK"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.diagnoser]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_6.RBK" cert-model="cert" field-config="fieldConfig.diagnoser"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_6.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.diagnoser"
+         summary="summary"
+         show-deselected="showDeselected">
 
 
       <div class="row">
@@ -84,59 +114,84 @@
               <th><span dynamic-label key="DFR_6.2.RBK"></span></th>
               <th></th>
             </tr>
-            <tr ng-repeat="diagnos in cert.diagnoser track by $index">
-              <td ng-attr-id="diagnosKod{{$index}}"> {{diagnos.diagnosKod}}</td>
-              <td ng-attr-id="diagnosBeskrivning{{$index}}">{{diagnos.diagnosBeskrivning}}</td>
-            </tr>
+          <tr ng-repeat="diagnos in cert.diagnoser track by $index">
+            <td ng-attr-id="diagnosKod{{$index}}"> {{diagnos.diagnosKod}}</td>
+            <td ng-attr-id="diagnosBeskrivning{{$index}}">{{diagnos.diagnosBeskrivning}}</td>
+          </tr>
           </table>
         </div>
       </div>
+
 
 
     </div>
   </selectable-category-wrapper>
 
   <!-- Sjukdomens konsekvenser -->
-  <selectable-category-wrapper category-label="KAT_4.RBK" cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_4.RBK"
+                               cert-model="cert"
                                field-configs="[fieldConfig.funktionsnedsattning, fieldConfig.aktivitetsbegransning]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_35.RBK" cert-model="cert"
-         field-config="fieldConfig.funktionsnedsattning" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_35.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.funktionsnedsattning"
+         summary="summary"
+         show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_35.1.RBK"></span></h4>
       <div id="funktionsnedsattning" class="multiline">{{cert.funktionsnedsattning}}</div>
     </div>
-    <div selectable-field-wrapper label-key="FRG_17.RBK" cert-model="cert"
-         field-config="fieldConfig.aktivitetsbegransning" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_17.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.aktivitetsbegransning"
+         summary="summary"
+         show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_17.1.RBK"></span></h4>
       <div id="aktivitetsbegransning" class="multiline">{{cert.aktivitetsbegransning}}</div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Medicinska behandlingar/åtgärder -->
-  <selectable-category-wrapper category-label="KAT_5.RBK" cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_5.RBK"
+                               cert-model="cert"
                                field-configs="[fieldConfig.pagaendeBehandling, fieldConfig.planeradBehandling]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_19.RBK" cert-model="cert" field-config="fieldConfig.pagaendeBehandling"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_19.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.pagaendeBehandling"
+         summary="summary"
+         show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_19.1.RBK"></span></h4>
       <div id="pagaendeBehandling" class="multiline">{{cert.pagaendeBehandling}}</div>
     </div>
-    <div selectable-field-wrapper label-key="FRG_20.RBK" cert-model="cert" field-config="fieldConfig.planeradBehandling"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_20.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.planeradBehandling"
+         summary="summary"
+         show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_20.1.RBK"></span></h4>
       <div id="planeradBehandling" class="multiline">{{cert.planeradBehandling}}</div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Bedömning -->
-  <selectable-category-wrapper category-label="KAT_6.RBK" cert-model="cert" field-configs="[fieldConfig.sjukskrivningar,
+  <selectable-category-wrapper category-label="KAT_6.RBK" cert-model="cert"
+                               field-configs="[fieldConfig.sjukskrivningar,
                                fieldConfig.arbetstidsforlaggning,
                                fieldConfig.forsakringsmedicinsktBeslutsstod,
                                fieldConfig.arbetstidsforlaggning,
                                fieldConfig.arbetstidsforlaggningMotivering,
-                               fieldConfig.prognos]" summary="summary">
-    <div selectable-field-wrapper label-key="FRG_32.RBK" cert-model="cert" field-config="fieldConfig.sjukskrivningar"
-         summary="summary" show-deselected="showDeselected">
+                               fieldConfig.prognos]"
+                               summary="summary">
+    <div selectable-field-wrapper
+         label-key="FRG_32.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.sjukskrivningar"
+         summary="summary"
+         show-deselected="showDeselected">
       <table class="table table-striped">
         <tr>
           <th>Nedsättningsgrad</th>
@@ -152,25 +207,45 @@
       </table>
 
     </div>
-    <div selectable-field-wrapper label-key="FRG_37.RBK" cert-model="cert"
-         field-config="fieldConfig.forsakringsmedicinsktBeslutsstod" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_37.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.forsakringsmedicinsktBeslutsstod"
+         summary="summary"
+         show-deselected="showDeselected">
       <div id="forsakringsmedicinsktBeslutsstod" class="multiline">{{cert.forsakringsmedicinsktBeslutsstod}}</div>
     </div>
-    <div selectable-field-wrapper label-key="FRG_33.RBK" cert-model="cert"
-         field-config="fieldConfig.arbetstidsforlaggning" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_33.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.arbetstidsforlaggning"
+         summary="summary"
+         show-deselected="showDeselected">
       <div boolean-view="arbetstidsforlaggning" field-model="cert"></div>
     </div>
-    <div selectable-field-wrapper label-key="DFR_33.2.RBK" cert-model="cert"
-         field-config="fieldConfig.arbetstidsforlaggningMotivering" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="DFR_33.2.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.arbetstidsforlaggningMotivering"
+         summary="summary"
+         show-deselected="showDeselected">
       <div id="arbetstidsforlaggningMotivering" class="multiline">{{cert.arbetstidsforlaggningMotivering}}
       </div>
     </div>
-    <div selectable-field-wrapper label-key="FRG_34.RBK" cert-model="cert" field-config="fieldConfig.arbetsresor"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_34.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.arbetsresor"
+         summary="summary"
+         show-deselected="showDeselected">
       <div boolean-view="arbetsresor" field-model="cert"></div>
     </div>
-    <div selectable-field-wrapper label-key="FRG_39.RBK" cert-model="cert" field-config="fieldConfig.prognos"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_39.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.prognos"
+         summary="summary"
+         show-deselected="showDeselected">
       <div id="prognosTyp">
         <span dynamic-label key="KV_FKMU_0006.{{cert.prognos.typ}}.RBK"></span>
         <span ng-show="cert.prognos.dagarTillArbete" dynamic-label
@@ -180,44 +255,61 @@
   </selectable-category-wrapper>
 
   <!-- Åtgärder -->
-  <selectable-category-wrapper category-label="KAT_7.RBK" cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_7.RBK"
+                               cert-model="cert"
                                field-configs="[fieldConfig.arbetslivsinriktadeAtgarder, fieldConfig.arbetslivsinriktadeAtgarderBeskrivning]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_40.RBK" cert-model="cert"
-         field-config="fieldConfig.arbetslivsinriktadeAtgarder" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_40.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.arbetslivsinriktadeAtgarder"
+         summary="summary"
+         show-deselected="showDeselected">
       <ul id="arbetslivsinriktadeAtgarder">
         <li ng-repeat="atgard in cert.arbetslivsinriktadeAtgarder">
           <span dynamic-label key="KV_FKMU_0004.{{atgard.typ}}.RBK"></span>
         </li>
       </ul>
     </div>
-    <div selectable-field-wrapper label-key="FRG_44.RBK" cert-model="cert"
-         field-config="fieldConfig.arbetslivsinriktadeAtgarderBeskrivning" summary="summary"
+    <div selectable-field-wrapper
+         label-key="FRG_44.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.arbetslivsinriktadeAtgarderBeskrivning"
+         summary="summary"
          show-deselected="showDeselected">
-      <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">
-        {{cert.arbetslivsinriktadeAtgarderBeskrivning}}
-      </div>
+      <div id="arbetslivsinriktadeAtgarderBeskrivning" class="multiline">{{cert.arbetslivsinriktadeAtgarderBeskrivning}}</div>
     </div>
   </selectable-category-wrapper>
 
   <!--  Övrigt -->
-  <selectable-category-wrapper category-label="KAT_8.RBK" cert-model="cert" field-configs="[fieldConfig.ovrigt]"
+  <selectable-category-wrapper category-label="KAT_8.RBK"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.ovrigt]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_25.RBK" cert-model="cert" field-config="fieldConfig.ovrigt"
-         summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_25.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.ovrigt"
+         summary="summary"
+         show-deselected="showDeselected">
       <!--  leave  as div tag for IE8 magic bug. using span crashes angular.. -->
       <div id="kommentar" class="tag multiline">{{cert.ovrigt}}</div>
     </div>
   </selectable-category-wrapper>
 
   <!-- Kontakt med fk-->
-  <selectable-category-wrapper category-label="KAT_9.RBK" cert-model="cert"
+  <selectable-category-wrapper category-label="KAT_9.RBK"
+                               cert-model="cert"
                                field-configs="[fieldConfig.kontaktMedFk, fieldConfig.anledningTillKontakt]"
                                summary="summary">
-    <div selectable-field-wrapper label-key="FRG_26.RBK" cert-model="cert" field-config="fieldConfig.kontaktMedFk"
-         summary="summary" show-deselected="showDeselected">
-      <h4><span dynamic-label key="DFR_26.1.RBK"></span></h4>
-      <span ng-show="cert.kontaktMedFk">
+      <div selectable-field-wrapper
+           label-key="FRG_26.RBK"
+           cert-model="cert"
+           field-config="fieldConfig.kontaktMedFk"
+           summary="summary"
+           show-deselected="showDeselected">
+         <h4><span dynamic-label key="DFR_26.1.RBK"></span></h4>
+         <span ng-show="cert.kontaktMedFk">
             <span id="kontaktFk-yes" dynamic-label key="lisjp.label.yes"></span>
           </span>
       <span ng-show="!cert.kontaktMedFk">
@@ -225,19 +317,30 @@
       </span>
     </div>
 
-    <div selectable-field-wrapper label-key="FRG_26.RBK" cert-model="cert"
-         field-config="fieldConfig.anledningTillKontakt" summary="summary" show-deselected="showDeselected">
+    <div selectable-field-wrapper
+         label-key="FRG_26.RBK"
+         cert-model="cert"
+         field-config="fieldConfig.anledningTillKontakt"
+         summary="summary"
+         show-deselected="showDeselected">
       <h4><span dynamic-label key="DFR_26.2.RBK"></span></h4>
       <div id="anledningtillkontakt" class="multiline">{{cert.anledningTillKontakt}}</div>
     </div>
   </selectable-category-wrapper>
 
 
-  <selectable-category-wrapper category-label="KAT_9999.RBK" cert-model="cert"
-                               field-configs="[fieldConfig.tillaggsfragor]" summary="summary">
+
+  <selectable-category-wrapper category-label="KAT_9999.RBK"
+                               cert-model="cert"
+                               field-configs="[fieldConfig.tillaggsfragor]"
+                               summary="summary">
     <div ng-repeat="tillaggsfraga in cert.tillaggsfragor">
-      <div selectable-field-wrapper label-key="DFR_{{tillaggsfraga.id}}.1.RBK" cert-model="cert"
-           field-config="fieldConfig.tillaggsfragor" field-id="tillaggsfraga.id" summary="summary"
+      <div selectable-field-wrapper
+           label-key="DFR_{{tillaggsfraga.id}}.1.RBK"
+           cert-model="cert"
+           field-config="fieldConfig.tillaggsfragor"
+           field-id="tillaggsfraga.id"
+           summary="summary"
            show-deselected="showDeselected">
         <div id="tillaggsfraga_{{$index}}" class="multiline">{{tillaggsfraga.svar}}</div>
       </div>

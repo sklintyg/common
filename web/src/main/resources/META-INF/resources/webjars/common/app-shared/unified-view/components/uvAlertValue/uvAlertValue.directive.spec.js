@@ -18,54 +18,54 @@
  */
 
 describe('uvAlertValue Directive', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var isolateScope;
-  var element;
+    var $scope;
+    var isolateScope;
+    var element;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-    $scope = $rootScope.$new();
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+        $scope = $rootScope.$new();
 
-    $scope.viewDataMock = {};
+        $scope.viewDataMock = {};
 
-    $scope.configMock = {
-      labelKey: 'FRG_1.RBK'
-    };
+        $scope.configMock = {
+            labelKey: 'FRG_1.RBK'
+        };
 
-    element = $compile(
-        '<uv-alert-value config="configMock" view-data="viewDataMock"></uv-alert-value>'
-    )($scope);
+        element = $compile(
+            '<uv-alert-value config="configMock" view-data="viewDataMock"></uv-alert-value>'
+        )($scope);
 
-    $scope.$digest();
-    isolateScope = element.isolateScope();
+        $scope.$digest();
+        isolateScope = element.isolateScope();
 
-  }]));
+    }]));
 
-  it('should display message by default', function() {
-    $scope.configMock.showExpression = undefined;
-    expect(isolateScope.showMessage()).toBeTruthy();
-  });
+    it('should display message by default', function() {
+        $scope.configMock.showExpression = undefined;
+        expect(isolateScope.showMessage()).toBeTruthy();
+    });
 
-  it('should not display message if showexpression returns false', function() {
-    var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
-    $scope.configMock.showExpression = fakeExpression;
-    $scope.$digest();
+    it('should not display message if showexpression returns false', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
 
-    expect(fakeExpression).toHaveBeenCalled();
-    expect(isolateScope.showMessage()).toBeFalsy();
-  });
+        expect(fakeExpression).toHaveBeenCalled();
+        expect(isolateScope.showMessage()).toBeFalsy();
+    });
 
-  it('should display message if showexpression returns true', function() {
-    var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
-    $scope.configMock.showExpression = fakeExpression;
-    $scope.$digest();
+    it('should display message if showexpression returns true', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
 
-    expect(fakeExpression).toHaveBeenCalled();
-    expect(isolateScope.showMessage()).toBeTruthy();
-  });
+        expect(fakeExpression).toHaveBeenCalled();
+        expect(isolateScope.showMessage()).toBeTruthy();
+    });
 
 });

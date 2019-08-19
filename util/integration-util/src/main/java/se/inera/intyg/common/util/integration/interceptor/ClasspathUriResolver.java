@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.util.integration.interceptor;
 
-import java.io.IOException;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamSource;
+import java.io.IOException;
+
 import org.springframework.core.io.ClassPathResource;
 
 /**

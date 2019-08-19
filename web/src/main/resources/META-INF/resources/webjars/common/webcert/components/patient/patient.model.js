@@ -18,48 +18,48 @@
  */
 angular.module('common').service('common.PatientModel',
     ['$log', 'common.ObjectHelper',
-      function($log, ObjectHelper) {
-        'use strict';
+        function($log, ObjectHelper) {
+            'use strict';
 
-        this.isValid = function() {
-          if (ObjectHelper.isEmpty(this.personnummer) ||
-              ObjectHelper.isEmpty(this.fornamn) ||
-              ObjectHelper.isEmpty(this.efternamn)) {
-            return false;
-          }
-          return true;
-        };
+            this.isValid = function() {
+                if (ObjectHelper.isEmpty(this.personnummer) ||
+                    ObjectHelper.isEmpty(this.fornamn) ||
+                    ObjectHelper.isEmpty(this.efternamn)) {
+                    return false;
+                }
+                return true;
+            };
 
-        this.build = function() {
-          this.personnummer = null;
-          this.sekretessmarkering = null;
-          this.intygId = null;
-          this.intygType = 'default';
-          this.fornamn = null;
-          this.mellannamn = null;
-          this.efternamn = null;
-          this.fullstandigtNamn = null;
-          this.postadress = null;
-          this.postnummer = null;
-          this.postort = null;
-          this.avliden = null;
-          return this;
-        };
-        this.update = function(patientResponse) {
-          this.personnummer = patientResponse.personnummer;
-          this.sekretessmarkering = patientResponse.sekretessmarkering;
-          this.intygId = patientResponse.intygId;
-          this.intygType = patientResponse.intygType;
-          this.fornamn = patientResponse.fornamn;
-          this.mellannamn = patientResponse.mellannamn;
-          this.efternamn = patientResponse.efternamn;
-          this.fullstandigtNamn = patientResponse.fullstandigtNamn;
-          this.postadress = patientResponse.postadress;
-          this.postnummer = patientResponse.postnummer;
-          this.postort = patientResponse.postort;
-          this.avliden = patientResponse.avliden;
-          return this.isValid();
-        };
+            this.build = function() {
+                this.personnummer = null;
+                this.sekretessmarkering = null;
+                this.intygId = null;
+                this.intygType = 'default';
+                this.fornamn = null;
+                this.mellannamn = null;
+                this.efternamn = null;
+                this.fullstandigtNamn = null;
+                this.postadress = null;
+                this.postnummer = null;
+                this.postort = null;
+                this.avliden = null;
+                return this;
+            };
+            this.update = function(patientResponse) {
+                this.personnummer = patientResponse.personnummer;
+                this.sekretessmarkering = patientResponse.sekretessmarkering;
+                this.intygId = patientResponse.intygId;
+                this.intygType = patientResponse.intygType;
+                this.fornamn = patientResponse.fornamn;
+                this.mellannamn = patientResponse.mellannamn;
+                this.efternamn = patientResponse.efternamn;
+                this.fullstandigtNamn = patientResponse.fullstandigtNamn;
+                this.postadress = patientResponse.postadress;
+                this.postnummer = patientResponse.postnummer;
+                this.postort = patientResponse.postort;
+                this.avliden = patientResponse.avliden;
+                return this.isValid();
+            };
 
-        this.build();
-      }]);
+            this.build();
+        }]);

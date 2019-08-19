@@ -64,36 +64,36 @@ public class Fk7263EntryPoint implements ModuleEntryPoint {
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/fk7263/minaintyg/css/fk7263.css";
-            case WEBCERT:
-                return "/web/webjars/fk7263/webcert/css/fk7263.css";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/fk7263/minaintyg/css/fk7263.css";
+        case WEBCERT:
+            return "/web/webjars/fk7263/webcert/css/fk7263.css";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/fk7263/minaintyg/js/module";
-            case WEBCERT:
-                return "/web/webjars/fk7263/webcert/module";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/fk7263/minaintyg/js/module";
+        case WEBCERT:
+            return "/web/webjars/fk7263/webcert/module";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/fk7263/minaintyg/js/module-deps.json";
-            case WEBCERT:
-                return "/web/webjars/fk7263/webcert/module-deps.json";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/fk7263/minaintyg/js/module-deps.json";
+        case WEBCERT:
+            return "/web/webjars/fk7263/webcert/module-deps.json";
+        default:
+            return null;
         }
     }
 

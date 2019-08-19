@@ -18,70 +18,68 @@
  */
 angular.module('common').factory('common.statService',
     ['$http', '$log', '$rootScope', '$interval', '$timeout', function($http, $log, $rootScope, $interval, $timeout) {
-      'use strict';
+        'use strict';
 
-      var intervalPromise;
-      var timeOutPromise;
-      var msPollingInterval = 60 * 1000;
-      var lastData = null;
+        var intervalPromise;
+        var timeOutPromise;
+        var msPollingInterval = 60 * 1000;
+        var lastData = null;
 
-      $rootScope.$on('$stateChangeSuccess', function() {
-        _refreshStat();
-      });
+        $rootScope.$on('$stateChangeSuccess',function() { _refreshStat(); });
 
-      /*
-       * stop regular polling of stats from server
-       */
-      function _stopPolling() {
-        if (intervalPromise) {
-          $interval.cancel(intervalPromise);
-          $log.debug('statService -> Stop polling');
+        /*
+         * stop regular polling of stats from server
+         */
+        function _stopPolling() {
+            if (intervalPromise) {
+                $interval.cancel(intervalPromise);
+                $log.debug('statService -> Stop polling');
+            }
         }
-      }
 
-      /*
-       * get stats from server
-       */
-      function _refreshStat() {
-        $log.debug('_getStat');
-        if (!timeOutPromise) {
-          timeOutPromise = $timeout(_callApi, 300);
+        /*
+         * get stats from server
+         */
+        function _refreshStat() {
+            $log.debug('_getStat');
+            if (!timeOutPromise) {
+                timeOutPromise = $timeout(_callApi, 300);
+            }
         }
-      }
+        
+        function _callApi() {
+            $http.get('/moduleapi/stat/').then(function(response) {
+                $log.debug('_getStat success - data:' + response.data);
+                lastData = response.data;
+                $rootScope.$broadcast('statService.stat-update', response.data);
+                _stopPolling();
+                intervalPromise = $interval(_callApi, msPollingInterval);
+                timeOutPromise = null;
+            }, function(data, status) {
+                $log.error('_getStat error ' + status);
+                _stopPolling();
+                intervalPromise = $interval(_callApi, msPollingInterval);
+                timeOutPromise = null;
+            });
+        }
 
-      function _callApi() {
-        $http.get('/moduleapi/stat/').then(function(response) {
-          $log.debug('_getStat success - data:' + response.data);
-          lastData = response.data;
-          $rootScope.$broadcast('statService.stat-update', response.data);
-          _stopPolling();
-          intervalPromise = $interval(_callApi, msPollingInterval);
-          timeOutPromise = null;
-        }, function(data, status) {
-          $log.error('_getStat error ' + status);
-          _stopPolling();
-          intervalPromise = $interval(_callApi, msPollingInterval);
-          timeOutPromise = null;
-        });
-      }
+        function _getLatestData() {
+            return lastData;
+        }
 
-      function _getLatestData() {
-        return lastData;
-      }
+        /*
+         * start regular polling of stats from server
+         */
+        function _startPolling() {
+            _refreshStat();
+            $log.debug('statService -> Start polling');
+        }
 
-      /*
-       * start regular polling of stats from server
-       */
-      function _startPolling() {
-        _refreshStat();
-        $log.debug('statService -> Start polling');
-      }
-
-      // Return public API for the service
-      return {
-        startPolling: _startPolling,
-        stopPolling: _stopPolling,
-        refreshStat: _refreshStat,
-        getLatestData: _getLatestData
-      };
+        // Return public API for the service
+        return {
+            startPolling: _startPolling,
+            stopPolling: _stopPolling,
+            refreshStat: _refreshStat,
+            getLatestData: _getLatestData
+        };
     }]);

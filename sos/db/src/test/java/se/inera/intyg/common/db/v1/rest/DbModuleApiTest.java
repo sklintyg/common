@@ -18,34 +18,16 @@
  */
 package se.inera.intyg.common.db.v1.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.same;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import java.io.IOException;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.ws.soap.SOAPFaultException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
-import org.springframework.core.io.ClassPathResource;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.db.v1.model.converter.WebcertModelFactoryImpl;
@@ -55,12 +37,7 @@ import se.inera.intyg.common.db.v1.utils.ScenarioNotFoundException;
 import se.inera.intyg.common.db.v1.validator.InternalDraftValidatorImpl;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.integration.converter.util.ResultTypeUtil;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateResponse;
@@ -71,6 +48,9 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleConvert
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.schemas.contract.Personnummer;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+import org.springframework.core.io.ClassPathResource;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponderInterface;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateResponseType;
 import se.riv.clinicalprocess.healthcond.certificate.getCertificate.v2.GetCertificateType;
@@ -83,10 +63,22 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultCodeType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.ResultType;
 
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPFactory;
+import javax.xml.ws.soap.SOAPFaultException;
+import java.io.IOException;
+import java.util.Optional;
+
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.same;
+import static org.mockito.Mockito.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class DbModuleApiTest {
-
     private static final String LOGICAL_ADDRESS = "logical address";
 
     @Mock
@@ -189,7 +181,7 @@ public class DbModuleApiTest {
     public void testGetUtlatandeFromJson() throws Exception {
         final String utlatandeJson = "utlatandeJson";
         when(objectMapper.readValue(eq(utlatandeJson), eq(DbUtlatandeV1.class)))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -198,7 +190,7 @@ public class DbModuleApiTest {
     public void testUpdateBeforeSave() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DbUtlatandeV1.class)))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -208,7 +200,7 @@ public class DbModuleApiTest {
     public void testUpdateBeforeSigning() throws Exception {
         final String internalModel = "internal model";
         when(objectMapper.readValue(anyString(), eq(DbUtlatandeV1.class)))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(objectMapper.writeValueAsString(any())).thenReturn(internalModel);
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -216,7 +208,7 @@ public class DbModuleApiTest {
 
     @Test
     public void testUpdateBeforeViewing() throws Exception {
-        Patient updatedPatient = createPatient("fornamn", "efternamn", "19121212-1212");
+        Patient updatedPatient = createPatient("fornamn","efternamn","19121212-1212");
         updatedPatient.setPostadress("updated postal address");
         updatedPatient.setPostnummer("54321");
         updatedPatient.setPostort("updated post city");
@@ -230,7 +222,7 @@ public class DbModuleApiTest {
     @Test(expected = ModuleException.class)
     public void testSendCertificateShouldFailWhenErrorIsReturned() throws ModuleException {
         when(registerCertificateResponderInterface.registerCertificate(anyString(), any()))
-            .thenReturn(createReturnVal(ResultCodeType.ERROR));
+                .thenReturn(createReturnVal(ResultCodeType.ERROR));
         try {
             String xmlContents = Resources.toString(Resources.getResource("v1/db.xml"), Charsets.UTF_8);
             moduleApi.sendCertificateToRecipient(xmlContents, LOGICAL_ADDRESS, null);
@@ -261,7 +253,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -279,7 +271,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -299,7 +291,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         try {
@@ -319,7 +311,7 @@ public class DbModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         when(objectMapper.readValue(internalModel, DbUtlatandeV1.class))
-            .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
+                .thenReturn(ScenarioFinder.getInternalScenario("pass-1").asInternalModel());
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
@@ -339,7 +331,7 @@ public class DbModuleApiTest {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
     }
 
@@ -424,7 +416,7 @@ public class DbModuleApiTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
+                createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -445,7 +437,7 @@ public class DbModuleApiTest {
 
     private Patient createPatient(String fornamn, String efternamn, String personnummer) {
         Patient patient = new Patient();
-        patient.setPersonId(Personnummer.createPersonnummer((personnummer != null) ? personnummer : "191212121212").get());
+        patient.setPersonId(Personnummer.createPersonnummer( (personnummer != null) ? personnummer : "191212121212").get());
         patient.setFornamn(fornamn);
         patient.setEfternamn(efternamn);
         return patient;

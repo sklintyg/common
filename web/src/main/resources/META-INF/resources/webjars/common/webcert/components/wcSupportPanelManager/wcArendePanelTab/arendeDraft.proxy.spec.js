@@ -18,111 +18,111 @@
  */
 
 describe('ArendeDraftProxy', function() {
-  'use strict';
+    'use strict';
 
-  var $httpBackend;
-  var $rootScope;
-  var ArendeDraftProxy;
+    var $httpBackend;
+    var $rootScope;
+    var ArendeDraftProxy;
 
-  beforeEach(module('common', function($provide) {
-    $provide.value('common.User', {});
-  }));
+    beforeEach(module('common', function($provide) {
+        $provide.value('common.User', {});
+    }));
 
-  beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'common.ArendeDraftProxy',
-    function($controller, _$rootScope_, _$httpBackend_, _ArendeProxy_) {
+    beforeEach(angular.mock.inject(['$controller', '$rootScope', '$httpBackend', 'common.ArendeDraftProxy',
+        function($controller, _$rootScope_, _$httpBackend_, _ArendeProxy_) {
 
-      $httpBackend = _$httpBackend_;
-      $rootScope = _$rootScope_;
-      $rootScope.$new();
-      ArendeDraftProxy = _ArendeProxy_;
-    }]));
+            $httpBackend = _$httpBackend_;
+            $rootScope = _$rootScope_;
+            $rootScope.$new();
+            ArendeDraftProxy = _ArendeProxy_;
+        }]));
 
-  describe('#getDraft', function() {
-    it('should call onSuccess callback when called', function() {
+    describe('#getDraft', function() {
+        it('should call onSuccess callback when called', function() {
 
-      var onSuccess = jasmine.createSpy('onSuccess');
-      var onError = jasmine.createSpy('onError');
+            var onSuccess = jasmine.createSpy('onSuccess');
+            var onError = jasmine.createSpy('onError');
 
-      var intygsId = 'intyg-1';
-      var restPath = '/api/arende/draft/' + intygsId;
-      $httpBackend.expectGET(restPath).respond(200, {
-        'intygId': intygsId,
-        'text': 'testText',
-        'amne': 'testAmne'
-      });
+            var intygsId = 'intyg-1';
+            var restPath = '/api/arende/draft/' + intygsId;
+            $httpBackend.expectGET(restPath).respond(200, {
+                'intygId':intygsId,
+                'text': 'testText',
+                'amne': 'testAmne'
+            });
 
-      ArendeDraftProxy.getDraft(intygsId, onSuccess, onError);
-      $httpBackend.flush();
+            ArendeDraftProxy.getDraft(intygsId, onSuccess, onError);
+            $httpBackend.flush();
 
-      expect(onSuccess).toHaveBeenCalled();
-    });
-  });
-
-  describe('#saveDraft', function() {
-    it('should call onSuccess callback when called', function() {
-
-      var onSuccess = jasmine.createSpy('onSuccess');
-      var onError = jasmine.createSpy('onError');
-
-      var restPath = '/api/arende/draft';
-      $httpBackend.expectPUT(restPath).respond(200);
-
-      ArendeDraftProxy.saveDraft('intygId', 'questionId', 'text', 'amne', onSuccess, onError);
-      $httpBackend.flush();
-
-      expect(onSuccess).toHaveBeenCalled();
-    });
-  });
-
-  describe('#deleteDraft', function() {
-    it('should call onSuccess callback when called', function() {
-
-      var onSuccess = jasmine.createSpy('onSuccess');
-      var onError = jasmine.createSpy('onError');
-
-      var intygId = 'intygId';
-      var questionId = 'questionId';
-      var restPath = '/api/arende/draft/' + intygId + '/' + questionId;
-
-      $httpBackend.expectDELETE(restPath).respond(200);
-
-      ArendeDraftProxy.deleteDraft(intygId, questionId, onSuccess, onError);
-      $httpBackend.flush();
-
-      expect(onSuccess).toHaveBeenCalled();
+            expect(onSuccess).toHaveBeenCalled();
+        });
     });
 
-    it('should not include question in path unless provided', function() {
+    describe('#saveDraft', function() {
+        it('should call onSuccess callback when called', function() {
 
-      var onSuccess = jasmine.createSpy('onSuccess');
-      var onError = jasmine.createSpy('onError');
+            var onSuccess = jasmine.createSpy('onSuccess');
+            var onError = jasmine.createSpy('onError');
 
-      var intygId = 'intygId';
-      var restPath = '/api/arende/draft/' + intygId;
+            var restPath = '/api/arende/draft';
+            $httpBackend.expectPUT(restPath).respond(200);
 
-      $httpBackend.expectDELETE(restPath).respond(200);
+            ArendeDraftProxy.saveDraft('intygId', 'questionId', 'text', 'amne', onSuccess, onError);
+            $httpBackend.flush();
 
-      ArendeDraftProxy.deleteDraft(intygId, undefined, onSuccess, onError);
-      $httpBackend.flush();
-
-      expect(onSuccess).toHaveBeenCalled();
+            expect(onSuccess).toHaveBeenCalled();
+        });
     });
-  });
-  describe('#deleteQuestionDraft', function() {
-    it('should call onSuccess callback when called', function() {
 
-      var onSuccess = jasmine.createSpy('onSuccess');
-      var onError = jasmine.createSpy('onError');
+    describe('#deleteDraft', function() {
+        it('should call onSuccess callback when called', function() {
 
-      var intygId = 'intygId';
-      var restPath = '/api/arende/draft/' + intygId;
+            var onSuccess = jasmine.createSpy('onSuccess');
+            var onError = jasmine.createSpy('onError');
 
-      $httpBackend.expectDELETE(restPath).respond(200);
+            var intygId = 'intygId';
+            var questionId = 'questionId';
+            var restPath = '/api/arende/draft/' + intygId + '/' + questionId;
 
-      ArendeDraftProxy.deleteQuestionDraft(intygId, onSuccess, onError);
-      $httpBackend.flush();
+            $httpBackend.expectDELETE(restPath).respond(200);
 
-      expect(onSuccess).toHaveBeenCalled();
+            ArendeDraftProxy.deleteDraft(intygId, questionId, onSuccess, onError);
+            $httpBackend.flush();
+
+            expect(onSuccess).toHaveBeenCalled();
+        });
+
+        it('should not include question in path unless provided', function() {
+
+            var onSuccess = jasmine.createSpy('onSuccess');
+            var onError = jasmine.createSpy('onError');
+
+            var intygId = 'intygId';
+            var restPath = '/api/arende/draft/' + intygId;
+
+            $httpBackend.expectDELETE(restPath).respond(200);
+
+            ArendeDraftProxy.deleteDraft(intygId, undefined, onSuccess, onError);
+            $httpBackend.flush();
+
+            expect(onSuccess).toHaveBeenCalled();
+        });
     });
-  });
+    describe('#deleteQuestionDraft', function() {
+        it('should call onSuccess callback when called', function() {
+
+            var onSuccess = jasmine.createSpy('onSuccess');
+            var onError = jasmine.createSpy('onError');
+
+            var intygId = 'intygId';
+            var restPath = '/api/arende/draft/' + intygId;
+
+            $httpBackend.expectDELETE(restPath).respond(200);
+
+            ArendeDraftProxy.deleteQuestionDraft(intygId, onSuccess, onError);
+            $httpBackend.flush();
+
+            expect(onSuccess).toHaveBeenCalled();
+        });
+    });
 });

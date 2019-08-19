@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('fk7263').directive('fk7263SelectableFieldList', function() {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      fieldConfig: '=',
-      cert: '=',
-      summary: '=',
-      showDeselected: '='
+    return {
+        restrict: 'E',
+        scope: {
+            fieldConfig: '=',
+            cert: '=',
+            summary: '=',
+            showDeselected: '='
 
-    },
-    templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fk7263.SelectableFieldList.directive.html'
-  };
+        },
+        templateUrl: '/web/webjars/fk7263/minaintyg/js/directives/fk7263.SelectableFieldList.directive.html'
+    };
 });

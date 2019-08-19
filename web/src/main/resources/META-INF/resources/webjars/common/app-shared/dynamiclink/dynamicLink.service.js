@@ -29,57 +29,56 @@
  * }
  *
  * Usage: <span dynamiclink key="someLinkKey"/>
- *
+ * 
  * Produces: <a href="http://some.url" target="_blank" title="Some tooltip">Some text</a>
  */
 angular.module('common').factory('common.dynamicLinkService',
     function() {
-      'use strict';
+        'use strict';
+        
+        var _links = {};
 
-      var _links = {};
-
-      function _getLink(key) {
-        return _links[key];
-      }
-
-      function _addLinks(links) {
-        _links = links;
-      }
-
-      function _processLinkTags(input) {
-        var regex2 = /<LINK:(.*?)>/gi, result;
-
-        while ((result = regex2.exec(input))) {
-          var replace = result[0];
-          var linkKey = result[1];
-
-          //var dynamicLink = _buildExternalLink(linkKey);
-
-          var dynamicLink = '<span dynamiclink key="' + linkKey + '"></span>';
-
-          var regexp = new RegExp(replace, 'g');
-          input = input.replace(regexp, dynamicLink);
+        function _getLink(key) {
+            return _links[key];
         }
-        return input;
-      }
 
-      /*
-              function _buildExternalLink(linkKey) {
-                  var dynamicLink = '';
-                  dynamicLink += _links[linkKey].target ? '<span class="unbreakable">' : '';
-                  dynamicLink += '<a href="' + _links[linkKey].url + '" class="external-link" rel="noopener noreferrer" ';
-                  dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
-                  dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
-                  dynamicLink += _links[linkKey].text + '</a>';
-                  dynamicLink += _links[linkKey].target ? ' <i ng-show="target" class="external-link-icon material-icons">launch</i></span>' : '';
-                  return dynamicLink;
-              }
-      */
-      return {
-        getLink: _getLink,
-        addLinks: _addLinks,
-        //buildExternalLink: _buildExternalLink,
-        processLinkTags: _processLinkTags
-      };
+        function _addLinks(links) {
+            _links = links;
+        }
+
+        function _processLinkTags(input){
+            var regex2 = /<LINK:(.*?)>/gi, result;
+
+            while ( (result = regex2.exec(input)) ) {
+                var replace = result[0];
+                var linkKey = result[1];
+
+                //var dynamicLink = _buildExternalLink(linkKey);
+
+                var dynamicLink = '<span dynamiclink key="' + linkKey + '"></span>';
+
+                var regexp = new RegExp(replace, 'g');
+                input = input.replace(regexp, dynamicLink);
+            }
+            return input;
+        }
+/*
+        function _buildExternalLink(linkKey) {
+            var dynamicLink = '';
+            dynamicLink += _links[linkKey].target ? '<span class="unbreakable">' : '';
+            dynamicLink += '<a href="' + _links[linkKey].url + '" class="external-link" rel="noopener noreferrer" ';
+            dynamicLink += _links[linkKey].tooltip ? ' title="' + _links[linkKey].tooltip + '"' : '';
+            dynamicLink += _links[linkKey].target ? ' target="' + _links[linkKey].target + '">' : '>';
+            dynamicLink += _links[linkKey].text + '</a>';
+            dynamicLink += _links[linkKey].target ? ' <i ng-show="target" class="external-link-icon material-icons">launch</i></span>' : '';
+            return dynamicLink;
+        }
+*/
+        return {
+            getLink: _getLink,
+            addLinks: _addLinks,
+            //buildExternalLink: _buildExternalLink,
+            processLinkTags: _processLinkTags
+        };
     }
 );

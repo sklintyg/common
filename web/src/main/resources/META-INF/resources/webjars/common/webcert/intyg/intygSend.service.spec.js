@@ -20,78 +20,73 @@
 /* globals readJSON */
 /* globals tv4 */
 describe('IntygSendService', function() {
-  'use strict';
+    'use strict';
 
-  var IntygSend;
-  var $httpBackend;
-  var $state;
-  var $timeout;
-  var dialogService;
-  var UserModel;
+    var IntygSend;
+    var $httpBackend;
+    var $state;
+    var $timeout;
+    var dialogService;
+    var UserModel;
 
-  beforeEach(angular.mock.module('common', function($provide) {
-    $provide.value('common.messageService',
-        jasmine.createSpyObj('common.messageService', ['getProperty', 'addResources']));
-    $provide.value('$stateParams', {});
-    $provide.value('common.statService', jasmine.createSpyObj('common.statService', ['refreshStat']));
-    $provide.value('common.UtkastViewStateService', {});
-    $provide.value('common.utkastNotifyService', {});
-    $provide.value('common.domain.DraftModel', {});
+    beforeEach(angular.mock.module('common', function($provide) {
+        $provide.value('common.messageService',
+            jasmine.createSpyObj('common.messageService', [ 'getProperty', 'addResources' ]));
+        $provide.value('$stateParams', {});
+        $provide.value('common.statService', jasmine.createSpyObj('common.statService', [ 'refreshStat' ]));
+        $provide.value('common.UtkastViewStateService', {});
+        $provide.value('common.utkastNotifyService', {});
+        $provide.value('common.domain.DraftModel', {});
 
-    $provide.value('common.User', jasmine.createSpyObj('common.User', ['storeAnvandarPreference']));
-  }));
+        $provide.value('common.User', jasmine.createSpyObj('common.User', ['storeAnvandarPreference']));
+    }));
 
-  beforeEach(angular.mock.inject(['common.IntygSend', '$httpBackend', '$state', '$timeout',
-    'common.dialogService', 'common.UserModel',
-    function(_IntygSend_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
-      IntygSend = _IntygSend_;
-      $httpBackend = _$httpBackend_;
-      $state = _$state_;
-      $timeout = _$timeout_;
-      dialogService = _dialogService_;
-      UserModel = _UserModel_;
+    beforeEach(angular.mock.inject(['common.IntygSend', '$httpBackend', '$state', '$timeout',
+        'common.dialogService', 'common.UserModel',
+        function(_IntygSend_, _$httpBackend_, _$state_, _$timeout_, _dialogService_, _UserModel_) {
+            IntygSend = _IntygSend_;
+            $httpBackend = _$httpBackend_;
+            $state = _$state_;
+            $timeout = _$timeout_;
+            dialogService = _dialogService_;
+            UserModel = _UserModel_;
 
-      UserModel.setUser({
-        anvandarPreference: {}
-      });
-    }]));
+            UserModel.setUser({
+                anvandarPreference: {}
+            });
+        }]));
 
-  describe('send', function() {
+    describe('send', function() {
 
-    it('should request intyg send with valid json request', function() {
+        it ('should request intyg send with valid json request', function() {
 
-      var data = function(data) {
-        data = JSON.parse(data);
-        var schema = readJSON('test/resources/jsonschema/webcert-send-intyg-request-schema.json');
-        return tv4.validate(data, schema);
-      };
-      data.toString = function() {
-        return tv4.error.toString();
-      };
+            var data = function(data) {
+                data = JSON.parse(data);
+                var schema = readJSON('test/resources/jsonschema/webcert-send-intyg-request-schema.json');
+                return tv4.validate(data, schema);
+            };
+            data.toString = function() {
+                return tv4.error.toString();
+            };
 
-      $httpBackend.expectPOST('/moduleapi/intyg/intygsTyp/intygsId/skicka', data).respond(200);
+            $httpBackend.expectPOST('/moduleapi/intyg/intygsTyp/intygsId/skicka', data).respond(200);
 
-      spyOn(dialogService, 'showDialog').and.callFake(function(options) {
-        $timeout(function() {
-          options.button1click();
+            spyOn(dialogService, 'showDialog').and.callFake(function(options) {
+                $timeout(function() {
+                    options.button1click();
+                });
+                return {
+                    opened: { then: function() {} },
+                    close: function() {}
+                };
+            });
+
+            IntygSend.send({}, 'intygsId', 'intygsTyp', 'recipientId', {}, function() {});
+
+            $timeout.flush();
+
+            $httpBackend.flush();
         });
-        return {
-          opened: {
-            then: function() {
-            }
-          },
-          close: function() {
-          }
-        };
-      });
-
-      IntygSend.send({}, 'intygsId', 'intygsTyp', 'recipientId', {}, function() {
-      });
-
-      $timeout.flush();
-
-      $httpBackend.flush();
     });
-  });
 
 });

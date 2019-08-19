@@ -17,33 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ag114').service('ag114.PatientHelperService.v1',
-    function() {
-      'use strict';
+        function() {
+            'use strict';
 
-      // PS-003: Show for AG1-14
-      function _showPatientNameChangedIntegration() {
-        return true;
-      }
+            // PS-003: Show for AG1-14
+            function _showPatientNameChangedIntegration() {
+                return true;
+            }
+            // PS-005: Never show for AG1-14
+            function _showPatientNameChangedPU() {
+                return false;
+            }
+            // PS-006: Never show for AG1-14
+            function _showPatientAddressChangedPU() {
+                return false;
+            }
+            // INTYG-5146: Never show for AG1-14
+            function _showMissingAddressParameter() {
+                return false;
+            }
 
-      // PS-005: Never show for AG1-14
-      function _showPatientNameChangedPU() {
-        return false;
-      }
-
-      // PS-006: Never show for AG1-14
-      function _showPatientAddressChangedPU() {
-        return false;
-      }
-
-      // INTYG-5146: Never show for AG1-14
-      function _showMissingAddressParameter() {
-        return false;
-      }
-
-      return {
-        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-        showPatientNameChangedPU: _showPatientNameChangedPU,
-        showPatientAddressChangedPU: _showPatientAddressChangedPU,
-        showMissingAddressParameter: _showMissingAddressParameter
-      };
-    });
+            return {
+                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+                showPatientNameChangedPU: _showPatientNameChangedPU,
+                showPatientAddressChangedPU: _showPatientAddressChangedPU,
+                showMissingAddressParameter: _showMissingAddressParameter
+            };
+        });

@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+
 import org.junit.Test;
 import se.inera.intyg.common.doi.v1.rest.DoiModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
@@ -30,7 +31,6 @@ import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
 
 public class SchematronValidatorTest {
-
     private static final RegisterCertificateValidator VALIDATOR = new RegisterCertificateValidator(DoiModuleApiV1.SCHEMATRON_FILE);
 
     @Test

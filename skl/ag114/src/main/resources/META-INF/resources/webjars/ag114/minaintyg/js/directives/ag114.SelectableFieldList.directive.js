@@ -17,17 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ag114').directive('ag114SelectableFieldList', function() {
-  'use strict';
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      fieldConfig: '=',
-      cert: '=',
-      summary: '=',
-      showDeselected: '='
+    return {
+        restrict: 'E',
+        scope: {
+            fieldConfig: '=',
+            cert: '=',
+            summary: '=',
+            showDeselected: '='
 
-    },
-    templateUrl: '/web/webjars/ag114/minaintyg/js/directives/ag114.SelectableFieldList.directive.html'
-  };
+        },
+        templateUrl: '/web/webjars/ag114/minaintyg/js/directives/ag114.SelectableFieldList.directive.html'
+    };
 });

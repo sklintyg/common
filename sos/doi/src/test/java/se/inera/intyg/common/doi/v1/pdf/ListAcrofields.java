@@ -18,13 +18,15 @@
  */
 package se.inera.intyg.common.doi.v1.pdf;
 
-import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
+import java.io.File;
+import java.util.Set;
+
+import org.springframework.core.io.ClassPathResource;
 
 import com.itextpdf.text.pdf.AcroFields;
 import com.itextpdf.text.pdf.PdfReader;
-import java.io.File;
-import java.util.Set;
-import org.springframework.core.io.ClassPathResource;
+
+import static se.inera.intyg.common.doi.v1.pdf.DoiPdfGenerator.DEFAULT_PDF_TEMPLATE;
 
 /**
  * Created by marced on 2017-10-11.
@@ -42,8 +44,7 @@ public class ListAcrofields {
 
         fieldNames.stream().forEach(s -> {
             String rawFileName = acroFields.getTranslatedFieldName(s);
-            String constantName = rawFileName.toUpperCase().replace(" ", "_").replace("Å", "A").replace("Ä", "A").replace("Ö", "O")
-                .replace("/", "_");
+            String constantName = rawFileName.toUpperCase().replace(" ", "_").replace("Å", "A").replace("Ä", "A").replace("Ö", "O").replace("/", "_");
             String possibleValues = getStates(acroFields, s);
             String type = getType(acroFields.getFieldType(s));
             String comment = "\n//Type " + type + (possibleValues.length() > 0 ? " - values [" + possibleValues + "]" : "");
@@ -59,24 +60,24 @@ public class ListAcrofields {
 
     private static String getType(int fieldType) {
         switch (fieldType) {
-            case AcroFields.FIELD_TYPE_NONE:
-                return "NONE";
-            case AcroFields.FIELD_TYPE_PUSHBUTTON:
-                return "BUTTON";
-            case AcroFields.FIELD_TYPE_CHECKBOX:
-                return "CHECKBOX";
-            case AcroFields.FIELD_TYPE_RADIOBUTTON:
-                return "RADIOBUTTON";
-            case AcroFields.FIELD_TYPE_TEXT:
-                return "TEXT";
-            case AcroFields.FIELD_TYPE_LIST:
-                return "LIST";
-            case AcroFields.FIELD_TYPE_COMBO:
-                return "COMBO";
-            case AcroFields.FIELD_TYPE_SIGNATURE:
-                return "SIGNATURE";
-            default:
-                return "?";
+        case AcroFields.FIELD_TYPE_NONE:
+            return "NONE";
+        case AcroFields.FIELD_TYPE_PUSHBUTTON:
+            return "BUTTON";
+        case AcroFields.FIELD_TYPE_CHECKBOX:
+            return "CHECKBOX";
+        case AcroFields.FIELD_TYPE_RADIOBUTTON:
+            return "RADIOBUTTON";
+        case AcroFields.FIELD_TYPE_TEXT:
+            return "TEXT";
+        case AcroFields.FIELD_TYPE_LIST:
+            return "LIST";
+        case AcroFields.FIELD_TYPE_COMBO:
+            return "COMBO";
+        case AcroFields.FIELD_TYPE_SIGNATURE:
+            return "SIGNATURE";
+        default:
+            return "?";
 
         }
 

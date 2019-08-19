@@ -18,69 +18,69 @@
  */
 
 describe('uvEnumValue Directive', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var element;
+    var $scope;
+    var element;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(function() {
-    module(function($provide) {
-      $provide.value('common.messageService', {
-        addResources: function() {
+    beforeEach(function () {
+        module(function ($provide) {
+            $provide.value('common.messageService', {
+                addResources: function() {
 
-        },
-        propertyExists: function(key) {
-          return key;
-        },
-        getProperty: function() {
+                },
+                propertyExists: function(key) {
+                    return key;
+                },
+                getProperty: function() {
 
-        }
-      });
+                }
+            });
+        });
     });
-  });
 
-  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-    $scope = $rootScope.$new();
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+        $scope = $rootScope.$new();
 
-    $scope.viewDataMock = {
-      property1: {
-        name: 'tolvan'
-      }
-    };
+        $scope.viewDataMock ={
+            property1: {
+                name: 'tolvan'
+            }
+        };
 
-    $scope.configMock = {
-      modelProp: 'property1.name',
-      values: {
-        'tolvan': 'translationKey',
-        'elvan': 'otherkey'
-      }
-    };
+        $scope.configMock = {
+            modelProp: 'property1.name',
+            values: {
+                'tolvan': 'translationKey',
+                'elvan': 'otherkey'
+            }
+        };
 
-    element = $compile(
-        '<uv-enum-value config="configMock" view-data="viewDataMock"></uv-enum-value>'
-    )($scope);
+        element = $compile(
+            '<uv-enum-value config="configMock" view-data="viewDataMock"></uv-enum-value>'
+        )($scope);
 
-  }]));
+    }]));
 
-  it('should display model value when value exists', function() {
-    $scope.$digest();
+    it('should display model value when value exists', function() {
+        $scope.$digest();
 
-    expect(element.isolateScope().value).toBe('translationKey');
-    expect(element.isolateScope().hasValue()).toBeTruthy();
-    expect($(element).find('span').text()).toContain('translationKey');
-    expect($(element).find('uv-no-value').length).toBe(0);
-  });
+        expect(element.isolateScope().value).toBe('translationKey');
+        expect(element.isolateScope().hasValue()).toBeTruthy();
+        expect($(element).find('span').text()).toContain('translationKey');
+        expect($(element).find('uv-no-value').length).toBe(0);
+    });
 
-  it('should display "uv-no-value" when no value exists', function() {
-    $scope.viewDataMock.property1.name = 'missing';
-    $scope.$digest();
+    it('should display "uv-no-value" when no value exists', function() {
+        $scope.viewDataMock.property1.name = 'missing';
+        $scope.$digest();
 
-    expect(element.isolateScope().value).toBeUndefined();
-    expect(element.isolateScope().hasValue()).toBeFalsy();
-    expect($(element).find('uv-no-value').length).toBe(1);
-  });
+        expect(element.isolateScope().value).toBeUndefined();
+        expect(element.isolateScope().hasValue()).toBeFalsy();
+        expect($(element).find('uv-no-value').length).toBe(1);
+    });
 
 });

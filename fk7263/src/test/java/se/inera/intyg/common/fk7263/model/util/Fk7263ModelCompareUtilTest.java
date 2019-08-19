@@ -23,22 +23,23 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.springframework.core.io.ClassPathResource;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 @RunWith(MockitoJUnitRunner.class)
 public class Fk7263ModelCompareUtilTest {
@@ -60,8 +61,8 @@ public class Fk7263ModelCompareUtilTest {
         Answer<Boolean> mockAnswer = new Answer<Boolean>() {
             @Override
             public Boolean answer(InvocationOnMock invocation) {
-                String codeFragment = (String) invocation.getArguments()[0];
-                return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment) || CORRECT_DIAGNOSKOD2.equals(codeFragment);
+               String codeFragment = (String) invocation.getArguments()[0];
+               return CORRECT_DIAGNOSKOD_FROM_FILE.equals(codeFragment) || CORRECT_DIAGNOSKOD2.equals(codeFragment);
             }
         };
         doAnswer(mockAnswer).when(moduleService).validateDiagnosisCode(anyString(), anyString());
@@ -236,7 +237,7 @@ public class Fk7263ModelCompareUtilTest {
 
     private Fk7263Utlatande getUtlatandeFromFile() throws IOException {
         return objectMapper.readValue(new ClassPathResource(
-            "Fk7263ModuleApiTest/utlatande.json").getFile(), Fk7263Utlatande.class);
+                "Fk7263ModuleApiTest/utlatande.json").getFile(), Fk7263Utlatande.class);
     }
 
 }

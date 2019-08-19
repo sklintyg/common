@@ -22,36 +22,30 @@ wc-fmb-panel-tab {
       flex: 1 1 auto;
       min-width: 1px;
       padding: 0 15px 0 24px;
-
       wc-radio-wrapper {
         padding: 4px 0;
 
         label {
           @extend %wc-typo-07;
-
           &.active {
             @extend %wc-typo-08;
             text-decoration: none !important;
-
             span > span {
               text-decoration: underline;
-
               .no-underline {
                 text-decoration: none;
               }
             }
           }
-
           &.disabled {
             color: $wc-color-22;
             cursor: not-allowed;
           }
-
           span {
             display: inline-block;
           }
         }
-
+        
         .diagnosinfo {
           color: $wc-color-21;
           vertical-align: text-top;
@@ -63,20 +57,16 @@ wc-fmb-panel-tab {
   .fmb-section {
     padding-bottom: 20px;
     color: $wc-color-07;
-
     h4 {
       @extend %wc-typo-05;
       padding: 8px 0;
     }
-
     div {
       @extend %wc-typo-07;
     }
-
     section {
       @extend %wc-typo-07;
     }
-
     .missing-info {
       @extend %wc-typo-12;
     }
@@ -93,20 +83,16 @@ wc-fmb-panel-tab {
     margin-bottom: -25px;
     background-color: $wc-color-28;
     word-wrap: break-word;
-
     h4 {
       @extend %wc-typo-05;
       padding: 8px 0;
     }
-
     div {
       @extend %wc-typo-07;
     }
-
     section {
       @extend %wc-typo-07;
     }
-
     .missing-info {
       @extend %wc-typo-12;
     }
@@ -121,7 +107,6 @@ wc-fmb-panel-tab {
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-
     .material-icons {
       font-size: inherit;
     }
@@ -130,16 +115,13 @@ wc-fmb-panel-tab {
 
   wc-alert-message {
     display: block;
-
     .alert {
       display: block;
     }
   }
-
   .no-diagnose-entered {
     text-align: center;
     padding-top: 25px;
-
     img {
       padding-bottom: 24px;
     }

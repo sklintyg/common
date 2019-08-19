@@ -36,6 +36,7 @@ import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 /**
  * An implementation of a diagnosis code field.
  * Handles diagnose codes up to 5 characters in length.
+ *
  */
 // CHECKSTYLE:OFF MagicNumber
 public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
@@ -68,7 +69,7 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         final PdfContentByte canvas = writer.getDirectContent();
         PdfPTable table = new PdfPTable(5);
-        char[] code = new char[]{' ', ' ', ' ', ' ', ' '};
+        char[] code = new char[] { ' ', ' ', ' ', ' ', ' ' };
 
         if (!isNullOrEmpty(value)) {
             int b = 0;
@@ -77,12 +78,12 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
             }
         }
 
-        float[] columnWidths = new float[]{
-            Utilities.millimetersToPoints(diagnoscodepartWidth),
-            Utilities.millimetersToPoints(diagnoscodepartWidth),
-            Utilities.millimetersToPoints(diagnoscodepartWidth),
-            Utilities.millimetersToPoints(diagnoscodepartWidth),
-            Utilities.millimetersToPoints(diagnoscodepartWidth)};
+        float[] columnWidths = new float[] {
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth),
+                Utilities.millimetersToPoints(diagnoscodepartWidth) };
 
         table.setTotalWidth(columnWidths);
         for (int a = 1; a < 5; a++) {
@@ -107,7 +108,7 @@ public class FkDiagnosKodField extends PdfComponent<FkDiagnosKodField> {
             float labelY = Utilities.millimetersToPoints(y) - PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL.getCalculatedSize();
 
             ColumnText.showTextAligned(canvas, Element.ALIGN_LEFT, new Phrase(fieldLabel, PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL),
-                labelX, labelY, 0);
+                    labelX, labelY, 0);
             canvas.moveTo(pinX, Utilities.millimetersToPoints(y));
             canvas.lineTo(pinX, Utilities.millimetersToPoints(y) - PdfConstants.FONT_INLINE_FIELD_LABEL_SMALL.getCalculatedSize());
         }

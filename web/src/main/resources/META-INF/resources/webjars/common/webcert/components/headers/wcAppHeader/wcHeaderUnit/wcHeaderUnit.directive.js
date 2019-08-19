@@ -19,36 +19,38 @@
 /**
  Note: This directive is not rendered unless a valid userModel is available, so all access to $scope.userModel can skips such checks.
  */
-angular.module('common').directive('wcHeaderUnit',
-    ['$uibModal', 'common.authorityService', 'common.statService', 'common.User', 'common.UserModel',
-      function($uibModal, authorityService, statService, UserService, UserModel) {
-        'use strict';
+angular.module('common').directive('wcHeaderUnit', [ '$uibModal', 'common.authorityService', 'common.statService', 'common.User', 'common.UserModel',
+    function($uibModal, authorityService, statService, UserService, UserModel) {
+    'use strict';
 
-        return {
-          restrict: 'E',
-          scope: {},
-          templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
-          link: function($scope) {
+    return {
+        restrict: 'E',
+        scope: {},
+        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcHeaderUnit.directive.html',
+        link: function($scope) {
+
+
 
             $scope.statService = statService;
             $scope.statService.startPolling();
             $scope.stat = {
-              fragaSvarValdEnhet: 0,
-              fragaSvarAndraEnheter: 0,
-              intygValdEnhet: 0,
-              intygAndraEnheter: 0,
-              vardgivare: []
+                fragaSvarValdEnhet: 0,
+                fragaSvarAndraEnheter: 0,
+                intygValdEnhet: 0,
+                intygAndraEnheter: 0,
+                vardgivare: []
             };
 
             /**
              * Event listeners
              */
             $scope.$on('statService.stat-update', function(event, message) {
-              $scope.stat = message;
+                $scope.stat = message;
             });
 
-            $scope.getUser = function() {
-              return UserModel.user;
+
+            $scope.getUser = function () {
+                return UserModel.user;
             };
             /**
              * All but DJUPINTEGRERAD can potentially see stats about other units
@@ -56,11 +58,11 @@ angular.module('common').directive('wcHeaderUnit',
              * @returns {boolean}
              */
             $scope.showStatsStatus = function() {
-              return !UserModel.isDjupintegration() && $scope.otherLocationsStatsCount() > 0;
+                return !UserModel.isDjupintegration() && $scope.otherLocationsStatsCount() > 0;
             };
 
             $scope.otherLocationsStatsCount = function() {
-              return ($scope.stat.intygAndraEnheter + $scope.stat.fragaSvarAndraEnheter);
+                return ($scope.stat.intygAndraEnheter + $scope.stat.fragaSvarAndraEnheter);
             };
 
             /**
@@ -68,47 +70,47 @@ angular.module('common').directive('wcHeaderUnit',
              * @returns {boolean}
              */
             $scope.showInactiveUnitStatus = function() {
-              return UserModel.getIntegrationParam('inactiveUnit');
+                return UserModel.getIntegrationParam('inactiveUnit');
             };
 
+
             function _showMenu() {
-              return authorityService.isAuthorityActive({
-                authority: 'ATKOMST_ANDRA_ENHETER'
-              }) && UserModel.user.totaltAntalVardenheter > 1;
+                return authorityService.isAuthorityActive({
+                    authority: 'ATKOMST_ANDRA_ENHETER'
+                }) && UserModel.user.totaltAntalVardenheter > 1;
             }
 
             $scope.menu = {
-              enabled: _showMenu(),
-              expanded: false
+                enabled: _showMenu(),
+                expanded: false
             };
 
             $scope.toggleMenu = function($event) {
-              $event.stopPropagation();
-              $scope.menu.expanded = !$scope.menu.expanded;
+                $event.stopPropagation();
+                $scope.menu.expanded = !$scope.menu.expanded;
 
             };
 
             $scope.showEnhetName = function() {
-              //Privatlakare har samma namn på vg/ve, så vi skippar ve namnet.
-              return !UserModel.isPrivatLakare();
+                //Privatlakare har samma namn på vg/ve, så vi skippar ve namnet.
+                return !UserModel.isPrivatLakare();
             };
 
             $scope.onChangeActiveUnitClick = function() {
 
-              var changeUnitDialogInstance = $uibModal.open({
-                templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcChangeActiveUnitDialog.html',
-                controller: 'wcChangeActiveUnitDialogCtrl',
-                size: 'md',
-                id: 'wcChangeActiveUnitDialog',
-                keyboard: true,
-                windowClass: 'wc-header-care-unit-dialog-window-class'
-              });
-              //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-              changeUnitDialogInstance.result.catch(function() { //jshint ignore:line
-              });
+                    var changeUnitDialogInstance = $uibModal.open({
+                        templateUrl: '/web/webjars/common/webcert/components/headers/wcAppHeader/wcHeaderUnit/wcChangeActiveUnitDialog.html',
+                        controller: 'wcChangeActiveUnitDialogCtrl',
+                        size: 'md',
+                        id: 'wcChangeActiveUnitDialog',
+                        keyboard: true,
+                        windowClass: 'wc-header-care-unit-dialog-window-class'
+                    });
+                //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+                changeUnitDialogInstance.result.catch(function () {}); //jshint ignore:line
 
             };
 
-          }
-        };
-      }]);
+        }
+    };
+} ]);

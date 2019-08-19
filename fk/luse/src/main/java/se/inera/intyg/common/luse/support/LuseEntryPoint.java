@@ -19,6 +19,7 @@
 package se.inera.intyg.common.luse.support;
 
 import org.springframework.stereotype.Component;
+
 import se.inera.intyg.common.fkparent.support.FkAbstractModuleEntryPoint;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
@@ -53,36 +54,36 @@ public class LuseEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "";
-            case WEBCERT:
-                return "";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "";
+        case WEBCERT:
+            return "";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/luse/minaintyg/js/module";
-            case WEBCERT:
-                return "/web/webjars/luse/webcert/module";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/luse/minaintyg/js/module";
+        case WEBCERT:
+            return "/web/webjars/luse/webcert/module";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/luse/minaintyg/js/module-deps.json";
-            case WEBCERT:
-                return "/web/webjars/luse/webcert/module-deps.json";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/luse/minaintyg/js/module-deps.json";
+        case WEBCERT:
+            return "/web/webjars/luse/webcert/module-deps.json";
+        default:
+            return null;
         }
     }
 }

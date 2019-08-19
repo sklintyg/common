@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygCreateFromIntygRequestModel', [
-  'common.IntygCopyRequestModel',
-  function(IntygCopyRequestModel) {
-    'use strict';
+    'common.IntygCopyRequestModel',
+    function(IntygCopyRequestModel) {
+        'use strict';
 
-    /**
-     * Constructor
-     *
-     * parameters intygId, intygType, patientPersonnummer
-     *
-     * @inherits IntygCopyRequestModel
-     */
-    function IntygCreateFromIntygRequestModel(data) {
-      IntygCopyRequestModel.apply(this, [data]);
-      this.fornya = true;
+        /**
+         * Constructor
+         *
+         * parameters intygId, intygType, patientPersonnummer
+         *
+         * @inherits IntygCopyRequestModel
+         */
+        function IntygCreateFromIntygRequestModel(data) {
+            IntygCopyRequestModel.apply(this, [data]);
+            this.fornya = true;
+        }
+
+        IntygCreateFromIntygRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
+        IntygCreateFromIntygRequestModel.prototype.constructor = IntygCreateFromIntygRequestModel;
+
+        IntygCreateFromIntygRequestModel.build = function(data) {
+            return new IntygCreateFromIntygRequestModel(data);
+        };
+
+        return IntygCreateFromIntygRequestModel;
     }
-
-    IntygCreateFromIntygRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
-    IntygCreateFromIntygRequestModel.prototype.constructor = IntygCreateFromIntygRequestModel;
-
-    IntygCreateFromIntygRequestModel.build = function(data) {
-      return new IntygCreateFromIntygRequestModel(data);
-    };
-
-    return IntygCreateFromIntygRequestModel;
-  }
 ]);

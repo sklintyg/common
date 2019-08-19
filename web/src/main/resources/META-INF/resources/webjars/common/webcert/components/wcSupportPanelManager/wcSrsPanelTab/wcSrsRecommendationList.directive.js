@@ -20,47 +20,47 @@
  * Recommendation list directive
  */
 angular.module('common').directive('wcSrsRecommendationList', [
-  'common.srsProxy',
-  function(srsProxy) {
-    'use strict';
+    'common.srsProxy',
+    function(srsProxy) {
+        'use strict';
 
-    return {
-      restrict: 'E',
-      scope: {
-        title: '@',
-        moreTitle: '@',
-        lessTitle: '@',
-        recommendations: '=',
-        srs: '=srsScope'
-      },
-      link: function($scope, element, $attrs) {
-        $scope.$watch('recommendations', function(newValue, oldValue) {
-          if ($scope.recommendations) {
-            // Slice åtgärder into 4 + the rest
-            $scope.diagnosisCode = $scope.recommendations.diagnosisCode;
-            $scope.diagnosisDescription = $scope.recommendations.diagnosisDescription;
-            $scope.firstRecommendations = $scope.recommendations.atgarder.slice(0, 4);
-            $scope.moreRecommendations =
-                $scope.recommendations.atgarder.slice(4).length > 0 ? $scope.recommendations.atgarder.slice(4) : null;
-          }
-        });
-        $scope.listCollapserClicked = function() {
-          if ($scope.isMoreCollapsed) {
-            srsProxy.logSrsMeasuresShowMoreClicked($scope.srs.userClientContext, $scope.srs.intygId,
-                $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
-          }
-          $scope.isMoreCollapsed = !$scope.isMoreCollapsed;
+        return {
+            restrict: 'E',
+            scope: {
+                title: '@',
+                moreTitle: '@',
+                lessTitle: '@',
+                recommendations: '=',
+                srs: '=srsScope'
+            },
+            link: function($scope, element, $attrs) {
+                $scope.$watch('recommendations', function(newValue, oldValue) {
+                    if ($scope.recommendations) {
+                        // Slice åtgärder into 4 + the rest
+                        $scope.diagnosisCode = $scope.recommendations.diagnosisCode;
+                        $scope.diagnosisDescription = $scope.recommendations.diagnosisDescription;
+                        $scope.firstRecommendations = $scope.recommendations.atgarder.slice(0, 4);
+                        $scope.moreRecommendations =
+                            $scope.recommendations.atgarder.slice(4).length > 0 ? $scope.recommendations.atgarder.slice(4) : null;
+                    }
+                });
+                $scope.listCollapserClicked = function() {
+                    if ($scope.isMoreCollapsed) {
+                        srsProxy.logSrsMeasuresShowMoreClicked($scope.srs.userClientContext, $scope.srs.intygId,
+                            $scope.srs.vardgivareHsaId, $scope.srs.hsaId);
+                    }
+                    $scope.isMoreCollapsed = !$scope.isMoreCollapsed;
+                };
+                if(!$attrs.moreTitle) {
+                    $scope.moreTitle = 'Se fler';
+                }
+                if(!$attrs.lessTitle) {
+                    $scope.lessTitle = 'Se färre';
+                }
+                $scope.diagnosisCode = 'Laddar diagnoskod';
+                $scope.diagnosisDescription = 'Laddar diagnosbeskrivning';
+                $scope.isMoreCollapsed = true;
+            },
+            templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendationList.directive.html'
         };
-        if (!$attrs.moreTitle) {
-          $scope.moreTitle = 'Se fler';
-        }
-        if (!$attrs.lessTitle) {
-          $scope.lessTitle = 'Se färre';
-        }
-        $scope.diagnosisCode = 'Laddar diagnoskod';
-        $scope.diagnosisDescription = 'Laddar diagnosbeskrivning';
-        $scope.isMoreCollapsed = true;
-      },
-      templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcSrsPanelTab/wcSrsRecommendationList.directive.html'
-    };
-  }]);
+    }]);

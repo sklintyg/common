@@ -21,11 +21,6 @@ package se.inera.intyg.common.tstrk1009.v1.pdf;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +37,12 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
 import se.inera.intyg.common.tstrk1009.support.Tstrk1009EntryPoint;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 public class PdfGenerator {
 
     private static final String PDF_LOGOTYPE_CLASSPATH_URI = "/pdf/transportstyrelsens_logotyp_rgb.png";
@@ -50,15 +51,15 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. "
-        + "Intyget har signerats elektroniskt av intygsutfärdaren.";
+            + "Intyget har signerats elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-        + "skickas till Transportstyrelsen.";
+            + "skickas till Transportstyrelsen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Transportstyrelsen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "lakarintyg_transportstyrelsen_";
 
     public PdfResponse generatePdf(String intygsId, String jsonModel, Personnummer personId, IntygTexts intygTexts, List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+                                   ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         byte[] pdfBinaryData;
         String filename;
@@ -73,20 +74,20 @@ public class PdfGenerator {
             boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(intygsId)
-                .withIntygsNamn(Tstrk1009EntryPoint.MODULE_NAME)
-                .withIntygsKod(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
-                .withPersonnummer(personId.getPersonnummerWithDash())
-                .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                .withLeftMarginTypText(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
-                .withUtfardarLogotyp(logoData)
-                .withIsUtkast(isUtkast)
-                .withIsLockedUtkast(isLockedUtkast)
-                .withIsMakulerad(isMakulerad)
-                .withApplicationOrigin(applicationOrigin)
-                .build();
+                    .withIntygJsonModel(cleanedJson)
+                    .withUpJsModel(upJsModel)
+                    .withIntygsId(intygsId)
+                    .withIntygsNamn(Tstrk1009EntryPoint.MODULE_NAME)
+                    .withIntygsKod(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE)
+                    .withPersonnummer(personId.getPersonnummerWithDash())
+                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
+                    .withLeftMarginTypText(Tstrk1009EntryPoint.KV_UTLATANDETYP_INTYG_CODE + " - Fastställd av Transportstyrelsen")
+                    .withUtfardarLogotyp(logoData)
+                    .withIsUtkast(isUtkast)
+                    .withIsLockedUtkast(isLockedUtkast)
+                    .withIsMakulerad(isMakulerad)
+                    .withApplicationOrigin(applicationOrigin)
+                    .build();
 
             //use printconfig to create pdf binary
             pdfBinaryData = new UVRenderer().startRendering(printConfig, intygTexts);
@@ -123,7 +124,7 @@ public class PdfGenerator {
 
     private String loadUvViewConfig() throws IOException {
         String upJsModel = IOUtils.toString(new ClassPathResource(PDF_UP_MODEL_CLASSPATH_URI).getInputStream(),
-            Charset.forName("UTF-8"));
+                Charset.forName("UTF-8"));
         if (Strings.isNullOrEmpty(upJsModel)) {
             throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + PDF_UP_MODEL_CLASSPATH_URI);
         }

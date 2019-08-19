@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.agparent.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
 
 /**
  * Created by BESA on 2016-02-23.
@@ -31,9 +32,9 @@ public abstract class Diagnos {
 
     @JsonCreator
     public static Diagnos create(@JsonProperty("diagnosKod") String diagnosKod,
-        @JsonProperty("diagnosKodSystem") String diagnosKodSystem,
-        @JsonProperty("diagnosBeskrivning") String diagnosBeskrivning,
-        @JsonProperty("diagnosDisplayName") String diagnosDisplayName) {
+            @JsonProperty("diagnosKodSystem") String diagnosKodSystem,
+            @JsonProperty("diagnosBeskrivning") String diagnosBeskrivning,
+            @JsonProperty("diagnosDisplayName")String diagnosDisplayName) {
         return new AutoValue_Diagnos(diagnosKod, diagnosKodSystem, diagnosBeskrivning, diagnosDisplayName);
     }
 

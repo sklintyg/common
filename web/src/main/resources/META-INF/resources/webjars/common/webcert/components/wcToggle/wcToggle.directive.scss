@@ -47,7 +47,7 @@ wc-toggle {
       border: $wc-color-23 1px solid;
       transition: .4s;
       border-radius: 50%;
-      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+      box-shadow: 0 1px 3px 0 rgba(0,0,0,0.5);
     }
 
     &:before {
@@ -57,7 +57,7 @@ wc-toggle {
       color: $wc-color-07;
       display: block;
       position: absolute;
-      transform: translate(-50%, -50%);
+      transform: translate(-50%,-50%);
       top: 50%;
       left: 70%;
     }
@@ -89,7 +89,6 @@ wc-toggle {
   input:disabled {
     + .slider {
       background: $wc-color-20;
-
       &:after {
         background-color: $wc-color-20;
         box-shadow: none;

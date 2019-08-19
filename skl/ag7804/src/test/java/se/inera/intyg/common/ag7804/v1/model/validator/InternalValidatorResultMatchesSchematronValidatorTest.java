@@ -27,15 +27,14 @@ import static se.inera.intyg.common.agparent.model.validator.InternalToSchematro
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getTransportValidationErrorString;
 import static se.inera.intyg.common.agparent.model.validator.InternalToSchematronValidatorTestUtil.getXmlFromModel;
 
-import com.google.common.base.Charsets;
-import com.helger.commons.debug.GlobalDebug;
-import com.helger.schematron.svrl.SVRLHelper;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import javax.xml.transform.stream.StreamSource;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +44,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+
+import com.google.common.base.Charsets;
+import com.helger.commons.debug.GlobalDebug;
+import com.helger.schematron.svrl.SVRLHelper;
+
 import se.inera.intyg.common.ag7804.v1.model.internal.Ag7804UtlatandeV1;
 import se.inera.intyg.common.ag7804.v1.rest.Ag7804ModuleApiV1;
 import se.inera.intyg.common.ag7804.v1.utils.Scenario;
@@ -62,8 +66,9 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
  * Data driven test that uses Scenario and ScenarioFinder along with the JUnit Parameterized test runner,
  * uses test data from internal/scenarios and transport/scenarios, so in order to create new tests, just add
  * corresponding json- and XML-files in these directories.
- *
+ * 
  * @author erik
+ *
  */
 @RunWith(Parameterized.class)
 public class InternalValidatorResultMatchesSchematronValidatorTest {
@@ -102,25 +107,29 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
      * Process test data and supply it to the test.
      * The format for the test data needs to be: {name to display for current test, the scenario to test, expected
      * outcome of the test}.
-     *
-     * @return Collection<Object [ ]>
+     * 
+     * @return Collection<Object[]>
+     * @throws ScenarioNotFoundException
      */
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         List<Object[]> retList = ScenarioFinder.getInternalScenarios("fail-forMangaSysselsattningar").stream()
-            .map(u -> new Object[]{u.getName(), u, true})
-            .collect(Collectors.toList());
+                .map(u -> new Object[] { u.getName(), u, true })
+                .collect(Collectors.toList());
         retList.addAll(
-            ScenarioFinder.getInternalScenarios("pass-*").stream()
-                .map(u -> new Object[]{u.getName(), u, false})
-                .collect(Collectors.toList()));
+                ScenarioFinder.getInternalScenarios("pass-*").stream()
+                        .map(u -> new Object[] { u.getName(), u, false })
+                        .collect(Collectors.toList()));
         return retList;
     }
 
     /**
      * Perform internal and schematron validation on the supplied Scenario.
-     *
-     * @param fail Whether the test should expect validation errors or not.
+     * 
+     * @param scenario
+     * @param fail
+     *            Whether the test should expect validation errors or not.
+     * @throws Exception
      */
     private static void doInternalAndSchematronValidation(Scenario scenario, boolean fail) throws Exception {
         Ag7804UtlatandeV1 utlatandeFromJson = scenario.asInternalModel();
@@ -132,7 +141,7 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
 
         RegisterCertificateValidator validator = new RegisterCertificateValidator(Ag7804ModuleApiV1.SCHEMATRON_FILE);
         SchematronOutputType result = validator
-            .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(convertedXML.getBytes(Charsets.UTF_8))));
 
         String internalValidationErrors = getInternalValidationErrorString(internalValidationResponse);
 
@@ -142,27 +151,27 @@ public class InternalValidatorResultMatchesSchematronValidatorTest {
     }
 
     private static void doAssertions(boolean fail, ValidateDraftResponse internalValidationResponse, SchematronOutputType result,
-        String internalValidationErrors, String transportValidationErrors) {
+            String internalValidationErrors, String transportValidationErrors) {
         if (fail) {
             assertEquals(
-                String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
-                    name, transportValidationErrors, internalValidationErrors),
-                getNumberOfTransportValidationErrors(result),
-                getNumberOfInternalValidationErrors(internalValidationResponse));
+                    String.format("Scenario: %s\n Transport: %s \n Internal: %s\n Expected number of validation-errors to be the same.",
+                            name, transportValidationErrors, internalValidationErrors),
+                    getNumberOfTransportValidationErrors(result),
+                    getNumberOfInternalValidationErrors(internalValidationResponse));
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.INVALID",
-                name),
-                internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
+                    name),
+                    internalValidationResponse.getStatus().equals(ValidationStatus.INVALID));
 
             assertTrue(String.format("File: %s, Schematronvalidation, expected errors > 0",
-                name),
-                SVRLHelper.getAllFailedAssertions(result).size() > 0);
+                    name),
+                    SVRLHelper.getAllFailedAssertions(result).size() > 0);
         } else {
             assertTrue(String.format("File: %s, Internal validation, expected ValidationStatus.VALID \n Validation-errors: %s",
-                name, internalValidationErrors),
-                internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
+                    name, internalValidationErrors),
+                    internalValidationResponse.getStatus().equals(ValidationStatus.VALID));
             assertTrue(String.format("File: %s, Schematronvalidation, expected 0 errors \n Validation-errors: %s",
-                name, transportValidationErrors),
-                SVRLHelper.getAllFailedAssertions(result).size() == 0);
+                    name, transportValidationErrors),
+                    SVRLHelper.getAllFailedAssertions(result).size() == 0);
         }
     }
 

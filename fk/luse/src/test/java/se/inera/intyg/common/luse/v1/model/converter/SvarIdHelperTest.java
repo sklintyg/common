@@ -20,20 +20,19 @@ package se.inera.intyg.common.luse.v1.model.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANHORIGS_BESKRIVNING_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_ANNAT_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_JOURNALUPPGIFTER_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1;
-import static se.inera.intyg.common.fkparent.model.converter.RespConstants.GRUNDFORMEDICINSKTUNDERLAG_UNDERSOKNING_AV_PATIENT_SVAR_JSON_ID_1;
+import static se.inera.intyg.common.fkparent.model.converter.RespConstants.*;
 
 import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
-import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
+
+import se.inera.intyg.common.luse.v1.model.converter.SvarIdHelperImpl;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
+import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SvarIdHelperTest {
@@ -87,8 +86,7 @@ public class SvarIdHelperTest {
 
     @Test
     public void testCalculateFrageIdHandleForGrundForMUAll() throws ConverterException {
-        List<String> res = svarIdHelper
-            .calculateFrageIdHandleForGrundForMU(buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));
+        List<String> res = svarIdHelper.calculateFrageIdHandleForGrundForMU(buildUtlatande(INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE, INTERNAL_DATE));
         assertNotNull(res);
         assertEquals(5, res.size());
         assertEquals(GRUNDFORMEDICINSKTUNDERLAG_SVAR_JSON_ID_1, res.get(0));
@@ -99,15 +97,15 @@ public class SvarIdHelperTest {
     }
 
     private LuseUtlatandeV1 buildUtlatande(InternalDate undersokningAvPatienten, InternalDate journaluppgifter,
-        InternalDate anhorigsBeskrivningAvPatienten, InternalDate annatGrundForMU) {
+                                           InternalDate anhorigsBeskrivningAvPatienten, InternalDate annatGrundForMU) {
         return LuseUtlatandeV1.builder()
-            .setId("intygId")
-            .setGrundData(new GrundData())
-            .setTextVersion("v1.0")
-            .setUndersokningAvPatienten(undersokningAvPatienten)
-            .setJournaluppgifter(journaluppgifter)
-            .setAnhorigsBeskrivningAvPatienten(anhorigsBeskrivningAvPatienten)
-            .setAnnatGrundForMU(annatGrundForMU)
-            .build();
+                .setId("intygId")
+                .setGrundData(new GrundData())
+                .setTextVersion("v1.0")
+                .setUndersokningAvPatienten(undersokningAvPatienten)
+                .setJournaluppgifter(journaluppgifter)
+                .setAnhorigsBeskrivningAvPatienten(anhorigsBeskrivningAvPatienten)
+                .setAnnatGrundForMU(annatGrundForMU)
+                .build();
     }
 }

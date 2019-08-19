@@ -17,34 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('luae_fs', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
+angular.module('luae_fs', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize', 'common']);
 
 angular.module('luae_fs').config(function($stateProvider) {
-  'use strict';
+    'use strict';
 
-  $stateProvider.state('luae_fs-view', {
-    url: '/luae_fs/:intygTypeVersion/view/:certificateId',
-    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-    controller: 'common.ViewCertCtrl',
-    resolve: {
-      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('luae_fs.viewConfigFactory', $stateParams);
-      },
-      viewFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('luae_fs.viewFactory', $stateParams);
-      }
-    },
-    data: {
-      title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,
-      breadcrumb: ['inkorg', 'intyg']
-    }
-  });
+    $stateProvider.
+        state('luae_fs-view', {
+            url :'/luae_fs/:intygTypeVersion/view/:certificateId',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_fs.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('luae_fs.viewFactory', $stateParams);
+                }
+            },
+            data : { title: 'Läkarutlåtande för aktivitetsersättning vid förlängd skolgång', keepInboxTabActive: true,
+                breadcrumb: ['inkorg', 'intyg'] }
+        });
 });
 
 // Inject language resources
 angular.module('luae_fs').run(['common.messageService', 'luae_fs.messages',
-  function(messageService, luaeFsMessages) {
-    'use strict';
+    function(messageService, luaeFsMessages) {
+        'use strict';
 
-    messageService.addResources(luaeFsMessages);
-  }]);
+        messageService.addResources(luaeFsMessages);
+    }]);

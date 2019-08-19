@@ -1,9 +1,9 @@
 <div>
   <div ng-show="fmbAvailable">
     <div class="fmb">
-      <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="toggleFMB()">FMB
-        <i class="glyphicon fmb-glyphicon"
-           ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
+      <button id="{{relatedFormId}}-fmb-button" type="button" class="btn btn-default btn-fmb" ng-click="toggleFMB()">FMB <i
+          class="glyphicon fmb-glyphicon"
+          ng-class="{'glyphicon-minus-sign': status.open, 'glyphicon-plus-sign': !status.open}"></i>
       </button>
       <div class="panel-wrapper-fmb" ng-show="status.open" ng-class="{'fmb-collapse': !status.open}">
         <div class="panel-arrow"></div>
@@ -12,8 +12,7 @@
                       ng-class="{'hide-tabs': (fmbViewState.diagnoses | keyLength) < 2}">
             <uib-tab index="$index + 1" ng-repeat="fmb in fmbViewState.diagnoses" heading="{{fmb.diagnosKod}}"
                      disable="false" select="selectDiagnos($index)">
-              <wc-fmb-content related-form-id="relatedFormId" fmb="fmb" status="status"
-                              field-name="fieldName"></wc-fmb-content>
+              <wc-fmb-content related-form-id="relatedFormId" fmb="fmb" status="status" field-name="fieldName"></wc-fmb-content>
             </uib-tab>
           </uib-tabset>
         </div>

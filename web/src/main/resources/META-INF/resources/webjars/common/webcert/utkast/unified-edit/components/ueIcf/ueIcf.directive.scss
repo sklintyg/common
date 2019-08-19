@@ -26,7 +26,6 @@ ue-icf {
           color: $wc-color-09;
         }
       }
-
       &.disabled .bluetext {
         color: $wc-color-09;
       }
@@ -55,7 +54,6 @@ ue-icf {
           padding: 10px;
         }
       }
-
       .kategori-content {
         height: 300px;
         overflow: auto;
@@ -64,9 +62,8 @@ ue-icf {
         /* Behövs för att bottom padding ska fungera i IE */
         .kategori-content-padding {
           padding: 10px 20px 10px 20px;
-
           > div {
-            padding-bottom: 20px;
+              padding-bottom: 20px;
           }
         }
 
@@ -89,7 +86,6 @@ ue-icf {
           padding-bottom: 5px;
           color: $wc-color-07;
           border-bottom: 1px solid $wc-color-22;
-
           i {
             color: $wc-color-21;
           }
@@ -154,7 +150,6 @@ ue-icf {
           &:first-child {
             margin-left: 10px;
           }
-
           height: 38px;
           margin: 10px 10px 0 0;
           flex: 0 0 auto;

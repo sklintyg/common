@@ -17,121 +17,121 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('tstrk1009').factory('tstrk1009.viewConfigFactory.v1', [
-  '$filter', 'uvUtil',
-  function($filter, uvUtil) {
-    'use strict';
+    '$filter', 'uvUtil',
+    function($filter, uvUtil) {
+        'use strict';
 
-    var viewConfig = [
-      {
-        type: 'uv-kategori',
-        labelKey: 'KAT_1.RBK',
-        components: [{
-          type: 'uv-fraga',
-          labelKey: 'FRG_2.RBK',
-          components: [{
-            type: 'uv-kodverk-value',
-            kvModelProps: ['identitetStyrktGenom.typ'],
-            kvLabelKeys: ['IDENTITET_{var}.RBK']
-          }]
-        }]
-      },
-      {
-        type: 'uv-kategori',
-        labelKey: 'KAT_2.RBK',
-        components: [{
-          type: 'uv-fraga',
-          labelKey: 'FRG_46.RBK',
-          components: [{
-            type: 'uv-del-fraga',
-            components: [{
-              type: 'uv-kodverk-value',
-              kvModelProps: ['anmalanAvser.typ'],
-              kvLabelKeys: ['KV_SVAR_OLAMPLIGHET.{var}.RBK']
-            }]
-          }]
-        }]
-      },
-      {
-        type: 'uv-kategori',
-        labelKey: 'KAT_3.RBK',
-        components: [
-          {
-            type: 'uv-fraga',
-            labelKey: 'FRG_47.RBK',
-            components: [
-              {
-                type: 'uv-simple-value',
-                modelProp: 'medicinskaForhallanden'
-              }
-            ]
-          },
-          {
-            type: 'uv-fraga',
-            labelKey: 'FRG_48.RBK',
-            components: [
-              {
-                type: 'uv-simple-value',
-                modelProp: 'senasteUndersokningsdatum'
-              }
-            ]
-          }]
-      },
-      {
-        type: 'uv-kategori',
-        labelKey: 'KAT_4.RBK',
-        components: [
-          {
-            type: 'uv-fraga',
-            labelKey: 'FRG_1.RBK',
-            components: [
-              {
-                type: 'uv-list',
-                labelKey: 'SVAR_{var}.RBK',
-                listKey: function(model) {
-                  return model.selected ? model.type : null;
-                },
-                separator: ', ',
-                modelProp: 'intygetAvserBehorigheter.typer'
-              }
-            ]
-          }
+        var viewConfig = [
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_1.RBK',
+                components: [{
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_2.RBK',
+                    components: [{
+                        type: 'uv-kodverk-value',
+                        kvModelProps: ['identitetStyrktGenom.typ'],
+                        kvLabelKeys: ['IDENTITET_{var}.RBK']
+                    }]
+                }]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_2.RBK',
+                components: [{
+                    type: 'uv-fraga',
+                    labelKey: 'FRG_46.RBK',
+                    components: [{
+                        type: 'uv-del-fraga',
+                        components: [{
+                            type: 'uv-kodverk-value',
+                            kvModelProps: ['anmalanAvser.typ'],
+                            kvLabelKeys: ['KV_SVAR_OLAMPLIGHET.{var}.RBK']
+                        }]
+                    }]
+                }]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_3.RBK',
+                components: [
+                    {
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_47.RBK',
+                        components: [
+                            {
+                                type: 'uv-simple-value',
+                                modelProp: 'medicinskaForhallanden'
+                            }
+                        ]
+                    },
+                    {
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_48.RBK',
+                        components: [
+                            {
+                                type: 'uv-simple-value',
+                                modelProp: 'senasteUndersokningsdatum'
+                            }
+                        ]
+                    }]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_4.RBK',
+                components: [
+                    {
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_1.RBK',
+                        components: [
+                            {
+                                type: 'uv-list',
+                                labelKey: 'SVAR_{var}.RBK',
+                                listKey: function(model) {
+                                    return model.selected ? model.type : null;
+                                },
+                                separator: ', ',
+                                modelProp: 'intygetAvserBehorigheter.typer'
+                            }
+                        ]
+                    }
 
-        ]
-      },
-      {
-        type: 'uv-kategori',
-        labelKey: 'KAT_5.RBK',
-        components: [
-          {
-            type: 'uv-fraga',
-            labelKey: 'FRG_49.RBK',
-            components: [{
-              type: 'uv-del-fraga',
-              components: [
-                {
-                  type: 'uv-boolean-statement',
-                  modelProp: 'informationOmTsBeslutOnskas'
+                ]
+            },
+            {
+                type: 'uv-kategori',
+                labelKey: 'KAT_5.RBK',
+                components: [
+                    {
+                        type: 'uv-fraga',
+                        labelKey: 'FRG_49.RBK',
+                        components: [{
+                            type: 'uv-del-fraga',
+                            components: [
+                                {
+                                    type: 'uv-boolean-statement',
+                                    modelProp: 'informationOmTsBeslutOnskas'
+                                }
+                            ]
+                        }]
+                    }
+                ]
+            },
+            {
+                type: 'uv-skapad-av',
+                modelProp: 'grundData.skapadAv'
+            }
+        ];
+
+        return {
+            getViewConfig: function(webcert) {
+                var config = angular.copy(viewConfig);
+
+                if (webcert) {
+                    config = uvUtil.convertToWebcert(config, true);
                 }
-              ]
-            }]
-          }
-        ]
-      },
-      {
-        type: 'uv-skapad-av',
-        modelProp: 'grundData.skapadAv'
-      }
-    ];
 
-    return {
-      getViewConfig: function(webcert) {
-        var config = angular.copy(viewConfig);
-
-        if (webcert) {
-          config = uvUtil.convertToWebcert(config, true);
-        }
-
-        return config;
-      }
-    };
-  }]);
+                return config;
+            }
+        };
+    }]);

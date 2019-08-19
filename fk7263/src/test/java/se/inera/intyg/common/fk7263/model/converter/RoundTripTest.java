@@ -18,19 +18,10 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertFalse;
-
 import com.fasterxml.jackson.databind.JsonNode;
-import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -41,6 +32,7 @@ import org.skyscreamer.jsonassert.JSONCompareResult;
 import org.skyscreamer.jsonassert.comparator.DefaultComparator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
+import org.w3c.dom.Node;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.DefaultNodeMatcher;
@@ -58,6 +50,18 @@ import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.Regi
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.DatePeriodType;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.PartialDateType;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 @RunWith(Parameterized.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class RoundTripTest {
@@ -70,16 +74,14 @@ public class RoundTripTest {
     private static Marshaller marshaller;
 
     private static final List<String> IGNORED_JSON_PROPERTIES = Arrays.asList("arbetsformagaPrognosGarInteAttBedomaBeskrivning",
-        "annanReferensBeskrivning", "diagnosBeskrivning", "diagnosBeskrivning1", "diagnosBeskrivning2", "diagnosBeskrivning3",
-        "diagnosKod2",
-        "diagnosKod3", "samsjuklighet");
+            "annanReferensBeskrivning", "diagnosBeskrivning", "diagnosBeskrivning1", "diagnosBeskrivning2", "diagnosBeskrivning3", "diagnosKod2",
+            "diagnosKod3", "samsjuklighet");
 
     static {
         try {
             marshaller = JAXBContext
-                .newInstance(RegisterMedicalCertificateType.class, RegisterCertificateType.class, DatePeriodType.class,
-                    PartialDateType.class)
-                .createMarshaller();
+                    .newInstance(RegisterMedicalCertificateType.class, RegisterCertificateType.class, DatePeriodType.class, PartialDateType.class)
+                    .createMarshaller();
         } catch (JAXBException e) {
         }
     }
@@ -95,8 +97,8 @@ public class RoundTripTest {
     @Parameters(name = "{index}: Scenario: {0}")
     public static Collection<Object[]> data() throws ScenarioNotFoundException {
         return ScenarioFinder.getInternalScenarios("valid-*").stream()
-            .map(u -> new Object[]{u.getName(), u})
-            .collect(Collectors.toList());
+                .map(u -> new Object[] { u.getName(), u })
+                .collect(Collectors.toList());
     }
 
     @Test
@@ -109,13 +111,13 @@ public class RoundTripTest {
         marshaller.marshal(objectFactory.createRegisterMedicalCertificate(transport), actual);
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actual.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actual.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
 
         JsonNode tree = objectMapper.valueToTree(TransportToInternal.convert(transport.getLakarutlatande()));
@@ -135,13 +137,13 @@ public class RoundTripTest {
         marshaller.marshal(rivtav3ObjectFactory.createRegisterCertificate(actual), actualSw);
 
         Diff diff = DiffBuilder
-            .compare(Input.fromString(expected.toString()))
-            .withTest(Input.fromString(actualSw.toString()))
-            .ignoreComments()
-            .ignoreWhitespace()
-            .checkForSimilar()
-            .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-            .build();
+                .compare(Input.fromString(expected.toString()))
+                .withTest(Input.fromString(actualSw.toString()))
+                .ignoreComments()
+                .ignoreWhitespace()
+                .checkForSimilar()
+                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                .build();
         assertFalse(name + " " + diff.toString(), diff.hasDifferences());
     }
 
@@ -153,7 +155,7 @@ public class RoundTripTest {
 
         @Override
         public void checkJsonObjectKeysExpectedInActual(String prefix, JSONObject expected, JSONObject actual, JSONCompareResult result)
-            throws JSONException {
+                throws JSONException {
             if (!IGNORED_JSON_PROPERTIES.stream().anyMatch(p -> expected.has(p))) {
                 super.checkJsonObjectKeysExpectedInActual(prefix, expected, actual, result);
             }

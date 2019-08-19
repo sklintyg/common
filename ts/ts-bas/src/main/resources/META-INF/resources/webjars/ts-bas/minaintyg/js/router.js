@@ -20,22 +20,21 @@
  * Created by stephenwhite on 05/03/15.
  */
 angular.module('ts-bas').config(function($stateProvider) {
-  'use strict';
-  $stateProvider.state('ts-bas-view', {
-    url: '/ts-bas/:intygTypeVersion/view/:certificateId',
-    templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
-    controller: 'common.ViewCertCtrl',
-    resolve: {
-      viewConfigFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
-      },
-      viewFactory: function(factoryResolverHelper, $stateParams) {
-        return factoryResolverHelper.resolve('ts-bas.viewFactory', $stateParams);
-      }
-    },
-    data: {
-      title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
-      breadcrumb: ['inkorg', 'intyg']
-    }
-  });
+    'use strict';
+    $stateProvider.
+        state('ts-bas-view', {
+            url :'/ts-bas/:intygTypeVersion/view/:certificateId',
+            templateUrl: '/web/webjars/common/minaintyg/intyg/viewCert.html',
+            controller: 'common.ViewCertCtrl',
+            resolve: {
+                viewConfigFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-bas.viewConfigFactory', $stateParams);
+                },
+                viewFactory: function(factoryResolverHelper, $stateParams) {
+                    return factoryResolverHelper.resolve('ts-bas.viewFactory', $stateParams);
+                }
+            },
+            data:{title: 'Läkarintyg Transportstyrelsen Bas', keepInboxTabActive: true,
+            breadcrumb: ['inkorg', 'intyg']}
+        });
 });

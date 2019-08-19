@@ -25,14 +25,17 @@ import static org.junit.Assert.assertNull;
 import static se.inera.intyg.common.support.modules.converter.TransportConverterUtil.getCVSvarContent;
 import static se.inera.intyg.common.tstrk1009.v1.model.converter.RespConstants.INTYGET_AVSER_BEHORIGHET_DELSVAR_ID;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.inera.intyg.common.support.common.enumerations.RelationKod;
 import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
 import se.inera.intyg.common.support.model.common.internal.Relation;
@@ -74,8 +77,7 @@ public class InternalToTransportTest {
         return getUtlatande(null, null, null);
     }
 
-    public static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId)
-        throws Exception {
+    public static Tstrk1009UtlatandeV1 getUtlatande(RelationKod relationKod, String relationMeddelandeId, String referensId) throws Exception {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-max").asInternalModel();
         utlatande.getGrundData().setSkapadAv(buildHosPersonal());
 
@@ -103,8 +105,8 @@ public class InternalToTransportTest {
     @Test
     public void testInternalToTransportSourceNullShouldThrow() {
         assertThatThrownBy(() -> InternalToTransport.convert(null))
-            .isExactlyInstanceOf(ConverterException.class)
-            .hasMessage("Source utlatande was null, cannot convert");
+                .isExactlyInstanceOf(ConverterException.class)
+                .hasMessage("Source utlatande was null, cannot convert");
     }
 
     @Test
@@ -178,16 +180,16 @@ public class InternalToTransportTest {
         Tstrk1009UtlatandeV1 utlatande = ScenarioFinder.getInternalScenario("valid-min").asInternalModel();
         RegisterCertificateType res = InternalToTransport.convert(utlatande);
         final Svar.Delsvar taxiDelsvar = res.getIntyg().getSvar().stream()
-            .flatMap(svar -> svar.getDelsvar().stream())
-            .filter(delsvar -> {
-                try {
-                    return delsvar.getId().equals(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID)
-                        && getCVSvarContent(delsvar).getCode().equals(Korkortsbehorighet.TAXI.getCode());
-                } catch (ConverterException e) {
-                    throw new RuntimeException(e);
-                }
-            })
-            .findAny().orElse(null);
+                .flatMap(svar -> svar.getDelsvar().stream())
+                .filter(delsvar -> {
+                    try {
+                        return delsvar.getId().equals(INTYGET_AVSER_BEHORIGHET_DELSVAR_ID)
+                                && getCVSvarContent(delsvar).getCode().equals(Korkortsbehorighet.TAXI.getCode());
+                    } catch (ConverterException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .findAny().orElse(null);
         assertNotNull(taxiDelsvar);
         assertEquals(Korkortsbehorighet.TAXI.getValue(), getCVSvarContent(taxiDelsvar).getDisplayName());
     }

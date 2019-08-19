@@ -17,88 +17,88 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.receiverService', [
-  '$q', '$log', '$uibModal', 'common.ReceiversProxy',
-  function($q, $log, $uibModal, ReceiversProxy) {
-    'use strict';
-    var modalInstance;
-    var state = {
-      intygtyp: undefined,
-      intygid: undefined,
-      possibleReceivers: [],
-      approvedReceivers: [],
-      showApproveDialog: false
-    };
+    '$q', '$log', '$uibModal', 'common.ReceiversProxy',
+    function($q, $log, $uibModal, ReceiversProxy) {
+        'use strict';
+        var modalInstance;
+        var state = {
+            intygtyp: undefined,
+            intygid: undefined,
+            possibleReceivers: [],
+            approvedReceivers: [],
+            showApproveDialog: false
+        };
 
-    this.reset = function() {
-      state.intygtyp = undefined;
-      state.intygid = undefined;
-      state.possibleReceivers = [];
-      state.approvedReceivers = [];
-      state.showApproveDialog = false;
-    };
+        this.reset = function() {
+            state.intygtyp = undefined;
+            state.intygid = undefined;
+            state.possibleReceivers = [];
+            state.approvedReceivers = [];
+            state.showApproveDialog = false;
+        };
 
-    this.updatePossibleReceivers = function(intygtyp) {
-      this.reset();
-      state.intygtyp = intygtyp;
-      ReceiversProxy.getPossibleReceivers(intygtyp, function success(response) {
-        state.possibleReceivers = response;
-      }, function err(data) {
-        //cant do much here - let possible receivers be empty
-      });
-    };
+        this.updatePossibleReceivers = function(intygtyp) {
+            this.reset();
+            state.intygtyp = intygtyp;
+            ReceiversProxy.getPossibleReceivers(intygtyp, function success(response) {
+                state.possibleReceivers = response;
+            }, function err(data) {
+                //cant do much here - let possible receivers be empty
+            });
+        };
 
-    this.getApprovedReceivers = function(intygtyp, intygid, useCache) {
-      var deferred = $q.defer();
+        this.getApprovedReceivers = function(intygtyp, intygid, useCache) {
+            var deferred = $q.defer();
 
-      if (useCache && intygid === state.intygid) {
-        $log.debug('returning cached approvedList');
-        deferred.resolve(state.approvedReceivers);
-        return deferred.promise;
-      }
+            if (useCache && intygid === state.intygid) {
+                $log.debug('returning cached approvedList');
+                deferred.resolve(state.approvedReceivers);
+                return deferred.promise;
+            }
 
-      this.reset();
-      state.intygtyp = intygtyp;
-      state.intygid = intygid;
+            this.reset();
+            state.intygtyp = intygtyp;
+            state.intygid = intygid;
 
-      ReceiversProxy.getApprovedReceivers(intygtyp, intygid).then(
-          function success(response) {
-            //keep internal state for caching
-            state.approvedReceivers = response.data;
-            deferred.resolve(response.data);
-          }, function err(data) {
-            deferred.reject(false);
-          });
-      return deferred.promise;
-    };
 
-    this.getData = function() {
-      return state;
-    };
+            ReceiversProxy.getApprovedReceivers(intygtyp, intygid).then(
+                function success(response) {
+                    //keep internal state for caching
+                    state.approvedReceivers = response.data;
+                    deferred.resolve(response.data);
+            }, function err(data) {
+                deferred.reject(false);
+            });
+            return deferred.promise;
+        };
 
-    this.openConfigDialogForIntyg = function(intygtyp, intygid, canCancel) {
+        this.getData = function() {
+            return state;
+        };
 
-      modalInstance = $uibModal.open({
-        templateUrl: '/web/webjars/common/webcert/components/receiver/approveReceiversDialog.template.html',
-        animation: canCancel,
-        backdrop: canCancel ? true : 'static',
-        keyboard: canCancel,
-        size: 'md',
-        controller: 'approveReceiversDialogController',
-        resolve: {
-          dlgConfig: function() {
-            return {
-              intygtyp: intygtyp,
-              intygid: intygid,
-              canCancel: canCancel
-            };
-          }
-        }
-      });
-      //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
-      modalInstance.result.catch(function() { //jshint ignore:line
-      });
+        this.openConfigDialogForIntyg = function(intygtyp, intygid, canCancel) {
 
-    };
+            modalInstance = $uibModal.open({
+                templateUrl: '/web/webjars/common/webcert/components/receiver/approveReceiversDialog.template.html',
+                animation: canCancel,
+                backdrop: canCancel ? true : 'static',
+                keyboard: canCancel,
+                size: 'md',
+                controller: 'approveReceiversDialogController',
+                resolve: {
+                    dlgConfig: function() {
+                        return {
+                            intygtyp: intygtyp,
+                            intygid: intygid,
+                            canCancel: canCancel
+                        };
+                    }
+                }
+            });
+            //angular > 1.5 warns if promise rejection is not handled (e.g backdrop-click == rejection)
+            modalInstance.result.catch(function () {}); //jshint ignore:line
 
-    this.reset();
-  }]);
+        };
+
+        this.reset();
+} ]);

@@ -18,11 +18,12 @@
  */
 package se.inera.intyg.common.af_parent.support;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepository;
 import se.inera.intyg.common.support.modules.support.ModuleEntryPoint;
+
+import java.util.Optional;
 
 /**
  * Base implementation of common AF intyg entrypoint.

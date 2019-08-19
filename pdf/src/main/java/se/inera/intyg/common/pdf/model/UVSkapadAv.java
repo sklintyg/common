@@ -18,20 +18,21 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.itextpdf.kernel.pdf.canvas.draw.SolidLine;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.LineSeparator;
 import com.itextpdf.layout.element.Paragraph;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 import se.inera.intyg.common.support.services.BefattningService;
+
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders a uv-skapad-av component.
@@ -59,34 +60,34 @@ public class UVSkapadAv extends UVComponent {
 
         if (!isUtkast) {
             parent.add(new Paragraph("Intygsutfärdare:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+                    .setMarginBottom(0f)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
             parent.add(new Paragraph(intygsUtfardare.toString())
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+                    .setMarginTop(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
         }
 
         parent.add(new Paragraph("Kontaktuppgifter:")
-            .setMarginBottom(0f)
-            .setFont(renderer.fragaDelFragaFont)
-            .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+                .setMarginBottom(0f)
+                .setFont(renderer.fragaDelFragaFont)
+                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
         parent.add(new Paragraph(kontaktUppgifter.toString())
-            .setMarginTop(0f)
-            .setFont(renderer.svarFont)
-            .setFontSize(SVAR_FONT_SIZE));
+                .setMarginTop(0f)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE));
 
         // Endast ut om det är ett signerat intyg.
         if (!isUtkast) {
             parent.add(new Paragraph("Intyget signerades:")
-                .setMarginBottom(0f)
-                .setFont(renderer.fragaDelFragaFont)
-                .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
+                    .setMarginBottom(0f)
+                    .setFont(renderer.fragaDelFragaFont)
+                    .setFontSize(FRAGA_DELFRAGA_FONT_SIZE));
             parent.add(new Paragraph(signaturDatum)
-                .setMarginTop(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+                    .setMarginTop(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
         }
         if (showSignatureLine) {
             // CHECKSTYLE:OFF MagicNumber
@@ -99,10 +100,10 @@ public class UVSkapadAv extends UVComponent {
             parent.add(lineDiv);
 
             parent.add(new Paragraph("Intygsutfärdarens underskrift")
-                .setMarginTop(5f)
-                .setMarginBottom(0f)
-                .setFont(renderer.svarFont)
-                .setFontSize(SVAR_FONT_SIZE));
+                    .setMarginTop(5f)
+                    .setMarginBottom(0f)
+                    .setFont(renderer.svarFont)
+                    .setFontSize(SVAR_FONT_SIZE));
             // CHECKSTYLE:ON MagicNumber
         }
 
@@ -126,8 +127,8 @@ public class UVSkapadAv extends UVComponent {
         List<String> befattningar = fromStringArray(renderer.evalValueFromModel(modelProp + ".befattningar"));
         if (befattningar.size() > 0) {
             intygsUtfardare.append(befattningar.stream()
-                .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
-                .collect(Collectors.joining(", "))).append("\n");
+                    .map(befattningsKod -> BefattningService.getDescriptionFromCode(befattningsKod).orElse(befattningsKod))
+                    .collect(Collectors.joining(", "))).append("\n");
         }
 
         // Specialistkompetenser
@@ -146,19 +147,19 @@ public class UVSkapadAv extends UVComponent {
         Object eval = renderer.evalValueFromModel(modelProp + ".vardenhet.enhetsnamn");
         if (eval != null) {
             kontaktUppgifter.append(eval.toString())
-                .append("\n");
+                    .append("\n");
         }
 
         eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postadress");
         if (eval != null) {
             kontaktUppgifter.append(eval.toString())
-                .append("\n");
+                    .append("\n");
         }
 
         eval = renderer.evalValueFromModel(modelProp + ".vardenhet.postnummer");
         if (eval != null) {
             kontaktUppgifter.append(eval.toString())
-                .append(" ");
+                    .append(" ");
             Object evalPostort = renderer.evalValueFromModel(modelProp + ".vardenhet.postort");
             if (evalPostort != null) {
                 kontaktUppgifter.append(evalPostort.toString());
@@ -169,7 +170,7 @@ public class UVSkapadAv extends UVComponent {
         eval = renderer.evalValueFromModel(modelProp + ".vardenhet.telefonnummer");
         if (eval != null) {
             kontaktUppgifter.append(eval.toString())
-                .append("\n");
+                    .append("\n");
         }
 
         return kontaktUppgifter;

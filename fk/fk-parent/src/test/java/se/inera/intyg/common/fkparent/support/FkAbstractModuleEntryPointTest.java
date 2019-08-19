@@ -24,10 +24,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.collect.ImmutableMap;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.TreeMap;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +35,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.google.common.collect.ImmutableMap;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
 
@@ -63,7 +66,7 @@ public class FkAbstractModuleEntryPointTest {
         final String detailedText = "detailed text";
         when(repo.getLatestVersion(MODULE_ID)).thenReturn(version);
         IntygTexts texts = new IntygTexts(version, MODULE_ID, LocalDate.now().minusDays(1), null,
-            new TreeMap<>(ImmutableMap.of(FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY, detailedText)), null, null);
+                new TreeMap<>(ImmutableMap.of(FkAbstractModuleEntryPoint.DETAILED_DESCRIPTION_TEXT_KEY, detailedText)), null, null);
         when(repo.getTexts(MODULE_ID, version)).thenReturn(texts);
 
         String res = entryPoint.getDetailedModuleDescription();

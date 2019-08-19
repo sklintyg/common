@@ -18,13 +18,8 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -40,6 +35,10 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHold
 import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolder;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 public class WebcertModelFactoryTest {
 

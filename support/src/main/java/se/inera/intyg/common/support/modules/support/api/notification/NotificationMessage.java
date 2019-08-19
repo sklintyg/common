@@ -18,12 +18,14 @@
  */
 package se.inera.intyg.common.support.modules.support.api.notification;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import se.inera.intyg.common.support.common.enumerations.HandelsekodEnum;
 import se.riv.clinicalprocess.healthcond.certificate.types.v3.Amneskod;
+
+import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class NotificationMessage {
 
@@ -65,18 +67,18 @@ public class NotificationMessage {
 
     // CHECKSTYLE:OFF ParameterNumber
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-        ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
+                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+                               ArendeCount mottagnaFragor, SchemaVersion version, String reference) {
 
         this(intygsId, intygsTyp, handelseTid, handelse,
-            logiskAdress, utkastJson, fragaSvar, skickadeFragor,
-            mottagnaFragor, version, reference, null, null);
+                logiskAdress, utkastJson, fragaSvar, skickadeFragor,
+                mottagnaFragor, version, reference, null, null);
     }
 
     public NotificationMessage(String intygsId, String intygsTyp, LocalDateTime handelseTid, HandelsekodEnum handelse,
-        String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
-        ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
-        LocalDate sistaSvarsDatum) {
+                               String logiskAdress, String utkastJson, FragorOchSvar fragaSvar, ArendeCount skickadeFragor,
+                               ArendeCount mottagnaFragor, SchemaVersion version, String reference, Amneskod amne,
+                               LocalDate sistaSvarsDatum) {
 
         super();
         this.intygsId = intygsId;
@@ -98,16 +100,16 @@ public class NotificationMessage {
     @Override
     public String toString() {
         return "NotificationMessage{"
-            + "intygsId='" + intygsId + '\''
-            + ", intygsTyp='" + intygsTyp + '\''
-            + ", logiskAdress='" + logiskAdress + '\''
-            + ", handelseTid=" + handelseTid
-            + ", handelse=" + handelse
-            + ", version=" + version
-            + ", reference='" + reference + '\''
-            + ", amne=" + amne
-            + ", sistaSvarsDatum=" + sistaSvarsDatum
-            + '}';
+                + "intygsId='" + intygsId + '\''
+                + ", intygsTyp='" + intygsTyp + '\''
+                + ", logiskAdress='" + logiskAdress + '\''
+                + ", handelseTid=" + handelseTid
+                + ", handelse=" + handelse
+                + ", version=" + version
+                + ", reference='" + reference + '\''
+                + ", amne=" + amne
+                + ", sistaSvarsDatum=" + sistaSvarsDatum
+                + '}';
     }
 
     public String getIntygsId() {

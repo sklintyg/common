@@ -18,46 +18,46 @@
  */
 
 describe('uvAlertValue Directive', function() {
-  'use strict';
+    'use strict';
 
-  var $scope;
-  var element;
+    var $scope;
+    var element;
 
-  beforeEach(angular.mock.module('htmlTemplates'));
-  beforeEach(angular.mock.module('common'));
+    beforeEach(angular.mock.module('htmlTemplates'));
+    beforeEach(angular.mock.module('common'));
 
-  beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
-    $scope = $rootScope.$new();
+    beforeEach(angular.mock.inject(['$compile', '$rootScope', function($compile, $rootScope) {
+        $scope = $rootScope.$new();
 
-    element = $compile(
-        '<wc-alert-message alert-id="CONTROL_ID" alert-severity="warning" alert-message-id="label.test"></wc-alert-message>'
-    )($scope);
+        element = $compile(
+            '<wc-alert-message alert-id="CONTROL_ID" alert-severity="warning" alert-message-id="label.test"></wc-alert-message>'
+        )($scope);
 
-  }]));
+    }]));
 
-  /*
-  TO BE CONTINUED IN 2018
-      xit('should display message by default', function() {
-          $scope.$digest();
-          expect(true).toBe(true);
-      });
-  
-      xit('should not display message if showexpression returns false', function() {
-          var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
-          $scope.configMock.showExpression = fakeExpression;
-          $scope.$digest();
-  
-          expect(fakeExpression).toHaveBeenCalled();
-          expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(0);
-      });
-  
-      xit('should display message if showexpression returns true', function() {
-          var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
-          $scope.configMock.showExpression = fakeExpression;
-          $scope.$digest();
-  
-          expect(fakeExpression).toHaveBeenCalled();
-          expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
-      });
-  */
+/*
+TO BE CONTINUED IN 2018
+    xit('should display message by default', function() {
+        $scope.$digest();
+        expect(true).toBe(true);
+    });
+
+    xit('should not display message if showexpression returns false', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(false);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
+
+        expect(fakeExpression).toHaveBeenCalled();
+        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(0);
+    });
+
+    xit('should display message if showexpression returns true', function() {
+        var fakeExpression = jasmine.createSpy('fakeexpression').and.returnValue(true);
+        $scope.configMock.showExpression = fakeExpression;
+        $scope.$digest();
+
+        expect(fakeExpression).toHaveBeenCalled();
+        expect($(element).find('#uv-alert-value-FRG-1-RBK').length).toBe(1);
+    });
+*/
 });

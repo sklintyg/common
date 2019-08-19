@@ -26,17 +26,19 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.fkparent.model.internal.Diagnos;
+import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.luae_fs.v1.model.internal.LuaefsUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.Tillaggsfraga;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.services.BefattningService;
 import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
@@ -70,8 +72,8 @@ public class TransportToInternalTest {
         utlatande.setUnderlag(buildUnderlag());
 
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
-            Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
+                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm"),
+                Diagnos.create("S49", "ICD_10_SE", "Klämskada hand", "Klämskada hand")));
 
         utlatande.setFunktionsnedsattningDebut("Debut 1");
         utlatande.setFunktionsnedsattningPaverkan("Påverkan 1");

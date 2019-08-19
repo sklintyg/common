@@ -18,25 +18,11 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.google.common.io.Resources;
 import com.helger.schematron.svrl.SVRLFailedAssert;
 import com.helger.schematron.svrl.SVRLHelper;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.xml.transform.stream.StreamSource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
@@ -60,14 +46,26 @@ import se.inera.intyg.common.support.stub.IntygTestDataBuilder;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.junit.Assert.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
 public class InternalToTransportTest {
 
     private static URL getResource(String href) {
         return Thread.currentThread()
-            .getContextClassLoader()
-            .getResource(href);
+                     .getContextClassLoader()
+                     .getResource(href);
     }
 
     public static AF00251UtlatandeV1.Builder getUtlatande() {
@@ -91,38 +89,39 @@ public class InternalToTransportTest {
         }
         utlatande.setGrundData(grundData);
 
+
         utlatande.setUndersokningsDatum(new InternalDate(LocalDate.now()));
 
         utlatande.setArbetsmarknadspolitisktProgram(ArbetsmarknadspolitisktProgram.builder()
-            .setMedicinskBedomning("Arbetsprov")
-            .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
-            .setOmfattningDeltid(4)
-            .build());
+                                                                                  .setMedicinskBedomning("Arbetsprov")
+                                                                                  .setOmfattning(ArbetsmarknadspolitisktProgram.Omfattning.DELTID)
+                                                                                  .setOmfattningDeltid(4)
+                                                                                  .build());
         utlatande.setFunktionsnedsattning("Funktionsnedsättning");
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
         utlatande.setHarForhinder(true);
 
         utlatande.setSjukfranvaro(Lists.newArrayList(
             Sjukfranvaro.builder()
-                .setChecked(true)
-                .setNiva(4)
-                .setPeriod(new InternalLocalDateInterval(
-                    new InternalDate(LocalDate.now()),
-                    new InternalDate(LocalDate.now()
-                        .plusDays(5))))
-                .build()));
+                        .setChecked(true)
+                        .setNiva(4)
+                        .setPeriod(new InternalLocalDateInterval(
+                            new InternalDate(LocalDate.now()),
+                            new InternalDate(LocalDate.now()
+                                                      .plusDays(5))))
+                        .build()));
 
         utlatande.setBegransningSjukfranvaro(
             BegransningSjukfranvaro.builder()
-                .setKanBegransas(true)
-                .setBeskrivning("Använd hjälpmedel")
-                .build());
+                                   .setKanBegransas(true)
+                                   .setBeskrivning("Använd hjälpmedel")
+                                   .build());
 
         utlatande.setPrognosAtergang(
             PrognosAtergang.builder()
-                .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
-                .setAnpassningar("Jobba halvtid")
-                .build());
+                           .setPrognos(PrognosAtergang.Prognos.EJ_MOJLIGT_AVGORA)
+                           .setAnpassningar("Jobba halvtid")
+                           .build());
 
         return utlatande;
     }
@@ -167,9 +166,9 @@ public class InternalToTransportTest {
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa()
-            .getMeddelandeId());
+                                            .getMeddelandeId());
         assertEquals(referensId, transport.getSvarPa()
-            .getReferensId());
+                                          .getReferensId());
     }
 
     @Test
@@ -179,9 +178,9 @@ public class InternalToTransportTest {
         RegisterCertificateType transport = InternalToTransport.convert(utlatande);
         assertNotNull(transport.getSvarPa());
         assertEquals(meddelandeId, transport.getSvarPa()
-            .getMeddelandeId());
+                                            .getMeddelandeId());
         assertNull(transport.getSvarPa()
-            .getReferensId());
+                            .getReferensId());
     }
 
     @Test

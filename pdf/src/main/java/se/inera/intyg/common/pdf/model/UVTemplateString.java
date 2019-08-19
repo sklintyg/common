@@ -18,10 +18,12 @@
  */
 package se.inera.intyg.common.pdf.model;
 
-import com.itextpdf.layout.element.Div;
-import com.itextpdf.layout.element.Paragraph;
 import java.util.List;
 import java.util.stream.Stream;
+
+import com.itextpdf.layout.element.Div;
+import com.itextpdf.layout.element.Paragraph;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
@@ -46,14 +48,14 @@ public class UVTemplateString extends UVComponent {
 
         if (variables.size() > 0 && template != null) {
             final Object[] values = variables.stream()
-                .map(it -> renderer.evalValueFromModel(modelProp + "." + it))
-                .toArray();
+                    .map(it -> renderer.evalValueFromModel(modelProp + "." + it))
+                    .toArray();
 
             boolean hasAtleastOneValue = Stream.of(values).anyMatch(value -> value != null);
             if (hasAtleastOneValue) {
                 final Object[] resolvedValues = Stream.of(values)
-                    .map(value -> (value != null) ? value.toString() : EJ_ANGIVET_STR)
-                    .toArray();
+                        .map(value -> (value != null) ? value.toString() : EJ_ANGIVET_STR)
+                        .toArray();
 
                 String replaced = template.replaceAll("\\{\\d}", "%s");
                 outputText.append(String.format(replaced, resolvedValues));
@@ -66,13 +68,13 @@ public class UVTemplateString extends UVComponent {
         }
 
         parent.add(new Paragraph(outputText.toString()).setItalic()
-            .setMarginBottom(0f)
-            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-            .setFont(renderer.svarFont)
-            .setFontSize(SVAR_FONT_SIZE)
-            .setPadding(0f).setMarginTop(0f)
-            .setKeepTogether(false));
+                .setMarginBottom(0f)
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.svarFont)
+                .setFontSize(SVAR_FONT_SIZE)
+                .setPadding(0f).setMarginTop(0f)
+                .setKeepTogether(false));
 
         return true;
     }

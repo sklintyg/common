@@ -18,22 +18,23 @@
  */
 package se.inera.intyg.common.db.v1.model.converter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
-import java.io.StringReader;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import javax.xml.bind.JAXB;
 import org.junit.Test;
-import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.db.v1.model.internal.DbUtlatandeV1;
+import se.inera.intyg.common.db.model.internal.Undersokning;
 import se.inera.intyg.common.sos_parent.model.internal.DodsplatsBoende;
 import se.inera.intyg.common.support.model.InternalDate;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import javax.xml.bind.JAXB;
+import java.io.StringReader;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class TransportToInternalTest {
 

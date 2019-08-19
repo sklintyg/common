@@ -16,43 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('uvEnumValue', ['uvUtil', 'common.messageService', 'common.dynamicLabelService',
-  function(uvUtil, messageService, dynamicLabelService) {
+angular.module('common').directive('uvEnumValue', [ 'uvUtil', 'common.messageService', 'common.dynamicLabelService',
+    function(uvUtil, messageService, dynamicLabelService) {
     'use strict';
 
     return {
-      restrict: 'E',
-      scope: {
-        config: '=',
-        viewData: '='
-      },
-      templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.html',
-      link: function($scope) {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            viewData: '='
+        },
+        templateUrl: '/web/webjars/common/app-shared/unified-view/components/uvEnumValue/uvEnumValue.directive.html',
+        link: function($scope) {
 
-        $scope.value = undefined;
+            $scope.value = undefined;
 
-        var key = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
+            var key = uvUtil.getValue($scope.viewData, $scope.config.modelProp);
 
-        if ($scope.config.values[key]) {
-          var translationKey = $scope.config.values[key];
-          // Try to find the key in the messageService first
-          var result = messageService.propertyExists(translationKey);
+            if ($scope.config.values[key]) {
+                var translationKey = $scope.config.values[key];
+                // Try to find the key in the messageService first
+                var result = messageService.propertyExists(translationKey);
 
-          if (!result) {
-            result = dynamicLabelService.getProperty(translationKey);
+                if (!result) {
+                    result = dynamicLabelService.getProperty(translationKey);
 
-            $scope.$on('dynamicLabels.updated', function() {
-              $scope.value = dynamicLabelService.getProperty(translationKey);
-            });
-          }
+                    $scope.$on('dynamicLabels.updated', function() {
+                        $scope.value = dynamicLabelService.getProperty(translationKey);
+                    });
+                }
 
-          $scope.value = result;
+                $scope.value = result;
+            }
+
+            $scope.hasValue = function() {
+                return uvUtil.isValidValue($scope.value);
+            };
+
         }
-
-        $scope.hasValue = function() {
-          return uvUtil.isValidValue($scope.value);
-        };
-
-      }
     };
-  }]);
+} ]);

@@ -18,21 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
-import com.itextpdf.text.BadElementException;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.RectangleReadOnly;
-import com.itextpdf.text.Utilities;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
+
 import se.inera.intyg.common.fkparent.pdf.PdfConstants;
 
 /**
@@ -43,7 +35,7 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
 
     // internal property config
     private static final Rectangle CHECKBOX_DIMENSIONS_IN_POINTS = new RectangleReadOnly(Utilities.millimetersToPoints(4.5f),
-        Utilities.millimetersToPoints(4.5f));
+            Utilities.millimetersToPoints(4.5f));
     private static final float CHECKBOX_BORDER_WIDTH = Utilities.millimetersToPoints(0.4f);
     private static final float CHECKBOX_X_LINE_WIDTH = Utilities.millimetersToPoints(0.2f);
     private static final float CHECKBOX_INNER_PADDING = Utilities.millimetersToPoints(0.7f);
@@ -80,7 +72,7 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
         PdfPTable table = new PdfPTable(2);
         table.setTotalWidth(
-            new float[]{Utilities.millimetersToPoints(cellWidth), Utilities.millimetersToPoints(width - cellWidth)});
+                new float[] { Utilities.millimetersToPoints(cellWidth), Utilities.millimetersToPoints(width - cellWidth) });
 
         Image checkbox = createCheckbox(writer.getDirectContent(), isChecked);
 
@@ -108,14 +100,14 @@ public class FkCheckbox extends PdfComponent<FkCheckbox> {
         table.addCell(labelCell);
 
         table.writeSelectedRows(0, -1, Utilities.millimetersToPoints(x),
-            Utilities.millimetersToPoints(y), writer.getDirectContent());
+                Utilities.millimetersToPoints(y), writer.getDirectContent());
         super.render(document, writer, x, y);
     }
 
     private Image createCheckbox(PdfContentByte canvas, boolean isChecked) throws BadElementException {
 
         final PdfTemplate template = canvas.createTemplate(CHECKBOX_DIMENSIONS_IN_POINTS.getWidth(),
-            CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
+                CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
         Rectangle rect = new Rectangle(0, 0, CHECKBOX_DIMENSIONS_IN_POINTS.getWidth(), CHECKBOX_DIMENSIONS_IN_POINTS.getHeight());
         rect.setBorder(Rectangle.BOX);
         rect.setBorderWidth(CHECKBOX_BORDER_WIDTH);

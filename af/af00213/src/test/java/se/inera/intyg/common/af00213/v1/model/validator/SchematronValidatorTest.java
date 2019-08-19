@@ -18,19 +18,20 @@
  */
 package se.inera.intyg.common.af00213.v1.model.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.debug.GlobalDebug;
-import java.net.URL;
-import java.util.stream.Collectors;
 import org.junit.Test;
 import se.inera.intyg.common.af00213.v1.rest.Af00213ModuleApiV1;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.validate.RegisterCertificateValidator;
 import se.inera.intyg.common.support.validate.XmlValidator;
+
+import java.net.URL;
+import java.util.stream.Collectors;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SchematronValidatorTest {
 

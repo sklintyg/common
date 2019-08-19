@@ -103,8 +103,7 @@
           <ns3:displayName>Annan typ av diabetes</ns3:displayName>
         </ns3:cv>
       </delsvar>
-    </svar>
-    
+    </svar>
     <svar id="109">
       <delsvar id="109.1">true</delsvar>
     </svar>

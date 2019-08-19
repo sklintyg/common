@@ -21,189 +21,194 @@
  */
 angular.module('common').directive('wcDropdown',
     ['$document', '$window', '$timeout', function($document, $window, $timeout) {
-      'use strict';
+            'use strict';
 
-      return {
-        restrict: 'E',
-        transclude: false,
-        scope: {
-          id: '@',
-          items: '=',
-          onSelect: '&?',
-          useDynamicLabel: '=',
-          disabled: '<ngDisabled'
-        },
-        templateUrl: '/web/webjars/common/webcert/components/wcDropdown/wcDropdown.directive.html',
-        require: 'ngModel',
-        link: function(scope, element, attrs, ctrl) {
-          var plate = $(element).find('.plate');
-
-          // HTML input components are disabled if a parent fieldset is disabled.
-          var parentFieldset = $(element).parents('fieldset');
-          if (parentFieldset && parentFieldset.attr('disabled') === 'disabled') {
-            scope.formDisabled = true;
-            $(element).attr('disabled', 'disabled');
-          }
-
-          function offset(element) {
-            var boundingClientRect = element[0].getBoundingClientRect();
             return {
-              width: boundingClientRect.width || element.prop('offsetWidth'),
-              height: boundingClientRect.height || element.prop('offsetHeight'),
-              top: boundingClientRect.top + ($window.pageYOffset || $document[0].documentElement.scrollTop),
-              left: boundingClientRect.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft)
-            };
-          }
+                restrict: 'E',
+                transclude: false,
+                scope: {
+                    id: '@',
+                    items: '=',
+                    onSelect: '&?',
+                    useDynamicLabel: '=',
+                    disabled:'<ngDisabled'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcDropdown/wcDropdown.directive.html',
+                require: 'ngModel',
+                link: function(scope, element, attrs, ctrl) {
+                    var plate = $(element).find('.plate');
 
-          function getScrollParent(element) {
-            var style = getComputedStyle(element);
-            if (style.position === 'fixed') {
-              return document.body;
-            }
-            var overflowRegex = /(auto|scroll)/;
+                    // HTML input components are disabled if a parent fieldset is disabled.
+                    var parentFieldset = $(element).parents('fieldset');
+                    if (parentFieldset && parentFieldset.attr('disabled') === 'disabled') {
+                        scope.formDisabled = true;
+                        $(element).attr('disabled', 'disabled');
+                    }
 
-            while (element !== document.body) {
-              style = getComputedStyle(element);
-              if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
-                return element;
-              }
-              element = element.parentElement;
-            }
-            return document.body;
-          }
+                    function offset(element) {
+                        var boundingClientRect = element[0].getBoundingClientRect();
+                        return {
+                            width: boundingClientRect.width || element.prop('offsetWidth'),
+                            height: boundingClientRect.height || element.prop('offsetHeight'),
+                            top: boundingClientRect.top + ($window.pageYOffset || $document[0].documentElement.scrollTop),
+                            left: boundingClientRect.left + ($window.pageXOffset || $document[0].documentElement.scrollLeft)
+                        };
+                    }
 
-          function openPlate() {
-            $window.document.addEventListener('click', onDocumentClick, true);
-            var parentScroll = getScrollParent(element[0]);
+                    function getScrollParent(element) {
+                        var style = getComputedStyle(element);
+                        if (style.position === 'fixed') {
+                            return document.body;
+                        }
+                        var overflowRegex = /(auto|scroll)/;
 
-            $timeout(function() {
-              var rootElementOffset = offset(element);
-              var offsetDropdown = offset(plate);
-              var scrollTop = $document[0].documentElement.scrollTop || $document[0].body.scrollTop;
+                        while (element !== document.body) {
+                            style = getComputedStyle(element);
+                            if (overflowRegex.test(style.overflow + style.overflowY + style.overflowX)) {
+                                return element;
+                            }
+                            element = element.parentElement;
+                        }
+                        return document.body;
+                    }
 
-              if (rootElementOffset.top + rootElementOffset.height + offsetDropdown.height >
-                  scrollTop + $document[0].documentElement.clientHeight &&
-                  rootElementOffset.top - parentScroll.offsetTop > offsetDropdown.height) {
-                plate[0].style.top = (offsetDropdown.height * -1) - 2 + 'px';
-              } else {
-                plate[0].style.top = rootElementOffset.height + 2 + 'px';
-              }
-              plate[0].style.opacity = 1;
-            });
-            plate[0].style.opacity = 0;
-            scope.isOpen = true;
-          }
+                    function openPlate() {
+                        $window.document.addEventListener('click', onDocumentClick, true);
+                        var parentScroll = getScrollParent(element[0]);
 
-          function closePlate() {
-            scope.isOpen = false;
-            $window.document.removeEventListener('click', onDocumentClick, true);
-          }
+                        $timeout(function() {
+                            var rootElementOffset = offset(element);
+                            var offsetDropdown = offset(plate);
+                            var scrollTop = $document[0].documentElement.scrollTop || $document[0].body.scrollTop;
 
-          function onDocumentClick(e) {
-            if (scope.isOpen && !element[0].contains(e.target)) {
-              closePlate();
-              scope.$digest();
-            }
-          }
+                            if (rootElementOffset.top + rootElementOffset.height + offsetDropdown.height > 
+                                scrollTop + $document[0].documentElement.clientHeight && 
+                                rootElementOffset.top - parentScroll.offsetTop > offsetDropdown.height) {
+                                plate[0].style.top = (offsetDropdown.height * -1) - 2 + 'px';
+                            } else {
+                                plate[0].style.top = rootElementOffset.height + 2 + 'px';
+                            }
+                            plate[0].style.opacity = 1;
+                        });
+                        plate[0].style.opacity = 0;
+                        scope.isOpen = true;
+                    }
 
-          function getSelectedItemLabel() {
-            var index = getIndexForId(ctrl.$viewValue);
-            if (index === null) {
-              return null;
-            }
-            return scope.items[index].label;
-          }
+                    function closePlate() {
+                        scope.isOpen = false;
+                        $window.document.removeEventListener('click', onDocumentClick, true);
+                    }
 
-          function getIndexForId(id) {
-            if (scope.items) {
-              for (var i = 0; i < scope.items.length; i++) {
-                if (scope.items[i].id === id) {
-                  return i;
+                    function onDocumentClick(e) {
+                        if (scope.isOpen && !element[0].contains(e.target)) {
+                            closePlate();
+                            scope.$digest();
+                        }
+                    }
+
+                    function getSelectedItemLabel() {
+                        var index = getIndexForId(ctrl.$viewValue);
+                        if (index === null) {
+                            return null;
+                        }
+                        return scope.items[index].label;
+                    }
+
+                    function getIndexForId(id) {
+                        if (scope.items) {
+                            for (var i = 0; i < scope.items.length; i++) {
+                                if (scope.items[i].id === id) {
+                                    return i;
+                                }
+                            }
+                        }
+                        return null;
+                    }
+
+                    function handleKeyEventWhenOpened(keyCode) {
+                        var index;
+                        if (keyCode === 40) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null && index < scope.items.length - 1) {
+                                scope.selectedItemId = scope.items[index + 1].id;
+                            }
+                            return true;
+                        }
+                        else if (keyCode === 38) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null && index > 0) {
+                                scope.selectedItemId = scope.items[index - 1].id;
+                            }
+                            return true;
+                        }
+                        else if (keyCode === 13 || keyCode === 32) {
+                            index = getIndexForId(scope.selectedItemId);
+                            if (index !== null) {
+                                scope.select(scope.items[index]);
+                            }
+                            return true;
+                        }
+                        else if (keyCode === 27) {
+                            closePlate();
+                            return true;
+                        }
+                        else if (keyCode === 9) {
+                            closePlate();
+                        }
+                        return false;
+                    }
+
+                    scope.onKeydown = function(e) {
+                        if (scope.disabled || scope.formDisabled) {
+                            return;
+                        }
+                        if (scope.isOpen) {
+                            if (handleKeyEventWhenOpened(e.keyCode)) {
+                                e.preventDefault();
+                            }
+                        }
+                        else if (e.keyCode === 13 || e.keyCode === 32) {
+                            openPlate();
+                            scope.selectedItemId = ctrl.$viewValue;
+                            e.preventDefault();
+                        }
+                    };
+
+                    scope.togglePlate = function() {
+                        if (scope.disabled || scope.formDisabled) {
+                            return;
+                        }
+                        if (scope.isOpen) {
+                            closePlate();
+                        } else {
+                            openPlate();
+                        }
+                    };
+
+                    scope.select = function(item) {
+                        ctrl.$setViewValue(item.id);
+                        scope.selectedItemLabel = getSelectedItemLabel();
+                        $timeout(function() {
+                            if (scope.onSelect) {
+                                scope.onSelect();
+                            }
+                        });
+                        closePlate();
+                    };
+
+                    scope.$watch('items', function(newVal) {
+                       if (newVal) {
+                           scope.selectedItemLabel = getSelectedItemLabel();
+                       }
+                    });
+
+                    scope.$on('$destroy', function() {
+                        $window.document.removeEventListener('click', onDocumentClick, true);
+                    });
+
+                    ctrl.$render = function () {
+                        scope.selectedItemLabel = getSelectedItemLabel();
+                    };
                 }
-              }
-            }
-            return null;
-          }
-
-          function handleKeyEventWhenOpened(keyCode) {
-            var index;
-            if (keyCode === 40) {
-              index = getIndexForId(scope.selectedItemId);
-              if (index !== null && index < scope.items.length - 1) {
-                scope.selectedItemId = scope.items[index + 1].id;
-              }
-              return true;
-            } else if (keyCode === 38) {
-              index = getIndexForId(scope.selectedItemId);
-              if (index !== null && index > 0) {
-                scope.selectedItemId = scope.items[index - 1].id;
-              }
-              return true;
-            } else if (keyCode === 13 || keyCode === 32) {
-              index = getIndexForId(scope.selectedItemId);
-              if (index !== null) {
-                scope.select(scope.items[index]);
-              }
-              return true;
-            } else if (keyCode === 27) {
-              closePlate();
-              return true;
-            } else if (keyCode === 9) {
-              closePlate();
-            }
-            return false;
-          }
-
-          scope.onKeydown = function(e) {
-            if (scope.disabled || scope.formDisabled) {
-              return;
-            }
-            if (scope.isOpen) {
-              if (handleKeyEventWhenOpened(e.keyCode)) {
-                e.preventDefault();
-              }
-            } else if (e.keyCode === 13 || e.keyCode === 32) {
-              openPlate();
-              scope.selectedItemId = ctrl.$viewValue;
-              e.preventDefault();
-            }
-          };
-
-          scope.togglePlate = function() {
-            if (scope.disabled || scope.formDisabled) {
-              return;
-            }
-            if (scope.isOpen) {
-              closePlate();
-            } else {
-              openPlate();
-            }
-          };
-
-          scope.select = function(item) {
-            ctrl.$setViewValue(item.id);
-            scope.selectedItemLabel = getSelectedItemLabel();
-            $timeout(function() {
-              if (scope.onSelect) {
-                scope.onSelect();
-              }
-            });
-            closePlate();
-          };
-
-          scope.$watch('items', function(newVal) {
-            if (newVal) {
-              scope.selectedItemLabel = getSelectedItemLabel();
-            }
-          });
-
-          scope.$on('$destroy', function() {
-            $window.document.removeEventListener('click', onDocumentClick, true);
-          });
-
-          ctrl.$render = function() {
-            scope.selectedItemLabel = getSelectedItemLabel();
-          };
-        }
-      };
-    }]);
+            };
+        }]);

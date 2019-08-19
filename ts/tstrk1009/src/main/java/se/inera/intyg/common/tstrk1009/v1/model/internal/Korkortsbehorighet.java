@@ -65,7 +65,7 @@ public enum Korkortsbehorighet {
 
     public static Korkortsbehorighet fromCode(final String code) {
         return Stream.of(Korkortsbehorighet.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 
     /**
@@ -95,6 +95,7 @@ public enum Korkortsbehorighet {
     public static ImmutableSet<Korkortsbehorighet> getKanintetastallning() {
         return ImmutableSet.of(KANINTETASTALLNING);
     }
+
 
 
 }

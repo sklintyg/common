@@ -18,8 +18,9 @@
  */
 package se.inera.intyg.common.tstrk1009.v1.utils;
 
-import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType;
+import se.inera.intyg.common.tstrk1009.v1.model.internal.Tstrk1009UtlatandeV1;
+import se.inera.intygstjanster.ts.services.RegisterTSBasResponder.v1.RegisterTSBasType;
 
 /**
  * Defines a scenario that can be tested. The following models (as POJOs) can be extracted from a scenario:
@@ -44,7 +45,8 @@ public interface Scenario {
      * Returns the scenario as a transport model.
      *
      * @return The scenario as a transport model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
+     * @throws ScenarioNotFoundException
+     *             if the scenario wasn't found.
      */
     RegisterCertificateType asTransportModel() throws ScenarioNotFoundException;
 
@@ -52,7 +54,8 @@ public interface Scenario {
      * Returns the scenario as a internal Mina Intyg model.
      *
      * @return The scenario as a internal Mina Intyg model.
-     * @throws ScenarioNotFoundException if the scenario wasn't found.
+     * @throws ScenarioNotFoundException
+     *             if the scenario wasn't found.
      */
     Tstrk1009UtlatandeV1 asInternalModel() throws ScenarioNotFoundException;
 }

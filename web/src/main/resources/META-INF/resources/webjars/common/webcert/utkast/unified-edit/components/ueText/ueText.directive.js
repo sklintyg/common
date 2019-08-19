@@ -17,16 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueText', ['common.AtticHelper', function(AtticHelper) {
-  'use strict';
+angular.module('common').directive('ueText', [ 'common.AtticHelper', function(AtticHelper) {
+    'use strict';
 
-  return {
-    restrict: 'E',
-    scope: {
-      config: '=',
-      model: '='
-    },
-    templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueText/ueText.directive.html'
-  };
+    return {
+        restrict: 'E',
+        scope: {
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueText/ueText.directive.html'
+    };
 
 }]);

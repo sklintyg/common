@@ -18,16 +18,13 @@
  */
 package se.inera.intyg.common.fkparent.pdf.model;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.Utilities;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
+
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * Base class for all components of the pdf.
@@ -46,7 +43,9 @@ import java.util.stream.Stream;
  * builder pattern.</li>
  * </ul>
  *
- * @param <T> The subtype
+ *
+ * @param <T>
+ *            The subtype
  */
 public abstract class PdfComponent<T extends PdfComponent> {
 
@@ -85,8 +84,10 @@ public abstract class PdfComponent<T extends PdfComponent> {
     /**
      * Define the offset (in mm) from the parents top left corner.
      *
-     * @param x left offset relative to parent
-     * @param y top offset relative to parent
+     * @param x
+     *            left offset relative to parent
+     * @param y
+     *            top offset relative to parent
      * @return The modified component instance
      */
     @SuppressWarnings("unchecked")
@@ -99,8 +100,11 @@ public abstract class PdfComponent<T extends PdfComponent> {
     /**
      * Define the size (in mm) of the component.
      *
-     * @param width width of the component
-     * @param height height of the component
+     * @param width
+     *            width of the component
+     * @param height
+     *            height of the component
+     * @return
      */
     @SuppressWarnings("unchecked")
     public T size(float width, float height) {
@@ -115,7 +119,9 @@ public abstract class PdfComponent<T extends PdfComponent> {
      * Combinations of Rectangle.XXX constants are supported, such as
      * Rectangle.TOP + Rectangle.LEFT. Most common is to use Rectangle.BOX
      *
-     * @param border a combination of Rectangle
+     * @param border
+     *            a combination of Rectangle
+     * @return
      */
     @SuppressWarnings("unchecked")
     public T withBorders(int border) {
@@ -129,8 +135,11 @@ public abstract class PdfComponent<T extends PdfComponent> {
      * Combinations of Rectangle.XXX constants are supported, such as
      * Rectangle.TOP + Rectangle.LEFT. Most common is to use Rectangle.BOX
      *
-     * @param border a combination of Rectangle
-     * @param borderColor a BaseColor to use
+     * @param border
+     *            a combination of Rectangle
+     * @param borderColor
+     *            a BaseColor to use
+     * @return
      */
     @SuppressWarnings("unchecked")
     public T withBorders(int border, BaseColor borderColor) {
@@ -144,10 +153,15 @@ public abstract class PdfComponent<T extends PdfComponent> {
      * When actually writing to the canvas, mm units must be converted to points. Also, the coordinate system of an
      * iText page (0,0) actually starts at the lower left corner.
      *
-     * @param document Document to render to
-     * @param writer PdfWriter to use
-     * @param x left starting point
-     * @param y top starting point
+     * @param document
+     *            Document to render to
+     * @param writer
+     *            PdfWriter to use
+     * @param x
+     *            left starting point
+     * @param y
+     *            top starting point
+     * @throws DocumentException
      */
     public void render(Document document, PdfWriter writer, float x, float y) throws DocumentException {
 
@@ -163,14 +177,17 @@ public abstract class PdfComponent<T extends PdfComponent> {
     /**
      * Draws a border (with the specified borderstyle and color) around the effective bounding box of this component.
      *
-     * @param canvas PdfContentByte to output the border to
-     * @param x left starting point of border
-     * @param y top starting point of border
+     * @param canvas
+     *            PdfContentByte to output the border to
+     * @param x
+     *            left starting point of border
+     * @param y
+     *            top starting point of border
      */
     private void drawborder(PdfContentByte canvas, float x, float y) {
 
         Rectangle rect = new Rectangle(Utilities.millimetersToPoints(x), Utilities.millimetersToPoints(y - height),
-            Utilities.millimetersToPoints(x + width), Utilities.millimetersToPoints(y));
+                Utilities.millimetersToPoints(x + width), Utilities.millimetersToPoints(y));
         rect.setBorder(border);
         rect.setBorderWidth(Utilities.millimetersToPoints(BORDER_WIDTH));
         rect.setBorderColor(borderColor);
@@ -185,7 +202,7 @@ public abstract class PdfComponent<T extends PdfComponent> {
      */
     public Stream<PdfComponent<? extends PdfComponent>> flattened() {
         return Stream.concat(
-            Stream.of(this),
-            getChildren().stream().flatMap(PdfComponent::flattened));
+                Stream.of(this),
+                getChildren().stream().flatMap(PdfComponent::flattened));
     }
 }

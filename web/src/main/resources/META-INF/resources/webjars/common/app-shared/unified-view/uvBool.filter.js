@@ -18,9 +18,9 @@
  */
 angular.module('common').filter('uvBoolFilter',
     function() {
-      'use strict';
+        'use strict';
 
-      return function(value) {
-        return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Nej' : 'Ja';
-      };
+        return function(value) {
+            return angular.isUndefined(value) || value === '' || value === 'false' || value === false ? 'Nej' : 'Ja';
+        };
     });

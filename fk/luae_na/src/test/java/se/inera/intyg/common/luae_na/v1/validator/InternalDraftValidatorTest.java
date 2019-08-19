@@ -18,17 +18,6 @@
  */
 package se.inera.intyg.common.luae_na.v1.validator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,15 +29,23 @@ import se.inera.intyg.common.fkparent.model.internal.Underlag;
 import se.inera.intyg.common.fkparent.model.validator.ValidatorUtilFK;
 import se.inera.intyg.common.luae_na.v1.model.internal.LuaenaUtlatandeV1;
 import se.inera.intyg.common.support.model.InternalDate;
-import se.inera.intyg.common.support.model.common.internal.GrundData;
-import se.inera.intyg.common.support.model.common.internal.HoSPersonal;
-import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Vardenhet;
-import se.inera.intyg.common.support.model.common.internal.Vardgivare;
+import se.inera.intyg.common.support.model.common.internal.*;
 import se.inera.intyg.common.support.modules.service.WebcertModuleService;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
 import se.inera.intyg.schemas.contract.Personnummer;
+
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InternalDraftValidatorTest {
@@ -76,20 +73,20 @@ public class InternalDraftValidatorTest {
     @Before
     public void setUp() throws Exception {
         builderTemplate = LuaenaUtlatandeV1.builder()
-            .setId(INTYG_ID)
-            .setGrundData(buildGrundData(LocalDateTime.now()))
-            .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
-            .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
-            .setUnderlagFinns(false)
-            .setSjukdomsforlopp("sjukdomsforlopp")
-            .setDiagnoser(Arrays.asList(Diagnos.create("S47", "ICD_10_SE", "Beskrivning", "diagnosDisplayName")))
-            .setDiagnosgrund("diagnosgrund")
-            .setNyBedomningDiagnosgrund(false)
-            .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
-            .setAktivitetsbegransning("aktivitetsbegransning")
-            .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
-            .setTextVersion("");
+                .setId(INTYG_ID)
+                .setGrundData(buildGrundData(LocalDateTime.now()))
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setMotiveringTillInteBaseratPaUndersokning("behövs, ty ingen undersökning")
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(2)))
+                .setUnderlagFinns(false)
+                .setSjukdomsforlopp("sjukdomsforlopp")
+                .setDiagnoser(Arrays.asList(Diagnos.create("S47", "ICD_10_SE", "Beskrivning", "diagnosDisplayName")))
+                .setDiagnosgrund("diagnosgrund")
+                .setNyBedomningDiagnosgrund(false)
+                .setFunktionsnedsattningKoncentration("funktionsnedsattningKoncentration")
+                .setAktivitetsbegransning("aktivitetsbegransning")
+                .setMedicinskaForutsattningarForArbete("medicinskaForutsattningarForArbete")
+                .setTextVersion("");
 
         when(moduleService.validateDiagnosisCode(anyString(), anyString())).thenReturn(true);
 
@@ -109,8 +106,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setKannedomOmPatient(null).build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setKannedomOmPatient(null).build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -126,9 +123,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUKannedomOmPatientMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
-            .setKannedomOmPatient(null)
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now()))
+                .setKannedomOmPatient(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -141,10 +138,10 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUKannedomOmPatientAfterUndersokning() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setUndersokningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setUndersokningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -157,9 +154,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUKannedomOmPatientAfterAnhorigsBeskrivning() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(new InternalDate(LocalDate.now().minusDays(2)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -172,10 +169,10 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUKannedomOmPatientFramtidaDatum() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().plusDays(10)))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().plusDays(10)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -188,10 +185,10 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUKannedomOmPatientSammaDatum() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
-            .setKannedomOmPatient(new InternalDate(LocalDate.now()))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setJournaluppgifter(new InternalDate(LocalDate.now().minusDays(1)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now()))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -201,10 +198,10 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateGrundForMUAnnanGrundBeskrivningNotAnnanGrundDatum() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setAnnatGrundForMUBeskrivning("En beskrivning...")
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setAnnatGrundForMUBeskrivning("En beskrivning...")
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -212,18 +209,17 @@ public class InternalDraftValidatorTest {
         assertEquals("grundformu", res.getValidationErrors().get(0).getCategory());
         assertEquals("baseratPa", res.getValidationErrors().get(0).getField());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(0).getType());
-        assertEquals("luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning",
-            res.getValidationErrors().get(1).getMessage());
+        assertEquals("luae_na.validation.grund-for-mu.incorrect_combination_annat_beskrivning", res.getValidationErrors().get(1).getMessage());
         assertEquals(ValidationMessageType.EMPTY, res.getValidationErrors().get(1).getType());
     }
 
     @Test
     public void validateGrundForMUAnnanGrundBeskrivningMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAnhorigsBeskrivningAvPatienten(null)
-            .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(1)))
-            .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
-            .build();
+                .setAnhorigsBeskrivningAvPatienten(null)
+                .setAnnatGrundForMU(new InternalDate(LocalDate.now().minusDays(1)))
+                .setKannedomOmPatient(new InternalDate(LocalDate.now().minusDays(1)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -236,8 +232,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagUnderlagFinnsMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlag(new ArrayList<>())
-            .setUnderlagFinns(null).build();
+                .setUnderlag(new ArrayList<>())
+                .setUnderlagFinns(null).build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -250,8 +246,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlag(new ArrayList<>())
-            .setUnderlagFinns(true).build();
+                .setUnderlag(new ArrayList<>())
+                .setUnderlagFinns(true).build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -264,9 +260,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagExistsButUnderlagFinnsFalse() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlagFinns(false)
-            .setUnderlag(buildUnderlag("NEUROPSYKIATRISKT"))
-            .build();
+                .setUnderlagFinns(false)
+                .setUnderlag(buildUnderlag("NEUROPSYKIATRISKT"))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -278,12 +274,12 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagOK() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlagFinns(true)
-            .setUnderlag(buildUnderlag(
-                "NEUROPSYKIATRISKT",
-                "HABILITERING",
-                "ARBETSTERAPEUT"))
-            .build();
+                .setUnderlagFinns(true)
+                .setUnderlag(buildUnderlag(
+                        "NEUROPSYKIATRISKT",
+                        "HABILITERING",
+                        "ARBETSTERAPEUT"))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -293,19 +289,19 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagTooMany() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlagFinns(true)
-            .setUnderlag(buildUnderlag(
-                "NEUROPSYKIATRISKT",
-                "HABILITERING",
-                "ARBETSTERAPEUT",
-                "FYSIOTERAPEUT",
-                "LOGOPED",
-                "PSYKOLOG",
-                "SKOLHALSOVARD",
-                "SPECIALISTKLINIK",
-                "VARD_UTOMLANDS",
-                "OVRIGT_UTLATANDE"))
-            .build();
+                .setUnderlagFinns(true)
+                .setUnderlag(buildUnderlag(
+                        "NEUROPSYKIATRISKT",
+                        "HABILITERING",
+                        "ARBETSTERAPEUT",
+                        "FYSIOTERAPEUT",
+                        "LOGOPED",
+                        "PSYKOLOG",
+                        "SKOLHALSOVARD",
+                        "SPECIALISTKLINIK",
+                        "VARD_UTOMLANDS",
+                        "OVRIGT_UTLATANDE"))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -317,9 +313,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateUnderlagInformationMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setUnderlagFinns(true)
-            .setUnderlag(Arrays.asList(Underlag.create(Underlag.UnderlagsTyp.fromId("NEUROPSYKIATRISKT"), null, null)))
-            .build();
+                .setUnderlagFinns(true)
+                .setUnderlag(Arrays.asList(Underlag.create(Underlag.UnderlagsTyp.fromId("NEUROPSYKIATRISKT"), null, null)))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -333,7 +329,7 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateDiagnosMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(new ArrayList<>()).build();
+                .setDiagnoser(new ArrayList<>()).build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -345,8 +341,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateDiagnosDiagnosKodOK() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(buildDiagnoser("J22", "Z730", "F642"))
-            .build();
+                .setDiagnoser(buildDiagnoser("J22", "Z730", "F642"))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -356,8 +352,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateDiagnosDiagnosKodInvalid() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(buildDiagnoser("J2", "Z73", "F6"))
-            .build();
+                .setDiagnoser(buildDiagnoser("J2", "Z73", "F6"))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -374,8 +370,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateDiagnosDiagnosBeskrivningMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setDiagnoser(Arrays.asList(Diagnos.create("J22", "ICD-10-SE", null, "Ett namn...")))
-            .build();
+                .setDiagnoser(Arrays.asList(Diagnos.create("J22", "ICD-10-SE", null, "Ett namn...")))
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -387,8 +383,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateSjukdomsforloppMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setSjukdomsforlopp(null)
-            .build();
+                .setSjukdomsforlopp(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -400,8 +396,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateAktivitetsbegransningMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setAktivitetsbegransning(null)
-            .build();
+                .setAktivitetsbegransning(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -413,8 +409,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateMedicinskaForutsattningarForArbeteMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setMedicinskaForutsattningarForArbete(null)
-            .build();
+                .setMedicinskaForutsattningarForArbete(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -426,8 +422,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateFunktionsnedsattningMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setFunktionsnedsattningKoncentration(null)
-            .build();
+                .setFunktionsnedsattningKoncentration(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -439,8 +435,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateDiagnosgrundMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setDiagnosgrund(null)
-            .build();
+                .setDiagnosgrund(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -453,8 +449,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateNyBedomningDiagnosgrundMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setNyBedomningDiagnosgrund(null)
-            .build();
+                .setNyBedomningDiagnosgrund(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -467,9 +463,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateNyBedomningDiagnosgrundBeskrivningMissing() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setNyBedomningDiagnosgrund(true)
-            .setDiagnosForNyBedomning(null)
-            .build();
+                .setNyBedomningDiagnosgrund(true)
+                .setDiagnosForNyBedomning(null)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -482,9 +478,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateNyBedomningDiagnosgrundInvalidCombination() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setNyBedomningDiagnosgrund(false)
-            .setDiagnosForNyBedomning("diagnosForNyBedomning")
-            .build();
+                .setNyBedomningDiagnosgrund(false)
+                .setDiagnosForNyBedomning("diagnosForNyBedomning")
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -498,9 +494,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktOK() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedFk(true)
-            .setAnledningTillKontakt("En anledning")
-            .build();
+                .setKontaktMedFk(true)
+                .setAnledningTillKontakt("En anledning")
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -510,8 +506,8 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktNoAnledningOK() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedFk(true)
-            .build();
+                .setKontaktMedFk(true)
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 
@@ -521,9 +517,9 @@ public class InternalDraftValidatorTest {
     @Test
     public void validateKontaktAnledningInvalidCombination() throws Exception {
         LuaenaUtlatandeV1 utlatande = builderTemplate
-            .setKontaktMedFk(false)
-            .setAnledningTillKontakt("En andledning...")
-            .build();
+                .setKontaktMedFk(false)
+                .setAnledningTillKontakt("En andledning...")
+                .build();
 
         ValidateDraftResponse res = validator.validateDraft(utlatande);
 

@@ -28,14 +28,17 @@ import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.ER
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.INFO;
 import static se.inera.ifv.insuranceprocess.healthreporting.v2.ResultCodeEnum.OK;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateRequestType;
 import se.inera.ifv.insuranceprocess.healthreporting.getcertificateresponder.v1.GetCertificateResponseType;
 import se.inera.ifv.insuranceprocess.healthreporting.v2.ErrorIdEnum;
@@ -70,8 +73,7 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getCertificate() throws Exception {
-        String document = Resources
-            .toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
+        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         String xmlFile = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/fk7263.xml").getURL(), Charsets.UTF_8);
@@ -92,8 +94,7 @@ public class GetCertificateResponderImplTest {
     @Test
     public void getCertificateWithUnknownCertificateId() throws Exception {
 
-        when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true))
-            .thenThrow(new InvalidCertificateException("123456", null));
+        when(moduleContainer.getCertificate(certificateId, createPnr(civicRegistrationNumber), true)).thenThrow(new InvalidCertificateException("123456", null));
 
         GetCertificateRequestType parameters = createGetCertificateRequest(civicRegistrationNumber, certificateId);
 
@@ -108,8 +109,7 @@ public class GetCertificateResponderImplTest {
 
     @Test
     public void getRevokedCertificate() throws Exception {
-        String document = Resources
-            .toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
+        String document = Resources.toString(new ClassPathResource("GetCertificateResponderImplTest/maximalt-fk7263-internal.json").getURL(), Charsets.UTF_8);
         Fk7263Utlatande utlatande = objectMapper.readValue(document, Fk7263Utlatande.class);
         CertificateHolder certificate = ConverterUtil.toCertificateHolder(utlatande);
         certificate.setRevoked(true);

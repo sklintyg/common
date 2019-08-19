@@ -18,11 +18,6 @@
  */
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,17 +37,24 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.xml.SimpleNamespaceContext;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.ts_parent.transformation.test.XPathEvaluator;
 import se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v1.RegisterCertificateType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.Utlatande;
 import se.riv.clinicalprocess.healthcond.certificate.v3.Intyg;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TsBasV3ToV1TransformerXpathTest {
 
@@ -65,20 +67,19 @@ public class TsBasV3ToV1TransformerXpathTest {
 
     @Test
     public void testMaximaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
-        TransformerException {
+            TransformerException {
         performTests(new ClassPathResource("v6/scenarios/rivtav3/valid-maximal.xml"));
     }
 
     @Test
     public void testMinimaltIntyg() throws IOException, ParserConfigurationException, JAXBException, XPathExpressionException, SAXException,
-        TransformerException {
+            TransformerException {
         performTests(new ClassPathResource("v6/scenarios/rivtav3/valid-minimal.xml"));
 
     }
 
-    private void performTests(ClassPathResource cpr)
-        throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException,
-        XPathExpressionException {
+    private void performTests(ClassPathResource cpr) throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException,
+            XPathExpressionException {
         String xmlContent = Resources.toString(cpr.getURL(), Charsets.UTF_8);
         String transformed = transformer.transform(xmlContent);
 
@@ -92,71 +93,55 @@ public class TsBasV3ToV1TransformerXpathTest {
         //assertEquals("Utlatande-utgåva", xPathV3.evaluate(XPathExpressionsV3.TS_VERSION_XPATH), xPathV1.evaluate(XPathExpressionsV1.TS_VERSION_XPATH) + "." + xPathV1.evaluate(XPathExpressionsV1.TS_UTGAVA_XPATH));
 
         // Patient
-        assertEquals("Patient förnamn", xPathV3.evaluate(XPathExpressionsV3.PATIENT_FORNAMN_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_FORNAMN_XPATH));
+        assertEquals("Patient förnamn", xPathV3.evaluate(XPathExpressionsV3.PATIENT_FORNAMN_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_FORNAMN_XPATH));
 
-        assertEquals("Patient efternamn", xPathV3.evaluate(XPathExpressionsV3.PATIENT_EFTERNAMN_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_EFTERNAMN_XPATH));
+        assertEquals("Patient efternamn", xPathV3.evaluate(XPathExpressionsV3.PATIENT_EFTERNAMN_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_EFTERNAMN_XPATH));
 
-        assertEquals("Patient personnummer", xPathV3.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_PERSONNUMMER_XPATH).replace("-", ""));
+        assertEquals("Patient personnummer", xPathV3.evaluate(XPathExpressionsV3.PATIENT_PERSONNUMMER_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_PERSONNUMMER_XPATH).replace("-",""));
 
-        assertEquals("Patient postadress", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTADRESS_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTADRESS_XPATH));
+        assertEquals("Patient postadress", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTADRESS_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTADRESS_XPATH));
 
-        assertEquals("Patient postnummer", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTNUMMER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTNUMMER_XPATH));
+        assertEquals("Patient postnummer", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTNUMMER_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTNUMMER_XPATH));
 
-        assertEquals("Patient postort", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTORT_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTORT_XPATH));
+        assertEquals("Patient postort", xPathV3.evaluate(XPathExpressionsV3.PATIENT_POSTORT_XPATH), xPathV1.evaluate(XPathExpressionsV1.INVANARE_POSTORT_XPATH));
 
         // Signeringsdatum
-        assertEquals("Signeringsdatum", xPathV3.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.SIGNERINGSDATUM_XPATH));
+        assertEquals("Signeringsdatum", xPathV3.evaluate(XPathExpressionsV3.SIGNERINGTIDPUNKT_XPATH), xPathV1.evaluate(XPathExpressionsV1.SIGNERINGSDATUM_XPATH));
 
         // Skapad Av
         assertEquals("Skapad av - befattningar", xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_BEFATTNING_XPATH),
             xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_BEFATTNING_XPATH));
 
         assertEquals("Skapad av - fullständigt namn", xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
+                xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH));
 
-        assertEquals("Skapad av - hsa-id", xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_HSAID_XPATH));
+        assertEquals("Skapad av - hsa-id", xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_HSAID_XPATH), xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_HSAID_XPATH));
 
         if (!xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH).isEmpty()) {
             assertEquals("Skapad av - specialitet", xPathV3.evaluate(XPathExpressionsV3.SKAPAD_AV_SPECIALISTKOMPETENS_XPATH),
-                xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH));
+                    xPathV1.evaluate(XPathExpressionsV1.SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH));
         }
 
         // Vardenhet
-        assertEquals("Enhet - enhetsid", xPathV3.evaluate(XPathExpressionsV3.ENHET_ID_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_ID_XPATH));
+        assertEquals("Enhet - enhetsid", xPathV3.evaluate(XPathExpressionsV3.ENHET_ID_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_ID_XPATH));
 
-        assertEquals("Enhet - enhetsnamn", xPathV3.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_VARDINRATTNINGENS_NAMN_XPATH));
+        assertEquals("Enhet - enhetsnamn", xPathV3.evaluate(XPathExpressionsV3.ENHET_VARDINRATTNINGENS_NAMN_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_VARDINRATTNINGENS_NAMN_XPATH));
 
-        assertEquals("Enhet - postadress", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTADRESS_XPATH));
+        assertEquals("Enhet - postadress", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTADRESS_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTADRESS_XPATH));
 
-        assertEquals("Enhet - postnummer", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTNUMMER_XPATH));
+        assertEquals("Enhet - postnummer", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTNUMMER_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTNUMMER_XPATH));
 
-        assertEquals("Enhet - postort", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTORT_XPATH));
+        assertEquals("Enhet - postort", xPathV3.evaluate(XPathExpressionsV3.ENHET_POSTORT_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_POSTORT_XPATH));
 
-        assertEquals("Enhet - postort", xPathV3.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.ENHET_TELEFONNUMMER_XPATH));
+        assertEquals("Enhet - postort", xPathV3.evaluate(XPathExpressionsV3.ENHET_TELEFONNUMMER_XPATH), xPathV1.evaluate(XPathExpressionsV1.ENHET_TELEFONNUMMER_XPATH));
 
         // Vardgivare
         assertEquals("Enhet - vardgivare - id", xPathV3.evaluate(XPathExpressionsV3.VARDGIVARE_ID_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.VARDGIVARE_ID_XPATH));
+                xPathV1.evaluate(XPathExpressionsV1.VARDGIVARE_ID_XPATH));
 
-        assertEquals("Enhet - vardgivare - id", xPathV3.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.VARDGIVARE_NAMN_XPATH));
+        assertEquals("Enhet - vardgivare - id", xPathV3.evaluate(XPathExpressionsV3.VARDGIVARE_NAMN_XPATH), xPathV1.evaluate(XPathExpressionsV1.VARDGIVARE_NAMN_XPATH));
 
-        assertEquals("Övrig beskrivning", xPathV3.evaluate(XPathExpressionsV3.OVRIG_BESKRIVNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.OVRIG_BESKRIVNING_XPATH));
+        assertEquals("Övrig beskrivning", xPathV3.evaluate(XPathExpressionsV3.OVRIG_BESKRIVNING_XPATH), xPathV1.evaluate(XPathExpressionsV1.OVRIG_BESKRIVNING_XPATH));
 
         // IntygAvser
         // for (KorkortsbehorighetTsBas t : utlatande.getIntygAvser().getKorkortstyp()) {
@@ -177,114 +162,97 @@ public class TsBasV3ToV1TransformerXpathTest {
 */
 
         assertTrue("Har vårdinsats för missbruk",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE, "AKT15",
-                xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE, "AKT15", xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_XPATH))));
 
 /*        assertTrue("provtagning narkotika",
                 xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE, "AKT14", xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_HAR_VARDINSATS_PROVTAGNING_XPATH))));
                 */
 
         assertTrue("Sjukhusvård eller läkarkontakt",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE, "AKT19",
-                xPathV3.evaluate(XPathExpressionsV3.SJUKHUSVARD_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.AKTIVITET_FOREKOMST_TEMPLATE, "AKT19", xPathV3.evaluate(XPathExpressionsV3.SJUKHUSVARD_XPATH))));
 
         assertEquals("Sjukhusvård eller läkarkontakt - datum", xPathV3.evaluate(XPathExpressionsV3.SJUKHUSVARD_DATUM_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_TID_XPATH));
+                xPathV1.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_TID_XPATH));
 
         assertEquals("Sjukhusvård eller läkarkontakt - plats", xPathV3.evaluate(XPathExpressionsV3.SJUKHUSVARD_INRATTNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_VARDINRATTNING_XPATH));
+                xPathV1.evaluate(XPathExpressionsV1.VARD_PA_SJUKHUS_VARDINRATTNING_XPATH));
 
         assertEquals("Sjukhusvård eller läkarkontakt - anledning", xPathV3.evaluate(XPathExpressionsV3.SJUKHUSVARD_ANLEDNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.AKTIVITET_BESKRIVNING_TEMPLATE, "AKT19")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.AKTIVITET_BESKRIVNING_TEMPLATE, "AKT19")));
 
         // Observationer
         // Synobservationer
-        assertTrue("Synfältsdefekter", xPathV1.evaluate(XPathExpressionsV1
-            .booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.4",
-                xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_DEFEKT_XPATH))));
+        assertTrue("Synfältsdefekter", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.4", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_DEFEKT_XPATH))));
 
-        assertTrue("Nattblindhet", xPathV1.evaluate(XPathExpressionsV1
-            .booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.6",
-                xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_NATTBLINDHET_XPATH))));
+        assertTrue("Nattblindhet", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.6", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_NATTBLINDHET_XPATH))));
 
         assertTrue("Progressiv ögonsjukdom",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS1",
-                xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_PROGRESSIV_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS1", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_PROGRESSIV_XPATH))));
 
-        assertTrue("Diplopi", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.2",
-            xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_DIPLOPI_XPATH))));
+        assertTrue("Diplopi", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H53.2", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_DIPLOPI_XPATH))));
 
-        assertTrue("Nystagmus", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H55.9",
-            xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_NYSTAGMUS_XPATH))));
+        assertTrue("Nystagmus", xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "H55.9", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_NYSTAGMUS_XPATH))));
+
 
         assertEquals("Ej korrigerad synskärpa höger", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_HOGER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "420050001", "24028007")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "420050001", "24028007")));
 
         assertEquals("Korrigerad synskärpa höger", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_HOGER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "397535007", "24028007")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "397535007", "24028007")));
 
         assertEquals("Ej korrigerad synskärpa vänster", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_VANSTER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "420050001", "7771000")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "420050001", "7771000")));
 
         assertEquals("Korrigerad synskärpa vänster", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_VANSTER_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "397535007", "7771000")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "397535007", "7771000")));
 
-        assertEquals("Ej korrigerad synskärpa binokulärt",
-            xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_BINOKULART_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "420050001", "51440002")));
+        assertEquals("Ej korrigerad synskärpa binokulärt", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_UTAN_KORREKTION_BINOKULART_XPATH),
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "420050001", "51440002")));
 
         assertEquals("Korrigerad synskärpa binokulärt", xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_MED_KORREKTION_BINOKULART_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
-                "397535007", "51440002")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_VARDE_CODE_LATERALITET,
+                        "397535007", "51440002")));
+
 
         assertEquals("Kontaktlinser höger", Boolean.valueOf(xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_HOGER_XPATH)),
-            xPathV1.evaluate(
-                XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET, "285049007", "24028007")));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET, "285049007", "24028007")));
 
         assertEquals("Kontaktlinser vänster", Boolean.valueOf(xPathV3.evaluate(XPathExpressionsV3.SYNFUNKTION_KONTAKTLINS_VANSTER_XPATH)),
-            xPathV1.evaluate(
-                XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET, "285049007", "7771000")));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_CODE_LATERALITET, "285049007", "7771000")));
 
         // Hörsel & balans
         assertTrue("Balansrubbningar",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS2",
-                xPathV3.evaluate(XPathExpressionsV3.HORSEL_BALANS_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS2", xPathV3.evaluate(XPathExpressionsV3.HORSEL_BALANS_XPATH))));
+
 
         // Rörelseorganens förmåga
         assertTrue("Har rörelsebegränsning",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS4",
-                xPathV3.evaluate(XPathExpressionsV3.RORELSEORGAN_SJUKDOM_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS4", xPathV3.evaluate(XPathExpressionsV3.RORELSEORGAN_SJUKDOM_XPATH))));
 
         assertEquals("Rörelsebegränsning beskrivning", xPathV3.evaluate(XPathExpressionsV3.RORELSEORGAN_BESKRICNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS4",
-                xPathV3.evaluate(XPathExpressionsV3.RORELSEORGAN_BESKRICNING_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS4", xPathV3.evaluate(XPathExpressionsV3.RORELSEORGAN_BESKRICNING_XPATH))));
 
         // Hjärt & kärlsjukdom
         assertTrue("Risk försämrad hjärnfunktion",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS6",
-                xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_FUNKTION_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS6", xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_FUNKTION_XPATH))));
 
         assertTrue("Tecken på hjärnskada",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS8",
-                xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_SKADA_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS8", xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_SKADA_XPATH))));
 
         assertTrue("Riskfaktorer för stroke",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS7",
-                xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS7", xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_XPATH))));
 
         assertEquals("Riskfaktorer stroke - beskrivning", xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_BESKRIVNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS7",
-                xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_BESKRIVNING_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS7", xPathV3.evaluate(XPathExpressionsV3.HJARTKARL_RISK_STROKE_BESKRIVNING_XPATH))));
 
         // Diabetes
         assertTrue("Har diabetes",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "73211009",
-                xPathV3.evaluate(XPathExpressionsV3.DIABETES_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "73211009", xPathV3.evaluate(XPathExpressionsV3.DIABETES_XPATH))));
 
 /*        if (diabetes.isHarDiabetes()) {
             assertTrue("Diabetes typ2",
@@ -321,62 +289,55 @@ public class TsBasV3ToV1TransformerXpathTest {
 
         // Neurologi
         assertTrue("Tecken på neurologisk sjukdom",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "407624006",
-                xPathV3.evaluate(XPathExpressionsV3.NEUROLOGISKA_SJUKDOMAR_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "407624006", xPathV3.evaluate(XPathExpressionsV3.NEUROLOGISKA_SJUKDOMAR_XPATH))));
+
 
         // Medvetandestörning
         assertTrue("Har medvetandestörning",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "G40.9",
-                xPathV3.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "G40.9", xPathV3.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_XPATH))));
 
         assertEquals("Medvetandestörning - beskrivning", xPathV3.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_BESKRIVNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "G40.9",
-                xPathV3.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_BESKRIVNING_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "G40.9", xPathV3.evaluate(XPathExpressionsV3.MEDVETANDESTORNING_BESKRIVNING_XPATH))));
 
         // Njursjukdom
         assertTrue("Har njursjukdom",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS11",
-                xPathV3.evaluate(XPathExpressionsV3.NJURSJUKDOM_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS11", xPathV3.evaluate(XPathExpressionsV3.NJURSJUKDOM_XPATH))));
+
 
         // Sviktande kognitiv förmåga
         assertTrue("kognitiv förmåga",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS12",
-                xPathV3.evaluate(XPathExpressionsV3.DEMENS_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS12", xPathV3.evaluate(XPathExpressionsV3.DEMENS_XPATH))));
 
         // Somn vakenhet
         assertTrue("Somn vakenhet",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS13",
-                xPathV3.evaluate(XPathExpressionsV3.SOMN_OCH_VAKENHETSSTORNINGAR_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS13", xPathV3.evaluate(XPathExpressionsV3.SOMN_OCH_VAKENHETSSTORNINGAR_XPATH))));
+
 
         // alkohol och narkotika
         assertTrue("Tecken på missbruk",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS14",
-                xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_TECKEN_MISSBRUK_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS14", xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_TECKEN_MISSBRUK_XPATH))));
 
         assertTrue("Läkemedelsbruk",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS15",
-                xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS15", xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_XPATH))));
 
         assertEquals("Läkemedelsbruk - beskrivning", xPathV3.evaluate(XPathExpressionsV3.ALKOHOL_ORDINERAT_LAKEMEDEL_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS15")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS15")));
+
 
         // Psykisk sjukdom
         assertTrue("Psykisk sjukdom",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS16",
-                xPathV3.evaluate(XPathExpressionsV3.PSYKISKA_SJUKDOMAR_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS16", xPathV3.evaluate(XPathExpressionsV3.PSYKISKA_SJUKDOMAR_XPATH))));
 
         // Utvecklingsstörning
         assertTrue("Har psykisk utvecklingsstörning",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "129104009",
-                xPathV3.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_PSYKISK_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "129104009", xPathV3.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_PSYKISK_XPATH))));
 
         assertTrue("Har ADHD eller damp",
-            xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS17",
-                xPathV3.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_ANDRA_XPATH))));
+                xPathV1.evaluate(XPathExpressionsV1.booleanXPath(XPathExpressionsV1.OBSERVATION_FOREKOMST_TEMPLATE, "OBS17", xPathV3.evaluate(XPathExpressionsV3.UTVECKLINGSSTORNING_ANDRA_XPATH))));
 
         // Stadigvarande medicinering
         assertEquals("Har stadigvarande medicinering- beskrivning", xPathV3.evaluate(XPathExpressionsV3.OVRIG_MEDICIN_BESKRIVNING_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS18")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.OBSERVATION_BESKRIVNING_TEMPLATE, "OBS18")));
 /*
         // Rekommendationer
         assertTrue("Rekommendation REK8",
@@ -394,11 +355,11 @@ public class TsBasV3ToV1TransformerXpathTest {
         */
 
         assertEquals("Bedömning beskrivning", xPathV3.evaluate(XPathExpressionsV3.BEDOMNING_SPECIALIST_XPATH),
-            xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.REKOMMENDATION_BESKRIVNING_TEMPLATE, "REK9")));
+                xPathV1.evaluate(XPathExpressionsV1.stringXPath(XPathExpressionsV1.REKOMMENDATION_BESKRIVNING_TEMPLATE, "REK9")));
     }
 
     private XPathEvaluator createXPathEvaluator(String xml) throws ParserConfigurationException,
-        JAXBException, SAXException, IOException, TransformerException {
+            JAXBException, SAXException, IOException, TransformerException {
         XPath xPath = XPathFactory.newInstance().newXPath();
         SimpleNamespaceContext namespaces = new SimpleNamespaceContext();
         namespaces.bindDefaultNamespaceUri("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:1");
@@ -412,7 +373,7 @@ public class TsBasV3ToV1TransformerXpathTest {
     }
 
     private XPathEvaluator createXPathEvaluatorV3(String xml) throws ParserConfigurationException,
-        JAXBException, SAXException, IOException, TransformerException {
+            JAXBException, SAXException, IOException, TransformerException {
 
         SimpleNamespaceContext namespaces = new SimpleNamespaceContext();
         namespaces.bindDefaultNamespaceUri("urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3");
@@ -427,16 +388,14 @@ public class TsBasV3ToV1TransformerXpathTest {
         return new XPathEvaluator(xPath, document);
     }
 
-    private Node generateDocumentForV3(String xml)
-        throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
+    private Node generateDocumentForV3(String xml) throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder parser = factory.newDocumentBuilder();
         Node node = parser.newDocument();
 
         InputStream is = new ByteArrayInputStream(xml.getBytes());
 
-        se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType register = JAXB
-            .unmarshal(is, se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType.class);
+        se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType register = JAXB.unmarshal(is, se.riv.clinicalprocess.healthcond.certificate.registerCertificate.v3.RegisterCertificateType.class);
 
         JAXBElement<Intyg> jaxbElement = new JAXBElement<>(new QName("intyg"), Intyg.class, register.getIntyg());
         JAXBContext context = JAXBContext.newInstance(Intyg.class);
@@ -455,8 +414,7 @@ public class TsBasV3ToV1TransformerXpathTest {
         t.transform(source, result);
     }
 
-    private Node generateDocumentFor(String xml)
-        throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
+    private Node generateDocumentFor(String xml) throws ParserConfigurationException, JAXBException, SAXException, IOException, TransformerException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder parser = factory.newDocumentBuilder();
         Node node = parser.newDocument();

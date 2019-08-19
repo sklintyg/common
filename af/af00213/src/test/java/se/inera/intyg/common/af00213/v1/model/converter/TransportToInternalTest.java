@@ -21,6 +21,7 @@ package se.inera.intyg.common.af00213.v1.model.converter;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

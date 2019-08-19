@@ -18,12 +18,11 @@
  */
 package se.inera.intyg.common.lisjp.v1.pdf;
 
-import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
-
-import com.itextpdf.text.DocumentException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.itextpdf.text.DocumentException;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
@@ -31,13 +30,15 @@ import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
 
+import static se.inera.intyg.common.fkparent.pdf.PdfConstants.MINIMAL_ELECTRONIC_COPY_WATERMARK_TEXT;
+
 /**
  * To be used to print the employee copy of LISJP.
  */
 public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitionBuilder {
 
     static final String CUSTOMIZED_ELECTRONIC_COPY_WATERMARK_TEXT =
-        "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort. "
+            "Detta är en anpassad utskrift av ett elektroniskt intyg. Viss information i intyget har valts bort. "
             + "Intyget har signerats elektroniskt av intygsutfärdaren.";
 
     private List<String> optionalFields;
@@ -48,7 +49,7 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
 
     @Override
     void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
-        List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+                   List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
         pdfDefinition.addChild(createPage1(intyg, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
         pdfDefinition.addChild(createPage3(intyg));
@@ -79,8 +80,9 @@ public class EmployeeLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinitio
     }
 
     private FkPage createPage1(LisjpUtlatandeV1 intyg, ApplicationOrigin applicationOrigin)
-        throws IOException, DocumentException {
+            throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
+
 
         printCopyText(allElements, intyg, applicationOrigin);
         addPage1MiscFields(intyg, false, allElements);

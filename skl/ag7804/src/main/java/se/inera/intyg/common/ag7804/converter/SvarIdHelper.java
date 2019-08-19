@@ -19,6 +19,7 @@
 package se.inera.intyg.common.ag7804.converter;
 
 import java.util.List;
+
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public interface SvarIdHelper<T extends Utlatande> {
@@ -29,7 +30,7 @@ public interface SvarIdHelper<T extends Utlatande> {
      *
      * @param utlatande the relevant certificate
      * @return a (ordered) list of the jsonProperties matching grund for MU in the supplied certificate, starting with
-     * the jsonProperty for the question.
+     *         the jsonProperty for the question.
      */
     List<String> calculateFrageIdHandleForGrundForMU(T utlatande);
 }

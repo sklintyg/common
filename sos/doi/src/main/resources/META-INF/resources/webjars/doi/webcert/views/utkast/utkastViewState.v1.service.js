@@ -18,109 +18,109 @@
  */
 angular.module('doi').service('doi.EditCertCtrl.ViewStateService.v1',
     ['$log', '$state', 'common.UtkastViewStateService', 'doi.Domain.IntygModel.v1',
-      function($log, $state, CommonViewState, IntygModel) {
-        'use strict';
+        function($log, $state, CommonViewState, IntygModel) {
+            'use strict';
 
-        this.common = CommonViewState;
+            this.common = CommonViewState;
 
-        this.intygModel = undefined;
-        this.draftModel = undefined;
+            this.intygModel = undefined;
+            this.draftModel = undefined;
 
-        this.setDraftModel = function(draftModel) {
-          this.draftModel = draftModel;
-          this.intygModel = draftModel.content;
-        };
+            this.setDraftModel = function(draftModel){
+                this.draftModel = draftModel;
+                this.intygModel = draftModel.content;
+            };
 
-        this.inputLimits = {
-          arbetsformagaPrognos: 600,
-          nuvarandeArbetsuppgifter: 120,
-          atgardInomSjukvarden: 66,
-          annanAtgard: 66,
-          aktivitetsbegransning: 1100,
-          funktionsnedsattning: 450,
-          sjukdomsforlopp: 270,
-          diagnosBeskrivning: 220,
-          ovrigt: 360,
-          finishedBehandling: 999,
-          pagaendeBehandling: 999,
-          planeradBehandling: 999
-        };
+            this.inputLimits = {
+                arbetsformagaPrognos: 600,
+                nuvarandeArbetsuppgifter: 120,
+                atgardInomSjukvarden: 66,
+                annanAtgard: 66,
+                aktivitetsbegransning: 1100,
+                funktionsnedsattning: 450,
+                sjukdomsforlopp: 270,
+                diagnosBeskrivning :220,
+                ovrigt: 360,
+                finishedBehandling: 999,
+                pagaendeBehandling: 999,
+                planeradBehandling: 999
+            };
 
-        this.reset = function() {
-          CommonViewState.reset();
-          CommonViewState.intyg.type = 'doi';
-          this.setDraftModel(IntygModel._members.build());
-          return this;
-        };
+            this.reset = function() {
+                CommonViewState.reset();
+                CommonViewState.intyg.type = 'doi';
+                this.setDraftModel(IntygModel._members.build());
+                return this;
+            };
 
-        this.clearModel = function() {
-          this.intygModel = undefined;
-          this.draftModel = undefined;
-        };
+            this.clearModel = function(){
+                this.intygModel = undefined;
+                this.draftModel = undefined;
+            };
 
-        this.getCopyDraftAlert = function() {
-          var intygsTyp = 'doi';
+            this.getCopyDraftAlert = function() {
+                var intygsTyp = 'doi';
 
-          var previousIntyg = this.common.previousIntyg[intygsTyp];
-          var previousUtkast = this.common.previousUtkast[intygsTyp];
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
 
-          if (previousUtkast && !previousUtkast.sameVardgivare) {
-            return intygsTyp + '.warn.previousdraft.differentvg';
-          }
-
-          if (previousIntyg && !previousIntyg.sameVardgivare) {
-            return intygsTyp + '.warn.previouscertificate.differentvg';
-          }
-
-          return null;
-        };
-
-        this.getLockedDraftAlert = function() {
-          var intygsTyp = 'doi';
-
-          var previousIntyg = this.common.previousIntyg[intygsTyp];
-          var previousUtkast = this.common.previousUtkast[intygsTyp];
-
-          if (previousUtkast && previousUtkast.sameVardgivare) {
-            if (!previousUtkast.sameEnhet) {
-              return [{
-                severity: 'info',
-                id: 'intyg-previousutkast-warning-' + intygsTyp,
-                text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
-                params: {
-                  enhetName: previousUtkast.enhetName
+                if (previousUtkast && !previousUtkast.sameVardgivare) {
+                    return intygsTyp + '.warn.previousdraft.differentvg';
                 }
-              }];
-            }
 
-            return [{
-              severity: 'info',
-              id: 'intyg-previousutkast-warning-' + intygsTyp,
-              text: intygsTyp + '.warn.previousdraft.samevg'
-            }];
-          }
-
-          if (previousIntyg && previousIntyg.sameVardgivare) {
-            if (!previousIntyg.sameEnhet) {
-              return [{
-                severity: 'info',
-                id: 'intyg-previousintyg-warning-' + intygsTyp,
-                text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
-                params: {
-                  enhetName: previousIntyg.enhetName
+                if (previousIntyg && !previousIntyg.sameVardgivare) {
+                    return intygsTyp + '.warn.previouscertificate.differentvg';
                 }
-              }];
-            }
 
-            return [{
-              severity: 'info',
-              id: 'intyg-previousintyg-warning-' + intygsTyp,
-              text: intygsTyp + '.warn.previouscertificate.samevg'
-            }];
-          }
+                return null;
+            };
 
-          return [];
-        };
+            this.getLockedDraftAlert = function() {
+                var intygsTyp = 'doi';
 
-        this.reset();
-      }]);
+                var previousIntyg = this.common.previousIntyg[intygsTyp];
+                var previousUtkast = this.common.previousUtkast[intygsTyp];
+
+                if (previousUtkast && previousUtkast.sameVardgivare) {
+                    if (!previousUtkast.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousutkast-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previousdraft.samevg.differentenhet',
+                            params: {
+                                enhetName: previousUtkast.enhetName
+                            }
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousutkast-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previousdraft.samevg'
+                    }];
+                }
+
+                if (previousIntyg && previousIntyg.sameVardgivare) {
+                    if (!previousIntyg.sameEnhet) {
+                        return [{
+                            severity: 'info',
+                            id: 'intyg-previousintyg-warning-' + intygsTyp,
+                            text: intygsTyp + '.warn.previouscertificate.samevg.differentenhet',
+                            params: {
+                                enhetName: previousIntyg.enhetName
+                            }
+                        }];
+                    }
+
+                    return [{
+                        severity: 'info',
+                        id: 'intyg-previousintyg-warning-' + intygsTyp,
+                        text: intygsTyp + '.warn.previouscertificate.samevg'
+                    }];
+                }
+
+                return [];
+            };
+
+            this.reset();
+        }]);

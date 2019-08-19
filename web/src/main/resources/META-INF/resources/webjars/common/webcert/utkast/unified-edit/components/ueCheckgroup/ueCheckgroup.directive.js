@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueCheckgroup', ['$http', 'ueUtil',
-  function($http, ueUtil) {
+angular.module('common').directive('ueCheckgroup', [ '$http',  'ueUtil',
+    function($http, ueUtil) {
     'use strict';
     return {
-      restrict: 'E',
-      scope: {
-        form: '=',
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.html',
-      link: function($scope) {
-        ueUtil.standardSetup($scope);
-      }
+        restrict: 'E',
+        scope: {
+            form: '=',
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueCheckgroup/ueCheckgroup.directive.html',
+        link: function($scope) {
+            ueUtil.standardSetup($scope);
+        }
     };
 
-  }]);
+}]);

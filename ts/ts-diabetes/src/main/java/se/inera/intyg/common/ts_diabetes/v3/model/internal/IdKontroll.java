@@ -18,10 +18,12 @@
  */
 package se.inera.intyg.common.ts_diabetes.v3.model.internal;
 
+import javax.annotation.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.auto.value.AutoValue;
-import javax.annotation.Nullable;
+
 import se.inera.intyg.common.ts_diabetes.v3.model.kodverk.KvIdKontroll;
 
 /**

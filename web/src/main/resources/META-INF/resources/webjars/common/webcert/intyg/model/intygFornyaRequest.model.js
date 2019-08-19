@@ -17,29 +17,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.IntygFornyaRequestModel', [
-  'common.IntygCopyRequestModel',
-  function(IntygCopyRequestModel) {
-    'use strict';
+    'common.IntygCopyRequestModel',
+    function(IntygCopyRequestModel) {
+        'use strict';
 
-    /**
-     * Constructor
-     *
-     * parameters intygId, intygType, patientPersonnummer
-     *
-     * @inherits IntygCopyRequestModel
-     */
-    function IntygFornyaRequestModel(data) {
-      IntygCopyRequestModel.apply(this, [data]);
-      this.fornya = true;
+        /**
+         * Constructor
+         *
+         * parameters intygId, intygType, patientPersonnummer
+         *
+         * @inherits IntygCopyRequestModel
+         */
+        function IntygFornyaRequestModel(data) {
+            IntygCopyRequestModel.apply(this, [data]);
+            this.fornya = true;
+        }
+
+        IntygFornyaRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
+        IntygFornyaRequestModel.prototype.constructor = IntygFornyaRequestModel;
+
+        IntygFornyaRequestModel.build = function(data) {
+            return new IntygFornyaRequestModel(data);
+        };
+
+        return IntygFornyaRequestModel;
     }
-
-    IntygFornyaRequestModel.prototype = Object.create(IntygCopyRequestModel.prototype);
-    IntygFornyaRequestModel.prototype.constructor = IntygFornyaRequestModel;
-
-    IntygFornyaRequestModel.build = function(data) {
-      return new IntygFornyaRequestModel(data);
-    };
-
-    return IntygFornyaRequestModel;
-  }
 ]);

@@ -32,12 +32,12 @@ public class Vardgivare {
         if (object == null) {
             return false;
         }
-        if (!(object instanceof Vardgivare)) {
+        if (!(object instanceof  Vardgivare)) {
             return false;
         }
         final Vardgivare that = (Vardgivare) object;
         return Objects.equals(this.vardgivarid, that.vardgivarid)
-            && Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
+                && Objects.equals(this.vardgivarnamn, that.vardgivarnamn);
     }
 
     @Override
@@ -48,9 +48,9 @@ public class Vardgivare {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-            .add("vardgivarid", vardgivarid)
-            .add("vardgivarnamn", vardgivarnamn)
-            .toString();
+                .add("vardgivarid", vardgivarid)
+                .add("vardgivarnamn", vardgivarnamn)
+                .toString();
     }
 
     public String getVardgivarid() {
@@ -68,6 +68,7 @@ public class Vardgivare {
     public void setVardgivarnamn(String vardgivarnamn) {
         this.vardgivarnamn = vardgivarnamn;
     }
+
 
 
 }

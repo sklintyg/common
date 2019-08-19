@@ -1,15 +1,24 @@
-<div ng-click="togglePlate()" tabindex="{{disabled || formDisabled?-1:0}}" aria-haspopup="listbox"
-     aria-expanded="{{isOpen}}" aria-owns="wcdropdown-{{id}}" ng-keydown="onKeydown($event)" ng-class="{open: isOpen}"
-     class="dropdown-label" ng-switch="useDynamicLabel">
-  <span ng-attr-id="{{id + '-selected-item-label'}}" ng-switch-when="true" dynamic-label
-        key="{{ selectedItemLabel }}"></span>
+<div ng-click="togglePlate()"
+     tabindex="{{disabled || formDisabled?-1:0}}"
+     aria-haspopup="listbox"
+     aria-expanded="{{isOpen}}"
+     aria-owns="wcdropdown-{{id}}"
+     ng-keydown="onKeydown($event)"
+     ng-class="{open: isOpen}"
+     class="dropdown-label"
+     ng-switch="useDynamicLabel">
+  <span ng-attr-id="{{id + '-selected-item-label'}}" ng-switch-when="true" dynamic-label key="{{ selectedItemLabel }}"></span>
   <span ng-attr-id="{{id + '-selected-item-label'}}" ng-switch-when="false">{{ selectedItemLabel }}</span>
   <i class="material-icons md-18">{{isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}</i>
 </div>
 
 <div ng-show="isOpen" class="plate ng-hide" role="listbox" id="wcdropdown-{{id}}">
-  <div ng-repeat="item in items" ng-click="select(item)" role="option" aria-selected="{{selectedItemId === item.id}}"
-       ng-class="{selected : selectedItemId === item.id}" ng-switch="useDynamicLabel"
+  <div ng-repeat="item in items"
+       ng-click="select(item)"
+       role="option"
+       aria-selected="{{selectedItemId === item.id}}"
+       ng-class="{selected : selectedItemId === item.id}"
+       ng-switch="useDynamicLabel"
        ng-attr-id="{{id + '-' + item.id}}">
     <span ng-switch-when="true" dynamic-label key="{{ item.label }}"></span>
     <span ng-switch-when="false">{{ item.label }}</span>

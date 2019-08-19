@@ -27,10 +27,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.ag7804.model.internal.ArbetslivsinriktadeAtgarder;
@@ -68,13 +70,13 @@ public class TransportToInternalTest {
         utlatande.setUndersokningAvPatienten(new InternalDate(LocalDate.now()));
         utlatande.setOnskarFormedlaDiagnos(true);
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
+                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
         utlatande.setAktivitetsbegransning("Väldigt sjuk");
         utlatande.setPagaendeBehandling("Medicin");
         utlatande.setPlaneradBehandling("Mer medicin");
 
         utlatande.setArbetslivsinriktadeAtgarder(
-            asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
+                asList(ArbetslivsinriktadeAtgarder.create(ArbetslivsinriktadeAtgarder.ArbetslivsinriktadeAtgarderVal.ARBETSANPASSNING)));
 
         utlatande.setSysselsattning(Arrays.asList(Sysselsattning.create(Sysselsattning.SysselsattningsTyp.STUDIER)));
         utlatande.setPrognos(Prognos.create(PrognosTyp.ATER_X_ANTAL_DGR, PrognosDagarTillArbeteTyp.DAGAR_30));
@@ -90,9 +92,9 @@ public class TransportToInternalTest {
     private static List<Sjukskrivning> createSjukskrivningar() {
         List<Sjukskrivning> result = new ArrayList<>();
         result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_1_4,
-            new InternalLocalDateInterval("2016-12-01", "2016-12-31")));
+                new InternalLocalDateInterval("2016-12-01", "2016-12-31")));
         result.add(Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.NEDSATT_HALFTEN,
-            new InternalLocalDateInterval("2017-01-01", "2017-02-12")));
+                new InternalLocalDateInterval("2017-01-01", "2017-02-12")));
         return result;
     }
 

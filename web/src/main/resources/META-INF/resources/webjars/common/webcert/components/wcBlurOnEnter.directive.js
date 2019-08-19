@@ -17,15 +17,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('wcBlurOnEnter', function() {
-  'use strict';
-  return {
-    link: function(scope, element) {
-      element.bind('keypress', function(event) {
-        if (event.which === 13) {
-          element.blur();
-          event.preventDefault();
+    'use strict';
+    return {
+        link: function(scope, element) {
+            element.bind('keypress', function(event) {
+                if (event.which === 13) {
+                    element.blur();
+                    event.preventDefault();
+                }
+            });
         }
-      });
-    }
-  };
+    };
 });

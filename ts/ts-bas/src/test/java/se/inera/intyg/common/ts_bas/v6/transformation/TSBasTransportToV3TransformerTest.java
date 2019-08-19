@@ -18,21 +18,9 @@
  */
 package se.inera.intyg.common.ts_bas.v6.transformation;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.fail;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import com.helger.commons.collection.pair.Pair;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.Validator;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.ErrorHandler;
@@ -44,6 +32,19 @@ import org.xmlunit.diff.Diff;
 import org.xmlunit.diff.ElementSelectors;
 import se.inera.intyg.common.support.modules.transformer.XslTransformer;
 import se.inera.intyg.common.support.xml.SchemaValidatorBuilder;
+
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.Validator;
+import java.io.ByteArrayInputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 public class TSBasTransportToV3TransformerTest {
 
@@ -92,9 +93,9 @@ public class TSBasTransportToV3TransformerTest {
     @Test
     public void testTransformation() throws Exception {
         List<String> testFiles = asList("valid-diabetes-typ2-kost.xml",
-            "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
-            "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml",
-            "valid-no-dash-personid-extension.xml");
+                "valid-korrigerad-synskarpa.xml", "valid-maximal.xml", "valid-minimal.xml",
+                "valid-persontransport.xml", "valid-sjukhusvard.xml", "valid-utan-korrigerad-synskarpa.xml",
+                "valid-no-dash-personid-extension.xml");
 
         XslTransformer transformer = new XslTransformer("xsl/transportToV3.xsl");
 
@@ -117,14 +118,14 @@ public class TSBasTransportToV3TransformerTest {
             String expectedXmlContents = Resources.toString(getResource("v6/scenarios/rivtav3/" + xmlFile), Charsets.UTF_8);
 
             Diff diff = DiffBuilder
-                .compare(Input.fromString(expectedXmlContents))
-                .withTest(Input.fromString(result))
-                .ignoreComments()
-                .ignoreWhitespace()
-                .checkForSimilar()
-                .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
-                .withNodeFilter(node -> !node.getNodeName().equals("skickatTidpunkt"))
-                .build();
+                    .compare(Input.fromString(expectedXmlContents))
+                    .withTest(Input.fromString(result))
+                    .ignoreComments()
+                    .ignoreWhitespace()
+                    .checkForSimilar()
+                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byNameAndAttributes("id")))
+                    .withNodeFilter(node -> !node.getNodeName().equals("skickatTidpunkt"))
+                    .build();
             assertFalse(diff.toString(), diff.hasDifferences());
         }
     }
@@ -148,19 +149,23 @@ public class TSBasTransportToV3TransformerTest {
         Validator validator = v3Schema.newValidator();
         final ArrayList<SAXParseException> exceptions = new ArrayList<>();
         Pair<Validator, ArrayList<SAXParseException>> ret = new Pair<>(validator, exceptions);
-        validator.setErrorHandler(new ErrorHandler() {
+        validator.setErrorHandler(new ErrorHandler()
+        {
             @Override
-            public void warning(SAXParseException exception) {
+            public void warning(SAXParseException exception)
+            {
                 exceptions.add(exception);
             }
 
             @Override
-            public void fatalError(SAXParseException exception) {
+            public void fatalError(SAXParseException exception)
+            {
                 exceptions.add(exception);
             }
 
             @Override
-            public void error(SAXParseException exception) {
+            public void error(SAXParseException exception)
+            {
                 exceptions.add(exception);
             }
         });

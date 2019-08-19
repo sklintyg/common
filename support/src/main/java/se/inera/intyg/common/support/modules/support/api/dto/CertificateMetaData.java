@@ -21,6 +21,7 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+
 import se.inera.intyg.common.support.model.Status;
 
 public class CertificateMetaData {
@@ -39,79 +40,60 @@ public class CertificateMetaData {
     public String getCertificateId() {
         return certificateId;
     }
-
     public void setCertificateId(String certificateId) {
         this.certificateId = certificateId;
     }
-
     public String getCertificateType() {
         return certificateType;
     }
-
     public void setCertificateType(String certificateType) {
         this.certificateType = certificateType;
     }
-
     public LocalDate getValidFrom() {
         return validFrom;
     }
-
     public void setValidFrom(LocalDate validFrom) {
         this.validFrom = validFrom;
     }
-
     public LocalDate getValidTo() {
         return validTo;
     }
-
     public void setValidTo(LocalDate validTo) {
         this.validTo = validTo;
     }
-
     public String getIssuerName() {
         return issuerName;
     }
-
     public void setIssuerName(String issuerName) {
         this.issuerName = issuerName;
     }
-
     public String getFacilityName() {
         return facilityName;
     }
-
     public void setFacilityName(String facilityName) {
         this.facilityName = facilityName;
     }
-
     public LocalDateTime getSignDate() {
         return signDate;
     }
-
     public void setSignDate(LocalDateTime signDate) {
         this.signDate = signDate;
     }
-
     public boolean isAvailable() {
         return available;
     }
-
     public void setAvailable(boolean available) {
         this.available = available;
     }
-
     public List<Status> getStatus() {
         return status;
     }
-
     public void setStatus(List<Status> status) {
         this.status = status;
     }
-
     public String getAdditionalInfo() {
         return additionalInfo;
     }
-
     public void setAdditionalInfo(String additionalInfo) {
         this.additionalInfo = additionalInfo;
     }

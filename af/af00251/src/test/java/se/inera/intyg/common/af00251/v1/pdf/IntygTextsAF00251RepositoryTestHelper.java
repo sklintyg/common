@@ -19,17 +19,18 @@
 package se.inera.intyg.common.af00251.v1.pdf;
 
 import com.google.common.collect.ImmutableMap;
-import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Properties;
-import java.util.SortedMap;
-import javax.xml.parsers.DocumentBuilderFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.services.texts.repo.IntygTextsRepositoryImpl;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Properties;
+import java.util.SortedMap;
 
 public class IntygTextsAF00251RepositoryTestHelper extends IntygTextsRepositoryImpl {
 
@@ -38,11 +39,10 @@ public class IntygTextsAF00251RepositoryTestHelper extends IntygTextsRepositoryI
     }
 
     @Override
-    public void update() {
+    public void update()  {
 
         try {
-            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-                .parse(new ClassPathResource("text/texterMU_AF00251_v1.0.xml").getInputStream());
+            Document e = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ClassPathResource("text/texterMU_AF00251_v1.0.xml").getInputStream());
             Element root = e.getDocumentElement();
             String version = root.getAttribute("version");
             String intygsTyp = root.getAttribute("typ").toLowerCase();

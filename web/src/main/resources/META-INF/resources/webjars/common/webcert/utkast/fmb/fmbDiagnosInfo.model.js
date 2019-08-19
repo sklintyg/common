@@ -17,64 +17,64 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').service('common.fmbDiagnosInfoModel',
-    function() {
-      'use strict';
+        function() {
+            'use strict';
 
-      function FmbDiagnosInfoModel() {
-        this.formData = [];
-        this.diagnosKod = undefined;
-        this.diagnosBeskrivning = undefined;
-        this.originalDiagnosKod = undefined;
-        this.referenceDescription = undefined;
-        this.referenceLink = undefined;
-        this.hasInfo = false;
-      }
-
-      var transformFormData = function transformFormData(formData) {
-        var transformedFormData = {};
-        if (formData.forms) {
-          formData.forms.forEach(function(item) {
-            transformedFormData[item.name] = item.content;
-          });
-        }
-
-        return transformedFormData;
-      };
-
-      FmbDiagnosInfoModel.prototype.setState = function(formData, originalDiagnosKod, originalDiagnosBeskrivning) {
-        this.formData = transformFormData(formData);
-        this.diagnosKod = formData.icd10Code;
-        this.diagnosBeskrivning = formData.icd10Description || originalDiagnosBeskrivning;
-        this.originalDiagnosKod = originalDiagnosKod;
-        this.referenceDescription = formData.referenceDescription;
-        this.referenceLink = formData.referenceLink;
-        this.hasInfo = Object.keys(this.formData).length > 0;
-        this.originalDiagnosBeskrivning = originalDiagnosBeskrivning;
-      };
-
-      FmbDiagnosInfoModel.prototype.getReference = function() {
-        return {
-          desc: this.referenceDescription,
-          link: this.referenceLink
-        };
-      };
-
-      FmbDiagnosInfoModel.prototype.getFormData = function(formKey, headingId) {
-        var result;
-        var form = this.formData[formKey];
-        if (form) {
-          angular.forEach(form, function(data) {
-            if (data.heading === headingId) {
-              result = data;
+            function FmbDiagnosInfoModel() {
+                this.formData = [];
+                this.diagnosKod = undefined;
+                this.diagnosBeskrivning = undefined;
+                this.originalDiagnosKod = undefined;
+                this.referenceDescription = undefined;
+                this.referenceLink = undefined;
+                this.hasInfo = false;
             }
-          });
-        }
-        return result;
-      };
 
-      FmbDiagnosInfoModel.build = function() {
-        return new FmbDiagnosInfoModel();
-      };
+            var transformFormData = function transformFormData(formData) {
+                var transformedFormData = {};
+                if (formData.forms) {
+                    formData.forms.forEach(function(item) {
+                        transformedFormData[item.name] = item.content;
+                    });
+                }
 
-      return FmbDiagnosInfoModel;
-    });
+                return transformedFormData;
+            };
+
+            FmbDiagnosInfoModel.prototype.setState = function(formData, originalDiagnosKod, originalDiagnosBeskrivning){
+                this.formData = transformFormData(formData);
+                this.diagnosKod = formData.icd10Code;
+                this.diagnosBeskrivning = formData.icd10Description || originalDiagnosBeskrivning;
+                this.originalDiagnosKod = originalDiagnosKod;
+                this.referenceDescription = formData.referenceDescription;
+                this.referenceLink = formData.referenceLink;
+                this.hasInfo = Object.keys(this.formData).length > 0;
+                this.originalDiagnosBeskrivning = originalDiagnosBeskrivning;
+            };
+
+            FmbDiagnosInfoModel.prototype.getReference = function() {
+                return {
+                    desc: this.referenceDescription,
+                    link: this.referenceLink
+                };
+            };
+
+            FmbDiagnosInfoModel.prototype.getFormData = function(formKey, headingId) {
+                var result;
+                var form = this.formData[formKey];
+                if (form) {
+                    angular.forEach(form, function(data) {
+                        if (data.heading === headingId) {
+                            result = data;
+                        }
+                    });
+                }
+                return result;
+            };
+
+            FmbDiagnosInfoModel.build = function() {
+                return new FmbDiagnosInfoModel();
+            };
+
+            return FmbDiagnosInfoModel;
+        });

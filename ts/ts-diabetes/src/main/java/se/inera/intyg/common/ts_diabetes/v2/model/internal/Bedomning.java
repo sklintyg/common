@@ -18,12 +18,14 @@
  */
 package se.inera.intyg.common.ts_diabetes.v2.model.internal;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.EnumSet;
 import java.util.Set;
+
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class Bedomning {
 
@@ -79,15 +81,13 @@ public class Bedomning {
     }
 
     public static class BedomningKorkortstypEnumSetSerializer extends AbstractEnumSetSerializer<BedomningKorkortstyp> {
-
         protected BedomningKorkortstypEnumSetSerializer() {
             super(BedomningKorkortstyp.class);
         }
     }
 
     public static class BedomningKorkortstypEnumSetDeserializer extends
-        AbstractEnumSetDeserializer<BedomningKorkortstyp> {
-
+            AbstractEnumSetDeserializer<BedomningKorkortstyp> {
         protected BedomningKorkortstypEnumSetDeserializer() {
             super(BedomningKorkortstyp.class);
         }

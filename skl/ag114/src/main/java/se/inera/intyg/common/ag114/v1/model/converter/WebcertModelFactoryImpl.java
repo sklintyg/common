@@ -20,14 +20,16 @@ package se.inera.intyg.common.ag114.v1.model.converter;
 
 import java.util.Arrays;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.ag114.v1.model.internal.Ag114UtlatandeV1;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning;
 import se.inera.intyg.common.ag114.v1.model.internal.Sysselsattning.SysselsattningsTyp;
+import se.inera.intyg.common.ag114.support.Ag114EntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
@@ -43,7 +45,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component(value = "ag114.WebcertModelFactoryImpl.v1")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114UtlatandeV1> {
-
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -52,8 +53,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114Utlatan
     /**
      * Create a new ag114 draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
      * @return {@link Ag114UtlatandeV1} or throws a ConverterException if something unforeseen happens
+     * @throws ConverterException
      */
     @Override
     public Ag114UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -72,7 +75,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<Ag114Utlatan
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+                intygTexts.getLatestVersionForSameMajorVersion(Ag114EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

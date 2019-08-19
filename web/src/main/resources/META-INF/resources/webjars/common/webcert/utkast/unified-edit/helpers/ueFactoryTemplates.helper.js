@@ -17,181 +17,183 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').factory('common.ueFactoryTemplatesHelper', ['common.PrefilledUserDataService', 'common.UserModel',
-  function(prefilledUserDataService, UserModel) {
-    'use strict';
+angular.module('common').factory('common.ueFactoryTemplatesHelper', [ 'common.PrefilledUserDataService', 'common.UserModel',
+    function(prefilledUserDataService, UserModel) {
+        'use strict';
 
-    var labelColSize = 3;
+        var labelColSize = 3;
 
-    function _kategori(id, labelKey, helpKey, options, components) {
+        function _kategori(id, labelKey, helpKey, options, components) {
 
-      if (!options) {
-        options = {};
-      }
+            if(!options){
+                options = {};
+            }
 
-      return {
-        type: 'ue-kategori',
-        categoryId: id,
-        label: {
-          key: labelKey,
-          helpKey: helpKey,
-          required: options.required,
-          requiredProp: options.requiredProp
-        },
-        components: components,
-        hideExpression: options.hideExpression,
-        signingDoctor: options.signingDoctor
-      };
-    }
-
-    function _fraga(id, labelKey, helpKey, options, components) {
-      var fraga = {
-        type: 'ue-fraga',
-        frageId: id,
-        components: components,
-        hideExpression: options.hideExpression,
-        validationContext: options.validationContext,
-        disabledFunc: options.disabledFunc,
-        cssClass: options.cssClass,
-        viewState: options.viewState
-      };
-      if (labelKey) {
-        fraga.label = {
-          key: labelKey,
-          helpKey: helpKey,
-          required: options.required,
-          requiredMode: options.requiredMode,
-          requiredProp: options.requiredProp,
-          labelType: 'h4',
-          hideHelpExpression: options.hideHelpExpression
-        };
-      }
-      return fraga;
-    }
-
-    return {
-
-      kategori: _kategori,
-
-      fraga: _fraga,
-
-      patient: function(shouldDisableAddressInputWhen, allowUpdaterButton, signingDoctor) {
-        var patient = _kategori('patient', 'common.intyg.patientadress', '', {signingDoctor: signingDoctor}, [
-          _fraga(null, '', '', {}, [{
-            type: 'ue-textfield',
-            modelProp: 'grundData.patient.postadress',
-            label: {
-              key: 'common.postadress',
-              required: true,
-              requiredProp: 'grundData.patient.postadress'
-            },
-            htmlMaxlength: 50,
-            size: 'full',
-            labelColSize: labelColSize,
-            formType: 'horizontal',
-            disabled: shouldDisableAddressInputWhen
-          }]),
-          _fraga(null, '', '', {}, [{
-            type: 'ue-textfield',
-            modelProp: 'grundData.patient.postnummer',
-            label: {
-              key: 'common.postnummer',
-              required: true,
-              requiredProp: 'grundData.patient.postnummer'
-            },
-            htmlMaxlength: 6,
-            numbersOnly: true,
-            size: '5',
-            labelColSize: labelColSize,
-            formType: 'horizontal',
-            disabled: shouldDisableAddressInputWhen
-          }]),
-          _fraga(null, '', '', {}, [{
-            type: 'ue-textfield',
-            modelProp: 'grundData.patient.postort',
-            label: {
-              key: 'common.postort',
-              required: true,
-              requiredProp: 'grundData.patient.postort'
-            },
-            htmlMaxlength: 25,
-            labelColSize: labelColSize,
-            formType: 'horizontal',
-            disabled: shouldDisableAddressInputWhen
-          }])
-        ]);
-        if (allowUpdaterButton === true ||
-            (angular.isFunction(allowUpdaterButton) && allowUpdaterButton() === true)) {
-          patient.components.push({
-            type: 'ue-patient-address-updater',
-            formType: 'horizontal',
-            labelColSize: labelColSize
-          });
+            return {
+                type: 'ue-kategori',
+                categoryId: id,
+                label: {
+                    key: labelKey,
+                    helpKey: helpKey,
+                    required: options.required,
+                    requiredProp: options.requiredProp
+                },
+                components: components,
+                hideExpression: options.hideExpression,
+                signingDoctor: options.signingDoctor
+            };
         }
-        return patient;
-      },
 
-      vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [_fraga('', '', '', {}, [{
-        type: 'ue-labelvardenhet'
-      }, {
-        type: 'ue-textfield',
-        modelProp: 'grundData.skapadAv.vardenhet.postadress',
-        label: {
-          key: 'common.postadress',
-          required: true,
-          requiredProp: 'grundData.skapadAv.vardenhet.postadress',
-          whitespaceBreak: false
-        },
-        size: 'full',
-        labelColSize: labelColSize,
-        formType: 'horizontal',
-        htmlMaxlength: 209
-      }]),
-        _fraga(null, '', '', {}, [{
-          type: 'ue-textfield',
-          modelProp: 'grundData.skapadAv.vardenhet.postnummer',
-          label: {
-            key: 'common.postnummer',
-            required: true,
-            requiredProp: 'grundData.skapadAv.vardenhet.postnummer',
-            whitespaceBreak: false
-          },
-          size: '5',
-          labelColSize: labelColSize,
-          formType: 'horizontal',
-          htmlMaxlength: 6,
-          numbersOnly: true
-        }]),
-        _fraga(null, '', '', {}, [{
-          type: 'ue-textfield',
-          modelProp: 'grundData.skapadAv.vardenhet.postort',
-          label: {
-            key: 'common.postort',
-            required: true,
-            requiredProp: 'grundData.skapadAv.vardenhet.postort',
-            whitespaceBreak: false
-          },
-          size: '20',
-          labelColSize: labelColSize,
-          formType: 'horizontal',
-          htmlMaxlength: 30
-        }]),
-        _fraga(null, '', '', {}, [{
-          type: 'ue-textfield',
-          modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
-          label: {
-            key: 'common.telefonnummer',
-            required: true,
-            requiredProp: 'grundData.skapadAv.vardenhet.telefonnummer',
-            whitespaceBreak: false
-          },
-          size: '15',
-          labelColSize: labelColSize,
-          formType: 'horizontal',
-          htmlMaxlength: 20,
-          numbersOnly: true,
-          placeholder: 'Telefon'
-        }])])
+        function _fraga(id, labelKey, helpKey, options, components) {
+            var fraga = {
+                type: 'ue-fraga',
+                frageId: id,
+                components: components,
+                hideExpression: options.hideExpression,
+                validationContext: options.validationContext,
+                disabledFunc: options.disabledFunc,
+                cssClass: options.cssClass,
+                viewState: options.viewState
+            };
+            if (labelKey) {
+                fraga.label = {
+                    key: labelKey,
+                    helpKey: helpKey,
+                    required: options.required,
+                    requiredMode: options.requiredMode,
+                    requiredProp: options.requiredProp,
+                    labelType: 'h4',
+                    hideHelpExpression: options.hideHelpExpression
+                };
+            }
+            return fraga;
+        }
 
-    };
-  }]);
+
+
+        return {
+
+            kategori: _kategori,
+
+            fraga: _fraga,
+
+            patient: function(shouldDisableAddressInputWhen, allowUpdaterButton, signingDoctor) {
+                var patient = _kategori('patient', 'common.intyg.patientadress', '', {signingDoctor: signingDoctor}, [
+                    _fraga(null, '', '', {}, [{
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postadress',
+                        label: {
+                            key: 'common.postadress',
+                            required: true,
+                            requiredProp: 'grundData.patient.postadress'
+                        },
+                        htmlMaxlength: 50,
+                        size: 'full',
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }]),
+                    _fraga(null, '', '', {}, [{
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postnummer',
+                        label: {
+                            key: 'common.postnummer',
+                            required: true,
+                            requiredProp: 'grundData.patient.postnummer'
+                        },
+                        htmlMaxlength: 6,
+                        numbersOnly: true,
+                        size: '5',
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }]),
+                    _fraga(null, '', '', {}, [{
+                        type: 'ue-textfield',
+                        modelProp: 'grundData.patient.postort',
+                        label: {
+                            key: 'common.postort',
+                            required: true,
+                            requiredProp: 'grundData.patient.postort'
+                        },
+                        htmlMaxlength: 25,
+                        labelColSize: labelColSize,
+                        formType: 'horizontal',
+                        disabled: shouldDisableAddressInputWhen
+                    }])
+                ]);
+                if (allowUpdaterButton === true ||
+                    (angular.isFunction(allowUpdaterButton) && allowUpdaterButton() === true)) {
+                    patient.components.push({
+                        type: 'ue-patient-address-updater',
+                        formType: 'horizontal',
+                        labelColSize: labelColSize
+                    });
+                }
+                return patient;
+            },
+
+            vardenhet: _kategori('vardenhet', 'common.label.vardenhet', 'common.help.vardenhet', {}, [ _fraga('', '', '', {}, [{
+                type: 'ue-labelvardenhet'
+            }, {
+                type: 'ue-textfield',
+                modelProp: 'grundData.skapadAv.vardenhet.postadress',
+                label: {
+                    key: 'common.postadress',
+                    required: true,
+                    requiredProp: 'grundData.skapadAv.vardenhet.postadress',
+                    whitespaceBreak: false
+                },
+                size: 'full',
+                labelColSize: labelColSize,
+                formType: 'horizontal',
+                htmlMaxlength: 209
+            }]),
+            _fraga(null, '', '', {}, [{
+                type: 'ue-textfield',
+                modelProp: 'grundData.skapadAv.vardenhet.postnummer',
+                label: {
+                    key: 'common.postnummer',
+                    required: true,
+                    requiredProp: 'grundData.skapadAv.vardenhet.postnummer',
+                    whitespaceBreak: false
+                },
+                size: '5',
+                labelColSize: labelColSize,
+                formType: 'horizontal',
+                htmlMaxlength: 6,
+                numbersOnly: true
+            }]),
+            _fraga(null, '', '', {}, [{
+                type: 'ue-textfield',
+                modelProp: 'grundData.skapadAv.vardenhet.postort',
+                label: {
+                    key: 'common.postort',
+                    required: true,
+                    requiredProp: 'grundData.skapadAv.vardenhet.postort',
+                    whitespaceBreak: false
+                },
+                size: '20',
+                labelColSize: labelColSize,
+                formType: 'horizontal',
+                htmlMaxlength: 30
+            }]),
+            _fraga(null, '', '', {}, [{
+                type: 'ue-textfield',
+                modelProp: 'grundData.skapadAv.vardenhet.telefonnummer',
+                label: {
+                    key: 'common.telefonnummer',
+                    required: true,
+                    requiredProp: 'grundData.skapadAv.vardenhet.telefonnummer',
+                    whitespaceBreak: false
+                },
+                size: '15',
+                labelColSize: labelColSize,
+                formType: 'horizontal',
+                htmlMaxlength: 20,
+                numbersOnly: true,
+                placeholder: 'Telefon'
+            }])])
+
+        };
+    }]);

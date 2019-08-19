@@ -18,16 +18,19 @@
  */
 package se.inera.intyg.common.ts_bas.v6.model.internal;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.google.auto.value.AutoValue;
 import java.util.EnumSet;
 import java.util.Set;
-import javax.annotation.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.auto.value.AutoValue;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetDeserializer;
 import se.inera.intyg.common.ts_parent.json.AbstractEnumSetSerializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import javax.annotation.Nullable;
 
 /**
  * The Korkortstyp[er] a specific Utlatande concerns.
@@ -54,14 +57,12 @@ public abstract class IntygAvser {
     public abstract Set<IntygAvserKategori> getKorkortstyp();
 
     public static class IntygAvserEnumSetSerializer extends AbstractEnumSetSerializer<IntygAvserKategori> {
-
         protected IntygAvserEnumSetSerializer() {
             super(IntygAvserKategori.class);
         }
     }
 
     public static class IntygAvserEnumSetDeserializer extends AbstractEnumSetDeserializer<IntygAvserKategori> {
-
         protected IntygAvserEnumSetDeserializer() {
             super(IntygAvserKategori.class);
         }

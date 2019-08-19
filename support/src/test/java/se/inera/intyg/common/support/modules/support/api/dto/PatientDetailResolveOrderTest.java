@@ -20,9 +20,11 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.google.common.collect.ImmutableList;
 import java.util.List;
+
 import org.junit.Test;
+
+import com.google.common.collect.ImmutableList;
 
 public class PatientDetailResolveOrderTest {
 
@@ -38,11 +40,11 @@ public class PatientDetailResolveOrderTest {
     @Test
     public void disallowUsingPredecessorStrategyWithoutPredecessor() {
         List<PatientDetailResolveOrder.ResolveOrder> predecessorStrat = ImmutableList
-            .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
+                .of(PatientDetailResolveOrder.ResolveOrder.PREDECESSOR);
         List<PatientDetailResolveOrder.ResolveOrder> other = ImmutableList.of(PatientDetailResolveOrder.ResolveOrder.PU);
 
         assertThatThrownBy(() -> new PatientDetailResolveOrder("", other, predecessorStrat, other))
-            .isExactlyInstanceOf(IllegalArgumentException.class);
+                .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 
 }

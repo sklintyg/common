@@ -18,12 +18,6 @@
  */
 package se.inera.intyg.common.fk7263.integration;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 import org.junit.Test;
@@ -41,6 +35,10 @@ import se.inera.intyg.common.support.modules.support.api.ModuleContainerApi;
 import se.inera.intyg.schemas.contract.Personnummer;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ErrorIdType;
 import se.riv.clinicalprocess.healthcond.certificate.v1.ResultCodeType;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GetMedicalCertificateResponderImplTest {
@@ -69,8 +67,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(Fk7263EntryPoint.MODULE_ID, response.getMeta().getCertificateType());
         assertNotNull(response.getLakarutlatande());
         assertEquals(INTYG_ID, response.getLakarutlatande().getLakarutlatandeId());
-        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(),
-            response.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(), response.getLakarutlatande().getPatient().getPersonId().getExtension());
     }
 
     @Test
@@ -83,7 +80,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals("Certificate '123456' does not exist for user '9a8b138a666f84da32e9383b49a15f46f6e08d2c492352aa0dfcc3f993773b0d'",
-            response.getResult().getResultText());
+                response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
@@ -99,7 +96,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(ResultCodeType.ERROR, response.getResult().getResultCode());
         assertEquals(ErrorIdType.VALIDATION_ERROR, response.getResult().getErrorId());
         assertEquals("Certificate '123456' does not exist for user '9a8b138a666f84da32e9383b49a15f46f6e08d2c492352aa0dfcc3f993773b0d'",
-            response.getResult().getResultText());
+                response.getResult().getResultText());
         assertNull(response.getMeta());
         assertNull(response.getLakarutlatande());
     }
@@ -155,8 +152,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(Fk7263EntryPoint.MODULE_ID, response.getMeta().getCertificateType());
         assertNotNull(response.getLakarutlatande());
         assertEquals(INTYG_ID, response.getLakarutlatande().getLakarutlatandeId());
-        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(),
-            response.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(), response.getLakarutlatande().getPatient().getPersonId().getExtension());
     }
 
     @Test
@@ -176,8 +172,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(Fk7263EntryPoint.MODULE_ID, response.getMeta().getCertificateType());
         assertNotNull(response.getLakarutlatande());
         assertEquals(INTYG_ID, response.getLakarutlatande().getLakarutlatandeId());
-        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(),
-            response.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(), response.getLakarutlatande().getPatient().getPersonId().getExtension());
     }
 
     @Test
@@ -195,8 +190,7 @@ public class GetMedicalCertificateResponderImplTest {
         assertEquals(Fk7263EntryPoint.MODULE_ID, response.getMeta().getCertificateType());
         assertNotNull(response.getLakarutlatande());
         assertEquals(INTYG_ID, response.getLakarutlatande().getLakarutlatandeId());
-        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(),
-            response.getLakarutlatande().getPatient().getPersonId().getExtension());
+        assertEquals(createPnr(PERSON_ID).getPersonnummerWithDash(), response.getLakarutlatande().getPatient().getPersonId().getExtension());
     }
 
     private CertificateHolder createCertificateHolder() throws Exception {
@@ -205,7 +199,7 @@ public class GetMedicalCertificateResponderImplTest {
         certificate.setType("fk7263");
         certificate.setCivicRegistrationNumber(createPnr(PERSON_ID));
         String xmlFile = Resources.toString(new ClassPathResource("GetMedicalCertificateResponderImplTest/fk7263.xml").getURL(),
-            Charsets.UTF_8);
+                Charsets.UTF_8);
         certificate.setOriginalCertificate(xmlFile);
         return certificate;
     }

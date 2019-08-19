@@ -35,7 +35,7 @@
     },
     "signeringsdatum": "2015-12-07T15:48:05.000"
   },
-  "avstangningSmittskydd": "false",
+  "avstangningSmittskydd" : "false",
   "arbetslivsinriktadeAtgarderBeskrivning": "Jobbar bra om man inte stör honom",
   "arbetslivsinriktadeAtgarder": [
     {

@@ -22,10 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
+
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
 import se.inera.intyg.common.support.xml.XmlMarshallerHelper;
 import se.inera.intyg.common.util.integration.json.CustomObjectMapper;
@@ -50,9 +53,11 @@ public final class ScenarioFinder {
     /**
      * Finds the specified transport scenarios that matches the wildcard string.
      *
-     * @param scenarioWithWildcards A wildcard string matching scenarios. '*' and '?' can be used.
+     * @param scenarioWithWildcards
+     *            A wildcard string matching scenarios. '*' and '?' can be used.
      * @return A list of matching transport scenarios.
-     * @throws ScenarioNotFoundException If no scenarios could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenarios could be found.
      */
     public static List<Scenario> getTransportScenarios(String scenarioWithWildcards) throws ScenarioNotFoundException {
         return getScenarios(scenarioWithWildcards + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "v1/transport");
@@ -61,16 +66,18 @@ public final class ScenarioFinder {
     /**
      * Finds the specified internal Mina Intyg scenarios that matches the wildcard string.
      *
-     * @param scenarioWithWildcards A wildcard string matching scenarios. '*' and '?' can be used.
+     * @param scenarioWithWildcards
+     *            A wildcard string matching scenarios. '*' and '?' can be used.
      * @return A list of matching internal Mina Intyg scenarios.
-     * @throws ScenarioNotFoundException If no scenarios could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenarios could be found.
      */
     public static List<Scenario> getInternalScenarios(String scenarioWithWildcards) throws ScenarioNotFoundException {
         return getScenarios(scenarioWithWildcards + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "v1/internal");
     }
 
     public static List<Scenario> getScenarios(String scenarioWithWildcards, String scenarioPath, String model)
-        throws ScenarioNotFoundException {
+            throws ScenarioNotFoundException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
         try {
             Resource[] resources = context.getResources(scenarioPath + scenarioWithWildcards);
@@ -92,9 +99,11 @@ public final class ScenarioFinder {
     /**
      * Finds the specified transport scenario matching the name.
      *
-     * @param filename A name matching a scenario.
+     * @param filename
+     *            A name matching a scenario.
      * @return A matching transport scenario.
-     * @throws ScenarioNotFoundException If no scenario could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenario could be found.
      */
     public static Scenario getTransportScenario(String filename) throws ScenarioNotFoundException {
         return getScenario(filename + TRANSPORT_MODEL_EXT, TRANSPORT_MODEL_PATH, "v1/transport");
@@ -103,16 +112,18 @@ public final class ScenarioFinder {
     /**
      * Finds the specified internal Mina Intyg scenario matching the name.
      *
-     * @param filename A name matching a scenario.
+     * @param filename
+     *            A name matching a scenario.
      * @return A matching internal Mina Intyg scenario.
-     * @throws ScenarioNotFoundException If no scenario could be found.
+     * @throws ScenarioNotFoundException
+     *             If no scenario could be found.
      */
     public static Scenario getInternalScenario(String filename) throws ScenarioNotFoundException {
         return getScenario(filename + INTERNAL_MODEL_EXT, INTERNAL_MODEL_PATH, "v1/internal ");
     }
 
     private static Scenario getScenario(String filename, String scenarioPath, String model)
-        throws ScenarioNotFoundException {
+            throws ScenarioNotFoundException {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
         try {
             return new FileBasedScenario(context.getResource(scenarioPath + filename).getFile());
@@ -128,9 +139,7 @@ public final class ScenarioFinder {
      */
     private static final class FileBasedScenario implements Scenario {
 
-        /**
-         * The file that represents the current scenario.
-         */
+        /** The file that represents the current scenario. */
         private final File scenarioFile;
 
         private FileBasedScenario(File scenarioFile) {
@@ -152,8 +161,8 @@ public final class ScenarioFinder {
         public RegisterCertificateType asTransportModel() throws ScenarioNotFoundException {
             try {
                 JAXBElement<RegisterCertificateType> rct =
-                    XmlMarshallerHelper.unmarshal(
-                        model(TRANSPORT_MODEL_PATH + getName() + TRANSPORT_MODEL_EXT));
+                        XmlMarshallerHelper.unmarshal(
+                                model(TRANSPORT_MODEL_PATH + getName()+ TRANSPORT_MODEL_EXT));
                 return rct.getValue();
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "v1/transport", e);
@@ -165,10 +174,10 @@ public final class ScenarioFinder {
          */
         @Override
         public LuseUtlatandeV1 asInternalModel()
-            throws ScenarioNotFoundException {
+                throws ScenarioNotFoundException {
             try {
                 return new CustomObjectMapper().readValue(
-                    model(INTERNAL_MODEL_PATH + getName() + INTERNAL_MODEL_EXT), LuseUtlatandeV1.class);
+                        model(INTERNAL_MODEL_PATH + getName()+ INTERNAL_MODEL_EXT), LuseUtlatandeV1.class);
             } catch (IOException e) {
                 throw new ScenarioNotFoundException(getName(), "v1/internal", e);
             }

@@ -27,29 +27,29 @@
  */
 angular.module('common').directive('arendePanelSvarKompletteringsatgard',
     ['$window', '$log', '$state', '$stateParams', '$q',
-      'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
-      'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService',
-      'common.ArendeListViewStateService', 'common.IntygProxy', 'common.anchorScrollService',
-      function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
-          IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy,
-          anchorScrollService) {
-        'use strict';
+        'common.ArendeProxy', 'common.statService', 'common.ObjectHelper',
+        'common.IntygCopyRequestModel', 'common.ArendeSvarModel', 'common.dialogService',
+        'common.ArendeListViewStateService', 'common.IntygProxy', 'common.anchorScrollService',
+        function($window, $log, $state, $stateParams, $q, ArendeProxy, statService, ObjectHelper,
+            IntygCopyRequestModel, ArendeSvarModel, dialogService, ArendeListViewStateService, IntygProxy,
+            anchorScrollService) {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/komplettera/arendePanelSvarKompletteringsatgard.directive.html',
-          scope: {
-            arendeListItem: '=',
-            parentViewState: '=',
-            onAnswerWithMessage: '&'
-          },
-          controller: function($scope, $element, $attrs) {
+            return {
+                restrict: 'E',
+                templateUrl: '/web/webjars/common/webcert/components/wcSupportPanelManager/wcArendePanelTab/komplettera/arendePanelSvarKompletteringsatgard.directive.html',
+                scope: {
+                    arendeListItem: '=',
+                    parentViewState: '=',
+                    onAnswerWithMessage: '&'
+                },
+                controller: function($scope, $element, $attrs) {
 
-            // For readability, keep a local struct with the values used from parent scope
-            var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
+                    // For readability, keep a local struct with the values used from parent scope
+                    var ArendeSvar = ArendeSvarModel.build($scope.parentViewState, $scope.arendeListItem);
 
-            $scope.arendeSvar = ArendeSvar;
+                    $scope.arendeSvar = ArendeSvar;
 
-          }
-        };
-      }]);
+                }
+            };
+        }]);

@@ -17,35 +17,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.srsLinkCreator', [function() {
-  'use strict';
-  var baseUrl = 'http://rattsjukskrivning.se/';
+    'use strict';
+    var baseUrl = 'http://rattsjukskrivning.se/';
 
-  function _createAtgardsekommendationLink(diagnosKod) {
-    if (!angular.isString(diagnosKod)) {
-      return undefined;
+    function _createAtgardsekommendationLink(diagnosKod) {
+        if (!angular.isString(diagnosKod)) {
+            return undefined;
+        }
+        return baseUrl + diagnosKod.replace('.', '').toLowerCase();
     }
-    return baseUrl + diagnosKod.replace('.', '').toLowerCase();
-  }
 
-  function _createStatistikLink(diagnosKod) {
-    if (!angular.isString(diagnosKod)) {
-      return undefined;
+    function _createStatistikLink(diagnosKod) {
+        if (!angular.isString(diagnosKod)) {
+            return undefined;
+        }
+        return baseUrl + diagnosKod.replace('.', '').toLowerCase() + '-statistik';
     }
-    return baseUrl + diagnosKod.replace('.', '').toLowerCase() + '-statistik';
-  }
 
-  function _createSamtyckeLink() {
-    return baseUrl + 'samtycke';
-  }
+    function _createSamtyckeLink() {
+        return baseUrl + 'samtycke';
+    }
 
-  function _createPrediktionsModellLink() {
-    return baseUrl + 'prediktionsmodell';
-  }
+    function _createPrediktionsModellLink() {
+        return baseUrl + 'prediktionsmodell';
+    }
 
-  return {
-    createAtgardsrekommendationLink: _createAtgardsekommendationLink,
-    createStatistikLink: _createStatistikLink,
-    createSamtyckeLink: _createSamtyckeLink(),
-    createPrediktionsModellLink: _createPrediktionsModellLink()
-  };
+    return {
+        createAtgardsrekommendationLink: _createAtgardsekommendationLink,
+        createStatistikLink: _createStatistikLink,
+        createSamtyckeLink: _createSamtyckeLink(),
+        createPrediktionsModellLink: _createPrediktionsModellLink()
+    };
 }]);

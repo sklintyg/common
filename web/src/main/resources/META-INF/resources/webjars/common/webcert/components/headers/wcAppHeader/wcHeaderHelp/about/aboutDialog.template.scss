@@ -46,10 +46,8 @@
         + .panel-collapse > .list-group {
           border: none;
         }
-
         .panel-title {
           @extend %wc-typo-05;
-
           a {
             text-decoration: none;
           }

@@ -1,37 +1,42 @@
 <div class="ue-del-fraga">
-  <div>
-    <ue-label config="::config.label" model="::model"></ue-label>
-  </div>
-
-  <ue-validation-wrapper field-type="radio-group" validations="validation.messagesByField[config.modelProp]">
-    <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
-      <wc-radio-wrapper>
-        <input ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}" type="radio"
-               name="{{::config.modelProp}}" ng-model="model[config.modelProp].typ" value="{{::choice.id}}"
-               ng-change="validate()">
-        <label ng-attr-for="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}">
-          <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
-        </label>
-      </wc-radio-wrapper>
-      <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
-      <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
-
-      <div ng-if="choice.showDropDown" class="prognos-dropdown">
-        <ue-validation-wrapper field-type="select"
-                               validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
-          <span class="required icon-wc-ikon-38"
-                ng-if="model[config.modelProp].typ === choice.id && !model[config.modelProp].dagarTillArbete"></span>
-          <wc-dropdown data-items="prognosOptions" ng-model="model[config.modelProp].dagarTillArbete"
-                       ng-disabled="model[config.modelProp].typ !== choice.id" data-on-select="validate()"
-                       use-dynamic-label="false" ng-attr-id="prognosDagarTillArbete-{{$index|ueDomIdFilter}}-typ"
-                       name="prognosDagarTillArbete-{{$index}}"></wc-dropdown>
-        </ue-validation-wrapper>
-        <ue-validation-list field-type="ue-dropdown"
-                            validations="validation.messagesByField[config.modelProp + '.dagartillarbete']"></ue-validation-list>
-      </div>
-
+    <div>
+        <ue-label config="::config.label" model="::model"></ue-label>
     </div>
 
-  </ue-validation-wrapper>
+    <ue-validation-wrapper field-type="radio-group"
+                         validations="validation.messagesByField[config.modelProp]">
+        <div class="form-group form-inline" data-ng-repeat="choice in ::config.choices">
+            <wc-radio-wrapper>
+                <input ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
+                       type="radio" name="{{::config.modelProp}}"
+                       ng-model="model[config.modelProp].typ"
+                       value="{{::choice.id}}"
+                       ng-change="validate()">
+                <label ng-attr-for="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}">
+                    <span dynamic-label key="{{::config.code}}.{{::choice.id}}.RBK"></span>
+                </label>
+            </wc-radio-wrapper>
+            <span wc-help-chevron help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
+            <span wc-help-chevron-text help-text-key="{{::config.code}}.{{::choice.id}}.HLP"></span>
+
+            <div ng-if="choice.showDropDown" class="prognos-dropdown">
+                <ue-validation-wrapper field-type="select"
+                                       validations="validation.messagesByField[config.modelProp + '.dagartillarbete']">
+                                       <span class="required icon-wc-ikon-38" ng-if="model[config.modelProp].typ === choice.id && !model[config.modelProp].dagarTillArbete"></span>
+                    <wc-dropdown data-items="prognosOptions"
+                                 ng-model="model[config.modelProp].dagarTillArbete"
+                                 ng-disabled="model[config.modelProp].typ !== choice.id"
+                                 data-on-select="validate()"
+                                 use-dynamic-label="false"
+                                 ng-attr-id="prognosDagarTillArbete-{{$index|ueDomIdFilter}}-typ"
+                                 name="prognosDagarTillArbete-{{$index}}">
+                    </wc-dropdown>
+                </ue-validation-wrapper>
+                <ue-validation-list field-type="ue-dropdown" validations="validation.messagesByField[config.modelProp + '.dagartillarbete']"></ue-validation-list>
+            </div>
+
+        </div>
+
+    </ue-validation-wrapper>
 
 </div>

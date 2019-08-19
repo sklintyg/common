@@ -23,6 +23,7 @@ import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 import com.itextpdf.layout.borders.SolidBorder;
 import com.itextpdf.layout.element.Div;
 import com.itextpdf.layout.element.Paragraph;
+
 import jdk.nashorn.api.scripting.ScriptObjectMirror;
 import se.inera.intyg.common.pdf.renderer.UVRenderer;
 
@@ -44,23 +45,24 @@ public class UVKategori extends UVComponent {
 
         Div borderDiv = new Div();
         borderDiv.add(new Paragraph(kategori.toUpperCase())
-            .setMarginTop(0f)
-            .setMarginBottom(0f)
-            .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
-            .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
-            .setFont(renderer.kategoriFont)
-            .setFontSize(KATEGORI_FONT_SIZE)
-            .setFontColor(WC_COLOR_07)
-            .setPaddingTop(1f)
-            .setPaddingBottom(1f))
-            .setKeepTogether(true);
+                .setMarginTop(0f)
+                .setMarginBottom(0f)
+                .setMarginRight(ELEM_MARGIN_RIGHT_POINTS)
+                .setMarginLeft(ELEM_MARGIN_LEFT_POINTS)
+                .setFont(renderer.kategoriFont)
+                .setFontSize(KATEGORI_FONT_SIZE)
+                .setFontColor(WC_COLOR_07)
+                .setPaddingTop(1f)
+                .setPaddingBottom(1f))
+                .setKeepTogether(true);
         borderDiv.setBorderBottom(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH));
         parent.add(borderDiv);
 
         //Add border around entire category content (could span several pages)
         parent.setBorder(new SolidBorder(WC_COLOR_07, DEFAULT_BORDER_WIDTH))
-            .setPaddingBottom(KATEGORI_PADDING_BOTTOM)
-            .setKeepTogether(false);
+                .setPaddingBottom(KATEGORI_PADDING_BOTTOM)
+                .setKeepTogether(false);
+
 
         return true;
     }

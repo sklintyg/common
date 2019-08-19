@@ -27,9 +27,12 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
+
 import javax.xml.bind.JAXBElement;
+
 import org.junit.Before;
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.ContextConfiguration;
@@ -84,7 +87,7 @@ public class InternalToTransportTest {
         utlatande.setAnnatGrundForMU(new InternalDate("2015-12-07"));
         utlatande.setAnnatGrundForMUBeskrivning("Barndomsvän");
         utlatande.setDiagnoser(asList((Diagnos.create("S47", "ICD_10_SE", "Klämskada skuldra", "Klämskada skuldra")),
-            Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
+                Diagnos.create("S48", "ICD_10_SE", "Klämskada arm", "Klämskada arm")));
         utlatande.setAktivitetsbegransning("Kommer inte in i bilen");
         utlatande.setFormagaTrotsBegransning("Är bra på att dansa!");
 
@@ -99,7 +102,7 @@ public class InternalToTransportTest {
 
         // Get diagnos-related svar
         Svar diagnos = transport.getIntyg().getSvar().stream()
-            .filter(e -> e.getId().equals("6")).collect(Collectors.toList()).get(0);
+                .filter(e -> e.getId().equals("6")).collect(Collectors.toList()).get(0);
 
         CVType huvuddiagnosKod = extractCVFromSvar(diagnos, "6.2");
         String huvuddiagnosBeskrivning = extractStringFromSvar(diagnos, "6.1");
@@ -117,7 +120,7 @@ public class InternalToTransportTest {
 
     private CVType extractCVFromSvar(Svar svar, String id) {
         Delsvar delsvar = svar.getDelsvar().stream()
-            .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
+                .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
 
         @SuppressWarnings("unchecked")
         JAXBElement<CVType> meh = (JAXBElement<CVType>) delsvar.getContent().stream().collect(Collectors.toList()).get(0);
@@ -127,7 +130,7 @@ public class InternalToTransportTest {
 
     private String extractStringFromSvar(Svar svar, String id) {
         Delsvar delsvar = svar.getDelsvar().stream()
-            .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
+                .filter(e -> e.getId().equals(id)).collect(Collectors.toList()).get(0);
         return (String) delsvar.getContent().stream().collect(Collectors.toList()).get(0);
     }
 

@@ -16,20 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('common').directive('miCompactCertificateBody',
-    ['common.moduleService', 'common.messageService', function(moduleService, messageService) {
-      'use strict';
+angular.module('common').directive('miCompactCertificateBody', [ 'common.moduleService', 'common.messageService', function(moduleService, messageService) {
+    'use strict';
 
-      return {
+    return {
         restrict: 'E',
         scope: {
-          certMetaModel: '=',
-          onViewClick: '&?',
-          onArchiveClick: '&?'
+            certMetaModel: '=',
+            onViewClick: '&?',
+            onArchiveClick: '&?'
         },
         templateUrl: '/web/webjars/common/minaintyg/components/miCompactCertificateBody/miCompactCertificateBody.directive.html',
         controller: function($scope) {
-          $scope.messageService = messageService;
+            $scope.messageService = messageService;
         }
-      };
-    }]);
+    };
+} ]);

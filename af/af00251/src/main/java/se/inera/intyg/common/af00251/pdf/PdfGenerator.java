@@ -18,17 +18,9 @@
  */
 package se.inera.intyg.common.af00251.pdf;
 
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
-import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +38,15 @@ import se.inera.intyg.common.support.modules.support.api.dto.PdfResponse;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_BODY;
+import static se.inera.intyg.common.pdf.renderer.PrintConfig.UTSK001_HEADER;
+
 public class PdfGenerator {
 
     private static final String PDF_SUMMARY_HEADER = "Arbetsförmedlingens intyg för arbetsmarknadspolitiska program";
@@ -55,17 +56,16 @@ public class PdfGenerator {
     private static final Logger LOG = LoggerFactory.getLogger(PdfGenerator.class);
 
     private static final String INFO_SIGNED_TEXT = "Detta är en utskrift av ett elektroniskt intyg. Intyget har signerats "
-        + "elektroniskt av intygsutfärdaren.";
+            + "elektroniskt av intygsutfärdaren.";
     private static final String INFO_UTKAST_TEXT = "Detta är en utskrift av ett elektroniskt intygsutkast och ska INTE "
-        + "skickas till Arbetsförmedlingen.";
+            + "skickas till Arbetsförmedlingen.";
     private static final String SENT_TEXT = "Notera att intyget redan har skickats till Arbetsförmedlingen.";
 
     private static final String CERTIFICATE_FILE_PREFIX = "af_lakarintyg_arbetsmarknadspolitiskt_program_";
-
     // CHECKSTYLE:OFF ParameterNumber
     public PdfResponse generatePdf(String intygsId, String jsonModel, String majorVersion, Personnummer personId, IntygTexts intygTexts,
-        List<Status> statuses,
-        ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
+            List<Status> statuses,
+            ApplicationOrigin applicationOrigin, UtkastStatus utkastStatus) throws ModuleException {
 
         try {
             String cleanedJson = cleanJsonModel(jsonModel);
@@ -77,23 +77,23 @@ public class PdfGenerator {
             boolean isMakulerad = statuses != null && statuses.stream().anyMatch(s -> CertificateState.CANCELLED.equals(s.getType()));
 
             PrintConfig printConfig = PrintConfig.PrintConfigBuilder.aPrintConfig()
-                .withIntygJsonModel(cleanedJson)
-                .withUpJsModel(upJsModel)
-                .withIntygsId(intygsId)
-                .withIntygsNamn(AF00251EntryPoint.MODULE_NAME)
-                .withIntygsKod(AF00251EntryPoint.ISSUER_TYPE_ID)
-                .withPersonnummer(personId.getPersonnummerWithDash())
-                .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
-                .withSummary(new Summary()
-                    .add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK"))
-                    .add(UTSK001_HEADER, UTSK001_BODY))
-                .withLeftMarginTypText(AF00251EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
-                .withUtfardarLogotyp(logoData)
-                .withIsUtkast(isUtkast)
-                .withIsLockedUtkast(isLockedUtkast)
-                .withIsMakulerad(isMakulerad)
-                .withApplicationOrigin(applicationOrigin)
-                .build();
+                    .withIntygJsonModel(cleanedJson)
+                    .withUpJsModel(upJsModel)
+                    .withIntygsId(intygsId)
+                    .withIntygsNamn(AF00251EntryPoint.MODULE_NAME)
+                    .withIntygsKod(AF00251EntryPoint.ISSUER_TYPE_ID)
+                    .withPersonnummer(personId.getPersonnummerWithDash())
+                    .withInfoText(buildInfoText(isUtkast || isLockedUtkast, statuses))
+                    .withSummary(new Summary()
+                        .add(PDF_SUMMARY_HEADER, intygTexts.getTexter().get("FRM_1.RBK"))
+                        .add(UTSK001_HEADER, UTSK001_BODY))
+                    .withLeftMarginTypText(AF00251EntryPoint.ISSUER_TYPE_ID + " - Fastställd av Arbetsförmedlingen")
+                    .withUtfardarLogotyp(logoData)
+                    .withIsUtkast(isUtkast)
+                    .withIsLockedUtkast(isLockedUtkast)
+                    .withIsMakulerad(isMakulerad)
+                    .withApplicationOrigin(applicationOrigin)
+                    .build();
 
             byte[] data = new UVRenderer().startRendering(printConfig, intygTexts);
             return new PdfResponse(data, buildFilename());
@@ -130,7 +130,7 @@ public class PdfGenerator {
     private String loadUvViewConfig(String majorVersion) throws IOException {
         String templateUriPath = String.format(PDF_UP_MODEL_CLASSPATH_URI_TEMPLATE, majorVersion);
         String upJsModel = IOUtils.toString(new ClassPathResource(templateUriPath).getInputStream(),
-            Charset.forName("UTF-8"));
+                Charset.forName("UTF-8"));
         if (Strings.isNullOrEmpty(upJsModel)) {
             throw new IllegalArgumentException("Cannot generate PDF, UV viewConfig not found on classpath: " + templateUriPath);
         }

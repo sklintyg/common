@@ -28,7 +28,9 @@ import static org.mockito.Mockito.mock;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
+
 import org.junit.Test;
+
 import se.inera.intyg.common.services.texts.model.IntygTexts;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.model.UtkastStatus;
@@ -52,7 +54,7 @@ public class PDFGeneratorTest {
         final UtkastStatus expectedUtkastStatus = UtkastStatus.DRAFT_COMPLETE;
 
         final PdfResponse actualPdfResponse = new PdfGenerator().generatePdf(expectedIntygsId, expectedJsonModel, expectedPersonId,
-            expectedIntygTexts, expectedStatuses, expectedApplicationOrigin, expectedUtkastStatus);
+                expectedIntygTexts, expectedStatuses, expectedApplicationOrigin, expectedUtkastStatus);
 
         assertNotNull("PdfResponse should not be null", actualPdfResponse);
         assertNotNull("Data should not be null", actualPdfResponse.getPdfData());

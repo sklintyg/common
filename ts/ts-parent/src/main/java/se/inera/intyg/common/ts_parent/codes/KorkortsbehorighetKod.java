@@ -59,6 +59,6 @@ public enum KorkortsbehorighetKod {
 
     public static KorkortsbehorighetKod fromCode(String code) {
         return Stream.of(KorkortsbehorighetKod.values()).filter(s -> code.equals(s.getCode())).findFirst()
-            .orElseThrow(() -> new IllegalArgumentException(code));
+                .orElseThrow(() -> new IllegalArgumentException(code));
     }
 }

@@ -17,33 +17,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('ts-bas').service('ts-bas.PatientHelperService.v6',
-    function() {
-      'use strict';
+        function() {
+            'use strict';
 
-      // PS-004: Show for ts utkast
-      function _showPatientNameChangedIntegration(isIntyg) {
-        return !isIntyg;
-      }
+            // PS-004: Show for ts utkast
+            function _showPatientNameChangedIntegration(isIntyg) {
+                return !isIntyg;
+            }
+            // PS-005: Show for signed ts
+            function _showPatientNameChangedPU(isIntyg) {
+                return isIntyg;
+            }
+            // PS-006: Show for signed ts
+            function _showPatientAddressChangedPU(isIntyg) {
+                return isIntyg;
+            }
+            // INTYG-5146: Show for ts utkast
+            function _showMissingAddressParameter(isIntyg) {
+                return !isIntyg;
+            }
 
-      // PS-005: Show for signed ts
-      function _showPatientNameChangedPU(isIntyg) {
-        return isIntyg;
-      }
-
-      // PS-006: Show for signed ts
-      function _showPatientAddressChangedPU(isIntyg) {
-        return isIntyg;
-      }
-
-      // INTYG-5146: Show for ts utkast
-      function _showMissingAddressParameter(isIntyg) {
-        return !isIntyg;
-      }
-
-      return {
-        showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
-        showPatientNameChangedPU: _showPatientNameChangedPU,
-        showPatientAddressChangedPU: _showPatientAddressChangedPU,
-        showMissingAddressParameter: _showMissingAddressParameter
-      };
-    });
+            return {
+                showPatientNameChangedIntegration: _showPatientNameChangedIntegration,
+                showPatientNameChangedPU: _showPatientNameChangedPU,
+                showPatientAddressChangedPU: _showPatientAddressChangedPU,
+                showMissingAddressParameter: _showMissingAddressParameter
+            };
+        });

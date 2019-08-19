@@ -18,9 +18,11 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 import se.inera.intyg.common.support.model.common.internal.Patient;
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
@@ -34,14 +36,15 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  * Factory for creating an editable model.
  */
 public class WebcertModelFactoryImpl implements WebcertModelFactory {
-
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     /**
      * Create a new FK7263 draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
      * @return {@link Fk7263Utlatande} or throws a ConverterException if something unforeseen happens
+     * @throws ConverterException
      */
     @Override
     public Fk7263Utlatande createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {

@@ -16,5 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-angular.module('luae_na', ['ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize']).run(function() {
+angular.module('luae_na', [ 'ui.bootstrap', 'ngCookies', 'ui.router', 'ngSanitize']).
+run(function() {
 });

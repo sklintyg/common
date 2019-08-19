@@ -26,8 +26,8 @@
   "planeradBehandling": "Vi tror en värstingkryssning kan hjälpa, sådan inplanerad så snart proteserna levererats.",
   "substansintag": "Smärtstillande, lugnande, placebo.",
   "nyBedomningDiagnosgrund": true,
-  "forslagTillAtgard": "Förslag till åtgärd",
-  "diagnosForNyBedomning": "Diagnos för ny bedömning",
+  "forslagTillAtgard" : "Förslag till åtgärd",
+  "diagnosForNyBedomning" : "Diagnos för ny bedömning",
   "diagnosgrund": "Diagnoserna ställdes vid besök på AVC Södra \u00c4lvsborgs sjukhus i Borås 2014-07-09 och på Vårdenheten 2015-03-02.",
   "diagnoser": [
     {
@@ -70,7 +70,7 @@
   "journaluppgifter": "2016-02-02",
   "anhorigsBeskrivningAvPatienten": "2015-12-12",
   "annatGrundForMU": "2016-02-04",
-  "annatGrundForMUBeskrivning": "Patienten sökte upp mig på tennisklubben.",
+  "annatGrundForMUBeskrivning" : "Patienten sökte upp mig på tennisklubben.",
   "kontaktMedFk": true,
   "anledningTillKontakt": "Ser gärna över sin situation avseende resor till från arbetet.",
   "textVersion": "1.0",

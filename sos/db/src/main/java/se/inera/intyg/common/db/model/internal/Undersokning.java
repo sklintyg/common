@@ -43,8 +43,8 @@ public enum Undersokning {
 
     public static Undersokning fromTransport(String transport) {
         return Stream.of(Undersokning.values())
-            .filter(v -> v.getTransport().equals(transport))
-            .findFirst()
-            .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
+                .filter(v -> v.getTransport().equals(transport))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("unknown value: " + transport));
     }
 }

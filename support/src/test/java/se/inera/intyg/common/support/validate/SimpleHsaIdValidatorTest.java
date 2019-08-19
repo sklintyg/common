@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import com.google.common.base.Joiner;
 import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.google.common.base.Joiner;
 
 public class SimpleHsaIdValidatorTest {
 

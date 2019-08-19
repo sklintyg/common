@@ -22,11 +22,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -48,6 +50,7 @@ import se.riv.clinicalprocess.healthcond.certificate.v3.HosPersonal;
  * Unit test for InternalToExternalConverter.
  *
  * @author erik
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {BefattningService.class})
@@ -88,24 +91,23 @@ public class InternalToTransportTest {
 
         return utlatande;
     }
+/*
+    Waiting for INTYG-6650
 
-    /*
-        Waiting for INTYG-6650
+    @Test
+    public void doSchematronValidationTsBas() throws Exception {
+        String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
 
-        @Test
-        public void doSchematronValidationTsBas() throws Exception {
-            String xmlContents = Resources.toString(getResource("transport/ts-bas-max.xml"), Charsets.UTF_8);
+        RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
+        assertTrue(generalValidator.validateGeneral(xmlContents));
 
-            RegisterCertificateTestValidator generalValidator = new RegisterCertificateTestValidator();
-            assertTrue(generalValidator.validateGeneral(xmlContents));
+        RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
+        SchematronOutputType result = validator
+                .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
 
-            RegisterCertificateValidator validator = new RegisterCertificateValidator("ts_bas.sch");
-            SchematronOutputType result = validator
-                    .validateSchematron(new StreamSource(new ByteArrayInputStream(xmlContents.getBytes(Charsets.UTF_8))));
-
-            assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
-        }
-    */
+        assertEquals(0, SVRLHelper.getAllFailedAssertions(result).size());
+    }
+*/
     @Test
     public void testInternalToTransportConversion() throws Exception {
         TsBasUtlatandeV6 expected = getUtlatande();

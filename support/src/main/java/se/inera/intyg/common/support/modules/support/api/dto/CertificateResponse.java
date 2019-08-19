@@ -20,7 +20,6 @@ package se.inera.intyg.common.support.modules.support.api.dto;
 
 import static org.springframework.util.Assert.hasText;
 import static org.springframework.util.Assert.notNull;
-
 import se.inera.intyg.common.support.model.common.internal.Utlatande;
 
 public class CertificateResponse {

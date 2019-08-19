@@ -4,9 +4,13 @@
     <div class="row form-horizontal">
       <div class="{{config.htmlClass}}" data-ng-repeat="choice in ::config.choices">
         <wc-radio-wrapper>
-          <input type="radio" ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
-                 name="{{::config.modelProp}}" value="{{::choice.id}}" ng-model="modelGetterSetter"
-                 ng-model-options="{ getterSetter: true }" ng-change="updateValidation()">
+            <input type="radio"
+                   ng-attr-id="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}"
+                   name="{{::config.modelProp}}"
+                   value="{{::choice.id}}"
+                   ng-model="modelGetterSetter"
+                   ng-model-options="{ getterSetter: true }"
+                   ng-change="updateValidation()">
           <label ng-attr-for="{{::config.modelProp}}-{{::choice.id|ueDomIdFilter}}">
             <span dynamic-label key="{{::choice.label}}"></span>
           </label>

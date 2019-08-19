@@ -25,19 +25,20 @@ import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.RETURNS_MOCKS;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFactory;
 import javax.xml.ws.soap.SOAPFaultException;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -47,7 +48,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.core.io.ClassPathResource;
+
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
+
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import se.inera.intyg.common.ag7804.v1.model.converter.UtlatandeToIntyg;
@@ -133,8 +139,8 @@ public class Ag7804ModuleApiTest {
     @Test(expected = ModuleSystemException.class)
     public void testPdfEmployerNotAllowedForSmittskydd() throws Exception {
         doReturn(ScenarioFinder.getInternalScenario("pass-smittskydd").asInternalModel())
-            .when(objectMapper)
-            .readValue("internal model", Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue("internal model", Ag7804UtlatandeV1.class);
 
         List<Status> statuses = new ArrayList<>();
         List<String> optionalFields = new ArrayList<>();
@@ -150,8 +156,8 @@ public class Ag7804ModuleApiTest {
     @Test
     public void testValidateShouldUseValidator() throws Exception {
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue("internal model", Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue("internal model", Ag7804UtlatandeV1.class);
         moduleApi.validateDraft("internal model");
         verify(internalDraftValidator, times(1)).validateDraft(any());
     }
@@ -209,7 +215,7 @@ public class Ag7804ModuleApiTest {
         final String certificateId = "certificateId";
         final String logicalAddress = "logicalAddress";
         when(getCertificateResponder.getCertificate(eq(logicalAddress), any()))
-            .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
+                .thenThrow(new SOAPFaultException(SOAPFactory.newInstance().createFault()));
         moduleApi.getCertificate(certificateId, logicalAddress, "INVANA");
         fail();
     }
@@ -222,8 +228,8 @@ public class Ag7804ModuleApiTest {
         response.setResult(ResultTypeUtil.okResult());
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -242,8 +248,8 @@ public class Ag7804ModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("Certificate already exists"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -264,8 +270,8 @@ public class Ag7804ModuleApiTest {
         response.setResult(ResultTypeUtil.infoResult("INFO"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -286,8 +292,8 @@ public class Ag7804ModuleApiTest {
         response.setResult(ResultTypeUtil.errorResult(ErrorIdType.VALIDATION_ERROR, "resultText"));
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         when(registerCertificateResponderInterface.registerCertificate(eq(logicalAddress), any())).thenReturn(response);
 
@@ -302,8 +308,8 @@ public class Ag7804ModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(null)
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         moduleApi.registerCertificate(internalModel, logicalAddress);
 
@@ -315,8 +321,8 @@ public class Ag7804ModuleApiTest {
         final String utlatandeJson = "utlatandeJson";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(utlatandeJson, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(utlatandeJson, Ag7804UtlatandeV1.class);
         Utlatande utlatandeFromJson = moduleApi.getUtlatandeFromJson(utlatandeJson);
         assertNotNull(utlatandeFromJson);
     }
@@ -326,12 +332,12 @@ public class Ag7804ModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSave(internalModel, createHosPersonal());
         assertEquals(internalModel, response);
@@ -343,12 +349,12 @@ public class Ag7804ModuleApiTest {
         final String internalModel = "internal model";
 
         doReturn(ScenarioFinder.getInternalScenario("pass-minimal").asInternalModel())
-            .when(objectMapper)
-            .readValue(internalModel, Ag7804UtlatandeV1.class);
+                .when(objectMapper)
+                .readValue(internalModel, Ag7804UtlatandeV1.class);
 
         doReturn(internalModel)
-            .when(objectMapper)
-            .writeValueAsString(any());
+                .when(objectMapper)
+                .writeValueAsString(any());
 
         String response = moduleApi.updateBeforeSigning(internalModel, createHosPersonal(), null);
         assertEquals(internalModel, response);
@@ -415,7 +421,7 @@ public class Ag7804ModuleApiTest {
      * final String middleDate3 = "2015-12-15";
      * final String middleDate4 = "2015-12-16";
      * final String toString = "2016-03-02";
-     *
+     * 
      * Ag7804UtlatandeV1.Builder utlatandeBuilder = getUtlatandeFromFile().toBuilder().setSjukskrivningar(Arrays.asList(
      * Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
      * new InternalLocalDateInterval(middleDate2, middleDate3)),
@@ -424,9 +430,9 @@ public class Ag7804ModuleApiTest {
      * Sjukskrivning.create(Sjukskrivning.SjukskrivningsGrad.HELT_NEDSATT,
      * new InternalLocalDateInterval(fromString, middleDate1))));
      * Intyg intyg = UtlatandeToIntyg.convert(utlatandeBuilder.build());
-     *
+     * 
      * String result = moduleApi.getAdditionalInfo(intyg);
-     *
+     * 
      * assertEquals(fromString + " - " + toString, result);
      * }
      */
@@ -439,7 +445,7 @@ public class Ag7804ModuleApiTest {
 
     private CreateDraftCopyHolder createCopyHolder() {
         return new CreateDraftCopyHolder("certificateId",
-            createHosPersonal());
+                createHosPersonal());
     }
 
     private CreateNewDraftHolder createDraftHolder() {
@@ -485,7 +491,7 @@ public class Ag7804ModuleApiTest {
 
     private Ag7804UtlatandeV1 getUtlatandeFromFile() throws IOException {
         return new CustomObjectMapper().readValue(new ClassPathResource(
-            TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
+                TESTFILE_UTLATANDE).getFile(), Ag7804UtlatandeV1.class);
     }
 
 }

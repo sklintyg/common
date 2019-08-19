@@ -17,20 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('af00251').factory('af00251.viewFactory.v1', [
-  '$stateParams',
-  function($stateParams) {
-    'use strict';
+    '$stateParams',
+    function($stateParams) {
+        'use strict';
 
-    var intygsTyp = 'af00251';
-    var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.af';
+        var intygsTyp = 'af00251';
+        var selectRecipientKey = 'modules.page-header.info.select-recipients-and-send.af';
+        
+        var _sendUrl = function() {
+            return '/send/' + intygsTyp +'/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF';
+        };
 
-    var _sendUrl = function() {
-      return '/send/' + intygsTyp + '/' + $stateParams.intygTypeVersion + '/' + $stateParams.certificateId + '/AF';
-    };
-
-    return {
-      intygsTyp: intygsTyp,
-      selectRecipientKey: selectRecipientKey,
-      getSendUrl: _sendUrl
-    };
-  }]);
+        return {
+            intygsTyp: intygsTyp,
+            selectRecipientKey: selectRecipientKey,
+            getSendUrl: _sendUrl
+        };
+    }]);

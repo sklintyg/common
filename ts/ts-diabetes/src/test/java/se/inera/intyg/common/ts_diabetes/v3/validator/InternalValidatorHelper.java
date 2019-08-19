@@ -19,14 +19,15 @@
 
 package se.inera.intyg.common.ts_diabetes.v3.validator;
 
+import se.inera.intyg.common.support.model.InternalDate;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 
     public void setNowMinusDays(InternalDate date, int days) {
-        if (date != null) {
+        if(date != null) {
             date.setDate(LocalDate.now().minusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE));
         }
     }

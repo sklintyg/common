@@ -43,38 +43,38 @@
       }
     ]
   },
-  "identitetStyrktGenom": {
-    "typ": "PASS"
+  "identitetStyrktGenom":{
+    "typ":"PASS"
   },
-  "allmant": {
-    "diabetesDiagnosAr": "1990",
-    "typAvDiabetes": "TYP1",
-    "behandling": {
-      "endastKost": true
+  "allmant":{
+    "diabetesDiagnosAr":"1990",
+    "typAvDiabetes":"TYP1",
+    "behandling":{
+      "endastKost":true
     }
   },
-  "hypoglykemier": {
+  "hypoglykemier":{
   },
-  "synfunktion": {
-    "misstankeOgonsjukdom": true,
-    "ogonbottenFotoSaknas": true,
-    "vanster": {
-      "utanKorrektion": 0.9
+  "synfunktion":{
+    "misstankeOgonsjukdom":true,
+    "ogonbottenFotoSaknas":true,
+    "vanster":{
+      "utanKorrektion":0.9
     },
-    "hoger": {
-      "utanKorrektion": 0.0
+    "hoger":{
+      "utanKorrektion":0.0
     },
-    "binokulart": {
-      "utanKorrektion": 0.5
+    "binokulart":{
+      "utanKorrektion":0.5
     }
   },
-  "bedomning": {
-    "uppfyllerBehorighetskrav": [
+  "bedomning":{
+    "uppfyllerBehorighetskrav":[
       {
-        "type": "KANINTETASTALLNING",
-        "selected": true
+        "type":"KANINTETASTALLNING",
+        "selected":true
       }
     ],
-    "lampligtInnehav": true
+    "lampligtInnehav":true
   }
 }

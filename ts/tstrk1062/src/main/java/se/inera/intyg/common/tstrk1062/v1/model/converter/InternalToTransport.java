@@ -31,7 +31,7 @@ public final class InternalToTransport {
     }
 
     public static RegisterCertificateType convert(TsTrk1062UtlatandeV1 source, WebcertModuleService webcertModuleService)
-        throws ConverterException {
+            throws ConverterException {
         if (source == null) {
             throw new ConverterException("Source utlatande was null, cannot convert");
         }

@@ -19,27 +19,28 @@
 
 package se.inera.intyg.common.db.v1.validator;
 
+import se.inera.intyg.common.support.model.InternalDate;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import se.inera.intyg.common.support.model.InternalDate;
 
 public class InternalValidatorHelper {
 
 
     public void setDateToCurrentYear(InternalDate date) {
-        if (date != null) {
+        if(date != null) {
             modifyDateYear(date);
         }
     }
 
     public void setDateToLastYear(InternalDate date) {
-        if (date != null) {
+        if(date != null) {
             modifyDateYear(date, -1);
         }
     }
 
     public void setNowMinusDays(InternalDate date, int days) {
-        if (date != null) {
+        if(date != null) {
             date.setDate(LocalDate.now().minusDays(days).format(DateTimeFormatter.ISO_LOCAL_DATE));
         }
     }

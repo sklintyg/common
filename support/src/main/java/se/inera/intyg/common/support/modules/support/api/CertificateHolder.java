@@ -20,6 +20,7 @@ package se.inera.intyg.common.support.modules.support.api;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateRelation;
 import se.inera.intyg.schemas.contract.Personnummer;
 
@@ -266,12 +267,12 @@ public class CertificateHolder {
     @Override
     public String toString() {
         return "CertificateHolder [id=" + id + ", originalCertificate=" + originalCertificate + ", type=" + type + ", typeVersion="
-            + typeVersion
-            + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
-            + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
-            + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
-            + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
-            + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
+                + typeVersion
+                + ", signingDoctorName=" + signingDoctorName + ", careUnitId=" + careUnitId + ", careUnitName=" + careUnitName
+                + ", civicRegistrationNumber=" + civicRegistrationNumber.getPersonnummerHash() + ", signedDate=" + signedDate
+                + ", validFromDate=" + validFromDate + ", validToDate=" + validToDate + ", additionalInfo=" + additionalInfo
+                + ", deleted=" + deleted + ", deletedByCareGiver=" + deletedByCareGiver + ", certificateStates=" + certificateStates
+                + ", revoked=" + revoked + ", certificateRelation=" + certificateRelation + "]";
     }
 
     @Override

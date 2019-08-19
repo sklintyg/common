@@ -18,11 +18,13 @@
  */
 package se.inera.intyg.common.af00251.v1.model.converter;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.af00251.support.AF00251EntryPoint;
 import se.inera.intyg.common.af00251.v1.model.internal.AF00251UtlatandeV1;
 import se.inera.intyg.common.services.texts.IntygTextsService;
@@ -40,7 +42,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component("af00251.v1.WebcertModelFactoryImpl")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251UtlatandeV1> {
-
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -49,8 +50,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
     /**
      * Create a new lisjp draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
      * @return {@link AF00251UtlatandeV1} or throws a ConverterException if something unforeseen happens
+     * @throws ConverterException
      */
     @Override
     public AF00251UtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -67,7 +70,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<AF00251Utlat
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(AF00251EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+                intygTexts.getLatestVersionForSameMajorVersion(AF00251EntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

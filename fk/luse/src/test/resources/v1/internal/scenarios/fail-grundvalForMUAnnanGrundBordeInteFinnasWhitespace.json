@@ -16,7 +16,7 @@
   "aktivitetsbegransning": "Svårt att utföra arbeten med höger arm (högerhänt). Kan lyfta lättare saker men tappar lätt föremål. Nedsatt koncentrationsförmåga vilket påverkar arbeten där han behöver övervaka processer.",
   "funktionsnedsattningKommunikation": "Nedsatt initiativförmåga, drar sig ofta undan folksamlingar.",
   "nyBedomningDiagnosgrund": true,
-  "diagnosForNyBedomning": "Diagnos för ny bedömning",
+  "diagnosForNyBedomning" : "Diagnos för ny bedömning",
   "diagnosgrund": "Diagnoserna ställdes vid besök på AVC Södra \u00c4lvsborgs sjukhus i Borås 2014-07-09 och på Vårdenheten 2015-03-02.",
   "diagnoser": [
     {
@@ -41,7 +41,7 @@
   "underlagFinns": true,
   "kannedomOmPatient": "2015-01-07",
   "undersokningAvPatienten": "2015-09-09",
-  "annatGrundForMUBeskrivning": "   ",
+  "annatGrundForMUBeskrivning" : "   ",
   "textVersion": "1.0",
   "grundData": {
     "patient": {

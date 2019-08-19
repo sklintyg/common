@@ -88,11 +88,14 @@ import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_MED_KORREKTION_DELSVAR_ID;
 import static se.inera.intyg.common.ts_diabetes.v3.model.converter.RespConstants.SYNFUNKTION_SYNSKARPA_VANSTER_UTAN_KORREKTION_DELSVAR_ID;
 
-import com.google.common.base.Strings;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.JAXBElement;
+
+import com.google.common.base.Strings;
+
 import se.inera.intyg.common.support.common.enumerations.Diagnoskodverk;
 import se.inera.intyg.common.support.modules.converter.InternalConverterUtil;
 import se.inera.intyg.common.ts_diabetes.support.TsDiabetesEntryPoint;
@@ -138,24 +141,24 @@ public final class UtlatandeToIntyg {
 
         // Kat 1 - Intyget avser
         if (source.getIntygAvser() != null && source.getIntygAvser().getKategorier() != null
-            && source.getIntygAvser().getKategorier().size() > 0) {
+                && source.getIntygAvser().getKategorier().size() > 0) {
             int intygAvserInstans = 1;
             for (IntygAvserKategori intygAvserKategori : source.getIntygAvser().getKategorier()) {
                 IntygAvserKod intygAvserKod = IntygAvserKod.valueOf(intygAvserKategori.name());
                 svars.add(aSvar(INTYGETAVSER_SVAR_ID, intygAvserInstans++)
-                    .withDelsvar(INTYGETAVSER_DELSVAR_ID,
-                        aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvserKod.getCode(), intygAvserKod.getDescription()))
-                    .build());
+                        .withDelsvar(INTYGETAVSER_DELSVAR_ID,
+                                aCV(KV_INTYGET_AVSER_CODE_SYSTEM, intygAvserKod.getCode(), intygAvserKod.getDescription()))
+                        .build());
             }
         }
 
         // Kat 2 - Identitet
         if (source.getIdentitetStyrktGenom() != null && source.getIdentitetStyrktGenom().getTyp() != null) {
             svars.add(aSvar(IDENTITET_STYRKT_GENOM_SVAR_ID)
-                .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
-                    aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getTyp().getCode(),
-                        source.getIdentitetStyrktGenom().getTyp().getDescription()))
-                .build());
+                    .withDelsvar(IDENTITET_STYRKT_GENOM_DELSVAR_ID,
+                            aCV(KV_ID_KONTROLL_CODE_SYSTEM, source.getIdentitetStyrktGenom().getTyp().getCode(),
+                                    source.getIdentitetStyrktGenom().getTyp().getDescription()))
+                    .build());
         }
 
         // Kat 3 - Allmänt
@@ -193,25 +196,25 @@ public final class UtlatandeToIntyg {
             Year diabetesDiagnosAr = getYearContent(allmant.getDiabetesDiagnosAr());
             if (diabetesDiagnosAr != null) {
                 svars.add(aSvar(ALLMANT_DIABETES_DIAGNOS_AR_SVAR_ID)
-                    .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
-                        aPartialDate(PartialDateTypeFormatEnum.YYYY, diabetesDiagnosAr))
-                    .build());
+                        .withDelsvar(ALLMANT_DIABETES_DIAGNOS_AR_DELSVAR_ID,
+                                aPartialDate(PartialDateTypeFormatEnum.YYYY, diabetesDiagnosAr))
+                        .build());
             }
         }
 
         if (allmant.getTypAvDiabetes() != null || allmant.getBeskrivningAnnanTypAvDiabetes() != null) {
             // Here we rely on withDelsvar not adding a delsvar if content is null
             svars.add(aSvar(ALLMANT_TYP_AV_DIABETES_SVAR_ID)
-                .withDelsvar(ALLMANT_TYP_AV_DIABETES_DELSVAR_ID,
-                    // https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/652083265/Utformning+TS-diabetes+-+version+2
-                    // "Svar annan leder inte till något svar utan bara till att 18.2 bli obligatorisk att fylla i."
-                    allmant.getTypAvDiabetes() != null
-                        ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), allmant.getTypAvDiabetes().getCode(),
-                        allmant.getTypAvDiabetes().getDescription())
-                        : null)
-                .withDelsvar(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
-                    allmant.getBeskrivningAnnanTypAvDiabetes())
-                .build());
+                    .withDelsvar(ALLMANT_TYP_AV_DIABETES_DELSVAR_ID,
+                            // https://inera-certificate.atlassian.net/wiki/spaces/IT/pages/652083265/Utformning+TS-diabetes+-+version+2
+                            // "Svar annan leder inte till något svar utan bara till att 18.2 bli obligatorisk att fylla i."
+                            allmant.getTypAvDiabetes() != null
+                                    ? aCV(Diagnoskodverk.ICD_10_SE.getCodeSystem(), allmant.getTypAvDiabetes().getCode(),
+                                            allmant.getTypAvDiabetes().getDescription())
+                                    : null)
+                    .withDelsvar(ALLMANT_BESKRIVNING_ANNAN_TYP_AV_DIABETES_DELSVAR_ID,
+                            allmant.getBeskrivningAnnanTypAvDiabetes())
+                    .build());
         }
 
         if (allmant.getBehandling() != null) {
@@ -225,21 +228,21 @@ public final class UtlatandeToIntyg {
 
             // Here we rely on withDelsvar not adding a delsvar if content is null
             Svar behandlingSvar = aSvar(ALLMANT_BEHANDLING_SVAR_ID)
-                .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getEndastKost()))
-                .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTabletter()))
-                .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTablettRiskHypoglykemi()))
-                .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getInsulin()))
-                .withDelsvar(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID,
-                    insulinSedanArContent)
-                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnanBehandling()))
-                .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
-                    allmant.getBehandling().getAnnanBehandlingBeskrivning())
-                .build();
+                    .withDelsvar(ALLMANT_BEHANDLING_ENDAST_KOST_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getEndastKost()))
+                    .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTabletter()))
+                    .withDelsvar(ALLMANT_BEHANDLING_TABLETTER_RISK_HYPOGLYKEMI_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getTablettRiskHypoglykemi()))
+                    .withDelsvar(ALLMANT_BEHANDLING_INSULIN_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getInsulin()))
+                    .withDelsvar(ALLMANT_BEHANDLING_INSULIN_SEDAN_AR_DELSVAR_ID,
+                            insulinSedanArContent)
+                    .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(allmant.getBehandling().getAnnanBehandling()))
+                    .withDelsvar(ALLMANT_BEHANDLING_ANNAN_BEHANDLING_BESKRIVNING_DELSVAR_ID,
+                            allmant.getBehandling().getAnnanBehandlingBeskrivning())
+                    .build();
             boolean validElementInIntygXmlSchema = behandlingSvar.getDelsvar().size() != 0;
             if (validElementInIntygXmlSchema) {
                 svars.add(behandlingSvar);
@@ -249,55 +252,55 @@ public final class UtlatandeToIntyg {
 
     private static void buildHypoglykemier(Hypoglykemier hypoglykemier, List<Svar> svars) {
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SVAR_ID,
-            HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderKontroll());
+                HYPOGLYKEMIER_SJUKDOMEN_UNDER_KONTROLL_DELSVAR_ID, hypoglykemier.getSjukdomenUnderKontroll());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_SVAR_ID,
-            HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID, hypoglykemier.getNedsattHjarnfunktion());
+                HYPOGLYKEMIER_NEDSATT_HJARNFUNKTION_DELSVAR_ID, hypoglykemier.getNedsattHjarnfunktion());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_FORSTAR_RISKER_SVAR_ID,
-            HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID, hypoglykemier.getForstarRisker());
+                HYPOGLYKEMIER_FORSTAR_RISKER_DELSVAR_ID, hypoglykemier.getForstarRisker());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_SVAR_ID,
-            HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID, hypoglykemier.getFortrogenMedSymptom());
+                HYPOGLYKEMIER_FORTROGEN_MED_SYMPTOM_DELSVAR_ID, hypoglykemier.getFortrogenMedSymptom());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_SVAR_ID,
-            HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID, hypoglykemier.getSaknarFormagaVarningstecken());
+                HYPOGLYKEMIER_SAKNAR_FORMAGA_VARNINGSTECKEN_DELSVAR_ID, hypoglykemier.getSaknarFormagaVarningstecken());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_ATGARDER_SVAR_ID,
-            HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID, hypoglykemier.getKunskapLampligaAtgarder());
+                HYPOGLYKEMIER_KUNSKAP_LAMPLIGA_DELSVAR_ID, hypoglykemier.getKunskapLampligaAtgarder());
 
         InternalConverterUtil.addIfNotNull(svars, HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_SVAR_ID,
-            HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
+                HYPOGLYKEMIER_EGENKONTROLL_BLODSOCKER_DELSVAR_ID, hypoglykemier.getEgenkontrollBlodsocker());
 
         if (hypoglykemier.getAterkommandeSenasteAret() != null) {
             InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()));
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteAret()));
             if (hypoglykemier.getAterkommandeSenasteTidpunkt() != null && hypoglykemier.getAterkommandeSenasteTidpunkt().isValidDate()) {
                 svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_ARET_TIDPUNKT_DELSVAR_ID,
-                    getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()));
+                        getInternalDateContent(hypoglykemier.getAterkommandeSenasteTidpunkt()));
             }
             svars.add(svarBuilder.build());
         }
 
         if (hypoglykemier.getAterkommandeSenasteKvartalet() != null) {
             InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()));
+                    .withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_KVARTALET_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getAterkommandeSenasteKvartalet()));
             if (hypoglykemier.getSenasteTidpunktVaken() != null && hypoglykemier.getSenasteTidpunktVaken().isValidDate()) {
                 svarBuilder.withDelsvar(HYPOGLYKEMIER_ATERKOMMANDE_SENASTE_TIDPUNKT_VAKEN_DELSVAR_ID,
-                    getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()));
+                        getInternalDateContent(hypoglykemier.getSenasteTidpunktVaken()));
             }
             svars.add(svarBuilder.build());
         }
 
         if (hypoglykemier.getForekomstTrafik() != null) {
             InternalConverterUtil.SvarBuilder svarBuilder = aSvar(HYPOGLYKEMIER_FOREKOMST_SENASTE_TRAFIK_SVAR_ID)
-                .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID,
-                    InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()));
+                    .withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_SVAR_DELSVAR_ID,
+                            InternalConverterUtil.getBooleanContent(hypoglykemier.getForekomstTrafik()));
             if (hypoglykemier.getForekomstTrafikTidpunkt() != null && hypoglykemier.getForekomstTrafikTidpunkt().isValidDate()) {
                 svarBuilder.withDelsvar(HYPOGLYKEMIER_FOREKOMST_TRAFIK_TIDPUNKT_DELSVAR_ID,
-                    getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()));
+                        getInternalDateContent(hypoglykemier.getForekomstTrafikTidpunkt()));
             }
             svars.add(svarBuilder.build());
         }
@@ -305,10 +308,10 @@ public final class UtlatandeToIntyg {
 
     private static void buildSynfunktion(Synfunktion synfunktion, List<Svar> svars) {
         InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_SVAR_ID, SYNFUNKTION_MISSTANKE_OGONSJUKDOM_DELSVAR_ID,
-            synfunktion.getMisstankeOgonsjukdom());
+                synfunktion.getMisstankeOgonsjukdom());
 
         InternalConverterUtil.addIfNotNull(svars, SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_SVAR_ID, SYNFUNKTION_OGONBOTTENFOTO_SAKNAS_DELSVAR_ID,
-            synfunktion.getOgonbottenFotoSaknas());
+                synfunktion.getOgonbottenFotoSaknas());
 
         InternalConverterUtil.SvarBuilder synskarpa = aSvar(SYNFUNKTION_SYNSKARPA_SVAR_ID);
 
@@ -336,11 +339,11 @@ public final class UtlatandeToIntyg {
         if (binokulart != null) {
             if (binokulart.getUtanKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_UTAN_KORREKTION_DELSVAR_ID,
-                    binokulart.getUtanKorrektion().toString());
+                        binokulart.getUtanKorrektion().toString());
             }
             if (binokulart.getMedKorrektion() != null) {
                 synskarpa.withDelsvar(SYNFUNKTION_SYNSKARPA_BINOKULART_MED_KORREKTION_DELSVAR_ID,
-                    binokulart.getMedKorrektion().toString());
+                        binokulart.getMedKorrektion().toString());
             }
         }
 
@@ -364,18 +367,18 @@ public final class UtlatandeToIntyg {
             for (BedomningKorkortstyp bedomningKorkortstyp : bedomning.getUppfyllerBehorighetskrav()) {
                 KorkortsbehorighetKod korkortsbehorighetKod = KorkortsbehorighetKod.valueOf(bedomningKorkortstyp.name());
                 svars.add(aSvar(BEDOMNING_SVAR_ID, behorighetskravInstans++)
-                    .withDelsvar(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID,
-                        aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
-                            korkortsbehorighetKod.getDescription()))
-                    .build());
+                        .withDelsvar(BEDOMNING_UPPFYLLER_BEHORIGHETSKRAV_DELSVAR_ID,
+                                aCV(KV_KORKORTSBEHORIGHET_CODE_SYSTEM, korkortsbehorighetKod.getCode(),
+                                        korkortsbehorighetKod.getDescription()))
+                        .build());
             }
         }
 
         InternalConverterUtil.addIfNotNull(svars, BEDOMNING_LAMPLIGHET_SVAR_ID, BEDOMNING_LAMPLIGHET_ATT_INNEHA_DELSVAR_ID,
-            bedomning.getLampligtInnehav());
+                bedomning.getLampligtInnehav());
 
         InternalConverterUtil.addIfNotBlank(svars, BEDOMNING_BOR_UNDERSOKAS_SVAR_ID, BEDOMNING_BOR_UNDERSOKAS_DELSVAR_ID,
-            bedomning.getBorUndersokasBeskrivning());
+                bedomning.getBorUndersokasBeskrivning());
     }
 
 }

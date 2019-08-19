@@ -18,12 +18,16 @@
  */
 package se.inera.intyg.common.support.validate;
 
-import com.helger.schematron.svrl.SVRLHelper;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.transform.stream.StreamSource;
+
 import org.oclc.purl.dsdl.svrl.SchematronOutputType;
+
+import com.helger.schematron.svrl.SVRLHelper;
+
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateXmlResponse;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationStatus;
 import se.inera.intyg.common.support.modules.support.api.exception.ModuleException;
@@ -32,6 +36,7 @@ import se.inera.intyg.common.support.modules.support.api.exception.ModuleExcepti
  * XML validation utility class for certificate-modules.
  *
  * @author erik
+ *
  */
 public final class XmlValidator {
 
@@ -42,9 +47,12 @@ public final class XmlValidator {
      * Perform validation of the specified XML string using the supplied {@link RegisterCertificateValidator},
      * allows each module to set up its validator using each modules' schematron-file.
      *
-     * @param validator {@link RegisterCertificateValidator}
-     * @param inputXml String
+     * @param validator
+     *            {@link RegisterCertificateValidator}
+     * @param inputXml
+     *            String
      * @return {@link ValidateXmlResponse}
+     * @throws ModuleException
      */
     public static ValidateXmlResponse validate(RegisterCertificateValidator validator, String inputXml) throws ModuleException {
         try {
@@ -52,7 +60,7 @@ public final class XmlValidator {
             if (!SVRLHelper.getAllFailedAssertions(valResult).isEmpty()) {
                 List<String> errorMsgs = new ArrayList<>();
                 SVRLHelper.getAllFailedAssertions(valResult)
-                    .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
+                        .forEach(fra -> errorMsgs.add(String.format("TEST: %s, MSG: %s", fra.getTest(), fra.getText())));
                 return new ValidateXmlResponse(ValidationStatus.INVALID, errorMsgs);
             } else {
                 return new ValidateXmlResponse(ValidationStatus.VALID, new ArrayList<>());

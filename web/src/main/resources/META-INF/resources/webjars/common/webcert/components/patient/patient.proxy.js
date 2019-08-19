@@ -17,55 +17,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').factory('common.PatientProxy',
-    ['$http', '$stateParams', '$log', 'common.PatientModel',
-      function($http, $stateParams, $log, PatientModel) {
-        'use strict';
+    [ '$http', '$stateParams', '$log', 'common.PatientModel',
+        function($http, $stateParams, $log, PatientModel) {
+            'use strict';
 
-        /**
-         * getNameAndAddress
-         * @param personnummer
-         * @param onSuccess
-         * @param onNotFound
-         * @param onError
-         */
-        function _getPatient(personnummer, onSuccess, onNotFound, onError) {
-          $log.debug('_getPatient');
+            /**
+             * getNameAndAddress
+             * @param personnummer
+             * @param onSuccess
+             * @param onNotFound
+             * @param onError
+             */
+            function _getPatient(personnummer, onSuccess, onNotFound, onError) {
+                $log.debug('_getPatient');
 
-          var that = PatientModel;
-          that.personnummer = personnummer;
+                var that = PatientModel;
+                that.personnummer = personnummer;
 
-          var restPath = '/api/person/' + personnummer;
-          $http.get(restPath).then(function(response) {
-            $log.debug(response.data);
+                var restPath = '/api/person/' + personnummer;
+                $http.get(restPath).then(function(response) {
+                    $log.debug(response.data);
 
-            var data = response.data;
-            if (data.status === 'FOUND' && data.person) {
-              that.sekretessmarkering = data.person.sekretessmarkering;
-              that.personnummer = data.person.personnummer;
-              that.fornamn = data.person.fornamn;
-              that.mellannamn = data.person.mellannamn;
-              that.efternamn = data.person.efternamn;
-              that.postadress = data.person.postadress;
-              that.postnummer = data.person.postnummer;
-              that.postort = data.person.postort;
-              that.avliden = data.person.avliden;
-              onSuccess(that);
-            } else if (data.status === 'ERROR') {
-              $log.warn('PU-tjänsten kunde inte kontaktas.');
-              onError(true);
-            } else {
-              $log.debug('Personen hittades inte i PU-tjänsten.');
-              onNotFound();
+                    var data = response.data;
+                    if (data.status === 'FOUND' && data.person) {
+                        that.sekretessmarkering = data.person.sekretessmarkering;
+                        that.personnummer = data.person.personnummer;
+                        that.fornamn = data.person.fornamn;
+                        that.mellannamn = data.person.mellannamn;
+                        that.efternamn = data.person.efternamn;
+                        that.postadress = data.person.postadress;
+                        that.postnummer = data.person.postnummer;
+                        that.postort = data.person.postort;
+                        that.avliden = data.person.avliden;
+                        onSuccess(that);
+                    } else if (data.status === 'ERROR') {
+                        $log.warn('PU-tjänsten kunde inte kontaktas.');
+                        onError(true);
+                    } else {
+                        $log.debug('Personen hittades inte i PU-tjänsten.');
+                        onNotFound();
+                    }
+
+                }, function() {
+                    $log.warn('Tekniskt fel vid begäran om slagning mot PU-tjänsten.');
+                    onError(false);
+                });
             }
 
-          }, function() {
-            $log.warn('Tekniskt fel vid begäran om slagning mot PU-tjänsten.');
-            onError(false);
-          });
-        }
-
-        // Return public API for the service
-        return {
-          getPatient: _getPatient
-        };
-      }]);
+             // Return public API for the service
+            return {
+                getPatient: _getPatient
+            };
+        }]);

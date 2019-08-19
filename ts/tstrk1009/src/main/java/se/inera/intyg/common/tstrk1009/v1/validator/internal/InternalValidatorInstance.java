@@ -53,7 +53,7 @@ public class InternalValidatorInstance {
 
         if (utlatande == null) {
             ValidatorUtil.addValidationError(validationMessages, "utlatande", "utlatande", ValidationMessageType.EMPTY,
-                "tstrk1009.validation.utlatande.missing");
+                    "tstrk1009.validation.utlatande.missing");
 
         } else {
 
@@ -77,7 +77,7 @@ public class InternalValidatorInstance {
 
         if (intygetAvserBehorigheter.isEmpty()) {
             ValidatorUtil.addValidationError(validationMessages, CATEGORY_INTYG_AVSER, "intygAvser.korkortstyp",
-                ValidationMessageType.EMPTY);
+                    ValidationMessageType.EMPTY);
         }
     }
 }

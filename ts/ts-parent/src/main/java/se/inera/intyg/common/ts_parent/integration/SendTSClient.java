@@ -33,6 +33,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.ws.Dispatch;
 import javax.xml.ws.Service;
 import javax.xml.ws.soap.SOAPBinding;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -102,8 +103,8 @@ public abstract class SendTSClient {
     protected abstract void setupService();
 
     void setupService(Service service, QName port) {
-        this.service = service;
-        this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
+            this.service = service;
+            this.service.addPort(port, SOAPBinding.SOAP11HTTP_BINDING, this.url);
     }
 
     Dispatch<SOAPMessage> createDispatchMessage(String namespace, QName port) {

@@ -17,18 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('common').directive('uePatientAddressUpdater', [
-  function() {
+    function() {
     'use strict';
 
     return {
-      restrict: 'E',
-      scope: {
-        form: '=',
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePatientAddressUpdater/uePatientAddressUpdater.directive.html',
-      link: function($scope) {
-      }
+        restrict: 'E',
+        scope: {
+            form: '=',
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/uePatientAddressUpdater/uePatientAddressUpdater.directive.html',
+        link: function($scope) {
+        }
     };
-  }]);
+}]);

@@ -18,13 +18,15 @@
  */
 package se.inera.intyg.common.fk7263.model.converter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
+
+import java.time.LocalDate;
+
 import se.inera.intyg.common.support.model.InternalDate;
 import se.inera.intyg.common.support.model.InternalLocalDateInterval;
 import se.inera.intyg.common.support.model.LocalDateInterval;
+import se.inera.intyg.common.fk7263.model.internal.Fk7263Utlatande;
 
 /**
  * Created by erik on 15-04-08.
@@ -42,8 +44,10 @@ public final class ArbetsformagaToGiltighet {
      * If there are invalid dates (format etc.) on the Utlatande "NedsattMedNN", we catch all Exceptions and just return null
      * as Giltighet. (WEBCERT-1940)
      *
-     * @return Aa LocalDateInterval with the earliest fromDate to the
-     * latest toDate. Null if there are invalid/unparsable dates.
+     * @param utlatande
+     * @return
+     *      Aa LocalDateInterval with the earliest fromDate to the
+     *      latest toDate. Null if there are invalid/unparsable dates.
      */
     public static LocalDateInterval getGiltighetFromUtlatande(Fk7263Utlatande utlatande) {
         try {

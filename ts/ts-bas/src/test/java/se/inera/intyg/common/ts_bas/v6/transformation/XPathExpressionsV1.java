@@ -26,7 +26,6 @@ import se.inera.intyg.common.ts_parent.transformation.test.StringXPathExpression
  * Defines xPath expressions and templates used to create all expressions needed by Transportstyrelsen.
  */
 public final class XPathExpressionsV1 {
-
     private XPathExpressionsV1() {
     }
 
@@ -40,69 +39,60 @@ public final class XPathExpressionsV1 {
 
     public static final StringXPathExpression INVANARE_FORNAMN_XPATH = new StringXPathExpression("utlatande/p:patient/p:fornamn/text()");
 
-    public static final StringXPathExpression INVANARE_EFTERNAMN_XPATH = new StringXPathExpression(
-        "utlatande/p:patient/p:efternamn/text()");
+    public static final StringXPathExpression INVANARE_EFTERNAMN_XPATH = new StringXPathExpression("utlatande/p:patient/p:efternamn/text()");
 
-    public static final StringXPathExpression INVANARE_POSTADRESS_XPATH = new StringXPathExpression(
-        "utlatande/p:patient/p:postadress/text()");
+    public static final StringXPathExpression INVANARE_POSTADRESS_XPATH = new StringXPathExpression("utlatande/p:patient/p:postadress/text()");
 
-    public static final StringXPathExpression INVANARE_POSTNUMMER_XPATH = new StringXPathExpression(
-        "utlatande/p:patient/p:postnummer/text()");
+    public static final StringXPathExpression INVANARE_POSTNUMMER_XPATH = new StringXPathExpression("utlatande/p:patient/p:postnummer/text()");
 
     public static final StringXPathExpression INVANARE_POSTORT_XPATH = new StringXPathExpression("utlatande/p:patient/p:postort/text()");
 
-    public static final StringXPathExpression INVANARE_PERSONNUMMER_XPATH = new StringXPathExpression(
-        "utlatande/p:patient/p:person-id/@extension");
+    public static final StringXPathExpression INVANARE_PERSONNUMMER_XPATH = new StringXPathExpression("utlatande/p:patient/p:person-id/@extension");
 
     public static final DateXPathExpression SIGNERINGSDATUM_XPATH = new DateXPathExpression(
-        "utlatande/p:signeringsdatum", TIDSTAMPEL_FORMAT);
+            "utlatande/p:signeringsdatum", TIDSTAMPEL_FORMAT);
 
     public static final StringXPathExpression ENHET_VARDINRATTNINGENS_NAMN_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:enhetsnamn");
+            "/utlatande/p:skapadAv/p:enhet/p:enhetsnamn");
 
-    public static final StringXPathExpression ENHET_ID_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:enhets-id/@extension");
+    public static final StringXPathExpression ENHET_ID_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:enhets-id/@extension");
 
-    public static final StringXPathExpression ENHET_POSTADRESS_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:postadress");
+    public static final StringXPathExpression ENHET_POSTADRESS_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:postadress");
 
     public static final StringXPathExpression ENHET_POSTORT_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:postort");
 
-    public static final StringXPathExpression ENHET_POSTNUMMER_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:postnummer");
+    public static final StringXPathExpression ENHET_POSTNUMMER_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:postnummer");
 
     public static final StringXPathExpression ENHET_TELEFONNUMMER_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:telefonnummer");
+            "/utlatande/p:skapadAv/p:enhet/p:telefonnummer");
 
-    public static final StringXPathExpression VARDGIVARE_ID_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:vardgivare/p:vardgivare-id/@extension");
+    public static final StringXPathExpression VARDGIVARE_ID_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:vardgivare/p:vardgivare-id/@extension");
 
-    public static final StringXPathExpression VARDGIVARE_NAMN_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:enhet/p:vardgivare/p:vardgivarnamn/text()");
+    public static final StringXPathExpression VARDGIVARE_NAMN_XPATH = new StringXPathExpression("/utlatande/p:skapadAv/p:enhet/p:vardgivare/p:vardgivarnamn/text()");
 
     public static final StringXPathExpression SKAPAD_AV_NAMNFORTYDLIGANDE_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:fullstandigtNamn");
+            "/utlatande/p:skapadAv/p:fullstandigtNamn");
 
     public static final StringXPathExpression SKAPAD_AV_HSAID_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p:personal-id/@extension");
+            "/utlatande/p:skapadAv/p:personal-id/@extension");
 
     public static final BooleanXPathExpression SKAPAD_AV_SPECIALISTKOMPETENS_CHECK_XPATH = new BooleanXPathExpression(
-        "/utlatande/p:skapadAv/p2:specialitet/@code");
+            "/utlatande/p:skapadAv/p2:specialitet/@code");
 
     public static final StringXPathExpression SKAPAD_AV_SPECIALISTKOMPETENS_BESKRVNING_XPATH = new StringXPathExpression(
-        "/utlatande/p:skapadAv/p2:specialitet/@code");
+            "/utlatande/p:skapadAv/p2:specialitet/@code");
 
     public static final StringXPathExpression SKAPAD_AV_BEFATTNING_XPATH = new StringXPathExpression(
-        "utlatande/p:skapadAv/p:befattning/text()");
+            "utlatande/p:skapadAv/p:befattning/text()");
 
     public static final StringXPathExpression VARD_PA_SJUKHUS_TID_XPATH = new StringXPathExpression(
-        "utlatande/p:aktivitet/p2:ostruktureradtid[(parent::p:aktivitet/p:aktivitetskod/@code='AKT19')]/text()");
+            "utlatande/p:aktivitet/p2:ostruktureradtid[(parent::p:aktivitet/p:aktivitetskod/@code='AKT19')]/text()");
 
     public static final StringXPathExpression VARD_PA_SJUKHUS_VARDINRATTNING_XPATH = new StringXPathExpression(
-        "utlatande/p:aktivitet/p2:plats[(parent::p:aktivitet/p:aktivitetskod/@code='AKT19')]");
+            "utlatande/p:aktivitet/p2:plats[(parent::p:aktivitet/p:aktivitetskod/@code='AKT19')]");
 
     public static final StringXPathExpression OVRIG_BESKRIVNING_XPATH = new StringXPathExpression(
-        "utlatande/p:kommentar");
+            "utlatande/p:kommentar");
 
     public static final String INTYG_AVSER_TEMPLATE = "utlatande/p2:intygAvser/@code = '%s'";
 
@@ -127,8 +117,11 @@ public final class XPathExpressionsV1 {
     /**
      * Creates a {@link BooleanXPathExpression} from a string template and arguments.
      *
-     * @param template The string template to use.
-     * @param args The additional arguments to inject in the template.
+     * @param template
+     *            The string template to use.
+     * @param args
+     *            The additional arguments to inject in the template.
+     *
      * @return A boolean xPath expression.
      */
     public static BooleanXPathExpression booleanXPath(String template, Object... args) {
@@ -138,8 +131,11 @@ public final class XPathExpressionsV1 {
     /**
      * Creates a {@link StringXPathExpression} from a string template and arguments.
      *
-     * @param template The string template to use.
-     * @param args The additional arguments to inject in the template.
+     * @param template
+     *            The string template to use.
+     * @param args
+     *            The additional arguments to inject in the template.
+     *
      * @return A string xPath expression.
      */
     public static StringXPathExpression stringXPath(String template, Object... args) {

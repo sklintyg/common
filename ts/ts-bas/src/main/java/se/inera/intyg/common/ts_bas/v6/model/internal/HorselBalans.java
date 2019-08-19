@@ -21,6 +21,7 @@ package se.inera.intyg.common.ts_bas.v6.model.internal;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+
 import javax.annotation.Nullable;
 
 @AutoValue
@@ -35,7 +36,6 @@ public abstract class HorselBalans {
 
     @AutoValue.Builder
     public abstract static class Builder {
-
         public abstract HorselBalans build();
 
         @JsonProperty("balansrubbningar")

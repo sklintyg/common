@@ -17,6 +17,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 beforeEach(angular.mock.module('ag7804', function($provide) {
-  'use strict';
-  $provide.value('networkConfig', {});
+    'use strict';
+    $provide.value('networkConfig', {});
 }));

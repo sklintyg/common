@@ -18,9 +18,6 @@
  */
 package se.inera.intyg.common.pdf.eventhandler;
 
-import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
-import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
-
 import com.itextpdf.kernel.events.Event;
 import com.itextpdf.kernel.events.IEventHandler;
 import com.itextpdf.kernel.events.PdfDocumentEvent;
@@ -33,6 +30,9 @@ import com.itextpdf.layout.Canvas;
 import com.itextpdf.layout.property.TextAlignment;
 import com.itextpdf.layout.property.VerticalAlignment;
 import se.inera.intyg.common.pdf.renderer.PrintConfig;
+
+import static se.inera.intyg.common.pdf.renderer.UVRenderer.PAGE_MARGIN_LEFT;
+import static se.inera.intyg.common.pdf.util.UnifiedPdfUtil.millimetersToPoints;
 
 /**
  * Renders the texts in the right and left margins.
@@ -58,21 +58,21 @@ public class MarginTexts implements IEventHandler {
         PdfPage page = docEvent.getPage();
         Rectangle pageSize = page.getPageSize();
         PdfCanvas pdfCanvas = new PdfCanvas(
-            page.newContentStreamBefore(), page.getResources(), pdf);
+                page.newContentStreamBefore(), page.getResources(), pdf);
 
         Canvas canvas = new Canvas(pdfCanvas, pdf, pageSize);
         canvas.setFont(svarFont).setFontSize(FONT_SIZE);
 
         // Left margin
         canvas.showTextAligned(printConfig.getLeftMarginTypText(),
-            millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-            millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+                millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
 
         // Right margin, visas endast för signerat intyg, ej heller på sista sidan om det är ett informationsblad.
         if (!printConfig.isUtkast() && !printConfig.isLockedUtkast() && renderIntygsId(pdf, page)) {
             canvas.showTextAligned("Intygs-ID: " + printConfig.getIntygsId(),
-                pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
-                millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
+                    pageSize.getWidth() - millimetersToPoints(PAGE_MARGIN_LEFT / 2),
+                    millimetersToPoints(PAGE_MARGIN_LEFT), TextAlignment.LEFT, VerticalAlignment.MIDDLE, (float) Math.PI / 2);
         }
     }
 

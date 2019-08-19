@@ -53,36 +53,36 @@ public class LisjpEntryPoint extends FkAbstractModuleEntryPoint {
     @Override
     public String getModuleCssPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/css/lisjp.css";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/css/lisjp.css";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/lisjp/minaintyg/css/lisjp.css";
+        case WEBCERT:
+            return "/web/webjars/lisjp/webcert/css/lisjp.css";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleScriptPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/js/module";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/module";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/lisjp/minaintyg/js/module";
+        case WEBCERT:
+            return "/web/webjars/lisjp/webcert/module";
+        default:
+            return null;
         }
     }
 
     @Override
     public String getModuleDependencyDefinitionPath(ApplicationOrigin originator) {
         switch (originator) {
-            case MINA_INTYG:
-                return "/web/webjars/lisjp/minaintyg/js/module-deps.json";
-            case WEBCERT:
-                return "/web/webjars/lisjp/webcert/module-deps.json";
-            default:
-                return null;
+        case MINA_INTYG:
+            return "/web/webjars/lisjp/minaintyg/js/module-deps.json";
+        case WEBCERT:
+            return "/web/webjars/lisjp/webcert/module-deps.json";
+        default:
+            return null;
         }
     }
 }

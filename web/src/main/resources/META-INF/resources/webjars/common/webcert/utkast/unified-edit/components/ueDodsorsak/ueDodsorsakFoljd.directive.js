@@ -18,19 +18,19 @@
  */
 angular.module('common').directive('ueDodsorsakFoljd',
     ['ueUtil', function(ueUtil) {
-      'use strict';
+    'use strict';
 
-      return {
+    return {
         restrict: 'E',
         scope: {
-          form: '=',
-          config: '=',
-          model: '='
+            form: '=',
+            config: '=',
+            model: '='
         },
         templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/components/ueDodsorsak/ueDodsorsakFoljd.directive.html',
         link: function($scope, element, attr) {
-          ueUtil.standardSetup($scope);
+            ueUtil.standardSetup($scope);
         }
-      };
+    };
 
-    }]);
+}]);

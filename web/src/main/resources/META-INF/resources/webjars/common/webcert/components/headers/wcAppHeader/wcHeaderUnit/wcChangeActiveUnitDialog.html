@@ -5,8 +5,7 @@
   </div>
   <wc-bottom-fadeout>
     <div class="modal-body">
-      <wc-alert-message alert-severity="danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.
-      </wc-alert-message>
+      <wc-alert-message alert-severity="danger" ng-if="error">Tekniskt fel. Kunde inte byta vårdenhet.</wc-alert-message>
 
       <div ng-repeat="vg in vardgivare | orderBy:'namn'">
         <div class="row vardgivare">
@@ -21,9 +20,8 @@
                  ng-click="toggle(enhet)">{{enhet.showMottagning ? 'expand_less': 'expand_more'}}</i>
               <i ng-if="enhet.mottagningar.length === 0"></i>
 
-              <button type="button" id="select-active-unit-{{enhet.id}}-modal"
-                      ng-disabled="isCurrentlySelected(enhet.id)" class="btn btn-link"
-                      data-ng-click="selectVardenhet(enhet)">{{enhet.namn}}
+              <button type="button" id="select-active-unit-{{enhet.id}}-modal" ng-disabled="isCurrentlySelected(enhet.id)"
+                      class="btn btn-link" data-ng-click="selectVardenhet(enhet)">{{enhet.namn}}
                 <span ng-if="isCurrentlySelected(enhet.id)"> (vald enhet)</span></button>
 
             </div>
@@ -41,8 +39,9 @@
             <div class="row mottagning">
               <div class="col-xs-5">
 
-                <button type="button" id="select-active-unit-{{mottagning.id}}-modal" class="btn btn-link"
-                        data-ng-click="selectVardenhet(mottagning)" ng-disabled="isCurrentlySelected(mottagning.id)">
+                <button type="button" id="select-active-unit-{{mottagning.id}}-modal"
+                        class="btn btn-link" data-ng-click="selectVardenhet(mottagning)"
+                        ng-disabled="isCurrentlySelected(mottagning.id)">
                   {{mottagning.namn}}
                   <span ng-if="isCurrentlySelected(mottagning.id)"> (vald enhet)</span>
                 </button>

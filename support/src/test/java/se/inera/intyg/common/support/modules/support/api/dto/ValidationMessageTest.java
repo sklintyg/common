@@ -18,10 +18,11 @@
  */
 package se.inera.intyg.common.support.modules.support.api.dto;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ValidationMessageTest {

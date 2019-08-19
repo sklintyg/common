@@ -12,11 +12,16 @@
 
       <div ng-if="model.showLamnaOvrigaUpplysningar">
         <h4>
-          Ange varför du inte kan komplettera med ett nytt intyg: </h4>
+          Ange varför du inte kan komplettera med ett nytt intyg:
+        </h4>
 
         <wc-radio-wrapper>
-          <input id="komplettering-modal-dialog-anledning-1" name="komplettering-modal-dialog-anledning" type="radio"
-                 ng-value="true" ng-model="model.answerWithIntyg" ng-change="updateValidation()" />
+          <input id="komplettering-modal-dialog-anledning-1"
+                 name="komplettering-modal-dialog-anledning"
+                 type="radio"
+                 ng-value="true"
+                 ng-model="model.answerWithIntyg"
+                 ng-change="updateValidation()" />
           <label ng-attr-for="komplettering-modal-dialog-anledning-1">
             Ingen ytterligare medicinsk information kan anges.
           </label>
@@ -24,42 +29,46 @@
 
         <div class="form-group radio-indent" ng-if="model.answerWithIntyg === true">
           <div class="form-group">
-            <span class="required icon-wc-ikon-38"
-                  ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
+            <span class="required icon-wc-ikon-38" ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
             Kommentera varför du inte kan ange ytterligare medicinsk information.
             När du skickar svaret skapas en kopia av intyget med din kommentar i fältet "Övriga upplysningar".
             Signera och skicka intyget när du är klar.
           </div>
           <div class="form-group ovrigt-place-counter">
-            <textarea id="komplettering-modal-dialog-ovriga-upplysningar" class="form-control"
-                      ng-model="model.ovrigaUpplysningar" wc-maxlength maxlength="500">
+            <textarea id="komplettering-modal-dialog-ovriga-upplysningar"
+                      class="form-control"
+                      ng-model="model.ovrigaUpplysningar"
+                      wc-maxlength maxlength="500">
             </textarea>
           </div>
         </div>
 
         <wc-radio-wrapper>
-          <input id="komplettering-modal-dialog-anledning-2" name="komplettering-modal-dialog-anledning" type="radio"
-                 ng-value="false" ng-model="model.answerWithIntyg" ng-change="updateValidation()" />
+          <input id="komplettering-modal-dialog-anledning-2"
+                 name="komplettering-modal-dialog-anledning"
+                 type="radio"
+                 ng-value="false"
+                 ng-model="model.answerWithIntyg"
+                 ng-change="updateValidation()" />
           <label ng-attr-for="komplettering-modal-dialog-anledning-2">
             Ingen på vårdenheten kan ansvara för det medicinska innehållet i intyget.
           </label>
         </wc-radio-wrapper>
       </div>
 
-      <div class="form-group" ng-if="model.answerWithIntyg === false"
-           ng-class="{ 'radio-indent' : model.showLamnaOvrigaUpplysningar }">
+      <div class="form-group" ng-if="model.answerWithIntyg === false" ng-class="{ 'radio-indent' : model.showLamnaOvrigaUpplysningar }">
         <wc-alert-message alert-severity="info">
           Ingen medicinsk information får anges.
         </wc-alert-message>
         <div class="form-group" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
-          <span class="required icon-wc-ikon-38"
-                ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
-          Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska
-          ansvaret för intyget,
+          <span class="required icon-wc-ikon-38" ng-show="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"></span>
+          Om intygsutfärdaren inte längre finns tillgänglig och ingen annan på vårdenheten kan ta det medicinska ansvaret för intyget,
           så ska du delge Försäkringskassan det genom att svara med ett meddelande.
         </div>
         <div class="form-group" ng-class="{ 'form-group-indent' : !model.showLamnaOvrigaUpplysningar }">
-          <textarea id="komplettering-modal-dialog-meddelandetext" class="form-control" ng-model="model.meddelandeText">
+          <textarea id="komplettering-modal-dialog-meddelandetext"
+                    class="form-control"
+                    ng-model="model.meddelandeText">
           </textarea>
         </div>
       </div>
@@ -74,14 +83,15 @@
   </wc-bottom-fadeout>
 
   <div class="modal-footer">
-    <wc-button btn-id="komplettering-modal-dialog-send-answer-button" btn-class="btn btn-success"
+    <wc-button btn-id="komplettering-modal-dialog-send-answer-button"
+               btn-class="btn btn-success"
                btn-click="button1click()"
                btn-disabled="model.answerWithIntyg === undefined || (model.answerWithIntyg === true && !model.ovrigaUpplysningar) || (model.answerWithIntyg === false && !model.meddelandeText)"
                loading="model.updateInProgress">
       Skicka svar
     </wc-button>
-    <button type="button" class="btn btn-default" ng-click="button2click()"
-            id="komplettering-modal-dialog-abort-button">
+    <button type="button" class="btn btn-default"
+            ng-click="button2click()" id="komplettering-modal-dialog-abort-button">
       Avbryt
     </button>
   </div>

@@ -20,10 +20,6 @@ package se.inera.intyg.common.schemas.insuranceprocess.healthreporting.converter
 
 import com.google.common.base.Joiner;
 import iso.v21090.dt.v1.II;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import se.inera.ifv.insuranceprocess.certificate.v1.CertificateMetaType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.LakarutlatandeEnkelType;
 import se.inera.ifv.insuranceprocess.healthreporting.medcertqa.v1.VardAdresseringsType;
@@ -40,6 +36,11 @@ import se.inera.intyg.common.support.modules.support.api.CertificateHolder;
 import se.inera.intyg.common.support.validate.SamordningsnummerValidator;
 import se.inera.intyg.schemas.contract.Personnummer;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
 /**
  * @author andreaskaltenbach
  */
@@ -51,13 +52,13 @@ public final class ModelConverter {
     public static CertificateMetaType toCertificateMetaType(CertificateHolder source) {
 
         CertificateMetaTypeBuilder builder = new CertificateMetaTypeBuilder()
-            .certificateId(source.getId())
-            .certificateType(source.getType())
-            .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
-            .issuerName(source.getSigningDoctorName())
-            .facilityName(source.getCareUnitName())
-            .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
-            .available(String.valueOf(!source.isDeleted()));
+                .certificateId(source.getId())
+                .certificateType(source.getType())
+                .validity(toLocalDate(source.getValidFromDate()), toLocalDate(source.getValidToDate()))
+                .issuerName(source.getSigningDoctorName())
+                .facilityName(source.getCareUnitName())
+                .signDate(source.getSignedDate() != null ? source.getSignedDate().toLocalDate() : null)
+                .available(String.valueOf(!source.isDeleted()));
 
         CertificateMetaType meta = builder.build();
 
@@ -133,11 +134,12 @@ public final class ModelConverter {
         lakarutlatande.setLakarutlatandeId(utlatande.getId());
         lakarutlatande.setSigneringsTidpunkt(utlatande.getGrundData().getSigneringsdatum());
 
+
         Personnummer personId = utlatande.getGrundData().getPatient().getPersonId();
         II patientIdHolder = new II();
         patientIdHolder.setRoot(SamordningsnummerValidator.isSamordningsNummer(Optional.of(personId))
-            ? Constants.SAMORDNING_ID_OID
-            : Constants.PERSON_ID_OID);
+                ? Constants.SAMORDNING_ID_OID
+                : Constants.PERSON_ID_OID);
         patientIdHolder.setExtension(personId.getOriginalPnr());
 
         PatientType patient = new PatientType();

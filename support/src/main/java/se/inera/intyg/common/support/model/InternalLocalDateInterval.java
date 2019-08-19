@@ -18,9 +18,10 @@
  */
 package se.inera.intyg.common.support.model;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
-import java.time.LocalDate;
 
 /**
  * A way of handling date intervals in our internal model that allows faulty
@@ -34,7 +35,6 @@ import java.time.LocalDate;
  * @author erik
  */
 public class InternalLocalDateInterval {
-
     private static final InternalDate MIN_DATE = new InternalDate("1900-01-01");
     private static final InternalDate MAX_DATE = new InternalDate("2099-12-12");
 
@@ -48,9 +48,12 @@ public class InternalLocalDateInterval {
     /**
      * Construct an InternalLocalDateInterval from strings.
      *
-     * @param from String representing start date
-     * @param tom String representing end date
-     * @throws ModelException if from or tom is null
+     * @param from
+     *            String representing start date
+     * @param tom
+     *            String representing end date
+     * @throws ModelException
+     *             if from or tom is null
      */
     public InternalLocalDateInterval(String from, String tom) {
         if (from == null || tom == null) {
@@ -131,9 +134,9 @@ public class InternalLocalDateInterval {
     @JsonIgnore
     public boolean isReasonable() {
         boolean reasonableFrom = this.from.asLocalDate().isAfter(MIN_DATE.asLocalDate())
-            && this.from.asLocalDate().isBefore(MAX_DATE.asLocalDate());
+                && this.from.asLocalDate().isBefore(MAX_DATE.asLocalDate());
         boolean reasonableTo = this.tom.asLocalDate().isAfter(MIN_DATE.asLocalDate())
-            && this.tom.asLocalDate().isBefore(MAX_DATE.asLocalDate());
+                && this.tom.asLocalDate().isBefore(MAX_DATE.asLocalDate());
         return isValid() && reasonableFrom && reasonableTo;
     }
 
@@ -155,14 +158,14 @@ public class InternalLocalDateInterval {
 
         // We overlap if end and start dates are equal
         if (this.fromAsLocalDate().equals(otherInterval.tomAsLocalDate())
-            || this.tomAsLocalDate().equals(otherInterval.fromAsLocalDate())) {
+                || this.tomAsLocalDate().equals(otherInterval.fromAsLocalDate())) {
             return true;
         }
 
         // We overlap if from1 < tom2 and tom1 > from2
         // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
         return this.fromAsLocalDate().isBefore(otherInterval.tomAsLocalDate())
-            && this.tomAsLocalDate().isAfter(otherInterval.fromAsLocalDate());
+                && this.tomAsLocalDate().isAfter(otherInterval.fromAsLocalDate());
     }
 
     @JsonIgnore
@@ -177,7 +180,7 @@ public class InternalLocalDateInterval {
             return false;
         }
         return this.fromAsLocalDate().equals(otherInterval.fromAsLocalDate())
-            && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
+                && this.tomAsLocalDate().equals(otherInterval.tomAsLocalDate());
     }
 
     @JsonIgnore

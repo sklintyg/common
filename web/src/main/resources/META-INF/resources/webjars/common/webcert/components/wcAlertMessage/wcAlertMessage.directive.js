@@ -20,23 +20,23 @@
  * Show an alert box
  */
 angular.module('common').directive('wcAlertMessage',
-    ['$log',
-      function($log) {
-        'use strict';
+    [ '$log',
+        function($log) {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          transclude: true,
-          scope: {
-            'alertId': '@',
-            'alertMessageId': '@',
-            'alertSeverity': '@'
-          },
-          controller: function($scope) {
-            if (!$scope.alertSeverity) {
-              $log.error('wcAlertMessage - alert has no severity set. id: ' + $scope.alertId);
-            }
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcAlertMessage/wcAlertMessage.directive.html'
-        };
-      }]);
+            return {
+                restrict: 'E',
+                transclude: true,
+                scope: {
+                    'alertId': '@',
+                    'alertMessageId' : '@',
+                    'alertSeverity' : '@'
+                },
+                controller: function($scope) {
+                    if(!$scope.alertSeverity){
+                        $log.error('wcAlertMessage - alert has no severity set. id: ' + $scope.alertId);
+                    }
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcAlertMessage/wcAlertMessage.directive.html'
+            };
+        }]);

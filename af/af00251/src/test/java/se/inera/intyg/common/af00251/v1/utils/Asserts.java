@@ -18,18 +18,18 @@
  */
 package se.inera.intyg.common.af00251.v1.utils;
 
-import static org.hamcrest.CoreMatchers.any;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-
-import java.util.List;
-import java.util.stream.Collectors;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessage;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageType;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.any;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 /**
  *
@@ -37,19 +37,19 @@ import se.inera.intyg.common.support.modules.support.api.dto.ValidationMessageTy
 public class Asserts {
 
     public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher) {
+                                 Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher) {
         assertValidationMessage(message, categoryMatcher, fieldMatcher, typeMatcher, anyOf(nullValue(), any(String.class)));
     }
 
     public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
-        Matcher<String> messageMatcher) {
+                                 Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
+                                 Matcher<String> messageMatcher) {
         assertValidationMessage(message, categoryMatcher, fieldMatcher, typeMatcher, messageMatcher, anyOf(nullValue(), any(String.class)));
     }
 
     public static void assertValidationMessage(ValidationMessage message, Matcher<String> categoryMatcher,
-        Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
-        Matcher<String> messageMatcher, Matcher<String> dynamicKeyMatcher) {
+                                 Matcher<String> fieldMatcher, Matcher<ValidationMessageType> typeMatcher,
+                                 Matcher<String> messageMatcher, Matcher<String> dynamicKeyMatcher) {
         Assert.assertThat("Invalid ValidationMessage, Category", message.getCategory(), categoryMatcher);
         Assert.assertThat("Invalid ValidationMessage, Field", message.getField(), fieldMatcher);
         Assert.assertThat("Invalid ValidationMessage, Validation Message Type", message.getType(), typeMatcher);

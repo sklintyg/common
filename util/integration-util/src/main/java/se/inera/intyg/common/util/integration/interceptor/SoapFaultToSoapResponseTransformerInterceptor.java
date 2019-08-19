@@ -53,60 +53,60 @@ import se.inera.intyg.common.util.logging.LogMarkers;
  */
 public class SoapFaultToSoapResponseTransformerInterceptor extends XSLTOutInterceptor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SoapFaultToSoapResponseTransformerInterceptor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SoapFaultToSoapResponseTransformerInterceptor.class);
 
-    static {
-        try {
-            // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
-            // This can only be done if CXF version is 3.2.4 or below.
-            Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
-            transformFactoryField.setAccessible(true);
-            TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
-            transformerFactory.setURIResolver(new ClasspathUriResolver());
-            transformFactoryField.setAccessible(false);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to set UriResolver for TransactionFactory", e);
-        }
+  static {
+    try {
+      // Configure the private TransformerFactory defined in AbstractXSLTInterceptor
+      // This can only be done if CXF version is 3.2.4 or below.
+      Field transformFactoryField = AbstractXSLTInterceptor.class.getDeclaredField("TRANSFORM_FACTORY");
+      transformFactoryField.setAccessible(true);
+      TransformerFactory transformerFactory = (TransformerFactory) transformFactoryField.get(null);
+      transformerFactory.setURIResolver(new ClasspathUriResolver());
+      transformFactoryField.setAccessible(false);
+    } catch (NoSuchFieldException | IllegalAccessException e) {
+      throw new RuntimeException("Failed to set UriResolver for TransactionFactory", e);
+    }
+  }
+
+  public static final int HTTP_OK = 200;
+
+  public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
+    super(xsltPath);
+  }
+
+  @Override
+  public void handleMessage(Message message) {
+    Exception exception = message.getContent(Exception.class);
+    Throwable cause = exception.getCause();
+    if (cause instanceof javax.xml.bind.UnmarshalException) {
+      LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
+    } else {
+      LOGGER.error(exception.getMessage(), exception);
     }
 
-    public static final int HTTP_OK = 200;
+    // switch HTTP status from 500 (internal server error) to 200 (ok)
+    message.getExchange().getOutFaultMessage().put(Message.RESPONSE_CODE, HTTP_OK);
 
-    public SoapFaultToSoapResponseTransformerInterceptor(String xsltPath) {
-        super(xsltPath);
+    super.handleMessage(message);
+  }
+
+  @Override
+  public void handleFault(Message message) {
+    Exception e = message.getContent(Exception.class);
+    try {
+      SOAPEnvelope envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
+      SOAPFault soapFault = envelope.getBody().addFault();
+      soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
+
+      StringWriter sw = new StringWriter();
+      TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
+      InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
+          new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
+      IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
+
+    } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {
+      LOGGER.error("Error occured during error handling: {}", e.getMessage());
     }
-
-    @Override
-    public void handleMessage(Message message) {
-        Exception exception = message.getContent(Exception.class);
-        Throwable cause = exception.getCause();
-        if (cause instanceof javax.xml.bind.UnmarshalException) {
-            LOGGER.error(LogMarkers.VALIDATION, exception.getMessage());
-        } else {
-            LOGGER.error(exception.getMessage(), exception);
-        }
-
-        // switch HTTP status from 500 (internal server error) to 200 (ok)
-        message.getExchange().getOutFaultMessage().put(Message.RESPONSE_CODE, HTTP_OK);
-
-        super.handleMessage(message);
-    }
-
-    @Override
-    public void handleFault(Message message) {
-        Exception e = message.getContent(Exception.class);
-        try {
-            SOAPEnvelope envelope = MessageFactory.newInstance().createMessage().getSOAPPart().getEnvelope();
-            SOAPFault soapFault = envelope.getBody().addFault();
-            soapFault.setFaultString(e != null ? e.getMessage() : "Unknown error");
-
-            StringWriter sw = new StringWriter();
-            TransformerFactory.newInstance().newTransformer().transform(new DOMSource(envelope), new StreamResult(sw));
-            InputStream transformedStream = XSLTUtils.transform(getXSLTTemplate(),
-                new ByteArrayInputStream(sw.getBuffer().toString().getBytes(StandardCharsets.UTF_8)));
-            IOUtils.copyAndCloseInput(transformedStream, message.getContent(OutputStream.class));
-
-        } catch (SOAPException | TransformerException | TransformerFactoryConfigurationError | IOException ex) {
-            LOGGER.error("Error occured during error handling: {}", e.getMessage());
-        }
-    }
+  }
 }

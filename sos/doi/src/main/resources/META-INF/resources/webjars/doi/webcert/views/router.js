@@ -17,78 +17,82 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 angular.module('doi').config(function($stateProvider) {
-  'use strict';
+    'use strict';
 
-  var commonPath = '/web/webjars/common/webcert/';
+    var commonPath = '/web/webjars/common/webcert/';
 
-  var editViewState = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('doi.EditCertCtrl.ViewStateService', $stateParams);
-  };
+    var editViewState = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('doi.EditCertCtrl.ViewStateService', $stateParams);
+    };
 
-  var utkastConfig = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('doi.UtkastConfigFactory', $stateParams);
-  };
+    var utkastConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('doi.UtkastConfigFactory', $stateParams);
+    };
 
-  var viewConfig = function(factoryResolverHelper, $stateParams) {
-    return factoryResolverHelper.resolve('doi.viewConfigFactory', $stateParams);
-  };
 
-  $stateProvider.state('doi', {
-    url: '/doi'
-  }).state('doi.utkast', {
-    data: {defaultActive: 'index', intygType: 'doi', useFmb: false},
-    url: '/:intygTypeVersion/edit/:certificateId/:focusOn',
-    params: {
-      focusOn: ''
-    },
-    resolve: {
-      ViewState: editViewState,
-      UtkastConfigFactory: utkastConfig,
-      supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
-    },
-    views: {
-      'content@': {
-        templateUrl: commonPath + 'utkast/smiUtkast.html',
-        controller: 'smi.EditCertCtrl'
-      },
+    var viewConfig = function(factoryResolverHelper, $stateParams) {
+        return factoryResolverHelper.resolve('doi.viewConfigFactory', $stateParams);
+    };
 
-      'header@': {
-        templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
-      },
-
-      'header@doi.utkast': {
-        templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
-        controller: 'common.UtkastHeader'
-      },
-
-      'footer@doi.utkast': {
-        templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
-        controller: 'common.UtkastFooter'
-      },
-
-      'utkast@doi.utkast': {
-        templateUrl: commonPath + 'utkast/smiUtkastUE.html',
-        controller: 'smi.EditCert.UECtrl'
-      }
-    }
-  }).state('webcert.intyg.doi', {
-    data: {defaultActive: 'index', intygType: 'doi'},
-    url: '/intyg/doi/:intygTypeVersion/:certificateId/',
-    resolve: {
-      ViewState: 'doi.IntygController.ViewStateService',
-      ViewConfigFactory: viewConfig,
-      supportPanelConfigFactory: 'doi.supportPanelConfigFactory',
-      IntygViewState: 'doi.IntygController.ViewStateService'
-    },
-    views: {
-      'intyg@webcert.intyg': {
-        templateUrl: commonPath + 'intyg/smiIntygUv.html',
-        controller: 'smi.ViewCertCtrlUv'
-      },
-      'header@webcert.intyg.doi': {
-        templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
-        controller: 'common.IntygHeader'
-      }
-    }
-  });
+    $stateProvider.
+        state('doi', {
+            url: '/doi'
+        }).
+        state('doi.utkast', {
+            data: { defaultActive : 'index', intygType: 'doi', useFmb: false },
+            url : '/:intygTypeVersion/edit/:certificateId/:focusOn',
+            params: {
+                focusOn: ''
+            },
+            resolve: {
+                ViewState: editViewState,
+                UtkastConfigFactory: utkastConfig,
+                supportPanelConfigFactory: 'doi.supportPanelConfigFactory'
+            },
+            views : {
+                'content@' : {
+                    templateUrl: commonPath + 'utkast/smiUtkast.html',
+                    controller: 'smi.EditCertCtrl'
+                },
+    
+                'header@' : {
+                    templateUrl: commonPath + 'components/headers/wcHeader.partial.html'
+                },
+    
+                'header@doi.utkast' : {
+                    templateUrl: commonPath + 'utkast/utkastHeader/utkastHeader.html',
+                    controller: 'common.UtkastHeader'
+                },
+    
+                'footer@doi.utkast' : {
+                    templateUrl: commonPath + 'utkast/utkast-footer/utkastFooter.html',
+                    controller: 'common.UtkastFooter'
+                },
+    
+                'utkast@doi.utkast' : {
+                    templateUrl: commonPath + 'utkast/smiUtkastUE.html',
+                    controller: 'smi.EditCert.UECtrl'
+                }
+            }
+        }).
+        state('webcert.intyg.doi', {
+            data: { defaultActive : 'index', intygType: 'doi' },
+            url:'/intyg/doi/:intygTypeVersion/:certificateId/',
+            resolve: {
+                ViewState: 'doi.IntygController.ViewStateService',
+                ViewConfigFactory: viewConfig,
+                supportPanelConfigFactory: 'doi.supportPanelConfigFactory',
+                IntygViewState: 'doi.IntygController.ViewStateService'
+            },
+            views: {
+                'intyg@webcert.intyg' : {
+                    templateUrl: commonPath + 'intyg/smiIntygUv.html',
+                    controller: 'smi.ViewCertCtrlUv'
+                },
+                'header@webcert.intyg.doi' : {
+                    templateUrl: commonPath + 'intyg/intygHeader/intygHeader.html',
+                    controller: 'common.IntygHeader'
+                }
+            }
+        });
 });

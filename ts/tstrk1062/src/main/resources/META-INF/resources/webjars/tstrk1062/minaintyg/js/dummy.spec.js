@@ -17,9 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 describe('dummySpec', function() {
-  'use strict';
+    'use strict';
 
-  it('you shall not pass', function() {
-    expect(true === false).toEqual(false);
-  });
+
+    it('you shall not pass', function() {
+        expect(true === false).toEqual(false);
+    });
 });

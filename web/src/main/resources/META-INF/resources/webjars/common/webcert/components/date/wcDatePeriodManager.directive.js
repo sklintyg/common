@@ -19,95 +19,95 @@
 angular.module('common').directive('wcDatePeriodManager',
     ['common.DateUtilsService', 'common.wcDatePeriodFieldHelper', 'common.wcDatePeriodShorthandService', function(dateUtilsService,
         datePeriodFieldHelper, datePeriodShorthandService) {
-      'use strict';
+        'use strict';
 
-      var datePeriods = {};
+        var datePeriods = {};
 
-      var updateMoments = function() {
-        angular.forEach(datePeriods, function(datePeriod) {
-          datePeriod.from.moment = dateUtilsService.convertDateStrict(datePeriod.from.ngModel.$modelValue);
-          datePeriod.tom.moment = dateUtilsService.convertDateStrict(datePeriod.tom.ngModel.$modelValue);
-        });
-      };
+        var updateMoments = function() {
+            angular.forEach(datePeriods, function(datePeriod) {
+                datePeriod.from.moment = dateUtilsService.convertDateStrict(datePeriod.from.ngModel.$modelValue);
+                datePeriod.tom.moment = dateUtilsService.convertDateStrict(datePeriod.tom.ngModel.$modelValue);
+            });
+        };
 
-      var clearOverlaps = function() {
-        angular.forEach(datePeriods, function(datePeriod) {
-          datePeriod.overlap = false;
-        });
-      };
+        var clearOverlaps = function() {
+            angular.forEach(datePeriods, function(datePeriod) {
+                datePeriod.overlap = false;
+            });
+        };
 
-      var updateOverlaps = function() {
-        angular.forEach(datePeriods, function(datePeriod) {
-          angular.forEach(datePeriods, function(datePeriod2) {
-            if (datePeriod !== datePeriod2) {
-              var hasOverlap = datePeriodFieldHelper.hasOverlap(datePeriod, datePeriod2);
-              if (hasOverlap) {
-                datePeriod.overlap = true;
-                datePeriod2.overlap = true;
-              }
+        var updateOverlaps = function() {
+            angular.forEach(datePeriods, function(datePeriod) {
+                angular.forEach(datePeriods, function(datePeriod2) {
+                    if (datePeriod !== datePeriod2) {
+                        var hasOverlap = datePeriodFieldHelper.hasOverlap(datePeriod, datePeriod2);
+                        if (hasOverlap) {
+                            datePeriod.overlap = true;
+                            datePeriod2.overlap = true;
+                        }
+                    }
+                });
+            });
+        };
+
+        var updateValidity = function() {
+            angular.forEach(datePeriods, function(datePeriod) {
+                if (datePeriod.overlap) {
+                    datePeriod.from.ngModel.$setValidity('dateperiod', false);
+                    datePeriod.tom.ngModel.$setValidity('dateperiod', false);
+                } else {
+                    datePeriod.from.ngModel.$setValidity('dateperiod', true);
+                    datePeriod.tom.ngModel.$setValidity('dateperiod', true);
+                }
+            });
+        };
+
+        var datePeriodValidator = function() {
+            updateMoments();
+            clearOverlaps();
+            updateOverlaps();
+            updateValidity();
+        };
+
+        return {
+            restrict: 'A',
+            scope: {
+                model: '=',
+                validateDatePeriods: '@'
+            },
+            controller: function($scope) {
+
+                this.registerDatePeriod = function(ngModel, fieldOptions) {
+
+                    if (!datePeriods[fieldOptions.index]) {
+                        datePeriods[fieldOptions.index] = {};
+                    }
+                    datePeriods[fieldOptions.index][fieldOptions.type] = {
+                        ngModel: ngModel,
+                        fieldOptions: fieldOptions
+                    };
+
+                    if ($scope.validateDatePeriods) {
+                        ngModel.$validators.datePeriod = datePeriodValidator;
+                    }
+                };
+
+                /*
+                 If user enters a valid "in the future" code such a "d40" into the tom-field, it's
+                 date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
+                 */
+                this.applyToDateCodes = function(index) {
+                    var fromField = datePeriods[index].from;
+                    var tomField = datePeriods[index].tom;
+
+                    var newTomValue = datePeriodShorthandService.applyToDateCodes(
+                        fromField.ngModel.$viewValue, tomField.ngModel.$viewValue);
+                    if (newTomValue) {
+                        tomField.ngModel.$setViewValue(newTomValue);
+                        tomField.ngModel.$setValidity('date', true);
+                        tomField.ngModel.$render();
+                    }
+                };
             }
-          });
-        });
-      };
-
-      var updateValidity = function() {
-        angular.forEach(datePeriods, function(datePeriod) {
-          if (datePeriod.overlap) {
-            datePeriod.from.ngModel.$setValidity('dateperiod', false);
-            datePeriod.tom.ngModel.$setValidity('dateperiod', false);
-          } else {
-            datePeriod.from.ngModel.$setValidity('dateperiod', true);
-            datePeriod.tom.ngModel.$setValidity('dateperiod', true);
-          }
-        });
-      };
-
-      var datePeriodValidator = function() {
-        updateMoments();
-        clearOverlaps();
-        updateOverlaps();
-        updateValidity();
-      };
-
-      return {
-        restrict: 'A',
-        scope: {
-          model: '=',
-          validateDatePeriods: '@'
-        },
-        controller: function($scope) {
-
-          this.registerDatePeriod = function(ngModel, fieldOptions) {
-
-            if (!datePeriods[fieldOptions.index]) {
-              datePeriods[fieldOptions.index] = {};
-            }
-            datePeriods[fieldOptions.index][fieldOptions.type] = {
-              ngModel: ngModel,
-              fieldOptions: fieldOptions
-            };
-
-            if ($scope.validateDatePeriods) {
-              ngModel.$validators.datePeriod = datePeriodValidator;
-            }
-          };
-
-          /*
-           If user enters a valid "in the future" code such a "d40" into the tom-field, it's
-           date value should be set to from-date + 39 so that the total length is 40 days (requires a valid date in the from-field).
-           */
-          this.applyToDateCodes = function(index) {
-            var fromField = datePeriods[index].from;
-            var tomField = datePeriods[index].tom;
-
-            var newTomValue = datePeriodShorthandService.applyToDateCodes(
-                fromField.ngModel.$viewValue, tomField.ngModel.$viewValue);
-            if (newTomValue) {
-              tomField.ngModel.$setViewValue(newTomValue);
-              tomField.ngModel.$setValidity('date', true);
-              tomField.ngModel.$render();
-            }
-          };
-        }
-      };
+        };
     }]);

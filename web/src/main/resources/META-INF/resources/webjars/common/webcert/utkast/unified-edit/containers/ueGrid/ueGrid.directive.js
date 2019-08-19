@@ -17,61 +17,61 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-angular.module('common').directive('ueGrid', ['common.UtkastValidationViewState', '$parse',
-  function(UtkastValidationViewState, $parse) {
+angular.module('common').directive('ueGrid', [ 'common.UtkastValidationViewState', '$parse',
+    function(UtkastValidationViewState, $parse) {
     'use strict';
     return {
-      restrict: 'E',
-      scope: {
-        form: '=',
-        config: '=',
-        model: '='
-      },
-      templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGrid/ueGrid.directive.html',
-      link: function($scope) {
-        var firstRowError = [{key: $scope.config.firstRequiredRowKey, type: 'ue-grid'}];
-        $scope.validation = UtkastValidationViewState;
-        $scope.getColSize = function(row, $index) {
-          if ($scope.config.colSizes) {
-            return $scope.config.colSizes[$index];
-          } else {
-            return 12 / row.length;
-          }
-        };
+        restrict: 'E',
+        scope: {
+            form: '=',
+            config: '=',
+            model: '='
+        },
+        templateUrl: '/web/webjars/common/webcert/utkast/unified-edit/containers/ueGrid/ueGrid.directive.html',
+        link: function($scope) {
+            var firstRowError =  [{key: $scope.config.firstRequiredRowKey, type: 'ue-grid'}];
+            $scope.validation = UtkastValidationViewState;
+            $scope.getColSize = function(row, $index) {
+                if ($scope.config.colSizes) {
+                    return $scope.config.colSizes[$index];
+                } else {
+                    return 12 / row.length;
+                }
+            };
 
-        $scope.useRowValidation = !!$scope.config.validationRows;
-        $scope.getRowValidationKeys = function(rowIndex, colIndex) {
-          if (!validOrder() && rowIndex === $scope.config.firstRequiredRow) {
-            return firstRowError;
-          } else {
-            return $scope.config.validationRows[colIndex];
-          }
-        };
+            $scope.useRowValidation = !!$scope.config.validationRows;
+            $scope.getRowValidationKeys = function(rowIndex, colIndex) {
+                if (!validOrder() && rowIndex === $scope.config.firstRequiredRow) {
+                    return firstRowError;
+                } else {
+                    return $scope.config.validationRows[colIndex];
+                }
+            };
 
-        function validOrder() {
-          if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
-            if ($scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()]) {
-              return false;
+            function validOrder() {
+                if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
+                    if ($scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()]) {
+                        return false;
+                    }
+                }
+                return true;
             }
-          }
-          return true;
-        }
 
-        if ($scope.config.validationContext) {
-          $scope.validationKeys = [];
-          $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
-        }
-
-        $scope.getFirstRowValidations = function(index) {
-          if (index === $scope.config.firstRequiredRow && $scope.config.modelProp) {
-            if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
-              var required = $scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()];
-              return required || $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
+            if ($scope.config.validationContext) {
+                $scope.validationKeys = [];
+                $scope.validationKeys.push({key: $scope.config.validationContext.key.toLowerCase(), type: $scope.config.validationContext.type});
             }
-          }
-        };
 
-      }
+            $scope.getFirstRowValidations = function(index) {
+                if (index === $scope.config.firstRequiredRow && $scope.config.modelProp) {
+                    if (angular.isDefined($scope.config.firstRequiredRow) && angular.isArray($scope.validation.messagesByField)) {
+                        var required = $scope.validation.messagesByField[$scope.config.firstRequiredRowKey.toLowerCase()];
+                        return required || $scope.validation.messagesByField[$scope.config.modelProp.toLowerCase()];
+                    }
+                }
+            };
+            
+        }
     };
 
-  }]);
+}]);

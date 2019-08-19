@@ -19,27 +19,27 @@
 
 angular.module('common').directive('wcBottomFadeout',
     [
-      function() {
-        'use strict';
+        function() {
+            'use strict';
 
-        return {
-          restrict: 'E',
-          transclude: true,
-          scope: {
-            color: '@',
-            defaultHeight: '@',
-            maxHeight: '@',
-            scrollId: '@'
-          },
-          templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html',
-          link: function($scope, element) {
-            if ($scope.defaultHeight) {
-              element.find('.scrollable-body').css('height', $scope.defaultHeight);
-            }
+            return {
+                restrict: 'E',
+                transclude: true,
+                scope: {
+                    color: '@',
+                    defaultHeight: '@',
+                    maxHeight: '@',
+                    scrollId: '@'
+                },
+                templateUrl: '/web/webjars/common/webcert/components/wcBottomFadeout/wcBottomFadeout.directive.html',
+                link: function($scope, element) {
+                    if ($scope.defaultHeight) {
+                        element.find('.scrollable-body').css('height', $scope.defaultHeight);
+                    }
 
-            if ($scope.maxHeight) {
-              element.find('.scrollable-body').css('max-height', $scope.maxHeight);
-            }
-          }
-        };
-      }]);
+                    if ($scope.maxHeight) {
+                        element.find('.scrollable-body').css('max-height', $scope.maxHeight);
+                    }
+                }
+            };
+        }]);

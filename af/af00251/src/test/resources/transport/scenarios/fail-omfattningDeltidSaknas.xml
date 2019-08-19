@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:RegisterCertificate xmlns="urn:riv:clinicalprocess:healthcond:certificate:3"
-    xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
-    xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
+                         xmlns:ns2="urn:riv:clinicalprocess:healthcond:certificate:RegisterCertificateResponder:3"
+                         xmlns:ns3="urn:riv:clinicalprocess:healthcond:certificate:types:3">
   <ns2:intyg>
     <intygs-id>
       <ns3:root>123456789</ns3:root>
@@ -20,11 +20,11 @@
         <ns3:root>1.2.752.129.2.1.3.1</ns3:root>
         <ns3:extension>192703104321</ns3:extension>
       </person-id>
-      <fornamn/>
-      <efternamn/>
-      <postadress/>
-      <postnummer/>
-      <postort/>
+      <fornamn />
+      <efternamn />
+      <postadress />
+      <postnummer />
+      <postort />
     </patient>
     <skapadAv>
       <personal-id>
@@ -115,10 +115,10 @@
     <svar id="6">
       <instans>1</instans>
       <!--<delsvar id="6.1">-->
-      <!--<ns3:pq>-->
-      <!--<ns3:value>44.0</ns3:value>-->
-      <!--<ns3:unit>%</ns3:unit>-->
-      <!--</ns3:pq>-->
+        <!--<ns3:pq>-->
+          <!--<ns3:value>44.0</ns3:value>-->
+          <!--<ns3:unit>%</ns3:unit>-->
+        <!--</ns3:pq>-->
       <!--</delsvar>-->
       <delsvar id="6.2">
         <ns3:datePeriod>
@@ -130,10 +130,10 @@
     <svar id="6">
       <instans>2</instans>
       <!--<delsvar id="6.1">-->
-      <!--<ns3:pq>-->
-      <!--<ns3:value>33.0</ns3:value>-->
-      <!--<ns3:unit>%</ns3:unit>-->
-      <!--</ns3:pq>-->
+        <!--<ns3:pq>-->
+          <!--<ns3:value>33.0</ns3:value>-->
+          <!--<ns3:unit>%</ns3:unit>-->
+        <!--</ns3:pq>-->
       <!--</delsvar>-->
       <delsvar id="6.2">
         <ns3:datePeriod>
@@ -145,10 +145,10 @@
     <svar id="6">
       <instans>3</instans>
       <!--<delsvar id="6.1">-->
-      <!--<ns3:pq>-->
-      <!--<ns3:value>22.0</ns3:value>-->
-      <!--<ns3:unit>%</ns3:unit>-->
-      <!--</ns3:pq>-->
+        <!--<ns3:pq>-->
+          <!--<ns3:value>22.0</ns3:value>-->
+          <!--<ns3:unit>%</ns3:unit>-->
+        <!--</ns3:pq>-->
       <!--</delsvar>-->
       <delsvar id="6.2">
         <ns3:datePeriod>
@@ -160,10 +160,10 @@
     <svar id="6">
       <instans>4</instans>
       <!--<delsvar id="6.1">-->
-      <!--<ns3:pq>-->
-      <!--<ns3:value>11.0</ns3:value>-->
-      <!--<ns3:unit>%</ns3:unit>-->
-      <!--</ns3:pq>-->
+        <!--<ns3:pq>-->
+          <!--<ns3:value>11.0</ns3:value>-->
+          <!--<ns3:unit>%</ns3:unit>-->
+        <!--</ns3:pq>-->
       <!--</delsvar>-->
       <delsvar id="6.2">
         <ns3:datePeriod>

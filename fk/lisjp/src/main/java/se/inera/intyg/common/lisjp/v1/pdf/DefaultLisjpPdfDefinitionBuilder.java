@@ -19,15 +19,16 @@
 package se.inera.intyg.common.lisjp.v1.pdf;
 
 import com.itextpdf.text.DocumentException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import se.inera.intyg.common.fkparent.pdf.model.FkPage;
 import se.inera.intyg.common.fkparent.pdf.model.FkPdfDefinition;
 import se.inera.intyg.common.fkparent.pdf.model.PdfComponent;
 import se.inera.intyg.common.lisjp.v1.model.internal.LisjpUtlatandeV1;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.ApplicationOrigin;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This is the default implementation of the print of LISJP.
@@ -38,7 +39,7 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
 
     @Override
     void fillIntyg(FkPdfDefinition pdfDefinition, LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast,
-        List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
+                   List<Status> statuses, ApplicationOrigin applicationOrigin) throws IOException, DocumentException {
 
         pdfDefinition.addChild(createPage1(intyg, isUtkast, isLockedUtkast, statuses, applicationOrigin));
         pdfDefinition.addChild(createPage2(intyg));
@@ -54,8 +55,8 @@ public class DefaultLisjpPdfDefinitionBuilder extends AbstractLisjpPdfDefinition
     }
 
     private FkPage createPage1(LisjpUtlatandeV1 intyg, boolean isUtkast, boolean isLockedUtkast, List<Status> statuses,
-        ApplicationOrigin applicationOrigin)
-        throws IOException, DocumentException {
+                               ApplicationOrigin applicationOrigin)
+            throws IOException, DocumentException {
         List<PdfComponent<?>> allElements = new ArrayList<>();
 
         boolean showFkAddress;

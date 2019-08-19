@@ -36,10 +36,12 @@ import javax.xml.transform.URIResolver;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-import net.sf.saxon.TransformerFactoryImpl;
+
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import net.sf.saxon.TransformerFactoryImpl;
 
 public class XslTransformer {
 

@@ -21,49 +21,48 @@
  * the corresponding category input section.
  */
 angular.module('common').directive('wcUtkastErrorSummary',
-    ['$filter', 'common.dynamicLabelService', 'common.messageService', 'common.anchorScrollService',
-      function($filter, dynamicLabelService, messageService, anchorScrollService) {
-        'use strict';
+    [ '$filter', 'common.dynamicLabelService', 'common.messageService', 'common.anchorScrollService',
+            function($filter, dynamicLabelService, messageService, anchorScrollService) {
+                'use strict';
 
-        return {
-          restrict: 'E',
-          templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.html',
-          scope: {
-            categories: '=',
-            categoryIds: '='
-          },
-          controller: function($scope) {
-            $scope.lookUpLabel = function(category) {
+                return {
+                    restrict: 'E',
+                    templateUrl: '/web/webjars/common/webcert/utkast/wcUtkastErrorSummary/wcUtkastErrorSummary.directive.html',
+                    scope: {
+                        categories: '=',
+                        categoryIds: '='
+                    },
+                    controller: function($scope) {
+                        $scope.lookUpLabel = function(category) {
 
-              //Get all available categories
-              var keys = Object.keys($scope.categoryIds);
+                            //Get all available categories
+                            var keys = Object.keys($scope.categoryIds);
 
-              for (var i = 0; i < keys.length; i++) {
+                            for (var i = 0; i < keys.length; i++) {
 
-                if (!category) {
-                  continue;
-                }
+                                if (!category) {
+                                    continue;
+                                }
 
-                var categoryLc = category.toLowerCase();
-                var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
-                if (categoryLc === categoryNameLc) {
-                  var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
-                  if (result) {
-                    return result;
-                  }
-                  return 'KAT_' + i + '.RBK';
-                }
-              }
-              return messageService.getProperty('common.label.' + category);
-            };
+                                var categoryLc = category.toLowerCase();
+                                var categoryNameLc = $scope.categoryIds[keys[i]].toLowerCase();
+                                if (categoryLc === categoryNameLc) {
+                                    var result = dynamicLabelService.getProperty('KAT_' + keys[i] + '.RBK');
+                                    if (result) {
+                                        return result;
+                                    }
+                                    return 'KAT_' + i + '.RBK';
+                                }
+                            }
+                            return messageService.getProperty('common.label.' + category);
+                        };
 
-            $scope.scrollTo = function(categoryId) {
-              //By convention the ueKategori directive creates an anchor named 'anchor-<categoryId>'
-              // Validation categories are lowercased in utkastValidation.service
-              anchorScrollService.scrollIntygContainerTo('anchor-' + $filter('ueDomIdFilter')(categoryId),
-                  parseInt($('#certificate-content-container').offset().top, 10));
-            };
+                        $scope.scrollTo = function(categoryId) {
+                            //By convention the ueKategori directive creates an anchor named 'anchor-<categoryId>'
+                            // Validation categories are lowercased in utkastValidation.service
+                            anchorScrollService.scrollIntygContainerTo('anchor-' + $filter('ueDomIdFilter')(categoryId), parseInt($('#certificate-content-container').offset().top, 10));
+                        };
 
-          }
-        };
-      }]);
+                    }
+                };
+            } ]);

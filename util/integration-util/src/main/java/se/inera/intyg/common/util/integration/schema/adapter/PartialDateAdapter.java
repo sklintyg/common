@@ -42,12 +42,12 @@ public final class PartialDateAdapter {
         }
 
         switch (dateString.length()) {
-            case YEAR_LENGTH:
-                return Year.parse(dateString);
-            case YEAR_MONTH_LENGTH:
-                return YearMonth.parse(dateString);
-            default:
-                return LocalDate.parse(dateString);
+        case YEAR_LENGTH:
+            return Year.parse(dateString);
+        case YEAR_MONTH_LENGTH:
+            return YearMonth.parse(dateString);
+        default:
+            return LocalDate.parse(dateString);
         }
     }
 

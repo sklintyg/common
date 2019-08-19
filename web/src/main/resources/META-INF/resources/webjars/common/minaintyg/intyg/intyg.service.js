@@ -21,36 +21,37 @@
  */
 angular.module('common').factory('common.IntygService',
     ['$http', '$log', 'common.dynamicLabelService', function($http, $log, dynamicLabelService) {
-      'use strict';
+        'use strict';
 
-      /*
-       * Load certificate details from the server.
-       */
-      function _getCertificate(type, intygTypeVersion, id, onSuccess, onError) {
-        $log.debug('_getCertificate id:' + id + 'of type:' + type + '(' + intygTypeVersion + ')');
-        var restPath = '/moduleapi/certificate/' + type + '/' + intygTypeVersion + '/' + id;
-        $http.get(restPath).then(function(response) {
-          $log.debug('_getCertificate data:' + response.data);
-          if (response.data.meta.archived) {
-            onError('error.certarchived');
-          } else {
-            dynamicLabelService.updateDynamicLabels(type, response.data.utlatande);
-            onSuccess(response.data);
-          }
+        /*
+         * Load certificate details from the server.
+         */
+        function _getCertificate(type, intygTypeVersion, id, onSuccess, onError) {
+            $log.debug('_getCertificate id:' + id + 'of type:' + type + '(' + intygTypeVersion + ')');
+            var restPath = '/moduleapi/certificate/' + type + '/' + intygTypeVersion + '/' + id;
+            $http.get(restPath).then(function(response) {
+                $log.debug('_getCertificate data:' + response.data);
+                if (response.data.meta.archived) {
+                    onError('error.certarchived');
+                } else {
+                    dynamicLabelService.updateDynamicLabels(type, response.data.utlatande);
+                    onSuccess(response.data);
+                }
 
-        }, function(response) {
-          $log.error('error ' + response.status);
-          if (response.status === 410) {
-            onError('info.certrevoked');
-          } else {
-            onError('error.certnotfound');
-          }
+            }, function(response) {
+                $log.error('error ' + response.status);
+                if (response.status === 410) {
+                    onError('info.certrevoked');
+                } else {
+                    onError('error.certnotfound');
+                }
 
-        });
-      }
+            });
+        }
 
-      // Return public API for the service
-      return {
-        getCertificate: _getCertificate
-      };
+
+        // Return public API for the service
+        return {
+            getCertificate: _getCertificate
+        };
     }]);

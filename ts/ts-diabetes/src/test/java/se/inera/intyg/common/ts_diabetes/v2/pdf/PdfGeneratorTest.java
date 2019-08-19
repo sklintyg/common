@@ -20,7 +20,7 @@ package se.inera.intyg.common.ts_diabetes.v2.pdf;
 
 import static org.junit.Assert.assertNotNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +28,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.util.ReflectionTestUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
@@ -86,7 +90,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
+                .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
         byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_COMPLETE);
         writePdfToFile(pdf, "webcert-utkast");
     }
@@ -94,7 +98,7 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateLockedDraftPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper
-            .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
+                .readValue(new ClassPathResource("v2/PdfGenerator/ts-diabetes-utkast-utlatande.json").getFile(), TsDiabetesUtlatandeV2.class);
         byte[] pdf = pdfGen.generatePDF(tsBasUtlatande, defaultStatuses, ApplicationOrigin.WEBCERT, UtkastStatus.DRAFT_LOCKED);
         writePdfToFile(pdf, "webcert-locked");
     }
@@ -102,8 +106,8 @@ public class PdfGeneratorTest {
     @Test
     public void testGenerateMakuleratPdf() throws Exception {
         final TsDiabetesUtlatandeV2 tsBasUtlatande = objectMapper.readValue(
-            new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),
-            TsDiabetesUtlatandeV2.class);
+                new ClassPathResource("v2/PdfGenerator/ts-diabetes-utlatande.json").getFile(),
+                TsDiabetesUtlatandeV2.class);
         List<Status> statuses = new ArrayList<>();
         statuses.add(new Status(CertificateState.SENT, TRANSPORTSTYRELSEN_RECIPIENT_ID, LocalDateTime.now()));
         // generate makulerat version
@@ -118,7 +122,7 @@ public class PdfGeneratorTest {
     private void writePdfToFile(byte[] pdf, String prefix) throws IOException {
         String dir = "build/tmp";
         File file = new File(
-            String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+                String.format("%s/%s_%s.pdf", dir, prefix, LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();
@@ -131,7 +135,7 @@ public class PdfGeneratorTest {
     private void writePdfToFile(byte[] pdf, Scenario scenario) throws IOException {
         String dir = "build/tmp";
         File file = new File(String.format("%s/%s_%s.pdf", dir, scenario.getName(),
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
+                LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmm"))));
         FileOutputStream fop = new FileOutputStream(file);
 
         file.createNewFile();

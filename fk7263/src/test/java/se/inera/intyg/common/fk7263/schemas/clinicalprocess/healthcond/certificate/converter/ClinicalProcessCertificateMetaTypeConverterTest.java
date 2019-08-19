@@ -27,13 +27,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
+
 import se.inera.intyg.common.support.model.CertificateState;
 import se.inera.intyg.common.support.model.Status;
 import se.inera.intyg.common.support.modules.support.api.dto.CertificateMetaData;
-import se.riv.clinicalprocess.healthcond.certificate.v1.CertificateMetaType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.StatusType;
-import se.riv.clinicalprocess.healthcond.certificate.v1.UtlatandeStatus;
+import se.riv.clinicalprocess.healthcond.certificate.v1.*;
 
 public class ClinicalProcessCertificateMetaTypeConverterTest {
 

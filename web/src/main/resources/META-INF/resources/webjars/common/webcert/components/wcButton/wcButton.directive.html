@@ -1,8 +1,16 @@
-<button type="button" id="{{::btnId}}" class="btn {{::btnClass}}" data-ng-disabled="btnDisabled || loading"
-        data-ng-click="btnClick();toolTipIsOpen=false;"
+<button
+    type="button"
+    id="{{::btnId}}"
+    class="btn {{::btnClass}}"
+    data-ng-disabled="btnDisabled || loading"
+    data-ng-click="btnClick();toolTipIsOpen=false;"
 
-        uib-popover="{{::btnTooltip}}" popover-placement="auto top" popover-enable="!(btnDisabled || loading)"
-        popover-append-to-body="true" popover-is-open="toolTipIsOpen" popover-popup-delay="300">
+    uib-popover="{{::btnTooltip}}"
+    popover-placement="auto top"
+    popover-enable="!(btnDisabled || loading)"
+    popover-append-to-body="true"
+    popover-is-open="toolTipIsOpen"
+    popover-popup-delay="300">
   <div ng-if="loading" class="loading">
     <i class="icon-wc-ikon-02 animate-spin"></i>
   </div>

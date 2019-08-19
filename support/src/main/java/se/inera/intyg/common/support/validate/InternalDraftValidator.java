@@ -22,6 +22,5 @@ import se.inera.intyg.common.support.model.common.internal.Utlatande;
 import se.inera.intyg.common.support.modules.support.api.dto.ValidateDraftResponse;
 
 public interface InternalDraftValidator<T extends Utlatande> {
-
     ValidateDraftResponse validateDraft(T utlatande);
 }

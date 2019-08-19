@@ -18,18 +18,20 @@
  */
 package se.inera.intyg.common.luse.v1.model.converter;
 
-import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.google.common.base.Strings;
+
 import org.springframework.stereotype.Component;
-import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.luse.v1.model.internal.LuseUtlatandeV1;
+import se.inera.intyg.common.support.model.common.internal.Utlatande;
+import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
+import se.inera.intyg.common.luse.support.LuseEntryPoint;
 import se.inera.intyg.common.services.texts.IntygTextsService;
 import se.inera.intyg.common.support.model.common.internal.GrundData;
 import se.inera.intyg.common.support.model.common.internal.Patient;
-import se.inera.intyg.common.support.model.common.internal.Utlatande;
-import se.inera.intyg.common.support.model.converter.WebcertModelFactory;
 import se.inera.intyg.common.support.model.converter.util.ConverterException;
 import se.inera.intyg.common.support.model.converter.util.WebcertModelFactoryUtil;
 import se.inera.intyg.common.support.modules.support.api.dto.CreateDraftCopyHolder;
@@ -40,7 +42,6 @@ import se.inera.intyg.common.support.modules.support.api.dto.CreateNewDraftHolde
  */
 @Component(value = "luse.WebcertModelFactoryImpl.v1")
 public class WebcertModelFactoryImpl implements WebcertModelFactory<LuseUtlatandeV1> {
-
     private static final Logger LOG = LoggerFactory.getLogger(WebcertModelFactoryImpl.class);
 
     @Autowired(required = false)
@@ -49,8 +50,10 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuseUtlatand
     /**
      * Create a new luse draft pre-populated with the attached data.
      *
-     * @param newDraftData {@link CreateNewDraftHolder}
+     * @param newDraftData
+     *            {@link CreateNewDraftHolder}
      * @return {@link LuseUtlatandeV1} or throws a ConverterException if something unforeseen happens
+     * @throws ConverterException
      */
     @Override
     public LuseUtlatandeV1 createNewWebcertDraft(CreateNewDraftHolder newDraftData) throws ConverterException {
@@ -66,7 +69,7 @@ public class WebcertModelFactoryImpl implements WebcertModelFactory<LuseUtlatand
 
         // Default to latest minor version available for major version of intygtype
         template.setTextVersion(
-            intygTexts.getLatestVersionForSameMajorVersion(LuseEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
+                intygTexts.getLatestVersionForSameMajorVersion(LuseEntryPoint.MODULE_ID, newDraftData.getIntygTypeVersion()));
 
         return template.setGrundData(grundData).build();
     }

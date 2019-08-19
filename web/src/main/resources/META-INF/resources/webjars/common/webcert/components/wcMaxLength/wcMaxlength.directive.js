@@ -29,40 +29,41 @@
  */
 angular.module('common').directive('wcMaxlength',
     function($compile) {
-      'use strict';
+        'use strict';
 
-      return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function(scope, element, attrs, controller) {
+        return {
+            restrict: 'A',
+            require: 'ngModel',
+            link: function(scope, element, attrs, controller) {
 
-          scope.$evalAsync(function() {
-            var counterName = 'charsRemaining' + attrs.id;
-            counterName = counterName.replace(/\./g, '');
-            counterName = counterName.replace(/-/g, '');
-            scope[counterName] = attrs.maxlength;
+                scope.$evalAsync(function() {
+                    var counterName = 'charsRemaining' + attrs.id;
+                    counterName = counterName.replace(/\./g, '');
+                    counterName = counterName.replace(/-/g, '');
+                    scope[counterName] = attrs.maxlength;
 
-            var counter = angular.element('<span class="counter">Tecken kvar: {{' + counterName + '}}</span>');
-            $compile(counter)(scope);
-            element.after(counter);
+                    var counter = angular.
+                        element('<span class="counter">Tecken kvar: {{' + counterName + '}}</span>');
+                    $compile(counter)(scope);
+                    element.after(counter);
 
-            function limitLength(text) {
-              if (text === undefined) {
-                return;
-              }
-              if (text.length > attrs.maxlength) {
-                var transformedInput = text.substring(0, attrs.maxlength);
-                controller.$setViewValue(transformedInput);
-                controller.$render();
-                return transformedInput;
-              }
-              scope[counterName] = attrs.maxlength - text.length;
-              return text;
+                    function limitLength(text) {
+                        if (text === undefined) {
+                            return;
+                        }
+                        if (text.length > attrs.maxlength) {
+                            var transformedInput = text.substring(0, attrs.maxlength);
+                            controller.$setViewValue(transformedInput);
+                            controller.$render();
+                            return transformedInput;
+                        }
+                        scope[counterName] = attrs.maxlength - text.length;
+                        return text;
+                    }
+
+                    controller.$formatters.unshift(limitLength);
+                    controller.$parsers.unshift(limitLength);
+                });
             }
-
-            controller.$formatters.unshift(limitLength);
-            controller.$parsers.unshift(limitLength);
-          });
-        }
-      };
+        };
     });

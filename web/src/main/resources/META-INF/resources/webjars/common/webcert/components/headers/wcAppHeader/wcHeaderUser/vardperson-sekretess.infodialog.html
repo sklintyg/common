@@ -8,9 +8,7 @@
     <wc-alert-message alert-severity="sekretess">Du har en sekretessmarkering.</wc-alert-message>
     <p><strong>Att använda Webcert med en sekretessmarkering innebär:</strong></p>
     <ul>
-      <li ng-if="!isVardAdministrator">När du signerar ett intyg kommer ditt namn och information om den vårdgivare och
-        vårdenhet intyget är utfärdat på att vara synligt.
-      </li>
+      <li ng-if="!isVardAdministrator">När du signerar ett intyg kommer ditt namn och information om den vårdgivare och vårdenhet intyget är utfärdat på att vara synligt.</li>
       <li>Vid kommunikation med Försäkringskassan kring ett intyg kommer ditt namn att vara synligt.</li>
     </ul>
     <p>Detta kan göra att information om dig och var du arbetar kan spridas.</p>
@@ -18,7 +16,5 @@
 </wc-bottom-fadeout>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" id="wc-vardperson-sekretess-info-dialog-confirmationOkButton"
-          ng-click="$close()">Stäng
-  </button>
+  <button type="button" class="btn btn-default" id="wc-vardperson-sekretess-info-dialog-confirmationOkButton" ng-click="$close()">Stäng</button>
 </div>

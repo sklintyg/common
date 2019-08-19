@@ -81,8 +81,8 @@ public abstract class Tstrk1009UtlatandeV1 implements Utlatande {
 
     public static Builder builder() {
         return new AutoValue_Tstrk1009UtlatandeV1.Builder()
-            .setIntygetAvserBehorigheter(IntygetAvser.create(null))
-            .setSignature(null);
+                .setIntygetAvserBehorigheter(IntygetAvser.create(null))
+                .setSignature(null);
     }
 
     @AutoValue.Builder
